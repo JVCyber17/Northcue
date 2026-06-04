@@ -1812,20 +1812,22 @@ function trapModalFocus(event) {
 
 function normalizeApiResult(result) {
   const fallback = createMockApiResult();
-  const cards = Array.isArray(result.cards) && result.cards.length === 6 ? result.cards : fallback.cards;
-  const trust = result.trust || fallback.trust;
+  const safeResult = result || {};
+  const cards = cardsFromStructuredResult(safeResult, fallback);
+  const trust = safeResult.trust || fallback.trust;
 
   return {
     ...fallback,
-    ...result,
+    ...safeResult,
     trust: {
       ...fallback.trust,
       ...trust
     },
     banner: {
       ...fallback.banner,
-      ...(result.banner || {})
+      ...(safeResult.banner || {})
     },
+    structured_result: safeResult.structured_result || fallback.structured_result || null,
     cards: cards.map((card, index) => {
       const fallbackCard = fallback.cards[index];
       return {
@@ -1835,6 +1837,71 @@ function normalizeApiResult(result) {
       };
     })
   };
+}
+
+function cardsFromStructuredResult(result, fallback) {
+  const structuredCards = result?.structured_result?.cards;
+
+  if (Array.isArray(structuredCards) && structuredCards.length > 0) {
+    return fallback.cards.map((fallbackCard, index) => {
+      const structuredCard = structuredCards[index];
+      return structuredCardToUiCard(structuredCard, index, fallbackCard);
+    });
+  }
+
+  if (Array.isArray(result.cards) && result.cards.length === 6) {
+    return result.cards;
+  }
+
+  return fallback.cards;
+}
+
+function structuredCardToUiCard(card, index, fallbackCard) {
+  if (!card || typeof card !== "object") {
+    return fallbackCard;
+  }
+
+  const keyPoints = Array.isArray(card.key_points)
+    ? card.key_points.filter(Boolean).map((item) => String(item))
+    : [];
+
+  return {
+    ...fallbackCard,
+    id: legacyIdFromStructuredCard(card, fallbackCard),
+    title: card.title || fallbackCard.title,
+    short_answer: card.simple_explanation || fallbackCard.short_answer,
+    steps: keyPoints,
+    date: card.possible_deadline || null,
+    status: card.status || statusFromStructuredWarning(card.warning) || fallbackCard.status,
+    structured_card: {
+      ...card,
+      card_number: card.card_number || index + 1
+    }
+  };
+}
+
+function legacyIdFromStructuredCard(card, fallbackCard) {
+  if (card.card_id) return card.card_id;
+
+  const cardTypeMap = {
+    what_is_this: "what_is_this",
+    who_sent_it: "what_is_this",
+    what_matters_most: "what_matters_most",
+    what_do_i_need_to_do: "what_do_i_need_to_do",
+    when_does_it_matter: "when_is_it_due",
+    what_should_i_check: "what_could_happen",
+    what_if_i_feel_stuck: "helpful_note"
+  };
+
+  return cardTypeMap[card.card_type] || fallbackCard.id;
+}
+
+function statusFromStructuredWarning(warning) {
+  const text = String(warning || "").toLowerCase();
+  if (!text) return null;
+  if (text.includes("urgent") || text.includes("serious")) return "urgent";
+  if (text.includes("check") || text.includes("suspicious") || text.includes("unclear")) return "caution";
+  return "normal";
 }
 
 function createMockApiResult() {
@@ -1863,6 +1930,7 @@ function createMockApiResult() {
       type: "caution",
       text: "Some details need checking before you act."
     },
+    structured_result: null,
     cards: [
       { id: "what_is_this", title: "What is this?", short_answer: "This looks like a formal document.", status: "normal" },
       { id: "what_matters_most", title: "What matters most?", short_answer: "This may need checking soon.", status: "normal" },

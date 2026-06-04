@@ -16,6 +16,61 @@ function assertBaseOutput(output) {
   assert.ok(output.trust.severity_level, "severity_level is present");
   assert.ok(output.trust.processing_mode, "processing_mode is present");
   assert.ok(output.banner, "banner is present");
+  assertStructuredResult(output);
+}
+
+function assertStructuredResult(output) {
+  const structured = output.structured_result;
+  assert.ok(structured, "structured_result is present");
+  assert.equal(structured.schema_version, "clearsteps_structured_v1");
+  assert.equal(structured.session_id, output.job_id);
+  assert.ok(Object.prototype.hasOwnProperty.call(structured, "anonymous_session_id"));
+  assert.ok(
+    ["council_tax_notice", "energy_bill", "unknown", "unsupported"].includes(structured.document_type),
+    "document_type uses an allowed value"
+  );
+  assert.ok(["high", "medium", "low", "unknown"].includes(structured.document_type_confidence));
+  assert.ok(["high", "medium", "low", "unknown"].includes(structured.overall_confidence));
+  assert.ok(["low", "medium", "high", "unknown"].includes(structured.risk_level));
+  assert.ok(["normal", "caution", "failed"].includes(structured.processing_mode));
+  assert.equal(typeof structured.needs_user_check, "boolean");
+  assert.ok(structured.summary, "summary is present");
+  assert.ok(Object.prototype.hasOwnProperty.call(structured.summary, "one_line_summary"));
+  assert.ok(Object.prototype.hasOwnProperty.call(structured.summary, "main_action"));
+  assert.ok(Object.prototype.hasOwnProperty.call(structured.summary, "main_date"));
+  assert.ok(Object.prototype.hasOwnProperty.call(structured.summary, "main_amount"));
+  assert.equal(structured.cards.length, 6, "structured cards are returned");
+  assert.deepEqual(structured.privacy, {
+    original_file_stored: false,
+    ocr_text_stored: false,
+    document_text_stored: false,
+    personal_details_stored: false
+  });
+
+  const allowedCardTypes = [
+    "what_is_this",
+    "who_sent_it",
+    "what_matters_most",
+    "what_do_i_need_to_do",
+    "when_does_it_matter",
+    "what_should_i_check",
+    "what_if_i_feel_stuck"
+  ];
+
+  structured.cards.forEach((card, index) => {
+    assert.ok(card.card_id, "card_id is present");
+    assert.equal(card.card_number, index + 1);
+    assert.ok(allowedCardTypes.includes(card.card_type), "card_type uses an allowed value");
+    assert.ok(card.title, "card title is present");
+    assert.ok(card.simple_explanation, "simple_explanation is present");
+    assert.ok(Array.isArray(card.key_points), "key_points is an array");
+    assert.ok(Object.prototype.hasOwnProperty.call(card, "action_needed"));
+    assert.ok(Object.prototype.hasOwnProperty.call(card, "possible_deadline"));
+    assert.ok(Object.prototype.hasOwnProperty.call(card, "possible_payment"));
+    assert.ok(["high", "medium", "low", "unknown"].includes(card.confidence_level));
+    assert.ok(Object.prototype.hasOwnProperty.call(card, "warning"));
+    assert.ok(card.read_aloud_text, "read_aloud_text is present");
+  });
 }
 
 function assertActionCardShape(output) {
@@ -55,6 +110,7 @@ test("normal electricity bill", () => {
   assertBaseOutput(output);
   assertActionCardShape(output);
   assert.equal(output.trust.severity_level, "medium");
+  assert.equal(output.structured_result.document_type, "energy_bill");
   assertNoInventedDeadline(output);
 });
 

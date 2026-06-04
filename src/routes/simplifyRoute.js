@@ -144,7 +144,8 @@ async function simplifyRoute({ file, fields, directories }) {
     jobId,
     mimeType,
     originalName,
-    selectedCategory
+    selectedCategory,
+    anonymousSessionId
   });
 
   const output = run.api_output;
@@ -283,7 +284,8 @@ async function analyseStoredDocument({ jobId, selectedCategory, anonymousSession
     jobId,
     mimeType: storedDocument.mimeType,
     originalName: storedDocument.originalName,
-    selectedCategory
+    selectedCategory,
+    anonymousSessionId
   });
 
   const output = run.api_output;

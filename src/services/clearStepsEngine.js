@@ -44,11 +44,20 @@ function runClearStepsEngine({ extractedText, fileMeta }) {
   });
 
   const banner = buildBanner(trust);
+  const structuredResult = buildStructuredResult({
+    jobId,
+    anonymousSessionId: fileMeta.anonymousSessionId || null,
+    text: primaryText,
+    trust,
+    extraction,
+    displayCards: cards
+  });
 
   const output = {
     job_id: jobId,
     trust: toPublicTrustShape(trust),
     cards,
+    structured_result: structuredResult,
     banner,
     display_text: cards.map((card) => `${card.title} ${card.short_answer}`).join("\n"),
     tts_script: cards.map((card) => `${card.title}. ${card.short_answer}`).join("\n"),
@@ -308,8 +317,262 @@ function toPublicTrustShape(trust) {
     scam_signals: trust.scam_signals,
     severity_signals: trust.severity_signals,
     input_quality: trust.input_quality,
+    sender_guess: trust.sender_guess,
+    is_template: trust.is_template,
+    is_outgoing: trust.is_outgoing,
+    is_multi_document: trust.is_multi_document,
     safe_next_step: trust.safe_next_step
   };
+}
+
+function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extraction, displayCards }) {
+  const documentType = detectStructuredDocumentType({ text, trust });
+  const documentTypeConfidence = pickStructuredDocumentTypeConfidence({ documentType, trust });
+  const actionLine = normalizeActionLine(extraction.actions);
+  const deadline = extraction.deadline || null;
+  const moneyAmount = firstOrNull(extraction.money_amounts);
+
+  return {
+    schema_version: "clearsteps_structured_v1",
+    session_id: jobId,
+    anonymous_session_id: anonymousSessionId,
+    document_type: documentType,
+    document_type_label: labelForStructuredDocumentType(documentType),
+    document_type_confidence: documentTypeConfidence,
+    overall_confidence: normaliseStructuredConfidence(extraction.confidence || trust.confidence),
+    risk_level: normaliseStructuredRiskLevel(trust.severity_level),
+    processing_mode: normaliseStructuredProcessingMode(trust.processing_mode),
+    needs_user_check: Boolean(
+      trust.needs_human_review ||
+      trust.processing_mode !== "normal" ||
+      ["high", "urgent"].includes(trust.severity_level)
+    ),
+    summary: {
+      one_line_summary: cleanLine(extraction.summary || "Not clearly stated."),
+      main_action: actionLine,
+      main_date: deadline,
+      main_amount: moneyAmount
+    },
+    cards: buildStructuredCards({ trust, extraction, displayCards }),
+    warnings: buildStructuredWarnings(trust),
+    privacy: {
+      original_file_stored: false,
+      ocr_text_stored: false,
+      document_text_stored: false,
+      personal_details_stored: false
+    }
+  };
+}
+
+function buildStructuredCards({ trust, extraction, displayCards }) {
+  const status = statusFromTrustAndSeverity(trust);
+  const actionLine = normalizeActionLine(extraction.actions);
+  const deadlineText = extraction.deadline ? `Due by ${extraction.deadline}.` : "No deadline clearly stated.";
+  const paymentAmount = firstOrNull(extraction.money_amounts);
+  const oldCardById = new Map(displayCards.map((card) => [card.id, card]));
+
+  const cardDefinitions = [
+    {
+      legacyId: "what_is_this",
+      cardType: "what_is_this",
+      title: "What is this?",
+      explanation: oldCardById.get("what_is_this")?.short_answer || extraction.summary,
+      keyPoints: [extraction.most_important_point],
+      actionNeeded: null
+    },
+    {
+      legacyId: "what_matters_most",
+      cardType: "what_matters_most",
+      title: "What matters most?",
+      explanation: oldCardById.get("what_matters_most")?.short_answer || inferMostImportantPoint(trust),
+      keyPoints: trust.severity_signals,
+      actionNeeded: null
+    },
+    {
+      legacyId: "what_do_i_need_to_do",
+      cardType: "what_do_i_need_to_do",
+      title: "What do I need to do?",
+      explanation: actionLine,
+      keyPoints: Array.isArray(extraction.actions) ? extraction.actions : [],
+      actionNeeded: actionLine
+    },
+    {
+      legacyId: "when_is_it_due",
+      cardType: "when_does_it_matter",
+      title: "When is it due?",
+      explanation: deadlineText,
+      keyPoints: extraction.deadline ? [`Check this date on the original document: ${extraction.deadline}.`] : [],
+      actionNeeded: null,
+      possibleDeadline: extraction.deadline || null
+    },
+    {
+      legacyId: "what_could_happen",
+      cardType: "what_should_i_check",
+      title: "What should I check?",
+      explanation: "Check key details on the original document.",
+      keyPoints: buildCheckKeyPoints({ trust, extraction }),
+      actionNeeded: null,
+      possiblePayment: paymentAmount
+    },
+    {
+      legacyId: "helpful_note",
+      cardType: "what_if_i_feel_stuck",
+      title: "Helpful note",
+      explanation: oldCardById.get("helpful_note")?.short_answer || inferHelpfulNote(trust, extraction.helpful_note),
+      keyPoints: [trust.safe_next_step],
+      actionNeeded: trust.safe_next_step || null
+    }
+  ];
+
+  return cardDefinitions.map((definition, index) => {
+    const simpleExplanation = cleanLine(definition.explanation || "Not clearly stated.");
+    const keyPoints = normaliseKeyPoints(definition.keyPoints);
+    const warning = buildStructuredCardWarning({ trust, cardType: definition.cardType });
+
+    return {
+      card_id: definition.legacyId,
+      card_number: index + 1,
+      card_type: definition.cardType,
+      title: definition.title,
+      simple_explanation: simpleExplanation,
+      key_points: keyPoints,
+      action_needed: definition.actionNeeded ? cleanLine(definition.actionNeeded) : null,
+      possible_deadline: definition.possibleDeadline || null,
+      possible_payment: definition.possiblePayment || null,
+      confidence_level: normaliseStructuredConfidence(extraction.confidence || trust.confidence),
+      warning,
+      read_aloud_text: buildReadAloudText(definition.title, simpleExplanation, keyPoints),
+      status
+    };
+  });
+}
+
+function buildCheckKeyPoints({ trust, extraction }) {
+  const points = [];
+
+  if (extraction.deadline) points.push(`Date: ${extraction.deadline}.`);
+  if (firstOrNull(extraction.money_amounts)) points.push(`Amount shown: ${firstOrNull(extraction.money_amounts)}.`);
+  if (trust.processing_mode === "verification_only") {
+    points.push("Use official contact details before acting.");
+  } else if (trust.needs_human_review) {
+    points.push("Check unclear details on the original.");
+  }
+
+  if (points.length === 0) points.push("No extra checks clearly stated.");
+  return points;
+}
+
+function buildStructuredCardWarning({ trust, cardType }) {
+  if (trust.processing_mode === "verification_only") {
+    return "This may be suspicious. Verify before acting.";
+  }
+
+  if (trust.processing_mode === "unsupported") {
+    return "This upload may be hard to read.";
+  }
+
+  if (cardType === "when_does_it_matter" && !trust.severity_signals.length) {
+    return null;
+  }
+
+  if (trust.severity_level === "urgent") {
+    return "This looks important. Do not ignore it.";
+  }
+
+  return null;
+}
+
+function buildStructuredWarnings(trust) {
+  const warnings = [];
+
+  if (trust.processing_mode === "verification_only") {
+    warnings.push("This may be suspicious. Verify using official contact details before acting.");
+  }
+
+  if (trust.processing_mode === "unsupported") {
+    warnings.push("This document may be hard to read. Upload a clearer copy if possible.");
+  }
+
+  if (trust.severity_level === "urgent") {
+    warnings.push("This looks important. Check the original document carefully.");
+  }
+
+  if (trust.needs_human_review && trust.review_reason) {
+    warnings.push(cleanLine(trust.review_reason));
+  }
+
+  return unique(warnings);
+}
+
+function detectStructuredDocumentType({ text, trust }) {
+  if (trust.processing_mode === "unsupported" || trust.document_category === "unsupported") {
+    return "unsupported";
+  }
+
+  const lower = String(text || "").toLowerCase();
+  if (lower.includes("council tax")) return "council_tax_notice";
+  if (
+    lower.includes("energy bill") ||
+    lower.includes("electricity bill") ||
+    lower.includes("gas bill") ||
+    (trust.document_category === "bill_or_payment" && /\b(energy|electricity|gas)\b/.test(lower))
+  ) {
+    return "energy_bill";
+  }
+
+  return "unknown";
+}
+
+function labelForStructuredDocumentType(documentType) {
+  const labels = {
+    council_tax_notice: "Council tax notice",
+    energy_bill: "Energy bill",
+    unknown: "Unknown document",
+    unsupported: "Unsupported document"
+  };
+  return labels[documentType] || labels.unknown;
+}
+
+function pickStructuredDocumentTypeConfidence({ documentType, trust }) {
+  if (documentType === "unsupported") return "low";
+  if (documentType === "unknown") return "unknown";
+  if (trust.input_quality === "good") return "high";
+  if (trust.input_quality === "borderline") return "medium";
+  return "low";
+}
+
+function normaliseStructuredConfidence(value) {
+  const confidence = String(value || "").toLowerCase();
+  if (["high", "medium", "low"].includes(confidence)) return confidence;
+  return "unknown";
+}
+
+function normaliseStructuredRiskLevel(value) {
+  const severity = String(value || "").toLowerCase();
+  if (severity === "urgent") return "high";
+  if (["low", "medium", "high"].includes(severity)) return severity;
+  return "unknown";
+}
+
+function normaliseStructuredProcessingMode(value) {
+  const mode = String(value || "").toLowerCase();
+  if (mode === "normal") return "normal";
+  if (mode === "caution" || mode === "verification_only") return "caution";
+  return "failed";
+}
+
+function normaliseKeyPoints(points) {
+  if (!Array.isArray(points)) return [];
+  return unique(points.map(cleanLine).filter(Boolean)).slice(0, 4);
+}
+
+function buildReadAloudText(title, simpleExplanation, keyPoints) {
+  const extra = keyPoints.length > 0 ? ` ${keyPoints.join(" ")}` : "";
+  return cleanLine(`${title}. ${simpleExplanation}.${extra}`);
+}
+
+function firstOrNull(items) {
+  return Array.isArray(items) && items.length > 0 ? cleanLine(items[0]) : null;
 }
 
 function buildBanner(trust) {
