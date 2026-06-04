@@ -4,6 +4,9 @@
   "description": "ClearSteps MVP: an accessibility-first letter simplifier.",
   "main": "server.js",
   "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "node --test \"tests/*.test.js\""

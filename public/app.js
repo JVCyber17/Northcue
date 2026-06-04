@@ -941,6 +941,7 @@ function wireFeedback() {
     const sendButton = event.target.closest(".send-short-feedback");
     if (sendButton) {
       saveShortFeedback(sendButton.closest(".short-feedback-panel") || sendButton.closest(".feedback-flow"));
+      return;
     }
   });
 
@@ -1548,32 +1549,82 @@ function feedbackHeartIcon() {
   return `<svg viewBox="0 0 32 32" focusable="false"><path d="M16 25s-8.5-4.8-8.5-11a4.8 4.8 0 0 1 8.5-3.1A4.8 4.8 0 0 1 24.5 14c0 6.2-8.5 11-8.5 11z"></path></svg>`;
 }
 
-function saveShortFeedback(panel) {
+function normaliseFeedbackRating(value, answerKey) {
+  if (answerKey) return answerKey;
+
+  const rating = String(value || "").toLowerCase();
+  if (rating.startsWith("yes")) return "yes";
+  if (rating.includes("little") || rating.includes("partly")) return "little";
+  if (rating.startsWith("no")) return "no";
+  return "";
+}
+
+function getFeedbackPayload(panel) {
+  const contactToggle = panel.querySelector("#modal-feedback-contact-toggle");
+
+  return {
+    rating: normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer),
+    reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected")).map((chip) => chip.dataset.reason),
+    note: panel.querySelector(".short-feedback-comment")?.value.trim() || "",
+    contact_permission: contactToggle ? contactToggle.checked : false,
+    page: document.body.dataset.page || "unknown",
+    section: panel.dataset.feedbackContext || "feedback",
+    document_category: latestResult.trust?.document_category || selectedType || "unknown",
+    trust_level: latestResult.trust?.trust_assessment || "unknown",
+    severity_level: latestResult.trust?.severity_level || "unknown"
+  };
+}
+
+function saveFeedbackFallback(feedback) {
+  const savedFeedback = JSON.parse(localStorage.getItem("clearsteps-feedback") || "[]");
+  savedFeedback.unshift({
+    rating: feedback.rating,
+    reasons: feedback.reasons,
+    note: feedback.note,
+    contact_permission: feedback.contact_permission,
+    page: feedback.page,
+    section: feedback.section,
+    document_category: feedback.document_category,
+    trust_level: feedback.trust_level,
+    severity_level: feedback.severity_level,
+    timestamp: new Date().toISOString(),
+    saved_locally: true
+  });
+  localStorage.setItem("clearsteps-feedback", JSON.stringify(savedFeedback.slice(0, 50)));
+}
+
+async function saveShortFeedback(panel) {
   if (!panel) return;
 
-  const rating = panel.dataset.rating || "";
+  const rating = normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer);
   const message = panel.querySelector(".feedback-saved-message");
   if (!rating) {
     if (message) message.textContent = "Choose one option first.";
     return;
   }
-  const contactToggle = panel.querySelector("#modal-feedback-contact-toggle");
-  const contactInput = panel.querySelector(".feedback-contact-input");
 
-  const feedback = {
-    rating,
-    reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected")).map((chip) => chip.dataset.reason),
-    comment: panel.querySelector(".short-feedback-comment")?.value.trim() || "",
-    contact: contactToggle ? (contactToggle.checked ? contactInput?.value.trim() || "" : "") : contactInput?.value.trim() || "",
-    document_type: latestResult.trust?.document_category || selectedType || "unknown",
-    trust_level: latestResult.trust?.trust_assessment || "unknown",
-    severity_level: latestResult.trust?.severity_level || "unknown",
-    timestamp: new Date().toISOString()
-  };
+  const sendButton = panel.querySelector(".send-short-feedback");
+  if (sendButton) sendButton.disabled = true;
 
-  const savedFeedback = JSON.parse(localStorage.getItem("clearsteps-feedback") || "[]");
-  savedFeedback.unshift(feedback);
-  localStorage.setItem("clearsteps-feedback", JSON.stringify(savedFeedback.slice(0, 50)));
+  const feedback = getFeedbackPayload(panel);
+  let savedToSupabase = false;
+
+  try {
+    const response = await fetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(feedback)
+    });
+    savedToSupabase = response.ok;
+    if (!response.ok) {
+      throw new Error("Feedback endpoint did not accept the event.");
+    }
+  } catch (error) {
+    console.warn("Feedback saved locally because Supabase save failed:", error.message);
+    saveFeedbackFallback(feedback);
+  } finally {
+    if (sendButton) sendButton.disabled = false;
+  }
 
   if (panel.dataset.feedbackContext === "modal") {
     modalTitle.textContent = "Thanks.";
@@ -1589,7 +1640,11 @@ function saveShortFeedback(panel) {
     return;
   }
 
-  if (message) message.textContent = "Thank you. Your feedback was saved.";
+  if (message) {
+    message.textContent = savedToSupabase
+      ? "Thank you. Your feedback was saved."
+      : "Thank you. Your feedback was saved on this device.";
+  }
 }
 
 function isOcrReadyResult(payload) {

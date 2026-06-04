@@ -4,12 +4,20 @@ const http = require("node:http");
 const path = require("node:path");
 
 const { simplifyRoute } = require("./src/routes/simplifyRoute");
+const { warnIfSupabaseConfigMissing } = require("./src/config/supabaseConfig");
+const { saveFeedbackEvent } = require("./src/services/feedbackService");
+const {
+  getOrCreateAnonymousSessionId,
+  appendAnonymousSessionCookie
+} = require("./src/services/anonymousSessionService");
 const { loadEnvFile } = require("./src/utils/loadEnv");
 
 loadEnvFile(__dirname);
+warnIfSupabaseConfigMissing();
 
 const PORT = Number(process.env.PORT || 3000);
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+const MAX_FEEDBACK_BYTES = 64 * 1024;
 const PUBLIC_DIR = path.join(__dirname, "public");
 const UPLOAD_DIR = path.join(__dirname, "private_storage", "uploads");
 const RESULT_DIR = path.join(__dirname, "private_storage", "results");
@@ -28,12 +36,18 @@ ensurePrivateFolders();
 
 const server = http.createServer(async (req, res) => {
   try {
+    const pathOnly = req.url.split("?")[0] || "/";
+
     if (req.method === "GET") {
       return serveStaticFile(req, res);
     }
 
-    if (req.method === "POST" && (req.url === "/api/simplify" || req.url === "/api/upload")) {
+    if (req.method === "POST" && (pathOnly === "/api/simplify" || pathOnly === "/api/upload")) {
       return handleSimplify(req, res);
+    }
+
+    if (req.method === "POST" && pathOnly === "/api/feedback") {
+      return handleFeedback(req, res);
     }
 
     sendJson(res, 404, { error: "Not found." });
@@ -56,6 +70,7 @@ function ensurePrivateFolders() {
 }
 
 async function handleSimplify(req, res) {
+  const anonymousSession = getOrCreateAnonymousSessionId(req);
   const contentType = req.headers["content-type"] || "";
   let fields = {};
   let file = null;
@@ -78,7 +93,8 @@ async function handleSimplify(req, res) {
         jobId,
         savedPath: filePath,
         filename: form.file.filename,
-        contentType: form.file.contentType
+        contentType: form.file.contentType,
+        sizeBytes: form.file.data.length
       };
     }
   } else if (contentType.includes("application/json")) {
@@ -105,14 +121,58 @@ async function handleSimplify(req, res) {
 
   const result = await simplifyRoute({
     file,
-    fields,
+    fields: {
+      ...fields,
+      anonymousSessionId: anonymousSession.anonymousSessionId
+    },
     directories: {
       uploadsDir: UPLOAD_DIR,
       resultsDir: RESULT_DIR
     }
   });
 
+  if (anonymousSession.shouldSetCookie) {
+    appendAnonymousSessionCookie(req, res, anonymousSession.anonymousSessionId);
+  }
   sendJson(res, 200, result);
+}
+
+async function handleFeedback(req, res) {
+  const anonymousSession = getOrCreateAnonymousSessionId(req);
+  const contentType = req.headers["content-type"] || "";
+  if (!contentType.includes("application/json")) {
+    return sendJson(res, 400, { error: "Use JSON for feedback." });
+  }
+
+  const body = await readRequestBody(req, MAX_FEEDBACK_BYTES);
+  let payload;
+  try {
+    payload = JSON.parse(body.toString("utf8"));
+  } catch (error) {
+    return sendJson(res, 400, { error: "Invalid JSON body." });
+  }
+
+  try {
+    const result = await saveFeedbackEvent(payload, {
+      anonymousSessionId: anonymousSession.anonymousSessionId
+    });
+    if (anonymousSession.shouldSetCookie) {
+      appendAnonymousSessionCookie(req, res, anonymousSession.anonymousSessionId);
+    }
+    return sendJson(res, 201, {
+      success: true,
+      feedback_id: result.id
+    });
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    console.error("Feedback save failed:", error.message);
+    return sendJson(res, statusCode, {
+      success: false,
+      error: statusCode === 400
+        ? error.message
+        : "Feedback could not be saved right now."
+    });
+  }
 }
 
 function readRequestBody(req, maxBytes) {

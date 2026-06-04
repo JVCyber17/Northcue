@@ -1,4 +1,5 @@
 const fs = require("node:fs");
+const crypto = require("node:crypto");
 const path = require("node:path");
 
 const {
@@ -7,6 +8,15 @@ const {
   isImageMimeType
 } = require("../services/textExtraction");
 const { runClearStepsEngine } = require("../services/clearStepsEngine");
+const {
+  createDocumentSession,
+  updateDocumentSession,
+  markDocumentSessionAnalysed,
+  markDocumentSessionFailed,
+  markOcrStarted,
+  markOcrCompleted,
+  markOcrFailed
+} = require("../services/documentSessionService");
 
 const OCR_SESSION_TTL_MS = 30 * 60 * 1000;
 const ocrSessionStore = new Map();
@@ -16,11 +26,14 @@ async function simplifyRoute({ file, fields, directories }) {
   const pastedText = fields.pastedText || fields.text || "";
   const action = fields.action || "";
   const requestedJobId = fields.jobId || fields.job_id || "";
+  const selectedCategory = fields.documentCategory || "auto";
+  const anonymousSessionId = fields.anonymousSessionId || "";
 
   if (action === "analyse") {
-    return analyseStoredDocument({
+    return await analyseStoredDocument({
       jobId: requestedJobId,
-      selectedCategory: fields.documentCategory || "auto",
+      selectedCategory,
+      anonymousSessionId,
       resultsDir
     });
   }
@@ -38,14 +51,35 @@ async function simplifyRoute({ file, fields, directories }) {
   }
 
   if (filePath) {
+    await createDocumentSession({
+      clientJobId: jobId,
+      status: "uploaded",
+      anonymousSessionId,
+      sourceMimeType: mimeType,
+      sourceSizeBytes: file.sizeBytes,
+      documentCategory: selectedCategory,
+      expiresAt: new Date(Date.now() + OCR_SESSION_TTL_MS).toISOString()
+    });
+
     try {
       const extractionResult = await extractUploadedFileText({
         filePath,
         mimeType,
-        originalName
+        originalName,
+        jobId,
+        anonymousSessionId,
+        sourceSizeBytes: file.sizeBytes,
+        selectedCategory
       });
 
       if (!extractionResult.success) {
+        await markDocumentSessionFailed(jobId, "unreadable_document", {
+          inputQuality: "poor",
+          anonymousSessionId,
+          sourceMimeType: mimeType,
+          sourceSizeBytes: file.sizeBytes,
+          documentCategory: selectedCategory
+        });
         return extractionResult;
       }
 
@@ -57,6 +91,16 @@ async function simplifyRoute({ file, fields, directories }) {
         inputQuality: extractionResult.inputQuality,
         mimeType,
         originalName
+      });
+
+      await updateDocumentSession(jobId, {
+        status: "uploaded",
+        anonymousSessionId,
+        inputQuality: extractionResult.inputQuality,
+        sourceMimeType: mimeType,
+        sourceSizeBytes: file.sizeBytes,
+        documentCategory: selectedCategory,
+        expiresAt: new Date(Date.now() + OCR_SESSION_TTL_MS).toISOString()
       });
 
       return {
@@ -71,7 +115,28 @@ async function simplifyRoute({ file, fields, directories }) {
   }
 
   const extractedText = pastedText.trim();
+  jobId = jobId || crypto.randomUUID();
+  const pastedInputQuality = hasEnoughText(extractedText)
+    ? (extractedText.length >= 160 ? "good" : "borderline")
+    : "poor";
+
+  await createDocumentSession({
+    clientJobId: jobId,
+    status: "uploaded",
+    anonymousSessionId,
+    sourceMimeType: mimeType,
+    sourceSizeBytes: Buffer.byteLength(extractedText, "utf8"),
+    inputQuality: pastedInputQuality,
+    documentCategory: selectedCategory
+  });
+
   if (!hasEnoughText(extractedText)) {
+    await markDocumentSessionFailed(jobId, "unreadable_document", {
+      inputQuality: "poor",
+      anonymousSessionId,
+      sourceMimeType: mimeType,
+      documentCategory: selectedCategory
+    });
     return unreadableDocumentResponse();
   }
 
@@ -79,7 +144,7 @@ async function simplifyRoute({ file, fields, directories }) {
     jobId,
     mimeType,
     originalName,
-    selectedCategory: fields.documentCategory || "auto"
+    selectedCategory
   });
 
   const output = run.api_output;
@@ -95,6 +160,13 @@ async function simplifyRoute({ file, fields, directories }) {
     }, null, 2)
   );
 
+  await markDocumentSessionAnalysed(jobId, output, {
+    inputQuality: pastedInputQuality,
+    anonymousSessionId,
+    sourceMimeType: mimeType,
+    documentCategory: selectedCategory
+  });
+
   // Keep file retention short in production.
   // TODO: Add scheduled deletion policy for uploads.
   deleteTemporaryUpload({ filePath, uploadsDir });
@@ -102,17 +174,69 @@ async function simplifyRoute({ file, fields, directories }) {
   return output;
 }
 
-async function extractUploadedFileText({ filePath, mimeType, originalName }) {
+async function extractUploadedFileText({
+  filePath,
+  mimeType,
+  originalName,
+  jobId,
+  anonymousSessionId,
+  sourceSizeBytes,
+  selectedCategory
+}) {
   if (isImageMimeType(mimeType)) {
+    const ocrStartedAt = new Date().toISOString();
+    const ocrStartMs = Date.now();
+
+    await markOcrStarted(jobId, {
+      anonymousSessionId,
+      sourceMimeType: mimeType,
+      sourceSizeBytes,
+      documentCategory: selectedCategory,
+      ocrStartedAt,
+      ocrEngine: "tesseract"
+    });
+
     const ocrResult = await extractTextFromImage({ filePath });
+    const ocrDurationMs = Date.now() - ocrStartMs;
+    const ocrCompletedAt = new Date().toISOString();
+    const ocrInputQuality = normaliseOcrInputQuality(ocrResult.input_quality);
+    const ocrConfidenceCategory = inferOcrConfidenceCategory(ocrInputQuality);
+
     if (!ocrResult.success || !hasEnoughText(ocrResult.extracted_text)) {
+      await markOcrFailed(jobId, "ocr_unreadable", {
+        anonymousSessionId,
+        sourceMimeType: mimeType,
+        sourceSizeBytes,
+        documentCategory: selectedCategory,
+        inputQuality: "poor",
+        ocrStartedAt,
+        ocrCompletedAt,
+        ocrDurationMs,
+        ocrInputQuality: ocrInputQuality === "unknown" ? "poor" : ocrInputQuality,
+        ocrConfidenceCategory: ocrConfidenceCategory === "unknown" ? "low" : ocrConfidenceCategory,
+        ocrEngine: "tesseract"
+      });
       return unreadableDocumentResponse();
     }
+
+    await markOcrCompleted(jobId, {
+      anonymousSessionId,
+      sourceMimeType: mimeType,
+      sourceSizeBytes,
+      documentCategory: selectedCategory,
+      inputQuality: normaliseAppInputQuality(ocrResult.input_quality),
+      ocrStartedAt,
+      ocrCompletedAt,
+      ocrDurationMs,
+      ocrInputQuality,
+      ocrConfidenceCategory,
+      ocrEngine: "tesseract"
+    });
 
     return {
       success: true,
       extractedText: ocrResult.extracted_text,
-      inputQuality: ocrResult.input_quality
+      inputQuality: normaliseAppInputQuality(ocrResult.input_quality)
     };
   }
 
@@ -134,13 +258,26 @@ async function extractUploadedFileText({ filePath, mimeType, originalName }) {
   };
 }
 
-function analyseStoredDocument({ jobId, selectedCategory, resultsDir }) {
+async function analyseStoredDocument({ jobId, selectedCategory, anonymousSessionId, resultsDir }) {
   cleanupOldOcrSessions();
 
   const storedDocument = ocrSessionStore.get(jobId);
   if (!storedDocument || !hasEnoughText(storedDocument.extractedText)) {
+    await markDocumentSessionFailed(jobId, "ocr_session_missing_or_expired", {
+      inputQuality: "poor",
+      anonymousSessionId,
+      documentCategory: selectedCategory
+    });
     return unreadableDocumentResponse();
   }
+
+  await updateDocumentSession(jobId, {
+    status: "uploaded",
+    anonymousSessionId,
+    inputQuality: storedDocument.inputQuality,
+    sourceMimeType: storedDocument.mimeType,
+    documentCategory: selectedCategory
+  });
 
   const run = analyseDocumentText(storedDocument.extractedText, {
     jobId,
@@ -161,6 +298,13 @@ function analyseStoredDocument({ jobId, selectedCategory, resultsDir }) {
       structured_output: structured
     }, null, 2)
   );
+
+  await markDocumentSessionAnalysed(jobId, output, {
+    inputQuality: storedDocument.inputQuality,
+    anonymousSessionId,
+    sourceMimeType: storedDocument.mimeType,
+    documentCategory: selectedCategory
+  });
 
   // Remove the temporary raw text after it has been used.
   ocrSessionStore.delete(jobId);
@@ -200,6 +344,28 @@ function unreadableDocumentResponse() {
     success: false,
     error: "We could not read enough text from this document. Please upload a clearer image or PDF."
   };
+}
+
+function normaliseAppInputQuality(value) {
+  const cleaned = String(value || "").toLowerCase();
+  if (cleaned === "good") return "good";
+  if (cleaned === "fair" || cleaned === "borderline") return "borderline";
+  return "poor";
+}
+
+function normaliseOcrInputQuality(value) {
+  const cleaned = String(value || "").toLowerCase();
+  if (cleaned === "good") return "good";
+  if (cleaned === "fair" || cleaned === "borderline") return "fair";
+  if (cleaned === "poor") return "poor";
+  return "unknown";
+}
+
+function inferOcrConfidenceCategory(inputQuality) {
+  if (inputQuality === "good") return "high";
+  if (inputQuality === "fair") return "medium";
+  if (inputQuality === "poor") return "low";
+  return "unknown";
 }
 
 function cleanupOldOcrSessions() {
