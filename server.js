@@ -11,7 +11,11 @@ const {
   getOrCreateAnonymousSessionId,
   appendAnonymousSessionCookie
 } = require("./src/services/anonymousSessionService");
+const { createHttpError, getPublicErrorResponse } = require("./src/utils/httpErrors");
 const { loadEnvFile } = require("./src/utils/loadEnv");
+const { inspectPdfPageLimit } = require("./src/utils/pdfSafety");
+const { createRateLimiter } = require("./src/utils/rateLimiter");
+const { cleanupOldTemporaryFiles } = require("./src/utils/temporaryStorageCleanup");
 
 loadEnvFile(__dirname);
 warnIfSupabaseConfigMissing();
@@ -20,6 +24,8 @@ const PORT = Number(process.env.PORT || 3000);
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 const MAX_FEEDBACK_BYTES = 64 * 1024;
 const MAX_ANALYTICS_BYTES = 16 * 1024;
+const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 60 * 1000);
+const TEMP_FILE_RETENTION_MS = Number(process.env.TEMP_FILE_RETENTION_MS || 60 * 60 * 1000);
 const PUBLIC_DIR = path.join(__dirname, "public");
 const UPLOAD_DIR = path.join(__dirname, "private_storage", "uploads");
 const RESULT_DIR = path.join(__dirname, "private_storage", "results");
@@ -29,10 +35,19 @@ const ALLOWED_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
-  "text/plain",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  "text/plain"
 ]);
+
+const rateLimiter = createRateLimiter({
+  windowMs: RATE_LIMIT_WINDOW_MS,
+  limitsByRoute: {
+    "/api/simplify": 30,
+    "/api/upload": 30,
+    "/api/feedback": 20,
+    "/api/analytics": 240,
+    default: 60
+  }
+});
 
 ensurePrivateFolders();
 
@@ -45,21 +60,28 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "POST" && (pathOnly === "/api/simplify" || pathOnly === "/api/upload")) {
+      if (isRateLimited(req, res, pathOnly)) return;
       return handleSimplify(req, res);
     }
 
     if (req.method === "POST" && pathOnly === "/api/feedback") {
+      if (isRateLimited(req, res, pathOnly)) return;
       return handleFeedback(req, res);
     }
 
     if (req.method === "POST" && pathOnly === "/api/analytics") {
+      if (isRateLimited(req, res, pathOnly)) return;
       return handleAnalytics(req, res);
     }
 
     sendJson(res, 404, { error: "Not found." });
   } catch (error) {
-    console.error("Request failed:", error.message);
-    sendJson(res, 500, { error: "Something went wrong. Please try again." });
+    const response = getPublicErrorResponse(error);
+    console.error("Request failed:", {
+      code: error.code || "server_error",
+      statusCode: response.statusCode
+    });
+    sendJson(res, response.statusCode, response.payload);
   }
 });
 
@@ -72,7 +94,40 @@ server.listen(PORT, () => {
 function ensurePrivateFolders() {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
   fs.mkdirSync(RESULT_DIR, { recursive: true });
-  // TODO: Add short retention cleanup for uploads/results with a scheduled task.
+  cleanupOldTemporaryFiles({
+    directories: [UPLOAD_DIR, RESULT_DIR],
+    maxAgeMs: TEMP_FILE_RETENTION_MS,
+    logger: console
+  });
+}
+
+function isRateLimited(req, res, pathOnly) {
+  rateLimiter.prune();
+  const result = rateLimiter.check({
+    routeKey: pathOnly,
+    clientKey: getClientKey(req)
+  });
+
+  if (result.allowed) return false;
+
+  sendJson(
+    res,
+    429,
+    {
+      success: false,
+      code: "rate_limited",
+      error: "ClearSteps is receiving too many requests from this browser right now. Please wait a moment and try again."
+    },
+    {
+      "Retry-After": String(result.retryAfterSeconds)
+    }
+  );
+  return true;
+}
+
+function getClientKey(req) {
+  const forwardedFor = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  return forwardedFor || req.socket.remoteAddress || "unknown";
 }
 
 async function handleSimplify(req, res) {
@@ -88,7 +143,18 @@ async function handleSimplify(req, res) {
 
     if (form.file) {
       if (!ALLOWED_TYPES.has(form.file.contentType)) {
-        return sendJson(res, 400, { error: "Please upload a PDF, image, DOCX, DOC, or text file." });
+        return sendJson(res, 400, { error: "Please upload a PDF, JPG, PNG, WEBP, or text file." });
+      }
+
+      if (form.file.contentType === "application/pdf") {
+        const pdfSafety = inspectPdfPageLimit(form.file.data, 5);
+        if (!pdfSafety.allowed) {
+          return sendJson(res, 400, {
+            success: false,
+            code: "pdf_too_many_pages",
+            error: "Please upload a PDF with 5 pages or fewer for now."
+          });
+        }
       }
 
       const jobId = crypto.randomUUID();
@@ -171,7 +237,10 @@ async function handleFeedback(req, res) {
     });
   } catch (error) {
     const statusCode = error.statusCode || 500;
-    console.error("Feedback save failed:", error.message);
+    console.error("Feedback save failed:", {
+      statusCode,
+      code: error.code || "feedback_save_failed"
+    });
     return sendJson(res, statusCode, {
       success: false,
       error: statusCode === 400
@@ -209,7 +278,10 @@ async function handleAnalytics(req, res) {
     });
   } catch (error) {
     const statusCode = error.statusCode || 500;
-    console.error("Analytics save failed:", error.message);
+    console.error("Analytics save failed:", {
+      statusCode,
+      code: error.code || "analytics_save_failed"
+    });
     return sendJson(res, statusCode, {
       success: false,
       error: statusCode === 400
@@ -227,7 +299,7 @@ function readRequestBody(req, maxBytes) {
     req.on("data", (chunk) => {
       totalBytes += chunk.length;
       if (totalBytes > maxBytes) {
-        reject(new Error("Request body is too large."));
+        reject(createHttpError("Request body is too large.", 413, "payload_too_large"));
         req.destroy();
         return;
       }
@@ -319,8 +391,6 @@ function extensionForType(contentType) {
   if (contentType === "image/png") return ".png";
   if (contentType === "image/webp") return ".webp";
   if (contentType === "text/plain") return ".txt";
-  if (contentType === "application/msword") return ".doc";
-  if (contentType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return ".docx";
   return ".bin";
 }
 
@@ -353,10 +423,11 @@ function serveStaticFile(req, res) {
   fs.createReadStream(requestedPath).pipe(res);
 }
 
-function sendJson(res, statusCode, payload) {
+function sendJson(res, statusCode, payload, extraHeaders = {}) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store"
+    "Cache-Control": "no-store",
+    ...extraHeaders
   });
   res.end(JSON.stringify(payload));
 }

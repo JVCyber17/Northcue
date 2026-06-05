@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const crypto = require("node:crypto");
 const path = require("node:path");
+const { cleanupTemporaryFile } = require("../utils/temporaryStorageCleanup");
 
 const {
   extractTextFromInput,
@@ -412,15 +413,15 @@ function cleanupOldOcrSessions() {
 }
 
 function deleteTemporaryUpload({ filePath, uploadsDir }) {
-  if (process.env.CLEARSTEPS_ENABLE_FILE_RETENTION || !filePath || !filePath.startsWith(uploadsDir)) {
+  if (process.env.CLEARSTEPS_ENABLE_FILE_RETENTION || !filePath) {
     return;
   }
 
-  try {
-    fs.unlinkSync(filePath);
-  } catch (error) {
-    // Keep deletion errors silent to avoid leaking file details in logs.
-  }
+  cleanupTemporaryFile({
+    filePath,
+    allowedDirectories: [uploadsDir],
+    logger: console
+  });
 }
 
 module.exports = { simplifyRoute, ocrSessionStore };
