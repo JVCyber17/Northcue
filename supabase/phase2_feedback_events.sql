@@ -1,4 +1,4 @@
--- ClearSteps Phase 2 feedback fields
+-- Northcue Phase 2 feedback fields
 -- Privacy rule: do not store raw documents, OCR text, full document text,
 -- uploaded files, names, addresses, account numbers, reference numbers,
 -- or payment details.

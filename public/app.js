@@ -61,7 +61,7 @@ const helpGuides = {
       {
         icon: "calendar",
         title: "Open the Deadline card",
-        detail: "ClearSteps looks for the due date."
+        detail: "Northcue looks for the due date."
       },
       {
         icon: "document",
@@ -107,7 +107,7 @@ const helpGuides = {
       {
         icon: "close",
         title: "Remove the current upload",
-        detail: "ClearSteps will forget this file."
+        detail: "Northcue will forget this file."
       },
       {
         icon: "folder",
@@ -995,7 +995,7 @@ function handleHelpAction(action) {
     setPage("journey");
     if (!hasUploadedResult()) {
       setJourneyStep("upload");
-      setStatus("Upload a document first, then ClearSteps can look for a deadline.", true);
+      setStatus("Upload a document first, then Northcue can look for a deadline.", true);
       fileInput.focus();
       return;
     }
@@ -1028,7 +1028,7 @@ function handleHelpAction(action) {
       return;
     }
     setJourneyStep("upload");
-    setStatus("Upload a document first, then ClearSteps can make a summary.", true);
+    setStatus("Upload a document first, then Northcue can make a summary.", true);
     fileInput.focus();
     return;
   }
@@ -1498,7 +1498,7 @@ function moveToRailStep(step) {
 function openDocumentCheck() {
   if (!hasUploadedResult()) {
     setJourneyStep("upload");
-    openModal("Document check", "<p>Upload a document first.<br>Then ClearSteps can check trust, severity, and next steps.</p>");
+    openModal("Document check", "<p>Upload a document first.<br>Then Northcue can check trust, severity, and next steps.</p>");
     return;
   }
 
@@ -1667,7 +1667,7 @@ function buildFeedbackStepOneMarkup() {
 
   return `
     <section class="feedback-flow modal-feedback-panel" data-feedback-context="modal">
-      <p class="feedback-intro">Your feedback helps us make ClearSteps better.</p>
+      <p class="feedback-intro">Your feedback helps us make Northcue better.</p>
       <hr class="feedback-rule">
       <div class="feedback-question">
         <h3>Was this helpful?</h3>
@@ -1707,7 +1707,7 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
       <div class="feedback-contact-toggle-row">
         <label>
           <input id="modal-feedback-contact-toggle" type="checkbox">
-          <span>I'm happy for ClearSteps to contact me about this</span>
+          <span>I'm happy for Northcue to contact me about this</span>
         </label>
       </div>
       <div id="modal-feedback-contact-panel" class="optional-contact feedback-contact-reveal hidden">
@@ -1853,7 +1853,7 @@ async function saveShortFeedback(panel) {
       <section class="feedback-flow feedback-success" role="status" aria-live="polite">
         <span class="feedback-success-icon" aria-hidden="true">${feedbackHeartIcon()}</span>
         <h3>Thanks.</h3>
-        <p>Every bit of feedback helps us make ClearSteps calmer, clearer and more helpful.</p>
+        <p>Every bit of feedback helps us make Northcue calmer, clearer and more helpful.</p>
         <button type="button" class="primary-btn" data-modal-back>Done</button>
       </section>
     `;

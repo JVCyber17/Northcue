@@ -156,7 +156,7 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
 
 function buildSystemPrompt() {
   return [
-    "You are the backend structured-output layer for ClearSteps.",
+    "You are the backend structured-output layer for Northcue.",
     "Return strict JSON only. No Markdown. No commentary.",
     "Use UK English, plain language, calm wording, and short lines.",
     "Do not give legal, medical, financial, or authenticity advice.",
@@ -170,7 +170,7 @@ function buildSystemPrompt() {
 
 function buildUserPrompt({ extractedText, fallbackStructuredResult }) {
   return [
-    "Improve this ClearSteps structured_result using only the document text below.",
+    "Improve this Northcue structured_result using only the document text below.",
     "Keep session_id and anonymous_session_id exactly the same as the fallback.",
     "Keep all field names exactly the same.",
     "",

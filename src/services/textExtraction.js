@@ -27,7 +27,7 @@ async function extractTextFromInput({ pastedText, filePath, mimeType, originalNa
 
   // Placeholder extraction path for non-image files in this backend scaffold.
   return [
-    "Placeholder extracted text for ClearSteps backend testing.",
+    "Placeholder extracted text for Northcue backend testing.",
     `Original file name: ${originalName || "unknown"}.`,
     `Detected file type: ${mimeType || "unknown"}.`,
     "This appears to be a formal readable document.",

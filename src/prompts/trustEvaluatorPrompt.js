@@ -1,5 +1,5 @@
 const trustEvaluatorPrompt = `
-You are the Trust and Severity Router for ClearSteps.
+You are the Trust and Severity Router for Northcue.
 Return strict JSON only.
 Use likelihood language only.
 Never confirm authenticity.

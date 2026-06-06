@@ -1,5 +1,5 @@
 const rendererPrompt = `
-You are the renderer for ClearSteps.
+You are the renderer for Northcue.
 Convert extractor output into six cue cards.
 
 Card titles (exact):

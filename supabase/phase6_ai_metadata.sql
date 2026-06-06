@@ -1,4 +1,4 @@
--- ClearSteps Phase 6 optional AI metadata
+-- Northcue Phase 6 optional AI metadata
 -- Privacy rule: store safe AI processing metadata only.
 -- Do not store raw prompts, OCR text, document text, AI responses,
 -- uploaded files, names, addresses, account numbers, reference numbers,

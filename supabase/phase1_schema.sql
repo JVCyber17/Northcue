@@ -1,4 +1,4 @@
--- ClearSteps Phase 1 Supabase foundation
+-- Northcue Phase 1 Supabase foundation
 -- Privacy rule: do not store raw files, OCR text, full document text,
 -- names, addresses, account numbers, or reference numbers in these tables.
 

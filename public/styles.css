@@ -425,10 +425,22 @@ textarea:focus-visible,
 .brand-button {
   display: flex;
   align-items: center;
-  gap: 14px;
   padding: 0;
   color: var(--text);
   background: transparent;
+}
+
+.brand-logo {
+  display: block;
+  width: auto;
+  max-width: 240px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.brand-logo-mark {
+  display: none;
+  height: 42px;
 }
 
 .brand-mark {
@@ -1139,10 +1151,16 @@ body[data-page="landing"] .app-main {
 .landing-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   color: var(--text);
   font-size: 22px;
   font-weight: 800;
+}
+
+.landing-brand-logo {
+  display: block;
+  width: auto;
+  height: 42px;
+  object-fit: contain;
 }
 
 .landing-mark {
@@ -5485,8 +5503,13 @@ body.theme-dark .landing-cue-preview {
     padding: 14px 18px;
   }
 
-  .brand-text {
-    font-size: 26px;
+  .brand-logo-full {
+    display: none;
+  }
+
+  .brand-logo-mark {
+    display: block;
+    height: 40px;
   }
 
   .home-layout {

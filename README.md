@@ -1,6 +1,6 @@
-# ClearSteps MVP
+# Northcue MVP
 
-ClearSteps is a neurodiversity-first document simplifier. It accepts one readable document, extracts text, and returns six calm cue cards.
+Northcue is a neurodiversity-first document simplifier. It accepts one readable document, extracts text, and returns six calm cue cards.
 
 ## Run Locally
 
@@ -52,7 +52,7 @@ Run these in Supabase SQL Editor for a fresh project:
 
 ## Privacy Rules
 
-ClearSteps does not intentionally store:
+Northcue does not intentionally store:
 
 - raw uploaded documents
 - OCR text
@@ -69,7 +69,7 @@ Supabase rows store safe metadata only, such as anonymous session ID, job ID, fi
 - Uploaded files are written to `private_storage/uploads` only while being processed.
 - Active upload files are deleted after processing by default.
 - Old files in `private_storage/uploads` and `private_storage/results` are cleaned on server startup after `TEMP_FILE_RETENTION_MS`.
-- `CLEARSTEPS_ENABLE_FILE_RETENTION=1` can be used locally for debugging only.
+- `CLEARSTEPS_ENABLE_FILE_RETENTION=1` can be used locally for debugging only. This is a legacy internal environment variable name and is not shown to users.
 
 Do not enable file retention for public testing.
 
@@ -90,9 +90,9 @@ If the limit is reached, the app returns a calm public message and does not expo
 - WEBP images are accepted by the current image OCR path.
 - PDF is supported for MVP document intake, with public testing limited to 5 pages.
 - DOCX is not supported yet.
-- ClearSteps works best with energy bills and council tax notices.
+- Northcue works best with energy bills and council tax notices.
 - Other readable documents get cautious reading aid cards.
-- ClearSteps does not provide legal, financial, medical, debt, immigration, or official advice.
+- Northcue does not provide legal, financial, medical, debt, immigration, or official advice.
 - Users must check the original document before acting.
 
 ## Deployment Checklist

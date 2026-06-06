@@ -315,7 +315,7 @@ function runRendererLayer({ trust, extraction }) {
 
 function buildReadableUnsupportedExtraction(text, trust) {
   const signals = extractReadableDocumentSignals(text, trust);
-  const summary = `This appears to be a readable official or formal document about ${signals.topic}. ClearSteps is not fully trained for this document type yet, so use this as a reading aid only.`;
+  const summary = `This appears to be a readable official or formal document about ${signals.topic}. Northcue is not fully trained for this document type yet, so use this as a reading aid only.`;
   const hasClearNoAction = clearlySaysNoActionNeeded(text);
   const actions = hasClearNoAction
     ? ["No action needed right now."]
@@ -327,7 +327,7 @@ function buildReadableUnsupportedExtraction(text, trust) {
     actions,
     deadline: signals.primaryDate,
     risk: signals.risk,
-    helpful_note: "ClearSteps is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+    helpful_note: "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: [],
     contact_details: [],

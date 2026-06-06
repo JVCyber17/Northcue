@@ -25,7 +25,7 @@ function warnIfSupabaseConfigMissing() {
 
   console.warn(
     [
-      "[ClearSteps] Supabase is not configured yet.",
+      "[Northcue] Supabase is not configured yet.",
       `Missing environment variable(s): ${config.missing.join(", ")}.`,
       "The current upload, OCR, and cue-card flow will continue to work without Supabase."
     ].join(" ")

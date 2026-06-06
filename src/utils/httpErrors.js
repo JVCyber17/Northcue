@@ -15,7 +15,7 @@ function getPublicErrorResponse(error) {
       payload: {
         success: false,
         code: "payload_too_large",
-        error: "This file is too large for ClearSteps right now. Please upload a smaller file."
+        error: "This file is too large for Northcue right now. Please upload a smaller file."
       }
     };
   }
@@ -26,7 +26,7 @@ function getPublicErrorResponse(error) {
       payload: {
         success: false,
         code: "rate_limited",
-        error: "ClearSteps is receiving too many requests from this browser right now. Please wait a moment and try again."
+        error: "Northcue is receiving too many requests from this browser right now. Please wait a moment and try again."
       }
     };
   }

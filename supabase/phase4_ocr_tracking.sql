@@ -1,4 +1,4 @@
--- ClearSteps Phase 4 OCR tracking
+-- Northcue Phase 4 OCR tracking
 -- Privacy rule: store OCR timing and quality metadata only.
 -- Do not store raw documents, OCR text, full document text, names, addresses,
 -- account numbers, reference numbers, payment details, or uploaded files.

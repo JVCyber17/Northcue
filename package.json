@@ -1,7 +1,7 @@
 {
-  "name": "clearsteps",
+  "name": "northcue",
   "version": "0.1.0",
-  "description": "ClearSteps MVP: an accessibility-first letter simplifier.",
+  "description": "Northcue MVP: an accessibility-first document simplifier.",
   "main": "server.js",
   "type": "commonjs",
   "dependencies": {

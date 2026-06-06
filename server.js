@@ -87,7 +87,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   if (process.stdout.isTTY) {
-    console.log(`ClearSteps is running at http://localhost:${PORT}`);
+    console.log(`Northcue is running at http://localhost:${PORT}`);
   }
 });
 
@@ -116,7 +116,7 @@ function isRateLimited(req, res, pathOnly) {
     {
       success: false,
       code: "rate_limited",
-      error: "ClearSteps is receiving too many requests from this browser right now. Please wait a moment and try again."
+      error: "Northcue is receiving too many requests from this browser right now. Please wait a moment and try again."
     },
     {
       "Retry-After": String(result.retryAfterSeconds)

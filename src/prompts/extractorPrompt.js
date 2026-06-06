@@ -1,5 +1,5 @@
 const extractorPrompt = `
-You are the extractor for ClearSteps.
+You are the extractor for Northcue.
 Return strict JSON only.
 Use only document text.
 

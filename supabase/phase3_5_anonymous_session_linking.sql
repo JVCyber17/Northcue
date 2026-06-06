@@ -1,4 +1,4 @@
--- ClearSteps Phase 3.5 anonymous session linking
+-- Northcue Phase 3.5 anonymous session linking
 -- Privacy rule: this stores only a backend-generated anonymous journey id.
 -- Do not store raw documents, OCR text, full document text, names, addresses,
 -- account numbers, reference numbers, payment details, or uploaded files.
