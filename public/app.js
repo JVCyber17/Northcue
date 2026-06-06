@@ -351,7 +351,8 @@ renderProgressDots();
 
 function wireNavigation() {
   pageLinks.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
       setPage(button.dataset.pageLink);
       if (button.dataset.pageLink === "journey" && !hasUploadedResult()) {
         setJourneyStep("upload");

@@ -377,8 +377,7 @@ body.focus-mode .help-cards {
 h1,
 h2,
 h3,
-button,
-.brand-text {
+button {
   font-family: "Lexend", "Atkinson Hyperlegible", Arial, sans-serif;
 }
 
@@ -425,38 +424,32 @@ textarea:focus-visible,
 .brand-button {
   display: flex;
   align-items: center;
-  padding: 0;
+  gap: 12px;
+  min-height: 56px;
+  padding: 4px 0;
   color: var(--text);
   background: transparent;
+  text-decoration: none;
 }
 
-.brand-logo {
+.brand-link {
+  cursor: pointer;
+}
+
+.brand-icon {
   display: block;
-  width: auto;
-  max-width: 240px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  flex: 0 0 auto;
 }
 
-.brand-logo-mark {
-  display: none;
-  height: 42px;
-}
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  background: var(--sage);
-  font-size: 28px;
+.brand-name {
+  color: var(--text);
+  font-family: var(--font-heading);
+  font-size: 36px;
   font-weight: 800;
-}
-
-.brand-text {
-  font-size: 31px;
-  font-weight: 800;
+  line-height: 1;
   letter-spacing: 0;
 }
 
@@ -1151,29 +1144,28 @@ body[data-page="landing"] .app-main {
 .landing-brand {
   display: inline-flex;
   align-items: center;
+  gap: 12px;
   color: var(--text);
   font-size: 22px;
   font-weight: 800;
+  text-decoration: none;
 }
 
-.landing-brand-logo {
+.landing-brand-icon {
   display: block;
-  width: auto;
+  width: 42px;
   height: 42px;
   object-fit: contain;
+  flex: 0 0 auto;
 }
 
-.landing-mark {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  background: #dde7d8;
-  border: 1px solid #b8c6b1;
+.landing-brand-name {
   color: var(--text);
-  font-size: 20px;
+  font-family: var(--font-heading);
+  font-size: 28px;
   font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .landing-shell h1 {
@@ -5503,13 +5495,18 @@ body.theme-dark .landing-cue-preview {
     padding: 14px 18px;
   }
 
-  .brand-logo-full {
-    display: none;
+  .brand-button {
+    gap: 9px;
+    min-height: 48px;
   }
 
-  .brand-logo-mark {
-    display: block;
-    height: 40px;
+  .brand-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-name {
+    font-size: 26px;
   }
 
   .home-layout {
