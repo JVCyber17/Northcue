@@ -55,6 +55,14 @@ const server = http.createServer(async (req, res) => {
   try {
     const pathOnly = req.url.split("?")[0] || "/";
 
+    if (req.method === "GET" && pathOnly === "/health") {
+      return sendJson(res, 200, {
+        status: "ok",
+        service: "northcue",
+        timestamp: new Date().toISOString()
+      });
+    }
+
     if (req.method === "GET") {
       return serveStaticFile(req, res);
     }

@@ -26,6 +26,8 @@ Copy `.env.example` to `.env` for local development.
 - `SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `OPENAI_API_KEY`
+- `CLEARSTEPS_AI_TIMEOUT_MS`
+- `CLEARSTEPS_AI_DEBUG`
 - `RATE_LIMIT_WINDOW_MS`
 - `TEMP_FILE_RETENTION_MS`
 
@@ -37,8 +39,57 @@ Keep `.env` private. Never place `SUPABASE_SERVICE_ROLE_KEY` or `OPENAI_API_KEY`
 - `POST /api/upload`
 - `POST /api/feedback`
 - `POST /api/analytics`
+- `GET /health`
 
 The Supabase service role key is used only by backend code.
+
+## Private MVP Deployment Recommendation
+
+Use persistent Node hosting for private MVP testing.
+
+Northcue currently runs as a plain Node HTTP server with local Tesseract OCR, temporary private uploads, an in-memory upload-to-analyse handoff, local rate limiting, and local safe result files. That shape is much better suited to a long-running Node process than serverless functions.
+
+Vercel serverless is risky for this version because:
+
+- local Tesseract may not be available in the serverless runtime
+- serverless file storage is temporary and not shared between invocations
+- the in-memory OCR handoff can be lost between upload and analyse requests
+- local rate limits reset per function instance
+- `private_storage/results` is local and not durable across instances
+- the plain `server.js` would need an adapter or a different route structure
+
+Recommended hosts for this version include Render, Railway, Fly.io, DigitalOcean App Platform, a small VPS, or any provider that can run `node server.js` as a persistent process and install the `tesseract` binary.
+
+Build command:
+
+```bash
+npm install
+```
+
+Start command:
+
+```bash
+npm start
+```
+
+Health check:
+
+```text
+GET /health
+```
+
+Production environment variables:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `OPENAI_API_KEY`
+- `RATE_LIMIT_WINDOW_MS`
+- `TEMP_FILE_RETENTION_MS`
+- `CLEARSTEPS_AI_TIMEOUT_MS`
+- `CLEARSTEPS_AI_DEBUG=false`
+
+Do not set `CLEARSTEPS_ENABLE_FILE_RETENTION` in production.
 
 ## Supabase SQL Already Added
 
