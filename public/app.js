@@ -1,4 +1,125 @@
 const pages = ["landing", "home", "journey", "help", "comfort"];
+const northcueIconBase = "/icons/northcue/";
+const northcueForegroundIconBase = "/icons/northcue/foreground/";
+const northcueForegroundLightIconBase = "/icons/northcue/foreground-light/";
+const northcueUtilityLightIconBase = "/icons/northcue/utility-light/";
+const northcueForegroundIcons = new Set([
+  "act-next-step",
+  "add-deadline",
+  "auto-detect",
+  "bill-document",
+  "chat-message",
+  "comfort-break",
+  "deadline",
+  "document",
+  "document-check",
+  "document-stack",
+  "fake-document",
+  "focus-mode",
+  "folder",
+  "letter-document",
+  "need-help",
+  "overwhelmed",
+  "people",
+  "private-secure",
+  "reminder-bell",
+  "safety-check",
+  "search",
+  "shield-check",
+  "time",
+  "time-message",
+  "upload",
+  "upload-add",
+  "what-matters-most",
+  "what-to-do",
+  "wrong-file"
+]);
+
+function northcueIcon(fileName, className = "northcue-icon northcue-inline-icon", options = {}) {
+  const basePath = northcueForegroundIcons.has(fileName)
+    ? getThemeAwareForegroundBase()
+    : northcueIconBase;
+  const extraClasses = [];
+  const attributes = [];
+
+  if (options.circle) extraClasses.push("northcue-circle-fill");
+  if (options.toneClass) extraClasses.push(options.toneClass);
+  if (northcueForegroundIcons.has(fileName)) {
+    extraClasses.push("northcue-theme-icon");
+    attributes.push(`data-theme-art="icon" data-icon-name="${fileName}"`);
+  }
+
+  const classes = [className, ...extraClasses].filter(Boolean).join(" ");
+  return `<img class="${classes}" src="${basePath}${fileName}.png" alt="" aria-hidden="true" ${attributes.join(" ")}>`;
+}
+
+function useLightThemeArt() {
+  return document.body.classList.contains("theme-dark");
+}
+
+function getThemeAwareForegroundBase() {
+  return useLightThemeArt() ? northcueForegroundLightIconBase : northcueForegroundIconBase;
+}
+
+function getThemeAwareUtilityBase() {
+  return useLightThemeArt() ? northcueUtilityLightIconBase : northcueIconBase;
+}
+
+function prepareThemeAwareArtMetadata() {
+  document.querySelectorAll("img.northcue-icon").forEach((image) => {
+    if (image.dataset.themeArt === "utility" || image.dataset.themeArt === "logo") return;
+    const src = image.getAttribute("src") || "";
+    const foregroundMatch = src.match(/\/icons\/northcue\/foreground(?:-light)?\/([^/.]+)\.png$/);
+    if (foregroundMatch) {
+      image.dataset.iconName = foregroundMatch[1];
+      const keepDarkStroke =
+        image.classList.contains("northcue-circle-fill") ||
+        Boolean(image.closest(".home-icon-bubble, .process-icon-circle, .help-icon-bubble, .upload-hero-icon"));
+      image.dataset.themeArt = keepDarkStroke ? "icon-static" : "icon";
+    }
+  });
+}
+
+function updateThemeAwareArt() {
+  const useLight = useLightThemeArt();
+
+  document.querySelectorAll("img[data-theme-art='icon']").forEach((image) => {
+    const name = image.dataset.iconName;
+    if (!name) return;
+    const nextSrc = `${useLight ? northcueForegroundLightIconBase : northcueForegroundIconBase}${name}.png`;
+    if (image.getAttribute("src") !== nextSrc) {
+      image.setAttribute("src", nextSrc);
+    }
+  });
+
+  document.querySelectorAll("img[data-theme-art='icon-static']").forEach((image) => {
+    const name = image.dataset.iconName;
+    if (!name) return;
+    const nextSrc = `${northcueForegroundIconBase}${name}.png`;
+    if (image.getAttribute("src") !== nextSrc) {
+      image.setAttribute("src", nextSrc);
+    }
+  });
+
+  document.querySelectorAll("img[data-theme-art='utility']").forEach((image) => {
+    const name = image.dataset.iconName;
+    if (!name) return;
+    const nextSrc = `${useLight ? northcueUtilityLightIconBase : northcueIconBase}${name}.png`;
+    if (image.getAttribute("src") !== nextSrc) {
+      image.setAttribute("src", nextSrc);
+    }
+  });
+
+  document.querySelectorAll("img[data-theme-art='logo']").forEach((image) => {
+    const lightSrc = image.dataset.logoLight;
+    const darkSrc = image.dataset.logoDark;
+    if (!lightSrc || !darkSrc) return;
+    const nextSrc = useLight ? lightSrc : darkSrc;
+    if (image.getAttribute("src") !== nextSrc) {
+      image.setAttribute("src", nextSrc);
+    }
+  });
+}
 
 const styleIcons = {
   simple: ["\uD83D\uDCC4", "\uD83D\uDCCC", "\u2705", "\uD83D\uDCC5", "\uD83D\uDEE1\uFE0F", "\u2139\uFE0F"],
@@ -348,6 +469,8 @@ setPage("landing");
 setJourneyStep("upload");
 renderCard();
 renderProgressDots();
+prepareThemeAwareArtMetadata();
+updateThemeAwareArt();
 
 function wireNavigation() {
   pageLinks.forEach((button) => {
@@ -440,6 +563,8 @@ function setFocusMode(isActive, options = {}) {
     }
     savePreferences(false);
   }
+
+  updateThemeAwareArt();
 }
 
 function trackCurrentCardViewed() {
@@ -934,24 +1059,24 @@ function buildHelpModalMarkup(key, guide) {
 
 function helpIconTone(key) {
   const tones = {
-    overwhelmed: "lavender",
-    fake: "sage",
-    deadline: "blue",
-    time: "cream",
-    wrong: "sage",
-    person: "lavender"
+    overwhelmed: "northcue-circle-soft-purple",
+    fake: "northcue-circle-soft-green",
+    deadline: "northcue-circle-soft-blue",
+    time: "northcue-circle-soft-cream",
+    wrong: "northcue-circle-soft-green",
+    person: "northcue-circle-soft-purple"
   };
-  return tones[key] || "sage";
+  return tones[key] || "northcue-circle-soft-green";
 }
 
 function helpIconMarkup(key) {
   const icons = {
-    overwhelmed: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><path d="M16 7c-5 0-9 3.6-9 8.2 0 4.8 3.8 8.8 8.8 8.8 4.4 0 7.2-2.8 7.2-6.2 0-3.2-2.4-5.4-5.2-5.4-2.6 0-4.5 1.8-4.5 4 0 2 1.5 3.4 3.4 3.4 1.6 0 2.8-1 2.8-2.3"></path></svg>`,
-    fake: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><path d="M16 5.5 25 9v6.2c0 5.5-3.4 9.4-9 11.3-5.6-1.9-9-5.8-9-11.3V9z"></path><path d="m12.5 12.5 7 7"></path><path d="m19.5 12.5-7 7"></path></svg>`,
-    deadline: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><path d="M8 9.5h16v15H8z"></path><path d="M11.5 6.5v5"></path><path d="M20.5 6.5v5"></path><path d="M8 14h16"></path><path d="M12 18h3"></path><path d="M17 18h3"></path><path d="M12 22h3"></path></svg>`,
-    time: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><circle cx="16" cy="16" r="10"></circle><path d="M16 10.5V16l4 2.5"></path></svg>`,
-    wrong: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><path d="M10 23h12a4 4 0 0 0 .8-7.9 6.8 6.8 0 0 0-13.1-1.8A5 5 0 0 0 10 23z"></path><path d="M16 22V13"></path><path d="m12.8 16.2 3.2-3.2 3.2 3.2"></path></svg>`,
-    person: `<svg class="help-line-icon" viewBox="0 0 32 32" focusable="false"><circle cx="12.5" cy="12" r="3.2"></circle><circle cx="20.5" cy="12.5" r="2.8"></circle><path d="M7 24c.8-4 3-6 5.5-6s4.7 2 5.5 6"></path><path d="M17.5 24c.7-3 2.4-4.6 4.5-4.6 1.8 0 3.2 1.2 4 4.6"></path></svg>`
+    overwhelmed: northcueIcon("overwhelmed", "northcue-icon northcue-help-icon"),
+    fake: northcueIcon("fake-document", "northcue-icon northcue-help-icon"),
+    deadline: northcueIcon("deadline", "northcue-icon northcue-help-icon"),
+    time: northcueIcon("time", "northcue-icon northcue-help-icon"),
+    wrong: northcueIcon("wrong-file", "northcue-icon northcue-help-icon"),
+    person: northcueIcon("need-help", "northcue-icon northcue-help-icon")
   };
 
   return icons[key] || icons.overwhelmed;
@@ -959,18 +1084,18 @@ function helpIconMarkup(key) {
 
 function helpStepIconMarkup(icon) {
   const icons = {
-    focus: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M12 4l1.4 4.2L17.5 10l-4.1 1.8L12 16l-1.4-4.2L6.5 10l4.1-1.8z"></path><path d="M18.5 14.5l.7 2.1 2.1.9-2.1.9-.7 2.1-.7-2.1-2.1-.9 2.1-.9z"></path></svg>`,
-    document: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 4.5h7l3 3v12H7z"></path><path d="M14 4.5v3h3"></path><path d="M9.5 11h5"></path><path d="M9.5 14h5"></path><path d="M9.5 17h3.4"></path></svg>`,
-    pause: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M8 9h8v5a4 4 0 0 1-4 4 4 4 0 0 1-4-4z"></path><path d="M16 10h1.5a2 2 0 0 1 0 4H16"></path><path d="M7 20h10"></path><path d="M10 5.5c-.6.6-.6 1.2 0 1.8"></path><path d="M14 5.5c-.6.6-.6 1.2 0 1.8"></path></svg>`,
-    shield: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M12 3.5 19 6v5.2c0 4.4-2.6 7.3-7 9-4.4-1.7-7-4.6-7-9V6z"></path><path d="M8.7 11.8l2.2 2.2 4.4-4.6"></path></svg>`,
-    search: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="m15 15 4.5 4.5"></path></svg>`,
-    people: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><circle cx="9" cy="9" r="2.7"></circle><circle cx="15.8" cy="9.6" r="2.3"></circle><path d="M4.5 19c.8-3.2 2.5-4.8 4.5-4.8s3.7 1.6 4.5 4.8"></path><path d="M13.5 18.8c.7-2.5 2-3.8 3.7-3.8 1.4 0 2.5 1 3.1 3.8"></path></svg>`,
-    calendar: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M5 6.5h14v13H5z"></path><path d="M8 4v5"></path><path d="M16 4v5"></path><path d="M5 10h14"></path><path d="M8 13.2h2.2"></path><path d="M12 13.2h2.2"></path><path d="M8 16.2h2.2"></path></svg>`,
-    bell: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 17h10l-1.2-2.4V11a3.8 3.8 0 0 0-7.6 0v3.6z"></path><path d="M10 19a2.2 2.2 0 0 0 4 0"></path><path d="M12 5V3.8"></path></svg>`,
-    message: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M5 6h14v9.5H9l-4 3z"></path><path d="M8.5 10h7"></path><path d="M8.5 13h4.5"></path></svg>`,
+    focus: northcueIcon("focus-mode", "northcue-icon northcue-step-icon"),
+    document: northcueIcon("document", "northcue-icon northcue-step-icon"),
+    pause: northcueIcon("comfort-break", "northcue-icon northcue-step-icon"),
+    shield: northcueIcon("shield-check", "northcue-icon northcue-step-icon"),
+    search: northcueIcon("search", "northcue-icon northcue-step-icon"),
+    people: northcueIcon("people", "northcue-icon northcue-step-icon"),
+    calendar: northcueIcon("deadline", "northcue-icon northcue-step-icon"),
+    bell: northcueIcon("reminder-bell", "northcue-icon northcue-step-icon"),
+    message: northcueIcon("chat-message", "northcue-icon northcue-step-icon"),
     close: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10"></path><path d="M17 7 7 17"></path><circle cx="12" cy="12" r="8"></circle></svg>`,
-    folder: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M4 7h6l2 2h8v9.5H4z"></path><path d="M4 9h16"></path></svg>`,
-    upload: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 18h10a3 3 0 0 0 .6-5.9 5.2 5.2 0 0 0-10-1.3A3.9 3.9 0 0 0 7 18z"></path><path d="M12 17V10"></path><path d="m9.5 12.5 2.5-2.5 2.5 2.5"></path></svg>`,
+    folder: northcueIcon("folder", "northcue-icon northcue-step-icon"),
+    upload: northcueIcon("upload", "northcue-icon northcue-step-icon"),
     copy: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M8 8h10v12H8z"></path><path d="M6 16H4V4h10v2"></path><path d="M10.5 12h5"></path><path d="M10.5 15h5"></path></svg>`
   };
 
@@ -1198,6 +1323,7 @@ function setTheme(theme) {
   }
 
   setBackgroundStyle(currentBackgroundStyle);
+  updateThemeAwareArt();
 }
 
 function applyThemeTokens(themeClass) {
@@ -1531,6 +1657,8 @@ function renderCard() {
   }
 
   renderProgressDots();
+  prepareThemeAwareArtMetadata();
+  updateThemeAwareArt();
   trackCurrentCardViewed();
 }
 
@@ -1540,11 +1668,11 @@ function stylePillMarkup(label) {
 
 function cardIconMarkup(cardId) {
   const icons = {
-    what_is_this: `<svg viewBox="0 0 24 24" focusable="false"><path d="M8 4h6l3 3v13H8z"></path><path d="M14 4v4h4"></path><path d="M10.5 11h5"></path><path d="M10.5 14h5"></path><path d="M10.5 17h3.5"></path></svg>`,
-    what_matters_most: `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4v16"></path><path d="M5 9h14"></path><path d="M7 15h10"></path></svg>`,
-    what_do_i_need_to_do: `<svg viewBox="0 0 24 24" focusable="false"><path d="M8 6h10"></path><path d="M8 12h10"></path><path d="M8 18h10"></path><path d="M4 6l1 1 2-2"></path><path d="M4 12l1 1 2-2"></path><path d="M4 18l1 1 2-2"></path></svg>`,
-    when_is_it_due: `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 7h12v12H6z"></path><path d="M8 4v4"></path><path d="M16 4v4"></path><path d="M6 10h12"></path></svg>`,
-    what_could_happen: `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4l7 4v4c0 4-2.6 7-7 8-4.4-1-7-4-7-8V8z"></path><path d="M12 8v5"></path><path d="M12 16h.01"></path></svg>`,
+    what_is_this: northcueIcon("document", "northcue-icon northcue-cue-icon"),
+    what_matters_most: northcueIcon("what-matters-most", "northcue-icon northcue-cue-icon"),
+    what_do_i_need_to_do: northcueIcon("what-to-do", "northcue-icon northcue-cue-icon"),
+    when_is_it_due: northcueIcon("deadline", "northcue-icon northcue-cue-icon"),
+    what_could_happen: northcueIcon("safety-check", "northcue-icon northcue-cue-icon"),
     helpful_note: `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>`
   };
 
@@ -1572,8 +1700,13 @@ function shortCardExplanation(card) {
 
 function renderProgressDots() {
   progressDots.innerHTML = latestResult.cards
-    .map((card, index) => `<span class="progress-dot${index === cardIndex ? " active" : ""}" aria-label="${index + 1} of ${latestResult.cards.length}"></span>`)
+    .map((card, index) => {
+      const state = index === cardIndex ? "active" : "inactive";
+      return `<span class="progress-dot${index === cardIndex ? " active" : ""}" aria-label="${index + 1} of ${latestResult.cards.length}">${northcueIcon(`progress-dot-${state}`, "northcue-icon northcue-progress-icon")}</span>`;
+    })
     .join("");
+  prepareThemeAwareArtMetadata();
+  updateThemeAwareArt();
 }
 
 function openCardStyleModal() {
@@ -1735,27 +1868,30 @@ function feedbackFaceMarkup(key) {
 function feedbackReasonIcon(reason) {
   const icons = {
     "Simple words": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 8h5"></path><path d="M5 12h8"></path><path d="M5 16h6"></path><path d="M16 7v10"></path><path d="m13.5 9 2.5-2 2.5 2"></path></svg>`,
-    "Clear next step": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="m8.5 12 2.2 2.2 4.8-5"></path></svg>`,
+    "Clear next step": northcueIcon("act-next-step", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-green" }),
     "Easy to read": `<svg viewBox="0 0 24 24" focusable="false"><path d="M3.5 12s3.2-5 8.5-5 8.5 5 8.5 5-3.2 5-8.5 5-8.5-5-8.5-5z"></path><circle cx="12" cy="12" r="2.5"></circle></svg>`,
-    "Less overwhelming": `<svg viewBox="0 0 24 24" focusable="false"><path d="M18 5c-5.5.4-9.4 3.4-10.5 9.5"></path><path d="M18 5c-.2 6-3.2 10-9.5 11.5"></path><path d="M7.5 14.5 5 17"></path></svg>`,
-    "Focus mode helped": `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4v3"></path><path d="M12 17v3"></path><path d="M4 12h3"></path><path d="M17 12h3"></path><circle cx="12" cy="12" r="3.5"></circle></svg>`,
+    "Less overwhelming": northcueIcon("overwhelmed", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
+    "Focus mode helped": northcueIcon("focus-mode", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-green" }),
     "Too much text": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 7h14"></path><path d="M5 11h14"></path><path d="M5 15h10"></path><path d="M5 19h8"></path></svg>`,
-    "Action was unclear": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v5"></path><path d="M12 16.5h.1"></path></svg>`,
-    "Deadline was unclear": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 6h14v14H5z"></path><path d="M8 4v4"></path><path d="M16 4v4"></path><path d="M5 10h14"></path><path d="M12 14v2.5"></path><path d="M12 18h.1"></path></svg>`,
+    "Action was unclear": northcueIcon("what-to-do", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
+    "Deadline was unclear": northcueIcon("deadline", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
     "Words felt difficult": `<svg viewBox="0 0 24 24" focusable="false"><path d="M4 17 8.5 7l4.5 10"></path><path d="M6 13h5"></path><path d="M14 17V9"></path><path d="M14 9h3.5a2.5 2.5 0 0 1 0 5H14"></path></svg>`,
-    "Needed more support": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="8.5" cy="10" r="2.8"></circle><circle cx="16" cy="10.5" r="2.4"></circle><path d="M4 19c.7-3.2 2.4-5 4.5-5s3.8 1.8 4.5 5"></path><path d="M13 19c.6-2.4 1.8-3.7 3.4-3.7S19.2 16.6 20 19"></path></svg>`,
-    "I was still confused": `<svg viewBox="0 0 24 24" focusable="false"><path d="M8.5 9a3.5 3.5 0 0 1 7 0c0 3-3.5 2.8-3.5 5.5"></path><path d="M12 18h.1"></path><circle cx="12" cy="12" r="9"></circle></svg>`,
-    "Wrong information": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="m9 9 6 6"></path><path d="m15 9-6 6"></path></svg>`,
+    "Needed more support": northcueIcon("need-help", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
+    "I was still confused": northcueIcon("overwhelmed", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
+    "Wrong information": northcueIcon("wrong-file", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
     "Too much information": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 5h12"></path><path d="M6 8h12"></path><path d="M6 11h12"></path><path d="M6 14h12"></path><path d="M6 17h8"></path></svg>`,
-    "I did not know what to do": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h11"></path><path d="m12 8 4 4-4 4"></path><path d="M18.5 6.5v11"></path></svg>`,
-    "I did not trust it": `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4.5 19 7v5c0 4.5-2.6 7.4-7 8.8-4.4-1.4-7-4.3-7-8.8V7z"></path><path d="M12 9v4"></path><path d="M12 16.5h.1"></path></svg>`
+    "I did not know what to do": northcueIcon("what-to-do", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
+    "I did not trust it": northcueIcon("safety-check", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-cream" })
   };
 
   return icons[reason] || `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle></svg>`;
 }
 
 function feedbackPrivacyIcon() {
-  return `<svg viewBox="0 0 20 20" focusable="false" aria-hidden="true"><path d="M10 3.5 15 5.2v3.7c0 3.2-1.8 5.5-5 6.6-3.2-1.1-5-3.4-5-6.6V5.2z"></path><path d="M8.4 10.2h3.2"></path><path d="M8.8 10V8.8a1.2 1.2 0 0 1 2.4 0V10"></path></svg>`;
+  return northcueIcon("private-secure", "northcue-icon northcue-private-icon", {
+    circle: true,
+    toneClass: "northcue-circle-soft-green"
+  });
 }
 
 function sendIconMarkup() {
@@ -1995,6 +2131,8 @@ function openModal(title, html, options = {}) {
   const closeButton = document.querySelector("#modal-close");
   closeButton.innerHTML = options.closeLabel || "Back";
   closeButton.setAttribute("aria-label", options.closeAriaLabel || "Go back");
+  prepareThemeAwareArtMetadata();
+  updateThemeAwareArt();
   closeButton.focus();
 }
 

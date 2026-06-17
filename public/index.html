@@ -14,7 +14,14 @@
   <body data-page="landing">
     <header class="topbar">
       <a href="/" class="brand-button brand-link" data-page-link="landing" aria-label="Go to homepage">
-        <img class="brand-icon" src="/assets/northcue-mark-transparent.png" alt="">
+        <img
+          class="brand-icon"
+          src="/assets/northcue-mark-transparent.png"
+          alt=""
+          data-theme-art="logo"
+          data-logo-dark="/assets/northcue-mark-transparent.png"
+          data-logo-light="/assets/northcue-mark-light.png"
+        >
         <span class="brand-name">Northcue</span>
       </a>
 
@@ -27,34 +34,19 @@
       <div class="mode-row" aria-label="Comfort controls">
         <button type="button" class="mode-btn active" data-theme="light" aria-label="Light theme">
           <span class="top-mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false">
-              <circle cx="12" cy="12" r="4.2"></circle>
-              <path d="M12 3.2v2"></path>
-              <path d="M12 18.8v2"></path>
-              <path d="M3.2 12h2"></path>
-              <path d="M18.8 12h2"></path>
-              <path d="m5.8 5.8 1.4 1.4"></path>
-              <path d="m16.8 16.8 1.4 1.4"></path>
-              <path d="m18.2 5.8-1.4 1.4"></path>
-              <path d="m7.2 16.8-1.4 1.4"></path>
-            </svg>
+            <img class="northcue-icon northcue-top-utility-icon" src="/icons/northcue/light-mode.png" alt="" data-theme-art="utility" data-icon-name="light-mode">
           </span>
           <span>Light</span>
         </button>
         <button type="button" class="mode-btn" data-theme="dark" aria-label="Dark mode">
           <span class="top-mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false">
-              <path d="M18.5 14.8A7.2 7.2 0 0 1 9.2 5.5a7.5 7.5 0 1 0 9.3 9.3z"></path>
-            </svg>
+            <img class="northcue-icon northcue-top-utility-icon" src="/icons/northcue/dark-mode.png" alt="" data-theme-art="utility" data-icon-name="dark-mode">
           </span>
           <span>Dark</span>
         </button>
         <button type="button" class="mode-btn" data-toggle="focus-mode" aria-label="Focus mode">
-          <span class="top-mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false">
-              <path d="M12 5.2 13.4 9l3.6 1.4-3.6 1.5L12 15.8l-1.4-3.9L7 10.4 10.6 9z"></path>
-              <path d="M18 15.5l.6 1.6 1.5.6-1.5.6-.6 1.6-.6-1.6-1.5-.6 1.5-.6z"></path>
-            </svg>
+          <span class="top-mode-icon northcue-circle-soft-green" aria-hidden="true">
+            <img class="northcue-icon northcue-top-main-icon" src="/icons/northcue/foreground/focus-mode.png" alt="" data-theme-art="icon" data-icon-name="focus-mode">
           </span>
           <span>Focus</span>
         </button>
@@ -78,90 +70,19 @@
       <section id="page-landing" class="page active" aria-labelledby="landing-title">
         <div class="landing-story">
           <div class="landing-doc-visual" aria-hidden="true">
-            <svg class="DocumentStackIllustration landing-document-stack-illustration" viewBox="0 0 560 520" focusable="false">
-              <defs>
-                <filter id="document-stack-sheet-shadow" x="-24%" y="-22%" width="160%" height="182%">
-                  <feDropShadow dx="0" dy="5" stdDeviation="5.2" flood-color="#344130" flood-opacity="0.12"></feDropShadow>
-                </filter>
-                <linearGradient id="document-stack-paper-face" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#fffefb"></stop>
-                  <stop offset="100%" stop-color="#f6f5ef"></stop>
-                </linearGradient>
-              </defs>
-
-              <g class="document-stack-scribble" transform="translate(214 78) rotate(-7)">
-                <ellipse cx="0" cy="0" rx="51" ry="29" transform="rotate(8)"></ellipse>
-                <ellipse cx="4" cy="1" rx="45" ry="34" transform="rotate(38)"></ellipse>
-                <ellipse cx="-2" cy="0" rx="53" ry="24" transform="rotate(-24)"></ellipse>
-                <ellipse cx="1" cy="0" rx="37" ry="27" transform="rotate(72)"></ellipse>
-                <ellipse cx="0" cy="1" rx="24" ry="17" transform="rotate(-8)"></ellipse>
-              </g>
-
-              <ellipse class="document-stack-soft-shadow" cx="250" cy="466" rx="190" ry="24"></ellipse>
-
-              <g class="document-stack-underlay document-stack-base" filter="url(#document-stack-sheet-shadow)">
-                <g transform="translate(90 344) rotate(-13 168 78)">
-                  <rect class="document-stack-sheet document-stack-sheet-faint" width="336" height="156" rx="7"></rect>
-                  <path class="document-stack-fold" d="M304 0v31h31z"></path>
-                </g>
-                <g transform="translate(112 358) rotate(-4 170 78)">
-                  <rect class="document-stack-sheet document-stack-sheet-faint" width="340" height="156" rx="7"></rect>
-                  <path class="document-stack-fold" d="M308 0v31h31z"></path>
-                </g>
-                <g transform="translate(76 374) rotate(9 171 78)">
-                  <rect class="document-stack-sheet document-stack-sheet-faint" width="342" height="156" rx="7"></rect>
-                  <path class="document-stack-fold" d="M310 0v31h31z"></path>
-                </g>
-              </g>
-
-              <g class="document-stack-papers" filter="url(#document-stack-sheet-shadow)">
-                <g transform="translate(92 132) rotate(-5 176 112)">
-                  <rect class="document-stack-sheet document-stack-sheet-mid" width="352" height="224" rx="8"></rect>
-                  <path class="document-stack-fold" d="M318 0v34h34z"></path>
-                  <text x="38" y="75" class="document-stack-title document-stack-title-green">Council Tax Notice</text>
-                  <path class="document-stack-line" d="M38 112h246"></path>
-                  <path class="document-stack-line" d="M38 142h202"></path>
-                </g>
-
-                <g transform="translate(132 190) rotate(2 170 104)">
-                  <rect class="document-stack-sheet" width="340" height="208" rx="8"></rect>
-                  <path class="document-stack-fold" d="M306 0v33h33z"></path>
-                  <text x="39" y="72" class="document-stack-title">School Letter</text>
-                  <path class="document-stack-line" d="M39 108h216"></path>
-                  <path class="document-stack-line" d="M39 137h176"></path>
-                </g>
-
-                <g transform="translate(72 250) rotate(-2 178 102)">
-                  <rect class="document-stack-sheet document-stack-sheet-front" width="356" height="204" rx="8"></rect>
-                  <path class="document-stack-fold" d="M322 0v34h34z"></path>
-                  <text x="39" y="73" class="document-stack-title">Energy Bill</text>
-                  <path class="document-stack-line" d="M39 109h235"></path>
-                  <path class="document-stack-line" d="M39 139h190"></path>
-                  <path class="document-stack-line" d="M39 169h154"></path>
-                </g>
-
-                <g transform="translate(124 302) rotate(7 182 104)">
-                  <rect class="document-stack-sheet document-stack-sheet-main" width="364" height="208" rx="8"></rect>
-                  <path class="document-stack-fold" d="M330 0v34h34z"></path>
-                  <text x="46" y="82" class="document-stack-title">Medical Form</text>
-                  <path class="document-stack-line" d="M46 122h252"></path>
-                  <path class="document-stack-line" d="M46 152h210"></path>
-                  <path class="document-stack-line" d="M46 182h178"></path>
-                </g>
-              </g>
-            </svg>
+            <img class="landing-scribble-img" src="/assets/northcue-scribble.png" alt="">
+            <img class="landing-document-stack-img" src="/assets/northcue-document-stack.png" alt="">
           </div>
 
           <div class="landing-shell">
             <a href="/" class="landing-brand brand-link" data-page-link="landing" aria-label="Go to homepage">
-              <img class="landing-brand-icon" src="/assets/northcue-mark-transparent.png" alt="">
-              <span class="landing-brand-name">Northcue</span>
+              <img class="landing-logo-img" src="/assets/northcue-logo-full-transparent.png" alt="Northcue">
             </a>
-            <h1 id="landing-title">Make difficult documents easier to understand.</h1>
+            <h1 id="landing-title">Your letter,<br>made clearer.</h1>
             <p class="landing-copy">
-              Upload a letter, bill, or notice.
+              Upload a bill, notice, or letter.
               <br>
-              Northcue turns it into simple next steps.
+              We turn it into calm cue cards.
             </p>
             <button type="button" class="landing-start-btn" data-page-link="journey">
               Start your document journey <span class="landing-arrow" aria-hidden="true"></span>
@@ -230,14 +151,8 @@
             </header>
 
             <article class="home-primary-card">
-              <span class="home-icon-bubble home-icon-primary" aria-hidden="true">
-                <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                  <path d="M16 10h15l5 5v23H16z"></path>
-                  <path d="M31 10v6h5"></path>
-                  <path d="M20 22h12"></path>
-                  <path d="M20 28h12"></path>
-                  <path d="M20 34h12"></path>
-                </svg>
+              <span class="home-icon-bubble home-icon-primary northcue-circle-soft-green" aria-hidden="true">
+                <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document.png" alt="">
               </span>
               <div class="home-card-copy">
                 <h2>Understand a document</h2>
@@ -259,14 +174,8 @@
 
             <div class="home-card-grid" aria-label="Home options">
               <button type="button" class="home-tile-card" data-page-link="help">
-                <span class="home-icon-bubble home-icon-lavender" aria-hidden="true">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M24 38V24"></path>
-                    <path d="M24 31c-7 0-11.5-4.5-11.5-11 7 0 11.5 4.5 11.5 11z"></path>
-                    <path d="M24 28c6.5 0 10.5-4.5 10.5-10.5C28 17.5 24 22 24 28z"></path>
-                    <path d="M16 17c2.2-4.2 5.2-6.2 8-6.2s5.8 2 8 6.2"></path>
-                    <path d="M18 38h12"></path>
-                  </svg>
+                <span class="home-icon-bubble home-icon-lavender northcue-circle-soft-purple" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
                 </span>
                 <span class="home-card-copy">
                   <strong>I feel overwhelmed</strong>
@@ -276,13 +185,8 @@
               </button>
 
               <button type="button" class="home-tile-card" data-feedback-open>
-                <span class="home-icon-bubble home-icon-warm" aria-hidden="true">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M12 14h24a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H23l-8 6v-6h-3a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z"></path>
-                    <path d="M18 24h.01"></path>
-                    <path d="M24 24h.01"></path>
-                    <path d="M30 24h.01"></path>
-                  </svg>
+                <span class="home-icon-bubble home-icon-warm northcue-circle-soft-cream" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                 </span>
                 <span class="home-card-copy">
                   <strong>Give feedback</strong>
@@ -292,12 +196,8 @@
               </button>
 
               <article class="home-tile-card home-static-card">
-                <span class="home-icon-bubble" aria-hidden="true">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M8 18h13l4 5h15v16H8z"></path>
-                    <path d="M8 18v-5h13l4 5"></path>
-                    <path d="M13 29h22"></path>
-                  </svg>
+                <span class="home-icon-bubble northcue-circle-white" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/folder.png" alt="">
                 </span>
                 <span class="home-card-copy">
                   <strong>No recent documents yet</strong>
@@ -306,13 +206,8 @@
               </article>
 
               <article class="home-tile-card home-static-card">
-                <span class="home-icon-bubble home-icon-solid" aria-hidden="true">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M24 6.5 37 12.5v10.5c0 8.5-5.3 14.9-13 18.5-7.7-3.6-13-10-13-18.5V12.5z" style="fill: currentColor; stroke: none;"></path>
-                    <rect x="17.8" y="22.8" width="12.4" height="10.8" rx="2.2" style="fill: none; stroke: #fbfcf8;"></rect>
-                    <path d="M20.7 22.8v-3.2a3.3 3.3 0 0 1 6.6 0v3.2" style="stroke: #fbfcf8;"></path>
-                    <path d="M24 27.5v2.4" style="stroke: #fbfcf8;"></path>
-                  </svg>
+                <span class="home-icon-bubble home-icon-solid northcue-circle-soft-green" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
                 <span class="home-card-copy">
                   <strong>Private and secure</strong>
@@ -336,53 +231,32 @@
               </svg>
 
               <div class="process-step process-upload">
-                <span class="process-icon-circle">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M17 31h-2a7 7 0 0 1-.5-13.9A10 10 0 0 1 33 14.7A8.5 8.5 0 0 1 34 31h-3"></path>
-                    <path d="M24 32V20"></path>
-                    <path d="m18.5 25.5 5.5-5.5 5.5 5.5"></path>
-                  </svg>
+                <span class="process-icon-circle northcue-circle-white">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                 </span>
                 <strong>Upload</strong>
                 <small>Add your document</small>
               </div>
 
               <div class="process-step process-understand">
-                <span class="process-icon-circle">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M13 8h17l6 6v23H13z"></path>
-                    <path d="M30 8v7h6"></path>
-                    <path d="M19 22h11"></path>
-                    <path d="M19 28h8"></path>
-                    <circle cx="33" cy="33" r="5.2"></circle>
-                    <path d="m36.8 36.8 4.2 4.2"></path>
-                  </svg>
+                <span class="process-icon-circle northcue-circle-white">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
                 <strong>Understand</strong>
                 <small>We explain it simply</small>
               </div>
 
               <div class="process-step process-check">
-                <span class="process-icon-circle">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M15 8h18v32H15z"></path>
-                    <path d="M19.5 18.5 22 21l5-5.5"></path>
-                    <path d="M30 19h4"></path>
-                    <path d="M19.5 29.5 22 32l5-5.5"></path>
-                    <path d="M30 30h4"></path>
-                  </svg>
+                <span class="process-icon-circle northcue-circle-white">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/safety-check.png" alt="">
                 </span>
                 <strong>Check</strong>
                 <small>We highlight key details</small>
               </div>
 
               <div class="process-step process-act">
-                <span class="process-icon-circle">
-                  <svg class="home-svg-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M16 39V10"></path>
-                    <path d="M16 12h17l-3.5 6 3.5 6H16"></path>
-                    <path d="M12 39h11"></path>
-                  </svg>
+                <span class="process-icon-circle northcue-circle-white">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
                 </span>
                 <strong>Act</strong>
                 <small>You choose what to do next</small>
@@ -399,19 +273,27 @@
           <p class="focus-helper focus-upload-helper" aria-live="polite">Focus mode: choose one file, then press Understand this document.</p>
           <div class="journey-rail" aria-label="Journey steps">
             <button type="button" class="rail-step active" data-rail="upload">
-              <span class="emoji-icon rail-emoji">&#x1f4e4;</span>
+              <span class="emoji-icon rail-emoji journey-icon-slot">
+                <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/upload.png" alt="">
+              </span>
               Upload
             </button>
             <button type="button" class="rail-step" data-rail="understand">
-              <span class="emoji-icon rail-emoji">&#x1f9e0;</span>
+              <span class="emoji-icon rail-emoji journey-icon-slot">
+                <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/document-check.png" alt="">
+              </span>
               Understand
             </button>
             <button type="button" class="rail-step" data-rail="act">
-              <span class="emoji-icon rail-emoji">&#x2705;</span>
+              <span class="emoji-icon rail-emoji journey-icon-slot">
+                <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
+              </span>
               Act
             </button>
             <button type="button" class="rail-step" data-rail="check">
-              <span class="emoji-icon rail-emoji">&#x1f50d;</span>
+              <span class="emoji-icon rail-emoji journey-icon-slot">
+                <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/search.png" alt="">
+              </span>
               Check
             </button>
           </div>
@@ -420,11 +302,7 @@
             <form id="upload-form">
               <label class="dropzone" for="document-file">
                 <span class="upload-hero-icon" aria-hidden="true">
-                  <svg class="upload-line-icon" viewBox="0 0 48 48" focusable="false">
-                    <path d="M17 31h-2a7 7 0 0 1-.5-13.9A10 10 0 0 1 33 14.7A8.5 8.5 0 0 1 34 31h-3"></path>
-                    <path d="M24 32V20"></path>
-                    <path d="m18.5 25.5 5.5-5.5 5.5 5.5"></path>
-                  </svg>
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                 </span>
                 <span class="dropzone-title">Drag and drop or <span>browse</span></span>
                 <span id="file-name" class="dropzone-sub">PDF, JPG, or PNG</span>
@@ -434,35 +312,15 @@
               <div class="document-type-row">
                 <div class="chips" role="radiogroup" aria-label="Document type">
                   <button type="button" class="chip active" data-category="auto" role="radio" aria-checked="true">
-                    <svg class="chip-line-icon smart-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                      <path d="M12 6l1.35 3.6L17 11l-3.65 1.4L12 16l-1.35-3.6L7 11l3.65-1.4L12 6z"></path>
-                      <path d="M5 4h3"></path>
-                      <path d="M4 5v3"></path>
-                      <path d="M19 4h-3"></path>
-                      <path d="M20 5v3"></path>
-                      <path d="M5 20h3"></path>
-                      <path d="M4 19v-3"></path>
-                      <path d="M19 20h-3"></path>
-                      <path d="M20 19v-3"></path>
-                    </svg>
+                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/auto-detect.png" alt="">
                     Auto detect
                   </button>
                   <button type="button" class="chip" data-category="letter" role="radio" aria-checked="false">
-                    <svg class="chip-line-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                      <path d="M6 4h9l3 3v13H6z"></path>
-                      <path d="M15 4v4h3"></path>
-                      <path d="M9 12h6"></path>
-                      <path d="M9 16h6"></path>
-                    </svg>
+                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/letter-document.png" alt="">
                     Letter
                   </button>
                   <button type="button" class="chip" data-category="bill" role="radio" aria-checked="false">
-                    <svg class="chip-line-icon bill-line-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                      <path d="M6.5 3.8h8.1l3.2 3.2v13.2H6.5z"></path>
-                      <path d="M14.6 3.8v3.7h3.2"></path>
-                      <path d="M12 8.8v6.7"></path>
-                      <path d="M14.1 10.2c-.48-.42-1.12-.64-1.92-.64-1.02 0-1.72.42-1.72 1.08 0 1.42 3.46 1 3.46 2.58 0 .82-.74 1.34-1.86 1.34-.78 0-1.5-.22-2.04-.68"></path>
-                    </svg>
+                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/bill-document.png" alt="">
                     Bill
                   </button>
                   <div class="more-type-wrapper">
@@ -488,10 +346,8 @@
               </div>
 
               <div id="status" class="ready-message hidden" role="status" aria-live="polite">
-                <span class="ready-check" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path d="M6 12.5l4 4L18 8"></path>
-                  </svg>
+                <span class="ready-check journey-icon-slot" aria-hidden="true">
+                  <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
                 <span class="ready-copy">
                   <strong data-status-title>Document ready</strong>
@@ -512,12 +368,8 @@
               </div>
 
               <div class="privacy-note" aria-label="Privacy reassurance">
-                <span class="privacy-note-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path d="M12 3l7 3v5c0 4.4-2.8 7.8-7 10-4.2-2.2-7-5.6-7-10V6z"></path>
-                    <path d="M9.5 11.5h5v4h-5z"></path>
-                    <path d="M10.5 11.5V10a1.5 1.5 0 0 1 3 0v1.5"></path>
-                  </svg>
+                <span class="privacy-note-icon journey-icon-slot" aria-hidden="true">
+                  <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
                 <span>
                   <strong>Private and secure</strong>
@@ -597,62 +449,32 @@
                   Copy summary
                 </button>
                 <button type="button" class="action-btn" id="review-check">
-                  <span class="action-icon action-check" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M7 4.5h7l3 3V14"></path>
-                      <path d="M14 4.5v4h4"></path>
-                      <path d="M9.5 11h4.5"></path>
-                      <path d="M9.5 14h2.8"></path>
-                      <circle cx="16.4" cy="16.4" r="2.8"></circle>
-                      <path d="M18.4 18.4l2 2"></path>
-                    </svg>
+                  <span class="action-icon action-check journey-icon-slot" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                   </span>
                   Document check
                 </button>
                 <button type="button" class="action-btn" id="add-calendar">
-                  <span class="action-icon action-calendar" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <rect x="5.5" y="6.5" width="13" height="12" rx="2"></rect>
-                      <path d="M8.5 4.5v4"></path>
-                      <path d="M15.5 4.5v4"></path>
-                      <path d="M5.5 10h13"></path>
-                      <path d="M8.8 13.2h1.5"></path>
-                      <path d="M13.7 13.2h1.5"></path>
-                      <path d="M8.8 16h1.5"></path>
-                      <path d="M13.7 16h1.5"></path>
-                    </svg>
+                  <span class="action-icon action-calendar journey-icon-slot" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/add-deadline.png" alt="">
                   </span>
                   Add to calendar
                 </button>
                 <button type="button" class="action-btn" id="send-reminder">
-                  <span class="action-icon action-reminder" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M8 16.5h8"></path>
-                      <path d="M10 19h4"></path>
-                      <path d="M7.5 16.5l1-1.5v-3.2a3.5 3.5 0 0 1 7 0V15l1 1.5"></path>
-                      <path d="M10.2 6.8a2 2 0 0 1 3.6 0"></path>
-                    </svg>
+                  <span class="action-icon action-reminder journey-icon-slot" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/reminder-bell.png" alt="">
                   </span>
                   Send reminder
                 </button>
                 <button type="button" class="action-btn" id="upload-another">
-                  <span class="action-icon action-upload" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M8.1 16.7H7.3a3.5 3.5 0 0 1-.2-7 4.8 4.8 0 0 1 9.1 1.2 3.1 3.1 0 0 1 .5 5.8h-.9"></path>
-                      <path d="M12 16.7V9.8"></path>
-                      <path d="M9.3 12.5 12 9.8l2.7 2.7"></path>
-                    </svg>
+                  <span class="action-icon action-upload journey-icon-slot" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/upload-add.png" alt="">
                   </span>
                   Upload another document
                 </button>
                 <button type="button" class="action-btn" id="give-feedback">
-                  <span class="action-icon action-feedback" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M6.5 7.4c0-1 .8-1.8 1.8-1.8h7.4c1 0 1.8.8 1.8 1.8v5.3c0 1-.8 1.8-1.8 1.8H11l-3.7 3v-3h-1V7.4z"></path>
-                      <path d="M9.6 10.2h.01"></path>
-                      <path d="M12 10.2h.01"></path>
-                      <path d="M14.4 10.2h.01"></path>
-                    </svg>
+                  <span class="action-icon action-feedback journey-icon-slot" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                   </span>
                   Give feedback
                 </button>
@@ -697,68 +519,42 @@
           <div class="help-cards">
             <button type="button" class="help-card" data-help="overwhelmed">
               <span class="help-icon-bubble lavender" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <path d="M16 7c-5 0-9 3.6-9 8.2 0 4.8 3.8 8.8 8.8 8.8 4.4 0 7.2-2.8 7.2-6.2 0-3.2-2.4-5.4-5.2-5.4-2.6 0-4.5 1.8-4.5 4 0 2 1.5 3.4 3.4 3.4 1.6 0 2.8-1 2.8-2.3"></path>
-                </svg>
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
               </span>
               <strong>I feel overwhelmed</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="fake">
-              <span class="help-icon-bubble sage" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <path d="M16 5.5 25 9v6.2c0 5.5-3.4 9.4-9 11.3-5.6-1.9-9-5.8-9-11.3V9z"></path>
-                  <path d="m12.5 12.5 7 7"></path>
-                  <path d="m19.5 12.5-7 7"></path>
-                </svg>
+              <span class="help-icon-bubble cream" aria-hidden="true">
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/fake-document.png" alt="">
               </span>
               <strong>I think this document is fake</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="deadline">
               <span class="help-icon-bubble blue" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <path d="M8 9.5h16v15H8z"></path>
-                  <path d="M11.5 6.5v5"></path>
-                  <path d="M20.5 6.5v5"></path>
-                  <path d="M8 14h16"></path>
-                  <path d="M12 18h3"></path>
-                  <path d="M17 18h3"></path>
-                  <path d="M12 22h3"></path>
-                </svg>
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/deadline.png" alt="">
               </span>
               <strong>I cannot find the deadline</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="time">
               <span class="help-icon-bubble cream" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <circle cx="16" cy="16" r="10"></circle>
-                  <path d="M16 10.5V16l4 2.5"></path>
-                </svg>
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/time.png" alt="">
               </span>
               <strong>I need more time</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="wrong">
-              <span class="help-icon-bubble sage" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <path d="M10 23h12a4 4 0 0 0 .8-7.9 6.8 6.8 0 0 0-13.1-1.8A5 5 0 0 0 10 23z"></path>
-                  <path d="M16 22V13"></path>
-                  <path d="m12.8 16.2 3.2-3.2 3.2 3.2"></path>
-                </svg>
+              <span class="help-icon-bubble lavender" aria-hidden="true">
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/wrong-file.png" alt="">
               </span>
               <strong>I uploaded the wrong file</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="person">
-              <span class="help-icon-bubble lavender" aria-hidden="true">
-                <svg class="help-line-icon" viewBox="0 0 32 32" focusable="false">
-                  <circle cx="12.5" cy="12" r="3.2"></circle>
-                  <circle cx="20.5" cy="12.5" r="2.8"></circle>
-                  <path d="M7 24c.8-4 3-6 5.5-6s4.7 2 5.5 6"></path>
-                  <path d="M17.5 24c.7-3 2.4-4.6 4.5-4.6 1.8 0 3.2 1.2 4 4.6"></path>
-                </svg>
+              <span class="help-icon-bubble blue" aria-hidden="true">
+                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/need-help.png" alt="">
               </span>
               <strong>I need someone to help me</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
@@ -863,13 +659,8 @@
                 <p>Preview</p>
                 <div class="comfort-preview-card">
                   <span class="comfort-preview-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M7 4h7l3 3v13H7z"></path>
-                      <path d="M14 4v4h4"></path>
-                      <path d="M9.5 11h5"></path>
-                      <path d="M9.5 14h5"></path>
-                    </svg>
-                  </span>
+                  <img class="northcue-icon northcue-preview-icon" src="/icons/northcue/foreground/document.png" alt="">
+                </span>
                   <small>What is this?</small>
                   <strong>This looks like a formal document.</strong>
                   <span>Good start. One step at a time.</span>

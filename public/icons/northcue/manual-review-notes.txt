@@ -1,0 +1,10 @@
+Skipped icons needing manual review
+===================================
+
+- close
+- more
+- saved
+- text-size
+- theme-colour
+
+These five icons are excluded from the final usable icon set. Replace them manually later or recreate them separately before using them in the website.
