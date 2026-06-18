@@ -41,8 +41,8 @@ const ALLOWED_TYPES = new Set([
 const rateLimiter = createRateLimiter({
   windowMs: RATE_LIMIT_WINDOW_MS,
   limitsByRoute: {
-    "/api/simplify": 30,
-    "/api/upload": 30,
+    "/api/simplify": Number(process.env.RATE_LIMIT_SIMPLIFY_MAX || 30),
+    "/api/upload": Number(process.env.RATE_LIMIT_SIMPLIFY_MAX || 30),
     "/api/feedback": 20,
     "/api/analytics": 240,
     default: 60
@@ -51,53 +51,60 @@ const rateLimiter = createRateLimiter({
 
 ensurePrivateFolders();
 
-const server = http.createServer(async (req, res) => {
-  try {
-    const pathOnly = req.url.split("?")[0] || "/";
+function createNorthcueServer() {
+  return http.createServer(async (req, res) => {
+    try {
+      const pathOnly = req.url.split("?")[0] || "/";
 
-    if (req.method === "GET" && pathOnly === "/health") {
-      return sendJson(res, 200, {
-        status: "ok",
-        service: "northcue",
-        timestamp: new Date().toISOString()
+      if (req.method === "GET" && pathOnly === "/health") {
+        return sendJson(res, 200, {
+          status: "ok",
+          service: "northcue",
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      if (req.method === "GET") {
+        return serveStaticFile(req, res);
+      }
+
+      if (req.method === "POST" && (pathOnly === "/api/simplify" || pathOnly === "/api/upload")) {
+        if (isRateLimited(req, res, pathOnly)) return;
+        return await handleSimplify(req, res);
+      }
+
+      if (req.method === "POST" && pathOnly === "/api/feedback") {
+        if (isRateLimited(req, res, pathOnly)) return;
+        return await handleFeedback(req, res);
+      }
+
+      if (req.method === "POST" && pathOnly === "/api/analytics") {
+        if (isRateLimited(req, res, pathOnly)) return;
+        return await handleAnalytics(req, res);
+      }
+
+      sendJson(res, 404, { error: "Not found." });
+    } catch (error) {
+      const response = getPublicErrorResponse(error);
+      console.error("Request failed:", {
+        code: error.code || "server_error",
+        statusCode: response.statusCode
       });
+      sendJson(res, response.statusCode, response.payload);
     }
+  });
+}
 
-    if (req.method === "GET") {
-      return serveStaticFile(req, res);
+if (require.main === module) {
+  const server = createNorthcueServer();
+  server.listen(PORT, () => {
+    if (process.stdout.isTTY) {
+      console.log(`Northcue is running at http://localhost:${PORT}`);
     }
+  });
+}
 
-    if (req.method === "POST" && (pathOnly === "/api/simplify" || pathOnly === "/api/upload")) {
-      if (isRateLimited(req, res, pathOnly)) return;
-      return handleSimplify(req, res);
-    }
-
-    if (req.method === "POST" && pathOnly === "/api/feedback") {
-      if (isRateLimited(req, res, pathOnly)) return;
-      return handleFeedback(req, res);
-    }
-
-    if (req.method === "POST" && pathOnly === "/api/analytics") {
-      if (isRateLimited(req, res, pathOnly)) return;
-      return handleAnalytics(req, res);
-    }
-
-    sendJson(res, 404, { error: "Not found." });
-  } catch (error) {
-    const response = getPublicErrorResponse(error);
-    console.error("Request failed:", {
-      code: error.code || "server_error",
-      statusCode: response.statusCode
-    });
-    sendJson(res, response.statusCode, response.payload);
-  }
-});
-
-server.listen(PORT, () => {
-  if (process.stdout.isTTY) {
-    console.log(`Northcue is running at http://localhost:${PORT}`);
-  }
-});
+module.exports = { createNorthcueServer };
 
 function ensurePrivateFolders() {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -303,18 +310,23 @@ function readRequestBody(req, maxBytes) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let totalBytes = 0;
+    let tooLarge = false;
 
     req.on("data", (chunk) => {
       totalBytes += chunk.length;
       if (totalBytes > maxBytes) {
-        reject(createHttpError("Request body is too large.", 413, "payload_too_large"));
-        req.destroy();
+        if (!tooLarge) {
+          tooLarge = true;
+          reject(createHttpError("Request body is too large.", 413, "payload_too_large"));
+        }
+        // Drain remaining bytes without storing them so the socket stays open
+        // long enough for the server to write the 413 response before closing.
         return;
       }
       chunks.push(chunk);
     });
 
-    req.on("end", () => resolve(Buffer.concat(chunks)));
+    req.on("end", () => { if (!tooLarge) resolve(Buffer.concat(chunks)); });
     req.on("error", reject);
   });
 }

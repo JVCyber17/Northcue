@@ -125,6 +125,23 @@ The response parsing in `extractResponseText` handles both `output_text` (top-le
 
 ---
 
+## Upload / Request Handling
+
+**Missing `await` on handler calls was causing unhandled rejections — FIXED.**
+`server.js` called `handleSimplify`, `handleFeedback`, and `handleAnalytics` without `await` inside the outer `async (req, res)` request handler. Any async error thrown inside those functions (including the 413 from `readRequestBody`, any Supabase exception, or an unexpected PDF library error) escaped the outer `try/catch` and became an unhandled rejection. The client received no response and had to wait until the network timed out. Fixed by adding `await` to all three call sites. Verified: a 16 MB upload now receives a clean 413 response instead of an ECONNRESET.
+
+**`req.destroy()` in `readRequestBody` prevented the 413 response from being sent — FIXED.**
+The original code called `req.destroy()` immediately after rejecting the promise when the body exceeded `MAX_UPLOAD_BYTES`. Destroying the socket before the server could call `sendJson(res, 413, ...)` caused the client to see an ECONNRESET rather than a clean 413 message. Fixed by replacing `req.destroy()` with a `tooLarge` flag: subsequent data chunks are discarded (not stored) so memory is still bounded, but the socket stays open long enough for the 413 response to be written and flushed. The server still emits an internal `"Request failed: payload_too_large"` console log — this is correct; it's never shown to users.
+
+**`RATE_LIMIT_SIMPLIFY_MAX` env var overrides the `/api/simplify` rate limit for testing.**
+The production limit is hardcoded to 30 requests per window. Set `RATE_LIMIT_SIMPLIFY_MAX=2` before starting the server (or before `require`-ing `server.js`) to trigger rate limiting with just 3 requests. The integration test file (`tests/uploadErrors.test.js`) sets this at the top of the file, which works because Node caches modules per process.
+
+**Renamed non-PDF files (e.g. exe→pdf) pass the MIME check but fail gracefully at extraction.**
+The server validates content-type from the multipart part headers. A file renamed to `.pdf` with `content-type: application/pdf` in the request passes `ALLOWED_TYPES`. It is written to disk briefly, then `extractTextFromPdf` fails to parse it (pdfjs-dist throws, caught, returns empty text), `hasEnoughText` returns false, and the response is `{ success: false, error: "We could not read enough text..." }`. The temporary file is cleaned up in the `finally` block. This is safe: the file is never executed, and cleanup is guaranteed.
+
+**Document session tracking (Supabase) is fully fault-tolerant.**
+`writeDocumentSession` catches both `getSupabaseAdminClient()` returning null (when env vars are missing) and any Supabase query errors. In either case it returns `null` and logs a warning. The main processing pipeline continues unaffected. Integration tests run without Supabase configured.
+
 ## Miscellaneous
 
 **`detectDocumentCategory` runs BEFORE trust signals are fully resolved.**
