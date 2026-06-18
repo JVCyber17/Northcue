@@ -1,6 +1,8 @@
 const ALLOWED_DOCUMENT_TYPES = new Set([
   "council_tax_notice",
   "energy_bill",
+  "bill_or_payment_notice",
+  "appointment_letter",
   "unknown",
   "unsupported"
 ]);

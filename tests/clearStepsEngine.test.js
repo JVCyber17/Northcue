@@ -26,7 +26,7 @@ function assertStructuredResult(output) {
   assert.equal(structured.session_id, output.job_id);
   assert.ok(Object.prototype.hasOwnProperty.call(structured, "anonymous_session_id"));
   assert.ok(
-    ["council_tax_notice", "energy_bill", "unknown", "unsupported"].includes(structured.document_type),
+    ["council_tax_notice", "energy_bill", "bill_or_payment_notice", "appointment_letter", "unknown", "unsupported"].includes(structured.document_type),
     "document_type uses an allowed value"
   );
   assert.ok(["high", "medium", "low", "unknown"].includes(structured.document_type_confidence));

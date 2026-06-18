@@ -510,10 +510,8 @@ const TESTS = [
     assertions: [
       { field: "trust.document_category", expect: "bill_or_payment" },
       { field: "trust.severity_level",    expect: "urgent" },
-      // Amount is NOT in main cards — BT routes to readable-unsupported path which
-      // does not surface specific extracted values. This is expected behaviour.
-      // See known-gotchas.md: "readable-unsupported path bypasses extractActions/inferSummary"
-      { field: "trust.processing_mode",   expect: "normal",           note: "BT routes to readable-unsupported layout inside normal mode" }
+      { field: "amounts_include",         expect: "£124.99" },
+      { field: "trust.processing_mode",   expect: "normal" }
     ]
   },
   {
@@ -533,13 +531,10 @@ const TESTS = [
     text: DOC_7_BARCLAYS_ARREARS,
     category: "auto",
     assertions: [
-      // Routes to readable-unsupported path. detectDocumentCategory returns bill_or_payment
-      // (payment language), but inferReadableTopic correctly says "banking or a loan".
-      // These two functions run independently — see known-gotchas.md.
-      { field: "trust.document_category", expect: "bill_or_payment",  note: "KNOWN: detectDocumentCategory returns bill_or_payment; unsupported path card correctly describes it as a loan document" },
+      { field: "trust.document_category", expect: "bill_or_payment" },
       { field: "trust.severity_level",    expect: "high" },
-      // Amount is NOT in main cards on the unsupported path — expected behaviour
-      { field: "deadline_card_contains",  expect: "24 June 2026",     note: "unsupported path lists all visible dates; 24 June should appear among them" }
+      { field: "amounts_include",         expect: "£320.00" },
+      { field: "deadline_card_contains",  expect: "24 June 2026",     note: "extractDeadline picks the action deadline via 'to pay' context, not the letter date or overdue date" }
     ]
   },
   {

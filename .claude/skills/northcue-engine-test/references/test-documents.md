@@ -67,15 +67,18 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 
 ### DOC_5 — British Telecom — Final Notice, Outstanding Balance
 
-**What it tests:** Single unconditional obligation ("You must pay immediately") with an already-suspended account. Tests urgent severity on a bill document and single-obligation extraction.
+**What it tests:** Single unconditional obligation ("You must pay immediately") with an already-suspended account. Tests urgent severity on a bill document and single-obligation extraction. Now on the **full extraction path** (promoted from readable-unsupported in the whitelist expansion session).
 
 **Known-correct assertions:**
 - `document_category` = `bill_or_payment`
+- `document_type` = `bill_or_payment_notice`
 - `severity_level` = `urgent`
 - Amount extracted: `£124.99`
-- Action card: `steps` should include the obligation sentence
+- Deadline: `02 June 2026` (the letter date — "pay immediately" has no specific future due date, so the letter date is used as the deadline)
+- What Is This summary: `"British Telecom appears to be asking you to pay £124.99 by 02 June 2026."`
+- Action card: `steps` includes "You must pay immediately."
 
-**Watch for:** The instruction "You must pay immediately" is the obligation. Unlike DOC_2 (informational), this should be urgent because the account is already suspended.
+**Watch for:** The instruction "You must pay immediately" is the obligation. Unlike DOC_2 (informational), this should be urgent because the account is already suspended. Deadline is the letter date, not a future date — this is correct since the document says "immediately" rather than naming a specific future date.
 
 ---
 
@@ -93,15 +96,18 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 
 ### DOC_7 — Barclays Bank PLC Personal Lending — Notice of Arrears
 
-**What it tests:** Mixed hedged/assertive risk language ("will result in action being taken against you, which *may* include"). Tests that `normalizeRiskSentence` preserves the inner hedge while still communicating the assertive outer clause.
+**What it tests:** Mixed hedged/assertive risk language ("will result in action being taken against you, which *may* include"). Tests that `normalizeRiskSentence` preserves the inner hedge while still communicating the assertive outer clause. Now on the **full extraction path** (promoted from readable-unsupported in the whitelist expansion session). The compliance deadline required a `deadlineContext` fix — see known-gotchas.
 
 **Known-correct assertions:**
-- `document_category` = `bank_or_loan`
+- `document_category` = `bill_or_payment` (the Barclays letter asks for payment of an outstanding amount — `detectDocumentCategory` correctly categorises it this way; it was previously mis-asserted as `bank_or_loan` in old test script versions)
+- `document_type` = `bill_or_payment_notice`
 - `severity_level` = `high`
 - Amount extracted: `£320.00`
-- Deadline extracted: `24 June 2026`
+- Deadline extracted: `24 June 2026` (the compliance deadline from "Failure to pay the outstanding amount by 24 June 2026", picked via the `\bto\s+pay\b` deadlineContext addition)
+- What Is This summary: `"Barclays Bank PLC appears to be asking you to pay £320.00 by 24 June 2026."`
+- Risk card: full consequence sentence preserved including the "which may include" hedge
 
-**Watch for:** Risk card should not drop the "which may include" hedge, but also should not soften "will result in action" to nothing. Both the consequence and its hedged detail should be visible.
+**Watch for:** Risk card should not drop the "which may include" hedge, but also should not soften "will result in action" to nothing. The overdue date "01 June 2026" ("Payment was due on 01 June 2026") must NOT be extracted as the deadline — "was due on" doesn't match deadlineContext, and the backward-looking exclusion pass rejects it.
 
 ---
 
@@ -133,12 +139,17 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 
 ### DOC_10 — NHS Hallamshire Hospital — Outpatient Appointment
 
-**What it tests:** Appointment document type. Confirms `appointment` category detection and that the engine surfaces the appointment date correctly, with appropriate medium severity.
+**What it tests:** Appointment document type. Confirms `appointment` category detection, that `extractAppointmentDate` correctly identifies the appointment block date (not the letter header date), and that appointment-specific card framing is applied. Now on the **full extraction path** with a dedicated appointment whitelist guard.
 
 **Known-correct assertions:**
 - `document_category` = `appointment`
+- `document_type` = `appointment_letter`
 - `severity_level` = `medium`
-- Deadline extracted: contains `July 2026` or `01 July 2026`
+- `when_is_it_due` card: `"Your appointment is on 01 July 2026."` (appointment block date, NOT the letter date of 05 June 2026)
+- `what_is_this` summary: `"This appears to be an appointment from Hallamshire Hospital Outpatients on 01 July 2026."`
+- Action card: steps include `"Attend the appointment or meeting."`
+
+**Watch for:** The letter header date is 05 June 2026 (when the letter was written). The appointment is 01 July 2026. If the deadline card shows June instead of July, `extractAppointmentDate` has regressed and is falling through to `extractDeadline` which picks the header date. The whitelist condition requires confirmed appointment language — "your appointment is booked" and `Consultant:` / `Department:` fields in this fixture satisfy it. See known-gotchas for the appointment whitelist guard and `extractAppointmentDate` details.
 
 ---
 

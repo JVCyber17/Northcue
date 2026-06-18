@@ -272,7 +272,9 @@ function runExtractorLayer({ text, trust }) {
     };
   }
 
-  const deadline = extractDeadline(text);
+  const deadline = trust.document_category === "appointment"
+    ? (extractAppointmentDate(text) || extractDeadline(text))
+    : extractDeadline(text);
   const summary = inferSummary(text, trust);
 
   return {
@@ -326,7 +328,9 @@ function runRendererLayer({ trust, extraction }) {
       id: "when_is_it_due",
       title: "When is it due?",
       short_answer: extraction.deadline
-        ? cleanLine(`Due by ${extraction.deadline}.`)
+        ? trust.document_category === "appointment"
+          ? cleanLine(`Your appointment is on ${extraction.deadline}.`)
+          : cleanLine(`Due by ${extraction.deadline}.`)
         : trust.garbled_by_ocr
           ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
           : "No deadline clearly stated.",
@@ -654,6 +658,25 @@ function isFullySupportedDocument(text, trust) {
   }
   // Government letters have specific inferSummary templates and safe obligation detection
   if (trust.document_category === "government") return true;
+
+  // All bill/payment/arrears/final-notice documents — extractActions and inferSummary have
+  // dedicated bill_or_payment templates that produce accurate summaries and action lines.
+  if (trust.document_category === "bill_or_payment") return true;
+
+  // Appointment letters — but only when confirmed by appointment-specific language or
+  // structured appointment fields. "consultation" in the category check also matches
+  // planning consultations and other non-appointment documents, so the broad category
+  // alone is not enough.
+  if (trust.document_category === "appointment" && (
+    lower.includes("outpatient appointment") ||
+    lower.includes("your appointment") ||
+    lower.includes("appointment has been") ||
+    lower.includes("appointment is booked") ||
+    /\b(?:department|consultant)\s*:/i.test(lower)
+  )) {
+    return true;
+  }
+
   return false;
 }
 
@@ -863,6 +886,9 @@ function detectStructuredDocumentType({ text, trust }) {
     return "energy_bill";
   }
 
+  if (trust.document_category === "bill_or_payment") return "bill_or_payment_notice";
+  if (trust.document_category === "appointment") return "appointment_letter";
+
   return "unknown";
 }
 
@@ -870,6 +896,8 @@ function labelForStructuredDocumentType(documentType) {
   const labels = {
     council_tax_notice: "Council tax notice",
     energy_bill: "Energy bill",
+    bill_or_payment_notice: "Bill or payment notice",
+    appointment_letter: "Appointment letter",
     unknown: "Unknown document",
     unsupported: "Unsupported document"
   };
@@ -1323,7 +1351,9 @@ function inferSummary(text, trust) {
   const cat = trust.document_category;
   const sender = extractSummaryFirstLineSender(text) || trust.sender_guess;
   const amount = bestMoneyAmount(extractMoneyAmounts(text));
-  const date = extractDeadline(text);
+  const date = cat === "appointment"
+    ? (extractAppointmentDate(text) || extractDeadline(text))
+    : extractDeadline(text);
 
   if (cat === "bill_or_payment") {
     if (sender && amount && date) return `${sender} appears to be asking you to pay ${amount} by ${date}.`;
@@ -1343,6 +1373,13 @@ function inferSummary(text, trust) {
     if (amount && date)           return `This appears to be an official notice. An amount of ${amount} may be mentioned, dated ${date}.`;
     if (amount)                   return `This appears to be an official notice mentioning ${amount}.`;
     return "This is from a government or council source.";
+  }
+
+  if (cat === "appointment") {
+    if (sender && date) return `This appears to be an appointment from ${sender} on ${date}.`;
+    if (sender)         return `This appears to be an appointment from ${sender}.`;
+    if (date)           return `This appears to be an appointment on ${date}.`;
+    return "This is about an appointment.";
   }
 
   // Generic composition for all other categories when facts are available
@@ -1502,7 +1539,9 @@ function extractDeadline(text) {
   const value = String(text || "");
 
   // Keywords that, when appearing within 35 chars before a date, mark it as a deadline.
-  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
+  // "to pay" catches "Failure to pay the outstanding amount by 24 June 2026" style clauses
+  // where "to pay" lands in the window but "pay by" (adjacent) does not.
+  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
 
   const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
   const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
@@ -1541,6 +1580,28 @@ function extractDeadline(text) {
   const firstLong = value.match(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
   if (firstLong) return firstLong[0];
 
+  return null;
+}
+
+// Finds the appointment date in a structured appointment block (lines near "Department:",
+// "Consultant:", "Location:", "Time:", "Clinic:"). This separates the letter date from the
+// actual appointment date when both appear in the document (e.g. "Date: 05 June 2026"
+// header vs "Date: Tuesday 01 July 2026" inside the appointment details block).
+function extractAppointmentDate(text) {
+  const value = String(text || "");
+  const lines = value.split(/\r?\n/);
+  const appointmentFieldRe = /\b(?:department|consultant|location|clinic|time)\b/i;
+
+  for (let i = 0; i < lines.length; i++) {
+    const nearby = lines.slice(Math.max(0, i - 3), Math.min(lines.length, i + 4)).join(" ");
+    if (!appointmentFieldRe.test(nearby)) continue;
+
+    const longMatch = lines[i].match(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
+    if (longMatch) return longMatch[0];
+
+    const numMatch = lines[i].match(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/);
+    if (numMatch && isPlausibleNumericDate(numMatch[0])) return numMatch[0];
+  }
   return null;
 }
 
