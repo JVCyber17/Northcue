@@ -5,13 +5,14 @@
   "main": "server.js",
   "type": "commonjs",
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.4"
+    "@supabase/supabase-js": "^2.45.4",
+    "pdfjs-dist": "^6.0.227"
   },
   "scripts": {
     "start": "node server.js",
     "test": "node --test \"tests/*.test.js\""
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.13.0"
   }
 }

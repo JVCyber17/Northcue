@@ -6,7 +6,9 @@ const { cleanupTemporaryFile } = require("../utils/temporaryStorageCleanup");
 const {
   extractTextFromInput,
   extractTextFromImage,
-  isImageMimeType
+  extractTextFromPdf,
+  isImageMimeType,
+  rateInputQuality
 } = require("../services/textExtraction");
 const { runClearStepsEngine } = require("../services/clearStepsEngine");
 const {
@@ -236,6 +238,34 @@ async function extractUploadedFileText({
       success: true,
       extractedText: ocrResult.extracted_text,
       inputQuality: normaliseAppInputQuality(ocrResult.input_quality)
+    };
+  }
+
+  if (mimeType === "application/pdf") {
+    const pdfResult = await extractTextFromPdf({ filePath });
+
+    if (pdfResult.pageCount > 5) {
+      return {
+        success: false,
+        code: "pdf_too_many_pages",
+        error: "Please upload a PDF with 5 pages or fewer for now."
+      };
+    }
+
+    if (!hasEnoughText(pdfResult.text)) {
+      return {
+        success: false,
+        code: "pdf_no_text_layer",
+        error:
+          "This PDF appears to be a scanned document rather than a text document. " +
+          "For best results, please upload a clear photo of the document instead."
+      };
+    }
+
+    return {
+      success: true,
+      extractedText: pdfResult.text,
+      inputQuality: rateInputQuality(pdfResult.text)
     };
   }
 

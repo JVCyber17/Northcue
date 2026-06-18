@@ -268,6 +268,37 @@ test("readable unsupported official document gives cautious useful cards", () =>
   assert.match(allCardText, /check the original/i);
 });
 
+test("genuine insurance document is still detected as insurance", () => {
+  const output = runEngine([
+    "Home Insurance Policy",
+    "Policy number: HI-2024-88312",
+    "Your policy covers buildings and contents.",
+    "To make a claim, call 0800 111 2222 or visit your insurer's website.",
+    "This insurance policy is underwritten by SafeHome Insurance Ltd."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+  const allText = output.cards.map((c) => `${c.title} ${c.short_answer}`).join(" ");
+  assert.match(allText, /insurance/i, "insurance topic appears in card output");
+  assert.equal(output.trust.document_category, "insurance");
+});
+
+test("benefits letter using 'claim' is not misidentified as insurance", () => {
+  const output = runEngine([
+    "Department for Work and Pensions",
+    "Personal Independence Payment",
+    "Your PIP claim reference: PIP/2024/00441",
+    "We have received your claim for Personal Independence Payment.",
+    "We will contact you about your claim within 12 weeks.",
+    "If your circumstances change, you must tell us straightaway.",
+    "You can find more information about your benefit entitlement on gov.uk."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+  assert.notEqual(output.trust.document_category, "insurance",
+    "benefits document with 'claim' must not be categorised as insurance");
+});
+
 test("supported council tax notice does not use unsupported reading aid", () => {
   const output = runEngine([
     "Council Tax Notice",
@@ -278,4 +309,99 @@ test("supported council tax notice does not use unsupported reading aid", () => 
   assertBaseOutput(output);
   assert.equal(output.structured_result.document_type, "council_tax_notice");
   assert.equal(output.cards[1].title, "What matters most?");
+});
+
+// ── Multi-obligation detection ────────────────────────────────────────────────
+
+test("housing benefit letter with two distinct obligations surfaces both in action steps", () => {
+  const output = runEngine([
+    "Department for Work and Pensions",
+    "Housing Benefit Award Notice",
+    "Reference: HB/2026/00882",
+    "",
+    "Dear Ms Okafor,",
+    "",
+    "We have assessed your Housing Benefit claim and confirmed your award.",
+    "Your benefit has been calculated based on the information you provided.",
+    "",
+    "You must tell us about any changes to your income or savings immediately.",
+    "If your income changes and you do not tell us, you may be overpaid.",
+    "",
+    "You must also tell us if you move to a different address.",
+    "Failure to do so may result in your benefit being stopped.",
+    "",
+    "If you have any questions, please call 0800 123 4567."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+
+  const actionCard = output.cards.find((c) => c.id === "what_do_i_need_to_do");
+  assert.ok(Array.isArray(actionCard.steps), "steps is an array");
+  assert.ok(
+    actionCard.steps.length >= 2,
+    `expected at least 2 obligation steps, got ${actionCard.steps.length}: ${JSON.stringify(actionCard.steps)}`
+  );
+
+  const stepsText = actionCard.steps.join(" ").toLowerCase();
+  assert.ok(
+    stepsText.includes("income") || stepsText.includes("savings"),
+    "first obligation (income/savings change) appears in steps"
+  );
+  assert.ok(
+    stepsText.includes("address") || stepsText.includes("move"),
+    "second obligation (address change) appears in steps"
+  );
+});
+
+test("document with one obligation does not produce false duplicates", () => {
+  const output = runEngine([
+    "Elmwood Housing Association",
+    "Rent Review Notice",
+    "Reference: RR/2026/04412",
+    "",
+    "Dear Tenant,",
+    "",
+    "Your rent will increase to £750 per month from 1 August 2026.",
+    "You must contact us within 14 days if you dispute this amount.",
+    "",
+    "If you take no action, the new rent will apply automatically.",
+    "Please keep this letter for your records."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+
+  const actionCard = output.cards.find((c) => c.id === "what_do_i_need_to_do");
+  assert.ok(Array.isArray(actionCard.steps), "steps is an array");
+
+  const obligationSteps = actionCard.steps.filter((s) =>
+    /\b(must|are required to|need to)\b/i.test(s)
+  );
+  assert.ok(
+    obligationSteps.length <= 1,
+    `single-obligation document must not produce duplicates — got ${obligationSteps.length}: ${JSON.stringify(obligationSteps)}`
+  );
+});
+
+test("zero-obligation informational document returns no action needed", () => {
+  const output = runEngine([
+    "Northfield Council",
+    "Confirmation of Direct Debit",
+    "Reference: DD/2026/77091",
+    "",
+    "Dear Resident,",
+    "",
+    "This letter confirms that your direct debit for council tax has been set up.",
+    "Payments of £95.00 will be collected on the 1st of each month.",
+    "No further action is needed on your part.",
+    "Please keep this letter for your records."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+
+  const actionCard = output.cards.find((c) => c.id === "what_do_i_need_to_do");
+  assert.equal(
+    actionCard.short_answer,
+    "No action needed right now.",
+    "zero-obligation document short_answer must be 'No action needed right now.'"
+  );
 });

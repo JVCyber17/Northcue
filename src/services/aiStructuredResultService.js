@@ -13,6 +13,25 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
   const startedAt = Date.now();
   const model = DEFAULT_MODEL;
 
+  const inputQuality = output.trust?.input_quality || "unknown";
+  const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);
+
+  // Hard gate: skip the AI pass entirely on low-quality input. Prompt-based
+  // suppression was tested and confirmed unreliable with gpt-4.1-mini — the
+  // model still restated suppressed values and upgraded its own confidence.
+  // The rules engine already expresses the right uncertainty in these cases.
+  if (inputQuality === "borderline" || inputQuality === "poor" || garbledByOcr) {
+    attachAiMetadata(output, {
+      ai_used: false,
+      ai_status: "skipped",
+      ai_provider: "openai",
+      ai_model: model,
+      ai_duration_ms: 0,
+      ai_error_code: "low_quality_input"
+    });
+    return rulesRun;
+  }
+
   if (!process.env.OPENAI_API_KEY) {
     attachAiMetadata(output, {
       ai_used: false,
@@ -29,11 +48,14 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
     const candidate = await requestStructuredResultFromOpenAi({
       extractedText,
       fallbackStructuredResult,
-      model
+      model,
+      inputQuality,
+      garbledByOcr
     });
 
     const sanitized = sanitizeStructuredResult(candidate, fallbackStructuredResult);
-    const validation = validateStructuredResult(sanitized, fallbackStructuredResult);
+    const stripped = stripAiViolations(sanitized);
+    const validation = validateStructuredResult(stripped, fallbackStructuredResult);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
       attachAiMetadata(output, {
@@ -55,10 +77,10 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
       return rulesRun;
     }
 
-    output.structured_result = sanitized;
-    output.display_text = sanitized.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
-    output.tts_script = sanitized.cards.map((card) => card.read_aloud_text).join("\n");
-    rulesRun.structured_output.structured_result = sanitized;
+    output.structured_result = stripped;
+    output.display_text = stripped.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
+    output.tts_script = stripped.cards.map((card) => card.read_aloud_text).join("\n");
+    rulesRun.structured_output.structured_result = stripped;
     rulesRun.structured_output.display_text = output.display_text;
     rulesRun.structured_output.tts_script = output.tts_script;
 
@@ -97,7 +119,7 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
   }
 }
 
-async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model }) {
+async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr }) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
 
@@ -117,7 +139,7 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
           },
           {
             role: "user",
-            content: buildUserPrompt({ extractedText, fallbackStructuredResult })
+            content: buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality, garbledByOcr })
           }
         ],
         temperature: 0.2,
@@ -162,17 +184,22 @@ function buildSystemPrompt() {
     "Do not give legal, medical, financial, or authenticity advice.",
     "Do not tell the user to pay, click links, call document numbers, or reply to a sender.",
     "Do not guess missing facts. If unclear, say Not clearly stated.",
+    "If the user message shows input_quality as borderline or poor, or garbled_by_ocr as true: do not state specific amounts, dates, reference numbers, or other precise figures with confidence. The document text may contain OCR errors where characters were misread (for example a digit read as a letter, or a letter read as a digit). Do not attempt to correct these errors or present a corrected figure — that would be guessing. Instead match the same uncertainty level the fallback structured_result already expresses: say the figure could not be reliably read rather than restating or reinterpreting it.",
     "Keep the same JSON shape as the provided fallback structured_result.",
     "Return exactly six cards in the same order and with the same card_id values.",
     "Set all privacy flags to false."
   ].join("\n");
 }
 
-function buildUserPrompt({ extractedText, fallbackStructuredResult }) {
+function buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality, garbledByOcr }) {
   return [
     "Improve this Northcue structured_result using only the document text below.",
     "Keep session_id and anonymous_session_id exactly the same as the fallback.",
     "Keep all field names exactly the same.",
+    "",
+    "Document quality (from the rules engine):",
+    `input_quality: ${inputQuality}`,
+    `garbled_by_ocr: ${garbledByOcr}`,
     "",
     "Fallback structured_result:",
     JSON.stringify(fallbackStructuredResult),
@@ -250,10 +277,66 @@ function logAiDebug(event, metadata) {
   }));
 }
 
+// ─── AI output hard-rule violation stripper ───────────────────────────────────
+// gpt-4.1-mini does not reliably honour prompt-level "do not" instructions
+// (confirmed by live testing on clean documents). These patterns apply
+// code-level enforcement after every AI response, regardless of quality.
+
+// Non-global for .test() — global regex .test() is stateful via lastIndex.
+const _AI_PHONE_RE = /\b0\d{3,4}[\s-]?\d{3,4}[\s-]?\d{3,4}\b/;
+const _AI_PHONE_G_RE = /\b0\d{3,4}[\s-]?\d{3,4}[\s-]?\d{3,4}\b/g;
+// Debt org names with optional domain suffix — e.g. "stepchange.org" must be consumed whole,
+// otherwise the replacement leaves a dangling ".org" artifact.
+const _AI_DEBT_ORG_RE = /\b(?:stepchange(?:\.org)?|step\s+change|citizens\s+advice(?:\.org(?:\.uk)?)?|national\s+debtline(?:\.org(?:\.uk)?)?|national\s+debt\s+line|money\s*helper(?:\.gov\.uk)?|moneyhelper(?:\.gov\.uk)?|payplan(?:\.co\.uk)?|christians\s+against\s+poverty|debt\s+advice\s+foundation(?:\.org(?:\.uk)?)?)\b/gi;
+const _AI_CALL_CONTEXT_RE = /\b(?:call|phone|ring|contact|telephone|speak\s+to|reach)\b/i;
+const _AI_PAY_PATTERNS = [
+  /^(?:please\s+)?pay\s+(?:[£$€]\S+|\d+|the\s+(?:amount|balance|outstanding|overdue)|immediately|now|by\s)/i,
+  /\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to)\s+pay\b/i,
+  /^(?:please\s+)?make\s+(?:a\s+)?payment\s+(?:of|to|by|now|immediately)/i,
+  /\b(?:then|and)\s+pay\s+(?:by\b|[£$€]|\d)/i,
+  /\bmust\s+pay\b/i
+];
+
+function stripAiViolations(result) {
+  if (!result || !Array.isArray(result.cards)) return result;
+  const out = JSON.parse(JSON.stringify(result));
+  for (const card of out.cards) {
+    for (const field of ["simple_explanation", "action_needed", "read_aloud_text"]) {
+      if (typeof card[field] === "string") card[field] = sanitizeAiTextField(card[field]);
+    }
+    if (Array.isArray(card.key_points)) {
+      card.key_points = card.key_points.map(s => typeof s === "string" ? sanitizeAiTextField(s) : s);
+    }
+  }
+  return out;
+}
+
+function sanitizeAiTextField(text) {
+  if (typeof text !== "string") return text;
+  return text
+    .split(/(?<=[.!?])\s+/)
+    .map(sentence => {
+      const trimmed = sentence.trim();
+      if (!trimmed) return trimmed;
+      if (_AI_PAY_PATTERNS.some(re => re.test(trimmed))) {
+        return "Check the original document for the payment amount and due date.";
+      }
+      if (_AI_PHONE_RE.test(trimmed) && _AI_CALL_CONTEXT_RE.test(trimmed)) {
+        return "Use contact details from the original document.";
+      }
+      return trimmed
+        .replace(_AI_DEBT_ORG_RE, "a trusted advice service")
+        .replace(_AI_PHONE_G_RE, "the number in the original document");
+    })
+    .join(" ");
+}
+
 module.exports = {
   applyAiStructuredResult,
   requestStructuredResultFromOpenAi,
   extractResponseText,
   normalizeAiErrorCode,
-  summarizeValidationErrors
+  summarizeValidationErrors,
+  stripAiViolations,
+  sanitizeAiTextField
 };

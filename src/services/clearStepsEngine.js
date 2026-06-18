@@ -93,6 +93,11 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
   const selectedCategory = String(fileMeta.selectedCategory || "auto").toLowerCase();
 
   const inputQuality = detectInputQuality(normalizedText);
+  // Garbling is detected when the text is long enough to otherwise be "good" but
+  // estimateOcrGarbling found digit-in-word or digit-before-uppercase patterns.
+  // Carried separately so the extractor can suppress specific values rather than
+  // just switching mode — a category is still useful, wrong amounts are not.
+  const garbledByOcr = estimateOcrGarbling(normalizedText) >= 0.06 && normalizedText.trim().length >= 160;
   const isTemplate = looksTemplate(normalizedText);
   const isOutgoing = looksOutgoing(lower);
   const isUnsupported = looksUnsupported(fileMeta.mimeType, normalizedText);
@@ -177,6 +182,7 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     scam_signals: scamSignals,
     severity_signals: severitySignals,
     input_quality: inputQuality,
+    garbled_by_ocr: garbledByOcr,
     sender_guess: guessSender(normalizedText),
     is_template: isTemplate,
     is_outgoing: isOutgoing,
@@ -234,24 +240,49 @@ function runExtractorLayer({ text, trust }) {
     };
   }
 
-  const deadline = extractDeadline(text);
   if (shouldUseReadableUnsupportedAid(text, trust)) {
     return buildReadableUnsupportedExtraction(text, trust);
   }
 
   const actions = extractActions(text, trust);
-  const summary = inferSummary(text, trust);
   const risk = inferRisk(text, trust);
   const note = inferContextNote(text, trust);
 
+  // When OCR garbling was the reason for the quality downgrade, amounts and dates
+  // extracted from the text are likely wrong (corrupted characters). Return a
+  // category-level summary without specific figures and null the deadline so the
+  // renderer can show a "check the original" message instead of a wrong date.
+  if (trust.garbled_by_ocr) {
+    return {
+      summary: inferGarbledSummary(text, trust),
+      most_important_point: inferMostImportantPoint(trust, actions),
+      actions,
+      deadline: null,
+      risk,
+      helpful_note: note,
+      money_amounts: extractMoneyAmounts(text),
+      reference_numbers: extractReferenceNumbers(text),
+      contact_details: extractContactDetails(text, trust),
+      appeal_rights: [],
+      support_options: [],
+      confidence: "low",
+      needs_human_review: true,
+      review_reason: "OCR garbling detected — amounts and dates may be unreliable.",
+      evidence_spans: []
+    };
+  }
+
+  const deadline = extractDeadline(text);
+  const summary = inferSummary(text, trust);
+
   return {
     summary,
-    most_important_point: inferMostImportantPoint(trust),
+    most_important_point: inferMostImportantPoint(trust, actions),
     actions,
     deadline,
     risk,
     helpful_note: note,
-    money_amounts: [],
+    money_amounts: extractMoneyAmounts(text),
     reference_numbers: extractReferenceNumbers(text),
     contact_details: extractContactDetails(text, trust),
     appeal_rights: [],
@@ -281,7 +312,7 @@ function runRendererLayer({ trust, extraction }) {
     {
       id: "what_matters_most",
       title: "What matters most?",
-      short_answer: cleanLine(inferMostImportantPoint(trust)),
+      short_answer: cleanLine(extraction.most_important_point),
       status: cardStatus
     },
     {
@@ -294,7 +325,11 @@ function runRendererLayer({ trust, extraction }) {
     {
       id: "when_is_it_due",
       title: "When is it due?",
-      short_answer: extraction.deadline ? cleanLine(`Due by ${extraction.deadline}.`) : "No deadline clearly stated.",
+      short_answer: extraction.deadline
+        ? cleanLine(`Due by ${extraction.deadline}.`)
+        : trust.garbled_by_ocr
+          ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
+          : "No deadline clearly stated.",
       date: extraction.deadline || null,
       status: cardStatus
     },
@@ -419,7 +454,7 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
   const documentTypeConfidence = pickStructuredDocumentTypeConfidence({ documentType, trust });
   const actionLine = normalizeActionLine(extraction.actions);
   const deadline = extraction.deadline || null;
-  const moneyAmount = firstOrNull(extraction.money_amounts);
+  const moneyAmount = bestMoneyAmount(extraction.money_amounts);
 
   return {
     schema_version: "clearsteps_structured_v1",
@@ -474,7 +509,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       legacyId: "what_matters_most",
       cardType: "what_matters_most",
       title: "What matters most?",
-      explanation: oldCardById.get("what_matters_most")?.short_answer || inferMostImportantPoint(trust),
+      explanation: oldCardById.get("what_matters_most")?.short_answer || extraction.most_important_point,
       keyPoints: trust.severity_signals,
       actionNeeded: null
     },
@@ -610,10 +645,15 @@ function isFullySupportedDocument(text, trust) {
     lower.includes("energy bill") ||
     lower.includes("electricity bill") ||
     lower.includes("gas bill") ||
-    (trust.document_category === "bill_or_payment" && /\b(energy|electricity|gas)\b/.test(lower))
+    lower.includes("water bill") ||
+    lower.includes("phone bill") ||
+    lower.includes("broadband bill") ||
+    (trust.document_category === "bill_or_payment" && /\b(energy|electricity|gas|water)\b/.test(lower))
   ) {
     return true;
   }
+  // Government letters have specific inferSummary templates and safe obligation detection
+  if (trust.document_category === "government") return true;
   return false;
 }
 
@@ -630,6 +670,7 @@ function extractReadableDocumentSignals(text, trust) {
   const primaryDate = dateParts[0] || null;
 
   const mostImportantPoint = buildReadableMostImportantPoint({
+    text: value,
     topic,
     dateParts,
     hasResponseRequest,
@@ -650,7 +691,9 @@ function extractReadableDocumentSignals(text, trust) {
   };
 }
 
-function buildReadableMostImportantPoint({ topic, dateParts, hasResponseRequest, hasDeadlineLanguage }) {
+function buildReadableMostImportantPoint({ text, topic, dateParts, hasResponseRequest, hasDeadlineLanguage }) {
+  const riskSentence = extractRiskSentence(text);
+  if (riskSentence) return riskSentence;
   if (hasDeadlineLanguage && dateParts.length > 0) {
     return `This may include a deadline about ${topic}. Check the original before acting.`;
   }
@@ -697,15 +740,18 @@ function buildReadableKeyChecks({ sender, topic, dateParts, hasResponseRequest }
 
 function inferReadableTopic(text, trust) {
   const lower = String(text || "").toLowerCase();
+  // Word-boundary check for "rent" — inferReadableTopic has the same substring bug as detectDocumentCategory
+  if (/\brent\b/i.test(lower) || ["landlord", "tenancy"].some((n) => lower.includes(n))) return "housing or rent";
+
   const topicChecks = [
     [["local plan", "planning", "consultation"], "a local plan or consultation"],
     [["urgent care centre", "healthcare", "nhs"], "healthcare services"],
     [["appointment", "clinic"], "an appointment"],
-    [["school", "trip", "student"], "school or education"],
-    [["employment", "attendance", "manager"], "work or employment"],
-    [["rent", "landlord", "tenancy"], "housing or rent"],
-    [["loan", "bank", "mortgage"], "banking or a loan"],
-    [["insurance", "policy", "claim"], "insurance"],
+    [["school", "student"], "school or education"],
+    [["employment", "attendance"], "work or employment"],
+    [["landlord", "tenancy"], "housing or rent"],
+    [["loan", "mortgage"], "banking or a loan"],
+    [["insurance", "policy"], "insurance"],
     [["benefit", "universal credit"], "benefits support"],
     [["court", "tribunal", "legal"], "a legal or court matter"],
     [["council", "borough"], "a council or local authority matter"],
@@ -775,15 +821,17 @@ function extractVisibleDates(text) {
   const value = String(text || "");
   const matches = [];
 
-  const patterns = [
-    /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g,
+  // Numeric dates are validated to exclude sort codes and other NN-NN-NN sequences.
+  (value.match(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g) || []).forEach((m) => {
+    if (isPlausibleNumericDate(m)) matches.push(cleanLine(m));
+  });
+
+  const longPatterns = [
     /\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi,
     /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi
   ];
-
-  patterns.forEach((pattern) => {
-    const found = value.match(pattern) || [];
-    found.forEach((match) => matches.push(cleanLine(match)));
+  longPatterns.forEach((pattern) => {
+    (value.match(pattern) || []).forEach((m) => matches.push(cleanLine(m)));
   });
 
   return unique(matches).slice(0, 5);
@@ -868,6 +916,87 @@ function buildReadAloudText(title, simpleExplanation, keyPoints) {
 
 function firstOrNull(items) {
   return Array.isArray(items) && items.length > 0 ? cleanLine(items[0]) : null;
+}
+
+function bestMoneyAmount(amounts) {
+  if (!Array.isArray(amounts) || amounts.length === 0) return null;
+  const nonZero = amounts
+    .map((raw) => ({ raw: cleanLine(raw), num: parseFloat(cleanLine(raw).replace(/[£GBP\s,]/gi, "")) }))
+    .filter(({ num }) => Number.isFinite(num) && num > 0)
+    .sort((a, b) => b.num - a.num);
+  return nonZero.length > 0 ? nonZero[0].raw : cleanLine(amounts[0]);
+}
+
+function extractSentenceAround(text, matchIndex) {
+  const raw = String(text || "");
+  const beforeStr = raw.slice(0, matchIndex);
+
+  // Walk backwards to find the last line that starts with a capital letter.
+  let sentenceStart = 0;
+  const capLineRe = /(?:^|\n)([A-Z])/g;
+  let m;
+  while ((m = capLineRe.exec(beforeStr)) !== null) {
+    sentenceStart = m.index + (beforeStr[m.index] === "\n" ? 1 : 0);
+  }
+
+  // Walk forward to find the next sentence-ending punctuation.
+  const afterStr = raw.slice(matchIndex);
+  const endMatch = afterStr.match(/[.!?]/);
+  const endOffset = endMatch && endMatch.index < 250 ? endMatch.index + 1 : Math.min(200, afterStr.length);
+
+  return raw.slice(sentenceStart, matchIndex + endOffset)
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractSummaryFirstLineSender(text) {
+  const lines = String(text || "").split(/\r?\n/);
+  for (const raw of lines.slice(0, 6)) {
+    const line = raw.trim();
+    if (!line || line.length < 4 || line.length > 60) continue;
+    if (/^(ref|reference|date|dear|po box|\d|your account|account)/i.test(line)) continue;
+    if (/\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b/.test(line)) continue;
+    return line;
+  }
+  return null;
+}
+
+const RISK_PHRASES = [
+  /\bprosecution\b/i,
+  /\bfixed\s+penalty\b/i,
+  /\bpenalty\s+(?:notice|charge)\b/i,
+  /\bbailiff\b/i,
+  /\bcounty\s+court\b/i,
+  /\blegal\s+action\b/i,
+  /\breferred\s+for\s+(?:further\s+)?action\b/i,
+  /\bfurther\s+action\s+(?:will|may|might|could)\s+be\s+(?:taken|pursued)\b/i,
+  /\bdisconnect(?:ion)?\b/i,
+  /\beviction\b/i,
+  /\bdebt\s+collect(?:ion|or)\b/i,
+  /\bcredit\s+(?:reference|rating|score)\b/i
+];
+
+function extractRiskSentence(text) {
+  const raw = String(text || "");
+  for (const pattern of RISK_PHRASES) {
+    const match = pattern.exec(raw);
+    if (match) {
+      const sentence = extractSentenceAround(raw, match.index);
+      if (sentence.length > 5) return normalizeRiskSentence(sentence);
+    }
+  }
+  return null;
+}
+
+function normalizeRiskSentence(sentence) {
+  // When the document uses certain/assertive consequence language ("will be", "shall be"),
+  // frame the output as a report so Northcue is not asserting it in its own voice.
+  // Hedged language ("may result", "could lead") passes through unchanged.
+  const assertive = /\b(will\s+(?:be|result|lead|face|incur)|shall\s+be)\b/i;
+  if (!assertive.test(sentence)) return sentence;
+  const lower = sentence.charAt(0).toLowerCase() + sentence.slice(1);
+  const body = lower.endsWith(".") ? lower.slice(0, -1) : lower;
+  return `The document states that ${body}.`;
 }
 
 function buildBanner(trust) {
@@ -957,7 +1086,39 @@ function detectInputQuality(text) {
   const cleaned = String(text || "").trim();
   if (!cleaned || cleaned.length < 40) return "poor";
   if (cleaned.length < 160) return "borderline";
+
+  // Text is long enough to be "good" — check for OCR garbling before committing.
+  // Garbled input can pass a letter-count check while containing corrupted values;
+  // returning "borderline" here shifts the engine into caution mode instead of
+  // confidently extracting specific (possibly wrong) amounts and dates.
+  const garbleScore = estimateOcrGarbling(cleaned);
+  if (garbleScore >= 0.25) return "poor";
+  if (garbleScore >= 0.06) return "borderline";
+
   return "good";
+}
+
+// Returns the fraction of whitespace-delimited tokens that show OCR garbling signals.
+// Only tokens ≥4 chars (after stripping leading/trailing punctuation) are examined —
+// short tokens such as postcode segments ("3AB"), unit codes ("CO2"), or reference
+// fragments are excluded to avoid false positives on clean text.
+function estimateOcrGarbling(text) {
+  const tokens = text.split(/\s+/).filter(t => t.length >= 2);
+  if (tokens.length < 5) return 0;
+
+  let garbledCount = 0;
+  for (const raw of tokens) {
+    const token = raw.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+    if (token.length < 4) continue;
+
+    // Pattern 1 — digit sandwiched between letters: "Ener9y", "rece1ved", "c0unc1l"
+    if (/[a-zA-Z][0-9][a-zA-Z]/.test(token)) { garbledCount++; continue; }
+
+    // Pattern 2 — digit immediately before an uppercase letter: "25June", "£89.2O"
+    if (/[0-9][A-Z]/.test(token)) { garbledCount++; continue; }
+  }
+
+  return garbledCount / tokens.length;
 }
 
 function looksTemplate(text) {
@@ -965,11 +1126,20 @@ function looksTemplate(text) {
 }
 
 function looksOutgoing(lower) {
+  // "Yours sincerely/faithfully" and "from our team" appear in standard incoming
+  // company letters and cannot distinguish direction. Use only signals that are
+  // genuinely distinctive of user-authored (outgoing) correspondence.
   return (
-    lower.includes("yours sincerely") ||
-    lower.includes("yours faithfully") ||
-    lower.includes("i am writing to") ||
-    lower.includes("from our team")
+    lower.includes("to whom it may concern") ||
+    lower.includes("dear sir or madam") ||
+    lower.includes("dear sir/madam") ||
+    lower.includes("i am writing to request") ||
+    lower.includes("i am writing to complain") ||
+    lower.includes("i am writing to cancel") ||
+    lower.includes("i am writing to dispute") ||
+    lower.includes("i wish to cancel") ||
+    lower.includes("i wish to complain") ||
+    lower.includes("i hereby give notice")
   );
 }
 
@@ -1001,18 +1171,22 @@ function detectDocumentCategory({ lower, selectedCategory, isTemplate, isOutgoin
     email: "email"
   };
 
+  // Housing uses word-boundary regex for "rent" — bare includes() matches "current"/"currently"/"Trent"
+  if (/\brent\b/i.test(lower) || ["landlord", "tenancy", "eviction"].some((n) => lower.includes(n))) {
+    return "housing";
+  }
+
   const checks = [
-    [["rent", "landlord", "tenancy", "eviction"], "housing"],
-    [["invoice", "bill", "payment reminder", "arrears"], "bill_or_payment"],
+    [["invoice", "bill", "payment reminder", "arrears", "outstanding balance", "overdue", "final demand"], "bill_or_payment"],
     [["appointment", "clinic", "consultation"], "appointment"],
-    [["disciplinary", "employment", "manager", "termination"], "employment"],
+    [["disciplinary", "employment", "termination"], "employment"],
     [["school", "university", "student"], "education"],
-    [["loan", "bank", "mortgage", "credit"], "bank_or_loan"],
+    [["loan", "mortgage", "credit"], "bank_or_loan"],
     [["hmrc", "council", "department", "gov.uk"], "government"],
     [["nhs", "hospital", "gp", "medical"], "medical"],
     [["court", "tribunal", "legal", "prosecution", "bailiff"], "legal_or_court"],
     [["benefit", "universal credit", "allowance"], "benefits"],
-    [["insurance", "policy", "claim"], "insurance"],
+    [["insurance", "policy"], "insurance"],
     [["email", "subject:", "from:"], "email"]
   ];
 
@@ -1146,27 +1320,81 @@ function inferSummary(text, trust) {
   if (trust.document_type === "outgoing") return "This looks like a document sent by you.";
   if (trust.document_type === "possible_scam") return "This may be a suspicious message about money or details.";
 
+  const cat = trust.document_category;
+  const sender = extractSummaryFirstLineSender(text) || trust.sender_guess;
+  const amount = bestMoneyAmount(extractMoneyAmounts(text));
+  const date = extractDeadline(text);
+
+  if (cat === "bill_or_payment") {
+    if (sender && amount && date) return `${sender} appears to be asking you to pay ${amount} by ${date}.`;
+    if (amount && date)           return `This appears to be a payment request for ${amount}, due by ${date}.`;
+    if (sender && amount)         return `${sender} appears to be asking you to pay ${amount}.`;
+    if (sender && date)           return `This appears to be a bill from ${sender}, dated ${date}.`;
+    if (amount)                   return `This appears to be a payment request for ${amount}.`;
+    if (sender)                   return `This appears to be a bill from ${sender}.`;
+    return "This is about a bill or payment request.";
+  }
+
+  if (cat === "government") {
+    if (sender && amount && date) return `${sender} appears to have sent an official notice. An amount of ${amount} may be mentioned, with a date of ${date}.`;
+    if (sender && amount)         return `${sender} appears to have sent an official notice mentioning ${amount}.`;
+    if (sender && date)           return `${sender} appears to have sent an official notice, with a date of ${date}.`;
+    if (sender)                   return `This appears to be an official notice from ${sender}.`;
+    if (amount && date)           return `This appears to be an official notice. An amount of ${amount} may be mentioned, dated ${date}.`;
+    if (amount)                   return `This appears to be an official notice mentioning ${amount}.`;
+    return "This is from a government or council source.";
+  }
+
+  // Generic composition for all other categories when facts are available
+  if (sender && amount && date) return `This appears to be from ${sender}, mentioning ${amount} and a date of ${date}.`;
+  if (amount && date)           return `This document appears to mention ${amount} and a date of ${date}.`;
+  if (sender && amount)         return `This appears to be from ${sender}, mentioning ${amount}.`;
+  if (sender && date)           return `This appears to be from ${sender}, with a date of ${date}.`;
+  if (sender)                   return `This appears to be from ${sender}.`;
+
   const summaryByCategory = {
     bill_or_payment: "This is about a bill or payment request.",
-    appointment: "This is about an appointment.",
-    employment: "This is about work or employment.",
-    education: "This is about school or university.",
-    housing: "This is about housing or rent.",
-    bank_or_loan: "This is about banking or a loan.",
-    government: "This is from a government or council source.",
-    medical: "This is a medical document.",
-    legal_or_court: "This is a legal or court document.",
-    benefits: "This is about benefits support.",
-    insurance: "This is about insurance.",
-    email: "This appears to be an email message.",
-    unsupported: "This document is not fully readable.",
-    unknown: "This is a readable formal document."
+    appointment:     "This is about an appointment.",
+    employment:      "This is about work or employment.",
+    education:       "This is about school or university.",
+    housing:         "This is about housing or rent.",
+    bank_or_loan:    "This is about banking or a loan.",
+    government:      "This is from a government or council source.",
+    medical:         "This is a medical document.",
+    legal_or_court:  "This is a legal or court document.",
+    benefits:        "This is about benefits support.",
+    insurance:       "This is about insurance.",
+    email:           "This appears to be an email message.",
+    unsupported:     "This document is not fully readable.",
+    unknown:         "This is a readable formal document."
   };
 
-  return summaryByCategory[trust.document_category] || "This is a readable formal document.";
+  return summaryByCategory[cat] || "This is a readable formal document.";
 }
 
-function inferMostImportantPoint(trust) {
+function inferGarbledSummary(text, trust) {
+  const sender = extractSummaryFirstLineSender(text) || trust.sender_guess;
+  const categoryLabels = {
+    bill_or_payment: "a bill or payment request",
+    government:      "an official notice",
+    appointment:     "an appointment notice",
+    employment:      "a work or employment document",
+    education:       "a school or education document",
+    housing:         "a housing or rent document",
+    bank_or_loan:    "a banking or loan document",
+    medical:         "a medical document",
+    legal_or_court:  "a legal or court document",
+    benefits:        "a benefits document",
+    insurance:       "an insurance document"
+  };
+  const label = categoryLabels[trust.document_category] || "a formal document";
+  const base = sender
+    ? `${sender} appears to have sent ${label}.`
+    : `This appears to be ${label}.`;
+  return `${base} The text quality is too low to read specific amounts or dates reliably — check the original document for these details.`;
+}
+
+function inferMostImportantPoint(trust, actions) {
   if (trust.trust_assessment === "low") {
     return "This may be suspicious. Check it first.";
   }
@@ -1183,6 +1411,15 @@ function inferMostImportantPoint(trust) {
     return "Action is likely needed soon.";
   }
 
+  // Don't say "information only" if extractActions found a real obligation
+  const hasRealAction =
+    Array.isArray(actions) &&
+    actions.length > 0 &&
+    actions[0] !== "No action needed right now.";
+  if (hasRealAction) {
+    return "This document appears to require an action from you — see what you need to do.";
+  }
+
   return "This looks like information only.";
 }
 
@@ -1190,6 +1427,9 @@ function inferRisk(text, trust) {
   if (trust.processing_mode === "verification_only") {
     return "You may be tricked into unsafe payment or data sharing.";
   }
+
+  const riskSentence = extractRiskSentence(text);
+  if (riskSentence) return riskSentence;
 
   if (trust.severity_level === "urgent") {
     return "Ignoring this could cause serious problems quickly.";
@@ -1246,13 +1486,60 @@ function inferHelpfulNote(trust, extractorNote) {
   return extractorNote || "Some details are missing. Check the original.";
 }
 
+// Returns false for sort codes (e.g. 40-22-99) and other NN-NN-NN sequences
+// where neither segment pair can represent a valid day/month combination.
+function isPlausibleNumericDate(dateStr) {
+  const parts = dateStr.split(/[-\/]/);
+  if (parts.length !== 3) return false;
+  const a = parseInt(parts[0], 10);
+  const b = parseInt(parts[1], 10);
+  // Accept if either DD/MM or MM/DD reading produces values in range.
+  return (a >= 1 && a <= 31 && b >= 1 && b <= 12) ||
+         (a >= 1 && a <= 12 && b >= 1 && b <= 31);
+}
+
 function extractDeadline(text) {
   const value = String(text || "");
-  const numericDate = value.match(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/);
-  if (numericDate) return numericDate[0];
 
-  const longDate = value.match(/\b\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
-  if (longDate) return longDate[0];
+  // Keywords that, when appearing within 35 chars before a date, mark it as a deadline.
+  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
+
+  const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
+  const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
+
+  // Priority pass: skip dates preceded by past-tense language ("was due by", "became due") —
+  // those describe an already-overdue amount, not the future compliance deadline.
+  const backwardLookingContext = /\b(?:was\s+due|were\s+due|became\s+due|overdue\s+since)\b/i;
+  for (const pattern of [numericPattern, longPattern]) {
+    let match;
+    while ((match = pattern.exec(value)) !== null) {
+      if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
+      const before = value.slice(Math.max(0, match.index - 35), match.index);
+      if (deadlineContext.test(before) && !backwardLookingContext.test(before)) return match[0];
+    }
+  }
+
+  // Second pass: any deadline context — fallback for documents where the only deadline
+  // phrase is past-tense and no forward-looking date exists.
+  for (const pattern of [numericPattern, longPattern]) {
+    let match;
+    while ((match = pattern.exec(value)) !== null) {
+      if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
+      const before = value.slice(Math.max(0, match.index - 35), match.index);
+      if (deadlineContext.test(before)) return match[0];
+    }
+  }
+
+  // Fallback: return the first plausible date found anywhere in the document.
+  // Iterate rather than .match() so invalid numeric sequences are skipped.
+  const numericFallback = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
+  let fm;
+  while ((fm = numericFallback.exec(value)) !== null) {
+    if (isPlausibleNumericDate(fm[0])) return fm[0];
+  }
+
+  const firstLong = value.match(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
+  if (firstLong) return firstLong[0];
 
   return null;
 }
@@ -1267,6 +1554,7 @@ function extractActions(text, trust) {
   }
 
   const lower = String(text || "").toLowerCase();
+  const original = String(text || "");
   const actions = [];
   const paymentLikeCategory = ["bill_or_payment", "bank_or_loan", "housing"].includes(trust.document_category);
   const explicitPaymentRequest = /\b(pay|payment|settle|amount due|balance due|overdue|arrears|final notice)\b/.test(lower);
@@ -1285,6 +1573,40 @@ function extractActions(text, trust) {
     actions.push("Send the requested documents or form.");
   }
 
+  // Obligation language: extract the actual clause from the document text.
+  const obligationPatterns = [
+    /\byou\s+(?:must|are\s+required\s+to|need\s+to)\b/i,
+    /\b(?:tell|notify|inform)\s+us\b/i,
+    /\blet\s+us\s+know\b/i,
+    /\breport\s+any\s+changes?\b/i,
+    /\brespond\s+by\b/i,
+    /\breply\s+(?:by|to\s+this)\b/i
+  ];
+
+  // Collect all distinct obligation sentences across the full document.
+  // A Set keyed on the 30-char normalised prefix prevents the same sentence
+  // being added twice when two patterns happen to match at the same position
+  // (e.g. "You must tell us" matching both the "you must" and "tell us" patterns).
+  // Capped at 3 obligation sentences to avoid flooding the card on dense policy text.
+  const seenObligationPrefixes = new Set();
+  for (const pattern of obligationPatterns) {
+    if (seenObligationPrefixes.size >= 3) break;
+    const globalPat = new RegExp(pattern.source, "gi");
+    let match;
+    while ((match = globalPat.exec(original)) !== null) {
+      // extractSentenceAround preserves leading conditional clauses
+      // ("if your details change", "where applicable", etc.)
+      const sentence = extractSentenceAround(original, match.index);
+      if (sentence.length <= 5) continue;
+      const prefix = sentence.slice(0, 30).toLowerCase();
+      if (seenObligationPrefixes.has(prefix)) continue;
+      if (actions.some((a) => a.toLowerCase().includes(sentence.slice(0, 20).toLowerCase()))) continue;
+      seenObligationPrefixes.add(prefix);
+      actions.push(sentence);
+      if (seenObligationPrefixes.size >= 3) break;
+    }
+  }
+
   if (actions.length === 0) {
     return ["No action needed right now."];
   }
@@ -1293,7 +1615,7 @@ function extractActions(text, trust) {
 }
 
 function extractMoneyAmounts(text) {
-  return String(text || "").match(/(?:£|GBP)\s?\d+(?:[.,]\d{2})?/gi) || [];
+  return String(text || "").match(/(?:£|GBP)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/gi) || [];
 }
 
 function extractReferenceNumbers(text) {
@@ -1316,6 +1638,7 @@ function normalizeActionLine(actions) {
   const first = cleanLine(actions[0]);
   if (/^No action needed right now\./i.test(first)) return "No action needed right now.";
   if (/^(Check|Verify|Use|Contact|Attend|Send|Complete|Read|Keep|Upload)\b/i.test(first)) return first;
+  if (/\b(must|are required to|need to|tell us|notify|report any)\b/i.test(first)) return first;
   return `Check ${first}`;
 }
 
@@ -1362,7 +1685,15 @@ const HIGH_SEVERITY_KEYWORDS = [
   "loan default",
   "medical appointment that may affect care",
   "legal response required",
-  "rent arrears"
+  "rent arrears",
+  // Formal enforcement/consequence language — these terms are caught by
+  // RISK_PHRASES (extractRiskSentence) and severity must agree with them.
+  // "criminal prosecution" stays in URGENT above; bare "prosecution" covers
+  // environmental, council tax, and civil enforcement contexts.
+  "prosecution",
+  "fixed penalty",
+  "county court",
+  "debt collection"
 ];
 
 const MEDIUM_SEVERITY_KEYWORDS = [

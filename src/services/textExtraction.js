@@ -25,14 +25,13 @@ async function extractTextFromInput({ pastedText, filePath, mimeType, originalNa
     }
   }
 
-  // Placeholder extraction path for non-image files in this backend scaffold.
-  return [
-    "Placeholder extracted text for Northcue backend testing.",
-    `Original file name: ${originalName || "unknown"}.`,
-    `Detected file type: ${mimeType || "unknown"}.`,
-    "This appears to be a formal readable document.",
-    "No clear deadline was found in this placeholder extraction."
-  ].join("\n");
+  // PDFs are handled upstream in extractUploadedFileText (simplifyRoute.js) and
+  // never reach this function. Images are also handled upstream via extractTextFromImage.
+  // The server's ALLOWED_TYPES only permits PDF, images, and plain text, so in
+  // practice this fallback is dead code for all currently accepted file types.
+  // It is left in place so that if ALLOWED_TYPES is extended (e.g. DOCX) the
+  // scaffold returns something safe rather than crashing.
+  return "";
 }
 
 async function extractTextFromImage({ filePath }) {
@@ -100,9 +99,54 @@ function rateInputQuality(text) {
   return "poor";
 }
 
+// pdfjs-dist v6 requires Node >=22.13.0 (uses Promise.withResolvers, added in Node 22).
+// On Node 20 or 21 the dynamic import below throws TypeError and falls through to the
+// catch, returning { text: "", pageCount: 0 } — the PDF upload would silently appear
+// as a scanned document. Ensure the deployment runtime satisfies the engines field.
+// ESM-only: dynamic import() from CJS works in Node >=12; module is cached after first load.
+async function extractTextFromPdf({ filePath }) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return { text: "", pageCount: 0 };
+  }
+
+  let getDocument;
+  try {
+    ({ getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs"));
+  } catch {
+    return { text: "", pageCount: 0 };
+  }
+
+  let doc;
+  try {
+    const data = new Uint8Array(fs.readFileSync(filePath));
+    doc = await getDocument({ data, verbosity: 0, disableAutoFetch: true }).promise;
+  } catch {
+    return { text: "", pageCount: 0 };
+  }
+
+  const pageCount = doc.numPages;
+  if (pageCount > 5) return { text: "", pageCount };
+
+  const parts = [];
+  for (let i = 1; i <= pageCount; i++) {
+    const page = await doc.getPage(i);
+    const content = await page.getTextContent();
+    let pageText = "";
+    for (const item of content.items) {
+      pageText += item.str || "";
+      if (item.hasEOL) pageText += "\n";
+    }
+    parts.push(pageText);
+  }
+
+  const text = normaliseOcrText(parts.join("\n\n"));
+  return { text, pageCount };
+}
+
 module.exports = {
   extractTextFromInput,
   extractTextFromImage,
+  extractTextFromPdf,
   isImageMimeType,
   rateInputQuality
 };
