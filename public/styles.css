@@ -1518,11 +1518,11 @@ body[data-page="landing"] .app-main {
   min-height: 54px;
   margin-top: 8px;
   padding: 0 30px;
-  border: 1.5px solid #7e8f72;
+  border: 1.5px solid #2f5b35;
   border-radius: 999px;
-  background: #a7b59a;
-  color: #111827;
-  box-shadow: 0 8px 18px rgba(78, 91, 67, 0.1);
+  background: #2f5b35;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(47, 91, 53, 0.18);
   font-size: 20px;
   font-weight: 700;
 }
@@ -1561,7 +1561,7 @@ body[data-page="landing"] .app-main {
 }
 
 .landing-start-btn:hover {
-  background: #94a586;
+  background: #244529;
 }
 
 .landing-cue-previews {
@@ -1711,29 +1711,29 @@ body[data-page="landing"] .app-main {
 .landing-shell::before,
 .landing-shell::after {
   top: 56%;
-  width: clamp(82px, 6.4vw, 94px);
+  width: clamp(94px, 6.8vw, 110px);
   height: 16px;
-  opacity: 0.86;
-  background-repeat: no-repeat;
+  opacity: 0.9;
+  background-repeat: no-repeat, repeat-x;
   pointer-events: none;
 }
 
 .landing-shell::before {
   right: calc(100% - 17px);
   background-image:
-    radial-gradient(circle at left center, #7a956f 0 7px, transparent 7.5px),
-    repeating-linear-gradient(to right, rgba(85, 115, 77, 0.78) 0 6px, transparent 6px 15px);
-  background-position: left center, 22px center;
-  background-size: 16px 16px, calc(100% - 22px) 2px;
+    radial-gradient(circle at left center, #2f5b35 0 6px, transparent 6.5px),
+    radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
+  background-position: left center, 24px center;
+  background-size: 16px 16px, 13px 16px;
 }
 
 .landing-shell::after {
   left: calc(100% - 17px);
   background-image:
-    radial-gradient(circle at right center, #7a956f 0 7px, transparent 7.5px),
-    repeating-linear-gradient(to right, rgba(85, 115, 77, 0.78) 0 6px, transparent 6px 15px);
-  background-position: right center, left center;
-  background-size: 16px 16px, calc(100% - 22px) 2px;
+    radial-gradient(circle at right center, #2f5b35 0 6px, transparent 6.5px),
+    radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
+  background-position: right center, center;
+  background-size: 16px 16px, 13px 16px;
 }
 
 .landing-brand {
@@ -1769,17 +1769,15 @@ body[data-page="landing"] .app-main {
   min-height: 52px;
   margin-top: 2px;
   padding: 0 28px;
-  border: 1.5px solid #7b936f;
-  background: linear-gradient(180deg, #b4c4a8 0%, #a2b396 100%);
-  box-shadow:
-    0 14px 24px rgba(58, 72, 51, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  color: #111827;
+  border: 1.5px solid #2f5b35;
+  background: #2f5b35;
+  box-shadow: 0 12px 24px rgba(47, 91, 53, 0.2);
+  color: #fff;
   font-size: 18px;
 }
 
 .landing-start-btn:hover {
-  background: linear-gradient(180deg, #aabd9d 0%, #93a987 100%);
+  background: #244529;
 }
 
 .landing-cue-previews {
@@ -5472,7 +5470,7 @@ body.theme-dark .journey-icon-slot.emoji-icon {
 }
 
 body.theme-dark .landing-start-btn {
-  color: #111821;
+  color: #fff;
 }
 
 body.theme-dark .landing-paper,
