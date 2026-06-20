@@ -67,21 +67,50 @@ relitigate settled decisions.
   top of whichever theme is active). Never group it into the same
   exclusive-selection control as Light/Dark — more than one can be true
   at the same time.
-- The "Saved" button (data-action="save-preferences") is still present
-  in index.html but is a candidate for removal: every preference change
-  already calls savePreferences(false) automatically throughout app.js,
-  so the button is a redundant manual trigger, not a real save action.
-  The savePreferences() function itself should be kept — only the topbar
-  button is redundant.
-- The colour wheel button opens the Reading Comfort page (colour style,
-  background style, text size). This is core product customization for
-  the target audience, not "account settings" — keep it conceptually
-  separate from any future login/account-settings area.
-- The colour wheel's saturated rainbow conic-gradient was replaced with
-  a flat four-colour swatch built from the brand's own --lavender,
-  --rose, --sage, --cream custom properties, so it automatically tracks
-  whatever those tokens resolve to per theme instead of using fixed hex
-  values.
+- The "Saved" button (data-action="save-preferences") has been removed
+  from index.html. savePreferences(false) is still called automatically
+  throughout app.js on every preference change. The savePreferences()
+  function itself is kept — only the redundant topbar button is gone.
+- Light/Dark are now a single pill switch (.theme-switch containing two
+  .theme-seg buttons). Each segment keeps its original data-theme="light"
+  / data-theme="dark" attribute. setTheme() still toggles .active on
+  those buttons, which drives the filled/plain segment styling.
+- Focus circle background was deepened via a .mode-btn context override
+  on .northcue-circle-soft-green (from barely-visible #eaf2e5 to a more
+  saturated #cde3c1). The global class is unchanged; only the topbar
+  context has the deeper tint.
+- Text comfort button now has northcue-circle-soft-cream added to its
+  span, giving it a visible cream circle matching the brand palette.
+- The colour wheel button is now a .mode-btn.colour-wheel-btn containing
+  a .colour-swatch span and a "Comfort" label. The swatch uses a
+  conic-gradient of var(--lavender)/--rose/--sage/--cream (4 solid
+  quadrants, no rainbow) so it automatically shifts in dark mode.
+  Shadow uses var(--soft-shadow). id="colour-wheel" is kept for the
+  existing click handler.
+
+## Upload page two-state flow decisions
+The upload panel (#page-journey, .upload-active) operates in two states
+controlled by a `.file-added` class on `#upload-form`:
+
+- **State 1 (no file):** Only `.dropzone-wrapper` and `.privacy-note`
+  are visible. `.document-type-row`, `.upload-actions`, and `.type-confirm`
+  are hidden via `#upload-form:not(.file-added)` CSS selectors.
+- **State 2 (file added):** `.dropzone-wrapper` collapses to max-height:0
+  with a 320ms ease transition. `#status.ready-message` shows the file
+  strip. `.type-confirm` shows the detected-type line. `.upload-actions`
+  (the Understand button) is shown. The `.document-type-row` is hidden
+  by default but revealed by clicking "Change type" (adds `.type-pills-visible`
+  class). Selecting a chip removes `.type-pills-visible`.
+- `.file-added` is toggled in `fileInput.addEventListener("change")`.
+- The `#remove-document` button now says "Replace" and calls
+  `fileInput.click()` when `.file-added` is present, opening the file picker.
+- `setStatus("Choose a document to begin.")` resets `.file-added` and
+  removes `.type-pills-visible`. This covers all reset paths including
+  upload-another and the remove flow.
+- The upload/submit pipeline, `selectedType`, and `setJourneyStep()` are
+  entirely untouched — only the show/hide presentation layer changed.
+- `updateTypeConfirmLabel()` maps `selectedType` to a human-readable
+  string displayed in `[data-type-label]`.
 
 ## Verify after any topbar/icon/layout change
 Check both light and dark theme. Check desktop and mobile width

@@ -32,7 +32,9 @@ const northcueForegroundIcons = new Set([
   "upload-add",
   "what-matters-most",
   "what-to-do",
-  "wrong-file"
+  "wrong-file",
+  "copy-summary",
+  "helpful-note"
 ]);
 
 function northcueIcon(fileName, className = "northcue-icon northcue-inline-icon", options = {}) {
@@ -74,7 +76,7 @@ function prepareThemeAwareArtMetadata() {
       image.dataset.iconName = foregroundMatch[1];
       const keepDarkStroke =
         image.classList.contains("northcue-circle-fill") ||
-        Boolean(image.closest(".home-icon-bubble, .process-icon-circle, .help-icon-bubble, .upload-hero-icon"));
+        Boolean(image.closest(".home-icon-bubble, .process-icon-circle, .help-icon-bubble, .upload-hero-icon, .action-icon, .cue-logo"));
       image.dataset.themeArt = keepDarkStroke ? "icon-static" : "icon";
     }
   });
@@ -262,6 +264,11 @@ const helpGuides = {
         icon: "document",
         title: "Ask them to read one card",
         detail: "Start with the Action card together."
+      },
+      {
+        icon: "shield",
+        title: "Contact the organisation safely",
+        detail: "Use official contact details — not links or numbers from the document."
       }
     ],
     action: "Copy summary",
@@ -461,6 +468,7 @@ wireNavigation();
 wireUpload();
 wireCueCards();
 wireActions();
+wireCompletion();
 wireHelp();
 wireComfortSettings();
 wireFeedback();
@@ -517,10 +525,6 @@ function wireNavigation() {
   });
 
   document.querySelector("#colour-wheel").addEventListener("click", () => setPage("comfort"));
-
-  document.querySelectorAll("[data-action='save-preferences']").forEach((button) => {
-    button.addEventListener("click", savePreferences);
-  });
 
   document.querySelectorAll("[data-open-check]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -665,6 +669,10 @@ function wireUpload() {
         moreTypeLabel.textContent = "More";
       }
       closeMoreTypeMenu();
+      updateTypeConfirmLabel();
+      const dtr = document.querySelector(".document-type-row");
+      dtr?.classList.remove("type-pills-visible");
+      document.querySelector(".change-type-btn")?.setAttribute("aria-expanded", "false");
     });
   });
 
@@ -686,14 +694,28 @@ function wireUpload() {
     pendingDocumentJobId = null;
     fileName.textContent = "PDF, JPG, or PNG";
     setStatus(file ? "Document selected." : "Choose a document to begin.");
+    form.classList.toggle("file-added", !!file);
+    if (file) updateTypeConfirmLabel();
   });
 
   removeDocumentButton?.addEventListener("click", () => {
+    if (form.classList.contains("file-added")) {
+      fileInput.click();
+      return;
+    }
     fileInput.value = "";
     pendingDocumentJobId = null;
     fileName.textContent = "PDF, JPG, or PNG";
     setStatus("Choose a document to begin.");
     fileInput.focus();
+  });
+
+  const changeTypeBtn = document.querySelector(".change-type-btn");
+  const documentTypeRow = document.querySelector(".document-type-row");
+  changeTypeBtn?.addEventListener("click", () => {
+    const isOpen = documentTypeRow?.classList.contains("type-pills-visible");
+    documentTypeRow?.classList.toggle("type-pills-visible", !isOpen);
+    changeTypeBtn.setAttribute("aria-expanded", String(!isOpen));
   });
 
   form.addEventListener("submit", async (event) => {
@@ -711,10 +733,16 @@ function wireUpload() {
     }
 
     setLoading(true);
-    setStatus("Reading your document.");
+    const _uploadTypeName = typeNameForReading(selectedType);
+    setStatus(_uploadTypeName ? `Reading your ${_uploadTypeName}…` : "Reading your document…");
+    setReadingHint(_uploadTypeName ? `This looks like a ${_uploadTypeName}. Pulling out the key points…` : "Pulling out the key points…");
     setJourneyStep("upload");
     document.querySelector("#achievement").classList.add("hidden");
     cardFeedbackPanel.classList.add("hidden");
+    document.querySelector("#completion-screen").classList.add("hidden");
+    document.querySelector(".cue-card-panel").classList.remove("hidden");
+    document.querySelector("#card-feedback").classList.remove("hidden");
+    document.querySelector(".journey-main").classList.remove("is-complete");
     lastTrackedCardKey = "";
     journeyCompletedTracked = false;
 
@@ -752,6 +780,9 @@ function wireUpload() {
           error_code: payload.success ? "" : "ocr_unreadable"
         });
         showOcrReadyResult(payload);
+        if (pendingDocumentJobId) {
+          await analyseReadyDocument();
+        }
         return;
       }
 
@@ -787,6 +818,7 @@ function wireUpload() {
         ai_status: extractAiStatus(latestResult),
         ocr_status: latestOcrStatus
       });
+      setReadingHint(null);
       renderCard();
       setJourneyStep("understand");
       setStatus("Your cue cards are ready.");
@@ -799,6 +831,7 @@ function wireUpload() {
         ocr_status: latestOcrStatus,
         error_code: "upload_request_failed"
       });
+      setReadingHint(null);
       setStatus(error.message || "Please try again.", true);
     } finally {
       setLoading(false);
@@ -811,10 +844,30 @@ function closeMoreTypeMenu() {
   moreTypeMenu?.classList.add("hidden");
 }
 
+function updateTypeConfirmLabel() {
+  const el = document.querySelector("[data-type-label]");
+  if (!el) return;
+  const labels = {
+    auto: "We’ll detect the type for you.",
+    letter: "Looks like a letter.",
+    bill: "Looks like a bill.",
+    work: "Treating as a work document.",
+    medical: "Treating as a medical document.",
+    school: "Treating as a school document.",
+    legal: "Treating as a legal document.",
+    email: "Treating as an email.",
+    article: "Treating as an article.",
+    other: "Treating as another type.",
+  };
+  el.textContent = labels[selectedType] || "Type selected.";
+}
+
 async function analyseReadyDocument() {
   const analysisJobId = pendingDocumentJobId;
   setLoading(true);
-  setStatus("Understanding your document.");
+  const _analysisTypeName = typeNameForReading(selectedType);
+  setStatus(_analysisTypeName ? `Reading your ${_analysisTypeName}…` : "Reading your document…");
+  setReadingHint(_analysisTypeName ? `This looks like a ${_analysisTypeName}. Pulling out the key points…` : "Pulling out the key points…");
   trackAnalyticsEvent("analysis_started", {
     page: "journey",
     section: "analysis",
@@ -868,6 +921,7 @@ async function analyseReadyDocument() {
       ai_status: extractAiStatus(latestResult),
       ocr_status: latestOcrStatus
     });
+    setReadingHint(null);
     renderCard();
     setJourneyStep("understand");
     setStatus("Your cue cards are ready.");
@@ -881,6 +935,7 @@ async function analyseReadyDocument() {
       ocr_status: latestOcrStatus,
       error_code: "analysis_request_failed"
     });
+    setReadingHint(null);
     setStatus(error.message || "Please try again.", true);
   } finally {
     setLoading(false);
@@ -905,18 +960,8 @@ function wireCueCards() {
     trackCurrentCardAction("next_clicked");
     if (cardIndex >= cards.length - 1) {
       setJourneyStep("act");
-      document.querySelector("#achievement").classList.remove("hidden");
-      cardFeedbackPanel.classList.remove("hidden");
       showActionMessage("");
-      if (!journeyCompletedTracked) {
-        journeyCompletedTracked = true;
-        trackAnalyticsEvent("journey_completed", {
-          page: "journey",
-          section: "cue_cards",
-          card_number: cardIndex + 1,
-          card_type: cards[cardIndex]?.id || ""
-        });
-      }
+      showCompletionScreen();
       return;
     }
 
@@ -1017,6 +1062,17 @@ function wireHelp() {
   // Help cards use delegated clicks so the modal still works if the page is re-rendered later.
 }
 
+function wireCompletion() {
+  document.querySelector("#completion-reminder").addEventListener("click", openReminderModal);
+  document.querySelector("#completion-upload-another").addEventListener("click", () => {
+    document.querySelector("#upload-another").click();
+  });
+  document.querySelector("#completion-back-home").addEventListener("click", () => {
+    setPage("home");
+  });
+  // #completion-feedback uses data-feedback-open, handled globally by wireFeedback()
+}
+
 function openHelpModal(key, sourceCard) {
   const guide = helpGuides[key];
   if (!guide) return;
@@ -1096,7 +1152,7 @@ function helpStepIconMarkup(icon) {
     close: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10"></path><path d="M17 7 7 17"></path><circle cx="12" cy="12" r="8"></circle></svg>`,
     folder: northcueIcon("folder", "northcue-icon northcue-step-icon"),
     upload: northcueIcon("upload", "northcue-icon northcue-step-icon"),
-    copy: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M8 8h10v12H8z"></path><path d="M6 16H4V4h10v2"></path><path d="M10.5 12h5"></path><path d="M10.5 15h5"></path></svg>`
+    copy: northcueIcon("copy-summary", "northcue-icon northcue-step-icon")
   };
 
   return icons[icon] || icons.document;
@@ -1208,7 +1264,6 @@ function wireComfortSettings() {
     });
   });
 
-  document.querySelector("#save-comfort").addEventListener("click", savePreferences);
 }
 
 function wireFeedback() {
@@ -1268,6 +1323,18 @@ function wireFeedback() {
     const sendButton = event.target.closest(".send-short-feedback");
     if (sendButton) {
       saveShortFeedback(sendButton.closest(".short-feedback-panel") || sendButton.closest(".feedback-flow"));
+      return;
+    }
+
+    const contactRequest = event.target.closest("[data-contact-request]");
+    if (contactRequest) {
+      renderContactRequestForm();
+      return;
+    }
+
+    const sendContact = event.target.closest("#send-contact-request");
+    if (sendContact) {
+      submitContactRequest(sendContact);
       return;
     }
   });
@@ -1407,6 +1474,9 @@ function makeBackgroundArt(style, themeClass, isPreview) {
   if (selectedStyle === "plain") {
     return "none";
   }
+  if (selectedStyle === "dots" && !isPreview) {
+    return "none";
+  }
 
   const palette = backgroundPalette(themeClass);
   const width = isPreview ? 220 : 720;
@@ -1446,8 +1516,18 @@ function makePageBackgroundMotif(style, palette, opacity) {
       <use href="#suv" transform="translate(52 74) scale(0.82)"/><use href="#sedan" transform="translate(288 78) scale(0.78)"/><use href="#pickup" transform="translate(506 118) scale(0.74)"/>
       <use href="#van" transform="translate(106 302) scale(0.82)"/><use href="#convertible" transform="translate(358 304) scale(0.78)"/><use href="#small-car" transform="translate(572 380) scale(0.72)"/>`,
     shapes: `
-      <use href="#soft-circle" transform="translate(72 64) scale(1)"/><use href="#soft-square" transform="translate(302 58) scale(0.92)"/><use href="#soft-star" transform="translate(548 72) scale(0.95)"/>
-      <use href="#soft-triangle" transform="translate(150 286) scale(1)"/><use href="#soft-blob" transform="translate(384 274) scale(0.95)"/><use href="#soft-circle" transform="translate(614 354) scale(0.72)"/>`,
+      <use href="#soft-circle" transform="translate(14 14) scale(0.66)"/>
+      <use href="#soft-star" transform="translate(228 8) scale(0.63)"/>
+      <use href="#soft-square" transform="translate(442 12) scale(0.65)"/>
+      <use href="#soft-triangle" transform="translate(608 16) scale(0.62)"/>
+      <use href="#soft-blob" transform="translate(8 130) scale(0.60)"/>
+      <use href="#soft-circle" transform="translate(464 130) scale(0.58)"/>
+      <use href="#soft-star" transform="translate(12 310) scale(0.58)"/>
+      <use href="#soft-triangle" transform="translate(10 390) scale(0.60)"/>
+      <use href="#soft-blob" transform="translate(14 216) scale(0.62)"/>
+      <use href="#soft-circle" transform="translate(238 234) scale(0.58)"/>
+      <use href="#soft-star" transform="translate(452 222) scale(0.60)"/>
+      <use href="#soft-square" transform="translate(616 214) scale(0.58)"/>`,
     notebook: `
       <path d="M0 96H720M0 188H720M0 280H720M0 372H720M0 464H720"/>
       <path d="M110 0V520"/>
@@ -1648,6 +1728,13 @@ function renderCard() {
   document.querySelector("#card-explanation").textContent = shortCardExplanation(card);
   document.querySelector("#card-feedback").textContent = cardEncouragement[cardIndex] || "Keep going at your own pace.";
 
+  const isLastCard = latestResult.cards.length > 0 && cardIndex >= latestResult.cards.length - 1;
+  document.querySelector("#card-next").innerHTML = isLastCard ? "Finish" : "Next &rarr;";
+  document.querySelector(".cue-card-panel").classList.remove("hidden");
+  document.querySelector("#completion-screen").classList.add("hidden");
+  document.querySelector("#card-feedback").classList.remove("hidden");
+  document.querySelector(".journey-main").classList.remove("is-complete");
+
   if (Array.isArray(card.steps) && card.steps.length > 0) {
     cardSteps.classList.remove("hidden");
     cardSteps.innerHTML = card.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("");
@@ -1662,6 +1749,27 @@ function renderCard() {
   trackCurrentCardViewed();
 }
 
+function showCompletionScreen() {
+  const count = latestResult.cards.length;
+  const countEl = document.querySelector("#completion-card-count");
+  if (countEl) countEl.textContent = count;
+  document.querySelector(".cue-card-panel").classList.add("hidden");
+  document.querySelector("#completion-screen").classList.remove("hidden");
+  document.querySelector("#achievement").classList.add("hidden");
+  cardFeedbackPanel.classList.add("hidden");
+  document.querySelector("#card-feedback").classList.add("hidden");
+  document.querySelector(".journey-main").classList.add("is-complete");
+  if (!journeyCompletedTracked) {
+    journeyCompletedTracked = true;
+    trackAnalyticsEvent("journey_completed", {
+      page: "journey",
+      section: "cue_cards",
+      card_number: cardIndex + 1,
+      card_type: latestResult.cards[cardIndex]?.id || ""
+    });
+  }
+}
+
 function stylePillMarkup(label) {
   return escapeHtml(label);
 }
@@ -1673,7 +1781,7 @@ function cardIconMarkup(cardId) {
     what_do_i_need_to_do: northcueIcon("what-to-do", "northcue-icon northcue-cue-icon"),
     when_is_it_due: northcueIcon("deadline", "northcue-icon northcue-cue-icon"),
     what_could_happen: northcueIcon("safety-check", "northcue-icon northcue-cue-icon"),
-    helpful_note: `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>`
+    helpful_note: northcueIcon("helpful-note", "northcue-icon northcue-cue-icon")
   };
 
   return icons[cardId] || icons.what_is_this;
@@ -1764,6 +1872,59 @@ function openReminderModal() {
   });
 }
 
+function renderContactRequestForm() {
+  modalTitle.textContent = "Get in touch";
+  modalContent.innerHTML = buildContactRequestMarkup();
+  document.querySelector("#modal-contact-email")?.focus();
+}
+
+function buildContactRequestMarkup() {
+  return `
+    <section class="feedback-flow modal-feedback-panel" data-feedback-context="modal">
+      <p class="feedback-intro">Leave your details and we'll reach out when we can.</p>
+      <p class="feedback-private-note">${feedbackPrivacyIcon()} We'll only use this to contact you. Please don't include any document content here.</p>
+      <hr class="feedback-rule">
+      <label class="feedback-label" for="modal-contact-email">Email or phone number</label>
+      <input id="modal-contact-email" class="feedback-contact-input" type="text" placeholder="How should we reach you?">
+      <label class="feedback-label" for="modal-contact-note">What would you like help with? <span>optional</span></label>
+      <textarea id="modal-contact-note" class="short-feedback-comment" maxlength="240" placeholder="A few words is enough — please don't paste document content here."></textarea>
+      <button type="button" class="primary-btn" id="send-contact-request">${sendIconMarkup()} Send</button>
+      <p class="feedback-saved-message" role="status" aria-live="polite"></p>
+    </section>
+  `;
+}
+
+function submitContactRequest(button) {
+  const emailInput = document.querySelector("#modal-contact-email");
+  const email = emailInput?.value.trim() || "";
+  const note = document.querySelector("#modal-contact-note")?.value.trim() || "";
+  const savedMessage = button.closest("section")?.querySelector(".feedback-saved-message");
+
+  if (!email) {
+    if (savedMessage) savedMessage.textContent = "Please add an email or phone number so we can reach you.";
+    emailInput?.focus();
+    return;
+  }
+
+  // TODO: Backend — POST contact request to a new server endpoint, e.g. POST /api/contact-request
+  // Payload: { email, note, page: document.body.dataset.page }
+  // Add a route in server.js that persists this to Supabase (a new `contact_requests` table)
+  // or sends an email notification. Do NOT reuse /api/feedback — contact requests have
+  // different retention/purpose requirements. The user's email must be handled carefully
+  // per privacy rules and must never be logged or stored in plain-text analytics.
+
+  button.disabled = true;
+  modalTitle.textContent = "Thanks.";
+  modalContent.innerHTML = `
+    <section class="feedback-flow feedback-success" role="status" aria-live="polite">
+      <span class="feedback-success-icon" aria-hidden="true">${feedbackHeartIcon()}</span>
+      <h3>Thanks.</h3>
+      <p>We've noted your request. Someone from Northcue will be in touch.</p>
+      <button type="button" class="primary-btn" data-modal-back>Done</button>
+    </section>
+  `;
+}
+
 function openFeedbackModal(sourceButton) {
   activeFeedbackAnswer = "";
   const returnTarget = sourceButton?.currentTarget || sourceButton?.target || sourceButton;
@@ -1811,6 +1972,11 @@ function buildFeedbackStepOneMarkup() {
         ${choices}
       </div>
       <p class="feedback-private-note">${feedbackPrivacyIcon()} Your feedback is private and helps us improve.</p>
+      <div class="feedback-contact-option">
+        <hr class="feedback-rule">
+        <p class="feedback-or-text">Or, would you like us to get in touch?</p>
+        <button type="button" class="outline-btn feedback-contact-btn" data-contact-request>Please get in touch with me</button>
+      </div>
     </section>
   `;
 }
@@ -2085,7 +2251,12 @@ function setStatus(message, isError = false) {
   statusText.classList.toggle("hidden", shouldHide);
   statusText.classList.toggle("error", isError);
 
-  if (shouldHide) return;
+  if (shouldHide) {
+    form?.classList.remove("file-added");
+    document.querySelector(".document-type-row")?.classList.remove("type-pills-visible");
+    document.querySelector(".change-type-btn")?.setAttribute("aria-expanded", "false");
+    return;
+  }
 
   if (!statusTitle || !statusDetail) {
     statusText.textContent = message;
@@ -2111,6 +2282,19 @@ function setStatus(message, isError = false) {
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
   submitButton.textContent = isLoading ? "Reading..." : "Understand this document \u2192";
+  document.querySelector(".type-confirm")?.style.setProperty("display", isLoading ? "none" : "");
+}
+
+function typeNameForReading(type) {
+  const names = { letter: "letter", bill: "bill", work: "work document", medical: "medical document", school: "school document", legal: "legal document", email: "email", article: "article" };
+  return names[type] || null;
+}
+
+function setReadingHint(text) {
+  const el = document.querySelector("[data-reading-hint]");
+  if (!el) return;
+  el.hidden = !text;
+  el.textContent = text || "";
 }
 
 function formatFileSize(bytes) {

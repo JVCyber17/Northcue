@@ -32,18 +32,14 @@
       </nav>
 
       <div class="mode-row" aria-label="Comfort controls">
-        <button type="button" class="mode-btn active" data-theme="light" aria-label="Light theme">
-          <span class="top-mode-icon" aria-hidden="true">
-            <img class="northcue-icon northcue-top-utility-icon" src="/icons/northcue/light-mode.png" alt="" data-theme-art="utility" data-icon-name="light-mode">
-          </span>
-          <span>Light</span>
-        </button>
-        <button type="button" class="mode-btn" data-theme="dark" aria-label="Dark mode">
-          <span class="top-mode-icon" aria-hidden="true">
-            <img class="northcue-icon northcue-top-utility-icon" src="/icons/northcue/dark-mode.png" alt="" data-theme-art="utility" data-icon-name="dark-mode">
-          </span>
-          <span>Dark</span>
-        </button>
+        <div class="theme-switch" role="group" aria-label="Theme">
+          <button type="button" class="theme-seg active" data-theme="light" aria-label="Light theme" aria-pressed="true">
+            <img class="northcue-icon northcue-theme-seg-icon" src="/icons/northcue/light-mode.png" alt="" data-theme-art="utility" data-icon-name="light-mode">
+          </button>
+          <button type="button" class="theme-seg" data-theme="dark" aria-label="Dark mode" aria-pressed="false">
+            <img class="northcue-icon northcue-theme-seg-icon" src="/icons/northcue/dark-mode.png" alt="" data-theme-art="utility" data-icon-name="dark-mode">
+          </button>
+        </div>
         <button type="button" class="mode-btn" data-toggle="focus-mode" aria-label="Focus mode">
           <span class="top-mode-icon northcue-circle-soft-green" aria-hidden="true">
             <img class="northcue-icon northcue-top-main-icon" src="/icons/northcue/foreground/focus-mode.png" alt="" data-theme-art="icon" data-icon-name="focus-mode">
@@ -51,18 +47,13 @@
           <span>Focus</span>
         </button>
         <button type="button" class="mode-btn" data-toggle="dyslexia-mode" aria-label="Text comfort">
-          <span class="top-mode-icon text-mode-icon" aria-hidden="true">Aa</span>
+          <span class="top-mode-icon northcue-circle-soft-cream text-mode-icon" aria-hidden="true">Aa</span>
           <span>Text</span>
         </button>
-        <button type="button" class="mode-btn" data-action="save-preferences" aria-label="Save preferences">
-          <span class="top-mode-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false">
-              <path d="M12 19.2s-7-4.4-7-9.4A3.8 3.8 0 0 1 11.6 7 3.8 3.8 0 0 1 19 9.8c0 5-7 9.4-7 9.4z"></path>
-            </svg>
-          </span>
-          <span>Saved</span>
+        <button type="button" class="mode-btn colour-wheel-btn" id="colour-wheel" aria-label="Open colour and comfort settings">
+          <span class="colour-swatch" aria-hidden="true"></span>
+          <span>Comfort</span>
         </button>
-        <button type="button" class="colour-wheel" id="colour-wheel" aria-label="Open colour and comfort settings"></button>
       </div>
     </header>
 
@@ -146,7 +137,7 @@
           <section class="home-action-panel" aria-labelledby="home-title">
             <header class="home-dashboard-head">
               <h1 id="home-title">What do you need help with today?</h1>
-              <p>Choose one option to get started.</p>
+              <p>Northcue turns a confusing bill, notice or official letter into calm cue cards. They show what it appears to be, what matters, and what to check next.</p>
               <p class="focus-helper focus-home-helper" aria-live="polite">Focus mode: start with the main upload action.</p>
             </header>
 
@@ -156,18 +147,13 @@
               </span>
               <div class="home-card-copy">
                 <h2>Understand a document</h2>
-                <p>
-                  Upload a letter, bill, notice, screenshot, or document.
-                  <br>
-                  Get the key points and next steps.
-                </p>
                 <button type="button" class="home-upload-btn" data-page-link="journey">
                   <svg class="home-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M12 15V4"></path>
                     <path d="M7.5 8.5 12 4l4.5 4.5"></path>
                     <path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"></path>
                   </svg>
-                  Upload a document
+                  Upload
                 </button>
               </div>
             </article>
@@ -200,7 +186,7 @@
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/folder.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>No recent documents yet</strong>
+                  <strong>Your documents</strong>
                   <small>Your documents will appear here after you upload one.</small>
                 </span>
               </article>
@@ -224,13 +210,7 @@
             </header>
 
             <div class="process-orbit" aria-hidden="true">
-              <svg class="process-loop-svg" viewBox="0 0 530 540" focusable="false">
-                <path class="process-structure-line" d="M98 42 C220 54 320 96 432 148"></path>
-                <path class="process-structure-line" d="M98 326 C224 284 324 214 432 148"></path>
-                <path class="process-structure-line" d="M98 326 C224 352 338 388 432 408"></path>
-              </svg>
-
-              <div class="process-step process-upload">
+              <div class="process-step">
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                 </span>
@@ -238,7 +218,9 @@
                 <small>Add your document</small>
               </div>
 
-              <div class="process-step process-understand">
+              <span class="process-chevron" aria-hidden="true"></span>
+
+              <div class="process-step">
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
@@ -246,7 +228,9 @@
                 <small>We explain it simply</small>
               </div>
 
-              <div class="process-step process-check">
+              <span class="process-chevron" aria-hidden="true"></span>
+
+              <div class="process-step">
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/safety-check.png" alt="">
                 </span>
@@ -254,7 +238,9 @@
                 <small>We highlight key details</small>
               </div>
 
-              <div class="process-step process-act">
+              <span class="process-chevron" aria-hidden="true"></span>
+
+              <div class="process-step">
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
                 </span>
@@ -269,7 +255,7 @@
       <section id="page-journey" class="page journey-page upload-active" aria-labelledby="journey-title">
         <div class="journey-shell">
           <h1 id="journey-title">Start with one document</h1>
-          <p class="journey-upload-subtitle">Upload a file and we&rsquo;ll turn it into clear next steps.</p>
+          <p class="journey-upload-subtitle">Upload a file and we&rsquo;ll turn it into calm cue cards.</p>
           <p class="focus-helper focus-upload-helper" aria-live="polite">Focus mode: choose one file, then press Understand this document.</p>
           <div class="journey-rail" aria-label="Journey steps">
             <button type="button" class="rail-step active" data-rail="upload">
@@ -300,36 +286,42 @@
 
           <section class="upload-panel" aria-label="Upload area">
             <form id="upload-form">
-              <label class="dropzone" for="document-file">
-                <span class="upload-hero-icon" aria-hidden="true">
-                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
-                </span>
-                <span class="dropzone-title">Drag and drop or <span>browse</span></span>
-                <span id="file-name" class="dropzone-sub">PDF, JPG, or PNG</span>
-              </label>
+              <div class="dropzone-wrapper">
+                <label class="dropzone" for="document-file">
+                  <span class="upload-hero-icon" aria-hidden="true">
+                    <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
+                  </span>
+                  <span class="dropzone-title">Drag and drop, or <span>browse</span></span>
+                  <span id="file-name" class="dropzone-sub">PDF, JPG or PNG</span>
+                </label>
+              </div>
               <input id="document-file" name="document" type="file" accept="application/pdf,image/jpeg,image/png,image/webp,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+
+              <div id="status" class="ready-message hidden" role="status" aria-live="polite">
+                <span class="ready-check journey-icon-slot" aria-hidden="true">
+                  <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/document-check.png" alt="">
+                </span>
+                <span class="ready-copy">
+                  <strong data-status-title>Document ready</strong>
+                  <span data-status-detail></span>
+                </span>
+                <button type="button" id="remove-document" class="ready-remove" aria-label="Choose a different document">Replace</button>
+              </div>
+
+              <p class="reading-hint" data-reading-hint aria-live="polite" hidden></p>
+
+              <div class="type-confirm" aria-live="polite">
+                <span class="type-confirm-text" data-type-label></span>
+                <button type="button" class="change-type-btn" aria-expanded="false">Change type</button>
+              </div>
 
               <div class="document-type-row">
                 <div class="chips" role="radiogroup" aria-label="Document type">
-                  <button type="button" class="chip active" data-category="auto" role="radio" aria-checked="true">
-                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/auto-detect.png" alt="">
-                    Auto detect
-                  </button>
-                  <button type="button" class="chip" data-category="letter" role="radio" aria-checked="false">
-                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/letter-document.png" alt="">
-                    Letter
-                  </button>
-                  <button type="button" class="chip" data-category="bill" role="radio" aria-checked="false">
-                    <img class="northcue-icon northcue-upload-chip-icon" src="/icons/northcue/foreground/bill-document.png" alt="">
-                    Bill
-                  </button>
+                  <button type="button" class="chip active" data-category="auto" role="radio" aria-checked="true">Auto detect</button>
+                  <button type="button" class="chip" data-category="letter" role="radio" aria-checked="false">Letter</button>
+                  <button type="button" class="chip" data-category="bill" role="radio" aria-checked="false">Bill</button>
                   <div class="more-type-wrapper">
                     <button type="button" id="more-type-button" class="more-type-button" aria-expanded="false" aria-controls="more-type-menu">
-                      <svg class="chip-line-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                        <circle cx="6" cy="12" r="1.3"></circle>
-                        <circle cx="12" cy="12" r="1.3"></circle>
-                        <circle cx="18" cy="12" r="1.3"></circle>
-                      </svg>
                       <span data-more-label>More</span>
                     </button>
                     <div id="more-type-menu" class="more-type-menu hidden" role="menu">
@@ -343,22 +335,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div id="status" class="ready-message hidden" role="status" aria-live="polite">
-                <span class="ready-check journey-icon-slot" aria-hidden="true">
-                  <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/document-check.png" alt="">
-                </span>
-                <span class="ready-copy">
-                  <strong data-status-title>Document ready</strong>
-                  <span data-status-detail></span>
-                </span>
-                <button type="button" id="remove-document" class="ready-remove" aria-label="Remove selected document">
-                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                    <path d="M6 6l12 12"></path>
-                    <path d="M18 6L6 18"></path>
-                  </svg>
-                </button>
               </div>
 
               <div class="upload-actions">
@@ -411,14 +387,8 @@
                 <div class="card-divider"></div>
 
                 <div class="cue-card-content">
-                  <div id="card-icon" class="cue-logo" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M8 4h6l3 3v13H8z"></path>
-                      <path d="M14 4v4h4"></path>
-                      <path d="M10.5 11h5"></path>
-                      <path d="M10.5 14h5"></path>
-                      <path d="M10.5 17h3.5"></path>
-                    </svg>
+                  <div id="card-icon" class="cue-logo northcue-circle-soft-green" aria-hidden="true">
+                    <img class="northcue-icon northcue-cue-icon" src="/icons/northcue/foreground/document.png" alt="">
                   </div>
                   <h2 id="card-title">What is this?</h2>
                   <p id="card-answer" class="card-answer">This looks like a formal document.</p>
@@ -431,6 +401,29 @@
                   <button type="button" id="card-next" class="primary-btn">Next &rarr;</button>
                 </div>
               </section>
+
+              <div id="completion-screen" class="completion-screen hidden" aria-label="Journey complete" aria-live="polite">
+                <span class="completion-circle northcue-circle-soft-green" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M5 19l4-10 6 6-10 4z"></path>
+                    <path d="M9 9l6 6"></path>
+                    <path d="M15.5 5.5h.01"></path>
+                    <path d="M18.5 8.5l2-2"></path>
+                    <path d="M18 12.5l3 .6"></path>
+                    <path d="M12.5 4.5l.8-2.5"></path>
+                  </svg>
+                </span>
+                <h2 class="completion-headline">You made it.</h2>
+                <p class="completion-body">You've been through all <span id="completion-card-count">your</span> cards. Your document is clearer now, and the original is always there whenever you want to check it.</p>
+                <button type="button" class="primary-btn completion-reminder-btn" id="completion-reminder">Set a reminder</button>
+                <div class="completion-secondary">
+                  <button type="button" class="completion-text-link" id="completion-upload-another">Understand another</button>
+                  <span aria-hidden="true" class="completion-divider">&middot;</span>
+                  <button type="button" class="completion-text-link" id="completion-back-home">Back to home</button>
+                </div>
+                <button type="button" class="completion-feedback-link" id="completion-feedback" data-feedback-open>Was this helpful?</button>
+              </div>
+
               <p id="card-feedback" class="micro-feedback">Good start. Let's go one card at a time.</p>
             </div>
 
@@ -438,42 +431,37 @@
               <h2>Actions</h2>
               <div class="action-grid">
                 <button type="button" class="action-btn" id="copy-summary">
-                  <span class="action-icon action-copy" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <rect x="8" y="7" width="10" height="12" rx="1.7"></rect>
-                      <path d="M6 16V6.8C6 5.8 6.8 5 7.8 5H15"></path>
-                      <path d="M11 11h4"></path>
-                      <path d="M11 14h3.2"></path>
-                    </svg>
+                  <span class="action-icon action-copy northcue-circle-soft-green" aria-hidden="true">
+                    <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/copy-summary.png" alt="">
                   </span>
                   Copy summary
                 </button>
                 <button type="button" class="action-btn" id="review-check">
-                  <span class="action-icon action-check journey-icon-slot" aria-hidden="true">
+                  <span class="action-icon action-check northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                   </span>
                   Document check
                 </button>
                 <button type="button" class="action-btn" id="add-calendar">
-                  <span class="action-icon action-calendar journey-icon-slot" aria-hidden="true">
+                  <span class="action-icon action-calendar northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/add-deadline.png" alt="">
                   </span>
                   Add to calendar
                 </button>
                 <button type="button" class="action-btn" id="send-reminder">
-                  <span class="action-icon action-reminder journey-icon-slot" aria-hidden="true">
+                  <span class="action-icon action-reminder northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/reminder-bell.png" alt="">
                   </span>
                   Send reminder
                 </button>
                 <button type="button" class="action-btn" id="upload-another">
-                  <span class="action-icon action-upload journey-icon-slot" aria-hidden="true">
+                  <span class="action-icon action-upload northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/upload-add.png" alt="">
                   </span>
                   Upload another document
                 </button>
                 <button type="button" class="action-btn" id="give-feedback">
-                  <span class="action-icon action-feedback journey-icon-slot" aria-hidden="true">
+                  <span class="action-icon action-feedback northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                   </span>
                   Give feedback
@@ -516,14 +504,8 @@
             <p class="focus-helper focus-help-helper" aria-live="polite">Focus mode: choose one support card. Details open in a small popup.</p>
           </div>
 
+          <p class="help-tier-label">Quick help with your document</p>
           <div class="help-cards">
-            <button type="button" class="help-card" data-help="overwhelmed">
-              <span class="help-icon-bubble lavender" aria-hidden="true">
-                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
-              </span>
-              <strong>I feel overwhelmed</strong>
-              <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
-            </button>
             <button type="button" class="help-card" data-help="fake">
               <span class="help-icon-bubble cream" aria-hidden="true">
                 <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/fake-document.png" alt="">
@@ -552,45 +534,49 @@
               <strong>I uploaded the wrong file</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
-            <button type="button" class="help-card" data-help="person">
-              <span class="help-icon-bubble blue" aria-hidden="true">
-                <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/need-help.png" alt="">
-              </span>
-              <strong>I need someone to help me</strong>
-              <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
-            </button>
           </div>
 
-          <div class="help-simple-sections">
-            <section class="help-simple-card">
-              <h2>Write to Northcue</h2>
-              <p>Tell us what felt clear or confusing.</p>
-              <button type="button" class="soft-purple-btn" data-feedback-open>Give feedback</button>
-            </section>
-            <section class="help-simple-card">
-              <h2>Need outside help?</h2>
-              <p>Ask someone you trust, or contact the organisation using official details.</p>
-            </section>
+          <div class="help-support-tier">
+            <p class="help-tier-label">When you need more support</p>
+            <div class="help-cards">
+              <button type="button" class="help-card" data-help="overwhelmed">
+                <span class="help-icon-bubble lavender" aria-hidden="true">
+                  <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
+                </span>
+                <strong>I feel overwhelmed</strong>
+                <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <button type="button" class="help-card" data-help="person">
+                <span class="help-icon-bubble blue" aria-hidden="true">
+                  <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/need-help.png" alt="">
+                </span>
+                <strong>I need someone to help me</strong>
+                <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+            </div>
+            <div class="help-simple-card help-contact-card">
+              <div class="help-contact-card-body">
+                <h3>Give feedback, or ask us to get in touch</h3>
+                <p>Tell us how Northcue worked for you, or leave your details and we'll reach out.</p>
+              </div>
+              <button type="button" class="soft-purple-btn" data-feedback-open>Write to us</button>
+            </div>
           </div>
 
-          <p class="help-safety-note">If you or someone else is in immediate danger, call 999. Northcue is not an emergency service.</p>
+          <p class="help-safety-note"><svg class="help-safety-icon" aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/><line x1="10" y1="10" x2="10" y2="13.5"/></svg><span>If you or someone else is in immediate danger, call 999. Northcue is not an emergency service.</span></p>
         </div>
       </section>
 
       <section id="page-comfort" class="page" aria-labelledby="comfort-title">
         <div class="comfort-layout">
-          <div class="comfort-actions">
-            <button type="button" class="back-home-btn" data-page-link="home">&larr; Back to home</button>
-            <button type="button" class="back-home-btn secondary" data-page-link="journey">Back to document journey</button>
-          </div>
           <div class="comfort-head">
             <span class="comfort-eyebrow">Accessibility settings</span>
             <h1 id="comfort-title">Make Northcue comfortable for you<span class="green-dot">.</span></h1>
             <p>Choose settings that make reading feel easier.</p>
           </div>
 
-          <div class="comfort-grid visual-only">
-            <section class="comfort-panel settings-panel" aria-label="Comfort settings">
+          <div class="comfort-settings-stack">
+            <div class="comfort-panel comfort-settings-group" aria-label="Reading essentials">
               <h2>
                 <span class="settings-heading-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" focusable="false">
@@ -602,7 +588,7 @@
                     <circle cx="8" cy="17" r="2"></circle>
                   </svg>
                 </span>
-                Reading comfort
+                Reading essentials
               </h2>
               <div class="settings-section">
                 <p>Colour style</p>
@@ -614,6 +600,42 @@
                   <button type="button" class="colour-style" data-colour-style="classic"><span class="swatch classic-swatch"></span>Classic</button>
                 </div>
               </div>
+
+              <div class="settings-section">
+                <p>Text size</p>
+                <div class="segmented">
+                  <button type="button" class="text-size-btn" data-text-size="small"><strong>Aa</strong>Smaller</button>
+                  <button type="button" class="text-size-btn selected" data-text-size="medium"><strong>Aa</strong>Medium</button>
+                  <button type="button" class="text-size-btn" data-text-size="large"><strong>Aa</strong>Larger</button>
+                </div>
+              </div>
+
+              <div class="settings-section">
+                <p>Reading card style</p>
+                <div class="card-style-row">
+                  <button type="button" class="card-style-choice selected" data-card-style-choice="soft"><span></span><strong>Soft rounded</strong><small>Gentle corners and padding</small></button>
+                  <button type="button" class="card-style-choice" data-card-style-choice="standard"><span></span><strong>Standard</strong><small>More defined edges</small></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="comfort-panel comfort-settings-group" aria-label="Make it yours">
+              <h2>
+                <span class="settings-heading-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M12 3v3"></path>
+                    <path d="M12 18v3"></path>
+                    <path d="M3 12h3"></path>
+                    <path d="M18 12h3"></path>
+                    <path d="M5.6 5.6l2.1 2.1"></path>
+                    <path d="M16.3 16.3l2.1 2.1"></path>
+                    <path d="M5.6 18.4l2.1-2.1"></path>
+                    <path d="M16.3 7.7l2.1-2.1"></path>
+                  </svg>
+                </span>
+                Make it yours
+              </h2>
+              <p class="settings-group-sub">Optional backgrounds, including playful ones.</p>
 
               <div class="settings-section">
                 <p>Background style</p>
@@ -637,45 +659,14 @@
                   </div>
                 </details>
               </div>
+            </div>
 
-              <div class="settings-section">
-                <p>Text size</p>
-                <div class="segmented">
-                  <button type="button" class="text-size-btn" data-text-size="small"><strong>Aa</strong>Smaller</button>
-                  <button type="button" class="text-size-btn selected" data-text-size="medium"><strong>Aa</strong>Medium</button>
-                  <button type="button" class="text-size-btn" data-text-size="large"><strong>Aa</strong>Larger</button>
-                </div>
-              </div>
-
-              <div class="settings-section">
-                <p>Reading card style</p>
-                <div class="card-style-row">
-                  <button type="button" class="card-style-choice selected" data-card-style-choice="soft"><span></span><strong>Soft rounded</strong><small>Gentle corners and padding</small></button>
-                  <button type="button" class="card-style-choice" data-card-style-choice="standard"><span></span><strong>Standard</strong><small>More defined edges</small></button>
-                </div>
-              </div>
-
-              <div class="settings-section preview-section" aria-label="Live preview">
-                <p>Preview</p>
-                <div class="comfort-preview-card">
-                  <span class="comfort-preview-icon" aria-hidden="true">
-                  <img class="northcue-icon northcue-preview-icon" src="/icons/northcue/foreground/document.png" alt="">
-                </span>
-                  <small>What is this?</small>
-                  <strong>This looks like a formal document.</strong>
-                  <span>Good start. One step at a time.</span>
-                </div>
-              </div>
-
-              <button type="button" id="save-comfort" class="comfort-save-btn">Save preferences</button>
-              <p class="saved-on-device">Saved on this device. You can change this anytime.</p>
-            </section>
+            <p class="saved-on-device">Saved on this device. You can change this anytime.</p>
           </div>
+
         </div>
       </section>
     </main>
-
-    <button type="button" class="bottom-feedback-link" data-feedback-open>Give quick feedback</button>
 
     <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-box">
