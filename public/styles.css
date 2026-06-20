@@ -3181,8 +3181,7 @@ body[data-page="home"] .app-main {
 .action-panel,
 .help-card,
 .help-simple-card,
-.help-support-strip,
-.comfort-panel {
+.help-support-strip {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--theme-panel) 94%, var(--theme-bottom) 6%);
@@ -4782,59 +4781,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
 .comfort-settings-stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin: 0 8px 24px;
-}
-
-.comfort-settings-group h2 {
-  margin-bottom: 10px;
-}
-
-.settings-group-sub {
-  margin: 0 0 16px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-
-.comfort-panel {
-  padding: 26px;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
-  box-shadow: var(--soft-shadow);
-}
-
-.comfort-panel h2 {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 18px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
-  font-size: 22px;
-}
-
-.settings-heading-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid color-mix(in srgb, var(--theme-accent) 18%, var(--line) 82%);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--theme-blob-a) 42%, var(--surface) 58%);
-  color: var(--theme-accent);
-}
-
-.settings-heading-icon svg {
-  width: 25px;
-  height: 25px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  margin: 4px 8px 24px;
 }
 
 .feedback-panel > p,
@@ -4912,8 +4859,13 @@ textarea {
 }
 
 .settings-section {
-  padding: 12px 0 16px;
+  padding: 20px 0;
   border-bottom: 1px solid var(--line);
+}
+
+.comfort-settings-stack .settings-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 8px;
 }
 
 .colour-style-row {
@@ -5070,7 +5022,6 @@ body.card-standard .help-simple-card,
 body.card-standard .help-support-strip,
 body.card-standard .help-support-tier,
 body.card-standard .help-safety-note,
-body.card-standard .comfort-panel,
 body.card-standard .feedback-contact-input,
 body.card-standard textarea,
 body.card-standard .modal-box {
@@ -5104,7 +5055,6 @@ body.card-standard .home-tile-card,
 body.card-standard .cue-card-panel,
 body.card-standard .completion-screen,
 body.card-standard .action-panel,
-body.card-standard .comfort-panel,
 body.card-standard .help-card,
 body.card-standard .help-simple-card,
 body.card-standard .dropzone,
@@ -5367,7 +5317,6 @@ body.theme-dark .help-card,
 body.theme-dark .help-simple-card,
 body.theme-dark .help-safety-note,
 body.theme-dark .help-support-strip,
-body.theme-dark .comfort-panel,
 body.theme-dark .short-feedback-panel,
 body.theme-dark .modal-box {
   background: #1c2529;
