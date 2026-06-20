@@ -4784,6 +4784,18 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   margin: 4px 8px 24px;
 }
 
+.settings-panel {
+  padding: 16px 26px 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+  box-shadow: var(--soft-shadow);
+}
+
+.settings-panel .settings-section:first-of-type {
+  padding-top: 4px;
+}
+
 .feedback-panel > p,
 .settings-section > p {
   margin-bottom: 14px;
@@ -4865,7 +4877,7 @@ textarea {
 
 .comfort-settings-stack .settings-section:last-of-type {
   border-bottom: none;
-  padding-bottom: 8px;
+  padding-bottom: 0;
 }
 
 .colour-style-row {
@@ -5022,6 +5034,7 @@ body.card-standard .help-simple-card,
 body.card-standard .help-support-strip,
 body.card-standard .help-support-tier,
 body.card-standard .help-safety-note,
+body.card-standard .settings-panel,
 body.card-standard .feedback-contact-input,
 body.card-standard textarea,
 body.card-standard .modal-box {
@@ -5318,6 +5331,7 @@ body.theme-dark .help-simple-card,
 body.theme-dark .help-safety-note,
 body.theme-dark .help-support-strip,
 body.theme-dark .short-feedback-panel,
+body.theme-dark .settings-panel,
 body.theme-dark .modal-box {
   background: #1c2529;
 }
