@@ -1,4 +1,6 @@
 :root {
+  --font-heading: "Lexend", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --bg: #fffdf8;
   --bg-tint: #faf6ef;
   --surface: #fffdfa;
@@ -174,7 +176,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.45;
   color: var(--text);
@@ -418,7 +420,7 @@ h1,
 h2,
 h3,
 button {
-  font-family: "Lexend", "Atkinson Hyperlegible", Arial, sans-serif;
+  font-family: var(--font-heading);
 }
 
 h1,
@@ -830,7 +832,7 @@ textarea:focus-visible,
 
 .text-mode-icon {
   color: var(--text);
-  font-family: "Lexend", "Atkinson Hyperlegible", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0;
@@ -885,7 +887,7 @@ textarea:focus-visible,
 }
 
 .text-emoji {
-  font-family: "Lexend", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 16px;
   font-weight: 800;
 }
@@ -3988,7 +3990,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   margin: 0;
   text-align: center;
   color: var(--muted);
-  font-family: "Atkinson Hyperlegible", Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
   font-weight: 800;
   line-height: 1.1;
@@ -4007,7 +4009,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   margin: 8px auto 0;
   text-align: center;
   color: var(--text);
-  font-family: "Lexend", "Atkinson Hyperlegible", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(16px, 2vw, 24px);
   font-weight: 800;
   line-height: 1.2;
@@ -4368,7 +4370,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--font-body);
 }
 
 .completion-text-link:hover {
@@ -4392,7 +4394,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--font-body);
 }
 
 .completion-feedback-link:hover {
