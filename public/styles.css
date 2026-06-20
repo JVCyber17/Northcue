@@ -5050,55 +5050,6 @@ textarea {
   color: var(--muted);
 }
 
-.playful-backgrounds {
-  margin-top: 18px;
-}
-
-.playful-backgrounds summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 46px;
-  padding: 0 18px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  cursor: pointer;
-  font-weight: 800;
-  list-style: none;
-}
-
-.playful-backgrounds summary::-webkit-details-marker {
-  display: none;
-}
-
-.playful-backgrounds summary::after {
-  content: "";
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background:
-    linear-gradient(var(--theme-accent), var(--theme-accent)) center / 11px 3px no-repeat,
-    linear-gradient(var(--theme-accent), var(--theme-accent)) center / 3px 11px no-repeat,
-    color-mix(in srgb, var(--theme-blob-a) 48%, var(--surface) 52%);
-  flex: 0 0 22px;
-}
-
-.playful-backgrounds[open] summary::after {
-  background:
-    linear-gradient(var(--theme-accent), var(--theme-accent)) center / 11px 3px no-repeat,
-    color-mix(in srgb, var(--theme-blob-a) 48%, var(--surface) 52%);
-}
-
-.playful-grid {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  margin-top: 16px;
-}
-
-
 /* Reading card style: Soft rounded is gentle; Standard is intentionally sharper. */
 body.card-standard .home-action-panel,
 body.card-standard .home-process-panel,
@@ -5136,7 +5087,6 @@ body.card-standard .text-size-btn,
 body.card-standard .card-style-choice,
 body.card-standard .feedback-rating-btn,
 body.card-standard .back-home-btn,
-body.card-standard .playful-backgrounds summary,
 body.card-standard .comfort-eyebrow {
   border-radius: 5px;
 }

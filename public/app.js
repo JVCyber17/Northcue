@@ -392,7 +392,7 @@ let latestOcrStatus = "unknown";
 let lastTrackedCardKey = "";
 let journeyCompletedTracked = false;
 
-const backgroundStyles = ["plain", "dots", "animals", "dinosaurs", "space", "ocean", "cars", "shapes", "notebook", "cozy", "heroes"];
+const backgroundStyles = ["plain", "dots", "shapes", "notebook", "animals"];
 const legacyBackgroundStyles = {
   clouds: "plain",
   forest: "animals",
@@ -1449,12 +1449,6 @@ function setBackgroundStyle(style) {
     button.classList.toggle("selected", isSelected);
     button.setAttribute("aria-pressed", String(isSelected));
   });
-
-  const playfulDetails = document.querySelector("#playful-backgrounds");
-  const selectedButton = document.querySelector(`.background-style-choice[data-background-style="${selectedStyle}"]`);
-  if (playfulDetails && selectedButton && playfulDetails.contains(selectedButton)) {
-    playfulDetails.open = true;
-  }
 }
 
 function updateBackgroundPreviews(themeClass) {
@@ -1516,18 +1510,6 @@ function makePageBackgroundMotif(style, palette, opacity) {
       <use href="#paw" transform="translate(1232 702) scale(1.6)"/>
       <use href="#paw" transform="translate(20 360) scale(1.5)"/>
       <use href="#star" transform="translate(1236 360) scale(1.5)"/>`,
-    dinosaurs: `
-      <use href="#longneck" transform="translate(48 58) scale(0.9)"/><use href="#trex" transform="translate(308 56) scale(0.82)"/><use href="#triceratops" transform="translate(526 100) scale(0.82)"/>
-      <use href="#stego" transform="translate(112 292) scale(0.88)"/><use href="#longneck" transform="translate(372 312) scale(0.76)"/><use href="#dino-egg" transform="translate(632 340) scale(0.78)"/>`,
-    space: `
-      <use href="#ring-planet" transform="translate(72 62) scale(0.95)"/><use href="#astronaut" transform="translate(318 52) scale(0.82)"/><use href="#rocket" transform="translate(550 72) scale(0.86)"/>
-      <use href="#moon" transform="translate(154 306) scale(0.9)"/><use href="#satellite" transform="translate(376 300) scale(0.86)"/><use href="#star-cluster" transform="translate(612 338) scale(0.78)"/>`,
-    ocean: `
-      <use href="#wave" transform="translate(42 86) scale(1.05)"/><use href="#fish" transform="translate(360 84) scale(1)"/><use href="#bubble" transform="translate(604 84) scale(1)"/>
-      <use href="#fish" transform="translate(112 288) scale(0.88)"/><use href="#wave" transform="translate(356 320) scale(0.95)"/><use href="#bubble" transform="translate(276 410) scale(0.85)"/>`,
-    cars: `
-      <use href="#suv" transform="translate(52 74) scale(0.82)"/><use href="#sedan" transform="translate(288 78) scale(0.78)"/><use href="#pickup" transform="translate(506 118) scale(0.74)"/>
-      <use href="#van" transform="translate(106 302) scale(0.82)"/><use href="#convertible" transform="translate(358 304) scale(0.78)"/><use href="#small-car" transform="translate(572 380) scale(0.72)"/>`,
     shapes: `
       <use href="#soft-circle" transform="translate(14 14) scale(0.66)"/>
       <use href="#soft-star" transform="translate(228 8) scale(0.63)"/>
@@ -1544,13 +1526,7 @@ function makePageBackgroundMotif(style, palette, opacity) {
     notebook: `
       <path d="M0 96H720M0 188H720M0 280H720M0 372H720M0 464H720"/>
       <path d="M110 0V520"/>
-      <use href="#pencil" transform="translate(524 90) scale(0.88)"/><use href="#paper-dot" transform="translate(176 314) scale(1)"/><use href="#paper-dot" transform="translate(438 396) scale(0.9)"/>`,
-    cozy: `
-      <use href="#book" transform="translate(80 76) scale(1)"/><use href="#lamp" transform="translate(330 58) scale(0.95)"/><use href="#plant" transform="translate(566 88) scale(1)"/>
-      <use href="#mug" transform="translate(160 308) scale(1)"/><use href="#book" transform="translate(394 318) scale(0.9)"/><use href="#cushion" transform="translate(606 352) scale(0.84)"/>`,
-    heroes: `
-      <use href="#shield" transform="translate(92 72) scale(1)"/><use href="#spark" transform="translate(330 84) scale(0.95)"/><use href="#cape" transform="translate(548 76) scale(0.92)"/>
-      <use href="#shield" transform="translate(188 306) scale(0.84)"/><use href="#bolt" transform="translate(418 308) scale(0.94)"/><use href="#spark" transform="translate(636 364) scale(0.72)"/>`
+      <use href="#pencil" transform="translate(524 90) scale(0.88)"/><use href="#paper-dot" transform="translate(176 314) scale(1)"/><use href="#paper-dot" transform="translate(438 396) scale(0.9)"/>`
   };
 
   return `${symbols}<g opacity="${opacity}" fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${uses[style] || uses.shapes}</g>`;
@@ -1561,14 +1537,8 @@ function makePreviewBackgroundMotif(style, palette, opacity) {
   const uses = {
     dots: `<circle cx="58" cy="58" r="6"/><circle cx="158" cy="70" r="5"/><circle cx="110" cy="130" r="6"/><circle cx="58" cy="204" r="5"/><circle cx="166" cy="190" r="6"/>`,
     animals: `<use href="#bear" transform="translate(18 24) scale(0.8)"/><use href="#cat" transform="translate(116 20) scale(0.8)"/><use href="#bunny" transform="translate(64 122) scale(0.86)"/><use href="#star" transform="translate(178 150) scale(1.3)"/><use href="#paw" transform="translate(28 196) scale(1.3)"/>`,
-    dinosaurs: `<use href="#longneck" transform="translate(26 62) scale(0.74)"/><use href="#stego" transform="translate(72 150) scale(0.58)"/><use href="#trex" transform="translate(112 82) scale(0.54)"/>`,
-    space: `<use href="#ring-planet" transform="translate(34 48) scale(0.88)"/><use href="#rocket" transform="translate(120 134) scale(0.74)"/><use href="#astronaut" transform="translate(124 54) scale(0.52)"/><use href="#star-cluster" transform="translate(62 166) scale(0.54)"/>`,
-    ocean: `<use href="#wave" transform="translate(20 58) scale(0.78)"/><use href="#fish" transform="translate(72 136) scale(1.1)"/><use href="#bubble" transform="translate(158 90) scale(0.76)"/>`,
-    cars: `<use href="#suv" transform="translate(24 66) scale(0.72)"/><use href="#convertible" transform="translate(86 150) scale(0.66)"/><use href="#small-car" transform="translate(118 88) scale(0.56)"/>`,
     shapes: `<use href="#soft-circle" transform="translate(38 50) scale(0.94)"/><use href="#soft-square" transform="translate(118 64) scale(0.78)"/><use href="#soft-star" transform="translate(84 156) scale(0.75)"/>`,
-    notebook: `<path d="M0 66H220M0 116H220M0 166H220M0 216H220"/><path d="M48 0V260"/><use href="#pencil" transform="translate(128 72) scale(0.78)"/>`,
-    cozy: `<use href="#lamp" transform="translate(52 52) scale(0.92)"/><use href="#mug" transform="translate(128 140) scale(0.9)"/><use href="#plant" transform="translate(42 156) scale(0.82)"/>`,
-    heroes: `<use href="#shield" transform="translate(52 48) scale(1.1)"/><use href="#spark" transform="translate(128 144) scale(0.8)"/>`
+    notebook: `<path d="M0 66H220M0 116H220M0 166H220M0 216H220"/><path d="M48 0V260"/><use href="#pencil" transform="translate(128 72) scale(0.78)"/>`
   };
 
   return `${symbols}<g opacity="${opacity}" fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${uses[style] || uses.shapes}</g>`;
@@ -1584,53 +1554,6 @@ function backgroundSymbols(style, palette) {
       <g id="paw"><path fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 12c4.5 0 8 2.8 8 6.5S17.5 24 13 24 5 22.2 5 18.5 8.5 12 13 12Z"/><circle cx="6" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="13" cy="4.5" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="20" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/></g>
       <g id="star"><path fill="${palette.d}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 3.5c.9 0 1.4.6 1.8 1.6l1.7 4 4.3.4c1.3.1 1.8 1.7.8 2.5l-3.3 2.8 1 4.3c.3 1.3-1 2.2-2.1 1.5L13 18.6l-4 2.5c-1.1.7-2.4-.2-2.1-1.5l1-4.3-3.3-2.8c-1-.8-.5-2.4.8-2.5l4.3-.4 1.7-4c.4-1 .9-1.6 1.8-1.6Z"/></g>
     </defs>`,
-    dinosaurs: `<defs>
-      <g id="longneck">
-        <ellipse cx="88" cy="98" rx="58" ry="31" fill="${palette.b}" stroke="${palette.line}"/>
-        <path fill="${palette.b}" stroke="${palette.line}" d="M128 82c-8-44 16-76 54-74 22 2 34 18 22 34-10 12-30 12-46 2-4 14 0 30 16 48Z"/>
-        <path fill="${palette.b}" stroke="${palette.line}" d="M38 88C20 86 8 78 0 62c22 4 42 12 60 26Z"/>
-        <path d="M52 122l-10 34M96 126l-4 34M130 118l18 32M184 28h1"/>
-      </g>
-      <g id="trex">
-        <path fill="${palette.c}" stroke="${palette.line}" d="M18 94c22-40 74-54 122-30l28-24c24-20 58-12 66 12 8 26-14 44-48 42-10 22-38 40-76 44-40 4-72-8-92-44Z"/>
-        <path d="M54 128l-18 34M110 136l14 32M150 88l-22 18M186 60h1M206 74h22M68 66c-16-8-34-14-54-16"/>
-      </g>
-      <g id="triceratops">
-        <path fill="${palette.a}" stroke="${palette.line}" d="M20 100c20-32 62-44 108-28l42-20c30-14 60 4 64 34-18 16-46 20-78 10-14 24-42 38-82 38-28 0-48-10-54-34Z"/>
-        <path fill="${palette.a}" stroke="${palette.line}" d="M164 58c-2-28 14-46 42-48 22 18 26 44 12 70"/>
-        <path d="M188 78l34-20M186 80l42 2M62 128l-10 30M118 130l10 30M214 72h1"/>
-      </g>
-      <g id="stego">
-        <path fill="${palette.d}" stroke="${palette.line}" d="M14 102c24-36 80-46 132-22 22 10 38 24 46 42h34c16 0 28 10 34 24-42 8-90 6-138-10-38 16-84 8-108-34Z"/>
-        <path fill="${palette.a}" stroke="${palette.line}" d="M58 72 76 38l18 44M100 68l22-42 20 52M148 78l18-34 18 44"/>
-        <path d="M58 136l-12 34M122 140l8 34M208 120h1M224 126h24"/>
-      </g>
-      <g id="dino-egg"><ellipse cx="30" cy="40" rx="24" ry="32" fill="${palette.a}" stroke="${palette.line}"/><path d="M16 40q14 10 28 0M20 58q10 8 22 0"/></g>
-    </defs>`,
-    space: `<defs>
-      <g id="ring-planet"><circle cx="54" cy="54" r="34" fill="${palette.a}" stroke="${palette.line}"/><path d="M4 66c42 22 98 10 134-24M14 84c42-2 80-18 110-50"/><path d="M30 34c16 8 32 8 48 0"/></g>
-      <g id="star"><path fill="${palette.d}" stroke="${palette.line}" d="m36 2 10 24 26 3-20 17 6 26-22-14-22 14 6-26L0 29l26-3Z"/></g>
-      <g id="small-star"><path fill="${palette.c}" stroke="${palette.line}" d="M22 0l7 16 17 6-17 6-7 18-7-18-15-6 15-6Z"/></g>
-      <g id="star-cluster"><use href="#star" transform="scale(0.7)"/><use href="#small-star" transform="translate(70 18) scale(0.65)"/><circle cx="48" cy="82" r="7" fill="${palette.b}" stroke="${palette.line}"/></g>
-      <g id="rocket"><path fill="${palette.c}" stroke="${palette.line}" d="M54 4c32 18 48 56 40 102L42 58C22 28 32 12 54 4Z"/><path fill="${palette.d}" stroke="${palette.line}" d="M38 64 8 88l40 10M90 106l-10 38 34-28"/><circle cx="62" cy="44" r="11" fill="${palette.a}" stroke="${palette.line}"/><path fill="${palette.d}" stroke="${palette.line}" d="M44 116c-14 12-16 26-6 42 18-8 26-20 24-38"/></g>
-      <g id="astronaut"><circle cx="48" cy="38" r="30" fill="${palette.a}" stroke="${palette.line}"/><circle cx="48" cy="38" r="17" fill="${palette.paper}" stroke="${palette.line}"/><rect x="24" y="70" width="48" height="54" rx="14" fill="${palette.b}" stroke="${palette.line}"/><path d="M24 86 4 72M72 86l22-14M34 92h28M40 108h16M30 124l-12 26M66 124l12 26"/></g>
-      <g id="moon"><path fill="${palette.d}" stroke="${palette.line}" d="M72 8C36 18 12 52 18 90c6 38 40 66 78 66 14 0 28-4 40-10-24-4-44-24-50-52-6-34 8-66 36-82-16-6-34-8-50-4Z"/></g>
-      <g id="satellite"><rect x="42" y="34" width="46" height="36" rx="8" fill="${palette.b}" stroke="${palette.line}"/><path d="M22 10 42 34M88 70l28 28M18 78l24-18M88 44l32-14"/><rect x="0" y="0" width="36" height="24" rx="4" fill="${palette.a}" stroke="${palette.line}"/><rect x="110" y="88" width="42" height="26" rx="4" fill="${palette.a}" stroke="${palette.line}"/></g>
-    </defs>`,
-    ocean: `<defs>
-      <g id="wave"><path d="M0 34c32-22 64-22 96 0s64 22 96 0 64-22 96 0"/><path d="M22 76c28-18 56-18 84 0s56 18 84 0"/></g>
-      <g id="fish"><path fill="${palette.a}" stroke="${palette.line}" d="M4 34c32-28 78-26 108 0-30 26-76 28-108 0Z"/><path fill="${palette.c}" stroke="${palette.line}" d="M112 34l38-24v48Z"/><circle cx="36" cy="30" r="2" fill="${palette.line}" stroke="none"/></g>
-      <g id="bubble"><circle cx="16" cy="16" r="10" fill="${palette.b}" stroke="${palette.line}"/><circle cx="46" cy="44" r="7" fill="${palette.b}" stroke="${palette.line}"/><circle cx="28" cy="74" r="5" fill="${palette.b}" stroke="${palette.line}"/></g>
-    </defs>`,
-    cars: `<defs>
-      <g id="small-car"><path fill="${palette.b}" stroke="${palette.line}" d="M20 58h130c16 0 28 12 34 30H2c4-18 10-30 18-30Z"/><path fill="${palette.a}" stroke="${palette.line}" d="M48 58l28-36h54l34 36"/><circle cx="46" cy="90" r="14" fill="${palette.c}" stroke="${palette.line}"/><circle cx="138" cy="90" r="14" fill="${palette.c}" stroke="${palette.line}"/><path d="M84 30h22M118 30h14"/></g>
-      <g id="sedan"><path fill="${palette.c}" stroke="${palette.line}" d="M18 72h174c18 0 32 12 38 32H2c4-20 10-32 16-32Z"/><path fill="${palette.a}" stroke="${palette.line}" d="M62 72l42-44h86l48 44"/><circle cx="56" cy="106" r="15" fill="${palette.b}" stroke="${palette.line}"/><circle cx="174" cy="106" r="15" fill="${palette.b}" stroke="${palette.line}"/><path d="M112 38h34M158 38h28"/></g>
-      <g id="suv"><path fill="${palette.b}" stroke="${palette.line}" d="M16 68h178c20 0 36 14 44 36H0c6-22 10-36 16-36Z"/><path fill="${palette.a}" stroke="${palette.line}" d="M48 68l30-50h92l58 50"/><circle cx="56" cy="108" r="18" fill="${palette.c}" stroke="${palette.line}"/><circle cx="178" cy="108" r="18" fill="${palette.c}" stroke="${palette.line}"/><path d="M90 28h34M136 28h30M180 42h24"/></g>
-      <g id="pickup"><path fill="${palette.d}" stroke="${palette.line}" d="M16 74h104l18-42h68l34 42h56v34H0c4-22 10-34 16-34Z"/><path d="M206 74h78M154 42h28M192 42h14"/><circle cx="56" cy="112" r="16" fill="${palette.b}" stroke="${palette.line}"/><circle cx="218" cy="112" r="16" fill="${palette.b}" stroke="${palette.line}"/></g>
-      <g id="van"><path fill="${palette.a}" stroke="${palette.line}" d="M12 42h176c30 0 54 24 58 62H0c2-38 6-62 12-62Z"/><path d="M42 56h36M92 56h36M142 56h36"/><circle cx="56" cy="108" r="16" fill="${palette.c}" stroke="${palette.line}"/><circle cx="190" cy="108" r="16" fill="${palette.c}" stroke="${palette.line}"/></g>
-      <g id="convertible"><path fill="${palette.c}" stroke="${palette.line}" d="M18 70h158c20 0 36 14 42 34H2c4-20 10-34 16-34Z"/><path d="M78 70c26-34 68-38 112-10M132 44l30 24"/><circle cx="52" cy="108" r="15" fill="${palette.b}" stroke="${palette.line}"/><circle cx="168" cy="108" r="15" fill="${palette.b}" stroke="${palette.line}"/></g>
-      <g id="road-dot"><rect x="0" y="22" width="68" height="18" rx="9" fill="${palette.d}" stroke="${palette.line}"/></g>
-    </defs>`,
     shapes: `<defs>
       <g id="soft-circle"><circle cx="42" cy="42" r="40" fill="${palette.a}" stroke="${palette.line}"/></g>
       <g id="soft-square"><rect x="0" y="0" width="84" height="84" rx="22" fill="${palette.b}" stroke="${palette.line}"/></g>
@@ -1641,19 +1564,6 @@ function backgroundSymbols(style, palette) {
     notebook: `<defs>
       <g id="pencil"><path fill="${palette.d}" stroke="${palette.line}" d="M8 78 58 10l26 20-52 68-30 8Z"/><path d="m58 10 26 20M22 84l14 10"/></g>
       <g id="paper-dot"><circle cx="0" cy="0" r="8" fill="${palette.a}" stroke="${palette.line}"/></g>
-    </defs>`,
-    cozy: `<defs>
-      <g id="book"><path fill="${palette.a}" stroke="${palette.line}" d="M8 18h54c18 0 30 12 30 30v58H38c-18 0-30-12-30-30Z"/><path fill="${palette.b}" stroke="${palette.line}" d="M92 18h54v88H92Z"/><path d="M92 22v84M28 44h38M28 64h36"/></g>
-      <g id="lamp"><path fill="${palette.d}" stroke="${palette.line}" d="M28 4h54l26 58H2Z"/><path d="M54 62v58M28 120h54"/></g>
-      <g id="mug"><path fill="${palette.c}" stroke="${palette.line}" d="M10 22h72v54c0 20-16 34-36 34S10 96 10 76Z"/><path d="M82 44h22c20 0 20 44 0 44H82"/></g>
-      <g id="plant"><path fill="${palette.a}" stroke="${palette.line}" d="M30 78h72l-10 48H40Z"/><path fill="${palette.b}" stroke="${palette.line}" d="M66 74C28 52 18 26 42 8c18 18 26 40 24 66ZM70 74c30-34 62-42 78-18-16 28-42 36-78 18Z"/></g>
-      <g id="cushion"><rect x="4" y="8" width="82" height="66" rx="20" fill="${palette.b}" stroke="${palette.line}"/></g>
-    </defs>`,
-    heroes: `<defs>
-      <g id="shield"><path fill="${palette.a}" stroke="${palette.line}" d="M42 0 84 16v38c0 42-18 70-42 86C18 124 0 96 0 54V16Z"/><path d="M42 18v92"/></g>
-      <g id="spark"><path fill="${palette.d}" stroke="${palette.line}" d="M42 0 54 34l34 10-34 12-12 34-12-34L0 44l30-10Z"/></g>
-      <g id="cape"><path fill="${palette.c}" stroke="${palette.line}" d="M16 0c44 16 72 52 72 108-32-20-56-22-88-8C22 66 26 34 16 0Z"/></g>
-      <g id="bolt"><path fill="${palette.d}" stroke="${palette.line}" d="M48 0 12 68h42l-28 78 76-104H58Z"/></g>
     </defs>`
   };
 
