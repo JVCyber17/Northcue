@@ -22,7 +22,6 @@ const northcueForegroundIcons = new Set([
   "overwhelmed",
   "people",
   "private-secure",
-  "reminder-bell",
   "safety-check",
   "search",
   "shield-check",
@@ -192,9 +191,9 @@ const helpGuides = {
         detail: "Look near the top, bottom, and bold text."
       },
       {
-        icon: "bell",
+        icon: "calendar",
         title: "Save the date if you find one",
-        detail: "Write it down or set a reminder."
+        detail: "Write it down or add it to your calendar."
       }
     ],
     action: "Open Deadline card",
@@ -531,10 +530,6 @@ function wireNavigation() {
       setPage("journey");
       openDocumentCheck();
     });
-  });
-
-  document.querySelectorAll("[data-open-reminder]").forEach((button) => {
-    button.addEventListener("click", openReminderModal);
   });
 
   railSteps.forEach((button) => {
@@ -1000,20 +995,8 @@ function wireActions() {
 
   document.querySelector("#add-calendar").addEventListener("click", () => {
     setJourneyStep("act");
-    const deadlineCard = latestResult.cards.find((card) => card.id === "when_is_it_due");
-    const deadlineText = deadlineCard?.date || null;
-
-    if (deadlineText) {
-      openModal(
-        "Calendar preview",
-        `<p><strong>Event:</strong> Document follow-up</p><p><strong>Date:</strong> ${deadlineText}</p><p>This is a preview only.</p>`
-      );
-    } else {
-      openModal("Calendar preview", "<p>No clear deadline found.<br>Calendar event cannot be created yet.</p>");
-    }
+    addDeadlineToCalendar();
   });
-
-  document.querySelector("#send-reminder").addEventListener("click", openReminderModal);
 
   document.querySelector("#review-check").addEventListener("click", openDocumentCheck);
   document.querySelector("#give-feedback").addEventListener("click", openFeedbackModal);
@@ -1070,7 +1053,7 @@ function wireHelp() {
 }
 
 function wireCompletion() {
-  document.querySelector("#completion-reminder").addEventListener("click", openReminderModal);
+  document.querySelector("#completion-add-calendar").addEventListener("click", addDeadlineToCalendar);
   document.querySelector("#completion-upload-another").addEventListener("click", () => {
     document.querySelector("#upload-another").click();
   });
@@ -1154,7 +1137,6 @@ function helpStepIconMarkup(icon) {
     search: northcueIcon("search", "northcue-icon northcue-step-icon"),
     people: northcueIcon("people", "northcue-icon northcue-step-icon"),
     calendar: northcueIcon("deadline", "northcue-icon northcue-step-icon"),
-    bell: northcueIcon("reminder-bell", "northcue-icon northcue-step-icon"),
     message: northcueIcon("chat-message", "northcue-icon northcue-step-icon"),
     close: `<svg class="help-step-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10"></path><path d="M17 7 7 17"></path><circle cx="12" cy="12" r="8"></circle></svg>`,
     folder: northcueIcon("folder", "northcue-icon northcue-step-icon"),
@@ -1782,26 +1764,146 @@ function openCardStyleModal() {
   });
 }
 
-function openReminderModal() {
-  setJourneyStep("act");
-  openModal(
-    "Send reminder",
-    `<div class="reminder-list">
-      <button type="button" class="outline-btn">Today</button>
-      <button type="button" class="outline-btn">Tomorrow</button>
-      <button type="button" class="outline-btn">Three days before deadline</button>
-      <button type="button" class="outline-btn">One week before deadline</button>
-      <button type="button" class="outline-btn">Custom</button>
-      <p><strong>Notification permission needed</strong></p>
-      <button type="button" class="primary-btn" id="allow-notification">Allow notifications</button>
-      <p>This is a placeholder. Real scheduling is not active yet.</p>
-    </div>`
-  );
+// Builds and downloads a real .ics calendar event for the detected deadline.
+// Everything is generated client-side — nothing is uploaded, stored, or logged.
+function addDeadlineToCalendar() {
+  const deadlineCard = latestResult?.cards?.find((card) => card.id === "when_is_it_due");
+  const parsed = deadlineCard?.date ? parseDeadlineToDate(deadlineCard.date) : null;
 
-  document.querySelector("#allow-notification").addEventListener("click", () => {
-    closeModal();
-    showActionMessage("Notification permission placeholder shown.");
-  });
+  if (!parsed) {
+    openModal(
+      "Add to calendar",
+      "<p>No clear date was found in this document, so there's nothing to add yet.<br>If you spotted a date yourself, you can add it to your calendar by hand.</p>"
+    );
+    return;
+  }
+
+  const title = calendarEventTitle();
+  const ics = buildIcsForDeadline(parsed, title);
+  downloadIcsFile(ics, "northcue-date.ics");
+  showActionMessage("Calendar file downloaded. Open it to add the date — your calendar will remind you.");
+}
+
+// Title includes the document type only when it's confidently known; otherwise generic.
+function calendarEventTitle() {
+  const trust = latestResult?.trust || {};
+  const typeKey = (trust.document_type || "").toLowerCase();
+  const categoryKey = (trust.document_category || "").toLowerCase();
+
+  const typeLabels = {
+    council_tax_notice: "council tax letter",
+    energy_bill: "energy bill",
+    bill_or_payment_notice: "bill",
+    appointment_letter: "appointment letter"
+  };
+  const categoryLabels = {
+    bill_or_payment: "bill",
+    appointment: "appointment letter",
+    government: "council or government letter",
+    medical: "medical letter",
+    housing: "housing letter",
+    employment: "work letter",
+    education: "school letter",
+    bank_or_loan: "bank letter"
+  };
+  const selectedLabels = {
+    bill: "bill",
+    letter: "letter",
+    medical: "medical document",
+    school: "school document",
+    work: "work document",
+    legal: "legal document"
+  };
+
+  const label =
+    typeLabels[typeKey] ||
+    categoryLabels[categoryKey] ||
+    (selectedType && selectedType !== "auto" ? selectedLabels[selectedType] : null);
+
+  return label ? `Check your ${label}` : "Check your document";
+}
+
+// Best-effort parse of a free-text deadline (UK formats) into {year, month, day}.
+function parseDeadlineToDate(text) {
+  const value = String(text).trim();
+  if (!value) return null;
+
+  let match = value.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+  if (match) return validDateParts(Number(match[1]), Number(match[2]), Number(match[3]));
+
+  match = value.match(/\b(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})\b/);
+  if (match) {
+    let year = Number(match[3]);
+    if (year < 100) year += 2000;
+    return validDateParts(year, Number(match[2]), Number(match[1]));
+  }
+
+  const worded = new Date(value);
+  if (!Number.isNaN(worded.getTime())) {
+    return validDateParts(worded.getFullYear(), worded.getMonth() + 1, worded.getDate());
+  }
+
+  return null;
+}
+
+function validDateParts(year, month, day) {
+  if (!year || !month || !day) return null;
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return { year, month, day };
+}
+
+function buildIcsForDeadline(parts, title) {
+  const pad = (n) => String(n).padStart(2, "0");
+  const start = `${parts.year}${pad(parts.month)}${pad(parts.day)}`;
+  // All-day events use an exclusive end date (the day after).
+  const endDate = new Date(parts.year, parts.month - 1, parts.day + 1);
+  const end = `${endDate.getFullYear()}${pad(endDate.getMonth() + 1)}${pad(endDate.getDate())}`;
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const uid = `northcue-${Date.now()}-${Math.floor(Math.random() * 1e6)}@northcue`;
+  const safeTitle = icsEscape(title);
+  const description = icsEscape("A date from a document you reviewed in Northcue. Check the original document.");
+
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Northcue//Add to calendar//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${start}`,
+    `DTEND;VALUE=DATE:${end}`,
+    `SUMMARY:${safeTitle}`,
+    `DESCRIPTION:${description}`,
+    "BEGIN:VALARM",
+    "TRIGGER:-P1D",
+    "ACTION:DISPLAY",
+    `DESCRIPTION:${safeTitle}`,
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+}
+
+function icsEscape(text) {
+  return String(text)
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\r?\n/g, "\\n");
+}
+
+function downloadIcsFile(content, filename) {
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function renderContactRequestForm() {
