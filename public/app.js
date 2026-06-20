@@ -1477,6 +1477,11 @@ function makeBackgroundArt(style, themeClass, isPreview) {
   if (selectedStyle === "dots" && !isPreview) {
     return "none";
   }
+  if (selectedStyle === "notebook" && !isPreview) {
+    const palette = backgroundPalette(themeClass);
+    const pencilSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="84" height="104" viewBox="-2 6 88 102"><g fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path fill="${palette.d}" d="M8 78 58 10l26 20-52 68-30 8Z"/><path d="m58 10 26 20M22 84l14 10"/></g></svg>`;
+    return `url("data:image/svg+xml,${encodeURIComponent(pencilSvg)}")`;
+  }
 
   const palette = backgroundPalette(themeClass);
   const width = isPreview ? 220 : 720;

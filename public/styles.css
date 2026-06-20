@@ -257,6 +257,26 @@ body.bg-shapes::before {
   mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, transparent 26%, black 82%);
 }
 
+body.bg-notebook::before {
+  background-image:
+    var(--wallpaper-art),
+    linear-gradient(to right, transparent 79px, rgba(200, 100, 80, 0.24) 79px, rgba(200, 100, 80, 0.24) 80px, transparent 80px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(47, 91, 53, 0.22) 31px, rgba(47, 91, 53, 0.22) 32px);
+  background-size: 84px 104px, auto, auto;
+  background-position: right 16px top 56px, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+body.theme-dark.bg-notebook::before {
+  background-image:
+    var(--wallpaper-art),
+    linear-gradient(to right, transparent 79px, rgba(159, 196, 148, 0.22) 79px, rgba(159, 196, 148, 0.22) 80px, transparent 80px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(159, 196, 148, 0.22) 31px, rgba(159, 196, 148, 0.22) 32px);
+  background-size: 84px 104px, auto, auto;
+  background-position: right 16px top 56px, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
 .topbar,
 .app-main,
 .modal {
