@@ -1484,9 +1484,9 @@ function makeBackgroundArt(style, themeClass, isPreview) {
   }
 
   const palette = backgroundPalette(themeClass);
-  const width = isPreview ? 220 : 720;
-  const height = isPreview ? 260 : 520;
-  const opacity = isPreview ? 0.92 : 0.24;
+  const width = isPreview ? 220 : (selectedStyle === "animals" ? 1280 : 720);
+  const height = isPreview ? 260 : (selectedStyle === "animals" ? 800 : 520);
+  const opacity = isPreview ? 0.92 : (selectedStyle === "animals" ? 0.42 : 0.24);
   const content = isPreview
     ? makePreviewBackgroundMotif(selectedStyle, palette, opacity)
     : makePageBackgroundMotif(selectedStyle, palette, opacity);
@@ -1505,9 +1505,17 @@ function makePageBackgroundMotif(style, palette, opacity) {
       <circle cx="184" cy="226" r="5"/><circle cx="430" cy="228" r="4"/><circle cx="640" cy="198" r="5"/>
       <circle cx="92" cy="390" r="5"/><circle cx="338" cy="410" r="5"/><circle cx="574" cy="382" r="4"/>`,
     animals: `
-      <use href="#cat" transform="translate(78 58) scale(1.05)"/><use href="#bunny" transform="translate(282 38) scale(0.95)"/><use href="#bird" transform="translate(520 76) scale(1)"/>
-      <use href="#turtle" transform="translate(130 258) scale(1)"/><use href="#cat" transform="translate(424 250) scale(0.92)"/><use href="#bunny" transform="translate(626 306) scale(0.9)"/>
-      <use href="#bird" transform="translate(246 404) scale(0.85)"/>`,
+      <use href="#bunny" transform="translate(60 676) scale(1.12)"/>
+      <use href="#cat" transform="translate(590 690) scale(1.12)"/>
+      <use href="#bear" transform="translate(1110 676) scale(1.12)"/>
+      <use href="#star" transform="translate(286 700) scale(2)"/>
+      <use href="#paw" transform="translate(852 706) scale(1.9)"/>
+      <use href="#star" transform="translate(168 732) scale(1.5)"/>
+      <use href="#paw" transform="translate(1004 730) scale(1.5)"/>
+      <use href="#star" transform="translate(16 702) scale(1.6)"/>
+      <use href="#paw" transform="translate(1232 702) scale(1.6)"/>
+      <use href="#paw" transform="translate(20 360) scale(1.5)"/>
+      <use href="#star" transform="translate(1236 360) scale(1.5)"/>`,
     dinosaurs: `
       <use href="#longneck" transform="translate(48 58) scale(0.9)"/><use href="#trex" transform="translate(308 56) scale(0.82)"/><use href="#triceratops" transform="translate(526 100) scale(0.82)"/>
       <use href="#stego" transform="translate(112 292) scale(0.88)"/><use href="#longneck" transform="translate(372 312) scale(0.76)"/><use href="#dino-egg" transform="translate(632 340) scale(0.78)"/>`,
@@ -1552,7 +1560,7 @@ function makePreviewBackgroundMotif(style, palette, opacity) {
   const symbols = backgroundSymbols(style, palette);
   const uses = {
     dots: `<circle cx="58" cy="58" r="6"/><circle cx="158" cy="70" r="5"/><circle cx="110" cy="130" r="6"/><circle cx="58" cy="204" r="5"/><circle cx="166" cy="190" r="6"/>`,
-    animals: `<use href="#cat" transform="translate(42 52) scale(1.25)"/><use href="#bunny" transform="translate(126 134) scale(1)"/>`,
+    animals: `<use href="#bear" transform="translate(18 24) scale(0.8)"/><use href="#cat" transform="translate(116 20) scale(0.8)"/><use href="#bunny" transform="translate(64 122) scale(0.86)"/><use href="#star" transform="translate(178 150) scale(1.3)"/><use href="#paw" transform="translate(28 196) scale(1.3)"/>`,
     dinosaurs: `<use href="#longneck" transform="translate(26 62) scale(0.74)"/><use href="#stego" transform="translate(72 150) scale(0.58)"/><use href="#trex" transform="translate(112 82) scale(0.54)"/>`,
     space: `<use href="#ring-planet" transform="translate(34 48) scale(0.88)"/><use href="#rocket" transform="translate(120 134) scale(0.74)"/><use href="#astronaut" transform="translate(124 54) scale(0.52)"/><use href="#star-cluster" transform="translate(62 166) scale(0.54)"/>`,
     ocean: `<use href="#wave" transform="translate(20 58) scale(0.78)"/><use href="#fish" transform="translate(72 136) scale(1.1)"/><use href="#bubble" transform="translate(158 90) scale(0.76)"/>`,
@@ -1570,10 +1578,11 @@ function backgroundSymbols(style, palette) {
   const common = {
     dots: `<defs><g id="paper-dot"><circle cx="0" cy="0" r="7" fill="${palette.a}" stroke="${palette.line}"/></g></defs>`,
     animals: `<defs>
-      <g id="cat"><circle cx="36" cy="40" r="28" fill="${palette.a}" stroke="${palette.line}"/><path fill="${palette.a}" stroke="${palette.line}" d="M14 22 8 2l22 12M58 22 64 2 42 14"/><path d="M27 39h1M45 39h1M34 49q4 4 8 0M36 43l4 3"/></g>
-      <g id="bunny"><ellipse cx="36" cy="48" rx="25" ry="22" fill="${palette.b}" stroke="${palette.line}"/><path fill="${palette.b}" stroke="${palette.line}" d="M22 28C12 4 24-8 34 18M50 28C60 4 48-8 38 18"/><path d="M28 47h1M44 47h1M32 56q5 4 10 0"/></g>
-      <g id="bird"><path fill="${palette.c}" stroke="${palette.line}" d="M10 42c22-28 58-24 76 8-22 18-58 18-76-8Z"/><path fill="${palette.d}" stroke="${palette.line}" d="M62 44l22-18v34Z"/><path d="M34 41h1M26 58l-10 14M42 58l8 14"/></g>
-      <g id="turtle"><ellipse cx="42" cy="44" rx="34" ry="22" fill="${palette.b}" stroke="${palette.line}"/><circle cx="76" cy="42" r="12" fill="${palette.a}" stroke="${palette.line}"/><path d="M20 58l-12 12M44 62l-2 14M62 58l8 12M26 33q16 16 32 0"/></g>
+      <g id="cat"><path fill="${palette.a}" stroke="${palette.line}" d="M22 34 14 9q-1-5 4-3l16 14Z"/><path fill="${palette.a}" stroke="${palette.line}" d="M68 34 76 9q1-5-4-3L56 20Z"/><ellipse cx="45" cy="50" rx="30" ry="27" fill="${palette.a}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M32 47q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M52 47q3-3 6 0"/><path fill="${palette.d}" stroke="${palette.line}" d="M42 55h6l-3 3Z"/><path fill="none" stroke="${palette.line}" d="M45 59q-4 4-8 1"/><path fill="none" stroke="${palette.line}" d="M45 59q4 4 8 1"/><path fill="none" stroke="${palette.line}" d="M16 53h13"/><path fill="none" stroke="${palette.line}" d="M16 59h12"/><path fill="none" stroke="${palette.line}" d="M61 53h13"/><path fill="none" stroke="${palette.line}" d="M62 59h12"/><path fill="${palette.a}" stroke="${palette.line}" d="M63 70q9-1 9 8 0 7-9 4"/></g>
+      <g id="bunny"><path fill="${palette.b}" stroke="${palette.line}" d="M38 30C30 6 34-2 41 9q4 9 2 19Z"/><path fill="${palette.b}" stroke="${palette.line}" d="M52 30C60 6 56-2 49 9q-4 9-2 19Z"/><ellipse cx="45" cy="56" rx="27" ry="24" fill="${palette.b}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M34 52q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M50 52q3-3 6 0"/><path fill="${palette.d}" stroke="${palette.line}" d="M43 59h4l-2 2Z"/><path fill="none" stroke="${palette.line}" d="M39 64q6 5 12 0"/></g>
+      <g id="bear"><circle cx="22" cy="26" r="11" fill="${palette.c}" stroke="${palette.line}"/><circle cx="68" cy="26" r="11" fill="${palette.c}" stroke="${palette.line}"/><circle cx="45" cy="50" r="30" fill="${palette.c}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M31 46q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M53 46q3-3 6 0"/><ellipse cx="45" cy="57" rx="9" ry="7" fill="${palette.d}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M45 57v5"/><path fill="none" stroke="${palette.line}" d="M45 62q-4 3-7 1"/><path fill="none" stroke="${palette.line}" d="M45 62q4 3 7 1"/></g>
+      <g id="paw"><path fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 12c4.5 0 8 2.8 8 6.5S17.5 24 13 24 5 22.2 5 18.5 8.5 12 13 12Z"/><circle cx="6" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="13" cy="4.5" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="20" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/></g>
+      <g id="star"><path fill="${palette.d}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 3.5c.9 0 1.4.6 1.8 1.6l1.7 4 4.3.4c1.3.1 1.8 1.7.8 2.5l-3.3 2.8 1 4.3c.3 1.3-1 2.2-2.1 1.5L13 18.6l-4 2.5c-1.1.7-2.4-.2-2.1-1.5l1-4.3-3.3-2.8c-1-.8-.5-2.4.8-2.5l4.3-.4 1.7-4c.4-1 .9-1.6 1.8-1.6Z"/></g>
     </defs>`,
     dinosaurs: `<defs>
       <g id="longneck">

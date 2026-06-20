@@ -277,6 +277,14 @@ body.theme-dark.bg-notebook::before {
   background-repeat: no-repeat, no-repeat, no-repeat;
 }
 
+body.bg-animals::before {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+  -webkit-mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, transparent 26%, black 82%);
+  mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, transparent 26%, black 82%);
+}
+
 .topbar,
 .app-main,
 .modal {
