@@ -971,7 +971,6 @@ function wireCueCards() {
   });
 
   document.querySelector("#card-style-button").addEventListener("click", openCardStyleModal);
-  document.querySelector("#card-style-marker").addEventListener("click", openCardStyleModal);
   document.querySelector("#check-button").addEventListener("click", () => {
     openDocumentCheck();
   });
@@ -1635,7 +1634,6 @@ function renderCard() {
   const card = latestResult.cards[cardIndex];
 
   document.querySelector("#card-progress").textContent = `Card ${cardIndex + 1} of ${latestResult.cards.length}`;
-  document.querySelector("#card-style-marker").innerHTML = stylePillMarkup(labelForStyle(activeCardStyle));
   document.querySelector("#card-icon").innerHTML = cardIconMarkup(card.id);
   document.querySelector("#card-title").textContent = card.title;
   document.querySelector("#card-answer").textContent = card.short_answer;
@@ -1781,7 +1779,7 @@ function addDeadlineToCalendar() {
   const title = calendarEventTitle();
   const ics = buildIcsForDeadline(parsed, title);
   downloadIcsFile(ics, "northcue-date.ics");
-  showActionMessage("Calendar file downloaded. Open it to add the date — your calendar will remind you.");
+  showActionMessage("Calendar file downloaded. Open it to add the date, and your calendar will remind you.");
 }
 
 // Title includes the document type only when it's confidently known; otherwise generic.
