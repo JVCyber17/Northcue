@@ -1959,30 +1959,27 @@ function feedbackFaceMarkup(key) {
 function feedbackReasonIcon(reason) {
   const icons = {
     "Simple words": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 8h5"></path><path d="M5 12h8"></path><path d="M5 16h6"></path><path d="M16 7v10"></path><path d="m13.5 9 2.5-2 2.5 2"></path></svg>`,
-    "Clear next step": northcueIcon("act-next-step", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-green" }),
+    "Clear next step": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 21V4"></path><path d="M6 5h12l-2.5 3.5L18 12H6"></path></svg>`,
     "Easy to read": `<svg viewBox="0 0 24 24" focusable="false"><path d="M3.5 12s3.2-5 8.5-5 8.5 5 8.5 5-3.2 5-8.5 5-8.5-5-8.5-5z"></path><circle cx="12" cy="12" r="2.5"></circle></svg>`,
-    "Less overwhelming": northcueIcon("overwhelmed", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
-    "Focus mode helped": northcueIcon("focus-mode", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-green" }),
+    "Less overwhelming": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 19c-1-8 5-15 15-15 1 9-5 16-15 15z"></path><path d="M9 16c1.5-3 4-5.5 8-7"></path></svg>`,
+    "Focus mode helped": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="7.5"></circle><circle cx="12" cy="12" r="2.5"></circle><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"></path></svg>`,
     "Too much text": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 7h14"></path><path d="M5 11h14"></path><path d="M5 15h10"></path><path d="M5 19h8"></path></svg>`,
-    "Action was unclear": northcueIcon("what-to-do", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
-    "Deadline was unclear": northcueIcon("deadline", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
+    "Action was unclear": `<svg viewBox="0 0 24 24" focusable="false"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.3-1.5 2.4"></path><path d="M12 17.5h.01"></path></svg>`,
+    "Deadline was unclear": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="M12 7.5V12l3 2"></path></svg>`,
     "Words felt difficult": `<svg viewBox="0 0 24 24" focusable="false"><path d="M4 17 8.5 7l4.5 10"></path><path d="M6 13h5"></path><path d="M14 17V9"></path><path d="M14 9h3.5a2.5 2.5 0 0 1 0 5H14"></path></svg>`,
-    "Needed more support": northcueIcon("need-help", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
-    "I was still confused": northcueIcon("overwhelmed", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
-    "Wrong information": northcueIcon("wrong-file", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-purple" }),
+    "Needed more support": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="3.4"></circle><path d="M5.5 7.5l3.6 3.6M18.5 7.5l-3.6 3.6M5.5 16.5l3.6-3.6M18.5 16.5l-3.6-3.6"></path></svg>`,
+    "I was still confused": `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4a8 8 0 1 0 8 8 5 5 0 1 1-5-5 2.4 2.4 0 1 0 2.4 2.4"></path></svg>`,
+    "Wrong information": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v14H6z"></path><path d="M9.5 12.5l5 5M14.5 12.5l-5 5"></path></svg>`,
     "Too much information": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 5h12"></path><path d="M6 8h12"></path><path d="M6 11h12"></path><path d="M6 14h12"></path><path d="M6 17h8"></path></svg>`,
-    "I did not know what to do": northcueIcon("what-to-do", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-blue" }),
-    "I did not trust it": northcueIcon("safety-check", "northcue-icon northcue-feedback-icon", { circle: true, toneClass: "northcue-circle-soft-cream" })
+    "I did not know what to do": `<svg viewBox="0 0 24 24" focusable="false"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.3-1.5 2.4"></path><path d="M12 17.5h.01"></path></svg>`,
+    "I did not trust it": `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v5c0 5-3 8-7 9.5-4-1.5-7-4.5-7-9.5V6z"></path><path d="M10.4 10a1.6 1.6 0 1 1 2.2 1.5c-.7.4-1 .9-1 1.6"></path><path d="M11.6 15.5h.01"></path></svg>`
   };
 
   return icons[reason] || `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle></svg>`;
 }
 
 function feedbackPrivacyIcon() {
-  return northcueIcon("private-secure", "northcue-icon northcue-private-icon", {
-    circle: true,
-    toneClass: "northcue-circle-soft-green"
-  });
+  return `<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 9.5-4-1.5-7-4.5-7-9.5V6z"></path><path d="M9 11.5l2.2 2.2L15.5 9.3"></path></svg>`;
 }
 
 function sendIconMarkup() {
