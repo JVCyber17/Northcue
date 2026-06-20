@@ -1036,7 +1036,14 @@ function wireActions() {
     fileInput.focus();
   });
 
-  document.querySelector("#modal-close").addEventListener("click", closeModal);
+  document.querySelector("#modal-close").addEventListener("click", () => {
+    if (modal.classList.contains("feedback-modal") && activeFeedbackAnswer) {
+      activeFeedbackAnswer = "";
+      renderFeedbackStepOne();
+      return;
+    }
+    closeModal();
+  });
   modal.addEventListener("click", (event) => {
     if (event.target === modal) closeModal();
   });
@@ -1968,7 +1975,7 @@ function feedbackReasonIcon(reason) {
     "Deadline was unclear": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"></circle><path d="M12 7.5V12l3 2"></path></svg>`,
     "Words felt difficult": `<svg viewBox="0 0 24 24" focusable="false"><path d="M4 17 8.5 7l4.5 10"></path><path d="M6 13h5"></path><path d="M14 17V9"></path><path d="M14 9h3.5a2.5 2.5 0 0 1 0 5H14"></path></svg>`,
     "Needed more support": `<svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="3.4"></circle><path d="M5.5 7.5l3.6 3.6M18.5 7.5l-3.6 3.6M5.5 16.5l3.6-3.6M18.5 16.5l-3.6-3.6"></path></svg>`,
-    "I was still confused": `<svg viewBox="0 0 24 24" focusable="false"><path d="M12 4a8 8 0 1 0 8 8 5 5 0 1 1-5-5 2.4 2.4 0 1 0 2.4 2.4"></path></svg>`,
+    "I was still confused": `<svg viewBox="0 0 24 24" focusable="false"><path d="M5.5 9a2.5 2.5 0 1 1 3.6 2.2c-.9.5-1.4 1.1-1.4 2"></path><path d="M7.6 16.2h.01"></path><path d="M16.5 7.4v6.2"></path><path d="M16.5 16.4h.01"></path></svg>`,
     "Wrong information": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 3h8l4 4v14H6z"></path><path d="M9.5 12.5l5 5M14.5 12.5l-5 5"></path></svg>`,
     "Too much information": `<svg viewBox="0 0 24 24" focusable="false"><path d="M6 5h12"></path><path d="M6 8h12"></path><path d="M6 11h12"></path><path d="M6 14h12"></path><path d="M6 17h8"></path></svg>`,
     "I did not know what to do": `<svg viewBox="0 0 24 24" focusable="false"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.3-1.5 2.4"></path><path d="M12 17.5h.01"></path></svg>`,
