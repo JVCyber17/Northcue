@@ -1535,10 +1535,11 @@ function makePageBackgroundMotif(style, palette, opacity) {
 function makePreviewBackgroundMotif(style, palette, opacity) {
   const symbols = backgroundSymbols(style, palette);
   const uses = {
-    dots: `<circle cx="58" cy="58" r="6"/><circle cx="158" cy="70" r="5"/><circle cx="110" cy="130" r="6"/><circle cx="58" cy="204" r="5"/><circle cx="166" cy="190" r="6"/>`,
-    animals: `<use href="#bear" transform="translate(18 24) scale(0.8)"/><use href="#cat" transform="translate(116 20) scale(0.8)"/><use href="#bunny" transform="translate(64 122) scale(0.86)"/><use href="#star" transform="translate(178 150) scale(1.3)"/><use href="#paw" transform="translate(28 196) scale(1.3)"/>`,
-    shapes: `<use href="#soft-circle" transform="translate(38 50) scale(0.94)"/><use href="#soft-square" transform="translate(118 64) scale(0.78)"/><use href="#soft-star" transform="translate(84 156) scale(0.75)"/>`,
-    notebook: `<path d="M0 66H220M0 116H220M0 166H220M0 216H220"/><path d="M48 0V260"/><use href="#pencil" transform="translate(128 72) scale(0.78)"/>`
+    plain: ``,
+    dots: `<circle cx="60" cy="96" r="5"/><circle cx="110" cy="96" r="5"/><circle cx="160" cy="96" r="5"/><circle cx="60" cy="148" r="5"/><circle cx="110" cy="148" r="5"/><circle cx="160" cy="148" r="5"/><circle cx="60" cy="200" r="5"/><circle cx="110" cy="200" r="5"/><circle cx="160" cy="200" r="5"/>`,
+    animals: `<use href="#star" transform="translate(24 44) scale(1.3)"/><use href="#bunny" transform="translate(60 26) scale(0.82)"/><use href="#bear" transform="translate(26 112) scale(0.84)"/><use href="#cat" transform="translate(116 112) scale(0.84)"/><use href="#paw" transform="translate(96 198) scale(1.4)"/>`,
+    shapes: `<use href="#soft-star" transform="translate(84 34) scale(0.6)"/><use href="#soft-circle" transform="translate(30 140) scale(0.66)"/><use href="#soft-square" transform="translate(118 140) scale(0.62)"/>`,
+    notebook: `<path d="M0 70H220M0 120H220M0 170H220M0 220H220"/><path d="M44 0V260"/><use href="#pencil" transform="translate(78 116) scale(0.82)"/>`
   };
 
   return `${symbols}<g opacity="${opacity}" fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${uses[style] || uses.shapes}</g>`;
