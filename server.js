@@ -19,13 +19,15 @@ const { cleanupOldTemporaryFiles } = require("./src/utils/temporaryStorageCleanu
 
 loadEnvFile(__dirname);
 warnIfSupabaseConfigMissing();
+assertSafeFileRetentionConfig();
 
 const PORT = Number(process.env.PORT || 3000);
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 const MAX_FEEDBACK_BYTES = 64 * 1024;
 const MAX_ANALYTICS_BYTES = 16 * 1024;
 const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS || 60 * 1000);
-const TEMP_FILE_RETENTION_MS = Number(process.env.TEMP_FILE_RETENTION_MS || 60 * 60 * 1000);
+const TEMP_FILE_RETENTION_MS = Number(process.env.TEMP_FILE_RETENTION_MS || 10 * 60 * 1000);
+const TEMP_FILE_SWEEP_INTERVAL_MS = Math.max(60000, Number(process.env.TEMP_FILE_SWEEP_INTERVAL_MS || 5 * 60 * 1000));
 const PUBLIC_DIR = path.join(__dirname, "public");
 const UPLOAD_DIR = path.join(__dirname, "private_storage", "uploads");
 const RESULT_DIR = path.join(__dirname, "private_storage", "results");
@@ -97,6 +99,7 @@ function createNorthcueServer() {
 
 if (require.main === module) {
   const server = createNorthcueServer();
+  startTemporaryFileSweeper();
   server.listen(PORT, () => {
     if (process.stdout.isTTY) {
       console.log(`Northcue is running at http://localhost:${PORT}`);
@@ -114,6 +117,34 @@ function ensurePrivateFolders() {
     maxAgeMs: TEMP_FILE_RETENTION_MS,
     logger: console
   });
+}
+
+// Refuse to start in production with raw-upload retention enabled. This env flag
+// is a local-debugging escape hatch only; in production it would silently keep
+// users' raw uploaded documents on disk, breaking the "deleted after processing"
+// guarantee. Hard-failing here makes that impossible to enable by accident.
+function assertSafeFileRetentionConfig() {
+  if (process.env.NODE_ENV === "production" && process.env.CLEARSTEPS_ENABLE_FILE_RETENTION) {
+    throw new Error(
+      "CLEARSTEPS_ENABLE_FILE_RETENTION must not be set in production: it disables deletion of raw uploaded documents."
+    );
+  }
+}
+
+// Recurring sweeper so stragglers (e.g. a file whose unlink failed, or a crash
+// before deletion) are removed during uptime, not only at startup. Lightweight
+// and unref()'d so it never keeps the process alive on its own.
+function startTemporaryFileSweeper() {
+  const timer = setInterval(() => {
+    cleanupOldTemporaryFiles({
+      directories: [UPLOAD_DIR, RESULT_DIR],
+      maxAgeMs: TEMP_FILE_RETENTION_MS,
+      logger: console
+    });
+  }, TEMP_FILE_SWEEP_INTERVAL_MS);
+
+  if (typeof timer.unref === "function") timer.unref();
+  return timer;
 }
 
 function isRateLimited(req, res, pathOnly) {

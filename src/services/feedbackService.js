@@ -36,8 +36,10 @@ function sanitiseNote(value) {
 
   return note
     .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[redacted-email]")
+    .replace(/\b(?:\d[ -]){12,18}\d\b/g, "[redacted-number]")
     .replace(/\b(?:\+?\d[\d\s().-]{7,}\d)\b/g, "[redacted-phone]")
     .replace(/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/gi, "[redacted-postcode]")
+    .replace(/\b[A-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/gi, "[redacted-number]")
     .replace(/\b\d{2}-\d{2}-\d{2}\b/g, "[redacted-number]")
     .replace(/\b\d{8,}\b/g, "[redacted-number]")
     .replace(/£\s?\d+(?:[.,]\d{2})?/g, "[redacted-amount]")

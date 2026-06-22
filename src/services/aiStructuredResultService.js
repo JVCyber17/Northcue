@@ -6,6 +6,10 @@ const {
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-4.1-mini";
 const AI_TIMEOUT_MS = Number(process.env.CLEARSTEPS_AI_TIMEOUT_MS || 25000);
+// Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
+// privacy; env-configurable so it can be raised if a genuinely long document is
+// ever cut off mid-content.
+const AI_OUTBOUND_TEXT_MAX_CHARS = Math.max(1000, Number(process.env.CLEARSTEPS_AI_TEXT_MAX_CHARS || 8000));
 
 async function applyAiStructuredResult({ rulesRun, extractedText }) {
   const output = rulesRun.api_output;
@@ -143,7 +147,10 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
           }
         ],
         temperature: 0.2,
-        max_output_tokens: 2600
+        max_output_tokens: 2600,
+        // Privacy: do not let OpenAI retain this request/response as stored
+        // application state. Document text is sent for in-memory processing only.
+        store: false
       }),
       signal: controller.signal
     });
@@ -205,8 +212,28 @@ function buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality
     JSON.stringify(fallbackStructuredResult),
     "",
     "Document text for in-memory analysis only. Do not store it or repeat unnecessary personal details:",
-    String(extractedText || "").slice(0, 12000)
+    redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS)
   ].join("\n");
+}
+
+// Conservative outbound redaction applied to the document text BEFORE it is sent
+// to OpenAI. It masks only clearly-sensitive identifiers: email addresses, phone
+// numbers, long account/card numbers (>=11 digits, and 13-19 digits with spaces
+// or hyphens), and UK National Insurance numbers. Dates and money amounts are
+// deliberately left intact because the "When is it due" and "What matters most"
+// cards depend on them; the response side already strips phone numbers the model
+// emits, so masking them here costs nothing in cue-card quality.
+// PARKED FOLLOW-UP: also strip identifier-type fields from the outbound
+// fallbackStructuredResult copy (keep structure, dates, category). Needs a
+// careful field-by-field pass against the structured-result schema. See
+// docs/privacy-todo.md.
+function redactForAi(text) {
+  return String(text || "")
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email]")
+    .replace(/\b[A-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/gi, "[number]")
+    .replace(/\b(?:\d[ -]){12,18}\d\b/g, "[number]")
+    .replace(/\b\d{11,}\b/g, "[number]")
+    .replace(/\b(?:\+?\d[\d\s().-]{9,}\d)\b/g, "[phone]");
 }
 
 function extractResponseText(data) {
@@ -338,5 +365,6 @@ module.exports = {
   normalizeAiErrorCode,
   summarizeValidationErrors,
   stripAiViolations,
-  sanitizeAiTextField
+  sanitizeAiTextField,
+  redactForAi
 };

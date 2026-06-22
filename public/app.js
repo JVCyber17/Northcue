@@ -2035,7 +2035,7 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
         ${chips}
       </div>
       <label class="feedback-label" for="modal-feedback-comment">Anything else? <span>optional</span></label>
-      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="A short note is enough."></textarea>
+      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="A short note is enough. Please do not include personal details such as your name, address, or account numbers."></textarea>
       <div class="feedback-contact-toggle-row">
         <label>
           <input id="modal-feedback-contact-toggle" type="checkbox">
