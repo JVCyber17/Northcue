@@ -240,6 +240,14 @@ function runExtractorLayer({ text, trust }) {
     };
   }
 
+  // Benefits / welfare letters (DWP, Universal Credit, PIP, housing benefit, etc.)
+  // are deliberately handled as a cautious reading aid, never the confident path,
+  // so they can never tell an anxious reader "no action needed" when an obligation
+  // or deadline may exist. Real obligations found in the text are still surfaced.
+  if (isWelfareBenefitsLetter(text)) {
+    return buildBenefitsReadingAidExtraction(text, trust);
+  }
+
   if (shouldUseReadableUnsupportedAid(text, trust)) {
     return buildReadableUnsupportedExtraction(text, trust);
   }
@@ -272,9 +280,11 @@ function runExtractorLayer({ text, trust }) {
     };
   }
 
-  const deadline = trust.document_category === "appointment"
-    ? (extractAppointmentDate(text) || extractDeadline(text))
-    : extractDeadline(text);
+  const deadline = isInCreditOrNoPayment(text)
+    ? null
+    : trust.document_category === "appointment"
+      ? (extractAppointmentDate(text) || extractDeadline(text))
+      : extractDeadline(text);
   const summary = inferSummary(text, trust);
 
   return {
@@ -282,6 +292,7 @@ function runExtractorLayer({ text, trust }) {
     most_important_point: inferMostImportantPoint(trust, actions),
     actions,
     deadline,
+    visible_dates: extractVisibleDates(text),
     risk,
     helpful_note: note,
     money_amounts: extractMoneyAmounts(text),
@@ -333,7 +344,9 @@ function runRendererLayer({ trust, extraction }) {
           : cleanLine(`Due by ${extraction.deadline}.`)
         : trust.garbled_by_ocr
           ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
-          : "No deadline clearly stated.",
+          : (Array.isArray(extraction.visible_dates) && extraction.visible_dates.length > 0
+              ? cleanLine(`No clear due date. These dates appear in the document: ${extraction.visible_dates.slice(0, 3).join(", ")}. Check what they refer to.`)
+              : "No deadline clearly stated."),
       date: extraction.deadline || null,
       status: cardStatus
     },
@@ -354,7 +367,9 @@ function runRendererLayer({ trust, extraction }) {
 
 function buildReadableUnsupportedExtraction(text, trust) {
   const signals = extractReadableDocumentSignals(text, trust);
-  const summary = `This appears to be a readable official or formal document about ${signals.topic}. Northcue is not fully trained for this document type yet, so use this as a reading aid only.`;
+  const summary = signals.topic === GENERIC_TOPIC
+    ? "This appears to be a readable formal document. Northcue is not fully trained for this type yet, so use it as a reading aid only."
+    : `This appears to be a readable official or formal document about ${signals.topic}. Northcue is not fully trained for this document type yet, so use this as a reading aid only.`;
   const hasClearNoAction = clearlySaysNoActionNeeded(text);
   const actions = hasClearNoAction
     ? ["No action needed right now."]
@@ -375,6 +390,75 @@ function buildReadableUnsupportedExtraction(text, trust) {
     confidence: trust.input_quality === "good" ? "medium" : "low",
     needs_human_review: true,
     review_reason: "This readable document type is not fully supported yet.",
+    evidence_spans: [],
+    readable_unsupported_signals: signals
+  };
+}
+
+// High-precision detector for benefits / welfare letters. Uses specific scheme
+// names and the DWP so it does not sweep in ordinary council-tax or energy bills.
+function isWelfareBenefitsLetter(text) {
+  const lower = String(text || "").toLowerCase();
+  const substrings = [
+    "department for work and pensions",
+    "universal credit",
+    "personal independence payment",
+    "housing benefit",
+    "employment and support allowance",
+    "jobseeker",
+    "pension credit",
+    "disability living allowance",
+    "attendance allowance",
+    "carer's allowance",
+    "child benefit",
+    "tax credit"
+  ];
+  if (substrings.some((needle) => lower.includes(needle))) return true;
+  // Acronyms need word boundaries so they do not match inside other words.
+  return /\b(?:dwp|pip|esa|dla|jsa)\b/i.test(lower);
+}
+
+// Cautious reading-aid extraction for benefits letters. Surfaces any real
+// obligations found in the text, but never emits "no action needed" /
+// "information only", and always frames the output as a reading aid.
+function buildBenefitsReadingAidExtraction(text, trust) {
+  const signals = extractReadableDocumentSignals(text, trust);
+  const obligations = extractActions(text, trust).filter(
+    (action) => action && action !== "No action needed right now."
+  );
+  const hasObligations = obligations.length > 0;
+  const actions = hasObligations
+    ? obligations
+    : ["Check the original document, or with the sender, whether you need to respond or send anything."];
+
+  const mostImportant = hasObligations
+    ? "This may ask you to do something. Check the original document carefully."
+    : "This may need a response. Check the original document, or with the sender, to be sure.";
+  // Override so this path can never read as "information only" / "no action needed".
+  signals.mostImportantPoint = mostImportant;
+  // Do not attach a single calendar date: benefits letters often list several
+  // dates and we cannot reliably tell which (if any) is the real deadline.
+  signals.primaryDate = null;
+
+  const summary = signals.sender
+    ? `This appears to be a letter about benefits or welfare support from ${signals.sender}. Northcue is not fully trained for benefits letters yet, so use this as a reading aid only and check the original document.`
+    : "This appears to be a letter about benefits or welfare support. Northcue is not fully trained for benefits letters yet, so use this as a reading aid only and check the original document.";
+
+  return {
+    summary,
+    most_important_point: mostImportant,
+    actions,
+    deadline: null,
+    risk: signals.risk,
+    helpful_note: "Northcue is not fully trained for benefits letters yet. Use this as a reading aid, not advice, and check the original document or with the sender.",
+    money_amounts: extractMoneyAmounts(text),
+    reference_numbers: [],
+    contact_details: [],
+    appeal_rights: [],
+    support_options: [],
+    confidence: "low",
+    needs_human_review: true,
+    review_reason: "Benefits or welfare letters are handled as a reading aid only.",
     evidence_spans: [],
     readable_unsupported_signals: signals
   };
@@ -726,6 +810,9 @@ function buildReadableMostImportantPoint({ text, topic, dateParts, hasResponseRe
   if (dateParts.length > 0) {
     return `Important dates are visible. Check what each date refers to.`;
   }
+  if (topic === GENERIC_TOPIC) {
+    return "Check the original document to understand what this is.";
+  }
   return `The clearest topic appears to be ${topic}. Check the original for details.`;
 }
 
@@ -754,11 +841,30 @@ function buildReadableRiskMessage({ dateParts, hasResponseRequest, hasDeadlineLa
 function buildReadableKeyChecks({ sender, topic, dateParts, hasResponseRequest }) {
   const checks = [];
   checks.push(sender ? `Check the sender: ${sender}.` : "Check who sent the document.");
-  checks.push(`Check the topic: ${topic}.`);
+  checks.push(topic === GENERIC_TOPIC ? "Check what the document is about." : `Check the topic: ${topic}.`);
   if (dateParts.length > 0) checks.push(`Check these visible dates: ${dateParts.slice(0, 3).join(", ")}.`);
   if (hasResponseRequest) checks.push("Check whether a response is requested.");
   checks.push("Use official contact details before acting.");
   return unique(checks).slice(0, 5);
+}
+
+const GENERIC_TOPIC = "the topic shown in the document";
+
+// True when a candidate topic heading looks garbled (OCR noise like "C0unc1l T@x")
+// or non-topical (a price/menu line like "latte 3.20"), so we drop the "about X"
+// clause rather than echo nonsense back to the user.
+function looksGarbledOrJunkTopic(heading) {
+  const h = String(heading || "").trim();
+  if (!h) return true;
+  if (/\d[.,]\d/.test(h)) return true; // price/menu-like line
+  let garbled = 0;
+  let realWords = 0;
+  for (const token of h.split(/\s+/)) {
+    const w = token.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+    if (/[a-zA-Z][0-9@|]|[0-9@|][a-zA-Z]/.test(w)) garbled++;
+    else if (/^[a-zA-Z]{3,}$/.test(w)) realWords++;
+  }
+  return garbled >= 1 || realWords === 0;
 }
 
 function inferReadableTopic(text, trust) {
@@ -787,7 +893,7 @@ function inferReadableTopic(text, trust) {
   }
 
   const heading = firstMeaningfulHeading(text);
-  if (heading) return heading.toLowerCase();
+  if (heading && !looksGarbledOrJunkTopic(heading)) return heading.toLowerCase();
 
   const categoryLabels = {
     appointment: "an appointment",
@@ -801,11 +907,11 @@ function inferReadableTopic(text, trust) {
     benefits: "benefits support",
     insurance: "insurance",
     email: "an email message",
-    unknown: "the topic shown in the document",
-    unsupported: "the topic shown in the document"
+    unknown: GENERIC_TOPIC,
+    unsupported: GENERIC_TOPIC
   };
 
-  return categoryLabels[trust.document_category] || "the topic shown in the document";
+  return categoryLabels[trust.document_category] || GENERIC_TOPIC;
 }
 
 function firstMeaningfulHeading(text) {
@@ -837,7 +943,13 @@ function guessDetailedSender(text) {
     !/\b(email|telephone|tel|floor|street|road|postcode)\b/i.test(line)
   ));
 
-  return senderLine || null;
+  return senderLine ? stripSenderPrefix(senderLine) : null;
+}
+
+// Strips a leading "From:" / "To:" / "Sender:" label so a sender never reads
+// "appears to be from From: Greenfield Lettings".
+function stripSenderPrefix(line) {
+  return cleanLine(String(line || "").replace(/^\s*(?:from|to|sender)\s*:\s*/i, ""));
 }
 
 function extractVisibleDates(text) {
@@ -868,6 +980,12 @@ function extractVisibleTimeframes(text) {
 
 function clearlySaysNoActionNeeded(text) {
   return /\b(no action needed|no action is needed|you do not need to do anything|for information only)\b/i.test(String(text || ""));
+}
+
+// True when a bill clearly states there is nothing to pay (in credit / zero balance).
+// Kept payment-specific so it never matches a normal payable bill.
+function isInCreditOrNoPayment(text) {
+  return /\b(in credit|no payment is needed|no payment needed|nothing to pay|you do not need to pay|do not need to pay|no payment is due|account is in credit|you are in credit)\b/i.test(String(text || ""));
 }
 
 function detectStructuredDocumentType({ text, trust }) {
@@ -1004,7 +1122,7 @@ function extractSummaryFirstLineSender(text) {
     if (!line || line.length < 4 || line.length > 60) continue;
     if (/^(ref|reference|date|dear|po box|\d|your account|account)/i.test(line)) continue;
     if (/\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b/.test(line)) continue;
-    return line;
+    return stripSenderPrefix(line);
   }
   return null;
 }
@@ -1084,7 +1202,7 @@ function buildBanner(trust) {
     return {
       show: true,
       type: "safe",
-      text: "This looks like a normal document. No urgent risk found."
+      text: "This looks like a normal document. Check the original if anything is unclear."
     };
   }
 
@@ -1390,6 +1508,12 @@ function inferSummary(text, trust) {
     : extractDeadline(text);
 
   if (cat === "bill_or_payment") {
+    // In-credit / nothing-to-pay statements must not be framed as a payment demand.
+    if (isInCreditOrNoPayment(text)) {
+      return sender
+        ? `This appears to be a bill from ${sender}. It looks like your account may be in credit, so there may be nothing to pay. Check the original document to be sure.`
+        : "This appears to be a bill. It looks like your account may be in credit, so there may be nothing to pay. Check the original document to be sure.";
+    }
     if (sender && amount && date) return `${sender} appears to be asking you to pay ${amount} by ${date}.`;
     if (amount && date)           return `This appears to be a payment request for ${amount}, due by ${date}.`;
     if (sender && amount)         return `${sender} appears to be asking you to pay ${amount}.`;
@@ -1530,7 +1654,7 @@ function inferContextNote(text, trust) {
   if (trust.document_type === "outgoing") return "This may be a copy sent by you.";
   if (trust.input_quality === "poor") return "Upload a clearer version if possible.";
   if (extractReferenceNumbers(text).length > 0) return "Keep the reference number ready.";
-  return "No extra note.";
+  return "Keep this with your records in case you need it later.";
 }
 
 function inferHelpfulNote(trust, extractorNote) {
@@ -1575,7 +1699,7 @@ function extractDeadline(text) {
   // Keywords that, when appearing within 35 chars before a date, mark it as a deadline.
   // "to pay" catches "Failure to pay the outstanding amount by 24 June 2026" style clauses
   // where "to pay" lands in the window but "pay by" (adjacent) does not.
-  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
+  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|due\b[^\n]{0,22}\bby|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
 
   const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
   const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
@@ -1603,17 +1727,10 @@ function extractDeadline(text) {
     }
   }
 
-  // Fallback: return the first plausible date found anywhere in the document.
-  // Iterate rather than .match() so invalid numeric sequences are skipped.
-  const numericFallback = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
-  let fm;
-  while ((fm = numericFallback.exec(value)) !== null) {
-    if (isPlausibleNumericDate(fm[0])) return fm[0];
-  }
-
-  const firstLong = value.match(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
-  if (firstLong) return firstLong[0];
-
+  // No date with genuine deadline context was found. Do NOT fall back to the
+  // first date in the document: that produced wrong "Due by [letter date]"
+  // results. Return null so the renderer shows an honest "no clear due date"
+  // message and lists the visible dates instead.
   return null;
 }
 
@@ -1732,7 +1849,7 @@ function normalizeActionLine(actions) {
   if (!Array.isArray(actions) || actions.length === 0) return "No action needed right now.";
   const first = cleanLine(actions[0]);
   if (/^No action needed right now\./i.test(first)) return "No action needed right now.";
-  if (/^(Check|Verify|Use|Contact|Attend|Send|Complete|Read|Keep|Upload)\b/i.test(first)) return first;
+  if (/^(Check|Verify|Use|Contact|Attend|Send|Complete|Read|Keep|Upload|Please|Let|Confirm|Return|Submit|Provide|Bring|Call|Email|Visit|Reply|Respond|Update|Tell|Sign|Make|Pay|Arrange|Apply)\b/i.test(first)) return first;
   if (/\b(must|are required to|need to|tell us|notify|report any)\b/i.test(first)) return first;
   return `Check ${first}`;
 }

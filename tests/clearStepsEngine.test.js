@@ -99,7 +99,9 @@ function assertNoInventedDeadline(output) {
       [
         "No deadline clearly stated.",
         "No clear date was found. Check the original document."
-      ].includes(deadlineCard.short_answer),
+      ].includes(deadlineCard.short_answer) ||
+        // Honest "no deadline, but here are the visible dates" message (5B).
+        deadlineCard.short_answer.startsWith("No clear due date."),
       "deadline card avoids inventing a date"
     );
   }

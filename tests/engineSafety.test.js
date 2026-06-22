@@ -142,6 +142,121 @@ test("AI pass is skipped on borderline/low-quality input (no egress)", async () 
   assert.equal(r.ai.ai_status, "skipped");
 });
 
+// ── 5C: benefits/welfare letters are a cautious reading aid ───────────────────
+
+function cardById(out, id) {
+  return out.cards.find((c) => c.id === id);
+}
+
+test("a PIP letter never says 'no action needed' and is framed as a reading aid", () => {
+  const out = run([
+    "Department for Work and Pensions",
+    "Personal Independence Payment",
+    "We need more information about your PIP claim.",
+    "Please complete the enclosed form and return it by 28 June 2026."
+  ].join("\n"));
+  assert.ok(!/no action needed|information only/i.test(allCardText(out)));
+  assert.ok(/reading aid/i.test(allCardText(out)));
+});
+
+test("a benefits letter still surfaces explicit obligations", () => {
+  const out = run([
+    "Department for Work and Pensions",
+    "Housing Benefit Award Notice",
+    "You must tell us about any changes to your income immediately.",
+    "You must also tell us if you move to a different address."
+  ].join("\n"));
+  const steps = (cardById(out, "what_do_i_need_to_do").steps || []).filter((s) => /\bmust\b/i.test(s));
+  assert.ok(steps.length >= 2, `expected >=2 obligation steps, got ${steps.length}`);
+});
+
+test("a normal council tax bill is NOT swept into the benefits path (precision)", () => {
+  const out = run([
+    "Sheffield City Council",
+    "Council Tax 2026/27",
+    "Net amount payable: £2,104.00",
+    "First payment due: 01/04/2026"
+  ].join("\n"));
+  assert.ok(!/benefits or welfare/i.test(allCardText(out)));
+});
+
+// ── 5B: deadlines only when there is real context ─────────────────────────────
+
+test("a real 'due ... by' deadline is still captured", () => {
+  const out = run([
+    "Electricity Bill",
+    "Amount due is £89.20 by 25/06/2026."
+  ].join("\n"));
+  assert.equal(cardById(out, "when_is_it_due").date, "25/06/2026");
+});
+
+test("a letter date is not fabricated into a 'Due by'", () => {
+  const out = run([
+    "Virgin Media",
+    "Your monthly bill",
+    "Date: 06 June 2026",
+    "Your package this month is £56.00.",
+    "This will be collected by direct debit on 20 June 2026."
+  ].join("\n"));
+  const d = cardById(out, "when_is_it_due");
+  assert.ok(!d.date, `should have no due date, got ${d.date}`);
+  assert.ok(!/^Due by/.test(d.short_answer), d.short_answer);
+});
+
+// ── 5A: in-credit bills are not framed as a demand ────────────────────────────
+
+test("an in-credit bill is not framed as a payment demand", () => {
+  const out = run([
+    "EDF Energy",
+    "YOUR ENERGY BILL",
+    "You are in credit by £42.10. No payment is needed this period.",
+    "Date: 02 June 2026"
+  ].join("\n"));
+  const whatIsThis = cardById(out, "what_is_this").short_answer;
+  assert.ok(!/asking you to pay £42\.10/.test(whatIsThis), whatIsThis);
+  assert.ok(/in credit/i.test(whatIsThis), whatIsThis);
+  assert.ok(!cardById(out, "when_is_it_due").date, "in-credit bill should have no due date");
+});
+
+test("a normal payable bill is still summarised as a demand (regression)", () => {
+  const out = run([
+    "British Gas",
+    "YOUR ENERGY BILL",
+    "Total amount due £187.42",
+    "Please pay by 24 June 2026."
+  ].join("\n"));
+  assert.match(cardById(out, "what_is_this").short_answer, /pay £187\.42 by 24 June 2026/);
+  assert.equal(cardById(out, "when_is_it_due").date, "24 June 2026");
+});
+
+// ── §4 wording fixes ──────────────────────────────────────────────────────────
+
+test("a 'From:' sender prefix is stripped", () => {
+  const out = run([
+    "Notice seeking possession",
+    "Section 21, Housing Act 1988",
+    "From: Greenfield Lettings (on behalf of the landlord)",
+    "You are required to give up possession by 02 August 2026."
+  ].join("\n"));
+  assert.ok(!/from From:/i.test(allCardText(out)), allCardText(out));
+});
+
+test("an imperative obligation is not prefixed with 'Check '", () => {
+  const out = run([
+    "Westshire County Council",
+    "Special Educational Needs Service",
+    "Please let us know if you can attend and share any reports you would like considered."
+  ].join("\n"));
+  assert.ok(!/Check Please/i.test(allCardText(out)));
+});
+
+test("garbled / non-topical topic is not echoed in the summary", () => {
+  const garbled = run("C0unc1l T@x B1ll\nB1rm1ngh@m C1ty C0unc1l\nB@nd: C");
+  assert.ok(!/about c0unc1l/i.test(cardById(garbled, "what_is_this").short_answer));
+  const menu = run("STOP\n30\nCAFE\nMENU\nlatte 3.20\nflat white 3.00");
+  assert.ok(!/about latte/i.test(cardById(menu, "what_is_this").short_answer));
+});
+
 test("AI pass fails open to the rules cards when the API errors", async () => {
   const r = await runAiPass(GOOD_BILL, {
     withKey: true,
