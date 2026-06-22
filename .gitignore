@@ -1,6 +1,10 @@
 node_modules/
 .env
 *.log
+
+# Local Claude Code dev config (e.g. launch.json). Keep shared skills tracked.
+.claude/*
+!.claude/skills/
 private_storage/uploads/*
 private_storage/results/*
 !private_storage/uploads/.gitkeep
