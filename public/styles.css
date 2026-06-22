@@ -6795,6 +6795,14 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 }
 
 @media (max-width: 760px) {
+  /* The topbar no longer needs to pin on mobile now that the bottom bar
+     carries navigation. Letting it scroll away keeps it from ever
+     overlapping a page heading, while content still starts cleanly below
+     it with calm spacing. */
+  .topbar {
+    position: static;
+  }
+
   .mobile-tabbar {
     position: fixed;
     left: 12px;
@@ -6826,32 +6834,33 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     background: linear-gradient(to top, var(--bg), transparent);
   }
 
-  /* The gliding highlight. With the global border box model, its
-     width is one quarter of the bar minus a 16px inset, so one
-     translate step of 100% plus 16px equals exactly one cell. */
+  /* The gliding highlight sits behind the icon only, as a fixed size soft
+     pill. The label sits below it, outside the pill, so every tab reads
+     identically regardless of label length. The pill is centred in each
+     quarter of the bar and glides by animating left between the four cell
+     centres at 12.5%, 37.5%, 62.5%, and 87.5%. */
   .mobile-tabbar__indicator {
     position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 8px;
-    width: calc(25% - 16px);
-    border-radius: 15px;
+    top: 6px;
+    left: calc(12.5% - 23px);
+    width: 46px;
+    height: 31px;
+    border-radius: 13px;
     background: var(--sage);
     border: 1px solid color-mix(in srgb, var(--green) 22%, transparent);
-    transform: translateX(0);
-    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+    transition: left 0.34s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
   }
 
   .mobile-tabbar:has(.mobile-tab:nth-of-type(2).active) .mobile-tabbar__indicator {
-    transform: translateX(calc(100% + 16px));
+    left: calc(37.5% - 23px);
   }
 
   .mobile-tabbar:has(.mobile-tab:nth-of-type(3).active) .mobile-tabbar__indicator {
-    transform: translateX(calc(200% + 32px));
+    left: calc(62.5% - 23px);
   }
 
   .mobile-tabbar:has(.mobile-tab:nth-of-type(4).active) .mobile-tabbar__indicator {
-    transform: translateX(calc(300% + 48px));
+    left: calc(87.5% - 23px);
   }
 
   /* On pages with no matching tab, such as privacy, show no
@@ -6869,8 +6878,8 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    min-height: 58px;
+    gap: 8px;
+    min-height: 60px;
     padding: 8px 2px;
     border: 0;
     background: transparent;
