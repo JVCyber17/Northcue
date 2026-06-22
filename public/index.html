@@ -726,6 +726,50 @@
       </section>
     </main>
 
+    <!-- Mobile bottom navigation. Shown only at 760px and below, hidden on the landing page. Each tab reuses the existing data-page-link wiring, so setPage handles the active state and aria-current. The brand and comfort controls in the topbar are left as they are. -->
+    <nav class="mobile-tabbar" aria-label="Main sections">
+      <span class="mobile-tabbar__indicator" aria-hidden="true"></span>
+      <button type="button" class="mobile-tab" data-page-link="home">
+        <span class="mobile-tab__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M3.5 9.8 12 3.5l8.5 6.3"></path>
+            <path d="M5.5 8.6V19a1.4 1.4 0 0 0 1.4 1.4h10.2A1.4 1.4 0 0 0 18.5 19V8.6"></path>
+            <path d="M9.7 20.4v-5.3a1.2 1.2 0 0 1 1.2-1.2h2.2a1.2 1.2 0 0 1 1.2 1.2v5.3"></path>
+          </svg>
+        </span>
+        <span class="mobile-tab__label">Home</span>
+      </button>
+      <button type="button" class="mobile-tab" data-page-link="journey">
+        <span class="mobile-tab__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M20 15.5v3A1.6 1.6 0 0 1 18.4 20H5.6A1.6 1.6 0 0 1 4 18.5v-3"></path>
+            <path d="M8 8.2 12 4.2l4 4"></path>
+            <path d="M12 4.4v10.4"></path>
+          </svg>
+        </span>
+        <span class="mobile-tab__label">Understand</span>
+      </button>
+      <button type="button" class="mobile-tab" data-page-link="help">
+        <span class="mobile-tab__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="8.6"></circle>
+            <path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.7-2.6 2.6-2.6 2.6"></path>
+            <path d="M12 16.8h.01"></path>
+          </svg>
+        </span>
+        <span class="mobile-tab__label">Help</span>
+      </button>
+      <button type="button" class="mobile-tab" data-page-link="comfort">
+        <span class="mobile-tab__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </span>
+        <span class="mobile-tab__label">Settings</span>
+      </button>
+    </nav>
+
     <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-box">
         <button type="button" id="modal-close" class="modal-close" aria-label="Go back">Back</button>

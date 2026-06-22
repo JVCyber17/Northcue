@@ -6784,3 +6784,160 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     transform: rotate(90deg);
   }
 }
+
+/* ── Mobile bottom navigation ──────────────────────────────
+   A calm floating tab bar shown only at 760px and below. It
+   reuses the existing data-page-link wiring, so setPage drives
+   the active state and aria-current. Nothing above 760px is
+   touched, so desktop stays exactly as it was. */
+.mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .mobile-tabbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    z-index: 30;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--surface);
+    box-shadow: var(--soft-shadow);
+  }
+
+  /* Soft fade so page content dissolves gently around the bar
+     instead of meeting a hard edge. Sits behind the opaque bar,
+     above the page content, and never blocks taps. */
+  .mobile-tabbar::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(env(safe-area-inset-bottom, 0px) + 116px);
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to top, var(--bg), transparent);
+  }
+
+  /* The gliding highlight. With the global border box model, its
+     width is one quarter of the bar minus a 16px inset, so one
+     translate step of 100% plus 16px equals exactly one cell. */
+  .mobile-tabbar__indicator {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: calc(25% - 16px);
+    border-radius: 15px;
+    background: var(--sage);
+    border: 1px solid color-mix(in srgb, var(--green) 22%, transparent);
+    transform: translateX(0);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  }
+
+  .mobile-tabbar:has(.mobile-tab:nth-of-type(2).active) .mobile-tabbar__indicator {
+    transform: translateX(calc(100% + 16px));
+  }
+
+  .mobile-tabbar:has(.mobile-tab:nth-of-type(3).active) .mobile-tabbar__indicator {
+    transform: translateX(calc(200% + 32px));
+  }
+
+  .mobile-tabbar:has(.mobile-tab:nth-of-type(4).active) .mobile-tabbar__indicator {
+    transform: translateX(calc(300% + 48px));
+  }
+
+  /* On pages with no matching tab, such as privacy, show no
+     highlight rather than a misleading one under Home. */
+  .mobile-tabbar:not(:has(.mobile-tab.active)) .mobile-tabbar__indicator {
+    opacity: 0;
+  }
+
+  .mobile-tab {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 58px;
+    padding: 8px 2px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--font-body);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-tab.active {
+    color: var(--green);
+  }
+
+  .mobile-tab__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobile-tab__icon svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.85;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mobile-tab__label {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.005em;
+    color: inherit;
+    white-space: nowrap;
+  }
+
+  .mobile-tab:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: -3px;
+    border-radius: 16px;
+  }
+
+  /* Keep the hero clean: no bar on the landing page. */
+  body[data-page="landing"] .mobile-tabbar {
+    display: none;
+  }
+
+  /* Move the page navigation to the bottom bar on mobile. The brand
+     logo and the comfort mode-row in the topbar are left as they are. */
+  .top-links {
+    display: none;
+  }
+
+  /* Keep content clear of the floating bar on every page that shows it.
+     main.app-main outranks the per page padding overrides, so no
+     important is needed. */
+  body:not([data-page="landing"]) main.app-main {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 104px);
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .mobile-tabbar__indicator {
+    transition: none;
+  }
+}
