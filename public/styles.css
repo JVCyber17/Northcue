@@ -6950,3 +6950,83 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     transition: none;
   }
 }
+
+/* ── Mobile cue card reading, Phase 3 ──────────────────────
+   At 760px and below the cue card becomes swipeable. Only the
+   inner content slides while the dots and counter stay put as
+   the anchor. The nav becomes a quiet Back text button with a
+   calm Next pill as the visible safety net. Swipe is the main
+   way, the tap is the fallback. Desktop above 760px is untouched. */
+@media (max-width: 760px) {
+  .cue-card-panel {
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  .cue-card-content {
+    transition: transform 0.26s ease, opacity 0.26s ease;
+    will-change: transform;
+  }
+
+  .cue-card-panel.is-swiping {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .cue-card-panel.is-swiping .cue-card-content {
+    transition: none;
+  }
+
+  /* Quiet nav. Back is a soft text button, Next is a calm pill in
+     the same green as the bottom bar highlight. Both override the
+     global full width mobile button rule, scoped to the card nav so
+     other pages keep their buttons. */
+  .card-nav {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 14px;
+  }
+
+  .card-nav .outline-btn,
+  .card-nav .primary-btn {
+    width: auto;
+  }
+
+  .card-nav .outline-btn {
+    min-height: 44px;
+    padding: 0 12px;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* Keep Back a quiet text button in dark mode too. The site wide
+     dark outline button rule otherwise gives it a surface fill and the
+     full text colour. */
+  body.theme-dark .card-nav .outline-btn {
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+  }
+
+  .card-nav .primary-btn {
+    min-height: 46px;
+    padding: 0 24px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--green) 22%, transparent);
+    background: var(--sage);
+    box-shadow: none;
+    color: var(--green);
+    font-weight: 800;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .cue-card-content {
+    transition: none;
+  }
+}

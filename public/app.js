@@ -466,6 +466,7 @@ loadSavedPreferences();
 wireNavigation();
 wireUpload();
 wireCueCards();
+wireCardSwipe();
 wireActions();
 wireCompletion();
 wireHelp();
@@ -986,6 +987,147 @@ function wireCueCards() {
   document.querySelector("#check-button").addEventListener("click", () => {
     openDocumentCheck();
   });
+}
+
+// Mobile only swipe for the cue cards. It reuses the existing #card-next and
+// #card-back handlers through click, so the advance, completion, edge, and
+// analytics logic is never duplicated. Vertical scrolling stays native through
+// touch-action pan-y, and a JS axis lock plus a 60px threshold make sure only a
+// deliberate horizontal swipe changes a card. All motion is off under reduced
+// motion and on screens above 760px. Only the inner content slides, so the dots
+// and counter stay put as the anchor.
+function wireCardSwipe() {
+  const panel = document.querySelector(".cue-card-panel");
+  const content = document.querySelector(".cue-card-content");
+  if (!panel || !content) return;
+
+  const isMobile = () => window.matchMedia("(max-width: 760px)").matches;
+  const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DEADZONE = 8;
+  const THRESHOLD = 60;
+  const SLIDE = 110;
+
+  let startX = 0;
+  let startY = 0;
+  let axis = null;
+  let dragging = false;
+  let animating = false;
+  let pendingX = 0;
+  let frame = null;
+
+  function startsOnControl(target) {
+    return Boolean(target.closest && target.closest("button, a, input, textarea, select, [role='button']"));
+  }
+
+  function setTransform(x, opacity) {
+    content.style.transform = x ? `translateX(${x}px)` : "translateX(0)";
+    if (opacity !== undefined) content.style.opacity = String(opacity);
+  }
+
+  function clearInline() {
+    content.style.transition = "";
+    content.style.transform = "";
+    content.style.opacity = "";
+  }
+
+  function resetGesture() {
+    panel.classList.remove("is-swiping");
+    axis = null;
+    dragging = false;
+    if (frame) {
+      window.cancelAnimationFrame(frame);
+      frame = null;
+    }
+  }
+
+  function springBack() {
+    if (reducedMotion()) {
+      clearInline();
+      return;
+    }
+    content.style.transition = "transform 0.26s ease, opacity 0.26s ease";
+    setTransform(0, 1);
+    window.setTimeout(clearInline, 280);
+  }
+
+  function commit(direction) {
+    const selector = direction === "next" ? "#card-next" : "#card-back";
+    if (reducedMotion()) {
+      clearInline();
+      document.querySelector(selector).click();
+      return;
+    }
+    animating = true;
+    const exitX = direction === "next" ? -SLIDE : SLIDE;
+    const enterX = direction === "next" ? SLIDE : -SLIDE;
+    content.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+    setTransform(exitX, 0);
+    window.setTimeout(() => {
+      document.querySelector(selector).click();
+      content.style.transition = "none";
+      setTransform(enterX, 0);
+      void content.offsetWidth;
+      content.style.transition = "transform 0.22s ease, opacity 0.22s ease";
+      setTransform(0, 1);
+      window.setTimeout(() => {
+        clearInline();
+        animating = false;
+      }, 240);
+    }, 200);
+  }
+
+  panel.addEventListener("touchstart", (event) => {
+    if (!isMobile() || animating || event.touches.length !== 1) return;
+    if (startsOnControl(event.target)) return;
+    startX = event.touches[0].clientX;
+    startY = event.touches[0].clientY;
+    axis = null;
+    dragging = false;
+  }, { passive: true });
+
+  panel.addEventListener("touchmove", (event) => {
+    if (!isMobile() || animating || axis === "y" || event.touches.length !== 1) return;
+    const dx = event.touches[0].clientX - startX;
+    const dy = event.touches[0].clientY - startY;
+
+    if (axis === null) {
+      if (Math.abs(dx) < DEADZONE && Math.abs(dy) < DEADZONE) return;
+      axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      if (axis !== "x") return;
+      dragging = true;
+      panel.classList.add("is-swiping");
+    }
+
+    if (reducedMotion()) return;
+    pendingX = dx > 0 && cardIndex === 0 ? dx * 0.25 : dx;
+    if (!frame) {
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        setTransform(pendingX);
+      });
+    }
+  }, { passive: true });
+
+  panel.addEventListener("touchend", (event) => {
+    if (axis !== "x" || !dragging || animating) {
+      resetGesture();
+      return;
+    }
+    const touch = event.changedTouches[0];
+    const dx = touch ? touch.clientX - startX : pendingX;
+    panel.classList.remove("is-swiping");
+    if (Math.abs(dx) < THRESHOLD || (dx > 0 && cardIndex === 0)) {
+      springBack();
+    } else {
+      commit(dx < 0 ? "next" : "prev");
+    }
+    resetGesture();
+  }, { passive: true });
+
+  panel.addEventListener("touchcancel", () => {
+    if (axis === "x" && dragging && !animating) springBack();
+    resetGesture();
+  }, { passive: true });
 }
 
 function wireActions() {
