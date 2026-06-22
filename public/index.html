@@ -564,12 +564,33 @@
       <section id="page-comfort" class="page" aria-labelledby="comfort-title">
         <div class="comfort-layout">
           <div class="comfort-head">
-            <span class="comfort-eyebrow">Accessibility settings</span>
+            <span class="comfort-eyebrow">
+              <span class="comfort-eyebrow-full">Accessibility settings</span>
+              <span class="comfort-eyebrow-short">Settings</span>
+            </span>
             <h1 id="comfort-title">Make Northcue comfortable for you<span class="green-dot">.</span></h1>
             <p>Choose settings that make reading feel easier.</p>
           </div>
 
           <div class="comfort-settings-stack">
+            <div class="settings-appearance">
+              <p class="settings-appearance-label">Appearance</p>
+              <div class="appearance-toggles">
+                <button type="button" class="appearance-toggle" data-theme="dark" aria-pressed="false">
+                  <span class="appearance-toggle-text">
+                    <span class="appearance-toggle-label">Dark mode</span>
+                  </span>
+                  <span class="appearance-switch" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="appearance-toggle" data-toggle="focus-mode" aria-pressed="false">
+                  <span class="appearance-toggle-text">
+                    <span class="appearance-toggle-label">Focus mode</span>
+                    <span class="appearance-toggle-help">Shows one thing at a time, so the screen feels calmer.</span>
+                  </span>
+                  <span class="appearance-switch" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
             <div class="settings-panel">
             <div class="settings-section">
               <p>Colour style</p>

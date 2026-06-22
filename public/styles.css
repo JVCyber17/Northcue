@@ -7030,3 +7030,280 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     transition: none;
   }
 }
+
+/* ── Mobile consolidated Settings, Phase 4 ─────────────────
+   At 760px and below the comfort page gathers every appearance
+   control. The Appearance card (dark and focus) shows on mobile
+   only and reuses the existing data-theme and data-toggle wiring,
+   so setTheme and setFocusMode drive it with no parallel logic.
+   The existing sections are reordered for mobile with flex order,
+   not by moving them in the markup. Desktop above 760px keeps the
+   comfort page and the topbar controls exactly as they were. */
+.settings-appearance {
+  display: none;
+}
+
+.comfort-eyebrow-short {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  /* Eyebrow echoes the Settings tab on mobile. Desktop keeps its own label. */
+  .comfort-eyebrow-full {
+    display: none;
+  }
+
+  .comfort-eyebrow-short {
+    display: inline;
+  }
+
+  /* Appearance card, its own calm group above the existing settings card. */
+  .settings-appearance {
+    display: block;
+    margin-bottom: 16px;
+    padding: 16px 26px 22px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+    box-shadow: var(--soft-shadow);
+  }
+
+  .settings-appearance-label {
+    margin: 0 0 14px;
+    font-weight: 700;
+  }
+
+  .appearance-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .appearance-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .appearance-toggle-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .appearance-toggle-label {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .appearance-toggle-help {
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .appearance-switch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 50px;
+    height: 30px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--line-strong) 78%, var(--surface) 22%);
+    transition: background 0.2s ease;
+  }
+
+  .appearance-switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(23, 25, 35, 0.25);
+    transition: transform 0.2s ease;
+  }
+
+  .appearance-toggle.active .appearance-switch {
+    background: var(--green);
+  }
+
+  .appearance-toggle.active .appearance-switch::after {
+    transform: translateX(20px);
+  }
+
+  /* Reorder the existing settings card for mobile only, Text size before
+     Colour style, without changing the markup or the desktop order. The
+     reduced top padding follows the visually first section. */
+  .settings-panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settings-panel .settings-section:nth-child(1) {
+    order: 2;
+    padding-top: 20px;
+  }
+
+  .settings-panel .settings-section:nth-child(2) {
+    order: 1;
+    padding-top: 4px;
+  }
+
+  .settings-panel .settings-section:nth-child(3) {
+    order: 3;
+  }
+
+  .settings-panel .settings-section:nth-child(4) {
+    order: 4;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .appearance-switch,
+  .appearance-switch::after {
+    transition: none;
+  }
+}
+
+/* ── Mobile Settings, compact layout ───────────────────────
+   Tightens the mobile Settings screen to a compact phone layout
+   so it scrolls far less. Mobile only, styling only. Every option
+   and every helper line is kept. Desktop above 760px is untouched,
+   and these controls are used only on the comfort page. */
+@media (max-width: 760px) {
+  /* Tighter outer rhythm and a little more width for the controls. */
+  .comfort-head {
+    margin-bottom: 14px;
+  }
+
+  .settings-appearance {
+    margin-bottom: 12px;
+    padding: 14px 18px 16px;
+  }
+
+  .settings-panel {
+    padding: 14px 18px 16px;
+  }
+
+  .settings-section {
+    padding: 14px 0;
+  }
+
+  .settings-panel .settings-section:nth-child(1) {
+    padding-top: 14px;
+  }
+
+  .settings-section > p {
+    margin-bottom: 10px;
+  }
+
+  /* Text size: compact three across. */
+  .segmented {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .text-size-btn {
+    flex-direction: column;
+    gap: 2px;
+    min-height: 56px;
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+
+  .text-size-btn strong {
+    font-size: 16px;
+  }
+
+  /* Colour style: a single row of small round swatches. Labels are kept
+     in the markup for screen readers but hidden visually here. The
+     selected swatch gets a clear green ring. All options kept. */
+  .colour-style-row {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+  .colour-style {
+    min-height: auto;
+    gap: 0;
+    padding: 4px 0;
+    background: transparent;
+    font-size: 0;
+  }
+
+  .colour-style.selected {
+    background: transparent;
+  }
+
+  .colour-style .swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+
+  .colour-style.selected .swatch {
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--green);
+  }
+
+  /* Reading card style: two compact side by side options, helper text kept. */
+  .card-style-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .card-style-choice {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .card-style-choice span {
+    grid-row: auto;
+    width: 100%;
+    height: 36px;
+  }
+
+  /* Background style: a neat row of small previews, options and labels kept. */
+  .background-style-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .background-style-choice {
+    min-height: auto;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .background-preview {
+    width: 100%;
+    height: 56px;
+  }
+
+  .background-style-choice.selected .background-preview {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-blob-a) 45%, transparent), var(--soft-shadow);
+  }
+
+  .background-style-choice.selected .background-preview::after {
+    width: 18px;
+    height: 18px;
+    right: 4px;
+    top: 4px;
+    font-size: 11px;
+  }
+}
