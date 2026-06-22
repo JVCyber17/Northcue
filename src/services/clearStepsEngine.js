@@ -267,7 +267,7 @@ function runExtractorLayer({ text, trust }) {
       support_options: [],
       confidence: "low",
       needs_human_review: true,
-      review_reason: "OCR garbling detected — amounts and dates may be unreliable.",
+      review_reason: "OCR garbling detected. Amounts and dates may be unreliable.",
       evidence_spans: []
     };
   }
@@ -967,14 +967,34 @@ function extractSentenceAround(text, matchIndex) {
     sentenceStart = m.index + (beforeStr[m.index] === "\n" ? 1 : 0);
   }
 
-  // Walk forward to find the next sentence-ending punctuation.
+  // Walk forward to the next sentence-ending punctuation, skipping a period that
+  // is part of a decimal number (e.g. the "." in "£130.00") so an amount is not
+  // truncated mid-number.
   const afterStr = raw.slice(matchIndex);
-  const endMatch = afterStr.match(/[.!?]/);
-  const endOffset = endMatch && endMatch.index < 250 ? endMatch.index + 1 : Math.min(200, afterStr.length);
+  let endOffset = Math.min(200, afterStr.length);
+  const endRe = /[.!?]/g;
+  let e;
+  while ((e = endRe.exec(afterStr)) !== null) {
+    if (e.index >= 250) break;
+    const prev = afterStr[e.index - 1];
+    const next = afterStr[e.index + 1];
+    if (e[0] === "." && /\d/.test(prev || "") && /\d/.test(next || "")) continue;
+    endOffset = e.index + 1;
+    break;
+  }
 
-  return raw.slice(sentenceStart, matchIndex + endOffset)
+  const sentence = raw.slice(sentenceStart, matchIndex + endOffset)
     .replace(/\s+/g, " ")
     .trim();
+
+  // Reject header/title dumps. A genuine consequence sentence does not contain
+  // several "Label: value" field markers (e.g. "PCN number: ... Date: ... Vehicle: ...").
+  // This happens when a risk keyword matches a document title that has no real
+  // sentence punctuation before the first body line.
+  const fieldLabels = sentence.match(/\b[A-Za-z][A-Za-z ]{1,20}:\s/g) || [];
+  if (fieldLabels.length >= 2) return "";
+
+  return sentence;
 }
 
 function extractSummaryFirstLineSender(text) {
@@ -1084,7 +1104,21 @@ function detectScamSignals(lower) {
     ["final warning", "Uses pressure warning wording."],
     ["click this link", "Requests link-based response."],
     ["confirm your account", "Requests account verification details."],
-    ["share your password", "Requests secret details."]
+    ["share your password", "Requests secret details."],
+    // Credential phishing: real organisations never ask for a full password, PIN,
+    // or full card number, and do not threaten to freeze an account via a link.
+    // These are high-precision signals that legitimate bills/letters do not use.
+    ["full password", "Asks for a full password, which real organisations never request."],
+    ["confirm your password", "Asks you to confirm a password."],
+    ["enter your password", "Asks you to enter a password."],
+    ["confirm your pin", "Asks you to confirm a PIN."],
+    ["enter your pin", "Asks you to enter a PIN."],
+    ["card number, pin", "Asks for card number and PIN together."],
+    ["card number and pin", "Asks for card number and PIN together."],
+    ["pin and full password", "Asks for PIN and password together."],
+    ["verify your identity within", "Pressures you to verify your identity within a short time."],
+    ["account will be frozen", "Threatens to freeze your account."],
+    ["account will be suspended within", "Threatens to suspend your account within a short time."]
   ];
 
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);
@@ -1428,7 +1462,7 @@ function inferGarbledSummary(text, trust) {
   const base = sender
     ? `${sender} appears to have sent ${label}.`
     : `This appears to be ${label}.`;
-  return `${base} The text quality is too low to read specific amounts or dates reliably — check the original document for these details.`;
+  return `${base} The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.`;
 }
 
 function inferMostImportantPoint(trust, actions) {
@@ -1454,7 +1488,7 @@ function inferMostImportantPoint(trust, actions) {
     actions.length > 0 &&
     actions[0] !== "No action needed right now.";
   if (hasRealAction) {
-    return "This document appears to require an action from you — see what you need to do.";
+    return "This document appears to require an action from you. See what you need to do.";
   }
 
   return "This looks like information only.";
