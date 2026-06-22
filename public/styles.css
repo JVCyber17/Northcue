@@ -6498,3 +6498,332 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   background: var(--northcue-circle-bg, transparent);
   box-shadow: var(--northcue-circle-shadow, none);
 }
+
+/* ── Privacy page ──────────────────────────────────────── */
+.privacy-layout {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px 8px 28px;
+}
+
+.privacy-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.privacy-head h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 2.4vw, 32px);
+  line-height: 1.1;
+}
+
+.privacy-intro {
+  max-width: 540px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.privacy-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-blob-a) 50%, var(--surface) 50%);
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 18%, var(--line) 82%);
+}
+
+.privacy-icon svg {
+  width: 56%;
+  height: 56%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.privacy-icon-lg { width: 64px; height: 64px; }
+.privacy-icon-md { width: 48px; height: 48px; }
+
+.privacy-journey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.privacy-step {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: 120px;
+  text-align: center;
+}
+
+.privacy-step-label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.privacy-step-arrow {
+  display: grid;
+  place-items: center;
+  margin-top: 15px;
+  color: var(--muted);
+}
+
+.privacy-step-arrow svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.55;
+}
+
+.privacy-journey-caption {
+  max-width: 560px;
+  margin: 8px auto 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.privacy-panel {
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--soft-shadow);
+}
+
+.privacy-panel h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-size: 20px;
+}
+
+.privacy-panel p,
+.privacy-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+
+.privacy-panel .privacy-icon {
+  margin-bottom: 12px;
+}
+
+.privacy-authenticity {
+  background: color-mix(in srgb, var(--theme-blob-a) 30%, var(--surface) 70%);
+  border-color: color-mix(in srgb, var(--theme-accent) 22%, var(--line) 78%);
+}
+
+.privacy-card-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.privacy-card {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--soft-shadow);
+}
+
+.privacy-card h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-heading);
+  font-size: 17px;
+}
+
+.privacy-full-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 22px;
+  border: 1.5px solid color-mix(in srgb, var(--theme-accent) 40%, var(--line) 60%);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--theme-blob-a) 22%, var(--surface) 78%);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.privacy-full-text {
+  display: grid;
+  gap: 3px;
+}
+
+.privacy-full-text strong {
+  color: var(--theme-accent);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.privacy-full-text small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.privacy-full-arrow svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--theme-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: 0 0 auto;
+}
+
+.privacy-full-link:hover,
+.privacy-full-link:focus-visible {
+  background: color-mix(in srgb, var(--theme-blob-a) 38%, var(--surface) 62%);
+}
+
+.privacy-closing {
+  margin: 2px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.privacy-full-stub {
+  width: min(620px, 100%);
+  margin: 0 auto;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 32px 8px;
+}
+
+.privacy-full-stub h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 2.2vw, 30px);
+}
+
+.privacy-full-stub p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* Clickable "Private and secure" shields */
+.is-privacy-link {
+  cursor: pointer;
+}
+
+.is-privacy-link:hover {
+  background-color: color-mix(in srgb, var(--theme-blob-a) 30%, var(--surface) 70%);
+}
+
+.is-privacy-link:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 2px;
+}
+
+/* ── Site footer ───────────────────────────────────────── */
+.site-footer {
+  width: min(1380px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 18px 0 26px;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.site-footer-brand {
+  color: var(--muted);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.site-footer-links {
+  display: flex;
+  gap: 16px;
+}
+
+.site-footer-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer-link:hover,
+.site-footer-link:focus-visible {
+  color: var(--theme-accent);
+}
+
+body[data-page="landing"] .site-footer {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .privacy-card-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .privacy-journey {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .privacy-step {
+    width: auto;
+  }
+
+  .privacy-step-arrow {
+    margin-top: 0;
+    transform: rotate(90deg);
+  }
+}

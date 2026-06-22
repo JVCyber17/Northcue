@@ -1,4 +1,4 @@
-const pages = ["landing", "home", "journey", "help", "comfort"];
+const pages = ["landing", "home", "journey", "help", "comfort", "privacy", "privacy-full"];
 const northcueIconBase = "/icons/northcue/";
 const northcueForegroundIconBase = "/icons/northcue/foreground/";
 const northcueForegroundLightIconBase = "/icons/northcue/foreground-light/";
@@ -488,6 +488,18 @@ function wireNavigation() {
         setJourneyStep("upload");
       }
     });
+
+    // Non-native controls (e.g. the clickable "Private and secure" shields)
+    // need explicit keyboard activation so Enter/Space behave like a button.
+    const tag = button.tagName;
+    if (tag !== "A" && tag !== "BUTTON") {
+      button.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setPage(button.dataset.pageLink);
+        }
+      });
+    }
   });
 
   themeButtons.forEach((button) => {

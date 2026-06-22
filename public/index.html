@@ -191,7 +191,7 @@
                 </span>
               </article>
 
-              <article class="home-tile-card home-static-card">
+              <article class="home-tile-card home-static-card is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
                 <span class="home-icon-bubble home-icon-solid northcue-circle-soft-green" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
@@ -343,7 +343,7 @@
                 <button type="button" id="check-button" class="outline-btn" hidden>Document check</button>
               </div>
 
-              <div class="privacy-note" aria-label="Privacy reassurance">
+              <div class="privacy-note is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
                 <span class="privacy-note-icon journey-icon-slot" aria-hidden="true">
                   <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
@@ -615,7 +615,124 @@
 
         </div>
       </section>
+
+      <section id="page-privacy" class="page" aria-labelledby="privacy-title">
+        <div class="privacy-layout">
+          <header class="privacy-head">
+            <span class="privacy-icon privacy-icon-lg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v5c0 5.1-3.1 8.4-7 9.6-3.9-1.2-7-4.5-7-9.6V6z"></path><path d="M9 11.6l2.1 2.1L15.4 9.4"></path></svg>
+            </span>
+            <h1 id="privacy-title">Your privacy<span class="green-dot">.</span></h1>
+            <p class="privacy-intro">The documents people bring to Northcue can feel personal. Here is how we look after them, simply.</p>
+          </header>
+
+          <ol class="privacy-journey" aria-label="How Northcue handles your document">
+            <li class="privacy-step">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5V4.5"></path><path d="M7.5 9l4.5-4.5L16.5 9"></path><path d="M5 15.5v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3"></path></svg>
+              </span>
+              <span class="privacy-step-label">You upload</span>
+            </li>
+            <li class="privacy-step-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
+            </li>
+            <li class="privacy-step">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4"></rect></svg>
+              </span>
+              <span class="privacy-step-label">Northcue structures it</span>
+            </li>
+            <li class="privacy-step-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
+            </li>
+            <li class="privacy-step">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M12 4l1.5 4.2 4.2 1.5-4.2 1.5L12 15.4l-1.5-4.2L6.3 9.7l4.2-1.5z"></path><path d="M18 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"></path></svg>
+              </span>
+              <span class="privacy-step-label">AI helps phrase it</span>
+            </li>
+            <li class="privacy-step-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
+            </li>
+            <li class="privacy-step">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M4.5 7h15"></path><path d="M9 7V5.2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V7"></path><path d="M6.5 7l.9 12.1a1 1 0 0 0 1 .9h7.2a1 1 0 0 0 1-.9L18.5 7"></path><path d="M10 11v5M14 11v5"></path></svg>
+              </span>
+              <span class="privacy-step-label">It is deleted</span>
+            </li>
+          </ol>
+          <p class="privacy-journey-caption">Your document is deleted after we read it. We keep only anonymous information, never its contents.</p>
+
+          <div class="privacy-panel privacy-authenticity">
+            <h2>The thinking is ours</h2>
+            <p>Northcue is not a chatbot. We built our own system that reads your document, works out what it appears to be, and carefully decides what belongs on each cue card and how cautiously to word it. That structure, and the safety behind it, is Northcue's own work. An AI provider only helps put it into clear, friendly language at the end.</p>
+          </div>
+
+          <div class="privacy-card-row">
+            <div class="privacy-card">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.2 12.4l2.5 2.5 5-5.3"></path></svg>
+              </span>
+              <h3>What we keep</h3>
+              <p>Only anonymous information, like the type of document and whether it read clearly. Not linked to you.</p>
+            </div>
+            <div class="privacy-card">
+              <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="10.5" width="14" height="9.5" rx="2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path><path d="M12 14.4v2.6"></path></svg>
+              </span>
+              <h3>What we never keep</h3>
+              <p>Your document, its text, or your name, address, and account numbers.</p>
+            </div>
+          </div>
+
+          <div class="privacy-panel">
+            <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4"></rect></svg>
+            </span>
+            <h2>How your cards are made</h2>
+            <p>Northcue structures your cue cards and decides what matters. An AI provider helps phrase them clearly. The text is processed securely, it is not used to train AI, and we do not store it.</p>
+          </div>
+
+          <div class="privacy-panel">
+            <span class="privacy-icon privacy-icon-md" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect><path d="M4.5 7.5l7.5 5.5 7.5-5.5"></path></svg>
+            </span>
+            <h2>Questions</h2>
+            <p>If you have any questions about your privacy, contact us at [CONTACT EMAIL].</p>
+          </div>
+
+          <!-- TODO: page-privacy-full is a stub. Build the full privacy details page in a separate task; this link is already wired to it. -->
+          <button type="button" class="privacy-full-link" data-page-link="privacy-full">
+            <span class="privacy-full-text">
+              <strong>Read the full privacy details</strong>
+              <small>The complete version, including the AI provider we use and how long anything is kept.</small>
+            </span>
+            <span class="privacy-full-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13"></path><path d="M12.5 6l6 6-6 6"></path></svg>
+            </span>
+          </button>
+
+          <p class="privacy-closing">Northcue is a reading aid. It does not give legal, financial, or official advice. Always check your original document.</p>
+        </div>
+      </section>
+
+      <section id="page-privacy-full" class="page" aria-labelledby="privacy-full-title">
+        <div class="privacy-full-stub">
+          <h1 id="privacy-full-title">Full privacy details<span class="green-dot">.</span></h1>
+          <p>The complete privacy details page is coming soon.</p>
+          <button type="button" class="outline-btn" data-page-link="privacy">Back to privacy</button>
+        </div>
+      </section>
     </main>
+
+    <footer class="site-footer" aria-label="Site footer">
+      <div class="site-footer-inner">
+        <span class="site-footer-brand">Northcue</span>
+        <nav class="site-footer-links" aria-label="Footer links">
+          <button type="button" class="site-footer-link" data-page-link="privacy">Privacy</button>
+        </nav>
+      </div>
+    </footer>
 
     <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-box">
