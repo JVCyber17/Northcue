@@ -2790,6 +2790,13 @@ body[data-page="home"] .app-main {
   background: #fbfcf8;
 }
 
+/* The "Private and secure" static card is clickable and has an arrow, so it
+   needs the same arrow-accommodating right padding as .home-tile-card. Scoped
+   to is-privacy-link so the arrow-less "Your documents" static card is unaffected. */
+.home-static-card.is-privacy-link {
+  padding-right: 64px;
+}
+
 .home-tile-card strong {
   display: block;
   color: var(--text);
