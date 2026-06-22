@@ -6755,56 +6755,6 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   outline-offset: 2px;
 }
 
-/* ── Site footer ───────────────────────────────────────── */
-.site-footer {
-  width: min(1380px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 18px 0 26px;
-  border-top: 1px solid var(--line);
-}
-
-.site-footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.site-footer-brand {
-  color: var(--muted);
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 14px;
-}
-
-.site-footer-links {
-  display: flex;
-  gap: 16px;
-}
-
-.site-footer-link {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  color: var(--muted);
-  font: inherit;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.site-footer-link:hover,
-.site-footer-link:focus-visible {
-  color: var(--theme-accent);
-}
-
-body[data-page="landing"] .site-footer {
-  display: none;
-}
-
 @media (max-width: 700px) {
   .privacy-card-row {
     grid-template-columns: 1fr;
