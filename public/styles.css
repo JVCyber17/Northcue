@@ -1958,6 +1958,16 @@ body[data-page="landing"] .app-main {
   box-shadow: 0 6px 16px color-mix(in srgb, var(--theme-accent) 22%, transparent);
 }
 
+/* Dark mode uses a light sage as its accent, so the shared light formula above
+   leaves the button washed out with near white text. Give it a solid deep brand
+   green instead, so white text stays high contrast on dark. Colour and shadow
+   only, light mode is untouched, and one green covers every dark colour style. */
+body.theme-dark .primary-btn {
+  background: linear-gradient(180deg, #356b3d 0%, #2a5331 100%);
+  color: #fffdfa;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
 .outline-btn {
   border: 1.5px solid var(--line-strong);
   background: var(--surface);
