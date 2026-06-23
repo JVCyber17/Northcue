@@ -242,15 +242,15 @@ body[data-page="help"]::before {
 }
 
 body.bg-dots::before {
-  background-image: radial-gradient(circle, rgba(90, 114, 83, 0.13) 1.4px, transparent 1.5px);
-  background-size: 34px 34px;
+  background-image: radial-gradient(circle, rgba(90, 114, 83, 0.75) 1.6px, transparent 1.7px);
+  background-size: 30px 30px;
   background-position: 0 0;
   -webkit-mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, transparent 26%, black 82%);
   mask-image: radial-gradient(ellipse 60% 58% at 50% 50%, transparent 26%, black 82%);
 }
 
 body.theme-dark.bg-dots::before {
-  background-image: radial-gradient(circle, rgba(159, 196, 148, 0.12) 1.4px, transparent 1.5px);
+  background-image: radial-gradient(circle, rgba(159, 196, 148, 0.65) 1.6px, transparent 1.7px);
 }
 
 body.bg-shapes::before {
@@ -261,18 +261,22 @@ body.bg-shapes::before {
 
 body.bg-notebook::before {
   background-image:
-    repeating-linear-gradient(to bottom, transparent 0px, transparent 33px, rgba(47, 91, 53, 0.13) 33px, rgba(47, 91, 53, 0.13) 34px);
-  background-size: auto;
-  background-position: 0 0;
-  background-repeat: repeat;
+    var(--wallpaper-art),
+    linear-gradient(to right, transparent 79px, rgba(200, 100, 80, 0.24) 79px, rgba(200, 100, 80, 0.24) 80px, transparent 80px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(47, 91, 53, 0.22) 31px, rgba(47, 91, 53, 0.22) 32px);
+  background-size: 84px 104px, auto, auto;
+  background-position: right 16px top 56px, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat;
 }
 
 body.theme-dark.bg-notebook::before {
   background-image:
-    repeating-linear-gradient(to bottom, transparent 0px, transparent 33px, rgba(159, 196, 148, 0.11) 33px, rgba(159, 196, 148, 0.11) 34px);
-  background-size: auto;
-  background-position: 0 0;
-  background-repeat: repeat;
+    var(--wallpaper-art),
+    linear-gradient(to right, transparent 79px, rgba(159, 196, 148, 0.22) 79px, rgba(159, 196, 148, 0.22) 80px, transparent 80px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(159, 196, 148, 0.22) 31px, rgba(159, 196, 148, 0.22) 32px);
+  background-size: 84px 104px, auto, auto;
+  background-position: right 16px top 56px, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat;
 }
 
 body.bg-animals::before {

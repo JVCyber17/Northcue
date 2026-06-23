@@ -1614,13 +1614,15 @@ function makeBackgroundArt(style, themeClass, isPreview) {
     return "none";
   }
   if (selectedStyle === "notebook" && !isPreview) {
-    return "none";
+    const palette = backgroundPalette(themeClass);
+    const pencilSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="84" height="104" viewBox="-2 6 88 102"><g fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path fill="${palette.d}" d="M8 78 58 10l26 20-52 68-30 8Z"/><path d="m58 10 26 20M22 84l14 10"/></g></svg>`;
+    return `url("data:image/svg+xml,${encodeURIComponent(pencilSvg)}")`;
   }
 
   const palette = backgroundPalette(themeClass);
   const width = isPreview ? 220 : (selectedStyle === "animals" ? 1280 : 720);
   const height = isPreview ? 260 : (selectedStyle === "animals" ? 800 : 520);
-  const opacity = isPreview ? 0.92 : 0.13;
+  const opacity = isPreview ? 0.92 : (selectedStyle === "animals" ? 0.42 : 0.24);
   const content = isPreview
     ? makePreviewBackgroundMotif(selectedStyle, palette, opacity)
     : makePageBackgroundMotif(selectedStyle, palette, opacity);
@@ -1639,22 +1641,37 @@ function makePageBackgroundMotif(style, palette, opacity) {
       <circle cx="184" cy="226" r="5"/><circle cx="430" cy="228" r="4"/><circle cx="640" cy="198" r="5"/>
       <circle cx="92" cy="390" r="5"/><circle cx="338" cy="410" r="5"/><circle cx="574" cy="382" r="4"/>`,
     animals: `
-      <use href="#bg-pebble" transform="translate(150 140) scale(1.5)"/>
-      <use href="#bg-pebble" transform="translate(620 90) scale(1.1)"/>
-      <use href="#bg-pebble" transform="translate(980 300) scale(1.35)"/>
-      <use href="#bg-pebble" transform="translate(320 430) scale(1.15)"/>
-      <use href="#bg-pebble" transform="translate(760 540) scale(1.45)"/>
-      <use href="#bg-pebble" transform="translate(1120 620) scale(1)"/>`,
+      <use href="#bunny" transform="translate(60 676) scale(1.12)"/>
+      <use href="#cat" transform="translate(590 690) scale(1.12)"/>
+      <use href="#bear" transform="translate(1110 676) scale(1.12)"/>
+      <use href="#star" transform="translate(286 700) scale(2)"/>
+      <use href="#paw" transform="translate(852 706) scale(1.9)"/>
+      <use href="#star" transform="translate(168 732) scale(1.5)"/>
+      <use href="#paw" transform="translate(1004 730) scale(1.5)"/>
+      <use href="#star" transform="translate(16 702) scale(1.6)"/>
+      <use href="#paw" transform="translate(1232 702) scale(1.6)"/>
+      <use href="#paw" transform="translate(20 360) scale(1.5)"/>
+      <use href="#star" transform="translate(1236 360) scale(1.5)"/>`,
     shapes: `
-      <use href="#bg-circle" transform="translate(70 56) scale(1.7)"/>
-      <use href="#bg-square" transform="translate(440 92) scale(1.45)"/>
-      <use href="#bg-circle" transform="translate(300 300) scale(1.5)"/>
-      <use href="#bg-square" transform="translate(60 320) scale(1.3)"/>`,
+      <use href="#soft-circle" transform="translate(14 14) scale(0.66)"/>
+      <use href="#soft-star" transform="translate(228 8) scale(0.63)"/>
+      <use href="#soft-square" transform="translate(442 12) scale(0.65)"/>
+      <use href="#soft-triangle" transform="translate(608 16) scale(0.62)"/>
+      <use href="#soft-blob" transform="translate(8 130) scale(0.60)"/>
+      <use href="#soft-circle" transform="translate(464 130) scale(0.58)"/>
+      <use href="#soft-star" transform="translate(12 310) scale(0.58)"/>
+      <use href="#soft-triangle" transform="translate(10 390) scale(0.60)"/>
+      <use href="#soft-blob" transform="translate(14 216) scale(0.62)"/>
+      <use href="#soft-circle" transform="translate(238 234) scale(0.58)"/>
+      <use href="#soft-star" transform="translate(452 222) scale(0.60)"/>
+      <use href="#soft-square" transform="translate(616 214) scale(0.58)"/>`,
     notebook: `
-      <path d="M0 96H720M0 188H720M0 280H720M0 372H720M0 464H720"/>`
+      <path d="M0 96H720M0 188H720M0 280H720M0 372H720M0 464H720"/>
+      <path d="M110 0V520"/>
+      <use href="#pencil" transform="translate(524 90) scale(0.88)"/><use href="#paper-dot" transform="translate(176 314) scale(1)"/><use href="#paper-dot" transform="translate(438 396) scale(0.9)"/>`
   };
 
-  return `${symbols}<g opacity="${opacity}" fill="none" stroke="${palette.line}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${uses[style] || uses.shapes}</g>`;
+  return `${symbols}<g opacity="${opacity}" fill="none" stroke="${palette.line}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${uses[style] || uses.shapes}</g>`;
 }
 
 function makePreviewBackgroundMotif(style, palette, opacity) {
@@ -1673,8 +1690,20 @@ function makePreviewBackgroundMotif(style, palette, opacity) {
 function backgroundSymbols(style, palette) {
   const common = {
     dots: `<defs><g id="paper-dot"><circle cx="0" cy="0" r="7" fill="${palette.a}" stroke="${palette.line}"/></g></defs>`,
-    animals: `<defs><g id="bg-pebble"><ellipse cx="50" cy="50" rx="40" ry="28"/></g></defs>`,
-    shapes: `<defs><g id="bg-circle"><circle cx="50" cy="50" r="36"/></g><g id="bg-square"><rect x="14" y="14" width="72" height="72" rx="20"/></g></defs>`,
+    animals: `<defs>
+      <g id="cat"><path fill="${palette.a}" stroke="${palette.line}" d="M22 34 14 9q-1-5 4-3l16 14Z"/><path fill="${palette.a}" stroke="${palette.line}" d="M68 34 76 9q1-5-4-3L56 20Z"/><ellipse cx="45" cy="50" rx="30" ry="27" fill="${palette.a}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M32 47q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M52 47q3-3 6 0"/><path fill="${palette.d}" stroke="${palette.line}" d="M42 55h6l-3 3Z"/><path fill="none" stroke="${palette.line}" d="M45 59q-4 4-8 1"/><path fill="none" stroke="${palette.line}" d="M45 59q4 4 8 1"/><path fill="none" stroke="${palette.line}" d="M16 53h13"/><path fill="none" stroke="${palette.line}" d="M16 59h12"/><path fill="none" stroke="${palette.line}" d="M61 53h13"/><path fill="none" stroke="${palette.line}" d="M62 59h12"/><path fill="${palette.a}" stroke="${palette.line}" d="M63 70q9-1 9 8 0 7-9 4"/></g>
+      <g id="bunny"><path fill="${palette.b}" stroke="${palette.line}" d="M38 30C30 6 34-2 41 9q4 9 2 19Z"/><path fill="${palette.b}" stroke="${palette.line}" d="M52 30C60 6 56-2 49 9q-4 9-2 19Z"/><ellipse cx="45" cy="56" rx="27" ry="24" fill="${palette.b}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M34 52q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M50 52q3-3 6 0"/><path fill="${palette.d}" stroke="${palette.line}" d="M43 59h4l-2 2Z"/><path fill="none" stroke="${palette.line}" d="M39 64q6 5 12 0"/></g>
+      <g id="bear"><circle cx="22" cy="26" r="11" fill="${palette.c}" stroke="${palette.line}"/><circle cx="68" cy="26" r="11" fill="${palette.c}" stroke="${palette.line}"/><circle cx="45" cy="50" r="30" fill="${palette.c}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M31 46q3-3 6 0"/><path fill="none" stroke="${palette.line}" d="M53 46q3-3 6 0"/><ellipse cx="45" cy="57" rx="9" ry="7" fill="${palette.d}" stroke="${palette.line}"/><path fill="none" stroke="${palette.line}" d="M45 57v5"/><path fill="none" stroke="${palette.line}" d="M45 62q-4 3-7 1"/><path fill="none" stroke="${palette.line}" d="M45 62q4 3 7 1"/></g>
+      <g id="paw"><path fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 12c4.5 0 8 2.8 8 6.5S17.5 24 13 24 5 22.2 5 18.5 8.5 12 13 12Z"/><circle cx="6" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="13" cy="4.5" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/><circle cx="20" cy="7" r="2.6" fill="${palette.a}" stroke="${palette.line}" stroke-width="1.6"/></g>
+      <g id="star"><path fill="${palette.d}" stroke="${palette.line}" stroke-width="1.6" stroke-linejoin="round" d="M13 3.5c.9 0 1.4.6 1.8 1.6l1.7 4 4.3.4c1.3.1 1.8 1.7.8 2.5l-3.3 2.8 1 4.3c.3 1.3-1 2.2-2.1 1.5L13 18.6l-4 2.5c-1.1.7-2.4-.2-2.1-1.5l1-4.3-3.3-2.8c-1-.8-.5-2.4.8-2.5l4.3-.4 1.7-4c.4-1 .9-1.6 1.8-1.6Z"/></g>
+    </defs>`,
+    shapes: `<defs>
+      <g id="soft-circle"><circle cx="42" cy="42" r="40" fill="${palette.a}" stroke="${palette.line}"/></g>
+      <g id="soft-square"><rect x="0" y="0" width="84" height="84" rx="22" fill="${palette.b}" stroke="${palette.line}"/></g>
+      <g id="soft-triangle"><path fill="${palette.c}" stroke="${palette.line}" d="M44 0 88 78H0Z"/></g>
+      <g id="soft-star"><path fill="${palette.d}" stroke="${palette.line}" d="m42 0 11 28 31 4-23 20 7 31-26-17-26 17 7-31L0 32l31-4Z"/></g>
+      <g id="soft-blob"><path fill="${palette.c}" stroke="${palette.line}" d="M42 4c28-12 66 2 76 30 12 32-14 66-48 72-32 6-66-14-70-44C-4 34 14 16 42 4Z"/></g>
+    </defs>`,
     notebook: `<defs>
       <g id="pencil"><path fill="${palette.d}" stroke="${palette.line}" d="M8 78 58 10l26 20-52 68-30 8Z"/><path d="m58 10 26 20M22 84l14 10"/></g>
       <g id="paper-dot"><circle cx="0" cy="0" r="8" fill="${palette.a}" stroke="${palette.line}"/></g>
