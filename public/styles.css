@@ -302,6 +302,38 @@ body.bg-plain::before {
   display: none;
 }
 
+/* Mobile: the desktop centre-fade ellipse is tuned for wide screens. On a tall
+   narrow phone, with full width content and no side gutters, that vignette
+   leaves almost no visible area and the motifs all but disappear. For portrait
+   we drop the centre hole and let each theme read as an even, faint allover
+   texture instead: motifs show in every gap (margins, above and below the
+   cards) while the opaque cards keep all card text unaffected. Animals tile as
+   a gentle repeating row down the page rather than a single cover slice that
+   crops to just the centre cat. Opacity stays low so text over the bare body
+   background stays clearly readable. Desktop values above are left untouched. */
+@media (max-width: 760px) {
+  body.bg-dots::before,
+  body.bg-shapes::before,
+  body.bg-animals::before {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.bg-animals::before {
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: repeat-y;
+  }
+
+  body.bg-dots::before {
+    background-size: 26px 26px;
+  }
+
+  body.bg-shapes::before {
+    background-size: 360px 260px;
+  }
+}
+
 body.dyslexia-mode,
 body.text-large {
   font-size: 20px;
