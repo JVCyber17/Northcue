@@ -4460,6 +4460,17 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   .completion-body {
     font-size: 15px;
   }
+
+  /* Give the quiet secondary links a comfortable touch area on mobile. They
+     stay inline and centred because the secondary row centres on the cross
+     axis, and the underline and copy are unchanged. */
+  .completion-text-link {
+    padding: 12px 10px;
+  }
+
+  .completion-feedback-link {
+    padding: 11px 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
