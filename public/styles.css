@@ -4439,13 +4439,24 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   height: 106px;
   border: 1px solid var(--theme-line-strong);
   border-radius: 14px;
-  background:
-    var(--preview-art),
-    linear-gradient(180deg, color-mix(in srgb, var(--theme-top) 28%, var(--surface) 72%), color-mix(in srgb, var(--theme-bottom) 28%, var(--surface) 72%));
-  background-size: cover, auto;
+  color: var(--theme-accent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--theme-top) 28%, var(--surface) 72%), color-mix(in srgb, var(--theme-bottom) 28%, var(--surface) 72%));
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: var(--soft-shadow);
+}
+
+/* Inline SVG preview motif. It uses currentColor, set above to the theme
+   accent, so the strokes are dark green on light themes and soft green in
+   dark, with no JavaScript. The motif stays central so the rounded corners
+   and the selected tick are never covered. */
+.background-preview-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .background-style-choice[data-background-style="plain"] .background-preview {
