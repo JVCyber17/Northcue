@@ -6259,6 +6259,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 
   .topbar {
     padding: 14px 18px;
+    min-height: auto;
   }
 
   .brand-button {
@@ -6974,9 +6975,13 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     display: none;
   }
 
-  /* Move the page navigation to the bottom bar on mobile. The brand
-     logo and the comfort mode-row in the topbar are left as they are. */
-  .top-links {
+  /* Move the page navigation to the bottom bar on mobile, and hide the
+     comfort mode-row now that the Settings tab holds dark mode, focus mode,
+     text size, colour style, card style, and background style. The top of
+     every page is then just the brand, calm and uncluttered. Markup and
+     wiring stay in place, so desktop above 760px is unaffected. */
+  .top-links,
+  .mode-row {
     display: none;
   }
 
