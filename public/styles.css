@@ -6384,7 +6384,9 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .help-cards,
   .help-simple-sections,
   .help-safety-note,
-  .help-support-strip {
+  .help-support-strip,
+  .help-tier-label,
+  .help-support-tier {
     margin-inline: 0;
   }
 
