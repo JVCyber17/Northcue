@@ -6838,7 +6838,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .privacy-journey {
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 10px;
   }
 
   .privacy-step {
