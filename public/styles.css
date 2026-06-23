@@ -6402,6 +6402,16 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     width: 100%;
   }
 
+  /* Give the Change type link a comfortable touch area on mobile. The
+     parent type confirm row is centred, so the taller hit box stays aligned
+     and the underlined label is unchanged. */
+  .change-type-btn {
+    min-height: 44px;
+    padding: 11px 10px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   body.focus-mode .document-type-row {
     display: none;
   }
