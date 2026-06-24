@@ -3301,15 +3301,21 @@ body[data-page="home"] .app-main {
     border: 1px solid var(--northcue-circle-border, rgba(37, 74, 47, 0.1));
   }
 
+  /* The foreground PNGs carry a large baked transparent margin, so the glyph
+     is only about half the canvas. Oversize the image well past the circle and
+     let the circle crop the empty margin, exactly as the desktop icons do, so
+     the glyph fills its circle and reads clearly. flex 0 0 auto stops the flex
+     circle from shrinking the oversized image. */
   .home-welcome-img {
-    width: 30px;
-    height: 30px;
+    width: 104px;
+    height: 104px;
+    flex: 0 0 auto;
     object-fit: contain;
   }
 
   .home-welcome-q {
-    width: 26px;
-    height: 26px;
+    width: 34px;
+    height: 34px;
     stroke: #2f5b35;
     stroke-width: 1.8;
   }
