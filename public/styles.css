@@ -3313,13 +3313,6 @@ body[data-page="home"] .app-main {
     object-fit: contain;
   }
 
-  .home-welcome-q {
-    width: 34px;
-    height: 34px;
-    stroke: #2f5b35;
-    stroke-width: 1.8;
-  }
-
   /* 2. How it works, four steps down a vertical dotted line */
   .hiw-list {
     list-style: none;
