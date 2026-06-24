@@ -3652,6 +3652,61 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* Mobile only: harmonise the home typography onto one calm scale. Lexend for
+   headings and titles, Atkinson for body and labels, two weights only. This
+   sets font family, size, weight, and line height only. Colours, spacing,
+   layout, and content are unchanged, and desktop above 760px is untouched. The
+   overwhelmed card title and the feedback label are scoped so the shared tile
+   class on the desktop grid is not affected. */
+@media (max-width: 760px) {
+  .home-welcome-title,
+  .home-dashboard-head h1 {
+    font-family: var(--font-heading);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .home-welcome-heading {
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .hiw-copy strong,
+  .cue-sample-copy strong,
+  .home-mobile-actions .home-tile-card strong,
+  .home-quiet-label {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .hiw-copy small,
+  .cue-sample-copy small,
+  .home-mobile-actions .home-tile-card small,
+  .home-help-line-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .home-help-line-text strong {
+    font-weight: 700;
+  }
+
+  .home-welcome-subline,
+  .home-privacy-text {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+}
+
 .help-with-row,
 .support-strip,
 .upload-panel,
