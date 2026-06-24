@@ -7471,23 +7471,45 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     padding: 0;
     border: 1px solid var(--line);
     border-radius: 22px;
+    /* Solid fallback for any device that cannot blur. The frosted version
+       is layered on in the @supports block below, so a phone with no
+       backdrop blur still gets a clean, fully readable bar. */
     background: var(--surface);
     box-shadow: var(--soft-shadow);
   }
 
-  /* Soft fade so page content dissolves gently around the bar
-     instead of meeting a hard edge. Sits behind the opaque bar,
-     above the page content, and never blocks taps. */
+  /* Frosted surface: a softly translucent panel that lets page content
+     pass faintly underneath through a gentle blur. Only applied where the
+     browser can actually blur, so the solid fallback above stays intact
+     everywhere else. The slight saturate keeps the calm tint from going
+     grey, and holding the tint near 82% keeps the line icons readable. */
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .mobile-tabbar {
+      background: color-mix(in srgb, var(--surface) 82%, transparent);
+      border-color: color-mix(in srgb, var(--line) 70%, transparent);
+      -webkit-backdrop-filter: blur(14px) saturate(1.08);
+      backdrop-filter: blur(14px) saturate(1.08);
+    }
+  }
+
+  /* A gentle dissolve at the very bottom edge only. Kept light and
+     translucent so content still shows faintly through the frosted bar
+     above it, rather than being masked by a solid fade. Sits behind the
+     bar, above the page content, and never blocks taps. */
   .mobile-tabbar::before {
     content: "";
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(env(safe-area-inset-bottom, 0px) + 116px);
+    height: calc(env(safe-area-inset-bottom, 0px) + 92px);
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(to top, var(--bg), transparent);
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--bg) 70%, transparent),
+      transparent 70%
+    );
   }
 
   /* The gliding highlight sits behind the icon only, as a fixed size soft
@@ -7543,10 +7565,17 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     font-family: var(--font-body);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    /* Gentle press feedback, CSS only. The whole tab eases down slightly
+       under the finger and springs back on release. */
+    transition: transform 0.13s ease;
   }
 
   .mobile-tab.active {
     color: var(--green);
+  }
+
+  .mobile-tab:active {
+    transform: scale(0.92);
   }
 
   .mobile-tab__icon {
@@ -7558,8 +7587,11 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   }
 
   .mobile-tab__icon svg {
-    width: 23px;
-    height: 23px;
+    /* Whole 24px so the 0 0 24 24 viewBox maps 1:1 for crisp strokes.
+       All four icons share this one rule, so the line weight is identical
+       across Home, Understand, Help, and Settings. */
+    width: 24px;
+    height: 24px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.85;
@@ -7608,6 +7640,14 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
   .mobile-tabbar__indicator {
     transition: none;
+  }
+
+  .mobile-tab {
+    transition: none;
+  }
+
+  .mobile-tab:active {
+    transform: none;
   }
 }
 
