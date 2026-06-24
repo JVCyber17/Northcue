@@ -3369,6 +3369,17 @@ body[data-page="home"] .app-main {
     gap: 14px;
   }
 
+  /* A small quiet subline introducing the cue cards, sitting between the
+     heading and the first card. The negative top margin nests it under the
+     heading without changing the heading rule. */
+  .home-welcome-subline {
+    margin: -20px 0 0;
+    font-size: 13.5px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
   .cue-sample {
     position: relative;
     display: grid;
