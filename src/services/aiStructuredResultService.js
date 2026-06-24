@@ -197,7 +197,8 @@ function buildSystemPrompt() {
     // Headlines: short and punchy for overwhelmed/ADHD readers. Detail relocates
     // into key_points (every card has them) rather than being lost.
     "Write each card's simple_explanation (the headline) short and punchy: a single sentence, ideally one line and about twelve words or fewer, carrying only the core point. Move every supporting detail — extra amounts, dates, schedules, reference numbers, and specifics — into that card's key_points so nothing is lost.",
-    "Lead each headline with its card's core: card one (what_is_this) = what the document is, who it is from, and the key amount if it is a bill; card two (what_matters_most) = the single most important point; card three (what_do_i_need_to_do) = the one core action only, not every detail; card four (when_does_it_matter) = just the date or deadline in one short sentence, with no second sentence or extra clause (for example 'Your appointment is on 1 July 2026.' or 'Payment is due by 24 June 2026.').",
+    "Lead each headline with its card's core: card one (what_is_this) = what the document is, who it is from, and the key amount if it is a bill; card two (what_matters_most) = the single most important point about the reader's situation (describe it, e.g. 'Your £320.00 payment is overdue.', never an instruction to pay); card three (what_do_i_need_to_do) = the one core action, phrased as a SAFE step such as checking a detail or contacting the sender with trusted details (e.g. 'Check the amount and the due date.'); card four (when_does_it_matter) = just the date or deadline in one short sentence, with no second sentence or extra clause (for example 'Your appointment is on 1 July 2026.' or 'Payment is due by 24 June 2026.').",
+    "Even when shortening, NEVER turn a headline or key_point into an instruction to pay ('Pay £320', 'Pay the amount owed', 'Pay by ...'), click a link, or call a number — describe the situation or give a safe check/contact step instead. This applies even when the document is a bill or arrears letter about money.",
     "Never drop a bill's money amount. If you shorten card one, keep the amount in its headline or in a key_point.",
     "Every card's headline must be distinct and specific to that card's purpose. Never repeat the same generic line (such as 'Check the original document for the payment amount and due date') on two different cards.",
     // Card 5 (card_id 'what_could_happen') is adaptive. Use the fallback card's
@@ -328,7 +329,9 @@ const _AI_PHONE_G_RE = /\b0\d{3,4}[\s-]?\d{3,4}[\s-]?\d{3,4}\b/g;
 const _AI_DEBT_ORG_RE = /\b(?:stepchange(?:\.org)?|step\s+change|citizens\s+advice(?:\.org(?:\.uk)?)?|national\s+debtline(?:\.org(?:\.uk)?)?|national\s+debt\s+line|money\s*helper(?:\.gov\.uk)?|moneyhelper(?:\.gov\.uk)?|payplan(?:\.co\.uk)?|christians\s+against\s+poverty|debt\s+advice\s+foundation(?:\.org(?:\.uk)?)?)\b/gi;
 const _AI_CALL_CONTEXT_RE = /\b(?:call|phone|ring|contact|telephone|speak\s+to|reach)\b/i;
 const _AI_PAY_PATTERNS = [
-  /^(?:please\s+)?pay\s+(?:[£$€]\S+|\d+|the\s+(?:amount|balance|outstanding|overdue)|immediately|now|by\s)/i,
+  // Optional "the" before the amount/keyword — catches "Pay the £320.00 owed by..."
+  // (an imperative the short-headline rewrite can produce), not just "Pay £320".
+  /^(?:please\s+)?pay\s+(?:the\s+)?(?:[£$€]\S+|\d+|amount|balance|outstanding|overdue|immediately|now|by\s)/i,
   /\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to)\s+pay\b/i,
   /^(?:please\s+)?make\s+(?:a\s+)?payment\s+(?:of|to|by|now|immediately)/i,
   /\b(?:then|and)\s+pay\s+(?:by\b|[£$€]|\d)/i,
