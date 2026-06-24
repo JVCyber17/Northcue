@@ -1540,11 +1540,10 @@ function inferSummary(text, trust) {
   }
 
   if (cat === "government") {
-    if (sender && amount && date) return `${sender} appears to have sent an official notice. An amount of ${amount} may be mentioned, with a date of ${date}.`;
+    // Headlines stay one short clause: the date lives on the deadline card and in
+    // bullets, so it is dropped here rather than padding the Card 1 headline.
     if (sender && amount)         return `${sender} appears to have sent an official notice mentioning ${amount}.`;
-    if (sender && date)           return `${sender} appears to have sent an official notice, with a date of ${date}.`;
     if (sender)                   return `This appears to be an official notice from ${sender}.`;
-    if (amount && date)           return `This appears to be an official notice. An amount of ${amount} may be mentioned, dated ${date}.`;
     if (amount)                   return `This appears to be an official notice mentioning ${amount}.`;
     return "This is from a government or council source.";
   }

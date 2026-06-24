@@ -194,6 +194,12 @@ function buildSystemPrompt() {
     "If the user message shows input_quality as borderline or poor, or garbled_by_ocr as true: do not state specific amounts, dates, reference numbers, or other precise figures with confidence. The document text may contain OCR errors where characters were misread (for example a digit read as a letter, or a letter read as a digit). Do not attempt to correct these errors or present a corrected figure — that would be guessing. Instead match the same uncertainty level the fallback structured_result already expresses: say the figure could not be reliably read rather than restating or reinterpreting it.",
     "Keep the same JSON shape as the provided fallback structured_result.",
     "Return exactly six cards in the same order and with the same card_id values.",
+    // Headlines: short and punchy for overwhelmed/ADHD readers. Detail relocates
+    // into key_points (every card has them) rather than being lost.
+    "Write each card's simple_explanation (the headline) short and punchy: a single sentence, ideally one line and about twelve words or fewer, carrying only the core point. Move every supporting detail — extra amounts, dates, schedules, reference numbers, and specifics — into that card's key_points so nothing is lost.",
+    "Lead each headline with its card's core: card one (what_is_this) = what the document is, who it is from, and the key amount if it is a bill; card two (what_matters_most) = the single most important point; card three (what_do_i_need_to_do) = the one core action only, not every detail; card four (when_does_it_matter) = just the date or deadline in one short sentence, with no second sentence or extra clause (for example 'Your appointment is on 1 July 2026.' or 'Payment is due by 24 June 2026.').",
+    "Never drop a bill's money amount. If you shorten card one, keep the amount in its headline or in a key_point.",
+    "Every card's headline must be distinct and specific to that card's purpose. Never repeat the same generic line (such as 'Check the original document for the payment amount and due date') on two different cards.",
     // Card 5 (card_id 'what_could_happen') is adaptive. Use the fallback card's
     // title as the signal — never change which mode it is in:
     "Card five has card_id 'what_could_happen'. Use the fallback structured_result's title for this card as the signal and keep that exact title.",
