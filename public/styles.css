@@ -3455,6 +3455,25 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* Mobile only: the new welcome layout above now covers the intro and how it
+   works, so hide the old Understand a document block and the duplicate How
+   Northcue works section, and strip the panel box behind the remaining content
+   so the heading and the four cards sit cleanly. Hidden, not deleted, so the
+   desktop home above 760px still shows everything. */
+@media (max-width: 760px) {
+  .home-primary-card,
+  .home-process-panel {
+    display: none;
+  }
+
+  .home-action-panel {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+}
+
 .help-with-row,
 .support-strip,
 .upload-panel,
