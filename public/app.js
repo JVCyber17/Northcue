@@ -453,6 +453,7 @@ const modalContent = document.querySelector("#modal-content");
 const progressDots = document.querySelector("#progress-dots");
 const cardFeedbackPanel = document.querySelector("#card-feedback-panel");
 const cardFocusToggle = document.querySelector("#card-focus-toggle");
+const cardDetailToggle = document.querySelector("#card-detail-toggle");
 let modalReturnFocusTarget = null;
 
 document.addEventListener("click", (event) => {
@@ -536,6 +537,10 @@ function wireNavigation() {
     setFocusMode(!document.body.classList.contains("focus-mode"), { save: true });
   });
 
+  cardDetailToggle?.addEventListener("click", () => {
+    setSimpleView(!document.body.classList.contains("cards-simple"), { save: true });
+  });
+
   document.querySelector("#colour-wheel").addEventListener("click", () => setPage("comfort"));
 
   document.querySelectorAll("[data-open-check]").forEach((button) => {
@@ -577,6 +582,39 @@ function setFocusMode(isActive, options = {}) {
   }
 
   updateThemeAwareArt();
+}
+
+// Journey-wide "Simple view / Show full details" toggle. Mirrors the
+// setFocusMode pattern: a single body class, persisted via savePreferences.
+// In simple view the per-card subtitle and detail bullets are hidden (CSS,
+// desktop only for now), leaving the label + headline. Defaults to OFF
+// (full view) so nothing is withheld from an anxious user by default.
+//
+// NOTE for a future cleanup session: there is a separate, dormant "Simple
+// view" concept — `activeCardStyle = "simple"` and the "Simple view" entry
+// in openCardStyleModal() (alongside the not-yet-built Animal/Shape/Map card
+// packs). That value is never read by renderCard(), so it changes nothing.
+// This `cards-simple` / setSimpleView feature is the live one; the dormant
+// duplicate can be removed when the card-style packs are revisited.
+function setSimpleView(isActive, options = {}) {
+  document.body.classList.toggle("cards-simple", isActive);
+
+  if (cardDetailToggle) {
+    cardDetailToggle.classList.toggle("active", isActive);
+    cardDetailToggle.setAttribute("aria-pressed", String(isActive));
+    cardDetailToggle.setAttribute("aria-label", isActive ? "Show full details" : "Show a simpler view");
+    cardDetailToggle.querySelector("span").textContent = isActive ? "Show full details" : "Simple view";
+  }
+
+  if (options.save) {
+    if (isActive) {
+      trackAnalyticsEvent("simple_view_used", {
+        page: "journey",
+        section: "cue_card"
+      });
+    }
+    savePreferences(false);
+  }
 }
 
 function trackCurrentCardViewed() {
@@ -2691,6 +2729,7 @@ function savePreferences(showConfirmation = true) {
       textSize: selectedTextSize,
       cardStyle: standardCards ? "standard" : "soft",
       focusMode: document.body.classList.contains("focus-mode"),
+      simpleView: document.body.classList.contains("cards-simple"),
       dyslexiaMode: document.body.classList.contains("dyslexia-mode")
     })
   );
@@ -2708,6 +2747,7 @@ function loadSavedPreferences() {
     setTextSize(saved.textSize || "medium");
     setCardStyle(saved.cardStyle || "soft");
     setFocusMode(Boolean(saved.focusMode), { save: false });
+    setSimpleView(Boolean(saved.simpleView), { save: false });
     document.body.classList.toggle("dyslexia-mode", Boolean(saved.dyslexiaMode));
 
     toggleButtons.forEach((button) => {

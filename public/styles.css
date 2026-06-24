@@ -4661,6 +4661,62 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   text-align: left;
 }
 
+/* The Simple view / Show full details toggle. Hidden by default at every
+   width so it does NOT appear in the mobile layout this session; it is
+   revealed only on the desktop canvas in the min-width: 761px block below.
+   (Mobile gets its own treatment in a later, separate task.) */
+.detail-toggle {
+  display: none;
+}
+
+/* ── Desktop-only cue-card presentation (≥761px) ───────────────────────────
+   Everything here is scoped above the 760px mobile breakpoint so the phone
+   layout stays byte-for-byte identical. Two jobs:
+   1. Stronger hierarchy in full view — the headline leads; subtitle and
+      bullets stay present but calm and clearly secondary.
+   2. Simple view — hide the subtitle and bullets, leaving label + headline. */
+@media (min-width: 761px) {
+  .detail-toggle {
+    display: inline-flex;
+  }
+
+  /* Headline becomes the clear hero a stressed eye lands on first. */
+  .card-answer {
+    margin-top: 14px;
+    font-size: clamp(26px, 2.4vw, 34px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  /* Label reads as a quiet kicker above the headline, clearly subordinate. */
+  .cue-card-panel h2 {
+    font-size: 15px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Subtitle stays visible but calmer, with more breathing room. */
+  .card-explanation {
+    margin-top: 14px;
+    font-size: 15.5px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* Detail bullets present but quiet: lighter weight, more spacing. */
+  .card-steps {
+    margin-top: 16px;
+    gap: 9px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  /* Simple view: headline only. Detail remains in the DOM for full view. */
+  body.cards-simple .card-explanation,
+  body.cards-simple .card-steps {
+    display: none;
+  }
+}
+
 .card-nav {
   display: flex;
   justify-content: space-between;
