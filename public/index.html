@@ -384,8 +384,9 @@
 
       <section id="page-journey" class="page journey-page upload-active" aria-labelledby="journey-title">
         <div class="journey-shell">
-          <h1 id="journey-title">Start with one document</h1>
+          <h1 id="journey-title"><span class="journey-title-full">Start with one document</span><span class="journey-title-compact">Start with a document</span></h1>
           <p class="journey-upload-subtitle">Upload a file and we&rsquo;ll turn it into calm cue cards.</p>
+          <p class="journey-upload-subtitle-mobile">Ready when you are.</p>
           <p class="focus-helper focus-upload-helper" aria-live="polite">Focus mode: choose one file, then press Understand this document.</p>
           <div class="journey-rail" aria-label="Journey steps">
             <button type="button" class="rail-step active" data-rail="upload">
@@ -422,6 +423,7 @@
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                   </span>
                   <span class="dropzone-title">Drag and drop, or <span>browse</span></span>
+                  <span class="dropzone-choose">Choose a file</span>
                   <span id="file-name" class="dropzone-sub">PDF, JPG or PNG</span>
                 </label>
               </div>
@@ -482,6 +484,7 @@
                   <small>Your document stays private and is never shared.</small>
                 </span>
               </div>
+              <button type="button" class="privacy-line-mobile" data-page-link="privacy">Your document is not stored. We only use it to make your cards.</button>
             </form>
           </section>
 

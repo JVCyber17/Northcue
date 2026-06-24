@@ -4233,6 +4233,87 @@ input[type="file"] {
   font-weight: 600;
 }
 
+/* Mobile only: simplified upload screen. A compact heading, a short warm line,
+   a Choose a file button placed inside the existing label so the native file
+   picker still fires, a small file types line, and a quiet privacy line that
+   links to the privacy page. Desktop above 760px keeps the current screen, so
+   the new elements are hidden here at the base. */
+.journey-title-compact,
+.journey-upload-subtitle-mobile,
+.dropzone-choose,
+.privacy-line-mobile {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .journey-title-full {
+    display: none;
+  }
+
+  .journey-title-compact {
+    display: inline;
+  }
+
+  .journey-upload-subtitle {
+    display: none;
+  }
+
+  .journey-upload-subtitle-mobile {
+    display: block;
+    margin: 0 0 22px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .dropzone-title {
+    display: none;
+  }
+
+  .dropzone-choose {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 11px 24px;
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--green);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .dropzone-sub {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .privacy-note {
+    display: none;
+  }
+
+  .privacy-line-mobile {
+    display: block;
+    width: 100%;
+    margin: 14px 0 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.45;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent);
+    cursor: pointer;
+  }
+}
+
 /* ── Two-state upload flow ────────────────────────────────── */
 
 /* Dropzone wrapper: animates to zero height when a file is added */
