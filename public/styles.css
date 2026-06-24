@@ -6844,10 +6844,17 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     padding-top: 0;
   }
 
+  /* Mobile only: the brand rests on the app background, no header strip and no
+     divider, and the wordmark sits to the left. Desktop keeps its header bar. */
   .topbar {
     padding: 14px 18px;
     min-height: auto;
-    justify-items: center;
+    background: transparent;
+    border-bottom: 0;
+  }
+
+  body.theme-dark .topbar {
+    background: transparent;
   }
 
   .brand-button {
