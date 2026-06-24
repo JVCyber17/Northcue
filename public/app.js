@@ -456,10 +456,10 @@ const cardFocusToggle = document.querySelector("#card-focus-toggle");
 let modalReturnFocusTarget = null;
 
 document.addEventListener("click", (event) => {
-  const helpCard = event.target.closest(".help-card[data-help]");
+  const helpCard = event.target.closest(".help-card[data-help], [data-help-open]");
   if (!helpCard) return;
 
-  openHelpModal(helpCard.dataset.help, helpCard);
+  openHelpModal(helpCard.dataset.help || helpCard.dataset.helpOpen, helpCard);
 });
 
 loadSavedPreferences();

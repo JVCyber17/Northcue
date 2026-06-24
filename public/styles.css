@@ -3474,6 +3474,148 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* Mobile only: the rebuilt lower home actions that replace the old four card
+   grid. One clear overwhelmed card that opens the calm support directly, a
+   quiet line to the full Help page, a separator, a quiet Give feedback row, and
+   a light Private and secure link. Hidden on desktop, where the original card
+   grid above is kept. Icons reuse existing PNGs in soft circles so they read in
+   light and dark. */
+.home-mobile-actions {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .home-card-grid {
+    display: none;
+  }
+
+  .home-mobile-actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+  }
+
+  .home-mobile-actions .home-tile-card {
+    width: 100%;
+  }
+
+  .home-mini-icon,
+  .home-privacy-shield {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--northcue-circle-bg, #eef2e8);
+    border: 1px solid var(--northcue-circle-border, rgba(37, 74, 47, 0.1));
+  }
+
+  .home-mini-img {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 auto;
+    object-fit: contain;
+  }
+
+  .home-help-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 14px;
+    padding: 4px 2px;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  .home-help-line-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .home-help-line-text strong {
+    font-weight: 700;
+    color: var(--theme-accent);
+  }
+
+  .home-mobile-divider {
+    width: 100%;
+    height: 0;
+    margin: 18px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .home-quiet-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 6px 2px;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  .home-quiet-label {
+    flex: 1 1 auto;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .home-quiet-chevron {
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--muted);
+    border-top: 2px solid var(--muted);
+    transform: rotate(45deg);
+    opacity: 0.65;
+  }
+
+  .home-privacy-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 18px;
+    padding: 6px 2px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  .home-privacy-shield {
+    width: 26px;
+    height: 26px;
+  }
+
+  .home-privacy-shield .home-mini-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .home-privacy-text {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent);
+  }
+}
+
 .help-with-row,
 .support-strip,
 .upload-panel,
