@@ -3222,6 +3222,240 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* Mobile welcome intro, added at the top of the home page above the existing
+   content. Hidden on desktop, shown only at 760px and below, so the desktop
+   home page is unchanged. All styling here is namespaced and reuses the real
+   primary button and the soft colour custom properties without modifying them. */
+.home-welcome {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .home-welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 30px;
+  }
+
+  /* 1. Welcome hero */
+  .home-welcome-hero {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 26px 22px 22px;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--theme-accent) 9%, var(--surface) 91%);
+    border: 1px solid color-mix(in srgb, var(--theme-accent) 16%, transparent);
+  }
+
+  .home-welcome-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 30px;
+    line-height: 1.12;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .home-welcome-sub {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .home-welcome-start {
+    margin-top: 6px;
+    width: 100%;
+  }
+
+  .home-welcome-privacy {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+    opacity: 0.85;
+  }
+
+  /* Shared section heading */
+  .home-welcome-heading {
+    margin: 0 0 16px;
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* Icon circle or tile, reusing the soft colour custom properties read only */
+  .home-welcome-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--northcue-circle-bg, #eef2e8);
+    border: 1px solid var(--northcue-circle-border, rgba(37, 74, 47, 0.1));
+  }
+
+  .home-welcome-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+
+  .home-welcome-q {
+    width: 26px;
+    height: 26px;
+    stroke: #2f5b35;
+    stroke-width: 1.8;
+  }
+
+  /* 2. How it works, four steps down a vertical dotted line */
+  .hiw-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hiw-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding-bottom: 22px;
+  }
+
+  .hiw-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .hiw-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 23px;
+    top: 52px;
+    bottom: 6px;
+    border-left: 2px dotted color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  }
+
+  .hiw-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 3px;
+  }
+
+  .hiw-copy strong {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .hiw-copy small {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  /* 3. The calm cards you get */
+  .home-welcome-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cue-sample {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 16px 16px 20px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--soft-shadow);
+    overflow: hidden;
+  }
+
+  .cue-sample::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+  }
+
+  .cue-sample-purple::before {
+    background: #b9a8e0;
+  }
+
+  .cue-sample-cream::before {
+    background: #e6c887;
+  }
+
+  .cue-sample-blue::before {
+    background: #9cc0e6;
+  }
+
+  .home-welcome-tile {
+    border-radius: 14px;
+  }
+
+  .cue-sample-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .cue-sample-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .cue-sample-copy strong {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .cue-sample-copy small {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .cue-sample-dots {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .cue-sample-dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--theme-accent) 24%, transparent);
+  }
+
+  .cue-sample-dots i.on {
+    width: 16px;
+    background: var(--theme-accent);
+  }
+}
+
 .help-with-row,
 .support-strip,
 .upload-panel,
