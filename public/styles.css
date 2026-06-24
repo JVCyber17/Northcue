@@ -4661,10 +4661,9 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   text-align: left;
 }
 
-/* The Simple view / Show full details toggle. Hidden by default at every
-   width so it does NOT appear in the mobile layout this session; it is
-   revealed only on the desktop canvas in the min-width: 761px block below.
-   (Mobile gets its own treatment in a later, separate task.) */
+/* The Simple view / Show full details toggle. Hidden by default; revealed in
+   BOTH the desktop (min-width: 761px) and mobile (max-width: 760px) blocks
+   below — the base rule keeps it out only on any width neither block covers. */
 .detail-toggle {
   display: none;
 }
@@ -7083,8 +7082,45 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     padding: 24px 18px;
   }
 
+  /* ── Mobile cue-card presentation (≤760px) ────────────────────────────────
+     Brings the desktop (≥761px) simple/full toggle + headline-dominant
+     hierarchy to phones. Scoped to this mobile media query so desktop is
+     untouched. */
+
+  /* Show the simple/full-view toggle on phones (previously desktop-only). It
+     sits with "Focus on card" in .card-top-left and wraps onto its own row. */
+  .detail-toggle {
+    display: inline-flex;
+  }
+
+  /* Headline stays the hero, but sized for balance (was a flat 38px) so long
+     headlines do not turn into scroll-heavy cards. Still larger than desktop. */
   .card-answer {
-    font-size: 38px;
+    margin-top: 12px;
+    font-size: clamp(30px, 8.5vw, 36px);
+    line-height: 1.2;
+  }
+
+  /* Subtitle and bullets stay visible but calmer and clearly secondary, with
+     more breathing room beneath the hero headline. */
+  .card-explanation {
+    margin-top: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .card-steps {
+    margin-top: 14px;
+    gap: 9px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  /* Simple view on mobile: headline + label only — a calm, mostly
+     single-screen card. Detail stays in the DOM for full view. */
+  body.cards-simple .card-explanation,
+  body.cards-simple .card-steps {
+    display: none;
   }
 
   .help-card {
