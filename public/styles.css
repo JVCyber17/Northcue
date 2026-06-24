@@ -3616,6 +3616,31 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* Mobile only home text trims. Desktop keeps its current heading and copy. The
+   heading swaps to a shorter line by hiding the full version and showing the
+   compact one, so the desktop markup text is unchanged. */
+.home-title-compact {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .home-welcome-privacy {
+    display: none;
+  }
+
+  .home-dashboard-head p:not(.focus-helper) {
+    display: none;
+  }
+
+  .home-title-full {
+    display: none;
+  }
+
+  .home-title-compact {
+    display: inline;
+  }
+}
+
 .help-with-row,
 .support-strip,
 .upload-panel,
