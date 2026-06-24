@@ -6847,6 +6847,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .topbar {
     padding: 14px 18px;
     min-height: auto;
+    justify-items: center;
   }
 
   .brand-button {
@@ -6854,13 +6855,18 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     min-height: 48px;
   }
 
+  /* Mobile only: show just the name as a clean centred wordmark. The logo mark
+     is hidden, not deleted, so desktop keeps it. */
   .brand-icon {
-    width: 42px;
-    height: 42px;
+    display: none;
   }
 
   .brand-name {
-    font-size: 24px;
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
   }
 
   .home-layout {
