@@ -16,6 +16,7 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - Deadline extracted: `24 June 2026`
 - `severity_level` = `medium`
 - `processing_mode` = `normal`
+- **Adaptive Card 5:** title = `What could happen if I ignore it?`, surfaces `referred for further action`. Note this is a **low-severity** bill that still flips to the consequence card — the trigger is the document's consequence sentence, not severity. (See adaptive Card 5 in known-gotchas.)
 
 **Watch for:** Deadline extractor may compete between the billing period dates and the payment due date. `Please pay by 24 June 2026` is the correct one.
 
@@ -30,6 +31,7 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - Amount extracted: `£2,104.00`
 - `severity_level` = `low`
 - `processing_mode` = `normal`
+- **Adaptive Card 5:** title stays `What should I check?` — this is the **no-false-alarm** case. The notice explicitly says "This is not a demand for payment" and states no consequence, so Card 5 must NOT manufacture a threat.
 
 **Watch for:** The instalment dates (April 2026 – January 2027) create many date candidates. Deadline extractor should pick the first instalment (`01/04/2026`), but since the letter is informational this matters less.
 
@@ -45,8 +47,9 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - `document_category` = `government`
 - `severity_level` = `high` or `urgent`
 - Deadline extracted: `26 May 2026`
+- **Adaptive Card 5:** title = `What could happen if I ignore it?`, surfaces `prosecution` / `fixed penalty notices` with hedged + attributed framing ("According to the document… may include…").
 
-**Watch for:** Document mentions the Environmental Protection Act. Risk card should surface the legal consequence (fixed penalty / prosecution).
+**Watch for:** Document mentions the Environmental Protection Act. Card 5 (adaptive) should surface the legal consequence (fixed penalty / prosecution) prominently — this is the safety-critical case the adaptive Card 5 was built for.
 
 ---
 
@@ -60,8 +63,9 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - `severity_level` = `urgent`
 - Amount extracted: `£450.00`
 - Deadline extracted: `16 June 2026`
+- **Adaptive Card 5:** title = `What could happen if I ignore it?`, surfaces `prosecution`. Because the language is assertive ("will result in prosecution"), `normalizeRiskSentence` wraps it as "The document states that…" so Northcue reports rather than asserts the threat.
 
-**Watch for:** "Failure to pay... will result in prosecution" is unconditional language (not hedged). Risk card should reflect this.
+**Watch for:** "Failure to pay... will result in prosecution" is unconditional language (not hedged). Card 5 (adaptive) should reflect this with the "The document states that…" attribution wrapper.
 
 ---
 
@@ -106,6 +110,7 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - Deadline extracted: `24 June 2026` (the compliance deadline from "Failure to pay the outstanding amount by 24 June 2026", picked via the `\bto\s+pay\b` deadlineContext addition)
 - What Is This summary: `"Barclays Bank PLC appears to be asking you to pay £320.00 by 24 June 2026."`
 - Risk card: full consequence sentence preserved including the "which may include" hedge
+- **Adaptive Card 5:** title = `What could happen if I ignore it?`, surfaces `debt collection` + `credit reference` with attribution ("The document states that…" / live AI: "According to the document…") and the "may include" hedge intact. Confirmed `stripAiViolations` does NOT strip this ("debt collection agency" is not in the debt-org name list).
 
 **Watch for:** Risk card should not drop the "which may include" hedge, but also should not soften "will result in action" to nothing. The overdue date "01 June 2026" ("Payment was due on 01 June 2026") must NOT be extracted as the deadline — "was due on" doesn't match deadlineContext, and the backward-looking exclusion pass rejects it.
 
@@ -148,6 +153,7 @@ All documents are embedded verbatim in `scripts/run_engine_tests.js`. This file 
 - `when_is_it_due` card: `"Your appointment is on 01 July 2026."` (appointment block date, NOT the letter date of 05 June 2026)
 - `what_is_this` summary: `"This appears to be an appointment from Hallamshire Hospital Outpatients on 01 July 2026."`
 - Action card: steps include `"Attend the appointment or meeting."`
+- **Adaptive Card 5:** title stays `What should I check?` — the second **no-false-alarm** case. This is **medium severity** but the appointment letter states no consequence, so Card 5 must NOT flip to a threat. (Together with DOC_2, this proves the trigger is the consequence sentence, not severity.)
 
 **Watch for:** The letter header date is 05 June 2026 (when the letter was written). The appointment is 01 July 2026. If the deadline card shows June instead of July, `extractAppointmentDate` has regressed and is falling through to `extractDeadline` which picks the header date. The whitelist condition requires confirmed appointment language — "your appointment is booked" and `Consultant:` / `Department:` fields in this fixture satisfy it. See known-gotchas for the appointment whitelist guard and `extractAppointmentDate` details.
 

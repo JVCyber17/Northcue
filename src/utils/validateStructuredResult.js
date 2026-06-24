@@ -40,7 +40,11 @@ const UNSAFE_ADVICE_PATTERNS = [
   /\bthis document is genuine\b/i,
   /\bdefinitely genuine\b/i,
   /\bguaranteed safe\b/i,
-  /\bignore it\b/i
+  // Catches advice to dismiss the document ("just ignore it", "you can ignore it"),
+  // but NOT the conditional "...if I/you ignore it" used by the adaptive Card 5
+  // title "What could happen if I ignore it?" — that warns against ignoring, the
+  // opposite of unsafe advice.
+  /(?<!if i )(?<!if you )\bignore it\b/i
 ];
 
 function validateStructuredResult(candidate, fallback) {

@@ -407,3 +407,47 @@ test("zero-obligation informational document returns no action needed", () => {
     "zero-obligation document short_answer must be 'No action needed right now.'"
   );
 });
+
+// ── Adaptive Card 5 (consequence vs check) ────────────────────────────────────
+
+test("adaptive Card 5 leads with a real consequence when the document states one", () => {
+  const output = runEngine([
+    "Sheffield City Council",
+    "Environmental Services Department",
+    "You are required to ensure the waste is removed and the area is cleared by 26 May 2026.",
+    "Failure to comply with this notice may result in the council taking further action",
+    "under the Environmental Protection Act 1990 which may include fixed penalty notices or prosecution."
+  ].join("\n"), "auto");
+
+  assertBaseOutput(output);
+
+  const card5 = output.structured_result.cards[4];
+  assert.equal(card5.card_id, "what_could_happen", "card 5 keeps its card_id");
+  assert.equal(card5.card_type, "what_should_i_check", "card 5 keeps card_type (minimal-surface choice)");
+  assert.equal(card5.title, "What could happen if I ignore it?",
+    "card 5 adopts the consequence title when a real consequence exists");
+  assert.match(card5.simple_explanation, /prosecution|penalty/i,
+    "card 5 leads with the document's consequence");
+  assert.match(card5.simple_explanation, /\bmay\b|\bcould\b/i,
+    "consequence keeps a hedge word");
+});
+
+test("adaptive Card 5 stays 'What should I check?' when there is no real consequence", () => {
+  const output = runEngine([
+    "NHS Hallamshire Hospital Outpatients",
+    "OUTPATIENT APPOINTMENT",
+    "An outpatient appointment has been arranged for you as follows:",
+    "Department: Cardiology",
+    "Date: Tuesday 01 July 2026",
+    "Consultant: Dr A Singh",
+    "Please give at least 48 hours notice if you need to cancel."
+  ].join("\n"), "medical");
+
+  assertBaseOutput(output);
+
+  const card5 = output.structured_result.cards[4];
+  assert.equal(card5.title, "What should I check?",
+    "no-consequence document must NOT manufacture a consequence card");
+  assert.doesNotMatch(card5.simple_explanation, /prosecution|eviction|bailiff|debt collection/i,
+    "no manufactured threat in the check card");
+});

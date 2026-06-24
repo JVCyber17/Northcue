@@ -66,6 +66,25 @@ DOC_3 uses hedged language ("may include fixed penalty notices or prosecution").
 
 ---
 
+## Adaptive Card 5 (consequence vs check)
+
+**Card 5 adapts between "What could happen if I ignore it?" and "What should I check?" based on a real document consequence — not severity.**
+The trigger is `extraction.has_consequence`, set from `Boolean(extractRiskSentence(text))` in the full-path extraction builder. `extractRiskSentence` matches `RISK_PHRASES` (prosecution, fixed/penalty notice, bailiff, county court, legal action, referred-for-further-action, disconnection, eviction, debt collection, credit reference/rating) and returns the document's own sentence, already hedged/attributed by `normalizeRiskSentence`. When non-null, structured card 5's title becomes "What could happen if I ignore it?" and its explanation leads with that consequence; when null it stays "What should I check?". Deliberately NOT severity-driven: the NHS appointment is medium-severity but has no consequence sentence, so it correctly stays a check card (no manufactured alarm). The energy bill is low-severity but says "referred for further action", so it correctly flips to a consequence card.
+
+**card_id and card_type do NOT change between the two modes — only the title and explanation do.**
+Both modes keep `card_id: "what_could_happen"` and `card_type: "what_should_i_check"`. This was a deliberate minimal-surface choice: it avoids adding a new value to `ALLOWED_CARD_TYPES` in `validateStructuredResult.js` and avoids touching the icon mapping (`cardIconMarkup` keys off `card_id`). The user-facing title is the only thing that adapts. A future cleanup could introduce a real `what_could_happen` card_type, but it would need to be added to the validator AND the frontend allowlists. If you see a card titled "What could happen if I ignore it?" with `card_type: "what_should_i_check"`, that is intentional, not a bug.
+
+**Only the full (non-garbled) path sets `has_consequence`.** The garbled, scam (`verification_only`), and readable-unsupported extraction builders do not set it → those paths always stay check-mode. Garbled text is excluded on purpose (a risk phrase read from corrupted OCR would be unreliable). `validateBySchema` only checks listed schema keys and ignores extras, so `has_consequence`/`consequence_sentence` did NOT need to be added to `extractorSchema`.
+
+**The `/\bignore it\b/i` unsafe-advice pattern had to be tightened — it was eating the whole AI result on every consequence document.**
+`validateNoUnsafeAdvice` (validateStructuredResult.js) JSON.stringifies the AI candidate and tests it against `UNSAFE_ADVICE_PATTERNS`. The new card-5 title "What could happen if I ignore it?" contains the substring "ignore it", so the old `/\bignore it\b/i` flagged it → validation failed → the AI pass fell back to rules on EVERY consequence document, silently losing AI polish on all six cards. Fixed by tightening to `/(?<!if i )(?<!if you )\bignore it\b/i`, which still catches imperative advice ("just ignore it", "you can ignore it", "Do not ignore it") but not the conditional "...if I/you ignore it". If consequence documents ever revert to rules-only output (`ai_status: "fallback"`, `ai_error_code: "invalid_structured_result"`, validation error "unsafe advice matched /ignore it/"), check this pattern first.
+
+**The AI prompt uses the fallback card-5 title as the signal.** The rules engine decides consequence-vs-check; the AI system prompt tells the model to keep the fallback card's title and, in consequence mode, write a hedged + attributed report ("According to the document… may/could…"), framed around being ignored — NOT as an instruction to pay (which keeps it clear of the `stripAiViolations` pay-pattern stripper). Verified live: enforcement, Barclays, and energy all surface the consequence with attribution + hedge intact, and `stripAiViolations` does NOT strip them ("debt collection agency" is not in the debt-org name list; the hedged phrasings don't match the pay/phone patterns). No `stripAiViolations` exemption was needed.
+
+**AI headlines for long consequences can truncate mid-word** (e.g. "...credit referenc") when the model hits `max_output_tokens` (2600 across all six cards). The full consequence still appears in the card's key_points/bullets, so safety is preserved, but the headline can look cut off. Pre-existing AI-layer limit, more visible now that card 5 can carry a long consequence headline. Candidate for the separate headline-tightening work.
+
+---
+
 ## Sender Detection
 
 **`extractSummaryFirstLineSender` grabs the first short non-generic line.**

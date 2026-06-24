@@ -461,7 +461,9 @@ const TESTS = [
       { field: "trust.severity_level",    expect: "low",    note: "routine bill, not overdue — low is correct" },
       { field: "trust.processing_mode",   expect: "normal" },
       { field: "deadline_card_date",      expect: "24 June 2026",  note: "may also appear as 24 June" },
-      { field: "amounts_include",         expect: "£187.42" }
+      { field: "amounts_include",         expect: "£187.42" },
+      { field: "card5_title",             expect: "What could happen if I ignore it?", note: "low severity but states a real consequence ('referred for further action')" },
+      { field: "card5_contains",          expect: "further action" }
     ]
   },
   {
@@ -474,7 +476,8 @@ const TESTS = [
       { field: "trust.document_category", expect: "government",    note: "Sheffield City Council routes to government, not bill_or_payment" },
       { field: "trust.severity_level",    expect: "low" },
       { field: "trust.processing_mode",   expect: "normal" },
-      { field: "amounts_include",         expect: "£2,104.00" }
+      { field: "amounts_include",         expect: "£2,104.00" },
+      { field: "card5_title",             expect: "What should I check?", note: "informational annual notice, no real threat — must NOT show a consequence card" }
     ]
   },
   {
@@ -486,7 +489,9 @@ const TESTS = [
     assertions: [
       { field: "trust.document_category", expect: "government" },
       { field: "trust.severity_level",    expect: "high" },
-      { field: "deadline_card_contains",  expect: "26 May 2026" }
+      { field: "deadline_card_contains",  expect: "26 May 2026" },
+      { field: "card5_title",             expect: "What could happen if I ignore it?" },
+      { field: "card5_contains",          expect: "prosecution" }
     ]
   },
   {
@@ -498,7 +503,9 @@ const TESTS = [
     assertions: [
       { field: "trust.severity_level",   expect: "high" },
       { field: "amounts_include",        expect: "£450.00" },
-      { field: "deadline_card_contains", expect: "16 June 2026" }
+      { field: "deadline_card_contains", expect: "16 June 2026" },
+      { field: "card5_title",            expect: "What could happen if I ignore it?" },
+      { field: "card5_contains",         expect: "prosecution" }
     ]
   },
   {
@@ -534,7 +541,9 @@ const TESTS = [
       { field: "trust.document_category", expect: "bill_or_payment" },
       { field: "trust.severity_level",    expect: "high" },
       { field: "amounts_include",         expect: "£320.00" },
-      { field: "deadline_card_contains",  expect: "24 June 2026",     note: "extractDeadline picks the action deadline via 'to pay' context, not the letter date or overdue date" }
+      { field: "deadline_card_contains",  expect: "24 June 2026",     note: "extractDeadline picks the action deadline via 'to pay' context, not the letter date or overdue date" },
+      { field: "card5_title",             expect: "What could happen if I ignore it?" },
+      { field: "card5_contains",          expect: ["debt collection", "credit reference"], note: "consequence surfaced with attribution + 'may include' hedge" }
     ]
   },
   {
@@ -573,7 +582,8 @@ const TESTS = [
     assertions: [
       { field: "trust.document_category", expect: "appointment" },
       { field: "trust.severity_level",    expect: "medium" },
-      { field: "deadline_card_contains",  expect: "July" }
+      { field: "deadline_card_contains",  expect: "July" },
+      { field: "card5_title",             expect: "What should I check?", note: "medium severity but no document consequence — must NOT manufacture a threat" }
     ]
   },
   {
@@ -714,6 +724,17 @@ function runAssertions(test, output) {
       actual = card ? card.short_answer : null;
       pass = /text quality|too low|check the original/i.test(actual || "");
       actual = pass ? "quality warning present (correct)" : (actual || "card not found");
+    } else if (assertion.field === "card5_title") {
+      // Adaptive Card 5: structured_result card index 4 (the live-rendered layer).
+      const c5 = (output.structured_result?.cards || [])[4];
+      actual = c5 ? c5.title : null;
+      pass = actual === assertion.expect;
+    } else if (assertion.field === "card5_contains") {
+      const c5 = (output.structured_result?.cards || [])[4];
+      const text = c5 ? `${c5.simple_explanation} ${(c5.key_points || []).join(" ")}` : "";
+      const expects = Array.isArray(assertion.expect) ? assertion.expect : [assertion.expect];
+      pass = expects.some((e) => text.includes(e));
+      actual = pass ? expects.find((e) => text.includes(e)) : "not found in card 5";
     } else {
       actual = getValue(output, assertion.field);
       const expects = Array.isArray(assertion.expect) ? assertion.expect : [assertion.expect];

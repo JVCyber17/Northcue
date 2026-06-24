@@ -194,6 +194,11 @@ function buildSystemPrompt() {
     "If the user message shows input_quality as borderline or poor, or garbled_by_ocr as true: do not state specific amounts, dates, reference numbers, or other precise figures with confidence. The document text may contain OCR errors where characters were misread (for example a digit read as a letter, or a letter read as a digit). Do not attempt to correct these errors or present a corrected figure — that would be guessing. Instead match the same uncertainty level the fallback structured_result already expresses: say the figure could not be reliably read rather than restating or reinterpreting it.",
     "Keep the same JSON shape as the provided fallback structured_result.",
     "Return exactly six cards in the same order and with the same card_id values.",
+    // Card 5 (card_id 'what_could_happen') is adaptive. Use the fallback card's
+    // title as the signal — never change which mode it is in:
+    "Card five has card_id 'what_could_happen'. Use the fallback structured_result's title for this card as the signal and keep that exact title.",
+    "If that title is 'What could happen if I ignore it?', the document states a real consequence of ignoring it. Write simple_explanation as a calm, hedged, attributed report of that consequence: begin with 'The document says' or 'According to the document', keep the words 'may' or 'could', and never assert the threat as certain or in your own voice. Frame it around what the document says could happen if it is ignored — do NOT phrase it as an instruction to pay. key_points may note the consequence and the relevant date to be aware of.",
+    "If that title is 'What should I check?', the document states no such consequence. Keep check-style content and do NOT invent, imply, or escalate any consequence, penalty, or threat the document does not state.",
     "Set all privacy flags to false."
   ].join("\n");
 }

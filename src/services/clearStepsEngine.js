@@ -256,6 +256,14 @@ function runExtractorLayer({ text, trust }) {
   const risk = inferRisk(text, trust);
   const note = inferContextNote(text, trust);
 
+  // Real, document-stated consequence of ignoring the letter (prosecution, debt
+  // collection, disconnection, eviction, etc.), already hedged/attributed by
+  // normalizeRiskSentence. Non-null only when the document itself states a
+  // consequence — drives the adaptive Card 5 (consequence vs check). Deliberately
+  // NOT severity-based, so a medium-severity appointment with no threat stays a
+  // "What should I check?" card and never manufactures alarm.
+  const consequenceSentence = extractRiskSentence(text);
+
   // When OCR garbling was the reason for the quality downgrade, amounts and dates
   // extracted from the text are likely wrong (corrupted characters). Return a
   // category-level summary without specific figures and null the deadline so the
@@ -294,6 +302,8 @@ function runExtractorLayer({ text, trust }) {
     deadline,
     visible_dates: extractVisibleDates(text),
     risk,
+    has_consequence: Boolean(consequenceSentence),
+    consequence_sentence: consequenceSentence,
     helpful_note: note,
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: extractReferenceNumbers(text),
@@ -619,10 +629,16 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       possibleDeadline: extraction.deadline || null
     },
     {
+      // Adaptive Card 5: leads with a real consequence when the document states
+      // one, otherwise stays a calm "what to check" card. card_id and card_type
+      // are intentionally unchanged in both modes (minimal surface — only the
+      // user-facing title and explanation adapt). See known-gotchas.
       legacyId: "what_could_happen",
       cardType: "what_should_i_check",
-      title: "What should I check?",
-      explanation: "Check key details on the original document.",
+      title: extraction.has_consequence ? "What could happen if I ignore it?" : "What should I check?",
+      explanation: extraction.has_consequence
+        ? (extraction.consequence_sentence || extraction.risk)
+        : "Check key details on the original document.",
       keyPoints: buildCheckKeyPoints({ trust, extraction }),
       actionNeeded: null,
       possiblePayment: paymentAmount
