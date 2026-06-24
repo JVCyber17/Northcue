@@ -7067,12 +7067,80 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     margin-inline: 0;
   }
 
-  .card-top,
-  .card-top-left {
+  /* Tidy two-band top so content starts higher. Flattening .card-top-left with
+     display:contents lets the position text, both toggles, and the dots regroup
+     in one flex flow (no markup change). Row 1 = the two controls share a
+     compact row; row 2 = progress dots + a de-emphasised "Card X of 6". */
+  .card-top {
     flex-wrap: wrap;
+    row-gap: 12px;
+    column-gap: 8px;
+    justify-content: space-between;
   }
 
-  .focus-card-toggle,
+  .card-top-left {
+    display: contents;
+  }
+
+  /* Row 1 — the two controls, side by side, filling the row. Slightly smaller
+     text so the longest label ("Show full details") still fits beside "Focus
+     on card" at phone width; touch height kept at 40px. */
+  #card-focus-toggle,
+  #card-detail-toggle {
+    order: 1;
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    min-height: 40px;
+    padding: 0 9px;
+    gap: 6px;
+    font-size: 13px;
+    justify-content: center;
+  }
+
+  #card-focus-toggle svg,
+  #card-detail-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Row 2 — "Card X of 6" on the LEFT (under the Focus button) and the dots on
+     the RIGHT (under the toggle), pushed to the edges by space-between so they
+     line up with the two buttons above. "Card X of 6" kept but de-emphasised
+     since the dots show the same thing; tighter dot gap for a compact cluster. */
+  #card-progress {
+    order: 2;
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  #progress-dots {
+    order: 3;
+    flex: 0 0 auto;
+    gap: 7px;
+  }
+
+  /* Render the dots as compact, perfectly-centred circles on phones. The dot
+     icon image is sized for a 38px canvas and overflows downward toward the
+     divider (making the row look low and uneven); hiding it and using the dot's
+     own circle keeps the six dots level with the "Card X of 6" text with a clean
+     gap above the line. Progress logic (which dot is .active) is unchanged. */
+  #progress-dots .progress-dot {
+    width: 9px;
+    height: 9px;
+    overflow: hidden;
+    background: var(--line);
+  }
+
+  #progress-dots .progress-dot.active {
+    background: var(--theme-accent);
+  }
+
+  #progress-dots .northcue-progress-icon {
+    display: none;
+  }
+
   .style-pill {
     flex: 1 1 auto;
     justify-content: center;
