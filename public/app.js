@@ -474,7 +474,12 @@ wireHelp();
 wireComfortSettings();
 wireFeedback();
 
-setPage("landing");
+// Home is the front door. The landing page (#page-landing) is retained in the
+// markup/CSS/assets and in the `pages` array, just no longer shown first — so
+// this is a reversible route-past, not a deletion. To restore the landing
+// page, change this back to setPage("landing") and re-add the active class /
+// data-page defaults in index.html.
+setPage("home");
 setJourneyStep("upload");
 renderCard();
 renderProgressDots();
