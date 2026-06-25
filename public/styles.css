@@ -36,6 +36,21 @@
   --control-radius: 12px;
 }
 
+/* Colour themes define only the NON-accent tokens here: page background,
+   the neutral reading surface, text, lines and the brand green. The accent
+   tokens (--theme-top/bottom/soft/panel/accent/line/line-strong/blob-a/b/c)
+   are owned solely by themeConfig in app.js, which applies all 11 inline on
+   <body> at runtime. They used to be duplicated here too, but the inline
+   styles always won, so these copies were dead — and they had already drifted
+   (Sage). Single source now, so they can't drift again. The :root block above
+   keeps a calm default for the pre-script first paint.
+
+   Accent-only colour-styles: the five light themes (light/calm/sage/lavender/
+   cream/classic) keep --surface neutral (constant #fffdfa), so picking a
+   colour-style changes only the wallpaper + accents, never the reading
+   surfaces. Sage shares Calm's neutral surfaces and takes its distinct sage-
+   green wallpaper/accent from themeConfig.sage. Dark mode is the one theme
+   that redefines the surfaces (to dark) — unchanged. */
 body.theme-light {
   --bg: #fffdf8;
   --bg-tint: #faf6ef;
@@ -44,16 +59,6 @@ body.theme-light {
   --surface-lavender: #f1effd;
   --green: #2f5b35;
   --sage: #dfe8d8;
-  --theme-top: #ece8fb;
-  --theme-bottom: #fffdf8;
-  --theme-soft: #f1effd;
-  --theme-panel: #fffdfa;
-  --theme-accent: #2f5b35;
-  --theme-line: rgba(148, 136, 213, 0.16);
-  --theme-line-strong: rgba(148, 136, 213, 0.28);
-  --theme-blob-a: #dfe8d8;
-  --theme-blob-b: #fff1d8;
-  --theme-blob-c: #f6d3c4;
 }
 
 body.theme-calm,
@@ -65,16 +70,6 @@ body.theme-sage {
   --surface-lavender: #f1effd;
   --green: #2f5b35;
   --sage: #dfe8d8;
-  --theme-top: #ece8fb;
-  --theme-bottom: #fffdf8;
-  --theme-soft: #f1effd;
-  --theme-panel: #fffdfa;
-  --theme-accent: #2f5b35;
-  --theme-line: rgba(148, 136, 213, 0.16);
-  --theme-line-strong: rgba(148, 136, 213, 0.28);
-  --theme-blob-a: #dfe8d8;
-  --theme-blob-b: #fff1d8;
-  --theme-blob-c: #f6d3c4;
 }
 
 body.theme-lavender {
@@ -84,16 +79,6 @@ body.theme-lavender {
   --surface-lavender: #ebe6fb;
   --green: #4c5271;
   --sage: #e6e1f5;
-  --theme-top: #cbc3eb;
-  --theme-bottom: #f9dcd6;
-  --theme-soft: #ebe6fb;
-  --theme-panel: #fffaff;
-  --theme-accent: #4c5271;
-  --theme-line: rgba(104, 94, 160, 0.16);
-  --theme-line-strong: rgba(104, 94, 160, 0.28);
-  --theme-blob-a: #e6e1f5;
-  --theme-blob-b: #f9dcd6;
-  --theme-blob-c: #d6cfef;
 }
 
 body.theme-cream {
@@ -103,16 +88,6 @@ body.theme-cream {
   --surface-lavender: #f4eee8;
   --green: #5a5136;
   --sage: #eee4c8;
-  --theme-top: #ffe0a8;
-  --theme-bottom: #fff4df;
-  --theme-soft: #fff3df;
-  --theme-panel: #fffaf0;
-  --theme-accent: #5a5136;
-  --theme-line: rgba(168, 126, 49, 0.15);
-  --theme-line-strong: rgba(168, 126, 49, 0.26);
-  --theme-blob-a: #eee4c8;
-  --theme-blob-b: #ffe8b8;
-  --theme-blob-c: #f2d9c8;
 }
 
 body.theme-classic {
@@ -122,16 +97,6 @@ body.theme-classic {
   --surface-lavender: #e9edf4;
   --green: #1f2d45;
   --sage: #d8dde8;
-  --theme-top: #e7ebf2;
-  --theme-bottom: #566277;
-  --theme-soft: #e9edf4;
-  --theme-panel: #f8f9fb;
-  --theme-accent: #1f2d45;
-  --theme-line: rgba(31, 45, 69, 0.15);
-  --theme-line-strong: rgba(31, 45, 69, 0.28);
-  --theme-blob-a: #d8dde8;
-  --theme-blob-b: #eef1f5;
-  --theme-blob-c: #c7cedb;
 }
 
 body.theme-dark {
@@ -151,16 +116,6 @@ body.theme-dark {
   --lavender-strong: #cfc7ff;
   --cream: #5c4c31;
   --rose: #5b3834;
-  --theme-top: #283039;
-  --theme-bottom: #1c2529;
-  --theme-soft: #2d3042;
-  --theme-panel: #1c2529;
-  --theme-accent: #b6d2ad;
-  --theme-line: rgba(207, 199, 255, 0.12);
-  --theme-line-strong: rgba(207, 199, 255, 0.24);
-  --theme-blob-a: #2d3b31;
-  --theme-blob-b: #4d402f;
-  --theme-blob-c: #483535;
   --shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
   --soft-shadow: 0 4px 16px rgba(0, 0, 0, 0.24);
 }
@@ -2076,6 +2031,14 @@ body.theme-dark .primary-btn {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
+/* In dark mode the accent is a light green, so the accent-derived upload-button
+   gradient would put white text on a light fill (≈1.6:1). Give it the same dark
+   green treatment as the primary button so the label stays readable. */
+body.theme-dark .home-upload-btn {
+  background: linear-gradient(180deg, #356b3d 0%, #2a5331 100%);
+  color: #fffdfa;
+}
+
 .outline-btn {
   border: 1.5px solid var(--line-strong);
   background: var(--surface);
@@ -2225,8 +2188,8 @@ body.bg-plain .home-map::before {
 
 body[data-page="home"] {
   --home-bg: var(--bg);
-  --home-card: var(--theme-panel);
-  --home-soft-card: color-mix(in srgb, var(--theme-panel) 88%, var(--theme-blob-a) 12%);
+  --home-card: var(--surface);
+  --home-soft-card: var(--surface);
   --home-green: var(--theme-accent);
   --home-sage: var(--theme-blob-a);
   --home-border: color-mix(in srgb, var(--theme-accent) 16%, var(--line) 84%);
@@ -3183,10 +3146,11 @@ body[data-page="home"] .app-main {
 /* Shared comfort settings connection for the Home dashboard. */
 .home-action-panel,
 .home-process-panel {
+  /* Accent-only themes: reading surface stays neutral (--surface is constant
+     across the five light themes, dark in dark mode). Only the accent border
+     hints at the theme. */
   border-color: color-mix(in srgb, var(--theme-accent) 14%, var(--line) 86%);
-  background:
-    radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--theme-top) 8%, transparent), transparent 34%),
-    color-mix(in srgb, var(--theme-panel) 94%, var(--surface) 6%);
+  background: var(--surface);
   box-shadow: var(--soft-shadow);
 }
 
@@ -3194,12 +3158,12 @@ body[data-page="home"] .app-main {
 .home-tile-card {
   border-color: color-mix(in srgb, var(--theme-accent) 16%, var(--line) 84%);
   border-radius: var(--reading-radius);
-  background: color-mix(in srgb, var(--theme-panel) 88%, var(--theme-blob-a) 12%);
+  background: var(--surface);
   box-shadow: var(--soft-shadow);
 }
 
 .home-static-card {
-  background: color-mix(in srgb, var(--theme-panel) 92%, var(--theme-bottom) 8%);
+  background: var(--surface);
 }
 
 .home-icon-bubble,
@@ -3383,9 +3347,7 @@ body[data-page="home"] .app-main {
     border: 1px solid color-mix(in srgb, var(--theme-accent) 14%, var(--line) 86%);
     border-radius: 18px;
     padding: 20px;
-    background:
-      radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--theme-top) 8%, transparent), transparent 34%),
-      color-mix(in srgb, var(--theme-panel) 94%, var(--surface) 6%);
+    background: var(--surface);
     box-shadow: var(--soft-shadow);
   }
 
@@ -3395,9 +3357,7 @@ body[data-page="home"] .app-main {
     flex-direction: column;
     gap: 12px;
     padding: 24px;
-    background:
-      radial-gradient(circle at 16% 10%, color-mix(in srgb, var(--theme-accent) 10%, transparent), transparent 42%),
-      color-mix(in srgb, var(--theme-accent) 6%, var(--surface) 94%);
+    background: var(--surface);
     border-color: color-mix(in srgb, var(--theme-accent) 18%, var(--line) 82%);
   }
 
@@ -4141,7 +4101,7 @@ body[data-page="home"] .app-main {
 .help-support-strip {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: color-mix(in srgb, var(--theme-panel) 94%, var(--theme-bottom) 6%);
+  background: var(--surface);
   box-shadow: var(--soft-shadow);
 }
 
@@ -4178,7 +4138,7 @@ body[data-page="home"] .app-main {
   align-items: center;
   min-height: 132px;
   margin: 0 18px;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--theme-top) 10%, var(--surface) 90%), var(--theme-panel));
+  background: var(--surface);
 }
 
 .support-strip h2 {
@@ -4259,12 +4219,12 @@ body[data-page="home"] .app-main {
 
 .rail-step.active {
   background: var(--theme-accent);
-  color: #fffdfa;
+  color: var(--surface);
 }
 
 .rail-step[data-rail="understand"].active {
-  background: linear-gradient(135deg, var(--theme-top), var(--theme-bottom));
-  color: var(--text);
+  background: var(--theme-accent);
+  color: var(--surface);
 }
 
 .journey-page.upload-active .journey-shell {
@@ -4923,7 +4883,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   flex-direction: column;
   min-height: 380px;
   padding: 20px 24px 18px;
-  background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+  background: var(--surface);
 }
 
 .card-top,
@@ -5164,7 +5124,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
 
 .action-panel {
   padding: 16px;
-  background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+  background: var(--surface);
 }
 
 .action-panel h2 {
@@ -5785,7 +5745,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: color-mix(in srgb, var(--theme-panel) 90%, var(--theme-bottom) 10%);
+  background: var(--surface);
   color: var(--muted);
   font-size: 16px;
   font-weight: 700;
@@ -5918,7 +5878,7 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   padding: 16px 26px 22px;
   border: 1px solid var(--line);
   border-radius: 22px;
-  background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+  background: var(--surface);
   box-shadow: var(--soft-shadow);
 }
 
@@ -6660,7 +6620,7 @@ body.theme-dark .landing-cue-preview {
   max-height: min(720px, calc(100vh - 48px));
   padding: 24px;
   border-radius: 18px;
-  background: color-mix(in srgb, var(--surface) 96%, var(--theme-panel) 4%);
+  background: var(--surface);
 }
 
 .feedback-modal .modal-close {
@@ -7011,7 +6971,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   width: min(690px, 100%);
   padding: 32px;
   border-radius: 24px;
-  background: color-mix(in srgb, var(--theme-panel) 96%, white 4%);
+  background: var(--surface);
 }
 
 .help-modal .modal-close {
@@ -7934,7 +7894,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 }
 
 .privacy-authenticity {
-  background: color-mix(in srgb, var(--theme-blob-a) 30%, var(--surface) 70%);
+  background: var(--surface);
   border-color: color-mix(in srgb, var(--theme-accent) 22%, var(--line) 78%);
 }
 
@@ -8400,7 +8360,7 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     padding: 16px 26px 22px;
     border: 1px solid var(--line);
     border-radius: 22px;
-    background: color-mix(in srgb, var(--theme-panel) 96%, var(--surface) 4%);
+    background: var(--surface);
     box-shadow: var(--soft-shadow);
   }
 
