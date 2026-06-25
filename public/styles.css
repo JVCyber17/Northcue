@@ -4420,7 +4420,8 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   display: none;
 }
 
-.journey-page:not(.upload-active) .journey-upload-subtitle {
+.journey-page:not(.upload-active) .journey-upload-subtitle,
+.journey-page:not(.upload-active) .journey-upload-subtitle-mobile {
   display: none;
 }
 
