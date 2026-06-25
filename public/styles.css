@@ -4679,12 +4679,26 @@ body.theme-dark .change-type-btn { color: var(--muted); }
     display: inline-flex;
   }
 
-  /* Headline becomes the clear hero a stressed eye lands on first. */
+  /* Headline becomes the clear hero a stressed eye lands on first. The medium
+     default is unchanged; it scales with the same text-size control as mobile
+     via the body text-small / text-large classes, so the control is consistent
+     across desktop and mobile. Stays responsive (clamp) so it still grows on
+     wide monitors. */
   .card-answer {
     margin-top: 14px;
     font-size: clamp(26px, 2.4vw, 34px);
     line-height: 1.25;
     letter-spacing: -0.01em;
+  }
+
+  body.text-small .card-answer {
+    font-size: clamp(22px, 2vw, 29px);
+  }
+
+  /* Large, and dyslexia mode (maximum readability), take the larger headline. */
+  body.text-large .card-answer,
+  body.dyslexia-mode .card-answer {
+    font-size: clamp(30px, 2.8vw, 39px);
   }
 
   /* Label reads as a quiet kicker above the headline, clearly subordinate. */
@@ -7161,12 +7175,26 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     display: inline-flex;
   }
 
-  /* Headline stays the hero, but sized for balance (was a flat 38px) so long
-     headlines do not turn into scroll-heavy cards. Still larger than desktop. */
+  /* Headline is the hero but sized comfortably so a normal one-sentence
+     headline fits ~2-3 lines instead of filling the screen. It scales with the
+     existing text-size control via the body text-small / text-large classes —
+     three sizes, no parallel logic. Medium (default, no class) is generous and
+     readable; it stays clearly larger than the bullets at every size. */
   .card-answer {
     margin-top: 12px;
-    font-size: clamp(30px, 8.5vw, 36px);
+    font-size: 27px;
     line-height: 1.2;
+  }
+
+  body.text-small .card-answer {
+    font-size: 22px;
+  }
+
+  /* Dyslexia mode (maximum readability) takes the large headline too, matching
+     how it already shares the large body font. */
+  body.text-large .card-answer,
+  body.dyslexia-mode .card-answer {
+    font-size: 32px;
   }
 
   /* Subtitle and bullets stay visible but calmer and clearly secondary, with
