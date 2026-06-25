@@ -225,6 +225,161 @@
           </section>
         </div>
 
+        <!-- Desktop home board (>=761px): the two-column dashboard from the
+             approved mockup. Hidden on mobile, where .home-welcome +
+             .home-dashboard-head + .home-mobile-actions render instead. Reuses
+             existing component classes, icons and data-* wiring so every
+             destination matches the current home exactly. -->
+        <div class="home-board" aria-label="Northcue home">
+          <div class="home-board-col home-board-col-left">
+
+            <section class="home-board-panel home-board-hero">
+              <h1 class="home-board-title">Your letter,<br>made clearer.</h1>
+              <p class="home-board-sub">Upload a bill, notice, or letter and get calm cue cards.</p>
+              <button type="button" class="home-upload-btn home-board-start" data-page-link="journey">
+                <svg class="home-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 15V4"></path>
+                  <path d="M7.5 8.5 12 4l4.5 4.5"></path>
+                  <path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"></path>
+                </svg>
+                Start with a document
+              </button>
+              <p class="focus-helper focus-home-helper" aria-live="polite">Focus mode: start with the main upload action.</p>
+            </section>
+
+            <section class="home-board-panel home-board-help">
+              <h2 class="home-board-heading">What do you need help with?</h2>
+              <button type="button" class="home-tile-card" data-help-open="overwhelmed">
+                <span class="home-icon-bubble home-icon-lavender northcue-circle-soft-purple" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
+                </span>
+                <span class="home-card-copy">
+                  <strong>I feel overwhelmed</strong>
+                  <small>Get calm support before reading.</small>
+                </span>
+                <span class="home-card-arrow" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="home-help-line" data-page-link="help">
+                <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
+                  <img class="home-mini-img" src="/icons/northcue/next-arrow.png" alt="">
+                </span>
+                <span class="home-help-line-text"><strong>Help with a document or something else</strong> on the Help page</span>
+              </button>
+            </section>
+
+            <section class="home-board-panel home-board-connect" aria-label="Feedback and privacy">
+              <button type="button" class="home-tile-card home-board-connect-item" data-feedback-open>
+                <span class="home-icon-bubble home-icon-warm northcue-circle-soft-cream" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
+                </span>
+                <span class="home-card-copy">
+                  <strong>Give feedback</strong>
+                  <small>Tell us what helped or felt confusing.</small>
+                </span>
+              </button>
+              <article class="home-tile-card home-static-card home-board-connect-item is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
+                <span class="home-icon-bubble home-icon-solid northcue-circle-soft-green" aria-hidden="true">
+                  <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
+                </span>
+                <span class="home-card-copy">
+                  <strong>Private &amp; secure</strong>
+                  <small>Your documents stay private.</small>
+                </span>
+              </article>
+            </section>
+
+          </div>
+
+          <div class="home-board-col home-board-col-right">
+
+            <section class="home-process-panel home-board-process" aria-label="How Northcue works">
+              <header>
+                <h2>How Northcue works</h2>
+                <p>A simple way to understand a document.</p>
+              </header>
+              <div class="process-orbit" aria-hidden="true">
+                <div class="process-step">
+                  <span class="process-icon-circle northcue-circle-white">
+                    <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
+                  </span>
+                  <strong>Upload</strong>
+                  <small>Add your document</small>
+                </div>
+                <span class="process-chevron" aria-hidden="true"></span>
+                <div class="process-step">
+                  <span class="process-icon-circle northcue-circle-white">
+                    <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document-check.png" alt="">
+                  </span>
+                  <strong>Understand</strong>
+                  <small>We explain it simply</small>
+                </div>
+                <span class="process-chevron" aria-hidden="true"></span>
+                <div class="process-step">
+                  <span class="process-icon-circle northcue-circle-white">
+                    <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/safety-check.png" alt="">
+                  </span>
+                  <strong>Check</strong>
+                  <small>We highlight key details</small>
+                </div>
+                <span class="process-chevron" aria-hidden="true"></span>
+                <div class="process-step">
+                  <span class="process-icon-circle northcue-circle-white">
+                    <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
+                  </span>
+                  <strong>Act</strong>
+                  <small>You choose what to do next</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="home-board-panel home-board-cards" aria-label="The calm cards you get">
+              <header class="home-board-cards-head">
+                <h2 class="home-board-heading">The calm cards you get</h2>
+                <p class="home-board-subline">A preview of what Northcue gives you back.</p>
+              </header>
+              <div class="home-board-cards-list">
+                <article class="cue-sample cue-sample-purple">
+                  <span class="home-welcome-icon home-welcome-tile northcue-circle-soft-purple" aria-hidden="true">
+                    <img class="home-welcome-img" src="/icons/northcue/foreground/document.png" alt="">
+                  </span>
+                  <span class="cue-sample-copy">
+                    <span class="cue-sample-top">
+                      <strong>What is this?</strong>
+                      <span class="cue-sample-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
+                    </span>
+                    <small>What the letter appears to be.</small>
+                  </span>
+                </article>
+                <article class="cue-sample cue-sample-cream">
+                  <span class="home-welcome-icon home-welcome-tile northcue-circle-soft-cream" aria-hidden="true">
+                    <img class="home-welcome-img" src="/icons/northcue/foreground/what-matters-most.png" alt="">
+                  </span>
+                  <span class="cue-sample-copy">
+                    <span class="cue-sample-top">
+                      <strong>What matters</strong>
+                      <span class="cue-sample-dots"><i></i><i class="on"></i><i></i><i></i><i></i><i></i></span>
+                    </span>
+                    <small>The key dates and details to notice.</small>
+                  </span>
+                </article>
+                <article class="cue-sample cue-sample-blue">
+                  <span class="home-welcome-icon home-welcome-tile northcue-circle-soft-blue" aria-hidden="true">
+                    <img class="home-welcome-img" src="/icons/northcue/foreground/what-to-do.png" alt="">
+                  </span>
+                  <span class="cue-sample-copy">
+                    <span class="cue-sample-top">
+                      <strong>What to do</strong>
+                      <span class="cue-sample-dots"><i></i><i></i><i class="on"></i><i></i><i></i><i></i></span>
+                    </span>
+                    <small>The safe next step to check.</small>
+                  </span>
+                </article>
+              </div>
+            </section>
+
+          </div>
+        </div>
+
         <div class="home-dashboard">
           <section class="home-action-panel" aria-labelledby="home-title">
             <header class="home-dashboard-head">

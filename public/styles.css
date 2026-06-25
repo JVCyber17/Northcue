@@ -3330,6 +3330,321 @@ body[data-page="home"] .app-main {
   }
 }
 
+/* ===================================================================
+   Desktop home board (>=761px) — the two-column dashboard mockup.
+   Self-contained, new block. Shows only on desktop, where the legacy
+   .home-dashboard is hidden. On mobile this block stays hidden and
+   .home-welcome + .home-dashboard-head + .home-mobile-actions render
+   exactly as before, so mobile home is untouched. Reuses
+   .home-upload-btn, .home-tile-card, .home-process-panel, .cue-sample
+   and the soft-circle icon classes. Every reading size multiplies by
+   --text-scale so the text-size control works here too. */
+.home-board {
+  display: none;
+}
+
+@media (min-width: 761px) {
+  /* Retire the old desktop layout; the board replaces it. The #page-home
+     prefix beats any plain .home-dashboard rule by specificity. */
+  #page-home .home-dashboard {
+    display: none;
+  }
+
+  #page-home .home-board {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .home-board-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  /* Both columns stretch to the taller column's height; the shorter
+     column's panels then share the extra height equally so the column
+     bottoms line up. Gaps stay a constant 14px (the panels gain a little
+     height rather than the gaps blowing out), which reads as a tidy,
+     balanced dashboard instead of forced or gappy. Whichever column is
+     naturally shorter at a given width fills to match the other. */
+  .home-board-col > * {
+    flex: 1 0 auto;
+  }
+
+  /* Shared panel shell — same calm card look as the existing dashboard
+     panels (theme-aware border, soft radial wash, soft shadow). */
+  .home-board-panel,
+  .home-board .home-process-panel {
+    border: 1px solid color-mix(in srgb, var(--theme-accent) 14%, var(--line) 86%);
+    border-radius: 18px;
+    padding: 20px;
+    background:
+      radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--theme-top) 8%, transparent), transparent 34%),
+      color-mix(in srgb, var(--theme-panel) 94%, var(--surface) 6%);
+    box-shadow: var(--soft-shadow);
+  }
+
+  /* 1. Hero — the main upload action, lightly tinted to read as primary. */
+  .home-board-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    background:
+      radial-gradient(circle at 16% 10%, color-mix(in srgb, var(--theme-accent) 10%, transparent), transparent 42%),
+      color-mix(in srgb, var(--theme-accent) 6%, var(--surface) 94%);
+    border-color: color-mix(in srgb, var(--theme-accent) 18%, var(--line) 82%);
+  }
+
+  .home-board-title {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: calc(34px * var(--text-scale, 1));
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .home-board-sub {
+    margin: 0;
+    color: var(--muted);
+    font-size: calc(16px * var(--text-scale, 1));
+    line-height: 1.45;
+  }
+
+  .home-board-start {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 6px;
+    border-radius: 14px;
+  }
+
+  .home-board-hero .focus-helper {
+    margin: 2px 0 0;
+  }
+
+  /* 2. Help panel. */
+  .home-board-help {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-board-heading {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-heading);
+    font-size: calc(22px * var(--text-scale, 1));
+    line-height: 1.22;
+    font-weight: 800;
+  }
+
+  .home-board-help .home-tile-card {
+    width: 100%;
+  }
+
+  .home-board .home-help-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 2px;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .home-board .home-mini-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--northcue-circle-bg, #eef2e8);
+    border: 1px solid var(--northcue-circle-border, rgba(37, 74, 47, 0.1));
+  }
+
+  .home-board .home-mini-img {
+    width: 60px;
+    height: 60px;
+    flex: 0 0 auto;
+    object-fit: contain;
+  }
+
+  .home-board .home-help-line-text {
+    font-size: calc(14px * var(--text-scale, 1));
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .home-board .home-help-line-text strong {
+    font-weight: 700;
+    color: var(--theme-accent);
+  }
+
+  .home-board .home-help-line:hover .home-help-line-text strong {
+    text-decoration: underline;
+  }
+
+  /* 3. Feedback + privacy, two items side by side. */
+  .home-board-connect {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .home-board-connect-item {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  /* 4. Process panel — reused as-is; tighten the header gap to balance. */
+  .home-board .home-process-panel > header {
+    margin-bottom: 16px;
+  }
+
+  /* 5. Calm-cards preview. */
+  .home-board-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-board-subline {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: calc(14px * var(--text-scale, 1));
+    line-height: 1.4;
+  }
+
+  .home-board-cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Desktop cue-sample preview rows (the mobile rules are scoped to
+     <=760px, so re-state the look here, scoped to the board). */
+  .home-board .cue-sample {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px 14px 20px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--soft-shadow);
+    overflow: hidden;
+  }
+
+  .home-board .cue-sample::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+  }
+
+  .home-board .cue-sample-purple::before { background: #b9a8e0; }
+  .home-board .cue-sample-cream::before { background: #e6c887; }
+  .home-board .cue-sample-blue::before { background: #9cc0e6; }
+
+  .home-board .home-welcome-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--northcue-circle-bg, #eef2e8);
+    border: 1px solid var(--northcue-circle-border, rgba(37, 74, 47, 0.1));
+  }
+
+  .home-board .home-welcome-img {
+    width: 104px;
+    height: 104px;
+    flex: 0 0 auto;
+    object-fit: contain;
+  }
+
+  .home-board .cue-sample-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .home-board .cue-sample-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .home-board .cue-sample-copy strong {
+    font-family: var(--font-heading);
+    font-size: calc(17px * var(--text-scale, 1));
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .home-board .cue-sample-copy small {
+    font-size: calc(14px * var(--text-scale, 1));
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .home-board .cue-sample-dots {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .home-board .cue-sample-dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--theme-accent) 24%, transparent);
+  }
+
+  .home-board .cue-sample-dots i.on {
+    width: 16px;
+    background: var(--theme-accent);
+  }
+
+  /* Focus mode on desktop home: collapse to the hero (the main upload
+     action) centered, hide the secondary panels. Mirrors the old
+     dashboard focus behaviour; #page-home keeps it above the generic
+     focus-mode rules. */
+  body.focus-mode #page-home .home-board {
+    grid-template-columns: minmax(0, 600px);
+    justify-content: center;
+  }
+
+  body.focus-mode #page-home .home-board-col-right,
+  body.focus-mode #page-home .home-board-help,
+  body.focus-mode #page-home .home-board-connect {
+    display: none;
+  }
+}
+
 /* Mobile welcome intro, added at the top of the home page above the existing
    content. Hidden on desktop, shown only at 760px and below, so the desktop
    home page is unchanged. All styling here is namespaced and reuses the real
