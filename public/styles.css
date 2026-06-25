@@ -7437,7 +7437,20 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .help-support-strip,
   .help-tier-label,
   .help-support-tier {
-    margin-inline: 0;
+    margin-inline: 8px;
+  }
+
+  /* The first tier label sits directly under the Help heading, so style it
+     like the Settings page's subtitle (calm muted sentence, not the small
+     uppercase section label). The second tier label inside the support box
+     keeps its section-divider style. Mobile only. */
+  #page-help .help-layout > .help-tier-label {
+    margin-top: 8px;
+    margin-bottom: 14px;
+    font-size: calc(16px * var(--text-scale, 1));
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
   }
 
   .journey-rail {
@@ -8501,6 +8514,12 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   /* Tighter outer rhythm and a little more width for the controls. */
   .comfort-head {
     margin-bottom: 14px;
+  }
+
+  /* Drop the trailing coloured full stop on mobile so the heading ends
+     cleanly, matching the Help heading. Desktop keeps it. */
+  .green-dot {
+    display: none;
   }
 
   .settings-appearance {
