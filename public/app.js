@@ -219,7 +219,7 @@ const helpGuides = {
         detail: "Use clear words: I need more time."
       }
     ],
-    action: "Go to Document Journey",
+    action: "Go to Understand",
     actionType: "journey"
   },
   wrong: {
