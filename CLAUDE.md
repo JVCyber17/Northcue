@@ -73,13 +73,59 @@ backgrounds, rounded strokes, generous white space, simple cards. Avoid
 purple gradient blobs, decorative tech orbs, or flashy SaaS dashboard
 energy.
 
-## Working style
-Inspect the actual current code before proposing or making changes — do
-not assume from past summaries or handoff docs alone. For any
-non-trivial task, give a short plan before editing. Keep changes scoped
-to what was asked. Verify visually at both desktop and mobile width
-after any UI change before calling it done. Report what changed, what
-was left untouched, and anything that needs manual review.
+## Coding standards
+Standing rules for all future code in this project — read and follow
+them by default every session. Goal: clean, readable, maintainable
+code, with behaviour never changed as a side effect of tidying.
+
+### Code quality
+- One clear responsibility per file and per function. Keep functions
+  small enough to read at a glance; split a function when it's doing
+  several unrelated jobs and splitting genuinely improves clarity.
+- Keep files focused. As a rough guide, when a file grows well past
+  ~400 lines or starts handling many unrelated things, consider
+  splitting it into smaller files with one clear purpose each. Caveat:
+  public/app.js and public/styles.css are already large legacy files —
+  do NOT undertake a big split of them without discussing it first;
+  this guide is mainly for new files and new code.
+- Separate concerns. Backend: route files (src/routes/) receive,
+  validate, delegate to a service, and respond — they don't hold
+  business logic or data access. Frontend: markup in index.html,
+  behaviour in app.js, styling in styles.css — don't inline logic or
+  styles where they don't belong.
+- Keep Supabase/database and rules-engine logic in services or
+  dedicated files (src/services/), never mixed into route handlers or
+  UI code. (See also Privacy rules and Engine status.)
+- No duplication. If the same logic appears in more than one place,
+  extract a shared, well-named helper/utility and reuse it.
+- Descriptive names for files, functions, and variables. Avoid vague
+  names like data, stuff, temp, final, handleThing, doSomething — name
+  by what the thing is or does.
+- Don't over-engineer. Don't create many tiny files or layers for
+  simple things; split only when it genuinely makes the project easier
+  to understand.
+
+### How to work
+- Inspect the relevant code before editing — don't assume from memory
+  or past summaries.
+- For non-trivial changes, give a short plan before implementing.
+- Make small, scoped changes, not large sweeping ones.
+- Cleanliness must never change behaviour. Never alter working
+  behaviour, design, layout, styling, mobile responsiveness, dark mode,
+  themes, content, user flow, or features just because the code could
+  be cleaner. Reorganising where code lives is fine; its behaviour must
+  stay identical.
+- When moving code, update every import/reference so nothing breaks.
+- Don't delete code unless you're certain it's unused — explain why
+  first.
+- Don't add new libraries or dependencies unless truly necessary.
+- After any UI change, verify visually at both desktop and mobile width
+  before calling it done.
+- Run the full test suite (`npm test`) after changes and confirm it
+  passes identically. If behaviour changes, stop and flag it rather
+  than committing.
+- Report what changed, what was left untouched, and anything needing
+  manual review.
 
 ## Known codebase health notes
 public/styles.css is large (6,000+ lines) and has accumulated duplicate
