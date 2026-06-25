@@ -334,15 +334,123 @@ body.bg-plain::before {
   }
 }
 
+/* Text-size control. The body font-size scales text that inherits it, but most
+   Northcue text uses explicit px, so it also drives --text-scale: reading-text
+   selectors multiply their px by calc(... * var(--text-scale, 1)) so the
+   control reliably scales text on every page. Medium (no class) falls back to 1. */
 body.dyslexia-mode,
 body.text-large {
   font-size: 20px;
   letter-spacing: 0.02em;
   line-height: 1.65;
+  --text-scale: 1.1;
 }
 
 body.text-small {
   font-size: 16px;
+  --text-scale: 0.9;
+}
+
+/* ── Text-size scaling — Home (representative page) ──────────────────────────
+   Each reading-text size is multiplied by --text-scale (small 0.9 / medium 1 /
+   large 1.1). The #page-home prefix wins over the existing class rules by
+   specificity (so placement/duplicate blocks don't matter). Desktop dashboard
+   text and the mobile welcome text are separate sets (mutually exclusive by
+   width). Page title/hero text scales gently with the same variable. */
+#page-home .home-dashboard-head p:not(.focus-helper) { font-size: calc(16px * var(--text-scale, 1)); }
+#page-home .home-card-copy h2 { font-size: calc(24px * var(--text-scale, 1)); }
+#page-home .home-upload-btn { font-size: calc(17px * var(--text-scale, 1)); }
+#page-home .home-card-copy strong { font-size: calc(17px * var(--text-scale, 1)); }
+#page-home .home-card-copy small { font-size: calc(14px * var(--text-scale, 1)); }
+#page-home .home-process-panel h2 { font-size: calc(25px * var(--text-scale, 1)); }
+#page-home .home-process-panel header p { font-size: calc(16px * var(--text-scale, 1)); }
+#page-home .process-step strong { font-size: calc(17px * var(--text-scale, 1)); }
+#page-home .process-step small { font-size: calc(13px * var(--text-scale, 1)); }
+
+@media (max-width: 760px) {
+  #page-home .home-welcome-title { font-size: calc(30px * var(--text-scale, 1)); }
+  #page-home .home-welcome-sub { font-size: calc(15px * var(--text-scale, 1)); }
+  #page-home .home-welcome-start { font-size: calc(18px * var(--text-scale, 1)); }
+  #page-home .home-welcome-heading { font-size: calc(19px * var(--text-scale, 1)); }
+  #page-home .hiw-copy strong { font-size: calc(17px * var(--text-scale, 1)); }
+  #page-home .hiw-copy small { font-size: calc(14px * var(--text-scale, 1)); }
+  #page-home .home-welcome-subline { font-size: calc(13px * var(--text-scale, 1)); }
+  #page-home .cue-sample-top strong { font-size: calc(17px * var(--text-scale, 1)); }
+  #page-home .cue-sample-copy small { font-size: calc(14px * var(--text-scale, 1)); }
+  #page-home .home-help-line-text { font-size: calc(14px * var(--text-scale, 1)); }
+}
+
+/* ── Text-size scaling — Journey (upload + cue cards) ──────────────────────── */
+#page-journey .results-head h1 { font-size: calc(15px * var(--text-scale, 1)); }
+#page-journey .card-progress { font-size: calc(17px * var(--text-scale, 1)); }
+#page-journey #card-title { font-size: calc(15px * var(--text-scale, 1)); }
+#page-journey .card-explanation { font-size: calc(15.5px * var(--text-scale, 1)); }
+#page-journey .micro-feedback { font-size: calc(14px * var(--text-scale, 1)); }
+#page-journey .action-panel h2 { font-size: calc(14px * var(--text-scale, 1)); }
+#page-journey .action-btn { font-size: calc(14px * var(--text-scale, 1)); }
+#page-journey .journey-upload-subtitle { font-size: calc(24px * var(--text-scale, 1)); }
+#page-journey .privacy-note strong { font-size: calc(17px * var(--text-scale, 1)); }
+#page-journey .privacy-note small { font-size: calc(14px * var(--text-scale, 1)); }
+
+/* ── Text-size scaling — Help ──────────────────────────────────────────────── */
+#page-help .help-head h1 { font-size: calc(clamp(26px, 2.4vw, 32px) * var(--text-scale, 1)); }
+#page-help .help-tier-label { font-size: calc(11px * var(--text-scale, 1)); }
+#page-help .help-card strong { font-size: calc(17px * var(--text-scale, 1)); }
+#page-help .help-contact-card-body h3 { font-size: calc(18px * var(--text-scale, 1)); }
+#page-help .help-contact-card-body p { font-size: calc(15px * var(--text-scale, 1)); }
+
+/* ── Text-size scaling — Comfort ───────────────────────────────────────────── */
+#page-comfort .comfort-head h1 { font-size: calc(clamp(26px, 2.4vw, 32px) * var(--text-scale, 1)); }
+#page-comfort .comfort-head p { font-size: calc(16px * var(--text-scale, 1)); }
+#page-comfort .saved-on-device { font-size: calc(15px * var(--text-scale, 1)); }
+
+/* ── Text-size scaling — Privacy ───────────────────────────────────────────── */
+#page-privacy .privacy-head h1 { font-size: calc(clamp(26px, 2.4vw, 32px) * var(--text-scale, 1)); }
+#page-privacy .privacy-intro { font-size: calc(16px * var(--text-scale, 1)); }
+#page-privacy .privacy-journey-caption { font-size: calc(14.5px * var(--text-scale, 1)); }
+#page-privacy .privacy-panel h2 { font-size: calc(20px * var(--text-scale, 1)); }
+#page-privacy .privacy-panel p { font-size: calc(15.5px * var(--text-scale, 1)); }
+#page-privacy .privacy-card h3 { font-size: calc(17px * var(--text-scale, 1)); }
+#page-privacy .privacy-card p { font-size: calc(15.5px * var(--text-scale, 1)); }
+#page-privacy .privacy-full-text strong { font-size: calc(16px * var(--text-scale, 1)); }
+#page-privacy .privacy-full-text small { font-size: calc(13px * var(--text-scale, 1)); }
+#page-privacy .privacy-closing { font-size: calc(13.5px * var(--text-scale, 1)); }
+
+/* ── Text-size scaling — Privacy (full details) ────────────────────────────── */
+#page-privacy-full .privacy-full-stub h1 { font-size: calc(clamp(24px, 2.2vw, 30px) * var(--text-scale, 1)); }
+#page-privacy-full .privacy-full-stub p { font-size: calc(16px * var(--text-scale, 1)); }
+
+/* ── Text-size scaling — modals (Help details + other nested flows) ────────── */
+#modal .modal-box h2 { font-size: calc(28px * var(--text-scale, 1)); }
+#modal .help-modal-text { font-size: calc(17px * var(--text-scale, 1)); }
+#modal .help-modal-section-title { font-size: calc(17px * var(--text-scale, 1)); }
+#modal .help-step-copy strong { font-size: calc(17px * var(--text-scale, 1)); }
+#modal .help-step-copy small { font-size: calc(15px * var(--text-scale, 1)); }
+#modal .feedback-intro { font-size: calc(15px * var(--text-scale, 1)); }
+#modal .feedback-question h3 { font-size: calc(22px * var(--text-scale, 1)); }
+#modal .feedback-question p { font-size: calc(15px * var(--text-scale, 1)); }
+#modal .feedback-choice-card strong { font-size: calc(20px * var(--text-scale, 1)); }
+#modal .feedback-choice-card small { font-size: calc(14px * var(--text-scale, 1)); }
+#modal .feedback-private-note { font-size: calc(14px * var(--text-scale, 1)); }
+#modal .feedback-or-text { font-size: calc(14px * var(--text-scale, 1)); }
+
+/* Desktop-only: the colour-style labels are hidden (font-size 0) on phones. */
+@media (min-width: 761px) {
+  #page-comfort .colour-style { font-size: calc(15px * var(--text-scale, 1)); }
+}
+
+/* Mobile overrides where the base size differs at ≤760px. */
+@media (max-width: 760px) {
+  #page-journey .card-progress { font-size: calc(13px * var(--text-scale, 1)); }
+  #page-journey #card-title { font-size: calc(16px * var(--text-scale, 1)); }
+  #page-journey .card-explanation { font-size: calc(15px * var(--text-scale, 1)); }
+  #page-journey .card-nav .outline-btn { font-size: calc(15px * var(--text-scale, 1)); }
+  #page-journey .journey-upload-subtitle-mobile { font-size: calc(15px * var(--text-scale, 1)); }
+  #page-journey .privacy-line-mobile { font-size: calc(13px * var(--text-scale, 1)); }
+  #page-help .help-head h1 { font-size: calc(38px * var(--text-scale, 1)); }
+  #page-help .help-card strong { font-size: calc(16px * var(--text-scale, 1)); }
+  #page-comfort .text-size-btn { font-size: calc(12px * var(--text-scale, 1)); }
+  #page-comfort .text-size-btn strong { font-size: calc(16px * var(--text-scale, 1)); }
 }
 
 body.card-standard {
@@ -7080,6 +7188,30 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 
   body.focus-mode .help-cards {
     margin-inline: 0;
+  }
+
+  /* Mobile focus mode = a distraction-free single card. The card already fills
+     the phone, so focus hides the bottom tab bar, the "Understand your document"
+     heading block, and the card's Simple-view toggle. The card itself, a slim
+     progress indicator (Card X of 6 + dots), Back/Next, and the Exit-focus
+     button all stay. The tab-bar hide is scoped to the journey page so other
+     pages keep their nav (focus mode persists, and Exit focus only lives on the
+     card). Desktop focus mode is unchanged — these rules are mobile-only. */
+  body.focus-mode[data-page="journey"] .mobile-tabbar {
+    display: none;
+  }
+
+  body.focus-mode .results-head {
+    display: none;
+  }
+
+  body.focus-mode #card-detail-toggle {
+    display: none;
+  }
+
+  /* With Simple-view hidden, the lone Exit-focus button spans the row. */
+  body.focus-mode #card-focus-toggle {
+    flex-basis: 100%;
   }
 
   /* Tidy two-band top so content starts higher. Flattening .card-top-left with
