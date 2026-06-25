@@ -3799,7 +3799,7 @@ body[data-page="home"] .app-main {
   }
 
   .home-welcome-tile {
-    border-radius: 14px;
+    border-radius: 999px;
   }
 
   .cue-sample-copy {
@@ -3992,13 +3992,26 @@ body[data-page="home"] .app-main {
   }
 
   .home-privacy-shield {
-    width: 26px;
-    height: 26px;
+    width: 34px;
+    height: 34px;
   }
 
   .home-privacy-shield .home-mini-img {
-    width: 56px;
-    height: 56px;
+    width: 72px;
+    height: 72px;
+  }
+
+  /* Bring the "I feel overwhelmed" bubble down from 62px to sit with the
+     prominent icon tier (a touch bigger than the 48px illustration icons),
+     and scale its image (~2.15x) so the glyph fills the smaller circle the
+     same way. Desktop home board (>760px) keeps the 62px bubble. */
+  .home-icon-bubble {
+    width: 52px;
+    height: 52px;
+  }
+
+  .home-icon-bubble .northcue-main-icon {
+    --northcue-icon-canvas: 112px;
   }
 
   .home-privacy-text {
