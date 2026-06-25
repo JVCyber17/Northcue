@@ -402,7 +402,7 @@ body.text-small {
   #page-journey .card-nav .outline-btn { font-size: calc(15px * var(--text-scale, 1)); }
   #page-journey .journey-upload-subtitle-mobile { font-size: calc(15px * var(--text-scale, 1)); }
   #page-journey .privacy-line-mobile { font-size: calc(13px * var(--text-scale, 1)); }
-  #page-help .help-head h1 { font-size: calc(38px * var(--text-scale, 1)); }
+  #page-help .help-head h1 { font-size: calc(clamp(26px, 2.4vw, 32px) * var(--text-scale, 1)); }
   #page-help .help-card strong { font-size: calc(16px * var(--text-scale, 1)); }
   #page-comfort .text-size-btn { font-size: calc(12px * var(--text-scale, 1)); }
   #page-comfort .text-size-btn strong { font-size: calc(16px * var(--text-scale, 1)); }
@@ -7401,8 +7401,15 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     font-size: 42px;
   }
 
+  /* Match the Settings header's left placement on mobile (was a 44px indent
+     that pushed the header past its own cards). Desktop above 760px keeps the
+     44px margin. */
+  .help-head {
+    margin-left: 8px;
+  }
+
   .help-head h1 {
-    font-size: 38px;
+    font-size: clamp(26px, 2.4vw, 32px);
   }
 
   .lead {
@@ -8351,6 +8358,16 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 
   .comfort-eyebrow-short {
     display: inline;
+  }
+
+  /* Match the Help page's plain label: drop the pill background and border so
+     the Settings label reads as plain text. Help's label is green; Settings'
+     is black (--text). Desktop above 760px keeps its pill. */
+  .comfort-eyebrow {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
   }
 
   /* Appearance card, its own calm group above the existing settings card. */
