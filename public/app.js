@@ -474,12 +474,13 @@ wireHelp();
 wireComfortSettings();
 wireFeedback();
 
-// Home is the front door. The landing page (#page-landing) is retained in the
-// markup/CSS/assets and in the `pages` array, just no longer shown first — so
-// this is a reversible route-past, not a deletion. To restore the landing
-// page, change this back to setPage("landing") and re-add the active class /
-// data-page defaults in index.html.
-setPage("home");
+// Landing is the front door. It is the first page users see on load, on both
+// mobile and desktop. The body data-page default and the active class live on
+// #page-landing in index.html (with #page-home no longer active), and this init
+// call re-asserts landing. To route past landing again and open straight on
+// home, change this back to setPage("home") and move the active class /
+// data-page defaults back to #page-home in index.html.
+setPage("landing");
 setJourneyStep("upload");
 renderCard();
 renderProgressDots();
