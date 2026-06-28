@@ -1787,7 +1787,12 @@ body[data-page="landing"] .app-main {
   position: absolute;
   top: -6px;
   left: 50%;
-  display: block;
+  /* Scribble removed on every screen size: it adds no meaning for users, so the
+     hero reads calmer without it. The shared markup is kept (the same img is
+     referenced across breakpoints); this just stops it rendering anywhere. The
+     mobile position rules below are now inert but left in place for easy
+     reversal. */
+  display: none;
   width: clamp(104px, 8.6vw, 124px);
   height: auto;
   opacity: 0.34;
@@ -1815,20 +1820,30 @@ body[data-page="landing"] .app-main {
 
 .landing-shell::before {
   right: calc(100% - 17px);
+  /* The two dot layers are unchanged. A soft open chevron is added as the
+     top layer at the pointing (right) end, in the same #2f5b35 as the dots,
+     so the line reads as a direction toward the headline. */
   background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2016'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%204%2012'/%3E%3C/svg%3E"),
     radial-gradient(circle at left center, #2f5b35 0 6px, transparent 6.5px),
     radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
-  background-position: left center, 24px center;
-  background-size: 16px 16px, 13px 16px;
+  background-position: right center, left center, 24px center;
+  background-size: 10px 16px, 16px 16px, 13px 16px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
 }
 
 .landing-shell::after {
   left: calc(100% - 17px);
+  /* The small dots run continuously out to the soft chevron at the pointing
+     (right) end, toward the cue cards. There is no lead dot at the tail, so the
+     line reads as one unbroken dotted run. Dot size, gap, and the arrowhead
+     match the left connector; only the side and the absent tail dot differ. */
   background-image:
-    radial-gradient(circle at right center, #2f5b35 0 6px, transparent 6.5px),
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2016'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%204%2012'/%3E%3C/svg%3E"),
     radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
-  background-position: right center, center;
-  background-size: 16px 16px, 13px 16px;
+  background-position: right center, 24px center;
+  background-size: 10px 16px, 13px 16px;
+  background-repeat: no-repeat, repeat-x;
 }
 
 .landing-brand {
@@ -1893,6 +1908,25 @@ body[data-page="landing"] .app-main {
     inset 0 0 0 1px rgba(255, 255, 255, 0.74);
 }
 
+/* The three right-side cards are a preview, not interactive UI. A small muted
+   label sets that expectation, and the cards are softened (gentler, lower
+   shadow, softer border, no crisp inner highlight) so they read as a sample
+   rather than buttons. Scoped to .landing-cue-previews so the mobile Council
+   Tax example card is unaffected. */
+.landing-cue-label {
+  margin: 0;
+  color: #7e8794;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.landing-cue-previews .landing-cue-preview {
+  border-color: rgba(82, 96, 75, 0.08);
+  box-shadow: 0 4px 12px rgba(48, 56, 45, 0.04);
+}
+
 .landing-cue-icon {
   width: 62px;
   height: 62px;
@@ -1933,6 +1967,36 @@ body[data-page="landing"] .app-main {
   width: 13px;
   height: 13px;
   border-color: rgba(17, 24, 39, 0.65);
+}
+
+/* ── Mobile hero example flow (mobile only) ────────────────
+   On phones the hero adds a short vertical flow under the document: a
+   soft dashed down arrow, one real filled in Council Tax example card,
+   and a quiet "Plus what to check next" line. The whole block is hidden
+   on desktop so the three column hero stays exactly as it was. The card
+   fades and rises in once when scrolled into view; reduced motion shows
+   it immediately with no animation. */
+.landing-mobile-flow {
+  display: none;
+}
+
+.landing-example-card.reveal-init {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 850ms ease-out, transform 850ms ease-out;
+}
+
+.landing-example-card.reveal-init.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-example-card.reveal-init {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 @media (min-width: 981px) {
@@ -3470,6 +3534,22 @@ body[data-page="home"] .app-main {
   }
 
   /* 4. Process panel — reused as-is; tighten the header gap to balance. */
+  /* In the full-height right column the panel content was vertically centred
+     (justify-content: center on the base .home-process-panel), which floated
+     the heading into the middle on top of the steps. Top-align it here so the
+     heading and subtitle sit at the top like a normal panel heading, and let
+     the four steps settle into the space below with room to breathe, so the
+     tall tile stays balanced rather than empty. Scoped to the desktop board,
+     so mobile and other panels keep the centred behaviour. */
+  .home-board .home-process-panel {
+    justify-content: flex-start;
+  }
+
+  .home-board .process-orbit {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .home-board .home-process-panel > header {
     margin-bottom: 16px;
   }
@@ -7357,8 +7437,13 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     padding: 30px 22px 48px;
   }
 
+  /* Tighten the empty band between the first screen and the document on mobile
+     so the document, arrow and card sit closer below the button. Nothing is
+     resized: this only removes empty vertical gap (the grid gap here and the
+     image margin-top below), and the mobile flow's negative margin is nudged to
+     keep the document, arrow and card spacing exactly as it was. */
   .landing-story {
-    gap: 24px;
+    gap: 12px;
   }
 
   .landing-doc-visual {
@@ -7375,15 +7460,86 @@ body.theme-dark .feedback-modal .modal-box h2::before {
 
   .landing-document-stack-img {
     width: min(260px, calc(100% - 8px));
-    margin-top: 38px;
+    margin-top: 2px;
   }
 
   .landing-scribble-img {
-    width: 76px;
+    width: 58px;
+    /* Shift the scribble off-centre to the right on mobile so it reads as a
+       quiet accent beside the top right of the document stack, not as a mark
+       centred on the pile. Horizontal only: size, opacity and the base
+       transform are unchanged. */
+    left: 74%;
+    /* Small downward nudge so it sits just above the top of the document pile
+       and reads as connected to the stack, not floating in the gap above it.
+       Vertical only; horizontal, size and opacity are unchanged. */
+    top: 22px;
   }
 
+  /* The three skeleton previews are replaced on mobile by the single real
+     example card in the flow below the document. */
   .landing-cue-previews {
+    display: none;
+  }
+
+  /* Pull the flow up under the visible document papers (the document PNG has
+     tall transparent padding at its foot) so document, arrow and card read as
+     one tight group rather than being split by a long gap. */
+  .landing-mobile-flow {
+    display: grid;
+    order: 3;
+    justify-items: center;
+    gap: 14px;
     width: min(360px, 100%);
+    /* Was -70px with a 24px story gap; nudged to -58px now the gap is 12px so
+       the document, arrow and card keep the exact same spacing as before. */
+    margin-top: -58px;
+  }
+
+  /* Soft dashed down arrow, matching the desktop hero connectors: same dot
+     size and spacing, same #2f5b35, same rounded chevron weight. */
+  .landing-mobile-arrow {
+    width: 16px;
+    height: 34px;
+    opacity: 0.9;
+    background-image:
+      url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2010'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%2012%204'/%3E%3C/svg%3E"),
+      radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
+    background-position: center bottom, center top;
+    background-size: 16px 10px, 16px 13px;
+    background-repeat: no-repeat, repeat-y;
+  }
+
+  .landing-example-card {
+    width: 100%;
+    text-align: left;
+  }
+
+  .landing-example-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .landing-example-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: #e8efe2;
+    color: #2f5b35;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .landing-example-more {
+    margin: 0;
+    color: #596270;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
   }
 
   .landing-cue-preview {
@@ -7498,17 +7654,23 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     margin-inline: 0;
   }
 
-  /* Mobile focus mode = a distraction-free single card. The card already fills
-     the phone, so focus hides the bottom tab bar, the "Understand your document"
-     heading block, and the card's Simple-view toggle. The card itself, a slim
-     progress indicator (Card X of 6 + dots), Back/Next, and the Exit-focus
-     button all stay. The tab-bar hide is scoped to the journey page so other
-     pages keep their nav (focus mode persists, and Exit focus only lives on the
-     card). Desktop focus mode is unchanged — these rules are mobile-only. */
-  body.focus-mode[data-page="journey"] .mobile-tabbar {
+  /* Mobile focus mode on Home = just the primary action. Hide the How it works
+     explainer and the support panels (Here if you need us, plus the overwhelmed,
+     feedback and privacy rows), leaving only the Start with a document hero.
+     Reversible: turning focus off restores everything. Desktop home focus is
+     handled separately and is untouched. */
+  body.focus-mode #page-home .home-welcome-steps,
+  body.focus-mode #page-home .home-dashboard {
     display: none;
   }
 
+  /* Mobile focus mode on the cue card = a distraction-free single card. The
+     card already fills the phone, so focus hides the "Understand your document"
+     heading block and the card's Simple-view toggle. The card itself, a slim
+     progress indicator (Card X of 6 + dots), Back/Next, and the Exit-focus
+     button all stay. The bottom navigation stays visible on every page in focus
+     mode, including the journey page, so the user always has a calm way back.
+     Desktop focus mode is unchanged: these rules are mobile-only. */
   body.focus-mode .results-head {
     display: none;
   }

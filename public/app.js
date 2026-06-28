@@ -473,6 +473,7 @@ wireCompletion();
 wireHelp();
 wireComfortSettings();
 wireFeedback();
+wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
 // mobile and desktop. The body data-page default and the active class live on
@@ -486,6 +487,25 @@ renderCard();
 renderProgressDots();
 prepareThemeAwareArtMetadata();
 updateThemeAwareArt();
+
+function wireLandingReveal() {
+  const card = document.querySelector(".landing-example-card");
+  if (!card) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) return;
+
+  // Start hidden and reveal once, the first time the card scrolls into view.
+  card.classList.add("reveal-init");
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      card.classList.add("is-revealed");
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.25 });
+  observer.observe(card);
+}
 
 function wireNavigation() {
   pageLinks.forEach((button) => {
