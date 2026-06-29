@@ -1923,8 +1923,21 @@ body[data-page="landing"] .app-main {
 }
 
 .landing-cue-previews .landing-cue-preview {
-  border-color: rgba(82, 96, 75, 0.08);
-  box-shadow: 0 4px 12px rgba(48, 56, 45, 0.04);
+  /* Flat paper-note look: no lift, no gloss, so the previews read as
+     illustrations not tappable buttons. Colours graded from the existing
+     landing palette (paper tone + soft sage hairline). */
+  background: var(--landing-paper);
+  border-color: rgba(85, 115, 77, 0.18);
+  box-shadow: none;
+}
+
+.landing-cue-previews .landing-cue-icon {
+  /* Keep the real icon, drop the glossy radial highlight and the raised
+     inset ring + drop shadow, leaving a flat soft-sage disc. Scoped to the
+     previews so the Council Tax example card and document stack are untouched. */
+  background: var(--landing-sage-soft);
+  color: var(--landing-sage);
+  box-shadow: none;
 }
 
 .landing-cue-icon {
