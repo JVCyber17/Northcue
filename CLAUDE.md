@@ -41,11 +41,12 @@ work happens in dedicated backend sessions. If a frontend task seems to
 require touching src/, server.js, or the engine, stop and flag it instead
 of editing it directly.
 
-## Critical pre-deployment blocker
-The OpenAI API key and Supabase service role key were exposed in local
-chat/terminal sessions during development. Both must be rotated in their
-dashboards and .env updated before any public deployment. This is
-unresolved — do not treat it as already done.
+## Pre-deployment blocker resolved: API keys rotated
+The OpenAI API key and Supabase secret key were exposed in local
+chat/terminal sessions during development. Both have now been rotated to
+new keys, the new values are in the local .env, and they are confirmed
+working (an upload generated cue cards and feedback saved to Supabase
+successfully). This is resolved and no longer a deployment blocker.
 
 ## Repo structure
 - public/index.html, public/app.js, public/styles.css — frontend, vanilla
