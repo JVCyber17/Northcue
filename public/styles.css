@@ -7525,6 +7525,21 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     text-align: left;
   }
 
+  /* The Council Tax example card carries more content (title, two lines, two
+     tags) than a plain cue card, so the small check circle, even centred, left
+     an empty pocket on the lower left. Give this card a fuller icon so it spans
+     the content and reads as a balanced anchor. Scoped to the example card, so
+     the desktop preview cards keep their existing icon size. */
+  .landing-example-card .landing-cue-icon {
+    width: 72px;
+    height: 72px;
+  }
+
+  .landing-example-card .landing-cue-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
   .landing-example-tags {
     display: flex;
     gap: 8px;
