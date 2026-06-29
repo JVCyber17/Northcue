@@ -5115,15 +5115,25 @@ body.theme-dark .change-type-btn { color: var(--muted); }
 }
 
 .micro-feedback {
-  max-width: 600px;
+  width: fit-content;
+  max-width: 100%;
   min-height: 20px;
-  margin: 6px auto 0;
-  padding: 0 14px;
+  margin: 2px auto 0;
+  padding: 6px 16px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 16%, var(--line) 84%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-blob-a) 42%, var(--surface) 58%);
   color: var(--theme-accent);
   text-align: center;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.35;
+}
+
+body.theme-dark .micro-feedback {
+  border-color: color-mix(in srgb, var(--sage-strong) 28%, var(--line) 72%);
+  background: color-mix(in srgb, var(--sage-strong) 14%, var(--surface) 86%);
+  color: var(--sage-strong);
 }
 
 .card-steps {
