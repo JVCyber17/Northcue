@@ -909,7 +909,7 @@ function inferReadableTopic(text, trust) {
     [["loan", "mortgage"], "banking or a loan"],
     [["insurance", "policy"], "insurance"],
     [["benefit", "universal credit"], "benefits support"],
-    [["court", "tribunal", "legal"], "a legal or court matter"],
+    [["county court", "magistrates' court", "crown court", "high court", "family court", "court order", "court action", "court costs", "court hearing", "court proceedings", "court summons", "to court", "tribunal", "legal proceedings", "legal action"], "a legal or court matter"],
     [["council", "borough"], "a council or local authority matter"],
     [["hmrc", "tax"], "tax or HMRC"],
     [["medical", "hospital", "gp"], "medical information"]
@@ -964,13 +964,33 @@ function guessDetailedSender(text) {
     .filter(Boolean)
     .slice(0, 14);
 
-  const senderLine = lines.find((line) => (
-    /\b(HMRC|NHS|Council|Borough|County|University|School|College|Department|Authority|Bank|Court|Hospital|Clinic|Trust|Employer|Landlord)\b/i.test(line) &&
-    line.length <= 90 &&
-    !/\b(email|telephone|tel|floor|street|road|postcode)\b/i.test(line)
-  ));
+  // A street-address line (e.g. "4 Sycamore Court") must never be read as the
+  // sender. "Court" was also removed from the organisation list below for the
+  // same reason; "Magistrates"/"Tribunal" cover genuine court senders.
+  const isAddressLine = (line) =>
+    /^\d+\s/.test(line) &&
+    /\b(court|close|lane|road|street|avenue|drive|way|place|gardens|terrace|crescent|walk|row|hill)\b/i.test(line);
+  const isExcluded = (line) =>
+    /\b(email|telephone|tel|floor|street|road|postcode|registered|authorised|regulated)\b/i.test(line) ||
+    isAddressLine(line);
 
-  return senderLine ? stripSenderPrefix(senderLine) : null;
+  const orgLine = lines.find((line) => (
+    /\b(HMRC|NHS|Council|Borough|County|Magistrates|Tribunal|University|School|College|Department|Authority|Bank|Hospital|Clinic|Trust|Employer|Landlord)\b/i.test(line) &&
+    line.length <= 90 &&
+    !isExcluded(line)
+  ));
+  if (orgLine) return stripSenderPrefix(orgLine);
+
+  // Company-style senders (debt collectors, solicitors, lettings agents, banks),
+  // read from the letterhead, excluding regulatory footer lines.
+  const companyLine = lines.find((line) => (
+    /\b(Ltd|Limited|PLC|LLP|Solicitors|Collections|Recoveries|Enforcement|Chambers|Associates|Lettings)\b/i.test(line) &&
+    line.length <= 90 &&
+    !isExcluded(line)
+  ));
+  if (companyLine) return stripSenderPrefix(companyLine);
+
+  return null;
 }
 
 // Strips a leading "From:" / "To:" / "Sender:" label so a sender never reads
@@ -1205,7 +1225,7 @@ function buildBanner(trust) {
   // supportive wording (important, read carefully) — never panic, never the green
   // "normal document" banner. The scam / low-trust path above is left untouched.
   if (trust.is_high_stakes && trust.trust_assessment !== "low") {
-    if (trust.high_stakes_tier === "urgent") {
+    if (trust.high_stakes_tier === "urgent" || trust.severity_level === "urgent") {
       return {
         show: true,
         type: "urgent",
@@ -1409,10 +1429,10 @@ function detectDocumentCategory({ lower, selectedCategory, isTemplate, isOutgoin
     [["loan", "mortgage", "credit"], "bank_or_loan"],
     [["hmrc", "council", "department", "gov.uk"], "government"],
     [["nhs", "hospital", "gp", "medical"], "medical"],
-    [["court", "tribunal", "legal", "prosecution", "bailiff"], "legal_or_court"],
+    [["county court", "magistrates' court", "crown court", "high court", "family court", "court order", "court action", "court costs", "court hearing", "court proceedings", "court summons", "to court", "tribunal", "prosecution", "bailiff", "legal proceedings", "legal action"], "legal_or_court"],
     [["benefit", "universal credit", "allowance"], "benefits"],
     [["insurance", "policy"], "insurance"],
-    [["email", "subject:", "from:"], "email"]
+    [["subject:", "from:"], "email"]
   ];
 
   for (const [needles, category] of checks) {
@@ -1557,6 +1577,18 @@ function detectSeriousDocumentSignals(lower) {
     "attachment of earnings", "charging order"]
     .forEach((phrase) => { if (lower.includes(phrase)) highMatched.push(phrase); });
   if (lower.includes("claimant") && lower.includes("defendant")) highMatched.push("court claim");
+
+  // First-contact / third-party debt collection. Specific third-party phrasing so
+  // ordinary bills and "we may refer you to collections" threats are not swept in.
+  if (
+    lower.includes("debt collection") || lower.includes("debt collector") ||
+    lower.includes("debt recovery") || lower.includes("notice of assigned debt") ||
+    lower.includes("assigned debt") ||
+    ((lower.includes("been passed to") || lower.includes("passed to us")) &&
+      (lower.includes("recover") || lower.includes("collect")))
+  ) {
+    highMatched.push("debt collection");
+  }
 
   // Immigration refusal, only in an immigration context (so "your refund was
   // refused" cannot escalate).
@@ -1948,7 +1980,7 @@ function extractContactDetails(text, trust) {
 }
 
 function guessSender(text) {
-  const match = String(text || "").match(/\b(HMRC|NHS|Council|University|Employer|Department|Bank|Landlord|Court)\b/i);
+  const match = String(text || "").match(/\b(HMRC|NHS|Council|University|Employer|Department|Bank|Landlord|Magistrates|Tribunal)\b/i);
   return match ? match[0] : null;
 }
 
