@@ -7545,6 +7545,12 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .landing-example-card {
     width: 100%;
     text-align: left;
+    /* Flat paper-note look, matching the desktop previews: no raised shadow,
+       no border, defined by the warm paper tone from the landing palette so
+       the card stays clearly visible without looking clickable. */
+    background: var(--landing-paper);
+    border: none;
+    box-shadow: none;
   }
 
   /* The Council Tax example card carries more content (title, two lines, two
@@ -7555,6 +7561,11 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   .landing-example-card .landing-cue-icon {
     width: 72px;
     height: 72px;
+    /* Keep the real icon but flatten it: drop the glossy highlight and the
+       raised inset ring + drop shadow, leaving a flat soft-sage disc. */
+    background: var(--landing-sage-soft);
+    color: var(--landing-sage);
+    box-shadow: none;
   }
 
   .landing-example-card .landing-cue-icon svg {
