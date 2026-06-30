@@ -1823,30 +1823,32 @@ body[data-page="landing"] .app-main {
 
 .landing-shell::before {
   right: calc(100% - 17px);
-  /* The two dot layers are unchanged. A soft open chevron is added as the
-     top layer at the pointing (right) end, in the same #2f5b35 as the dots,
-     so the line reads as a direction toward the headline. */
+  /* Dot layers only: the left lead dot at the document end and the dotted
+     run. The arrowhead chevron has been removed and a soft mask fades the
+     line out toward the pointing (right) end, so it dissolves gently instead
+     of ending in a point. */
   background-image:
-    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2016'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%204%2012'/%3E%3C/svg%3E"),
     radial-gradient(circle at left center, #2f5b35 0 6px, transparent 6.5px),
     radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
-  background-position: right center, left center, 24px center;
-  background-size: 10px 16px, 16px 16px, 13px 16px;
-  background-repeat: no-repeat, no-repeat, repeat-x;
+  background-position: left center, 24px center;
+  background-size: 16px 16px, 13px 16px;
+  background-repeat: no-repeat, repeat-x;
+  -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 90%);
+  mask-image: linear-gradient(to right, #000 35%, transparent 90%);
 }
 
 .landing-shell::after {
   left: calc(100% - 17px);
-  /* The small dots run continuously out to the soft chevron at the pointing
-     (right) end, toward the cue cards. There is no lead dot at the tail, so the
-     line reads as one unbroken dotted run. Dot size, gap, and the arrowhead
-     match the left connector; only the side and the absent tail dot differ. */
+  /* The small dots run toward the cue cards. The arrowhead chevron has been
+     removed and a soft mask fades the dotted run out as it approaches the
+     cards, so the flow still reads but nothing points at them. */
   background-image:
-    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%2016'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%204%2012'/%3E%3C/svg%3E"),
     radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
-  background-position: right center, 24px center;
-  background-size: 10px 16px, 13px 16px;
-  background-repeat: no-repeat, repeat-x;
+  background-position: 24px center;
+  background-size: 13px 16px;
+  background-repeat: repeat-x;
+  -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 90%);
+  mask-image: linear-gradient(to right, #000 35%, transparent 90%);
 }
 
 .landing-brand {
