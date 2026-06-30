@@ -1722,18 +1722,21 @@ body[data-page="landing"] .app-main {
   font-weight: 800;
 }
 
-.landing-cue-preview i {
+/* The Council Tax example card shares the .landing-cue-preview class but keeps
+   its two short bars under the title. Scoped to .landing-example-card so it is
+   not affected by the previews now using real text instead of bars. */
+.landing-example-card i {
   display: block;
-  width: 150px;
+  width: 142px;
   max-width: 100%;
-  height: 8px;
+  height: 7px;
   margin-top: 8px;
   border-radius: 999px;
-  background: rgba(126, 143, 114, 0.16);
+  background: rgba(119, 128, 111, 0.13);
 }
 
-.landing-cue-preview i:nth-of-type(2) {
-  width: 96px;
+.landing-example-card i:nth-of-type(2) {
+  width: 102px;
 }
 
 .landing-cue-chevron {
@@ -1923,11 +1926,11 @@ body[data-page="landing"] .app-main {
 }
 
 .landing-cue-previews .landing-cue-preview {
-  /* Flat paper-note look: no lift, no gloss, so the previews read as
-     illustrations not tappable buttons. Colours graded from the existing
-     landing palette (paper tone + soft sage hairline). */
+  /* Soft illustration, not a button: defined by a gentle warm paper tone
+     against the page, with no border and no shadow or gloss. Colour from
+     the existing landing palette (--landing-paper). */
   background: var(--landing-paper);
-  border-color: rgba(85, 115, 77, 0.18);
+  border: none;
   box-shadow: none;
 }
 
@@ -1965,15 +1968,15 @@ body[data-page="landing"] .app-main {
   line-height: 1.1;
 }
 
-.landing-cue-preview i {
-  width: 142px;
-  height: 7px;
-  margin-top: 8px;
-  background: rgba(119, 128, 111, 0.13);
-}
-
-.landing-cue-preview i:nth-of-type(2) {
-  width: 102px;
+.landing-cue-previews .landing-cue-line {
+  /* Quiet example text in place of the old loading-style bars. Calm
+     secondary tone from the landing palette, clearly below the title. */
+  display: block;
+  margin-top: 0;
+  color: #596270;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .landing-cue-chevron {
