@@ -2445,18 +2445,114 @@ function buildCardDetail(card) {
 }
 
 function buildCheckMarkup(trust) {
-  const bannerText = latestResult.banner?.text || safeActionFromTrust(trust);
+  const banner = latestResult.banner || {};
+  const toneClass = checkToneClass(banner.type);
+  const word = checkHeadlineWord(trust, banner.type);
+  const sentence = banner.text || trust.review_reason || safeActionFromTrust(trust);
+  const nextStep = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
+  const genuine = checkGenuineIndicator(trust.trust_assessment);
+  const chips = checkWhyChips(trust);
+  const whyRow = chips.length
+    ? `<div class="check-why"><span class="check-why-label">Why</span>${chips.join("")}</div>`
+    : "";
+
   return `
-    <div class="check-grid">
-      <p><strong>Trust level</strong><br><span class="badge-chip ${classFromLevel(trust.trust_assessment)}">${escapeHtml(trust.trust_assessment)}</span></p>
-      <p><strong>Severity</strong><br><span class="badge-chip ${classFromLevel(trust.severity_level)}">${escapeHtml(trust.severity_level)}</span></p>
-      <p><strong>Document status</strong><br>${escapeHtml(trust.document_type || "unknown")}</p>
-      <p><strong>Confidence</strong><br><span class="badge-chip ${classFromLevel(trust.confidence)}">${escapeHtml(trust.confidence)}</span></p>
-      <p><strong>Needs review</strong><br>${trust.needs_human_review ? "Yes" : "No"}</p>
-      <p><strong>Possible issue</strong><br>${escapeHtml(trust.review_reason || "No major issue found.")}</p>
-      <p><strong>Safe next step</strong><br>${escapeHtml(trust.safe_next_step || bannerText)}</p>
+    <div class="check-panel">
+      <div class="check-headline ${toneClass}">
+        <span class="check-headline-icon" aria-hidden="true">${checkToneIcon(banner.type)}</span>
+        <div class="check-headline-text">
+          <p class="check-headline-word">${escapeHtml(word)}</p>
+          <p class="check-headline-sentence">${escapeHtml(sentence)}</p>
+        </div>
+      </div>
+      ${whyRow}
+      <div class="check-rows">
+        <div class="check-row"><span class="check-row-label">Type of letter</span><span class="check-row-value">${escapeHtml(friendlyCategoryLabel(trust.document_category))}</span></div>
+        <div class="check-row"><span class="check-row-label">Looks genuine</span><span class="check-row-value"><span class="check-dot ${genuine.dotClass}"></span>${escapeHtml(genuine.text)}</span></div>
+        <div class="check-row"><span class="check-row-label">Needs a closer look</span><span class="check-row-value">${trust.needs_human_review ? "Yes" : "No"}</span></div>
+      </div>
+      <div class="check-nextstep">
+        <span class="check-nextstep-label">Safe next step</span>
+        <p>${escapeHtml(nextStep)}</p>
+      </div>
     </div>
   `;
+}
+
+// Short status word for the headline. banner.type drives it, except scam /
+// verification_only documents, which always get the gentlest "please take care".
+function checkHeadlineWord(trust, bannerType) {
+  if (trust.processing_mode === "verification_only") return "Please take care";
+  if (bannerType === "safe") return "Routine";
+  if (bannerType === "warning") return "This may not be genuine";
+  return "Important";
+}
+
+// Calm tone class for the headline, driven by banner.type — never the raw
+// severity word, so a low-severity document reads as soft green, not red.
+function checkToneClass(bannerType) {
+  if (bannerType === "safe") return "check-tone-safe";
+  if (bannerType === "urgent") return "check-tone-urgent";
+  if (bannerType === "warning") return "check-tone-warning";
+  return "check-tone-caution";
+}
+
+// A meaning-carrying icon per tone, so colour is never the only signal and a
+// colour-blind reader gets the state from the glyph, word and sentence too.
+function checkToneIcon(bannerType) {
+  const icons = {
+    safe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>',
+    warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V7z"/><path d="M12 8.5v4"/><path d="M12 15.5h.01"/></svg>',
+    urgent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 15.5h.01"/></svg>',
+    caution: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>'
+  };
+  return icons[bannerType] || icons.caution;
+}
+
+// "Looks genuine" indicator from trust_assessment, with a calm dot. High trust
+// reads as low concern (green); low trust as high concern (soft dusty red).
+function checkGenuineIndicator(trustAssessment) {
+  if (trustAssessment === "high") return { text: "Yes, looks genuine", dotClass: classFromLevel("low") };
+  if (trustAssessment === "low") return { text: "Not sure, please take care", dotClass: classFromLevel("high") };
+  return { text: "Mostly, worth checking", dotClass: classFromLevel("medium") };
+}
+
+function friendlyCategoryLabel(category) {
+  const labels = {
+    bill_or_payment: "Bill or payment",
+    housing: "Housing letter",
+    appointment: "Appointment letter",
+    employment: "Work or employment letter",
+    education: "School or education letter",
+    bank_or_loan: "Bank or finance letter",
+    government: "Government letter",
+    medical: "Health letter",
+    legal_or_court: "Legal or court letter",
+    benefits: "Benefits letter",
+    insurance: "Insurance letter",
+    email: "Email message",
+    possible_scam: "Possible scam message",
+    template: "Blank form or template",
+    outgoing: "Document you are sending",
+    unsupported: "Unclear upload"
+  };
+  return labels[category] || "Official letter";
+}
+
+// Human-readable "why" chips from the engine's signal arrays, de-duplicated and
+// with the trailing full stop trimmed. Returns [] so the row can be hidden.
+function checkWhyChips(trust) {
+  const signals = [].concat(trust.severity_signals || [], trust.scam_signals || []);
+  const seen = new Set();
+  const chips = [];
+  signals.forEach((signal) => {
+    const text = String(signal || "").trim().replace(/\.+$/, "");
+    const key = text.toLowerCase();
+    if (!text || seen.has(key)) return;
+    seen.add(key);
+    chips.push(`<span class="check-why-chip">${escapeHtml(text)}</span>`);
+  });
+  return chips;
 }
 
 function safeActionFromTrust(trust) {
@@ -2471,8 +2567,12 @@ function safeActionFromTrust(trust) {
 
 function classFromLevel(level) {
   const value = String(level || "").toLowerCase();
-  if (value.includes("urgent") || value.includes("high") || value.includes("low")) return "badge-high";
+  // Calm first: a "low" concern level is reassuring (green) and must never be
+  // grouped with "high"/"urgent" (which was the old red-low bug). Still used by
+  // the trust panel's "Looks genuine" dot, so it stays wired, just corrected.
+  if (value.includes("low")) return "badge-low";
   if (value.includes("medium")) return "badge-medium";
+  if (value.includes("urgent") || value.includes("high")) return "badge-high";
   return "badge-low";
 }
 
