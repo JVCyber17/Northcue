@@ -1201,13 +1201,45 @@ function extractRiskSentence(text) {
   return null;
 }
 
+// True when a sentence is a payment COMMAND: a pay verb plus command/urgency
+// framing ("You must pay immediately", "Pay now"). Used to keep such commands
+// off the action card and out of the consequence card. A non-payment obligation
+// ("You must tell us within 21 days") has no pay verb, so it is not a match.
+function isPaymentCommand(sentence) {
+  const s = String(sentence || "").toLowerCase();
+  if (!/\b(pay|make a payment|makes? a payment|settle the|remit)\b/.test(s)) return false;
+  return /\b(must|need to|needs to|are required to|is required to|should|immediately|right away|at once|without delay|now|today)\b/.test(s);
+}
+
+// Turns a raw "to avoid X" / "or X" consequence clause into a hedged report
+// fragment: "your account being passed to ..." -> "your account may be passed
+// to ...", and a bare noun phrase ("further action") -> "further action may follow".
+function describeConsequence(consequence) {
+  const c = cleanLine(consequence).replace(/[.?!]+$/, "");
+  if (/\bbeing\s+\w+/i.test(c)) return c.replace(/\bbeing\s+(\w+)/i, "may be $1");
+  return `${c} may follow`;
+}
+
 function normalizeRiskSentence(sentence) {
+  const raw = cleanLine(sentence);
+
+  // A consequence sentence phrased as a payment command ("You must pay
+  // immediately to avoid X" / "Pay now or X") must never be echoed as a command.
+  // Keep the genuine consequence (X), attribute it, and frame it as a check.
+  if (isPaymentCommand(raw)) {
+    const avoidMatch = raw.match(/\bto\s+avoid\s+(.+)$/i) || raw.match(/\bor\s+(?:else\s+)?(.+)$/i);
+    if (avoidMatch && cleanLine(avoidMatch[1]).length > 3) {
+      return `The document says ${describeConsequence(avoidMatch[1])} if a payment is not made. Check the original document.`;
+    }
+    return "The document says a payment may be due. Check the original document.";
+  }
+
   // When the document uses certain/assertive consequence language ("will be", "shall be"),
   // frame the output as a report so Northcue is not asserting it in its own voice.
   // Hedged language ("may result", "could lead") passes through unchanged.
   const assertive = /\b(will\s+(?:be|result|lead|face|incur)|shall\s+be)\b/i;
-  if (!assertive.test(sentence)) return sentence;
-  const lower = sentence.charAt(0).toLowerCase() + sentence.slice(1);
+  if (!assertive.test(raw)) return raw;
+  const lower = raw.charAt(0).toLowerCase() + raw.slice(1);
   const body = lower.endsWith(".") ? lower.slice(0, -1) : lower;
   return `The document states that ${body}.`;
 }
@@ -1949,6 +1981,15 @@ function extractActions(text, trust) {
       // ("if your details change", "where applicable", etc.)
       const sentence = extractSentenceAround(original, match.index);
       if (sentence.length <= 5) continue;
+      // Never surface a payment COMMAND ("You must pay immediately") as an action
+      // step. The safe "Check the payment amount and due date." line already covers
+      // payment-like documents; non-payment obligations are unaffected.
+      if (isPaymentCommand(sentence)) {
+        if (!actions.includes("Check the payment amount and due date.")) {
+          actions.push("Check the payment amount and due date.");
+        }
+        continue;
+      }
       const prefix = sentence.slice(0, 30).toLowerCase();
       if (seenObligationPrefixes.has(prefix)) continue;
       if (actions.some((a) => a.toLowerCase().includes(sentence.slice(0, 20).toLowerCase()))) continue;

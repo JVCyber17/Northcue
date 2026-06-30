@@ -13,6 +13,13 @@ const AI_OUTBOUND_TEXT_MAX_CHARS = Math.max(1000, Number(process.env.CLEARSTEPS_
 
 async function applyAiStructuredResult({ rulesRun, extractedText }) {
   const output = rulesRun.api_output;
+
+  // Backstop: run the proven pay/credential stripper over the rules-engine cards
+  // so safety filtering applies on EVERY path, not only when the AI runs. On the
+  // AI-success path these cards are replaced by the (separately stripped) AI
+  // output further down; on skip and fallback they are what the user sees.
+  sanitiseRulesStructuredResult(output, rulesRun);
+
   const fallbackStructuredResult = output.structured_result;
   const startedAt = Date.now();
   const model = DEFAULT_MODEL;
@@ -373,6 +380,27 @@ const _AI_DETAIL_PATTERNS = [
   // Bare "confirm your account / identity / card / bank / payment" phishing imperative.
   /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i
 ];
+
+// Applies the AI-output stripper to the rules-engine structured_result in place,
+// and keeps display_text / tts_script consistent. Used on every non-AI path so
+// the rules cards get the same safety pass the AI cards do.
+function sanitiseRulesStructuredResult(output, rulesRun) {
+  const sr = output && output.structured_result;
+  if (!sr || !Array.isArray(sr.cards)) return;
+  const stripped = stripAiViolations(sr);
+  // No-op when the rules cards are already clean: keep the original object so
+  // callers that rely on the untouched rules output are not disturbed. Only
+  // replace when the stripper actually neutralised a command.
+  if (JSON.stringify(stripped) === JSON.stringify(sr)) return;
+  output.structured_result = stripped;
+  output.display_text = stripped.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
+  output.tts_script = stripped.cards.map((card) => card.read_aloud_text).join("\n");
+  if (rulesRun && rulesRun.structured_output) {
+    rulesRun.structured_output.structured_result = stripped;
+    rulesRun.structured_output.display_text = output.display_text;
+    rulesRun.structured_output.tts_script = output.tts_script;
+  }
+}
 
 function stripAiViolations(result) {
   if (!result || !Array.isArray(result.cards)) return result;
