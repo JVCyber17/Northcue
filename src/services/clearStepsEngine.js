@@ -106,8 +106,16 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
   const distrustSignals = detectDistrustSignals(lower);
   const scamSignals = detectScamSignals(lower);
   const severitySignals = detectSeveritySignals(lower);
+  const seriousSignals = detectSeriousDocumentSignals(lower);
 
-  const severityLevel = pickSeverityLevel({ lower, severitySignals, selectedCategory });
+  // Stakes-based floor: genuinely serious document types (active enforcement,
+  // eviction/possession, court/debt enforcement, immigration refusal) must never
+  // be rated below their tier, however calm their wording. Keyword severity is the
+  // base; the floor only ever raises it, never lowers it.
+  const baseSeverityLevel = pickSeverityLevel({ lower, severitySignals, selectedCategory });
+  const severityLevel = seriousSignals.tier
+    ? raiseSeverityTo(baseSeverityLevel, seriousSignals.tier)
+    : baseSeverityLevel;
   const urgencyLevel = pickUrgencyLevel(lower, severityLevel);
   const documentCategory = detectDocumentCategory({
     lower,
@@ -181,6 +189,9 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     distrust_signals: distrustSignals,
     scam_signals: scamSignals,
     severity_signals: severitySignals,
+    is_high_stakes: Boolean(seriousSignals.tier),
+    high_stakes_tier: seriousSignals.tier,
+    serious_document_signals: seriousSignals.signals,
     input_quality: inputQuality,
     garbled_by_ocr: garbledByOcr,
     sender_guess: guessSender(normalizedText),
@@ -1190,6 +1201,24 @@ function buildBanner(trust) {
     };
   }
 
+  // Serious document types must never be reassured as a normal document. Calm,
+  // supportive wording (important, read carefully) — never panic, never the green
+  // "normal document" banner. The scam / low-trust path above is left untouched.
+  if (trust.is_high_stakes && trust.trust_assessment !== "low") {
+    if (trust.high_stakes_tier === "urgent") {
+      return {
+        show: true,
+        type: "urgent",
+        text: "This looks like an important letter that may need action soon. Please read it carefully and check the original document."
+      };
+    }
+    return {
+      show: true,
+      type: "caution",
+      text: "This looks like an important letter. Please read it carefully and check the original document."
+    };
+  }
+
   if (trust.severity_level === "urgent") {
     return {
       show: true,
@@ -1483,6 +1512,69 @@ function detectSeveritySignals(lower) {
   ];
 
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);
+}
+
+const SERIOUS_SEVERITY_RANK = { low: 0, medium: 1, high: 2, urgent: 3 };
+
+// Raise a severity level to at least `floor`, never lowering it.
+function raiseSeverityTo(current, floor) {
+  const currentRank = SERIOUS_SEVERITY_RANK[current] ?? 0;
+  const floorRank = SERIOUS_SEVERITY_RANK[floor] ?? 0;
+  return floorRank > currentRank ? floor : current;
+}
+
+// Stakes-based detector for genuinely serious document types. Uses specific
+// multi-word phrases (never single common words) so routine letters — energy
+// bills, council tax annual notices, NHS appointments, benefits reviews and
+// Section 13 rent increases — are never escalated. Returns the highest tier
+// matched: "urgent" for active enforcement, "high" for serious-but-less-immediate.
+function detectSeriousDocumentSignals(lower) {
+  const urgentPhrases = [
+    "notice of enforcement", "enforcement agent", "take control of your goods",
+    "take control of goods", "controlled goods", "warrant of control",
+    "writ of control", "high court enforcement", "bailiff",
+    "warrant of possession", "warrant for possession",
+    "statutory demand", "winding up", "winding-up"
+  ];
+  const urgentMatched = urgentPhrases.filter((phrase) => lower.includes(phrase));
+  if (urgentMatched.length > 0) {
+    return { tier: "urgent", signals: urgentMatched };
+  }
+
+  const highMatched = [];
+
+  // Eviction / possession. "section 21" / "section 8" are gated on a housing
+  // context so an unrelated "Section 8 of the ... Act" cannot escalate.
+  const housingContext = ["landlord", "tenant", "tenancy", "housing act", "assured shorthold"]
+    .some((needle) => lower.includes(needle));
+  ["notice seeking possession", "notice to quit", "accelerated possession", "possession proceedings"]
+    .forEach((phrase) => { if (lower.includes(phrase)) highMatched.push(phrase); });
+  if (housingContext && lower.includes("section 21")) highMatched.push("section 21");
+  if (housingContext && lower.includes("section 8")) highMatched.push("section 8");
+
+  // Court / debt enforcement.
+  ["letter before claim", "letter before action", "county court", "moneyclaim",
+    "attachment of earnings", "charging order"]
+    .forEach((phrase) => { if (lower.includes(phrase)) highMatched.push(phrase); });
+  if (lower.includes("claimant") && lower.includes("defendant")) highMatched.push("court claim");
+
+  // Immigration refusal, only in an immigration context (so "your refund was
+  // refused" cannot escalate).
+  const immigrationContext = ["home office", "ukvi", "uk visas", "visas and immigration",
+    "leave to remain", "leave to enter", "asylum", "immigration"]
+    .some((needle) => lower.includes(needle));
+  if (immigrationContext) {
+    const refused = ["has been refused", "is refused", "application refused", "refusal of leave",
+      "refusal of entry", "no right to remain", "removal directions", "you must leave the uk",
+      "liable to removal", "deportation"]
+      .some((phrase) => lower.includes(phrase));
+    if (refused) highMatched.push("immigration refusal");
+  }
+
+  if (highMatched.length > 0) {
+    return { tier: "high", signals: highMatched };
+  }
+  return { tier: null, signals: [] };
 }
 
 function pickSeverityLevel({ lower, severitySignals, selectedCategory }) {
