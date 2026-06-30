@@ -305,13 +305,15 @@ function runExtractorLayer({ text, trust }) {
       ? (extractAppointmentDate(text) || extractDeadline(text))
       : extractDeadline(text);
   const summary = inferSummary(text, trust);
+  const headerDate = extractHeaderDate(text);
 
   return {
     summary,
     most_important_point: inferMostImportantPoint(trust, actions),
     actions,
     deadline,
-    visible_dates: extractVisibleDates(text),
+    visible_dates: extractVisibleDates(text).filter((d) => d !== headerDate),
+    header_date: headerDate,
     risk,
     has_consequence: Boolean(consequenceSentence),
     consequence_sentence: consequenceSentence,
@@ -365,9 +367,7 @@ function runRendererLayer({ trust, extraction }) {
           : cleanLine(`Due by ${extraction.deadline}.`)
         : trust.garbled_by_ocr
           ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
-          : (Array.isArray(extraction.visible_dates) && extraction.visible_dates.length > 0
-              ? cleanLine(`No clear due date. These dates appear in the document: ${extraction.visible_dates.slice(0, 3).join(", ")}. Check what they refer to.`)
-              : "No deadline clearly stated."),
+          : cleanLine(buildNoDeadlineMessage(extraction)),
       date: extraction.deadline || null,
       status: cardStatus
     },
@@ -386,11 +386,33 @@ function runRendererLayer({ trust, extraction }) {
   ];
 }
 
+// A calm "a <kind> letter" phrase for the Card 1 headline on the reading-aid
+// paths, so the engine uses the category it already detected instead of a
+// generic "readable formal document". The "appears to be" hedge is kept by the
+// caller, and the "not fully trained" caution moves to a key point / helpful note.
+function friendlyTypeForCategory(category) {
+  const map = {
+    government: "an official letter",
+    benefits: "a benefits letter",
+    bank_or_loan: "a bank or finance letter",
+    legal_or_court: "a legal or court letter",
+    housing: "a housing letter",
+    medical: "a health letter",
+    employment: "a work letter",
+    education: "a school or education letter",
+    insurance: "an insurance letter"
+  };
+  return map[category] || "a formal letter";
+}
+
 function buildReadableUnsupportedExtraction(text, trust) {
   const signals = extractReadableDocumentSignals(text, trust);
-  const summary = signals.topic === GENERIC_TOPIC
-    ? "This appears to be a readable formal document. Northcue is not fully trained for this type yet, so use it as a reading aid only."
-    : `This appears to be a readable official or formal document about ${signals.topic}. Northcue is not fully trained for this document type yet, so use this as a reading aid only.`;
+  const typeLabel = friendlyTypeForCategory(trust.document_category);
+  const summary = signals.sender
+    ? `This appears to be ${typeLabel} from ${signals.sender}.`
+    : (signals.topic === GENERIC_TOPIC
+        ? `This appears to be ${typeLabel}.`
+        : `This appears to be ${typeLabel} about ${signals.topic}.`);
   const hasClearNoAction = clearlySaysNoActionNeeded(text);
   const actions = hasClearNoAction
     ? ["No action needed right now."]
@@ -462,8 +484,8 @@ function buildBenefitsReadingAidExtraction(text, trust) {
   signals.primaryDate = null;
 
   const summary = signals.sender
-    ? `This appears to be a letter about benefits or welfare support from ${signals.sender}. Northcue is not fully trained for benefits letters yet, so use this as a reading aid only and check the original document.`
-    : "This appears to be a letter about benefits or welfare support. Northcue is not fully trained for benefits letters yet, so use this as a reading aid only and check the original document.";
+    ? `This appears to be a benefits letter from ${signals.sender}.`
+    : "This appears to be a benefits letter.";
 
   return {
     summary,
@@ -561,6 +583,13 @@ function toPublicTrustShape(trust) {
 function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extraction, displayCards }) {
   const documentType = detectStructuredDocumentType({ text, trust });
   const documentTypeConfidence = pickStructuredDocumentTypeConfidence({ documentType, trust });
+  // Welfare letters take the benefits reading-aid path regardless of the coarse
+  // document_category (which may read "government"/"bank_or_loan"), so label them
+  // "Benefits letter" to match their summary. isWelfareBenefitsLetter is
+  // high-precision, so this never relabels energy/council-tax/appointment letters.
+  const documentTypeLabel = isWelfareBenefitsLetter(text)
+    ? "Benefits letter"
+    : labelForStructuredDocumentType(documentType, trust.document_category);
   const actionLine = normalizeActionLine(extraction.actions);
   const deadline = extraction.deadline || null;
   const moneyAmount = bestMoneyAmount(extraction.money_amounts);
@@ -570,7 +599,7 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
     session_id: jobId,
     anonymous_session_id: anonymousSessionId,
     document_type: documentType,
-    document_type_label: labelForStructuredDocumentType(documentType),
+    document_type_label: documentTypeLabel,
     document_type_confidence: documentTypeConfidence,
     overall_confidence: normaliseStructuredConfidence(extraction.confidence || trust.confidence),
     risk_level: normaliseStructuredRiskLevel(trust.severity_level),
@@ -611,7 +640,12 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_is_this",
       title: "What is this?",
       explanation: oldCardById.get("what_is_this")?.short_answer || extraction.summary,
-      keyPoints: [extraction.most_important_point],
+      // On the reading-aid paths the "not fully trained" caution moves off the
+      // headline into a key point so the headline can lead with what the letter
+      // is, while the caution stays visible.
+      keyPoints: extraction.readable_unsupported_signals
+        ? [extraction.most_important_point, "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."]
+        : [extraction.most_important_point],
       actionNeeded: null
     },
     {
@@ -649,7 +683,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       title: extraction.has_consequence ? "What could happen if I ignore it?" : "What should I check?",
       explanation: extraction.has_consequence
         ? (extraction.consequence_sentence || extraction.risk)
-        : "Check key details on the original document.",
+        : buildCheckExplanation(extraction),
       keyPoints: buildCheckKeyPoints({ trust, extraction }),
       actionNeeded: null,
       possiblePayment: paymentAmount
@@ -685,6 +719,17 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       status
     };
   });
+}
+
+// Card "What should I check?" headline. Uses the amount/date the engine already
+// has so it is not the bare "Check key details on the original document."
+function buildCheckExplanation(extraction) {
+  const amount = firstOrNull(extraction.money_amounts);
+  const date = extraction.deadline;
+  if (amount && date) return `Check the amount (${amount}) and the date (${date}) on the original document.`;
+  if (amount) return `Check the amount (${amount}) and any dates on the original document.`;
+  if (date) return `Check the date (${date}) and any amounts on the original document.`;
+  return "Check key details on the original document.";
 }
 
 function buildCheckKeyPoints({ trust, extraction }) {
@@ -796,7 +841,8 @@ function extractReadableDocumentSignals(text, trust) {
   const lower = value.toLowerCase();
   const sender = guessDetailedSender(value) || trust.sender_guess || null;
   const topic = inferReadableTopic(value, trust);
-  const visibleDates = extractVisibleDates(value);
+  const headerDate = extractHeaderDate(value);
+  const visibleDates = extractVisibleDates(value).filter((d) => d !== headerDate);
   const visibleTimeframes = extractVisibleTimeframes(value);
   const dateParts = unique([...visibleDates, ...visibleTimeframes]).slice(0, 4);
   const hasResponseRequest = /\b(please respond|respond by|response|reply by|submit|provide|return|complete|consultation|representation|comment|contact)\b/i.test(value);
@@ -819,7 +865,7 @@ function extractReadableDocumentSignals(text, trust) {
     hasResponseRequest,
     hasDeadlineLanguage,
     mostImportantPoint,
-    dateMessage: buildReadableDateMessage({ dateParts, hasDeadlineLanguage }),
+    dateMessage: buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate }),
     risk: buildReadableRiskMessage({ dateParts, hasResponseRequest, hasDeadlineLanguage }),
     keyChecks: buildReadableKeyChecks({ sender, topic, dateParts, hasResponseRequest })
   };
@@ -843,9 +889,11 @@ function buildReadableMostImportantPoint({ text, topic, dateParts, hasResponseRe
   return `The clearest topic appears to be ${topic}. Check the original for details.`;
 }
 
-function buildReadableDateMessage({ dateParts, hasDeadlineLanguage }) {
+function buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate }) {
   if (dateParts.length === 0) {
-    return "No clear date was found. Check the original document.";
+    return headerDate
+      ? `No clear due date was found. The letter is dated ${headerDate}.`
+      : "No clear date was found. Check the original document.";
   }
 
   const visibleText = dateParts.slice(0, 3).join(", ");
@@ -1021,8 +1069,38 @@ function extractVisibleDates(text) {
 
 function extractVisibleTimeframes(text) {
   const value = String(text || "");
-  const matches = value.match(/\bwithin\s+\d+\s+(?:day|days|week|weeks|month|months)|\b(?:today|tomorrow|next week|next month)\b/gi) || [];
+  // days?/weeks?/months? (plural alternative first via the optional s) so
+  // "within 14 days" is not truncated to "within 14 day".
+  const matches = value.match(/\bwithin\s+\d+\s+(?:days?|weeks?|months?)|\b(?:today|tomorrow|next week|next month)\b/gi) || [];
   return unique(matches.map(cleanLine)).slice(0, 3);
+}
+
+// The document's own header date ("Date: 03 June 2026") is almost never the
+// deadline. Identify it so it can be excluded from "dates appear" lists and
+// instead reported plainly ("the letter is dated ...").
+function extractHeaderDate(text) {
+  const lines = String(text || "").split(/\r?\n/).slice(0, 12);
+  for (const line of lines) {
+    if (/\bdate\s*:/i.test(line)) {
+      const dates = extractVisibleDates(line);
+      if (dates.length > 0) return dates[0];
+    }
+  }
+  return null;
+}
+
+// Card "When is it due?" message when no genuine deadline was found. Lists any
+// remaining (non-header) dates to check, or reports the letter date plainly.
+// Never invents or computes a deadline.
+function buildNoDeadlineMessage(extraction) {
+  const dates = Array.isArray(extraction.visible_dates) ? extraction.visible_dates : [];
+  if (dates.length > 0) {
+    return `No clear due date. These dates appear in the document: ${dates.slice(0, 3).join(", ")}. Check what they refer to.`;
+  }
+  if (extraction.header_date) {
+    return `No clear due date was found. The letter is dated ${extraction.header_date}.`;
+  }
+  return "No deadline clearly stated.";
 }
 
 function clearlySaysNoActionNeeded(text) {
@@ -1057,7 +1135,7 @@ function detectStructuredDocumentType({ text, trust }) {
   return "unknown";
 }
 
-function labelForStructuredDocumentType(documentType) {
+function labelForStructuredDocumentType(documentType, documentCategory) {
   const labels = {
     council_tax_notice: "Council tax notice",
     energy_bill: "Energy bill",
@@ -1066,7 +1144,22 @@ function labelForStructuredDocumentType(documentType) {
     unknown: "Unknown document",
     unsupported: "Unsupported document"
   };
-  return labels[documentType] || labels.unknown;
+  if (documentType !== "unknown" && labels[documentType]) return labels[documentType];
+  // documentType is "unknown" but the engine often still knows the category.
+  // Give a calm, honest label from it rather than the unhelpful "Unknown document".
+  // (legal_or_court is only set for genuine legal phrases, per detectDocumentCategory.)
+  const categoryLabels = {
+    government: "Official letter",
+    benefits: "Benefits letter",
+    bank_or_loan: "Bank or finance letter",
+    legal_or_court: "Legal or court letter",
+    housing: "Housing letter",
+    medical: "Health letter",
+    employment: "Work letter",
+    education: "School or education letter",
+    insurance: "Insurance letter"
+  };
+  return categoryLabels[documentCategory] || labels.unknown;
 }
 
 function pickStructuredDocumentTypeConfidence({ documentType, trust }) {
