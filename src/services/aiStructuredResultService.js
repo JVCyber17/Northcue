@@ -36,6 +36,27 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
     return rulesRun;
   }
 
+  // Hard gate: never let the AI rephrase a suspected-scam / verification_only
+  // document. The rules engine already emits a safe, fixed card set (verify via
+  // official channels, do not share details). Letting the AI rewrite it has been
+  // shown to re-introduce the scam's own ask (e.g. "confirm your account details,
+  // you will need your National Insurance number and bank details"). Skip the AI
+  // entirely and return the safe rules cards unchanged.
+  const scamSignals = output.trust && Array.isArray(output.trust.scam_signals)
+    ? output.trust.scam_signals
+    : [];
+  if (output.trust?.processing_mode === "verification_only" || scamSignals.length > 0) {
+    attachAiMetadata(output, {
+      ai_used: false,
+      ai_status: "skipped",
+      ai_provider: "openai",
+      ai_model: model,
+      ai_duration_ms: 0,
+      ai_error_code: "verification_only_state"
+    });
+    return rulesRun;
+  }
+
   if (!process.env.OPENAI_API_KEY) {
     attachAiMetadata(output, {
       ai_used: false,
@@ -338,6 +359,21 @@ const _AI_PAY_PATTERNS = [
   /\bmust\s+pay\b/i
 ];
 
+// Credential / detail-sharing instruction stripper (defence in depth). Scoped to
+// instruction-shaped sentences only, exactly like _AI_PAY_PATTERNS: it fires when a
+// sentence is an INSTRUCTION to confirm / enter / provide / share (etc.) account,
+// bank, card, National Insurance, password or PIN details — not when a sentence
+// merely mentions those terms (e.g. "check your account number is correct").
+const _AI_SENSITIVE_TERM = "(?:account\\s+details?|account\\s+information|bank\\s+(?:account|details?)|banking\\s+details?|card\\s+(?:details?|number)|national\\s+insurance(?:\\s+number)?|\\bni\\s+number\\b|sort\\s+code|pass(?:word|code)|\\bpin\\b|security\\s+(?:details?|code)|personal\\s+details?|your\\s+details?)";
+const _AI_DETAIL_PATTERNS = [
+  // Imperative instruction at the start of the sentence + a sensitive term anywhere in it.
+  new RegExp("^(?:please\\s+)?(?:confirm|enter|provide|share|give|send|submit|supply|update|re-?enter|input)\\b[^.!?]*\\b" + _AI_SENSITIVE_TERM, "i"),
+  // "you (will/may/would/must) need your ... <sensitive term>".
+  new RegExp("\\byou\\s+(?:will\\s+|may\\s+|would\\s+|must\\s+)?need\\s+your\\b[^.!?]*\\b" + _AI_SENSITIVE_TERM, "i"),
+  // Bare "confirm your account / identity / card / bank / payment" phishing imperative.
+  /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i
+];
+
 function stripAiViolations(result) {
   if (!result || !Array.isArray(result.cards)) return result;
   const out = JSON.parse(JSON.stringify(result));
@@ -361,6 +397,9 @@ function sanitizeAiTextField(text) {
       if (!trimmed) return trimmed;
       if (_AI_PAY_PATTERNS.some(re => re.test(trimmed))) {
         return "Check the original document for the payment amount and due date.";
+      }
+      if (_AI_DETAIL_PATTERNS.some(re => re.test(trimmed))) {
+        return "Check the original document. Do not share personal or banking details.";
       }
       if (_AI_PHONE_RE.test(trimmed) && _AI_CALL_CONTEXT_RE.test(trimmed)) {
         return "Use contact details from the original document.";
