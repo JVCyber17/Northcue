@@ -7530,12 +7530,16 @@ body.theme-dark .feedback-modal .modal-box h2::before {
     width: 16px;
     height: 34px;
     opacity: 0.9;
+    /* Vertical dotted line only. The downward chevron has been removed and a
+       soft mask fades the dots out toward the bottom, so the line dissolves
+       gently as it reaches the card instead of pointing at it. */
     background-image:
-      url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2010'%20fill='none'%20stroke='%232f5b35'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%204%208%208%2012%204'/%3E%3C/svg%3E"),
       radial-gradient(circle, #2f5b35 2px, transparent 2.4px);
-    background-position: center bottom, center top;
-    background-size: 16px 10px, 16px 13px;
-    background-repeat: no-repeat, repeat-y;
+    background-position: center top;
+    background-size: 16px 13px;
+    background-repeat: repeat-y;
+    -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 90%);
+    mask-image: linear-gradient(to bottom, #000 35%, transparent 90%);
   }
 
   .landing-example-card {
