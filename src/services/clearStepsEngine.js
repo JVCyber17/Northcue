@@ -1682,6 +1682,33 @@ function detectSeriousDocumentSignals(lower) {
     "statutory demand", "winding up", "winding-up"
   ];
   const urgentMatched = urgentPhrases.filter((phrase) => lower.includes(phrase));
+
+  // Energy / utility supply disconnection threats. A letter threatening to cut
+  // off someone's gas, electricity or energy supply is genuinely serious. Gated
+  // on specific multi-word cut-off phrasing so a routine bill that merely
+  // mentions "supply" or "energy" is never escalated. Matched against a
+  // whitespace-collapsed copy so a phrase wrapped across a line break (real
+  // letters wrap, e.g. "install a\nprepayment meter") is still caught.
+  const collapsed = lower.replace(/\s+/g, " ");
+  const supplyDisconnection = [
+    "disconnect your supply", "disconnect your gas", "disconnect your electricity",
+    "disconnect your energy", "supply may be disconnected", "supply will be disconnected",
+    "supply could be disconnected", "disconnection of your supply",
+    "cut off your supply", "cut off your gas", "cut off your electricity",
+    "cut off your energy"
+  ].some((phrase) => collapsed.includes(phrase));
+  const warrantOrForcedInstall = [
+    "warrant of entry", "warrant to enter", "enter your property", "enter your home",
+    "apply for a warrant", "court for a warrant", "prepayment meter under warrant",
+    "install a prepayment meter", "fit a prepayment meter"
+  ].some((phrase) => collapsed.includes(phrase));
+
+  // Active disconnection threat backed by a warrant or forced meter install is
+  // urgent; a milder "we may disconnect" warning alone is high (added below).
+  if (supplyDisconnection && warrantOrForcedInstall) {
+    urgentMatched.push("supply disconnection under warrant");
+  }
+
   if (urgentMatched.length > 0) {
     return { tier: "urgent", signals: urgentMatched };
   }
@@ -1714,6 +1741,10 @@ function detectSeriousDocumentSignals(lower) {
   ) {
     highMatched.push("debt collection");
   }
+
+  // Milder supply disconnection warning, with no warrant or forced install, is
+  // high. (The urgent combination was already handled and returned above.)
+  if (supplyDisconnection) highMatched.push("supply disconnection");
 
   // Immigration refusal, only in an immigration context (so "your refund was
   // refused" cannot escalate).
