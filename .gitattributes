@@ -1,0 +1,14 @@
+# Treat binary assets as binary so line ending normalisation (autocrlf) never
+# rewrites their bytes. Without this, Word .docx and image files can be
+# corrupted on checkout on Windows.
+*.docx binary
+*.doc  binary
+*.pdf  binary
+*.pptx binary
+*.xlsx binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
