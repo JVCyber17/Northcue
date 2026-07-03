@@ -64,6 +64,22 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
     return rulesRun;
   }
 
+  // Hard gate: never let the AI rephrase an unsupported / probable non-document
+  // upload (e.g. a menu). The rules engine already emits a calm, honest "this is
+  // not an official letter" message; letting the AI rewrite it would re-introduce
+  // confident cue cards for something that is not an official document.
+  if (output.trust?.processing_mode === "unsupported" || output.trust?.is_probable_non_document) {
+    attachAiMetadata(output, {
+      ai_used: false,
+      ai_status: "skipped",
+      ai_provider: "openai",
+      ai_model: model,
+      ai_duration_ms: 0,
+      ai_error_code: "unsupported_or_non_document"
+    });
+    return rulesRun;
+  }
+
   if (!process.env.OPENAI_API_KEY) {
     attachAiMetadata(output, {
       ai_used: false,

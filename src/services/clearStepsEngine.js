@@ -126,6 +126,17 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     scamSignals
   });
 
+  // Conservative non-document detection (a menu, flyer or recipe rather than an
+  // official letter or bill). Only true when the text is readable good quality,
+  // matched no category, and carries none of the markers a real letter almost
+  // always has. When uncertain it is false and the upload is processed normally.
+  const isProbableNonDocument = detectProbableNonDocument({
+    normalizedText,
+    lower,
+    inputQuality,
+    documentCategory
+  });
+
   const trustAssessment = pickTrustAssessment({
     inputQuality,
     isUnsupported,
@@ -154,7 +165,8 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     scamSignals,
     isTemplate,
     isOutgoing,
-    split
+    split,
+    isProbableNonDocument
   });
 
   const needsHumanReview = (
@@ -172,16 +184,20 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     inputQuality,
     isTemplate,
     isOutgoing,
-    split
+    split,
+    isProbableNonDocument
   });
 
   return {
     trust_assessment: trustAssessment,
     severity_level: severityLevel,
     urgency_level: urgencyLevel,
-    document_category: documentCategory,
+    // A probable non-document is presented through the unsupported machinery, so
+    // its category reads as an unclear upload rather than a confident "unknown".
+    document_category: isProbableNonDocument ? "unsupported" : documentCategory,
     document_type: documentType,
     processing_mode: processingMode,
+    is_probable_non_document: isProbableNonDocument,
     confidence,
     needs_human_review: needsHumanReview,
     review_reason: reviewReason,
@@ -198,12 +214,17 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     is_template: isTemplate,
     is_outgoing: isOutgoing,
     is_multi_document: split.isMultiLetterInput,
-    safe_next_step: buildSafeNextStep({ processingMode, severityLevel, trustAssessment })
+    safe_next_step: buildSafeNextStep({ processingMode, severityLevel, trustAssessment, isProbableNonDocument })
   };
 }
 
 function runExtractorLayer({ text, trust }) {
   if (trust.processing_mode === "unsupported") {
+    // A probable non-document gets a calm, honest "this is not an official letter"
+    // message, never a reading-aid that pretends to understand it.
+    if (trust.is_probable_non_document) {
+      return buildNonDocumentExtraction(trust);
+    }
     if (trust.input_quality !== "poor" && String(text || "").trim().length >= 80) {
       return buildReadableUnsupportedExtraction(text, trust);
     }
@@ -405,6 +426,28 @@ function friendlyTypeForCategory(category) {
   return map[category] || "a formal letter";
 }
 
+// Calm, non-blaming response for an upload that does not look like an official
+// document. Never invents a summary, amount, date, or action from the content.
+function buildNonDocumentExtraction(trust) {
+  return {
+    summary: "This does not look like an official letter or bill.",
+    most_important_point: "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+    actions: ["Upload a clearer photo or a different page if this is a letter or bill."],
+    deadline: null,
+    risk: "No official document details were found.",
+    helpful_note: "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    money_amounts: [],
+    reference_numbers: [],
+    contact_details: [],
+    appeal_rights: [],
+    support_options: [],
+    confidence: "low",
+    needs_human_review: true,
+    review_reason: "This does not look like an official document.",
+    evidence_spans: []
+  };
+}
+
 function buildReadableUnsupportedExtraction(text, trust) {
   const signals = extractReadableDocumentSignals(text, trust);
   const typeLabel = friendlyTypeForCategory(trust.document_category);
@@ -587,9 +630,11 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
   // document_category (which may read "government"/"bank_or_loan"), so label them
   // "Benefits letter" to match their summary. isWelfareBenefitsLetter is
   // high-precision, so this never relabels energy/council-tax/appointment letters.
-  const documentTypeLabel = isWelfareBenefitsLetter(text)
-    ? "Benefits letter"
-    : labelForStructuredDocumentType(documentType, trust.document_category);
+  const documentTypeLabel = trust.is_probable_non_document
+    ? "Not an official document"
+    : isWelfareBenefitsLetter(text)
+      ? "Benefits letter"
+      : labelForStructuredDocumentType(documentType, trust.document_category);
   const actionLine = normalizeActionLine(extraction.actions);
   const deadline = extraction.deadline || null;
   const moneyAmount = bestMoneyAmount(extraction.money_amounts);
@@ -1345,6 +1390,16 @@ function normalizeRiskSentence(sentence) {
 }
 
 function buildBanner(trust) {
+  // A probable non-document gets a calm, honest banner rather than any wording
+  // that implies Northcue understood it as an official letter.
+  if (trust.is_probable_non_document) {
+    return {
+      show: true,
+      type: "caution",
+      text: "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+    };
+  }
+
   if (trust.trust_assessment === "low" && trust.severity_level === "urgent") {
     return {
       show: true,
@@ -1592,6 +1647,29 @@ function detectDocumentCategory({ lower, selectedCategory, isTemplate, isOutgoin
   return "unknown";
 }
 
+// Conservative detector for uploads that are not official documents at all
+// (a menu, flyer, recipe, or random text). Declines ONLY when the text is
+// readable good quality, matched no category, and carries none of the markers a
+// real letter or bill almost always has: a recognised sender, a reference or
+// account token, a formal date, or official/action phrasing. If any marker is
+// present, or the text is not clearly readable, it returns false and the upload
+// is processed normally. This asymmetry is deliberate: wrongly declining a real
+// letter is worse than wrongly accepting a menu.
+function detectProbableNonDocument({ normalizedText, lower, inputQuality, documentCategory }) {
+  if (inputQuality !== "good") return false;
+  if (documentCategory !== "unknown") return false;
+
+  const hasSender = Boolean(guessDetailedSender(normalizedText) || guessSender(normalizedText));
+  const hasReference = /\b(reference|ref[:.]|account\s*(?:number|no|:)|claim\s*(?:number|no)|invoice|policy\s*(?:number|no)|national insurance|ni number|utr|case\s*(?:number|no)|award|notice number)\b/i.test(lower);
+  const hasFormalDate =
+    /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/.test(lower) ||
+    /\bdate\s*:/i.test(lower) ||
+    /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{4}\b/i.test(lower);
+  const hasOfficialPhrasing = /\b(dear|you must|please pay|amount due|amount payable|balance|payment|outstanding|arrears|your account|on behalf of|we are writing|we have been|notice|summons|claim|benefit|appointment|tax|overdue|direct debit|refund|penalty|policy|assessment|hearing|tribunal)\b/i.test(lower);
+
+  return !(hasSender || hasReference || hasFormalDate || hasOfficialPhrasing);
+}
+
 function pickTrustAssessment({ inputQuality, isUnsupported, scamSignals, distrustSignals, authenticSignals }) {
   if (isUnsupported || inputQuality === "poor") return "unknown";
   if (scamSignals.length > 0) return "low";
@@ -1606,8 +1684,11 @@ function pickConfidence({ inputQuality, trustAssessment, split }) {
   return "medium";
 }
 
-function pickProcessingMode({ trustAssessment, isUnsupported, inputQuality, scamSignals, isTemplate, isOutgoing, split }) {
+function pickProcessingMode({ trustAssessment, isUnsupported, inputQuality, scamSignals, isTemplate, isOutgoing, split, isProbableNonDocument }) {
   if (isUnsupported || inputQuality === "poor") return "unsupported";
+  // A probable non-document reuses the unsupported path (no invented cards, human
+  // review, calm honest wording) rather than being processed as a real document.
+  if (isProbableNonDocument) return "unsupported";
   if (trustAssessment === "low" || scamSignals.length > 0) return "verification_only";
   if (trustAssessment === "medium" || isTemplate || isOutgoing || inputQuality === "borderline" || split.isMultiLetterInput) {
     return "caution";
@@ -1615,7 +1696,8 @@ function pickProcessingMode({ trustAssessment, isUnsupported, inputQuality, scam
   return "normal";
 }
 
-function pickReviewReason({ processingMode, trustAssessment, inputQuality, isTemplate, isOutgoing, split }) {
+function pickReviewReason({ processingMode, trustAssessment, inputQuality, isTemplate, isOutgoing, split, isProbableNonDocument }) {
+  if (isProbableNonDocument) return "This does not look like an official document.";
   if (processingMode === "unsupported") return "Some parts are unclear or unsupported.";
   if (processingMode === "verification_only") return "Suspicious patterns were detected.";
   if (split.isMultiLetterInput) return "Multiple documents may be mixed in one upload.";
@@ -1626,7 +1708,10 @@ function pickReviewReason({ processingMode, trustAssessment, inputQuality, isTem
   return "Some details need checking before action.";
 }
 
-function buildSafeNextStep({ processingMode, severityLevel, trustAssessment }) {
+function buildSafeNextStep({ processingMode, severityLevel, trustAssessment, isProbableNonDocument }) {
+  if (isProbableNonDocument) {
+    return "If this is a letter or bill, try a clearer photo or a different page.";
+  }
   if (processingMode === "verification_only") {
     return "Verify using official contact details from the organisation website.";
   }
