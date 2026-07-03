@@ -1018,9 +1018,13 @@ function guessDetailedSender(text) {
   const isAddressLine = (line) =>
     /^\d+\s/.test(line) &&
     /\b(court|close|lane|road|street|avenue|drive|way|place|gardens|terrace|crescent|walk|row|hill)\b/i.test(line);
+  // "IN THE COUNTY COURT" is a claim heading, not a sender line; excluding it
+  // lets the proper court office line ("County Court Business Centre") be used.
+  const isCourtHeading = (line) => /^in the\b.*\bcourt\b/i.test(line);
   const isExcluded = (line) =>
     /\b(email|telephone|tel|floor|street|road|postcode|registered|authorised|regulated)\b/i.test(line) ||
-    isAddressLine(line);
+    isAddressLine(line) ||
+    isCourtHeading(line);
 
   const orgLine = lines.find((line) => (
     /\b(HMRC|NHS|Council|Borough|County|Magistrates|Tribunal|University|School|College|Department|Authority|Bank|Hospital|Clinic|Trust|Employer|Landlord)\b/i.test(line) &&
@@ -1262,6 +1266,9 @@ function extractSummaryFirstLineSender(text) {
     if (!line || line.length < 4 || line.length > 60) continue;
     if (/^(ref|reference|date|dear|po box|\d|your account|account)/i.test(line)) continue;
     if (/\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b/.test(line)) continue;
+    // "IN THE COUNTY COURT" is a claim heading, not a sender. Skip it so the
+    // proper court office line (e.g. "County Court Business Centre") is used.
+    if (/^in the\b.*\bcourt\b/i.test(line)) continue;
     return stripSenderPrefix(line);
   }
   return null;
@@ -1545,6 +1552,18 @@ function detectDocumentCategory({ lower, selectedCategory, isTemplate, isOutgoin
   if (/\brent\b/i.test(lower) || ["landlord", "tenancy", "eviction"].some((n) => lower.includes(n))) {
     return "housing";
   }
+
+  // Genuine court claim documents. High-precision signals that a claim is being
+  // made (not just a letter mentioning court), so an incidental word like
+  // "credit" describing the debt does not miscategorise a county court claim as
+  // a bank letter. Placed after housing so possession notices stay housing, and
+  // it never uses bare "court", so a street name like "Sycamore Court" is safe.
+  const isCourtClaim =
+    ["in the county court", "county court judgment", "claim form",
+      "particulars of claim", "moneyclaim", "letter before claim"]
+      .some((phrase) => lower.includes(phrase)) ||
+    (lower.includes("claimant") && lower.includes("defendant"));
+  if (isCourtClaim) return "legal_or_court";
 
   const checks = [
     [["invoice", "bill", "payment reminder", "arrears", "outstanding balance", "overdue", "final demand"], "bill_or_payment"],
