@@ -1,0 +1,17 @@
+Fonts in this folder are self-hosted to avoid sending visitor data to Google.
+
+Both families are licensed under the SIL Open Font License, Version 1.1,
+which permits self-hosting and redistribution:
+
+- Lexend
+  Copyright The Lexend Project Authors (https://github.com/googlefonts/lexend)
+- Atkinson Hyperlegible
+  Copyright Braille Institute of America, Inc.
+  (https://www.brailleinstitute.org/freefont)
+
+Full licence text: https://openfontlicense.org  (SIL OFL 1.1)
+
+The .woff2 files here are the unmodified latin and latin-ext subsets served
+by Google Fonts for the specific weights the app uses (Atkinson Hyperlegible
+400/700; Lexend 500/700/800). The @font-face declarations live at the top of
+public/styles.css.
