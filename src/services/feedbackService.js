@@ -5,6 +5,19 @@ const VALID_TRUST_LEVELS = new Set(["high", "medium", "low", "unknown"]);
 const VALID_SEVERITY_LEVELS = new Set(["low", "medium", "high", "urgent"]);
 const MAX_NOTE_LENGTH = 500;
 const MAX_REASONS = 8;
+const MAX_EMAIL_LENGTH = 254;
+
+// Forgiving email check for the dedicated optional contact field. A local part,
+// an @, and a dotted domain, with no whitespace. Deliberately permissive — it
+// only rejects obvious non-emails rather than enforcing RFC 5322. This field is
+// stored INTACT and is never passed through sanitiseNote(), so a real reply
+// address is preserved while free-text note redaction stays exactly as it was.
+function normaliseEmail(value) {
+  const cleaned = cleanText(value, MAX_EMAIL_LENGTH);
+  if (!cleaned) return "";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleaned)) return "";
+  return cleaned;
+}
 
 function createValidationError(message) {
   const error = new Error(message);
@@ -85,6 +98,15 @@ async function saveFeedbackEvent(payload, options = {}) {
     severity_level: normaliseOptionalEnum(payload.severity_level, VALID_SEVERITY_LEVELS)
   };
 
+  // Optional reply address. Stored intact (never through sanitiseNote). Only added
+  // to the row when a plausible email is present, so ordinary feedback does not
+  // reference the contact_email column — keeping inserts working even before the
+  // column is added in Supabase.
+  const contactEmail = normaliseEmail(payload.email);
+  if (contactEmail) {
+    row.contact_email = contactEmail;
+  }
+
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
     throw new Error("Supabase is not configured. Add Supabase environment variables before saving feedback.");
@@ -106,5 +128,6 @@ async function saveFeedbackEvent(payload, options = {}) {
 module.exports = {
   saveFeedbackEvent,
   sanitiseNote,
-  normaliseRating
+  normaliseRating,
+  normaliseEmail
 };

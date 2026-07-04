@@ -2261,9 +2261,9 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
         </label>
       </div>
       <div id="modal-feedback-contact-panel" class="optional-contact feedback-contact-reveal hidden">
-        <label class="feedback-label" for="modal-feedback-contact">Email or phone number</label>
-        <input id="modal-feedback-contact" class="feedback-contact-input" type="text" placeholder="Your email or phone number">
-        <small>We'll only use this for your feedback.</small>
+        <label class="feedback-label" for="modal-feedback-contact">Email <span>(optional) — only if you'd like a reply</span></label>
+        <input id="modal-feedback-contact" class="feedback-contact-input" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
+        <small>We'll only use this to reply to your feedback.</small>
       </div>
       <button type="button" class="primary-btn send-short-feedback">${sendIconMarkup()} Send feedback</button>
       <p class="feedback-saved-message" role="status" aria-live="polite"></p>
@@ -2325,14 +2325,25 @@ function normaliseFeedbackRating(value, answerKey) {
   return "";
 }
 
+// Forgiving email check — a local part, an @, and a dotted domain, no spaces.
+// Deliberately permissive; the goal is to catch obvious typos, not enforce RFC 5322.
+function isPlausibleEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+}
+
 function getFeedbackPayload(panel) {
   const contactToggle = panel.querySelector("#modal-feedback-contact-toggle");
+  const contactChecked = contactToggle ? contactToggle.checked : false;
+  const email = contactChecked
+    ? panel.querySelector("#modal-feedback-contact")?.value.trim() || ""
+    : "";
 
   return {
     rating: normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer),
     reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected")).map((chip) => chip.dataset.reason),
     note: panel.querySelector(".short-feedback-comment")?.value.trim() || "",
-    contact_permission: contactToggle ? contactToggle.checked : false,
+    contact_permission: contactChecked,
+    email,
     page: document.body.dataset.page || "unknown",
     section: panel.dataset.feedbackContext || "feedback",
     document_category: latestResult.trust?.document_category || selectedType || "unknown",
@@ -2348,6 +2359,7 @@ function saveFeedbackFallback(feedback) {
     reasons: feedback.reasons,
     note: feedback.note,
     contact_permission: feedback.contact_permission,
+    email: feedback.email,
     page: feedback.page,
     section: feedback.section,
     document_category: feedback.document_category,
@@ -2369,10 +2381,21 @@ async function saveShortFeedback(panel) {
     return;
   }
 
+  const feedback = getFeedbackPayload(panel);
+
+  // Forgiving guard: only when the user has asked for a reply and typed something.
+  // An empty email is fine (feedback still sends, just with no reply address).
+  if (feedback.email && !isPlausibleEmail(feedback.email)) {
+    if (message) {
+      message.textContent = "That email doesn't look right — please check it, or untick to send without a reply.";
+    }
+    panel.querySelector("#modal-feedback-contact")?.focus();
+    return;
+  }
+
   const sendButton = panel.querySelector(".send-short-feedback");
   if (sendButton) sendButton.disabled = true;
 
-  const feedback = getFeedbackPayload(panel);
   let savedToSupabase = false;
 
   try {
