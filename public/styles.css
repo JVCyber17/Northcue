@@ -7646,10 +7646,12 @@ body.theme-dark .check-dot.badge-high {
     min-height: 48px;
   }
 
-  /* Mobile only: show just the name as a clean centred wordmark. The logo mark
-     is hidden, not deleted, so desktop keeps it. */
+  /* Mobile: show the brand mark before the wordmark, sized to sit naturally
+     beside the 22px "Northcue" text. */
   .brand-icon {
-    display: none;
+    display: block;
+    width: 32px;
+    height: 32px;
   }
 
   .brand-name {

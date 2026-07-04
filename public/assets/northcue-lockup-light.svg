@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="470" height="120" viewBox="0 0 470 120">
+  <g><path d="M 45.02 22.91 A 40 40 0 0 1 74.98 22.91" fill="none" stroke="#7fa076" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 84.63 28.48 A 40 40 0 0 1 99.61 54.43" fill="none" stroke="#b6a5d9" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 99.61 65.57 A 40 40 0 0 1 84.63 91.52" fill="none" stroke="#e6c78a" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 74.98 97.09 A 40 40 0 0 1 45.02 97.09" fill="none" stroke="#89b0c9" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 35.37 91.52 A 40 40 0 0 1 20.39 65.57" fill="none" stroke="#d99c9c" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 20.39 54.43 A 40 40 0 0 1 35.37 28.48" fill="none" stroke="#e0b892" stroke-width="10" stroke-linecap="round"/></g>
+  <text x="140" y="60" dominant-baseline="central" font-family="Lexend, Arial, sans-serif" font-size="54" font-weight="800" letter-spacing="-1" fill="#2b3440">Northcue</text>
+</svg>
