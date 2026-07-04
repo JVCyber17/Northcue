@@ -33,6 +33,11 @@ const PUBLIC_DIR = path.join(__dirname, "public");
 const UPLOAD_DIR = path.join(__dirname, "private_storage", "uploads");
 const RESULT_DIR = path.join(__dirname, "private_storage", "results");
 
+// northcue.co.uk is the single canonical host. Requests arriving on the .uk
+// domain (bare or www) are permanently redirected to the same path there.
+const CANONICAL_HOST = "northcue.co.uk";
+const HOSTS_TO_REDIRECT = new Set(["northcue.uk", "www.northcue.uk"]);
+
 const ALLOWED_TYPES = new Set([
   "application/pdf",
   "image/jpeg",
@@ -54,9 +59,23 @@ const rateLimiter = createRateLimiter({
 
 ensurePrivateFolders();
 
+// Permanently redirect the .uk domain (bare or www) to the canonical .co.uk
+// host, preserving the full path and query. Returns true if it handled the
+// request. Any other host (including northcue.co.uk and Render's internal
+// health-check host) is left untouched.
+function redirectToCanonicalHost(req, res) {
+  const host = (req.headers.host || "").split(":")[0].toLowerCase();
+  if (!HOSTS_TO_REDIRECT.has(host)) return false;
+  res.writeHead(301, { Location: `https://${CANONICAL_HOST}${req.url}` });
+  res.end();
+  return true;
+}
+
 function createNorthcueServer() {
   return http.createServer(async (req, res) => {
     try {
+      if (redirectToCanonicalHost(req, res)) return;
+
       const pathOnly = req.url.split("?")[0] || "/";
 
       if (req.method === "GET" && pathOnly === "/health") {
