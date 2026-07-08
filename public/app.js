@@ -436,6 +436,7 @@ const chips = Array.from(document.querySelectorAll(".chip[data-category]"));
 const railSteps = Array.from(document.querySelectorAll(".rail-step"));
 const form = document.querySelector("#upload-form");
 const fileInput = document.querySelector("#document-file");
+const cameraInput = document.querySelector("#camera-capture");
 const fileName = document.querySelector("#file-name");
 const statusText = document.querySelector("#status");
 const statusTitle = statusText?.querySelector("[data-status-title]");
@@ -768,6 +769,20 @@ function wireUpload() {
     setStatus(file ? "Document selected." : "Choose a document to begin.");
     form.classList.toggle("file-added", !!file);
     if (file) updateTypeConfirmLabel();
+  });
+
+  // "Take a photo" (mobile): the camera writes to a separate input so the main
+  // browse input keeps its full accept list untouched. Funnel the captured photo
+  // into #document-file and re-fire its change, so it enters the exact same
+  // upload/validation/submit pipeline as a gallery pick — no separate path.
+  cameraInput?.addEventListener("change", () => {
+    const photo = cameraInput.files[0];
+    if (!photo) return;
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(photo);
+    fileInput.files = dataTransfer.files;
+    cameraInput.value = "";
+    fileInput.dispatchEvent(new Event("change", { bubbles: true }));
   });
 
   removeDocumentButton?.addEventListener("click", () => {

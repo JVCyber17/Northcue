@@ -4830,6 +4830,7 @@ input[type="file"] {
 .journey-title-compact,
 .journey-upload-subtitle-mobile,
 .dropzone-choose,
+.take-photo-btn,
 .privacy-line-mobile {
   display: none;
 }
@@ -4873,6 +4874,37 @@ input[type="file"] {
     font-family: var(--font-heading);
     font-size: 16px;
     font-weight: 700;
+  }
+
+  /* Mobile-only "Take a photo" — matches the .dropzone-choose pill, sits under
+     the dropzone. Opens the rear camera via the #camera-capture input. */
+  .take-photo-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: fit-content;
+    min-height: 46px;
+    margin: 14px auto 0;
+    padding: 11px 24px;
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--green);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .take-photo-icon {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .dropzone-sub {
