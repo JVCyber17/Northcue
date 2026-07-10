@@ -7541,6 +7541,75 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   line-height: 1.45;
 }
 
+/* Option 2 Document Check: hero next step + two labelled question-blocks. The
+   two blocks phrase authenticity and urgency as distinct questions, each with a
+   plain meaning line, so they can no longer read as the same question twice. */
+.check-nextstep-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.check-hero .check-nextstep-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.02rem;
+}
+
+.check-hero p {
+  font-size: 1.04rem;
+}
+
+.check-summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.check-caption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.check-qblock {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--line) 8%);
+  border: 1px solid var(--line);
+}
+
+.check-qblock-label {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.check-qblock-status {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.check-qblock-meaning {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 /* Soft, calm tone palettes. Each sets the headline's background, edge accent
    and ink. Built from the brand tints (--sage/--cream/--rose) so dark mode
    follows automatically; urgent is the same amber family, a touch stronger

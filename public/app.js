@@ -2484,75 +2484,78 @@ function buildCardDetail(card) {
 
 function buildCheckMarkup(trust) {
   const banner = latestResult.banner || {};
-  const toneClass = checkToneClass(banner.type);
-  const word = checkHeadlineWord(trust, banner.type);
-  const sentence = banner.text || trust.review_reason || safeActionFromTrust(trust);
   const nextStep = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
-  const genuine = checkGenuineIndicator(trust.trust_assessment);
+  const summary = banner.text || trust.review_reason || "";
+  const genuine = checkGenuineIndicator(trust.trust_assessment, trust.needs_human_review);
+  const urgency = checkUrgencyIndicator(trust.severity_level);
   const chips = checkWhyChips(trust);
   const whyRow = chips.length
     ? `<div class="check-why"><span class="check-why-label">Why</span>${chips.join("")}</div>`
     : "";
+  const summaryRow = summary
+    ? `<p class="check-summary"><span class="check-dot ${checkSummaryDot(banner.type)}"></span>${escapeHtml(summary)}</p>`
+    : "";
 
   return `
     <div class="check-panel">
-      <div class="check-headline ${toneClass}">
-        <span class="check-headline-icon" aria-hidden="true">${checkToneIcon(banner.type)}</span>
-        <div class="check-headline-text">
-          <p class="check-headline-word">${escapeHtml(word)}</p>
-          <p class="check-headline-sentence">${escapeHtml(sentence)}</p>
-        </div>
-      </div>
-      ${whyRow}
-      <div class="check-rows">
-        <div class="check-row"><span class="check-row-label">Type of letter</span><span class="check-row-value">${escapeHtml(friendlyCategoryLabel(trust.document_category))}</span></div>
-        <div class="check-row"><span class="check-row-label">Looks genuine</span><span class="check-row-value"><span class="check-dot ${genuine.dotClass}"></span>${escapeHtml(genuine.text)}</span></div>
-        <div class="check-row"><span class="check-row-label">Needs a closer look</span><span class="check-row-value">${trust.needs_human_review ? "Yes" : "No"}</span></div>
-      </div>
-      <div class="check-nextstep">
-        <span class="check-nextstep-label">Safe next step</span>
+      <div class="check-nextstep check-hero">
+        <span class="check-nextstep-label">${checkNextStepIcon()} One thing to do next</span>
         <p>${escapeHtml(nextStep)}</p>
       </div>
+      ${summaryRow}
+      <p class="check-caption">${escapeHtml(friendlyCategoryLabel(trust.document_category))}</p>
+      <div class="check-qblock">
+        <p class="check-qblock-label">Is it genuine?</p>
+        <p class="check-qblock-status"><span class="check-dot ${genuine.dotClass}"></span>${escapeHtml(genuine.text)}</p>
+        <p class="check-qblock-meaning">Whether this looks like a real letter from who it says it's from.</p>
+      </div>
+      <div class="check-qblock">
+        <p class="check-qblock-label">How urgent is it?</p>
+        <p class="check-qblock-status"><span class="check-dot ${urgency.dotClass}"></span>${escapeHtml(urgency.text)}</p>
+        <p class="check-qblock-meaning">How soon it may need looking at &mdash; not whether it's genuine.</p>
+      </div>
+      ${whyRow}
     </div>
   `;
 }
 
-// Short status word for the headline. banner.type drives it, except scam /
-// verification_only documents, which always get the gentlest "please take care".
-function checkHeadlineWord(trust, bannerType) {
-  if (trust.processing_mode === "verification_only") return "Please take care";
-  if (bannerType === "safe") return "Routine";
-  if (bannerType === "warning") return "This may not be genuine";
-  return "Important";
-}
-
-// Calm tone class for the headline, driven by banner.type — never the raw
+// Subtle tone dot for the one-line summary, driven by banner.type — never the raw
 // severity word, so a low-severity document reads as soft green, not red.
-function checkToneClass(bannerType) {
-  if (bannerType === "safe") return "check-tone-safe";
-  if (bannerType === "urgent") return "check-tone-urgent";
-  if (bannerType === "warning") return "check-tone-warning";
-  return "check-tone-caution";
+function checkSummaryDot(bannerType) {
+  if (bannerType === "safe") return classFromLevel("low");
+  if (bannerType === "warning" || bannerType === "urgent") return classFromLevel("high");
+  return classFromLevel("medium");
 }
 
-// A meaning-carrying icon per tone, so colour is never the only signal and a
-// colour-blind reader gets the state from the glyph, word and sentence too.
-function checkToneIcon(bannerType) {
-  const icons = {
-    safe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>',
-    warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V7z"/><path d="M12 8.5v4"/><path d="M12 15.5h.01"/></svg>',
-    urgent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5"/><path d="M12 15.5h.01"/></svg>',
-    caution: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>'
-  };
-  return icons[bannerType] || icons.caution;
+// Small arrow for the "One thing to do next" hero label.
+function checkNextStepIcon() {
+  return '<svg class="check-nextstep-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
 }
 
-// "Looks genuine" indicator from trust_assessment, with a calm dot. High trust
-// reads as low concern (green); low trust as high concern (soft dusty red).
-function checkGenuineIndicator(trustAssessment) {
-  if (trustAssessment === "high") return { text: "Yes, looks genuine", dotClass: classFromLevel("low") };
-  if (trustAssessment === "low") return { text: "Not sure, please take care", dotClass: classFromLevel("high") };
-  return { text: "Mostly, worth checking", dotClass: classFromLevel("medium") };
+// Urgency indicator from severity_level (already computed by the engine; shown
+// here only). Deliberately hedged and calm — never alarm language. High trust in
+// authenticity is a separate question handled by checkGenuineIndicator.
+function checkUrgencyIndicator(severityLevel) {
+  const value = String(severityLevel || "").toLowerCase();
+  if (value === "urgent") return { text: "Looks time-sensitive", dotClass: classFromLevel("high") };
+  if (value === "high") return { text: "Time-sensitive", dotClass: classFromLevel("high") };
+  if (value === "medium") return { text: "Worth attention", dotClass: classFromLevel("medium") };
+  return { text: "No rush", dotClass: classFromLevel("low") };
+}
+
+// Authenticity indicator from trust_assessment, with a calm dot. High trust reads
+// as low concern (green); low trust as high concern (soft dusty red). Low trust
+// stays cautious without accusing ("we're not sure" rather than "this is a scam").
+// needs_human_review folds in here as a gentle "worth a check" hedge, so the
+// double-check nuance survives without a separate, confusing verdict row.
+function checkGenuineIndicator(trustAssessment, needsReview) {
+  if (trustAssessment === "high") {
+    return { text: needsReview ? "Looks genuine — worth a quick check" : "Looks genuine", dotClass: classFromLevel("low") };
+  }
+  if (trustAssessment === "low") {
+    return { text: "We're not sure — take care", dotClass: classFromLevel("high") };
+  }
+  return { text: needsReview ? "Probably genuine — worth a check" : "Probably genuine", dotClass: classFromLevel("medium") };
 }
 
 function friendlyCategoryLabel(category) {
