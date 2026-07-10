@@ -7404,53 +7404,6 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   gap: 14px;
 }
 
-.check-headline {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: var(--tone-bg);
-  border: 1px solid color-mix(in srgb, var(--tone-edge) 45%, var(--line) 55%);
-  border-left: 5px solid var(--tone-edge);
-}
-
-.check-headline-icon {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--tone-edge) 20%, var(--surface) 80%);
-  color: var(--tone-ink);
-}
-
-.check-headline-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.check-headline-text {
-  display: grid;
-  gap: 3px;
-}
-
-.check-headline-word {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.16rem;
-  color: var(--tone-ink);
-}
-
-.check-headline-sentence {
-  margin: 0;
-  color: var(--text);
-  line-height: 1.45;
-}
-
 .check-why {
   display: flex;
   flex-wrap: wrap;
@@ -7473,33 +7426,6 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   border: 1px solid var(--line);
   font-size: 0.9rem;
   color: var(--text);
-}
-
-.check-rows {
-  display: grid;
-  gap: 10px;
-  padding: 2px;
-}
-
-.check-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.check-row-label {
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.check-row-value {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  color: var(--text);
-  text-align: right;
 }
 
 .check-dot {
@@ -7610,69 +7536,12 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   line-height: 1.4;
 }
 
-/* Soft, calm tone palettes. Each sets the headline's background, edge accent
-   and ink. Built from the brand tints (--sage/--cream/--rose) so dark mode
-   follows automatically; urgent is the same amber family, a touch stronger
-   than caution; warning is a muted dusty rose, never a harsh emergency red. */
-.check-tone-safe {
-  --tone-bg: color-mix(in srgb, var(--sage) 72%, var(--surface) 28%);
-  --tone-edge: var(--sage-strong);
-  --tone-ink: var(--green);
-}
-
-.check-tone-caution {
-  --tone-bg: color-mix(in srgb, var(--cream) 50%, var(--surface) 50%);
-  --tone-edge: #cf9f50;
-  --tone-ink: #7c5618;
-}
-
-.check-tone-urgent {
-  --tone-bg: color-mix(in srgb, var(--cream) 68%, var(--surface) 32%);
-  --tone-edge: #c68a2e;
-  --tone-ink: #6f4612;
-}
-
-.check-tone-warning {
-  --tone-bg: color-mix(in srgb, var(--rose) 58%, var(--surface) 42%);
-  --tone-edge: #cf8f82;
-  --tone-ink: #7d3f34;
-}
-
-body.theme-dark .check-tone-caution {
-  --tone-edge: #d9a948;
-  --tone-ink: #f0d9a8;
-}
-
-body.theme-dark .check-tone-urgent {
-  --tone-edge: #e0b257;
-  --tone-ink: #f6e2ad;
-}
-
-body.theme-dark .check-tone-warning {
-  --tone-edge: #c98a7d;
-  --tone-ink: #f1c3b8;
-}
-
 body.theme-dark .check-dot.badge-medium {
   background: #d9a948;
 }
 
 body.theme-dark .check-dot.badge-high {
   background: #c98a7d;
-}
-
-/* On narrow screens, stack each supporting row so label and value never wrap
-   into a cramped two-column squeeze; the dot stays tight to the value text. */
-@media (max-width: 600px) {
-  .check-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-  }
-
-  .check-row-value {
-    text-align: left;
-  }
 }
 
 @media (max-width: 1180px) {
