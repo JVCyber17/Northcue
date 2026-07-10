@@ -8253,8 +8253,11 @@ body.theme-dark .check-dot.badge-high {
     background-size: 30px;
   }
 
+  /* Mobile: the modal title wraps to two lines beside the icon, so the old
+     negative top margin pulled this intro up into the title (overlap). Sit it
+     cleanly below the header as a full-width subtitle instead. */
   .feedback-intro {
-    margin: -38px 64px 14px 64px;
+    margin: 0;
   }
 
   .feedback-choice-row {
