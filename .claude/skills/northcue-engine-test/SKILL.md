@@ -34,6 +34,8 @@ node .claude/skills/northcue-engine-test/scripts/run_engine_tests.js
 
 The script requires no npm packages beyond what is already in `ClearSteps-/node_modules`. It imports `clearStepsEngine.js` directly.
 
+Determinism evidence (on demand): `node .claude/skills/northcue-engine-test/scripts/determinism_probe.js` runs 3 golden fixtures 5× each and diffs the outputs to prove the rules engine's facts are identical every run (see the header comment in that file for what it proves).
+
 ## Interpreting Output
 
 - `PASS` = engine produced the expected value for a known-correct assertion
@@ -49,4 +51,5 @@ SKILL.md                         ← this file
 references/test-documents.md     ← all test documents with what they test
 references/known-gotchas.md      ← real gotchas discovered in this project
 scripts/run_engine_tests.js      ← the executable test runner
+scripts/determinism_probe.js     ← on-demand rules-engine determinism check
 ```
