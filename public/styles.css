@@ -7487,16 +7487,6 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   font-size: 1.04rem;
 }
 
-.check-summary {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0;
-  color: var(--text);
-  font-weight: 600;
-  line-height: 1.45;
-}
-
 .check-caption {
   margin: 0;
   color: var(--muted);
@@ -7529,11 +7519,33 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   color: var(--text);
 }
 
+/* Meaning lines are progressive disclosure: hidden until the reader asks via
+   the "What do these mean?" toggle, so a confident check stays quiet. */
 .check-qblock-meaning {
+  display: none;
   margin: 0;
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.4;
+}
+
+.check-panel.meanings-open .check-qblock-meaning {
+  display: block;
+}
+
+.check-meanings-toggle {
+  justify-self: start;
+  margin: 0;
+  padding: 2px 0;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
 body.theme-dark .check-dot.badge-medium {

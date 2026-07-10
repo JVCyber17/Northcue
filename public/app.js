@@ -267,7 +267,7 @@ const helpGuides = {
       {
         icon: "shield",
         title: "Contact the organisation safely",
-        detail: "Use official contact details — not links or numbers from the document."
+        detail: "Use official contact details, not links or numbers from the document."
       }
     ],
     action: "Copy summary",
@@ -474,6 +474,7 @@ wireCompletion();
 wireHelp();
 wireComfortSettings();
 wireFeedback();
+wireCheckMeanings();
 wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
@@ -1848,6 +1849,20 @@ function moveToRailStep(step) {
   }
 }
 
+// Progressive disclosure for the Document Check meaning lines. The modal content
+// is rebuilt on every open, so a delegated listener (matching the wireFeedback
+// pattern) keeps the toggle working without re-wiring per render.
+function wireCheckMeanings() {
+  document.addEventListener("click", (event) => {
+    const toggle = event.target.closest("[data-check-meanings]");
+    if (!toggle) return;
+    const panel = toggle.closest(".check-panel");
+    if (!panel) return;
+    const open = panel.classList.toggle("meanings-open");
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+}
+
 function openDocumentCheck() {
   if (!hasUploadedResult()) {
     setJourneyStep("upload");
@@ -2152,7 +2167,7 @@ function buildContactRequestMarkup() {
       <label class="feedback-label" for="modal-contact-email">Email or phone number</label>
       <input id="modal-contact-email" class="feedback-contact-input" type="text" placeholder="How should we reach you?">
       <label class="feedback-label" for="modal-contact-note">What would you like help with? <span>optional</span></label>
-      <textarea id="modal-contact-note" class="short-feedback-comment" maxlength="240" placeholder="A few words is enough — please don't paste document content here."></textarea>
+      <textarea id="modal-contact-note" class="short-feedback-comment" maxlength="240" placeholder="A few words is enough. Please don't paste document content here."></textarea>
       <button type="button" class="primary-btn" id="send-contact-request">${sendIconMarkup()} Send</button>
       <p class="feedback-saved-message" role="status" aria-live="polite"></p>
     </section>
@@ -2402,7 +2417,7 @@ async function saveShortFeedback(panel) {
   // An empty email is fine (feedback still sends, just with no reply address).
   if (feedback.email && !isPlausibleEmail(feedback.email)) {
     if (message) {
-      message.textContent = "That email doesn't look right — please check it, or untick to send without a reply.";
+      message.textContent = "That email doesn't look right. Please check it, or untick to send without a reply.";
     }
     panel.querySelector("#modal-feedback-contact")?.focus();
     return;
@@ -2484,17 +2499,19 @@ function buildCardDetail(card) {
 
 function buildCheckMarkup(trust) {
   const banner = latestResult.banner || {};
-  const nextStep = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
-  const summary = banner.text || trust.review_reason || "";
-  const genuine = checkGenuineIndicator(trust.trust_assessment, trust.needs_human_review);
+  const genuine = checkGenuineIndicator(trust);
   const urgency = checkUrgencyIndicator(trust.severity_level);
+  const nextStep = checkNextStepText(trust, banner, genuine);
   const chips = checkWhyChips(trust);
   const whyRow = chips.length
     ? `<div class="check-why"><span class="check-why-label">Why</span>${chips.join("")}</div>`
     : "";
-  const summaryRow = summary
-    ? `<p class="check-summary"><span class="check-dot ${checkSummaryDot(banner.type)}"></span>${escapeHtml(summary)}</p>`
-    : "";
+
+  // Scam-suspect documents get no urgency level at all. Showing one would lend
+  // weight to a deadline that may itself be part of the pressure tactic.
+  const urgencyStatus = trust.processing_mode === "verification_only"
+    ? `<p class="check-qblock-status">Ignore any deadline on this until you know it's real.</p>`
+    : `<p class="check-qblock-status"><span class="check-dot ${urgency.dotClass}"></span>${escapeHtml(urgency.text)}</p>`;
 
   return `
     <div class="check-panel">
@@ -2502,7 +2519,6 @@ function buildCheckMarkup(trust) {
         <span class="check-nextstep-label">${checkNextStepIcon()} One thing to do next</span>
         <p>${escapeHtml(nextStep)}</p>
       </div>
-      ${summaryRow}
       <p class="check-caption">${escapeHtml(friendlyCategoryLabel(trust.document_category))}</p>
       <div class="check-qblock">
         <p class="check-qblock-label">Is it genuine?</p>
@@ -2511,20 +2527,36 @@ function buildCheckMarkup(trust) {
       </div>
       <div class="check-qblock">
         <p class="check-qblock-label">How urgent is it?</p>
-        <p class="check-qblock-status"><span class="check-dot ${urgency.dotClass}"></span>${escapeHtml(urgency.text)}</p>
-        <p class="check-qblock-meaning">How soon it may need looking at &mdash; not whether it's genuine.</p>
+        ${urgencyStatus}
+        <p class="check-qblock-meaning">How soon it may need looking at, not whether it's genuine.</p>
       </div>
+      <button type="button" class="check-meanings-toggle" data-check-meanings aria-expanded="false">What do these mean?</button>
       ${whyRow}
     </div>
   `;
 }
 
-// Subtle tone dot for the one-line summary, driven by banner.type — never the raw
-// severity word, so a low-severity document reads as soft green, not red.
-function checkSummaryDot(bannerType) {
-  if (bannerType === "safe") return classFromLevel("low");
-  if (bannerType === "warning" || bannerType === "urgent") return classFromLevel("high");
-  return classFromLevel("medium");
+// The hero next step, calibrated to how sure the check is. Quiet when confident,
+// useful when unsure. Display wording only; the engine's own safe_next_step is
+// still the base for confident states.
+function checkNextStepText(trust, banner, genuine) {
+  if (trust.processing_mode === "verification_only") {
+    return trust.safe_next_step || safeActionFromTrust(trust);
+  }
+  if (trust.trust_assessment === "low") {
+    return "We can't confirm the sender. Find their official contact details yourself and check. Don't use details printed on this letter.";
+  }
+  const base = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
+  return isRoutineCheck(trust, genuine) ? `No rush. ${base}` : base;
+}
+
+// Routine = the genuine row reads green AND severity is low AND the engine
+// raised no flags. Only then does the whole check soften.
+function isRoutineCheck(trust, genuine) {
+  return genuine.dotClass === classFromLevel("low") &&
+    String(trust.severity_level || "").toLowerCase() === "low" &&
+    (trust.processing_mode || "normal") === "normal" &&
+    !trust.needs_human_review;
 }
 
 // Small arrow for the "One thing to do next" hero label.
@@ -2543,19 +2575,31 @@ function checkUrgencyIndicator(severityLevel) {
   return { text: "No rush", dotClass: classFromLevel("low") };
 }
 
-// Authenticity indicator from trust_assessment, with a calm dot. High trust reads
-// as low concern (green); low trust as high concern (soft dusty red). Low trust
-// stays cautious without accusing ("we're not sure" rather than "this is a scam").
-// needs_human_review folds in here as a gentle "worth a check" hedge, so the
-// double-check nuance survives without a separate, confusing verdict row.
-function checkGenuineIndicator(trustAssessment, needsReview) {
-  if (trustAssessment === "high") {
-    return { text: needsReview ? "Looks genuine — worth a quick check" : "Looks genuine", dotClass: classFromLevel("low") };
+// Authenticity indicator, display mapping only. High trust reads green; low trust
+// reads as caution without accusing ("we're not sure" rather than "this is a
+// scam"). Medium trust reads green ("Nothing unusual spotted") ONLY when the
+// engine raised zero companion flags; a caution mode, review flag, or any scam
+// signal forces amber, so a shaky document can never accidentally show green.
+// Unknown or missing trust also stays amber, never green by default.
+function checkGenuineIndicator(trust) {
+  const level = String(trust.trust_assessment || "").toLowerCase();
+  const hasMixedSignals = Boolean(trust.needs_human_review) ||
+    (Array.isArray(trust.scam_signals) && trust.scam_signals.length > 0) ||
+    ((trust.processing_mode || "normal") !== "normal");
+
+  if (level === "high") {
+    return {
+      text: trust.needs_human_review ? "Looks genuine, worth a quick check" : "Looks genuine",
+      dotClass: classFromLevel("low")
+    };
   }
-  if (trustAssessment === "low") {
-    return { text: "We're not sure — take care", dotClass: classFromLevel("high") };
+  if (level === "low") {
+    return { text: "We're not sure, please take care", dotClass: classFromLevel("high") };
   }
-  return { text: needsReview ? "Probably genuine — worth a check" : "Probably genuine", dotClass: classFromLevel("medium") };
+  if (level === "medium" && !hasMixedSignals) {
+    return { text: "Nothing unusual spotted", dotClass: classFromLevel("low") };
+  }
+  return { text: "Probably genuine, worth a check", dotClass: classFromLevel("medium") };
 }
 
 function friendlyCategoryLabel(category) {
