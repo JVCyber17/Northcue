@@ -190,7 +190,10 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
             content: buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality, garbledByOcr })
           }
         ],
-        temperature: 0.2,
+        // Determinism: temperature 0 removes run-to-run sampling variance so the
+        // same document text yields stable card phrasing. The Responses API does
+        // not support a seed parameter, so temperature is the determinism lever.
+        temperature: 0,
         max_output_tokens: 2600,
         // Privacy: do not let OpenAI retain this request/response as stored
         // application state. Document text is sent for in-memory processing only.
@@ -207,6 +210,10 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
     }
 
     const data = await response.json();
+    // Drift monitor: the Responses API returns no system_fingerprint, so log the
+    // resolved model snapshot + response id. If OpenAI silently rolls the model
+    // build, data.model changes here even though our requested model string is fixed.
+    console.log(`[northcue-ai] responses model=${data.model || "unknown"} id=${data.id || "unknown"}`);
     const text = extractResponseText(data);
     if (!text) {
       const error = new Error("empty_ai_response");
