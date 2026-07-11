@@ -353,26 +353,58 @@ body.bg-plain::before {
 }
 
 /* Mobile: the desktop centre-fade ellipse is tuned for wide screens. On a tall
-   narrow phone, with full width content and no side gutters, that vignette
-   leaves almost no visible area and the motifs all but disappear. For portrait
-   we drop the centre hole and let each theme read as an even, faint allover
-   texture instead: motifs show in every gap (margins, above and below the
-   cards) while the opaque cards keep all card text unaffected. Animals tile as
-   a gentle repeating row down the page rather than a single cover slice that
-   crops to just the centre cat. Opacity stays low so text over the bare body
-   background stays clearly readable. Desktop values above are left untouched. */
+   narrow phone it left almost no visible area, and removing it made the
+   patterns tile evenly behind everything, which felt busy and competed with
+   the content. Phones now use a vertical fade instead. The wallpaper layer is
+   position fixed, so the fade attaches to the viewport, not the page:
+   personality in the top band behind the wordmark and page heading, a near
+   invisible whisper through the central working zone where cards and actions
+   sit, and a gentle half strength rise at the very bottom. Notebook joins the
+   fade here too, its ruled lines read as a page header impression instead of
+   a full height ledger. Animals are special cased below. Desktop values above
+   are left untouched. */
 @media (max-width: 760px) {
   body.bg-dots::before,
   body.bg-shapes::before,
-  body.bg-animals::before {
-    -webkit-mask-image: none;
-    mask-image: none;
+  body.bg-notebook::before {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9) 0,
+      rgba(0, 0, 0, 0.75) 110px,
+      rgba(0, 0, 0, 0.05) 250px,
+      rgba(0, 0, 0, 0.05) calc(100% - 220px),
+      rgba(0, 0, 0, 0.45) calc(100% - 60px),
+      rgba(0, 0, 0, 0.55) 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9) 0,
+      rgba(0, 0, 0, 0.75) 110px,
+      rgba(0, 0, 0, 0.05) 250px,
+      rgba(0, 0, 0, 0.05) calc(100% - 220px),
+      rgba(0, 0, 0, 0.45) calc(100% - 60px),
+      rgba(0, 0, 0, 0.55) 100%
+    );
   }
 
+  /* Animals: one friendly group pinned just above the bottom navigation,
+     never tiled behind reading content. The art in the SVG is concentrated in
+     a bottom row, and the bottom only mask is a safety fade so the two mid
+     height motifs in the file can never show behind text. */
   body.bg-animals::before {
-    background-size: 100% auto;
-    background-position: center top;
-    background-repeat: repeat-y;
+    background-size: 130% auto;
+    background-position: center calc(100% - 84px);
+    background-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent calc(100% - 300px),
+      rgba(0, 0, 0, 0.6) calc(100% - 120px)
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent calc(100% - 300px),
+      rgba(0, 0, 0, 0.6) calc(100% - 120px)
+    );
   }
 
   body.bg-dots::before {
@@ -381,6 +413,31 @@ body.bg-plain::before {
 
   body.bg-shapes::before {
     background-size: 360px 260px;
+  }
+
+  /* Lift the notebook pencil into the top personality band so its tip clears
+     the journey page heading. Only the first layer, the pencil art, moves,
+     the ruled line layers keep their positions. */
+  body.bg-notebook::before,
+  body.theme-dark.bg-notebook::before {
+    background-position: right 12px top 18px, 0 0, 0 0;
+  }
+
+  /* Page intensity tiers, phone only. The fade does most of the calming,
+     these nudge the journey quieter still: the upload step is the flagship
+     and the reading steps are the calmest place in the app, where someone may
+     be reading a frightening letter. Home is not listed here because a later
+     duplicate home rule in this file already holds it at 0.52 on all widths,
+     which keeps the intended ordering: home, then help and comfort, then the
+     journey tiers below. */
+  body[data-page="journey"]::before {
+    opacity: 0.34;
+  }
+
+  body[data-page="journey"][data-journey-step="understand"]::before,
+  body[data-page="journey"][data-journey-step="act"]::before,
+  body[data-page="journey"][data-journey-step="check"]::before {
+    opacity: 0.26;
   }
 }
 
