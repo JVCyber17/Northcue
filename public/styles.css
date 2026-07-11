@@ -9282,3 +9282,167 @@ body.theme-dark .check-dot.badge-high {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+
+/* ── PWA install experience ────────────────────────────────────────────────
+   A calm reminder card and a quiet permanent footline at the foot of the home
+   page. Additive; only wireInstallPrompt() ever reveals them. Matches the tile
+   card and upload button styling. */
+.install-block {
+  width: min(460px, 100%);
+  margin: 8px auto 28px;
+}
+
+/* The install elements set their own display, which would otherwise override
+   the [hidden] attribute the JS toggles. This makes hidden genuinely hide. */
+.install-block[hidden],
+.install-block [hidden] {
+  display: none;
+}
+
+.install-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--green) 16%, var(--line) 84%);
+  border-radius: var(--reading-radius, 16px);
+  background: var(--surface);
+  box-shadow: var(--soft-shadow);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.install-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.install-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--green) 12%, var(--surface) 88%);
+  border: 1px solid color-mix(in srgb, var(--green) 18%, var(--line) 82%);
+}
+
+.install-card-icon img {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+.install-card-title {
+  margin: 2px 0 0;
+  font-family: var(--font-heading);
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.install-card-line {
+  margin: 3px 0 0;
+  font-family: var(--font-body);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.install-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 13px;
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #6b845f 0%, #2f5634 100%);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(37, 74, 47, 0.18);
+  cursor: pointer;
+}
+
+.install-dismiss {
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install-ios-line {
+  margin: 13px 0 0;
+  font-family: var(--font-body);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.install-footline {
+  margin: 10px auto 28px;
+  text-align: center;
+}
+
+.install-footline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 6px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install-footline-btn:hover {
+  color: var(--green);
+}
+
+.install-footline-mark {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+}
+
+.install-footline-mark img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.install-footline-ios {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-body);
+  color: var(--muted);
+}
+
+.install-footline-iostext {
+  font-weight: 700;
+  color: var(--text);
+}
+
+@media (max-width: 760px) {
+  .install-block,
+  .install-footline {
+    margin-bottom: 96px;
+  }
+}

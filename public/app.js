@@ -475,6 +475,7 @@ wireHelp();
 wireComfortSettings();
 wireFeedback();
 wireCheckMeanings();
+wireInstallPrompt();
 wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
@@ -1861,6 +1862,144 @@ function wireCheckMeanings() {
     const open = panel.classList.toggle("meanings-open");
     toggle.setAttribute("aria-expanded", String(open));
   });
+}
+
+// PWA install experience: an occasional reminder card plus a quiet permanent
+// footline at the foot of the home page. Additive and self-contained. If the
+// browser cannot install and it is not iOS Safari, nothing shows. While the
+// card is visible the footline is hidden so the same words never stack twice.
+function wireInstallPrompt() {
+  const block = document.querySelector("[data-install-block]");
+  if (!block) return;
+
+  const card = block.querySelector("[data-install-card]");
+  const footline = block.querySelector("[data-install-footline]");
+  const cardActions = card.querySelector("[data-install-actions]");
+  const cardIos = card.querySelector("[data-install-ios]");
+  const footBtn = footline.querySelector("[data-install-android]");
+  const footIos = footline.querySelector("[data-install-ios]");
+
+  const KEY_COUNT = "northcue_install_dismiss_count";
+  const KEY_LAST = "northcue_install_last_dismissed";
+  const KEY_DONE = "northcue_install_done";
+  const COOLDOWN_MS = 5 * 24 * 60 * 60 * 1000;
+  const phoneWidthQuery = window.matchMedia("(max-width: 760px)");
+
+  let deferredPrompt = null;
+
+  function readNumber(key) {
+    const value = parseInt(localStorage.getItem(key) || "0", 10);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function isInstalled() {
+    if (localStorage.getItem(KEY_DONE) === "1") return true;
+    if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true;
+    return window.navigator.standalone === true;
+  }
+
+  function isIosSafari() {
+    const ua = window.navigator.userAgent;
+    const iosDevice = /iPhone|iPad|iPod/.test(ua) ||
+      (window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
+    if (!iosDevice) return false;
+    if (/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua)) return false;
+    return true;
+  }
+
+  // Phone widths only. The install copy is phone-oriented, so desktop stays free
+  // of both the card and the footline (revisit desktop separately if ever wanted).
+  function isPhoneWidth() {
+    return phoneWidthQuery.matches;
+  }
+
+  // First visit (count 0): always show. After one "Not now" (count 1): show once
+  // more, but only after the 5 day cooldown. After two "Not now" (count 2+): never.
+  function cardShouldShow() {
+    const count = readNumber(KEY_COUNT);
+    if (count >= 2) return false;
+    if (count === 0) return true;
+    const last = readNumber(KEY_LAST);
+    return last > 0 && Date.now() - last >= COOLDOWN_MS;
+  }
+
+  function applyPlatformCopy() {
+    const ios = isIosSafari() && !deferredPrompt;
+    cardActions.hidden = ios;
+    cardIos.hidden = !ios;
+    footBtn.hidden = ios;
+    footIos.hidden = !ios;
+  }
+
+  function evaluate() {
+    const installed = isInstalled();
+    const eligible = !installed && isPhoneWidth() && (Boolean(deferredPrompt) || isIosSafari());
+
+    if (!eligible) {
+      block.hidden = true;
+      card.classList.remove("is-visible");
+      return;
+    }
+
+    block.hidden = false;
+    applyPlatformCopy();
+
+    if (cardShouldShow()) {
+      footline.hidden = true;
+      card.hidden = false;
+      requestAnimationFrame(() => card.classList.add("is-visible"));
+    } else {
+      card.classList.remove("is-visible");
+      card.hidden = true;
+      footline.hidden = false;
+    }
+  }
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    evaluate();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    localStorage.setItem(KEY_DONE, "1");
+    deferredPrompt = null;
+    block.hidden = true;
+    card.classList.remove("is-visible");
+  });
+
+  // Re-evaluate if the viewport crosses the phone/desktop boundary.
+  if (phoneWidthQuery.addEventListener) {
+    phoneWidthQuery.addEventListener("change", evaluate);
+  } else if (phoneWidthQuery.addListener) {
+    phoneWidthQuery.addListener(evaluate);
+  }
+
+  block.addEventListener("click", async (event) => {
+    if (event.target.closest("[data-install-dismiss]")) {
+      localStorage.setItem(KEY_COUNT, String(readNumber(KEY_COUNT) + 1));
+      localStorage.setItem(KEY_LAST, String(Date.now()));
+      card.classList.remove("is-visible");
+      window.setTimeout(evaluate, 420);
+      return;
+    }
+
+    const trigger = event.target.closest("[data-install-trigger]");
+    if (!trigger || !deferredPrompt) return;
+
+    trigger.disabled = true;
+    try {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+    } catch (error) {
+      // If the prompt cannot run, fall through and re-evaluate calmly.
+    }
+    deferredPrompt = null;
+    trigger.disabled = false;
+    evaluate();
+  });
+
+  evaluate();
 }
 
 function openDocumentCheck() {

@@ -15,7 +15,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=doc-check-quiet-20260710a">
+    <link rel="stylesheet" href="/styles.css?v=pwa-install-20260711a">
   </head>
   <body data-page="landing">
     <header class="topbar">
@@ -564,6 +564,39 @@
               </div>
             </div>
           </section>
+        </div>
+
+        <div class="install-block" data-install-block hidden>
+          <section class="install-card" data-install-card aria-labelledby="install-card-title" hidden>
+            <span class="install-card-icon" aria-hidden="true">
+              <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
+            </span>
+            <div class="install-card-body">
+              <h2 class="install-card-title" id="install-card-title">Add Northcue to your phone</h2>
+              <p class="install-card-line">Keep it one tap away, like an app.</p>
+              <div class="install-card-actions" data-install-actions>
+                <button type="button" class="install-btn" data-install-trigger>Install Northcue</button>
+                <button type="button" class="install-dismiss" data-install-dismiss>Not now</button>
+              </div>
+              <p class="install-ios-line" data-install-ios hidden>On iPhone, tap Share, then Add to Home Screen.</p>
+            </div>
+          </section>
+
+          <div class="install-footline" data-install-footline hidden>
+            <button type="button" class="install-footline-btn" data-install-trigger data-install-android>
+              <span class="install-footline-mark" aria-hidden="true">
+                <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
+              </span>
+              <span>Add Northcue to your phone</span>
+            </button>
+            <div class="install-footline-ios" data-install-ios hidden>
+              <span class="install-footline-mark" aria-hidden="true">
+                <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
+              </span>
+              <span class="install-footline-iostext">Add Northcue to your phone</span>
+              <small>On iPhone, tap Share, then Add to Home Screen.</small>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1133,7 +1166,7 @@
       </div>
     </div>
 
-    <script src="/app.js?v=doc-check-quiet-20260710a"></script>
+    <script src="/app.js?v=pwa-install-20260711a"></script>
     <script>
       // PWA install support. The app never depends on the worker; if
       // registration fails, normal browsing is completely unaffected.
