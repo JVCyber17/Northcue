@@ -9503,3 +9503,26 @@ body.theme-dark .check-dot.badge-high {
     margin-bottom: 96px;
   }
 }
+
+/* Installed app safe areas. With viewport-fit=cover the page now paints
+   behind the notch and status bar, so the top spacing of the header and
+   the landing page grows by the device inset. On desktop and any phone
+   without a notch the inset is zero and these compute to the exact
+   padding each rule already had, so nothing moves. The colour behind the
+   status bar comes from the surfaces already there: the topbar surface on
+   desktop, and on mobile the app background itself, since the mobile
+   topbar is transparent. The bottom tab bar already offsets itself by the
+   bottom inset, so the home indicator area needs no change here. */
+.topbar {
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
+}
+
+#page-landing.active {
+  padding-top: calc(40px + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 760px) {
+  #page-landing.active {
+    padding-top: calc(30px + env(safe-area-inset-top, 0px));
+  }
+}
