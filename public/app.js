@@ -477,6 +477,7 @@ wireFeedback();
 wireCheckMeanings();
 wireInstallPrompt();
 wireModalSheetGesture();
+wirePageSwipe();
 wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
@@ -1208,6 +1209,211 @@ function wireCardSwipe() {
 
   panel.addEventListener("touchcancel", () => {
     if (axis === "x" && dragging && !animating) springBack();
+    resetGesture();
+  }, { passive: true });
+}
+
+// Mobile only swipe between the four main pages, matching the bottom tab bar
+// order, as an addition to the tab bar rather than a replacement. It listens
+// on the app main region only, so the modal sheet, the topbar, and the tab
+// bar are structurally out of reach. It stands down entirely on the cue card
+// reading steps, where horizontal swiping belongs to the cards, and on the
+// landing and privacy pages. A clear horizontal intent is required before
+// anything moves: the drag must dominate vertical by a wide margin and pass
+// a distance or flick threshold, so scrolling never changes the page. Swipes
+// that begin at the screen edges are ignored so the iOS back and forward
+// edge gestures keep working. No wrapping at the ends, only a gentle spring.
+function wirePageSwipe() {
+  const region = document.querySelector(".app-main");
+  if (!region) return;
+
+  const SWIPE_ORDER = ["home", "journey", "help", "comfort"];
+  const EDGE_GUARD_PX = 28;
+  const DEADZONE_PX = 10;
+  const AXIS_DOMINANCE = 1.5;
+  const DISTANCE_THRESHOLD_PX = 70;
+  const VELOCITY_THRESHOLD_PX_MS = 0.5;
+  const FLICK_MIN_DISTANCE_PX = 30;
+  const SLIDE_PX = 110;
+
+  const isMobile = () => window.matchMedia("(max-width: 760px)").matches;
+  const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let startX = 0;
+  let startY = 0;
+  let lastX = 0;
+  let lastMoveTime = 0;
+  let velocity = 0;
+  let axis = null;
+  let dragging = false;
+  let animating = false;
+  let frame = null;
+  let pendingX = 0;
+
+  function activeSection() {
+    return document.querySelector(".page.active");
+  }
+
+  function currentIndex() {
+    return SWIPE_ORDER.indexOf(document.body.dataset.page);
+  }
+
+  function cardFlowActive() {
+    return document.body.dataset.page === "journey" && document.body.dataset.journeyStep !== "upload";
+  }
+
+  function clearInline(section) {
+    if (!section) return;
+    section.style.transition = "";
+    section.style.transform = "";
+    section.style.opacity = "";
+  }
+
+  function resetGesture() {
+    axis = null;
+    dragging = false;
+    if (frame) {
+      window.cancelAnimationFrame(frame);
+      frame = null;
+    }
+  }
+
+  function springBack(section) {
+    if (reducedMotion()) {
+      clearInline(section);
+      return;
+    }
+    section.style.transition = "transform 0.26s ease, opacity 0.26s ease";
+    section.style.transform = "translateX(0)";
+    section.style.opacity = "1";
+    window.setTimeout(() => clearInline(section), 280);
+  }
+
+  function commit(direction) {
+    const index = currentIndex();
+    const nextPage = SWIPE_ORDER[direction === "next" ? index + 1 : index - 1];
+    const outgoing = activeSection();
+    if (!nextPage || !outgoing) return;
+
+    if (reducedMotion()) {
+      clearInline(outgoing);
+      setPage(nextPage);
+      return;
+    }
+
+    animating = true;
+    const exitX = direction === "next" ? -SLIDE_PX : SLIDE_PX;
+    outgoing.style.transition = "transform 0.2s ease, opacity 0.2s ease";
+    outgoing.style.transform = `translateX(${exitX}px)`;
+    outgoing.style.opacity = "0";
+    window.setTimeout(() => {
+      clearInline(outgoing);
+      setPage(nextPage);
+      const incoming = activeSection();
+      if (incoming) {
+        incoming.style.transition = "none";
+        incoming.style.transform = `translateX(${-exitX}px)`;
+        incoming.style.opacity = "0";
+        void incoming.offsetWidth;
+        incoming.style.transition = "transform 0.22s ease, opacity 0.22s ease";
+        incoming.style.transform = "translateX(0)";
+        incoming.style.opacity = "1";
+        window.setTimeout(() => {
+          clearInline(incoming);
+          animating = false;
+        }, 240);
+      } else {
+        animating = false;
+      }
+    }, 200);
+  }
+
+  region.addEventListener("touchstart", (event) => {
+    if (!isMobile() || animating || event.touches.length !== 1) return;
+    if (currentIndex() === -1 || cardFlowActive()) return;
+    if (event.target.closest(".cue-card-panel")) return;
+    if (event.target.closest("input, textarea, select")) return;
+    const touch = event.touches[0];
+    if (touch.clientX < EDGE_GUARD_PX || touch.clientX > window.innerWidth - EDGE_GUARD_PX) return;
+    startX = touch.clientX;
+    startY = touch.clientY;
+    lastX = touch.clientX;
+    lastMoveTime = event.timeStamp;
+    velocity = 0;
+    axis = "pending";
+    dragging = false;
+  }, { passive: true });
+
+  region.addEventListener("touchmove", (event) => {
+    if (axis === null || axis === "y" || animating || event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+
+    if (axis === "pending") {
+      if (Math.abs(dx) < DEADZONE_PX && Math.abs(dy) < DEADZONE_PX) return;
+      // Horizontal must clearly dominate, otherwise this is a scroll and
+      // the page must never move.
+      axis = Math.abs(dx) > Math.abs(dy) * AXIS_DOMINANCE ? "x" : "y";
+      if (axis !== "x") return;
+      if (cardFlowActive()) { axis = "y"; return; }
+      dragging = true;
+    }
+
+    const index = currentIndex();
+    const atFirst = index <= 0;
+    const atLast = index === SWIPE_ORDER.length - 1;
+    const resisted = (dx > 0 && atFirst) || (dx < 0 && atLast) ? dx * 0.25 : dx;
+    pendingX = resisted;
+    const dt = event.timeStamp - lastMoveTime;
+    if (dt > 0) velocity = (touch.clientX - lastX) / dt;
+    lastX = touch.clientX;
+    lastMoveTime = event.timeStamp;
+
+    if (reducedMotion()) return;
+    if (!frame) {
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        const section = activeSection();
+        if (section && dragging) {
+          section.style.transition = "none";
+          section.style.transform = `translateX(${pendingX}px)`;
+        }
+      });
+    }
+  }, { passive: true });
+
+  region.addEventListener("touchend", (event) => {
+    if (axis !== "x" || !dragging || animating) {
+      resetGesture();
+      return;
+    }
+    // Stop the browser generating a click on whatever the finger ends over,
+    // so a swipe that started on a tile never activates it.
+    event.preventDefault();
+    const touch = event.changedTouches[0];
+    const dx = touch ? touch.clientX - startX : pendingX;
+    const index = currentIndex();
+    const blockedEnd = (dx > 0 && index <= 0) || (dx < 0 && index === SWIPE_ORDER.length - 1);
+    const passedDistance = Math.abs(dx) >= DISTANCE_THRESHOLD_PX;
+    const passedFlick = Math.abs(velocity) >= VELOCITY_THRESHOLD_PX_MS &&
+      Math.abs(dx) >= FLICK_MIN_DISTANCE_PX &&
+      Math.sign(velocity) === Math.sign(dx);
+    const section = activeSection();
+
+    if (blockedEnd || (!passedDistance && !passedFlick)) {
+      if (section) springBack(section);
+    } else {
+      commit(dx < 0 ? "next" : "prev");
+    }
+    resetGesture();
+  }, { passive: false });
+
+  region.addEventListener("touchcancel", () => {
+    if (axis === "x" && dragging && !animating) {
+      const section = activeSection();
+      if (section) springBack(section);
+    }
     resetGesture();
   }, { passive: true });
 }
