@@ -6,7 +6,7 @@
   "scope": "/",
   "display": "standalone",
   "background_color": "#FAF9F6",
-  "theme_color": "#2F5B35",
+  "theme_color": "#FFFDFA",
   "icons": [
     {
       "src": "/assets/pwa/northcue-icon-192.png",
