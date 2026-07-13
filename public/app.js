@@ -36,6 +36,19 @@ const northcueForegroundIcons = new Set([
   "helpful-note"
 ]);
 
+// Card id to icon file mapping for the cue card reading screen. Declared up
+// here because renderCard runs during the top level init below, long before
+// the later function definitions, and a const declared further down would
+// still be uninitialised at that moment.
+const cueCardIconNames = {
+  what_is_this: "document",
+  what_matters_most: "what-matters-most",
+  what_do_i_need_to_do: "what-to-do",
+  when_is_it_due: "deadline",
+  what_could_happen: "safety-check",
+  helpful_note: "helpful-note"
+};
+
 function northcueIcon(fileName, className = "northcue-icon northcue-inline-icon", options = {}) {
   const basePath = northcueForegroundIcons.has(fileName)
     ? getThemeAwareForegroundBase()
@@ -2228,7 +2241,7 @@ function renderCard() {
   const card = latestResult.cards[cardIndex];
 
   document.querySelector("#card-progress").textContent = `Card ${cardIndex + 1} of ${latestResult.cards.length}`;
-  document.querySelector("#card-icon").innerHTML = cardIconMarkup(card.id);
+  showCueCardIcon(card.id);
   document.querySelector("#card-title").textContent = card.title;
   document.querySelector("#card-answer").textContent = card.short_answer;
   document.querySelector("#card-explanation").textContent = shortCardExplanation(card);
@@ -2280,17 +2293,34 @@ function stylePillMarkup(label) {
   return escapeHtml(label);
 }
 
-function cardIconMarkup(cardId) {
-  const icons = {
-    what_is_this: northcueIcon("document", "northcue-icon northcue-cue-icon"),
-    what_matters_most: northcueIcon("what-matters-most", "northcue-icon northcue-cue-icon"),
-    what_do_i_need_to_do: northcueIcon("what-to-do", "northcue-icon northcue-cue-icon"),
-    when_is_it_due: northcueIcon("deadline", "northcue-icon northcue-cue-icon"),
-    what_could_happen: northcueIcon("safety-check", "northcue-icon northcue-cue-icon"),
-    helpful_note: northcueIcon("helpful-note", "northcue-icon northcue-cue-icon")
-  };
+// The cue card icon images are created once and toggled per card, never torn
+// down between cards. Static files are served with no-store, so an img that
+// is recreated on each render refetches its PNG over the network on every
+// swipe, and on a slow or flaky phone connection the icon could arrive after
+// the card was already visible, or not at all, leaving an empty circle. With
+// persistent imgs each PNG loads once per session and theme, and swiping
+// between cards never touches the network again. Visibility is toggled with
+// an inline display style rather than the hidden attribute, because the
+// northcue-icon class sets its own display and would override hidden.
+function showCueCardIcon(cardId) {
+  const slot = document.querySelector("#card-icon");
+  if (!slot) return;
 
-  return icons[cardId] || icons.what_is_this;
+  if (!slot.dataset.cueIconsReady) {
+    slot.innerHTML = Object.values(cueCardIconNames)
+      .map((name) => northcueIcon(name, "northcue-icon northcue-cue-icon"))
+      .join("");
+    const images = slot.querySelectorAll("img");
+    Object.keys(cueCardIconNames).forEach((id, index) => {
+      if (images[index]) images[index].dataset.cueCardIcon = id;
+    });
+    slot.dataset.cueIconsReady = "1";
+  }
+
+  const selectedId = cueCardIconNames[cardId] ? cardId : "what_is_this";
+  slot.querySelectorAll("img[data-cue-card-icon]").forEach((image) => {
+    image.style.display = image.dataset.cueCardIcon === selectedId ? "" : "none";
+  });
 }
 
 function shortCardExplanation(card) {
