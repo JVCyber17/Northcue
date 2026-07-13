@@ -366,6 +366,15 @@ function extensionForType(contentType) {
   return ".bin";
 }
 
+// Icon PNGs under /icons/ are stable brand assets that rarely change, so they
+// get a real browser cache instead of the global no-store. This stops every
+// page load and card render refetching the same icons. The lifetime is one
+// week rather than a year with immutable, because the icon filenames are not
+// versioned: if an icon file is ever redesigned under the same name, users
+// pick it up within a week. HTML, JS, and CSS stay no-store below so deploys
+// keep reaching users instantly.
+const ICON_CACHE_CONTROL = "public, max-age=604800";
+
 function serveStaticFile(req, res) {
   const pathOnly = req.url.split("?")[0] || "/";
   const cleanUrl = pathOnly === "/" ? "/index.html" : pathOnly;
@@ -394,7 +403,7 @@ function serveStaticFile(req, res) {
 
   res.writeHead(200, {
     "Content-Type": contentTypes[ext] || "application/octet-stream",
-    "Cache-Control": "no-store"
+    "Cache-Control": decodedPath.startsWith("/icons/") ? ICON_CACHE_CONTROL : "no-store"
   });
   fs.createReadStream(requestedPath).pipe(res);
 }
