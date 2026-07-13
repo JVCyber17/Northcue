@@ -476,6 +476,7 @@ wireComfortSettings();
 wireFeedback();
 wireCheckMeanings();
 wireInstallPrompt();
+wireModalSheetGesture();
 wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
@@ -2904,6 +2905,119 @@ function closeModal() {
   if (returnTarget && typeof returnTarget.focus === "function" && document.contains(returnTarget)) {
     returnTarget.focus();
   }
+}
+
+function wireModalSheetGesture() {
+  const box = modal.querySelector(".modal-box");
+  if (!box) return;
+
+  const DRAG_SLOP_PX = 8;
+  const DISMISS_FRACTION = 0.35;
+  const DISMISS_VELOCITY_PX_MS = 0.6;
+
+  let startX = 0;
+  let startY = 0;
+  let lastY = 0;
+  let lastMoveTime = 0;
+  let velocity = 0;
+  let dragging = false;
+  let gestureBlocked = false;
+  let touchActive = false;
+
+  function clearInlineStyles() {
+    box.style.transform = "";
+    box.style.transition = "";
+    box.style.animation = "";
+  }
+
+  // Touches that begin inside the content area may only turn into a
+  // dismiss drag when every scrollable element under the finger is
+  // already at its top, so scrolling up through long content can never
+  // fling the sheet closed. Touches on the header area (the grabber,
+  // the title, the box padding) may always drag.
+  function scrollChainAtTop(target) {
+    let node = target;
+    while (node && node !== box.parentElement) {
+      if (node.scrollHeight > node.clientHeight && node.scrollTop > 0) return false;
+      node = node.parentElement;
+    }
+    return true;
+  }
+
+  function dragAllowedFrom(target) {
+    if (target.closest("input, textarea, select")) return false;
+    if (!target.closest("#modal-content")) return true;
+    return scrollChainAtTop(target);
+  }
+
+  box.addEventListener("touchstart", (event) => {
+    if (modal.classList.contains("hidden")) return;
+    if (event.touches.length !== 1) { gestureBlocked = true; return; }
+    const touch = event.touches[0];
+    touchActive = true;
+    dragging = false;
+    gestureBlocked = !dragAllowedFrom(event.target);
+    startX = touch.clientX;
+    startY = touch.clientY;
+    lastY = touch.clientY;
+    lastMoveTime = event.timeStamp;
+    velocity = 0;
+  }, { passive: true });
+
+  box.addEventListener("touchmove", (event) => {
+    if (!touchActive || gestureBlocked) return;
+    if (event.touches.length !== 1) { gestureBlocked = true; return; }
+    const touch = event.touches[0];
+    const dy = touch.clientY - startY;
+    const dx = touch.clientX - startX;
+
+    if (!dragging) {
+      // An upward or sideways start means scrolling or a tap, never a
+      // dismiss. Horizontal swiping is reserved for the cue card flow.
+      if (dy < 0 || Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dy) > DRAG_SLOP_PX || Math.abs(dx) > DRAG_SLOP_PX) gestureBlocked = true;
+        return;
+      }
+      if (dy <= DRAG_SLOP_PX) return;
+      dragging = true;
+      box.style.animation = "none";
+      box.style.transition = "none";
+    }
+
+    event.preventDefault();
+    const offset = Math.max(0, dy);
+    box.style.transform = `translateY(${offset}px)`;
+    const dt = event.timeStamp - lastMoveTime;
+    if (dt > 0) velocity = (touch.clientY - lastY) / dt;
+    lastY = touch.clientY;
+    lastMoveTime = event.timeStamp;
+  }, { passive: false });
+
+  function endGesture() {
+    if (!touchActive) return;
+    touchActive = false;
+    if (!dragging) { gestureBlocked = false; return; }
+    dragging = false;
+
+    const dragged = Math.max(0, lastY - startY);
+    const shouldDismiss = dragged > box.offsetHeight * DISMISS_FRACTION || velocity > DISMISS_VELOCITY_PX_MS;
+
+    if (shouldDismiss) {
+      box.style.transition = "transform 200ms ease-in";
+      box.style.transform = `translateY(${box.offsetHeight + 60}px)`;
+      window.setTimeout(() => {
+        clearInlineStyles();
+        closeModal();
+      }, 200);
+    } else {
+      box.style.transition = "transform 240ms cubic-bezier(0.22, 1, 0.36, 1)";
+      box.style.transform = "translateY(0)";
+      window.setTimeout(clearInlineStyles, 260);
+    }
+  }
+
+  box.addEventListener("touchend", endGesture, { passive: true });
+  box.addEventListener("touchcancel", endGesture, { passive: true });
 }
 
 function trapModalFocus(event) {
