@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=safe-area-20260712a">
+    <link rel="stylesheet" href="/styles.css?v=why-page-20260713a">
   </head>
   <body data-page="landing">
     <header class="topbar">
@@ -292,6 +292,12 @@
                 </span>
                 <span class="home-help-line-text"><strong>Help with a document or something else</strong> on the Help page</span>
               </button>
+              <button type="button" class="home-help-line" data-page-link="why-northcue">
+                <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
+                  <img class="home-mini-img" src="/icons/northcue/foreground/shield-check.png" alt="">
+                </span>
+                <span class="home-help-line-text"><strong>Why Northcue is different</strong> and how it keeps you safe</span>
+              </button>
             </section>
 
             <section class="home-board-panel home-board-connect" aria-label="Feedback and privacy">
@@ -498,6 +504,13 @@
                   <img class="home-mini-img" src="/icons/northcue/next-arrow.png" alt="">
                 </span>
                 <span class="home-help-line-text"><strong>Help with a document or something else</strong> on the Help page</span>
+              </button>
+
+              <button type="button" class="home-help-line" data-page-link="why-northcue">
+                <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
+                  <img class="home-mini-img" src="/icons/northcue/foreground/shield-check.png" alt="">
+                </span>
+                <span class="home-help-line-text"><strong>Why Northcue is different</strong> and how it keeps you safe</span>
               </button>
 
               <hr class="home-mobile-divider" aria-hidden="true">
@@ -1112,6 +1125,53 @@
           <button type="button" class="outline-btn" data-page-link="privacy">Back to privacy</button>
         </div>
       </section>
+
+      <section id="page-why-northcue" class="page" aria-labelledby="why-northcue-title">
+        <div class="why-layout">
+          <header class="why-head">
+            <h1 id="why-northcue-title">Why Northcue is different<span class="green-dot">.</span></h1>
+            <p class="why-lead">Built for the moment an official envelope makes your chest tighten.</p>
+            <p class="why-lead">Northcue exists for the people every other tool skips.</p>
+          </header>
+
+          <h2 class="why-question">There's AI everywhere. Why is this different?</h2>
+
+          <div class="why-block help-simple-card">
+            <!-- VISUAL SLOT A: privacy, the document is deleted after reading -->
+            <div class="why-visual-slot" aria-hidden="true"></div>
+            <h3>Your document is never kept.</h3>
+            <p>Your file is deleted as soon as it is read. What stays behind is anonymous, never the words on your letter.</p>
+          </div>
+
+          <div class="why-block help-simple-card">
+            <!-- VISUAL SLOT B: rules decide safety, AI only softens wording -->
+            <div class="why-visual-slot" aria-hidden="true"></div>
+            <h3>AI never decides your safety.</h3>
+            <p>A fixed set of rules decides what your document appears to be and how carefully to treat it. AI is only allowed to soften the wording, never to change the judgement.</p>
+          </div>
+
+          <div class="why-block help-simple-card">
+            <!-- VISUAL SLOT C: honest uncertainty, two sided safety -->
+            <div class="why-visual-slot" aria-hidden="true"></div>
+            <h3>It knows when to say I'm not sure.</h3>
+            <p>Northcue will not reassure you about a serious letter, and will not alarm you about a routine one. When it cannot tell, it says so honestly.</p>
+          </div>
+
+          <div class="why-block help-simple-card">
+            <!-- VISUAL SLOT D: refusal, declining scams and non documents -->
+            <div class="why-visual-slot" aria-hidden="true"></div>
+            <h3>Sometimes the safest answer is no.</h3>
+            <p>If an upload looks like a scam or does not look like a real letter, Northcue declines instead of guessing. Refusing is part of how it keeps you safe.</p>
+          </div>
+
+          <p class="why-closing">Never a chatbot. Never advice. Never invents what is not in your document.</p>
+
+          <div class="why-cta-row">
+            <button type="button" class="primary-btn" data-page-link="journey">Try it with your letter</button>
+            <button type="button" class="outline-btn" data-page-link="home">Back to home</button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- Mobile bottom navigation. Shown only at 760px and below, hidden on the landing page. Each tab reuses the existing data-page-link wiring, so setPage handles the active state and aria-current. The brand and comfort controls in the topbar are left as they are. -->
@@ -1167,7 +1227,7 @@
       </div>
     </div>
 
-    <script src="/app.js?v=cue-icon-fix-20260713a"></script>
+    <script src="/app.js?v=why-page-20260713a"></script>
     <script>
       // PWA install support. The app never depends on the worker; if
       // registration fails, normal browsing is completely unaffected.

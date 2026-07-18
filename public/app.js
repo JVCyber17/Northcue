@@ -1,4 +1,4 @@
-const pages = ["landing", "home", "journey", "help", "comfort", "privacy", "privacy-full"];
+const pages = ["landing", "home", "journey", "help", "comfort", "privacy", "privacy-full", "why-northcue"];
 const northcueIconBase = "/icons/northcue/";
 const northcueForegroundIconBase = "/icons/northcue/foreground/";
 const northcueForegroundLightIconBase = "/icons/northcue/foreground-light/";

@@ -9526,3 +9526,96 @@ body.theme-dark .check-dot.badge-high {
     padding-top: calc(30px + env(safe-area-inset-top, 0px));
   }
 }
+
+/* Why Northcue is different page. A calm centred reading column modelled on
+   the privacy layout. The blocks reuse help-simple-card, so dark mode and the
+   card style setting apply to them automatically; only page scoped why-* rules
+   are added here and no shared selector is touched. The visual slots are
+   deliberately empty, reserved for illustrations in a later task, and styled
+   from tokens so they stay calm in light and dark. */
+.why-layout {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 8px 8px 28px;
+}
+
+.why-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.why-head h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 2.4vw, 32px);
+  line-height: 1.1;
+}
+
+.why-lead {
+  max-width: 560px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.why-question {
+  margin: 8px 0 2px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.why-block h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.why-block p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+/* Reserved drop in point for a block illustration, added in a later task.
+   Invisible while empty so the live page reads as clean text; when an
+   illustration is placed inside, it spaces itself from the headline. */
+.why-visual-slot {
+  margin-bottom: 16px;
+}
+
+.why-visual-slot:empty {
+  display: none;
+  margin: 0;
+}
+
+.why-closing {
+  margin: 6px 0 0;
+  text-align: center;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.why-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+}
