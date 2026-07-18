@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=why-page-20260713a">
+    <link rel="stylesheet" href="/styles.css?v=why-visuals-20260713a">
   </head>
   <body data-page="landing">
     <header class="topbar">
@@ -1129,37 +1129,93 @@
       <section id="page-why-northcue" class="page" aria-labelledby="why-northcue-title">
         <div class="why-layout">
           <header class="why-head">
-            <h1 id="why-northcue-title">Why Northcue is different<span class="green-dot">.</span></h1>
+            <h1 id="why-northcue-title">There's AI everywhere. Why is this different<span class="green-dot">?</span></h1>
             <p class="why-lead">Built for the moment an official envelope makes your chest tighten.</p>
-            <p class="why-lead">Northcue exists for the people every other tool skips.</p>
           </header>
 
-          <h2 class="why-question">There's AI everywhere. Why is this different?</h2>
-
           <div class="why-block help-simple-card">
-            <!-- VISUAL SLOT A: privacy, the document is deleted after reading -->
-            <div class="why-visual-slot" aria-hidden="true"></div>
+            <!-- VISUAL SLOT A: privacy, the document dissolves into cue cards, nothing is kept -->
+            <div class="why-visual-slot" aria-hidden="true">
+              <svg viewBox="0 0 300 176" style="fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
+                <g style="opacity:0.5">
+                  <rect x="26" y="44" width="72" height="92" rx="9" style="stroke:var(--muted)"/>
+                  <path d="M40 68h44M40 82h44M40 96h28" style="stroke:var(--muted)"/>
+                </g>
+                <g style="fill:var(--muted);stroke:none;opacity:0.55">
+                  <circle cx="106" cy="64" r="3"/><circle cx="118" cy="80" r="2.4"/><circle cx="110" cy="100" r="2"/><circle cx="128" cy="70" r="1.8"/><circle cx="124" cy="104" r="1.5"/>
+                </g>
+                <path d="M100 90h84" style="stroke:var(--line-strong);stroke-dasharray:2 8"/>
+                <path d="M178 82l10 8-10 8" style="stroke:var(--line-strong)"/>
+                <g>
+                  <rect x="196" y="48" width="74" height="40" rx="9" style="fill:color-mix(in srgb, var(--sage) 68%, var(--surface))"/>
+                  <path d="M210 62h30M210 74h44"/>
+                  <rect x="206" y="96" width="74" height="40" rx="9" style="fill:color-mix(in srgb, var(--sage) 68%, var(--surface))"/>
+                  <path d="M220 110h30M220 122h44"/>
+                </g>
+              </svg>
+            </div>
             <h3>Your document is never kept.</h3>
             <p>Your file is deleted as soon as it is read. What stays behind is anonymous, never the words on your letter.</p>
           </div>
 
           <div class="why-block help-simple-card">
-            <!-- VISUAL SLOT B: rules decide safety, AI only softens wording -->
-            <div class="why-visual-slot" aria-hidden="true"></div>
+            <!-- VISUAL SLOT B: a solid rules engine (shield with a gear) decides, the document on the right receives softened wording -->
+            <div class="why-visual-slot" aria-hidden="true">
+              <svg viewBox="0 0 300 176" style="fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
+                <path d="M58 49l30 11v25c0 22-13 35-30 41-17-6-30-19-30-41V60z" style="fill:color-mix(in srgb, var(--sage) 74%, var(--surface));stroke-width:2.5"/>
+                <g style="stroke-width:2">
+                  <circle cx="58" cy="80" r="7"/>
+                  <circle cx="58" cy="80" r="2.8"/>
+                  <path style="stroke-width:2.5" d="M65 80h3M62.95 84.95l2.12 2.12M58 87v3M53.05 84.95l-2.12 2.12M51 80h-3M53.05 75.05l-2.12-2.12M58 73v-3M62.95 75.05l2.12-2.12"/>
+                </g>
+                <path d="M100 88H192" style="stroke:var(--line-strong);stroke-dasharray:2 8"/>
+                <path d="M186 80l10 8-10 8" style="stroke:var(--line-strong)"/>
+                <rect x="212" y="54" width="74" height="68" rx="11" style="fill:color-mix(in srgb, var(--sage) 32%, var(--surface));stroke-width:2"/>
+                <path d="M226 74h46M226 90h46M226 106h30" style="stroke-width:2"/>
+              </svg>
+            </div>
             <h3>AI never decides your safety.</h3>
             <p>A fixed set of rules decides what your document appears to be and how carefully to treat it. AI is only allowed to soften the wording, never to change the judgement.</p>
           </div>
 
           <div class="why-block help-simple-card">
-            <!-- VISUAL SLOT C: honest uncertainty, two sided safety -->
-            <div class="why-visual-slot" aria-hidden="true"></div>
+            <!-- VISUAL SLOT C: a two sided balance at rest, the calm middle is where Northcue sits -->
+            <div class="why-visual-slot" aria-hidden="true">
+              <svg viewBox="0 0 300 176" style="fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">
+                <path d="M150 66V124"/>
+                <path d="M150 124l-20 26M150 124l20 26"/>
+                <path d="M126 150h48"/>
+                <path d="M84 66h132"/>
+                <path d="M84 66v14"/>
+                <path d="M66 80h36a18 18 0 0 1-36 0z"/>
+                <path d="M216 66v14"/>
+                <path d="M198 80h36a18 18 0 0 1-36 0z"/>
+                <circle cx="150" cy="66" r="8" style="fill:color-mix(in srgb, var(--sage) 80%, var(--surface))"/>
+                <circle cx="150" cy="66" r="2.6" style="fill:var(--green);stroke:none"/>
+                <g style="stroke:var(--muted)">
+                  <path d="M84 44v10M80.5 50.5l3.5 3.5 3.5-3.5"/>
+                  <path d="M216 54V44M212.5 47.5l3.5-3.5 3.5 3.5"/>
+                </g>
+              </svg>
+            </div>
             <h3>It knows when to say I'm not sure.</h3>
             <p>Northcue will not reassure you about a serious letter, and will not alarm you about a routine one. When it cannot tell, it says so honestly.</p>
           </div>
 
           <div class="why-block help-simple-card">
-            <!-- VISUAL SLOT D: refusal, declining scams and non documents -->
-            <div class="why-visual-slot" aria-hidden="true"></div>
+            <!-- VISUAL SLOT D: a calm shield sets a suspicious letter aside, refusing instead of guessing -->
+            <div class="why-visual-slot" aria-hidden="true">
+              <svg viewBox="0 0 300 176" style="fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
+                <g transform="rotate(-7 128 92)">
+                  <rect x="78" y="40" width="92" height="106" rx="10" style="fill:var(--surface);stroke-width:2"/>
+                  <path d="M94 66h60M94 82h60M94 98h38" style="stroke:var(--muted);stroke-width:2"/>
+                  <circle cx="158" cy="52" r="11" style="fill:color-mix(in srgb, var(--cream) 62%, var(--surface));stroke:var(--muted);stroke-width:1.5"/>
+                  <path d="M158 47v5M158 56h.01" style="stroke:var(--muted);stroke-width:2"/>
+                </g>
+                <path d="M206 68l30 11v25c0 22-13 35-30 41-17-6-30-19-30-41V79z" style="fill:color-mix(in srgb, var(--sage) 74%, var(--surface));stroke-width:2.5"/>
+                <path d="M194 112h24" style="stroke-width:2.5"/>
+              </svg>
+            </div>
             <h3>Sometimes the safest answer is no.</h3>
             <p>If an upload looks like a scam or does not look like a real letter, Northcue declines instead of guessing. Refusing is part of how it keeps you safe.</p>
           </div>
