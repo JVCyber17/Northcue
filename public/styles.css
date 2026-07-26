@@ -9633,3 +9633,14 @@ body.theme-dark .check-dot.badge-high {
   gap: 12px;
   margin-top: 4px;
 }
+
+/* Shown in English notice for the multilingual MVP. Appears under a cue card
+   only when the active language is not English and part of the card's engine
+   text had no reviewed translation in the template bank. Quiet by design. */
+.i18n-english-note {
+  margin: 8px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}

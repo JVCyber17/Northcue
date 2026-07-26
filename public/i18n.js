@@ -98,22 +98,33 @@
 
   var loadedLanguages = { en: true };
 
+  function injectScript(src, onDone) {
+    var script = document.createElement("script");
+    script.src = src;
+    script.onload = function () { onDone(true); };
+    script.onerror = function () { onDone(false); };
+    document.head.appendChild(script);
+  }
+
+  // Loads both files for a language: the Tier 1 dictionary (required) and
+  // the Tier 2 template bank (optional; a missing bank simply means engine
+  // sentences fall back to English with the notice). The bank matcher's
+  // caches are reset so newly arrived templates are picked up.
   function loadLanguageFile(code, onReady) {
     if (loadedLanguages[code] || dictionaryFor(code)) {
       loadedLanguages[code] = true;
       onReady(true);
       return;
     }
-    var script = document.createElement("script");
-    script.src = "/i18n/" + code + ".js?v=" + VERSION;
-    script.onload = function () {
-      loadedLanguages[code] = true;
-      onReady(true);
-    };
-    script.onerror = function () {
-      onReady(false);
-    };
-    document.head.appendChild(script);
+    injectScript("/i18n/" + code + ".js?v=" + VERSION, function (dictionaryOk) {
+      injectScript("/i18n/templates-" + code + ".js?v=" + VERSION, function () {
+        if (root.NorthcueTemplateBank) {
+          root.NorthcueTemplateBank.resetCaches();
+        }
+        loadedLanguages[code] = dictionaryOk;
+        onReady(dictionaryOk);
+      });
+    });
   }
 
   // Applies a language: loads its dictionary if needed, rewrites tagged

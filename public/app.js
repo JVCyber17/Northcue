@@ -895,6 +895,7 @@ function wireUpload() {
     const formData = new FormData();
     formData.append("letter", file);
     formData.append("documentCategory", selectedType);
+    formData.append("language", NorthcueI18n.getLanguage());
 
     try {
       const response = await fetch("/api/simplify", {
@@ -972,7 +973,7 @@ function wireUpload() {
         error_code: "upload_request_failed"
       });
       setReadingHint(null);
-      setStatus(error.message || t("status.tryAgain"), true);
+      setStatus(error.message ? translatedEngineText(error.message).text : t("status.tryAgain"), true);
     } finally {
       setLoading(false);
     }
@@ -1026,7 +1027,8 @@ async function analyseReadyDocument() {
       body: JSON.stringify({
         action: "analyse",
         job_id: pendingDocumentJobId,
-        documentCategory: selectedType
+        documentCategory: selectedType,
+        language: NorthcueI18n.getLanguage()
       })
     });
 
@@ -1076,7 +1078,7 @@ async function analyseReadyDocument() {
       error_code: "analysis_request_failed"
     });
     setReadingHint(null);
-    setStatus(error.message || "Please try again.", true);
+    setStatus(error.message ? translatedEngineText(error.message).text : t("status.tryAgain"), true);
   } finally {
     setLoading(false);
   }
@@ -1112,7 +1114,7 @@ function wireCueCards() {
 
   document.querySelector("#details-button")?.addEventListener("click", () => {
     const card = latestResult.cards[cardIndex];
-    openModal(card.title, `<p>${buildCardDetail(card)}</p>`);
+    openModal(translatedEngineText(card.title).text, `<p>${buildCardDetail(card)}</p>`);
   });
 
   document.querySelector("#card-style-button").addEventListener("click", openCardStyleModal);
@@ -1474,7 +1476,9 @@ function wireActions() {
       page: "journey",
       section: "actions"
     });
-    const text = latestResult.cards.map((card) => `${card.title} ${card.short_answer}`).join("\n");
+    const text = latestResult.cards
+      .map((card) => `${translatedEngineText(card.title).text} ${translatedEngineText(card.short_answer).text}`)
+      .join("\n");
     try {
       await navigator.clipboard.writeText(text);
       showActionMessage(t("journey.summaryCopied"));
@@ -2273,13 +2277,26 @@ function openDocumentCheck() {
   openModal(t("check.title"), buildCheckMarkup(latestResult.trust));
 }
 
+// Tier 2 presentation: translate one engine built sentence through the
+// template bank for the active language. English passes straight through.
+// Callers use the translated flag to show the shown in English notice when a
+// sentence has no reviewed translation, which is the safe fallback by design.
+function translatedEngineText(text) {
+  if (typeof NorthcueTemplateBank === "undefined" || typeof NorthcueI18n === "undefined") {
+    return { text: String(text == null ? "" : text), translated: true };
+  }
+  return NorthcueTemplateBank.translateEngineSentence(text, NorthcueI18n.getLanguage());
+}
+
 function renderCard() {
   const card = latestResult.cards[cardIndex];
 
   document.querySelector("#card-progress").textContent = t("journey.cardProgress", { current: cardIndex + 1, total: latestResult.cards.length });
   showCueCardIcon(card.id);
-  document.querySelector("#card-title").textContent = card.title;
-  document.querySelector("#card-answer").textContent = card.short_answer;
+  const translatedTitle = translatedEngineText(card.title);
+  const translatedAnswer = translatedEngineText(card.short_answer);
+  document.querySelector("#card-title").textContent = translatedTitle.text;
+  document.querySelector("#card-answer").textContent = translatedAnswer.text;
   document.querySelector("#card-explanation").textContent = shortCardExplanation(card);
   document.querySelector("#card-feedback").textContent = t(cardEncouragementKeys[cardIndex] || "journey.encouragementFallback");
 
@@ -2290,12 +2307,25 @@ function renderCard() {
   document.querySelector("#card-feedback").classList.remove("hidden");
   document.querySelector(".journey-main").classList.remove("is-complete");
 
+  let anyUntranslated = !translatedTitle.translated || !translatedAnswer.translated;
+
   if (Array.isArray(card.steps) && card.steps.length > 0) {
     cardSteps.classList.remove("hidden");
-    cardSteps.innerHTML = card.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("");
+    cardSteps.innerHTML = card.steps.map((step) => {
+      const translatedStep = translatedEngineText(step);
+      if (!translatedStep.translated) anyUntranslated = true;
+      return `<li>${escapeHtml(translatedStep.text)}</li>`;
+    }).join("");
   } else {
     cardSteps.classList.add("hidden");
     cardSteps.innerHTML = "";
+  }
+
+  // The pre translated notice appears only when the active language is not
+  // English and some of this card's text had no bank match.
+  const englishNote = document.querySelector("#card-i18n-note");
+  if (englishNote) {
+    englishNote.classList.toggle("hidden", !anyUntranslated);
   }
 
   renderProgressDots();
@@ -2891,7 +2921,7 @@ function isOcrReadyResult(payload) {
 
 function showOcrReadyResult(payload) {
   if (!payload.success) {
-    setStatus(payload.error || t("status.ocrUnreadable"), true);
+    setStatus(payload.error ? translatedEngineText(payload.error).text : t("status.ocrUnreadable"), true);
     return;
   }
 
@@ -2903,20 +2933,20 @@ function showOcrReadyResult(payload) {
   if (!payload.message || payload.message === "Your document is ready.") {
     setStatusKey("status.documentReady");
   } else {
-    setStatus(payload.message);
+    setStatus(translatedEngineText(payload.message).text);
   }
 }
 
 function buildCardDetail(card) {
   if (card.id === "what_do_i_need_to_do" && card.steps?.length) {
-    return card.steps.join(" ");
+    return card.steps.map((step) => translatedEngineText(step).text).join(" ");
   }
 
   if (card.id === "when_is_it_due") {
     return card.date ? t("journey.dateFound", { date: card.date }) : t("journey.noDeadline");
   }
 
-  return card.short_answer;
+  return translatedEngineText(card.short_answer).text;
 }
 
 function buildCheckMarkup(trust) {
@@ -2963,12 +2993,15 @@ function buildCheckMarkup(trust) {
 // still the base for confident states.
 function checkNextStepText(trust, banner, genuine) {
   if (trust.processing_mode === "verification_only") {
-    return trust.safe_next_step || safeActionFromTrust(trust);
+    return trust.safe_next_step
+      ? translatedEngineText(trust.safe_next_step).text
+      : safeActionFromTrust(trust);
   }
   if (trust.trust_assessment === "low") {
     return t("check.lowTrustStep");
   }
-  const base = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
+  const engineBase = trust.safe_next_step || banner.text;
+  const base = engineBase ? translatedEngineText(engineBase).text : safeActionFromTrust(trust);
   return isRoutineCheck(trust, genuine) ? t("check.noRushPrefix", { base: base }) : base;
 }
 
@@ -3057,7 +3090,7 @@ function checkWhyChips(trust) {
     const key = text.toLowerCase();
     if (!text || seen.has(key)) return;
     seen.add(key);
-    chips.push(`<span class="check-why-chip">${escapeHtml(text)}</span>`);
+    chips.push(`<span class="check-why-chip">${escapeHtml(translatedEngineText(text).text)}</span>`);
   });
   return chips;
 }

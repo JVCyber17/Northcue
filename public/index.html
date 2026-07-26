@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=i18n-phase1-20260714a">
+    <link rel="stylesheet" href="/styles.css?v=i18n-phase2-20260714a">
   </head>
   <body data-page="landing">
     <header class="topbar">
@@ -773,6 +773,7 @@
                   <h2 id="card-title" data-i18n="journey.card.title">What is this?</h2>
                   <p id="card-answer" class="card-answer" data-i18n="journey.card.answer">This looks like a formal document.</p>
                   <p id="card-explanation" class="card-explanation" data-i18n="journey.card.explanation">It can be read clearly, so we can pull out the key points.</p>
+                  <p id="card-i18n-note" class="i18n-english-note hidden" data-i18n="i18n.shownInEnglish">This part is shown in English.</p>
                   <ul id="card-steps" class="card-steps hidden"></ul>
                 </div>
 
@@ -1285,8 +1286,10 @@
 
     <script src="/i18n/config.js?v=i18n-20260714a"></script>
     <script src="/i18n/en.js?v=i18n-20260714a"></script>
+    <script src="/i18n/templates-en.js?v=i18n-20260714a"></script>
+    <script src="/i18n/templateBank.js?v=i18n-20260714a"></script>
     <script src="/i18n.js?v=i18n-20260714a"></script>
-    <script src="/app.js?v=i18n-phase1-20260714a"></script>
+    <script src="/app.js?v=i18n-phase2-20260714a"></script>
     <script>
       // PWA install support. The app never depends on the worker; if
       // registration fails, normal browsing is completely unaffected.

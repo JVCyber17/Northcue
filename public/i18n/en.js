@@ -5,6 +5,7 @@
 // here. No em or en dashes in any value, commas and full stops instead.
 (function (root) {
   var strings = {
+    "i18n.shownInEnglish": "This part is shown in English.",
     "meta.title": "Northcue",
     "meta.description": "Northcue turns confusing documents into calm, clear next steps.",
     "topbar.aria.goHome": "Go to homepage",
