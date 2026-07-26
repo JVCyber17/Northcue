@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=i18n-phase2-20260714a">
+    <link rel="stylesheet" href="/styles.css?v=i18n-phase3-20260714a">
   </head>
   <body data-page="landing">
     <header class="topbar">
@@ -61,8 +61,22 @@
           <span class="colour-swatch" aria-hidden="true"></span>
           <span data-i18n="topbar.mode.comfort">Comfort</span>
         </button>
+        <button type="button" class="language-switch-btn" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+          <span class="language-switch-label" data-language-label>English</span>
+        </button>
       </div>
+      <button type="button" class="language-switch-btn language-switch-mobile" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+        <span class="language-switch-label" data-language-label>English</span>
+      </button>
     </header>
+
+    <div class="language-banner hidden" data-language-banner role="region" aria-label="Language suggestion" data-i18n-aria-label="language.aria.banner">
+      <p class="language-banner-text" data-language-banner-text></p>
+      <div class="language-banner-actions">
+        <button type="button" class="language-banner-switch" data-language-banner-switch></button>
+        <button type="button" class="language-banner-dismiss" data-language-banner-dismiss></button>
+      </div>
+    </div>
 
     <main class="app-main">
       <section id="page-landing" class="page active" aria-labelledby="landing-title">
@@ -76,6 +90,9 @@
             <a href="/" class="landing-brand brand-link" data-page-link="home" aria-label="Go to homepage" data-i18n-aria-label="landing.aria.goHome">
               <img class="landing-logo-img" src="/assets/northcue-lockup-light.svg?v=logo-20260704a" alt="Northcue" data-i18n-alt="landing.alt.logo">
             </a>
+            <button type="button" class="language-switch-btn landing-language-btn" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+              <span class="language-switch-label" data-language-label>English</span>
+            </button>
             <h1 id="landing-title"><span data-i18n="landing.headline.line1">Your letter,</span><br><span data-i18n="landing.headline.line2">made clearer.</span></h1>
             <p class="landing-copy">
               <span data-i18n="landing.copy.line1">Upload a bill, notice, or letter.</span>
@@ -1289,7 +1306,7 @@
     <script src="/i18n/templates-en.js?v=i18n-20260714a"></script>
     <script src="/i18n/templateBank.js?v=i18n-20260714a"></script>
     <script src="/i18n.js?v=i18n-20260714a"></script>
-    <script src="/app.js?v=i18n-phase2-20260714a"></script>
+    <script src="/app.js?v=i18n-phase3-20260714a"></script>
     <script>
       // PWA install support. The app never depends on the worker; if
       // registration fails, normal browsing is completely unaffected.

@@ -527,6 +527,8 @@ wireCheckMeanings();
 wireInstallPrompt();
 wireModalSheetGesture();
 wirePageSwipe();
+wireLanguageControls();
+wireLanguageBanner();
 wireLandingReveal();
 
 // Landing is the front door. It is the first page users see on load, on both
@@ -2275,6 +2277,88 @@ function openDocumentCheck() {
     section: "document_check"
   });
   openModal(t("check.title"), buildCheckMarkup(latestResult.trust));
+}
+
+// Language switcher: every [data-language-open] control opens the shared
+// modal with one calm option per enabled language, shown in its own name and
+// script. Picking one loads that language's files, rewrites tagged markup,
+// re renders any visible engine content, and remembers the choice. The
+// switcher labels always show the active language's native name.
+function wireLanguageControls() {
+  function refreshSwitcherLabels() {
+    const active = NorthcueI18n.getLanguage();
+    const entry = NorthcueI18n.languageList().find((item) => item.code === active);
+    document.querySelectorAll("[data-language-label]").forEach((label) => {
+      label.textContent = entry ? entry.nativeName : "English";
+    });
+  }
+
+  function openLanguageModal() {
+    const active = NorthcueI18n.getLanguage();
+    const options = NorthcueI18n.languageList().map((entry) => {
+      const selected = entry.code === active ? " selected" : "";
+      return `<button type="button" class="outline-btn language-option${selected}" data-language-choice="${entry.code}" lang="${entry.code}">${escapeHtml(entry.nativeName)}</button>`;
+    }).join("");
+    openModal(t("language.title"), `<div class="language-options">${options}</div>`);
+  }
+
+  document.addEventListener("click", (event) => {
+    const opener = event.target.closest("[data-language-open]");
+    if (opener) {
+      openLanguageModal();
+      return;
+    }
+    const choice = event.target.closest("[data-language-choice]");
+    if (choice) {
+      NorthcueI18n.setLanguage(choice.dataset.languageChoice);
+      closeModal();
+    }
+  });
+
+  document.addEventListener("northcue:languagechange", () => {
+    refreshSwitcherLabels();
+    // Re render engine content that is currently on screen so the template
+    // bank applies immediately, not only on the next document.
+    if (latestResult && latestResult.cards && latestResult.cards.length) {
+      renderCard();
+    }
+  });
+
+  refreshSwitcherLabels();
+}
+
+// First visit detection banner: appears only when the browser prefers a
+// supported non English language, no choice is stored, and the banner has
+// not been dismissed before. It speaks the detected language using the
+// pre translated strings in the i18n config. One tap switches; dismissal
+// is remembered.
+function wireLanguageBanner() {
+  const banner = document.querySelector("[data-language-banner]");
+  if (!banner) return;
+
+  const state = NorthcueI18n.detectionState();
+  if (!state) return;
+
+  const entry = NorthcueI18n.languageList().find((item) => item.code === state.language);
+  if (!entry) return;
+
+  banner.querySelector("[data-language-banner-text]").textContent = entry.bannerOffer || "";
+  const switchButton = banner.querySelector("[data-language-banner-switch]");
+  const dismissButton = banner.querySelector("[data-language-banner-dismiss]");
+  switchButton.textContent = entry.bannerSwitch || "";
+  dismissButton.textContent = entry.bannerDismiss || "";
+  banner.setAttribute("lang", entry.code);
+  banner.classList.remove("hidden");
+
+  switchButton.addEventListener("click", () => {
+    NorthcueI18n.setLanguage(entry.code);
+    NorthcueI18n.dismissDetectionBanner();
+    banner.classList.add("hidden");
+  });
+  dismissButton.addEventListener("click", () => {
+    NorthcueI18n.dismissDetectionBanner();
+    banner.classList.add("hidden");
+  });
 }
 
 // Tier 2 presentation: translate one engine built sentence through the
