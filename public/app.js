@@ -142,159 +142,164 @@ const styleIcons = {
   map: ["1", "2", "3", "4", "5", "6"]
 };
 
+// Help guide copy lives in the i18n dictionary. This object is built once at
+// load, so it stores KEYS only; t() runs at render time (openHelpModal and
+// buildHelpModalMarkup) so the copy always follows the active language.
 const helpGuides = {
   overwhelmed: {
-    title: "I feel overwhelmed",
-    text: "It is okay to feel this way. You can take one small step at a time.",
+    titleKey: "helpGuides.overwhelmed.title",
+    textKey: "helpGuides.overwhelmed.text",
     steps: [
       {
         icon: "focus",
-        title: "Turn on Focus mode",
-        detail: "Hide distractions and see one step at a time."
+        titleKey: "helpGuides.overwhelmed.step1Title",
+        detailKey: "helpGuides.overwhelmed.step1Detail"
       },
       {
         icon: "document",
-        title: "Read only the Action card",
-        detail: "You do not need to understand everything."
+        titleKey: "helpGuides.overwhelmed.step2Title",
+        detailKey: "helpGuides.overwhelmed.step2Detail"
       },
       {
         icon: "pause",
-        title: "Take a break",
-        detail: "It is okay to pause and come back later."
+        titleKey: "helpGuides.overwhelmed.step3Title",
+        detailKey: "helpGuides.overwhelmed.step3Detail"
       }
     ],
-    action: "Turn on Focus mode",
+    actionKey: "helpGuides.overwhelmed.action",
     actionType: "focus"
   },
   fake: {
-    title: "I think this document is fake",
-    text: "Do not pay or share details until you check it safely.",
+    titleKey: "helpGuides.fake.title",
+    textKey: "helpGuides.fake.text",
     steps: [
       {
         icon: "shield",
-        title: "Do not use links in the document",
-        detail: "They may not be safe."
+        titleKey: "helpGuides.fake.step1Title",
+        detailKey: "helpGuides.fake.step1Detail"
       },
       {
         icon: "search",
-        title: "Search for the organisation yourself",
-        detail: "Use its official website or app."
+        titleKey: "helpGuides.fake.step2Title",
+        detailKey: "helpGuides.fake.step2Detail"
       },
       {
         icon: "people",
-        title: "Ask someone to check it with you",
-        detail: "A second look can help."
+        titleKey: "helpGuides.fake.step3Title",
+        detailKey: "helpGuides.fake.step3Detail"
       }
     ],
-    action: "Open Document check",
+    actionKey: "helpGuides.fake.action",
     actionType: "check"
   },
   deadline: {
-    title: "I cannot find the deadline",
-    text: "Deadlines can be hidden in small text. Check slowly.",
+    titleKey: "helpGuides.deadline.title",
+    textKey: "helpGuides.deadline.text",
     steps: [
       {
         icon: "calendar",
-        title: "Open the Deadline card",
-        detail: "Northcue looks for the due date."
+        titleKey: "helpGuides.deadline.step1Title",
+        detailKey: "helpGuides.deadline.step1Detail"
       },
       {
         icon: "document",
-        title: "Check the original page",
-        detail: "Look near the top, bottom, and bold text."
+        titleKey: "helpGuides.deadline.step2Title",
+        detailKey: "helpGuides.deadline.step2Detail"
       },
       {
         icon: "calendar",
-        title: "Save the date if you find one",
-        detail: "Write it down or add it to your calendar."
+        titleKey: "helpGuides.deadline.step3Title",
+        detailKey: "helpGuides.deadline.step3Detail"
       }
     ],
-    action: "Open Deadline card",
+    actionKey: "helpGuides.deadline.action",
     actionType: "deadline"
   },
   time: {
-    title: "I need more time",
-    text: "You may be able to ask for more time. Use safe contact details.",
+    titleKey: "helpGuides.time.title",
+    textKey: "helpGuides.time.text",
     steps: [
       {
         icon: "document",
-        title: "Check who sent it",
-        detail: "Find the organisation name first."
+        titleKey: "helpGuides.time.step1Title",
+        detailKey: "helpGuides.time.step1Detail"
       },
       {
         icon: "shield",
-        title: "Use official contact details",
-        detail: "Do not rely on unknown links or numbers."
+        titleKey: "helpGuides.time.step2Title",
+        detailKey: "helpGuides.time.step2Detail"
       },
       {
         icon: "message",
-        title: "Ask for an extension",
-        detail: "Use clear words: I need more time."
+        titleKey: "helpGuides.time.step3Title",
+        detailKey: "helpGuides.time.step3Detail"
       }
     ],
-    action: "Go to Understand",
+    actionKey: "helpGuides.time.action",
     actionType: "journey"
   },
   wrong: {
-    title: "I uploaded the wrong file",
-    text: "That is easy to fix. You can replace the file.",
+    titleKey: "helpGuides.wrong.title",
+    textKey: "helpGuides.wrong.text",
     steps: [
       {
         icon: "close",
-        title: "Remove the current upload",
-        detail: "Northcue will forget this file."
+        titleKey: "helpGuides.wrong.step1Title",
+        detailKey: "helpGuides.wrong.step1Detail"
       },
       {
         icon: "folder",
-        title: "Choose the correct document",
-        detail: "Pick one clear file if possible."
+        titleKey: "helpGuides.wrong.step2Title",
+        detailKey: "helpGuides.wrong.step2Detail"
       },
       {
         icon: "upload",
-        title: "Upload it again",
-        detail: "Start the same simple journey."
+        titleKey: "helpGuides.wrong.step3Title",
+        detailKey: "helpGuides.wrong.step3Detail"
       }
     ],
-    action: "Upload another document",
+    actionKey: "helpGuides.wrong.action",
     actionType: "upload"
   },
   person: {
-    title: "I need someone to help me",
-    text: "You can ask someone you trust to look with you.",
+    titleKey: "helpGuides.person.title",
+    textKey: "helpGuides.person.text",
     steps: [
       {
         icon: "copy",
-        title: "Copy the summary",
-        detail: "Share only the simple explanation."
+        titleKey: "helpGuides.person.step1Title",
+        detailKey: "helpGuides.person.step1Detail"
       },
       {
         icon: "people",
-        title: "Choose a trusted person",
-        detail: "Family, friend, adviser, or support worker."
+        titleKey: "helpGuides.person.step2Title",
+        detailKey: "helpGuides.person.step2Detail"
       },
       {
         icon: "document",
-        title: "Ask them to read one card",
-        detail: "Start with the Action card together."
+        titleKey: "helpGuides.person.step3Title",
+        detailKey: "helpGuides.person.step3Detail"
       },
       {
         icon: "shield",
-        title: "Contact the organisation safely",
-        detail: "Use official contact details, not links or numbers from the document."
+        titleKey: "helpGuides.person.step4Title",
+        detailKey: "helpGuides.person.step4Detail"
       }
     ],
-    action: "Copy summary",
+    actionKey: "helpGuides.person.action",
     actionType: "copy"
   }
 };
 
-const cardEncouragement = [
-  "Good start. Let's go one card at a time.",
-  "One step done.",
-  "You are doing well.",
-  "Good progress.",
-  "You are nearly there.",
-  "Last card. You made it."
+// Keys only, resolved with t() inside renderCard so the encouragement line
+// follows the active language instead of freezing at load time.
+const cardEncouragementKeys = [
+  "journey.encouragement1",
+  "journey.encouragement2",
+  "journey.encouragement3",
+  "journey.encouragement4",
+  "journey.encouragement5",
+  "journey.encouragement6"
 ];
 
 const themeConfig = {
@@ -403,6 +408,11 @@ let latestUploadInputQuality = "unknown";
 let latestOcrStatus = "unknown";
 let lastTrackedCardKey = "";
 let journeyCompletedTracked = false;
+// Records the dictionary key of the current status whenever it was set through
+// setStatusKey. Statuses carrying engine or free text record "". The hide and
+// file-strip logic in setStatus compares this key, never the display text, so
+// translation can never break it.
+let lastStatusTitleKey = "";
 
 const backgroundStyles = ["plain", "dots", "shapes", "notebook", "animals"];
 const legacyBackgroundStyles = {
@@ -411,30 +421,56 @@ const legacyBackgroundStyles = {
   rainbow: "shapes"
 };
 
+// Feedback copy: display strings resolve through t() at render time (the
+// *Key fields). The `rating` strings and each chip's `reason` are FIXED
+// English identifiers: they feed the data-rating / data-reason attributes,
+// the feedback payload, and the icon lookup, so the wire format and
+// analytics never change with the interface language.
 const feedbackChoices = {
   yes: {
     rating: "Yes, this helped",
-    label: "Yes",
-    detail: "This helped",
+    ratingKey: "feedback.yes.rating",
+    labelKey: "feedback.yes.label",
+    detailKey: "feedback.yes.detail",
     tone: "positive",
-    heading: "What helped most?",
-    chips: ["Simple words", "Clear next step", "Easy to read", "Less overwhelming", "Focus mode helped"]
+    headingKey: "feedback.yes.heading",
+    chips: [
+      { reason: "Simple words", labelKey: "feedback.yes.chip1" },
+      { reason: "Clear next step", labelKey: "feedback.yes.chip2" },
+      { reason: "Easy to read", labelKey: "feedback.yes.chip3" },
+      { reason: "Less overwhelming", labelKey: "feedback.yes.chip4" },
+      { reason: "Focus mode helped", labelKey: "feedback.yes.chip5" }
+    ]
   },
   little: {
     rating: "A little",
-    label: "A little",
-    detail: "Partly helpful",
+    ratingKey: "feedback.little.rating",
+    labelKey: "feedback.little.label",
+    detailKey: "feedback.little.detail",
     tone: "mixed",
-    heading: "What could be clearer?",
-    chips: ["Too much text", "Action was unclear", "Deadline was unclear", "Words felt difficult", "Needed more support"]
+    headingKey: "feedback.little.heading",
+    chips: [
+      { reason: "Too much text", labelKey: "feedback.little.chip1" },
+      { reason: "Action was unclear", labelKey: "feedback.little.chip2" },
+      { reason: "Deadline was unclear", labelKey: "feedback.little.chip3" },
+      { reason: "Words felt difficult", labelKey: "feedback.little.chip4" },
+      { reason: "Needed more support", labelKey: "feedback.little.chip5" }
+    ]
   },
   no: {
     rating: "No, I was confused",
-    label: "No",
-    detail: "I was confused",
+    ratingKey: "feedback.no.rating",
+    labelKey: "feedback.no.label",
+    detailKey: "feedback.no.detail",
     tone: "needs-work",
-    heading: "What went wrong?",
-    chips: ["I was still confused", "Wrong information", "Too much information", "I did not know what to do", "I did not trust it"]
+    headingKey: "feedback.no.heading",
+    chips: [
+      { reason: "I was still confused", labelKey: "feedback.no.chip1" },
+      { reason: "Wrong information", labelKey: "feedback.no.chip2" },
+      { reason: "Too much information", labelKey: "feedback.no.chip3" },
+      { reason: "I did not know what to do", labelKey: "feedback.no.chip4" },
+      { reason: "I did not trust it", labelKey: "feedback.no.chip5" }
+    ]
   }
 };
 
@@ -607,13 +643,13 @@ function setFocusMode(isActive, options = {}) {
   document.querySelectorAll("[data-toggle='focus-mode']").forEach((button) => {
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
-    button.setAttribute("aria-label", isActive ? "Turn off Focus mode" : "Focus mode");
+    button.setAttribute("aria-label", isActive ? t("aria.focusOff") : t("aria.focusOn"));
   });
 
   if (cardFocusToggle) {
     cardFocusToggle.classList.toggle("active", isActive);
     cardFocusToggle.setAttribute("aria-pressed", String(isActive));
-    cardFocusToggle.querySelector("span").textContent = isActive ? "Exit focus" : "Focus on card";
+    cardFocusToggle.querySelector("span").textContent = isActive ? t("journey.exitFocus") : t("journey.focusOnCard");
   }
 
   if (options.save) {
@@ -646,8 +682,8 @@ function setSimpleView(isActive, options = {}) {
   if (cardDetailToggle) {
     cardDetailToggle.classList.toggle("active", isActive);
     cardDetailToggle.setAttribute("aria-pressed", String(isActive));
-    cardDetailToggle.setAttribute("aria-label", isActive ? "Show full details" : "Show a simpler view");
-    cardDetailToggle.querySelector("span").textContent = isActive ? "Show full details" : "Simple view";
+    cardDetailToggle.setAttribute("aria-label", isActive ? t("aria.showFullDetails") : t("aria.showSimplerView"));
+    cardDetailToggle.querySelector("span").textContent = isActive ? t("journey.showFullDetails") : t("journey.simpleView");
   }
 
   if (options.save) {
@@ -756,7 +792,7 @@ function wireUpload() {
         moreTypeButton.setAttribute("aria-pressed", String(isMoreOption));
       }
       if (moreTypeLabel) {
-        moreTypeLabel.textContent = "More";
+        moreTypeLabel.textContent = t("status.moreTypes");
       }
       closeMoreTypeMenu();
       updateTypeConfirmLabel();
@@ -782,8 +818,8 @@ function wireUpload() {
   fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     pendingDocumentJobId = null;
-    fileName.textContent = "PDF, JPG, or PNG";
-    setStatus(file ? "Document selected." : "Choose a document to begin.");
+    fileName.textContent = t("status.fileTypesHint");
+    setStatusKey(file ? "status.documentSelected" : "status.chooseToBegin");
     form.classList.toggle("file-added", !!file);
     if (file) updateTypeConfirmLabel();
   });
@@ -809,8 +845,8 @@ function wireUpload() {
     }
     fileInput.value = "";
     pendingDocumentJobId = null;
-    fileName.textContent = "PDF, JPG, or PNG";
-    setStatus("Choose a document to begin.");
+    fileName.textContent = t("status.fileTypesHint");
+    setStatusKey("status.chooseToBegin");
     fileInput.focus();
   });
 
@@ -832,14 +868,14 @@ function wireUpload() {
 
     const file = fileInput.files[0];
     if (!file) {
-      setStatus("Choose one document first.", true);
+      setStatusKey("status.chooseOneFirst", true);
       return;
     }
 
     setLoading(true);
     const _uploadTypeName = typeNameForReading(selectedType);
-    setStatus(_uploadTypeName ? `Reading your ${_uploadTypeName}…` : "Reading your document…");
-    setReadingHint(_uploadTypeName ? `This looks like a ${_uploadTypeName}. Pulling out the key points…` : "Pulling out the key points…");
+    setStatus(_uploadTypeName ? t("status.readingTyped", { typeName: _uploadTypeName }) : t("status.readingGeneric"));
+    setReadingHint(_uploadTypeName ? t("status.readingHintTyped", { typeName: _uploadTypeName }) : t("status.readingHintGeneric"));
     setJourneyStep("upload");
     document.querySelector("#achievement").classList.add("hidden");
     cardFeedbackPanel.classList.add("hidden");
@@ -868,7 +904,7 @@ function wireUpload() {
 
       const payload = await response.json();
       if (!response.ok) {
-        throw new Error(payload.error || "Upload failed.");
+        throw new Error(payload.error || t("status.uploadFailed"));
       }
 
       if (isOcrReadyResult(payload)) {
@@ -925,7 +961,7 @@ function wireUpload() {
       setReadingHint(null);
       renderCard();
       setJourneyStep("understand");
-      setStatus("Your cue cards are ready.");
+      setStatusKey("status.cardsReady");
     } catch (error) {
       latestOcrStatus = "failed";
       trackAnalyticsEvent("upload_failed", {
@@ -936,7 +972,7 @@ function wireUpload() {
         error_code: "upload_request_failed"
       });
       setReadingHint(null);
-      setStatus(error.message || "Please try again.", true);
+      setStatus(error.message || t("status.tryAgain"), true);
     } finally {
       setLoading(false);
     }
@@ -951,27 +987,27 @@ function closeMoreTypeMenu() {
 function updateTypeConfirmLabel() {
   const el = document.querySelector("[data-type-label]");
   if (!el) return;
-  const labels = {
-    auto: "We’ll detect the type for you.",
-    letter: "Looks like a letter.",
-    bill: "Looks like a bill.",
-    work: "Treating as a work document.",
-    medical: "Treating as a medical document.",
-    school: "Treating as a school document.",
-    legal: "Treating as a legal document.",
-    email: "Treating as an email.",
-    article: "Treating as an article.",
-    other: "Treating as another type.",
+  const labelKeys = {
+    auto: "status.typeConfirmAuto",
+    letter: "status.typeConfirmLetter",
+    bill: "status.typeConfirmBill",
+    work: "status.typeConfirmWork",
+    medical: "status.typeConfirmMedical",
+    school: "status.typeConfirmSchool",
+    legal: "status.typeConfirmLegal",
+    email: "status.typeConfirmEmail",
+    article: "status.typeConfirmArticle",
+    other: "status.typeConfirmOther",
   };
-  el.textContent = labels[selectedType] || "Type selected.";
+  el.textContent = t(labelKeys[selectedType] || "status.typeConfirmFallback");
 }
 
 async function analyseReadyDocument() {
   const analysisJobId = pendingDocumentJobId;
   setLoading(true);
   const _analysisTypeName = typeNameForReading(selectedType);
-  setStatus(_analysisTypeName ? `Reading your ${_analysisTypeName}…` : "Reading your document…");
-  setReadingHint(_analysisTypeName ? `This looks like a ${_analysisTypeName}. Pulling out the key points…` : "Pulling out the key points…");
+  setStatus(_analysisTypeName ? t("status.readingTyped", { typeName: _analysisTypeName }) : t("status.readingGeneric"));
+  setReadingHint(_analysisTypeName ? t("status.readingHintTyped", { typeName: _analysisTypeName }) : t("status.readingHintGeneric"));
   trackAnalyticsEvent("analysis_started", {
     page: "journey",
     section: "analysis",
@@ -996,7 +1032,7 @@ async function analyseReadyDocument() {
 
     const payload = await response.json();
     if (!response.ok || payload.success === false) {
-      throw new Error(payload.error || "We could not understand this document yet.");
+      throw new Error(payload.error || t("status.analysisFailed"));
     }
 
     latestResult = normalizeApiResult(payload);
@@ -1028,7 +1064,7 @@ async function analyseReadyDocument() {
     setReadingHint(null);
     renderCard();
     setJourneyStep("understand");
-    setStatus("Your cue cards are ready.");
+    setStatusKey("status.cardsReady");
   } catch (error) {
     trackAnalyticsEvent("analysis_failed", {
       page: "journey",
@@ -1441,9 +1477,9 @@ function wireActions() {
     const text = latestResult.cards.map((card) => `${card.title} ${card.short_answer}`).join("\n");
     try {
       await navigator.clipboard.writeText(text);
-      showActionMessage("Summary copied.");
+      showActionMessage(t("journey.summaryCopied"));
     } catch (error) {
-      showActionMessage("Copy did not work. You can copy from the card text.");
+      showActionMessage(t("journey.copyFailed"));
     }
   });
 
@@ -1462,8 +1498,8 @@ function wireActions() {
     latestOcrStatus = "unknown";
     lastTrackedCardKey = "";
     journeyCompletedTracked = false;
-    fileName.textContent = "PDF, JPG, or PNG";
-    setStatus("Choose a document to begin.");
+    fileName.textContent = t("status.fileTypesHint");
+    setStatusKey("status.chooseToBegin");
     latestResult = createMockApiResult();
     cardIndex = 0;
     renderCard();
@@ -1521,11 +1557,11 @@ function openHelpModal(key, sourceCard) {
   const guide = helpGuides[key];
   if (!guide) return;
 
-  openModal(guide.title, buildHelpModalMarkup(key, guide), {
+  openModal(t(guide.titleKey), buildHelpModalMarkup(key, guide), {
     returnFocusTo: sourceCard,
     variant: "help",
-    closeLabel: "&times;",
-    closeAriaLabel: "Close help popup"
+    closeLabel: t("helpGuides.closeLabel"),
+    closeAriaLabel: t("aria.closeHelp")
   });
 }
 
@@ -1534,8 +1570,8 @@ function buildHelpModalMarkup(key, guide) {
     <li>
       <span class="help-step-icon" aria-hidden="true">${helpStepIconMarkup(step.icon)}</span>
       <span class="help-step-copy">
-        <strong>${escapeHtml(step.title)}</strong>
-        <small>${escapeHtml(step.detail)}</small>
+        <strong>${escapeHtml(t(step.titleKey))}</strong>
+        <small>${escapeHtml(t(step.detailKey))}</small>
       </span>
     </li>
   `).join("");
@@ -1543,15 +1579,15 @@ function buildHelpModalMarkup(key, guide) {
   return `
     <div class="help-modal-content">
       <span class="help-icon-bubble help-modal-icon ${helpIconTone(key)}" aria-hidden="true">${helpIconMarkup(key)}</span>
-      <p class="help-modal-text">${escapeHtml(guide.text)}</p>
+      <p class="help-modal-text">${escapeHtml(t(guide.textKey))}</p>
       <hr class="help-modal-rule">
-      <p class="help-modal-section-title">Try these next steps</p>
+      <p class="help-modal-section-title">${t("helpGuides.sectionTitle")}</p>
       <ol class="help-modal-steps">
         ${steps}
       </ol>
       <div class="help-modal-footer">
-        <button type="button" class="outline-btn help-modal-back" data-modal-back>&larr; Back</button>
-        <button type="button" class="primary-btn help-modal-action" data-help-action="${escapeHtml(guide.actionType)}">${escapeHtml(guide.action)} <span aria-hidden="true">&rarr;</span></button>
+        <button type="button" class="outline-btn help-modal-back" data-modal-back>${t("helpGuides.back")}</button>
+        <button type="button" class="primary-btn help-modal-action" data-help-action="${escapeHtml(guide.actionType)}">${escapeHtml(t(guide.actionKey))} <span aria-hidden="true">&rarr;</span></button>
       </div>
     </div>
   `;
@@ -1620,7 +1656,7 @@ function handleHelpAction(action) {
     setPage("journey");
     if (!hasUploadedResult()) {
       setJourneyStep("upload");
-      setStatus("Upload a document first, then Northcue can look for a deadline.", true);
+      setStatusKey("status.uploadFirstDeadline", true);
       fileInput.focus();
       return;
     }
@@ -1653,7 +1689,7 @@ function handleHelpAction(action) {
       return;
     }
     setJourneyStep("upload");
-    setStatus("Upload a document first, then Northcue can make a summary.", true);
+    setStatusKey("status.uploadFirstSummary", true);
     fileInput.focus();
     return;
   }
@@ -1673,7 +1709,7 @@ function wireComfortSettings() {
     textarea.addEventListener("input", () => {
       const counter = textarea.nextElementSibling;
       if (counter?.classList.contains("char-count")) {
-        counter.textContent = `${textarea.value.length} / ${textarea.maxLength}`;
+        counter.textContent = t("feedback.charCount", { count: textarea.value.length, max: textarea.maxLength });
       }
     });
   });
@@ -2056,7 +2092,7 @@ function moveToRailStep(step) {
 
   if (!hasUploadedResult()) {
     setJourneyStep("upload");
-    setStatus("Upload a document first, then you can check it.", true);
+    setStatusKey("status.uploadFirstCheck", true);
     if (step === "check") {
       openDocumentCheck();
     }
@@ -2225,7 +2261,7 @@ function wireInstallPrompt() {
 function openDocumentCheck() {
   if (!hasUploadedResult()) {
     setJourneyStep("upload");
-    openModal("Document check", "<p>Upload a document first.<br>Then Northcue can check trust, severity, and next steps.</p>");
+    openModal(t("check.title"), `<p>${t("check.uploadFirst")}</p>`);
     return;
   }
 
@@ -2234,21 +2270,21 @@ function openDocumentCheck() {
     page: "journey",
     section: "document_check"
   });
-  openModal("Document check", buildCheckMarkup(latestResult.trust));
+  openModal(t("check.title"), buildCheckMarkup(latestResult.trust));
 }
 
 function renderCard() {
   const card = latestResult.cards[cardIndex];
 
-  document.querySelector("#card-progress").textContent = `Card ${cardIndex + 1} of ${latestResult.cards.length}`;
+  document.querySelector("#card-progress").textContent = t("journey.cardProgress", { current: cardIndex + 1, total: latestResult.cards.length });
   showCueCardIcon(card.id);
   document.querySelector("#card-title").textContent = card.title;
   document.querySelector("#card-answer").textContent = card.short_answer;
   document.querySelector("#card-explanation").textContent = shortCardExplanation(card);
-  document.querySelector("#card-feedback").textContent = cardEncouragement[cardIndex] || "Keep going at your own pace.";
+  document.querySelector("#card-feedback").textContent = t(cardEncouragementKeys[cardIndex] || "journey.encouragementFallback");
 
   const isLastCard = latestResult.cards.length > 0 && cardIndex >= latestResult.cards.length - 1;
-  document.querySelector("#card-next").innerHTML = isLastCard ? "Finish" : "Next &rarr;";
+  document.querySelector("#card-next").innerHTML = isLastCard ? t("journey.finish") : t("journey.next");
   document.querySelector(".cue-card-panel").classList.remove("hidden");
   document.querySelector("#completion-screen").classList.add("hidden");
   document.querySelector("#card-feedback").classList.remove("hidden");
@@ -2271,7 +2307,7 @@ function renderCard() {
 function showCompletionScreen() {
   const count = latestResult.cards.length;
   const countEl = document.querySelector("#completion-card-count");
-  if (countEl) countEl.textContent = count;
+  if (countEl) countEl.textContent = t("completion.cardCount", { count: count });
   document.querySelector(".cue-card-panel").classList.add("hidden");
   document.querySelector("#completion-screen").classList.remove("hidden");
   document.querySelector("#achievement").classList.add("hidden");
@@ -2325,28 +2361,28 @@ function showCueCardIcon(cardId) {
 
 function shortCardExplanation(card) {
   if (card.id === "what_is_this") {
-    return "It can be read clearly, so we can pull out the key points.";
+    return t("journey.explainWhatIsThis");
   }
   if (card.id === "what_matters_most") {
-    return "This helps you know what needs attention first.";
+    return t("journey.explainWhatMattersMost");
   }
   if (card.id === "what_do_i_need_to_do") {
-    return "Use these as small steps, one at a time.";
+    return t("journey.explainWhatToDo");
   }
   if (card.id === "when_is_it_due") {
-    return card.date ? "Use this date before making a reminder." : "No clear date was found in the document.";
+    return card.date ? t("journey.explainDueWithDate") : t("journey.explainDueNoDate");
   }
   if (card.id === "what_could_happen") {
-    return "This helps you decide how carefully to respond.";
+    return t("journey.explainWhatCouldHappen");
   }
-  return "Check the original document if anything feels unclear.";
+  return t("journey.explainDefault");
 }
 
 function renderProgressDots() {
   progressDots.innerHTML = latestResult.cards
     .map((card, index) => {
       const state = index === cardIndex ? "active" : "inactive";
-      return `<span class="progress-dot${index === cardIndex ? " active" : ""}" aria-label="${index + 1} of ${latestResult.cards.length}">${northcueIcon(`progress-dot-${state}`, "northcue-icon northcue-progress-icon")}</span>`;
+      return `<span class="progress-dot${index === cardIndex ? " active" : ""}" aria-label="${t("aria.progressDot", { n: index + 1, total: latestResult.cards.length })}">${northcueIcon(`progress-dot-${state}`, "northcue-icon northcue-progress-icon")}</span>`;
     })
     .join("");
   prepareThemeAwareArtMetadata();
@@ -2355,20 +2391,20 @@ function renderProgressDots() {
 
 function openCardStyleModal() {
   const styles = [
-    { id: "simple", label: "Simple view" },
-    { id: "animal", label: "Animal Cards" },
-    { id: "shape", label: "Shape Cards" },
-    { id: "map", label: "Map Cards" }
+    { id: "simple", labelKey: "journey.cardStyleSimple" },
+    { id: "animal", labelKey: "journey.cardStyleAnimal" },
+    { id: "shape", labelKey: "journey.cardStyleShape" },
+    { id: "map", labelKey: "journey.cardStyleMap" }
   ];
 
   const markup = styles
     .map((style) => {
       const activeText = style.id === activeCardStyle ? " selected" : "";
-      return `<button type="button" class="outline-btn style-option${activeText}" data-style="${style.id}">${style.label}</button>`;
+      return `<button type="button" class="outline-btn style-option${activeText}" data-style="${style.id}">${t(style.labelKey)}</button>`;
     })
     .join("");
 
-  openModal("Card style", `<div class="style-list">${markup}<p>Custom card packs coming later.</p></div>`);
+  openModal(t("journey.cardStyleTitle"), `<div class="style-list">${markup}<p>${t("journey.cardStyleComing")}</p></div>`);
 
   document.querySelectorAll(".style-option").forEach((button) => {
     button.addEventListener("click", () => {
@@ -2381,7 +2417,7 @@ function openCardStyleModal() {
       }
       closeModal();
       renderCard();
-      showActionMessage(`${labelForStyle(activeCardStyle)} selected.`);
+      showActionMessage(t("journey.cardStyleSelected", { styleLabel: labelForStyle(activeCardStyle) }));
     });
   });
 }
@@ -2394,16 +2430,16 @@ function addDeadlineToCalendar() {
 
   if (!parsed) {
     openModal(
-      "Add to calendar",
-      "<p>No clear date was found in this document, so there's nothing to add yet.<br>If you spotted a date yourself, you can add it to your calendar by hand.</p>"
+      t("journey.calendarTitle"),
+      `<p>${t("journey.calendarNoDateBody")}</p>`
     );
     return;
   }
 
   const title = calendarEventTitle();
   const ics = buildIcsForDeadline(parsed, title);
-  downloadIcsFile(ics, "northcue-date.ics");
-  showActionMessage("Calendar file downloaded. Open it to add the date, and your calendar will remind you.");
+  downloadIcsFile(ics, t("journey.icsFileName"));
+  showActionMessage(t("journey.calendarDownloaded"));
 }
 
 // Title includes the document type only when it's confidently known; otherwise generic.
@@ -2412,37 +2448,37 @@ function calendarEventTitle() {
   const typeKey = (trust.document_type || "").toLowerCase();
   const categoryKey = (trust.document_category || "").toLowerCase();
 
-  const typeLabels = {
-    council_tax_notice: "council tax letter",
-    energy_bill: "energy bill",
-    bill_or_payment_notice: "bill",
-    appointment_letter: "appointment letter"
+  const typeLabelKeys = {
+    council_tax_notice: "journey.calendarTypeCouncilTaxNotice",
+    energy_bill: "journey.calendarTypeEnergyBill",
+    bill_or_payment_notice: "journey.calendarTypeBillOrPaymentNotice",
+    appointment_letter: "journey.calendarTypeAppointmentLetter"
   };
-  const categoryLabels = {
-    bill_or_payment: "bill",
-    appointment: "appointment letter",
-    government: "council or government letter",
-    medical: "medical letter",
-    housing: "housing letter",
-    employment: "work letter",
-    education: "school letter",
-    bank_or_loan: "bank letter"
+  const categoryLabelKeys = {
+    bill_or_payment: "journey.calendarCatBillOrPayment",
+    appointment: "journey.calendarCatAppointment",
+    government: "journey.calendarCatGovernment",
+    medical: "journey.calendarCatMedical",
+    housing: "journey.calendarCatHousing",
+    employment: "journey.calendarCatEmployment",
+    education: "journey.calendarCatEducation",
+    bank_or_loan: "journey.calendarCatBankOrLoan"
   };
-  const selectedLabels = {
-    bill: "bill",
-    letter: "letter",
-    medical: "medical document",
-    school: "school document",
-    work: "work document",
-    legal: "legal document"
+  const selectedLabelKeys = {
+    bill: "journey.calendarSelBill",
+    letter: "journey.calendarSelLetter",
+    medical: "journey.calendarSelMedical",
+    school: "journey.calendarSelSchool",
+    work: "journey.calendarSelWork",
+    legal: "journey.calendarSelLegal"
   };
 
-  const label =
-    typeLabels[typeKey] ||
-    categoryLabels[categoryKey] ||
-    (selectedType && selectedType !== "auto" ? selectedLabels[selectedType] : null);
+  const labelKey =
+    typeLabelKeys[typeKey] ||
+    categoryLabelKeys[categoryKey] ||
+    (selectedType && selectedType !== "auto" ? selectedLabelKeys[selectedType] : null);
 
-  return label ? `Check your ${label}` : "Check your document";
+  return labelKey ? t("journey.calendarEventTitle", { label: t(labelKey) }) : t("journey.calendarEventTitleGeneric");
 }
 
 // Best-effort parse of a free-text deadline (UK formats) into {year, month, day}.
@@ -2483,7 +2519,7 @@ function buildIcsForDeadline(parts, title) {
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const uid = `northcue-${Date.now()}-${Math.floor(Math.random() * 1e6)}@northcue`;
   const safeTitle = icsEscape(title);
-  const description = icsEscape("A date from a document you reviewed in Northcue. Check the original document.");
+  const description = icsEscape(t("journey.icsDescription"));
 
   return [
     "BEGIN:VCALENDAR",
@@ -2529,7 +2565,7 @@ function downloadIcsFile(content, filename) {
 }
 
 function renderContactRequestForm() {
-  modalTitle.textContent = "Get in touch";
+  modalTitle.textContent = t("feedback.contactTitle");
   modalContent.innerHTML = buildContactRequestMarkup();
   document.querySelector("#modal-contact-email")?.focus();
 }
@@ -2537,14 +2573,14 @@ function renderContactRequestForm() {
 function buildContactRequestMarkup() {
   return `
     <section class="feedback-flow modal-feedback-panel" data-feedback-context="modal">
-      <p class="feedback-intro">Leave your details and we'll reach out when we can.</p>
-      <p class="feedback-private-note">${feedbackPrivacyIcon()} We'll only use this to contact you. Please don't include any document content here.</p>
+      <p class="feedback-intro">${t("feedback.contactIntro")}</p>
+      <p class="feedback-private-note">${feedbackPrivacyIcon()} ${t("feedback.contactPrivateNote")}</p>
       <hr class="feedback-rule">
-      <label class="feedback-label" for="modal-contact-email">Email or phone number</label>
-      <input id="modal-contact-email" class="feedback-contact-input" type="text" placeholder="How should we reach you?">
-      <label class="feedback-label" for="modal-contact-note">What would you like help with? <span>optional</span></label>
-      <textarea id="modal-contact-note" class="short-feedback-comment" maxlength="240" placeholder="A few words is enough. Please don't paste document content here."></textarea>
-      <button type="button" class="primary-btn" id="send-contact-request">${sendIconMarkup()} Send</button>
+      <label class="feedback-label" for="modal-contact-email">${t("feedback.contactReachLabel")}</label>
+      <input id="modal-contact-email" class="feedback-contact-input" type="text" placeholder="${t("feedback.contactReachPlaceholder")}">
+      <label class="feedback-label" for="modal-contact-note">${t("feedback.contactHelpLabel")} <span>${t("feedback.optional")}</span></label>
+      <textarea id="modal-contact-note" class="short-feedback-comment" maxlength="240" placeholder="${t("feedback.contactNotePlaceholder")}"></textarea>
+      <button type="button" class="primary-btn" id="send-contact-request">${sendIconMarkup()} ${t("feedback.contactSend")}</button>
       <p class="feedback-saved-message" role="status" aria-live="polite"></p>
     </section>
   `;
@@ -2557,7 +2593,7 @@ function submitContactRequest(button) {
   const savedMessage = button.closest("section")?.querySelector(".feedback-saved-message");
 
   if (!email) {
-    if (savedMessage) savedMessage.textContent = "Please add an email or phone number so we can reach you.";
+    if (savedMessage) savedMessage.textContent = t("feedback.contactNeedContact");
     emailInput?.focus();
     return;
   }
@@ -2570,13 +2606,13 @@ function submitContactRequest(button) {
   // per privacy rules and must never be logged or stored in plain-text analytics.
 
   button.disabled = true;
-  modalTitle.textContent = "Thanks.";
+  modalTitle.textContent = t("feedback.thanksTitle");
   modalContent.innerHTML = `
     <section class="feedback-flow feedback-success" role="status" aria-live="polite">
       <span class="feedback-success-icon" aria-hidden="true">${feedbackHeartIcon()}</span>
-      <h3>Thanks.</h3>
-      <p>We've noted your request. Someone from Northcue will be in touch.</p>
-      <button type="button" class="primary-btn" data-modal-back>Done</button>
+      <h3>${t("feedback.thanksTitle")}</h3>
+      <p>${t("feedback.contactThanksBody")}</p>
+      <button type="button" class="primary-btn" data-modal-back>${t("feedback.done")}</button>
     </section>
   `;
 }
@@ -2588,21 +2624,21 @@ function openFeedbackModal(sourceButton) {
     page: document.body.dataset.page || "unknown",
     section: "feedback"
   });
-  openModal("Give feedback", buildFeedbackStepOneMarkup(), {
+  openModal(t("feedback.title"), buildFeedbackStepOneMarkup(), {
     returnFocusTo: returnTarget,
     variant: "feedback"
   });
 }
 
 function renderFeedbackStepOne() {
-  modalTitle.textContent = "Give feedback";
+  modalTitle.textContent = t("feedback.title");
   modalContent.innerHTML = buildFeedbackStepOneMarkup();
   modalContent.querySelector("[data-feedback-choice]")?.focus();
 }
 
 function renderFeedbackStepTwo(answerKey) {
   const choice = feedbackChoices[answerKey] || feedbackChoices.little;
-  modalTitle.textContent = "Give feedback";
+  modalTitle.textContent = t("feedback.title");
   modalContent.innerHTML = buildFeedbackStepTwoMarkup(answerKey, choice);
   modalContent.querySelector(".feedback-reason-chip")?.focus();
 }
@@ -2611,27 +2647,27 @@ function buildFeedbackStepOneMarkup() {
   const choices = Object.entries(feedbackChoices).map(([key, choice]) => `
     <button type="button" class="feedback-choice-card ${choice.tone}" data-feedback-choice="${key}">
       <span class="feedback-face" aria-hidden="true">${feedbackFaceMarkup(key)}</span>
-      <strong>${escapeHtml(choice.label)}</strong>
-      <small>${escapeHtml(choice.detail)}</small>
+      <strong>${escapeHtml(t(choice.labelKey))}</strong>
+      <small>${escapeHtml(t(choice.detailKey))}</small>
     </button>
   `).join("");
 
   return `
     <section class="feedback-flow modal-feedback-panel" data-feedback-context="modal">
-      <p class="feedback-intro">Your feedback helps us make Northcue better.</p>
+      <p class="feedback-intro">${t("feedback.intro")}</p>
       <hr class="feedback-rule">
       <div class="feedback-question">
-        <h3>Was this helpful?</h3>
-        <p>This will only take a few seconds.</p>
+        <h3>${t("feedback.question")}</h3>
+        <p>${t("feedback.questionSub")}</p>
       </div>
-      <div class="feedback-choice-row" role="group" aria-label="Was this helpful?">
+      <div class="feedback-choice-row" role="group" aria-label="${t("aria.wasHelpful")}">
         ${choices}
       </div>
-      <p class="feedback-private-note">${feedbackPrivacyIcon()} Your feedback is private and helps us improve.</p>
+      <p class="feedback-private-note">${feedbackPrivacyIcon()} ${t("feedback.privateNote")}</p>
       <div class="feedback-contact-option">
         <hr class="feedback-rule">
-        <p class="feedback-or-text">Or, would you like us to get in touch?</p>
-        <button type="button" class="outline-btn feedback-contact-btn" data-contact-request>Please get in touch with me</button>
+        <p class="feedback-or-text">${t("feedback.orContact")}</p>
+        <button type="button" class="outline-btn feedback-contact-btn" data-contact-request>${t("feedback.contactBtn")}</button>
       </div>
     </section>
   `;
@@ -2639,39 +2675,41 @@ function buildFeedbackStepOneMarkup() {
 
 function buildFeedbackStepTwoMarkup(answerKey, choice) {
   const chips = choice.chips.map((chip) => `
-    <button type="button" class="feedback-reason-chip" data-reason="${escapeHtml(chip)}" aria-pressed="false">
-      ${feedbackReasonIcon(chip)}
-      <span>${escapeHtml(chip)}</span>
+    <button type="button" class="feedback-reason-chip" data-reason="${escapeHtml(chip.reason)}" aria-pressed="false">
+      ${feedbackReasonIcon(chip.reason)}
+      <span>${escapeHtml(t(chip.labelKey))}</span>
     </button>
   `).join("");
+
+  const selectedRating = `<strong>${escapeHtml(t(choice.ratingKey))}</strong>`;
 
   return `
     <section class="feedback-flow modal-feedback-panel feedback-step-two" data-feedback-context="modal" data-rating="${escapeHtml(choice.rating)}" data-answer="${answerKey}">
       <div class="feedback-selected-bar ${choice.tone}">
-        <span>You selected: <strong>${escapeHtml(choice.rating)}</strong></span>
-        <button type="button" data-feedback-change>Change</button>
+        <span>${t("feedback.selected", { rating: selectedRating })}</span>
+        <button type="button" data-feedback-change>${t("feedback.change")}</button>
       </div>
       <div class="feedback-question">
-        <h3>${escapeHtml(choice.heading)}</h3>
-        <p>Choose any that apply.</p>
+        <h3>${escapeHtml(t(choice.headingKey))}</h3>
+        <p>${t("feedback.chooseAny")}</p>
       </div>
-      <div class="feedback-chip-grid" role="group" aria-label="${escapeHtml(choice.heading)}">
+      <div class="feedback-chip-grid" role="group" aria-label="${escapeHtml(t(choice.headingKey))}">
         ${chips}
       </div>
-      <label class="feedback-label" for="modal-feedback-comment">Anything else? <span>optional</span></label>
-      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="A short note is enough. Please do not include personal details such as your name, address, or account numbers."></textarea>
+      <label class="feedback-label" for="modal-feedback-comment">${t("feedback.anythingElse")} <span>${t("feedback.optional")}</span></label>
+      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="${t("feedback.commentPlaceholder")}"></textarea>
       <div class="feedback-contact-toggle-row">
         <label>
           <input id="modal-feedback-contact-toggle" type="checkbox">
-          <span>I'm happy for Northcue to contact me about this</span>
+          <span>${t("feedback.contactToggle")}</span>
         </label>
       </div>
       <div id="modal-feedback-contact-panel" class="optional-contact feedback-contact-reveal hidden">
-        <label class="feedback-label" for="modal-feedback-contact">Email <span>(optional) — only if you'd like a reply</span></label>
-        <input id="modal-feedback-contact" class="feedback-contact-input" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
-        <small>We'll only use this to reply to your feedback.</small>
+        <label class="feedback-label" for="modal-feedback-contact">${t("feedback.emailLabel")} <span>${t("feedback.emailOptional")}</span></label>
+        <input id="modal-feedback-contact" class="feedback-contact-input" type="email" autocomplete="email" inputmode="email" placeholder="${t("feedback.emailPlaceholder")}">
+        <small>${t("feedback.emailNote")}</small>
       </div>
-      <button type="button" class="primary-btn send-short-feedback">${sendIconMarkup()} Send feedback</button>
+      <button type="button" class="primary-btn send-short-feedback">${sendIconMarkup()} ${t("feedback.send")}</button>
       <p class="feedback-saved-message" role="status" aria-live="polite"></p>
     </section>
   `;
@@ -2783,7 +2821,7 @@ async function saveShortFeedback(panel) {
   const rating = normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer);
   const message = panel.querySelector(".feedback-saved-message");
   if (!rating) {
-    if (message) message.textContent = "Choose one option first.";
+    if (message) message.textContent = t("feedback.chooseFirst");
     return;
   }
 
@@ -2793,7 +2831,7 @@ async function saveShortFeedback(panel) {
   // An empty email is fine (feedback still sends, just with no reply address).
   if (feedback.email && !isPlausibleEmail(feedback.email)) {
     if (message) {
-      message.textContent = "That email doesn't look right. Please check it, or untick to send without a reply.";
+      message.textContent = t("feedback.badEmail");
     }
     panel.querySelector("#modal-feedback-contact")?.focus();
     return;
@@ -2827,13 +2865,13 @@ async function saveShortFeedback(panel) {
   });
 
   if (panel.dataset.feedbackContext === "modal") {
-    modalTitle.textContent = "Thanks.";
+    modalTitle.textContent = t("feedback.thanksTitle");
     modalContent.innerHTML = `
       <section class="feedback-flow feedback-success" role="status" aria-live="polite">
         <span class="feedback-success-icon" aria-hidden="true">${feedbackHeartIcon()}</span>
-        <h3>Thanks.</h3>
-        <p>Every bit of feedback helps us make Northcue calmer, clearer and more helpful.</p>
-        <button type="button" class="primary-btn" data-modal-back>Done</button>
+        <h3>${t("feedback.thanksTitle")}</h3>
+        <p>${t("feedback.thanksBody")}</p>
+        <button type="button" class="primary-btn" data-modal-back>${t("feedback.done")}</button>
       </section>
     `;
     modalContent.querySelector("[data-modal-back]")?.focus();
@@ -2842,8 +2880,8 @@ async function saveShortFeedback(panel) {
 
   if (message) {
     message.textContent = savedToSupabase
-      ? "Thank you. Your feedback was saved."
-      : "Thank you. Your feedback was saved on this device.";
+      ? t("feedback.saved")
+      : t("feedback.savedLocal");
   }
 }
 
@@ -2853,12 +2891,20 @@ function isOcrReadyResult(payload) {
 
 function showOcrReadyResult(payload) {
   if (!payload.success) {
-    setStatus(payload.error || "This document is hard to read. Please upload a clearer image.", true);
+    setStatus(payload.error || t("status.ocrUnreadable"), true);
     return;
   }
 
   pendingDocumentJobId = payload.job_id || null;
-  setStatus(payload.message || "Your document is ready.");
+  // The backend's ready response sends exactly this English sentence. Mapping
+  // it onto the status key here keeps the "Document ready" title logic in
+  // setStatus key-based while matching today's behaviour byte for byte. Any
+  // other engine message passes through as free text.
+  if (!payload.message || payload.message === "Your document is ready.") {
+    setStatusKey("status.documentReady");
+  } else {
+    setStatus(payload.message);
+  }
 }
 
 function buildCardDetail(card) {
@@ -2867,7 +2913,7 @@ function buildCardDetail(card) {
   }
 
   if (card.id === "when_is_it_due") {
-    return card.date ? `Date found: ${card.date}.` : "No deadline clearly stated.";
+    return card.date ? t("journey.dateFound", { date: card.date }) : t("journey.noDeadline");
   }
 
   return card.short_answer;
@@ -2880,33 +2926,33 @@ function buildCheckMarkup(trust) {
   const nextStep = checkNextStepText(trust, banner, genuine);
   const chips = checkWhyChips(trust);
   const whyRow = chips.length
-    ? `<div class="check-why"><span class="check-why-label">Why</span>${chips.join("")}</div>`
+    ? `<div class="check-why"><span class="check-why-label">${t("check.whyLabel")}</span>${chips.join("")}</div>`
     : "";
 
   // Scam-suspect documents get no urgency level at all. Showing one would lend
   // weight to a deadline that may itself be part of the pressure tactic.
   const urgencyStatus = trust.processing_mode === "verification_only"
-    ? `<p class="check-qblock-status">Ignore any deadline on this until you know it's real.</p>`
+    ? `<p class="check-qblock-status">${t("check.scamDeadline")}</p>`
     : `<p class="check-qblock-status"><span class="check-dot ${urgency.dotClass}"></span>${escapeHtml(urgency.text)}</p>`;
 
   return `
     <div class="check-panel">
       <div class="check-nextstep check-hero">
-        <span class="check-nextstep-label">${checkNextStepIcon()} One thing to do next</span>
+        <span class="check-nextstep-label">${checkNextStepIcon()} ${t("check.heroLabel")}</span>
         <p>${escapeHtml(nextStep)}</p>
       </div>
       <p class="check-caption">${escapeHtml(friendlyCategoryLabel(trust.document_category))}</p>
       <div class="check-qblock">
-        <p class="check-qblock-label">Is it genuine?</p>
+        <p class="check-qblock-label">${t("check.genuineQuestion")}</p>
         <p class="check-qblock-status"><span class="check-dot ${genuine.dotClass}"></span>${escapeHtml(genuine.text)}</p>
-        <p class="check-qblock-meaning">Whether this looks like a real letter from who it says it's from.</p>
+        <p class="check-qblock-meaning">${t("check.genuineMeaning")}</p>
       </div>
       <div class="check-qblock">
-        <p class="check-qblock-label">How urgent is it?</p>
+        <p class="check-qblock-label">${t("check.urgentQuestion")}</p>
         ${urgencyStatus}
-        <p class="check-qblock-meaning">How soon it may need looking at, not whether it's genuine.</p>
+        <p class="check-qblock-meaning">${t("check.urgentMeaning")}</p>
       </div>
-      <button type="button" class="check-meanings-toggle" data-check-meanings aria-expanded="false">What do these mean?</button>
+      <button type="button" class="check-meanings-toggle" data-check-meanings aria-expanded="false">${t("check.meaningsToggle")}</button>
       ${whyRow}
     </div>
   `;
@@ -2920,10 +2966,10 @@ function checkNextStepText(trust, banner, genuine) {
     return trust.safe_next_step || safeActionFromTrust(trust);
   }
   if (trust.trust_assessment === "low") {
-    return "We can't confirm the sender. Find their official contact details yourself and check. Don't use details printed on this letter.";
+    return t("check.lowTrustStep");
   }
   const base = trust.safe_next_step || banner.text || safeActionFromTrust(trust);
-  return isRoutineCheck(trust, genuine) ? `No rush. ${base}` : base;
+  return isRoutineCheck(trust, genuine) ? t("check.noRushPrefix", { base: base }) : base;
 }
 
 // Routine = the genuine row reads green AND severity is low AND the engine
@@ -2945,10 +2991,10 @@ function checkNextStepIcon() {
 // authenticity is a separate question handled by checkGenuineIndicator.
 function checkUrgencyIndicator(severityLevel) {
   const value = String(severityLevel || "").toLowerCase();
-  if (value === "urgent") return { text: "Looks time-sensitive", dotClass: classFromLevel("high") };
-  if (value === "high") return { text: "Time-sensitive", dotClass: classFromLevel("high") };
-  if (value === "medium") return { text: "Worth attention", dotClass: classFromLevel("medium") };
-  return { text: "No rush", dotClass: classFromLevel("low") };
+  if (value === "urgent") return { text: t("check.urgencyUrgent"), dotClass: classFromLevel("high") };
+  if (value === "high") return { text: t("check.urgencyHigh"), dotClass: classFromLevel("high") };
+  if (value === "medium") return { text: t("check.urgencyMedium"), dotClass: classFromLevel("medium") };
+  return { text: t("check.urgencyLow"), dotClass: classFromLevel("low") };
 }
 
 // Authenticity indicator, display mapping only. High trust reads green; low trust
@@ -2965,39 +3011,39 @@ function checkGenuineIndicator(trust) {
 
   if (level === "high") {
     return {
-      text: trust.needs_human_review ? "Looks genuine, worth a quick check" : "Looks genuine",
+      text: trust.needs_human_review ? t("check.genuineHighReview") : t("check.genuineHigh"),
       dotClass: classFromLevel("low")
     };
   }
   if (level === "low") {
-    return { text: "We're not sure, please take care", dotClass: classFromLevel("high") };
+    return { text: t("check.genuineLow"), dotClass: classFromLevel("high") };
   }
   if (level === "medium" && !hasMixedSignals) {
-    return { text: "Nothing unusual spotted", dotClass: classFromLevel("low") };
+    return { text: t("check.genuineMediumClean"), dotClass: classFromLevel("low") };
   }
-  return { text: "Probably genuine, worth a check", dotClass: classFromLevel("medium") };
+  return { text: t("check.genuineDefault"), dotClass: classFromLevel("medium") };
 }
 
 function friendlyCategoryLabel(category) {
-  const labels = {
-    bill_or_payment: "Bill or payment",
-    housing: "Housing letter",
-    appointment: "Appointment letter",
-    employment: "Work or employment letter",
-    education: "School or education letter",
-    bank_or_loan: "Bank or finance letter",
-    government: "Government letter",
-    medical: "Health letter",
-    legal_or_court: "Legal or court letter",
-    benefits: "Benefits letter",
-    insurance: "Insurance letter",
-    email: "Email message",
-    possible_scam: "Possible scam message",
-    template: "Blank form or template",
-    outgoing: "Document you are sending",
-    unsupported: "Unclear upload"
+  const labelKeys = {
+    bill_or_payment: "check.categoryBillOrPayment",
+    housing: "check.categoryHousing",
+    appointment: "check.categoryAppointment",
+    employment: "check.categoryEmployment",
+    education: "check.categoryEducation",
+    bank_or_loan: "check.categoryBankOrLoan",
+    government: "check.categoryGovernment",
+    medical: "check.categoryMedical",
+    legal_or_court: "check.categoryLegalOrCourt",
+    benefits: "check.categoryBenefits",
+    insurance: "check.categoryInsurance",
+    email: "check.categoryEmail",
+    possible_scam: "check.categoryPossibleScam",
+    template: "check.categoryTemplate",
+    outgoing: "check.categoryOutgoing",
+    unsupported: "check.categoryUnsupported"
   };
-  return labels[category] || "Official letter";
+  return t(labelKeys[category] || "check.categoryFallback");
 }
 
 // Human-readable "why" chips from the engine's signal arrays, de-duplicated and
@@ -3018,12 +3064,12 @@ function checkWhyChips(trust) {
 
 function safeActionFromTrust(trust) {
   if (trust.processing_mode === "verification_only") {
-    return "Verify using official contact details before acting.";
+    return t("check.safeActionVerify");
   }
   if (trust.processing_mode === "unsupported") {
-    return "Use a clearer upload or ask for help checking details.";
+    return t("check.safeActionUnclearUpload");
   }
-  return "Check the original document before acting.";
+  return t("check.safeActionDefault");
 }
 
 function classFromLevel(level) {
@@ -3038,24 +3084,31 @@ function classFromLevel(level) {
 }
 
 function labelForStyle(style) {
-  const labels = {
-    simple: "Simple view",
-    animal: "Animal Cards",
-    shape: "Shape Cards",
-    map: "Map Cards"
+  const labelKeys = {
+    simple: "journey.cardStyleSimple",
+    animal: "journey.cardStyleAnimal",
+    shape: "journey.cardStyleShape",
+    map: "journey.cardStyleMap"
   };
-  return labels[style] || "Simple view";
+  return t(labelKeys[style] || "journey.cardStyleSimple");
 }
 
 function showActionMessage(message) {
   document.querySelector("#action-message").textContent = message;
 }
 
-function setStatus(message, isError = false) {
+// Dictionary-keyed statuses go through here so setStatus can recognise the
+// state by key instead of comparing translated display text.
+function setStatusKey(titleKey, isError = false) {
+  setStatus(t(titleKey), isError, titleKey);
+}
+
+function setStatus(message, isError = false, statusKey = "") {
   if (!statusText) return;
+  lastStatusTitleKey = statusKey;
 
   const file = fileInput?.files?.[0];
-  const shouldHide = !isError && !file && message === "Choose a document to begin.";
+  const shouldHide = !isError && !file && lastStatusTitleKey === "status.chooseToBegin";
   statusText.classList.toggle("hidden", shouldHide);
   statusText.classList.toggle("error", isError);
 
@@ -3072,30 +3125,30 @@ function setStatus(message, isError = false) {
   }
 
   if (isError) {
-    statusTitle.textContent = "Please check your upload";
+    statusTitle.textContent = t("status.errorTitle");
     statusDetail.textContent = message;
     return;
   }
 
-  if (message === "Document selected." || message === "Your document is ready.") {
-    statusTitle.textContent = "Document ready";
-    statusDetail.textContent = file ? `${file.name} • ${formatFileSize(file.size)}` : message;
+  if (lastStatusTitleKey === "status.documentSelected" || lastStatusTitleKey === "status.documentReady") {
+    statusTitle.textContent = t("status.readyTitle");
+    statusDetail.textContent = file ? t("status.fileMeta", { fileName: file.name, fileSize: formatFileSize(file.size) }) : message;
     return;
   }
 
   statusTitle.textContent = message;
-  statusDetail.textContent = file ? `${file.name} • ${formatFileSize(file.size)}` : "";
+  statusDetail.textContent = file ? t("status.fileMeta", { fileName: file.name, fileSize: formatFileSize(file.size) }) : "";
 }
 
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
-  submitButton.textContent = isLoading ? "Reading..." : "Understand this document \u2192";
+  submitButton.textContent = isLoading ? t("status.submitLoading") : t("status.submitIdle");
   document.querySelector(".type-confirm")?.style.setProperty("display", isLoading ? "none" : "");
 }
 
 function typeNameForReading(type) {
-  const names = { letter: "letter", bill: "bill", work: "work document", medical: "medical document", school: "school document", legal: "legal document", email: "email", article: "article" };
-  return names[type] || null;
+  const nameKeys = { letter: "status.typeNameLetter", bill: "status.typeNameBill", work: "status.typeNameWork", medical: "status.typeNameMedical", school: "status.typeNameSchool", legal: "status.typeNameLegal", email: "status.typeNameEmail", article: "status.typeNameArticle" };
+  return nameKeys[type] ? t(nameKeys[type]) : null;
 }
 
 function setReadingHint(text) {
@@ -3106,11 +3159,11 @@ function setReadingHint(text) {
 }
 
 function formatFileSize(bytes) {
-  if (!Number.isFinite(bytes) || bytes <= 0) return "0 KB";
-  const units = ["B", "KB", "MB", "GB"];
+  if (!Number.isFinite(bytes) || bytes <= 0) return t("status.fileSizeZero");
+  const units = [t("status.fileSizeUnitB"), t("status.fileSizeUnitKb"), t("status.fileSizeUnitMb"), t("status.fileSizeUnitGb")];
   const unitIndex = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   const value = bytes / Math.pow(1024, unitIndex);
-  return `${value >= 10 || unitIndex === 0 ? Math.round(value) : value.toFixed(1)} ${units[unitIndex]}`;
+  return t("status.fileSizeValue", { value: value >= 10 || unitIndex === 0 ? Math.round(value) : value.toFixed(1), unit: units[unitIndex] });
 }
 
 function openModal(title, html, options = {}) {
@@ -3121,8 +3174,8 @@ function openModal(title, html, options = {}) {
   modal.classList.toggle("feedback-modal", options.variant === "feedback");
   modal.classList.remove("hidden");
   const closeButton = document.querySelector("#modal-close");
-  closeButton.innerHTML = options.closeLabel || "Back";
-  closeButton.setAttribute("aria-label", options.closeAriaLabel || "Go back");
+  closeButton.innerHTML = options.closeLabel || t("nav.modalBack");
+  closeButton.setAttribute("aria-label", options.closeAriaLabel || t("aria.goBack"));
   prepareThemeAwareArtMetadata();
   updateThemeAwareArt();
   closeButton.focus();
@@ -3135,8 +3188,8 @@ function closeModal() {
   modal.classList.remove("help-modal");
   modal.classList.remove("feedback-modal");
   const closeButton = document.querySelector("#modal-close");
-  closeButton.textContent = "Back";
-  closeButton.setAttribute("aria-label", "Go back");
+  closeButton.textContent = t("nav.modalBack");
+  closeButton.setAttribute("aria-label", t("aria.goBack"));
   modalContent.innerHTML = "";
   if (returnTarget && typeof returnTarget.focus === "function" && document.contains(returnTarget)) {
     returnTarget.focus();
@@ -3435,7 +3488,7 @@ function savePreferences(showConfirmation = true) {
   );
 
   if (showConfirmation !== false) {
-    openModal("Saved", "<p>Your preferences are saved on this device.</p>");
+    openModal(t("nav.prefsSavedTitle"), `<p>${t("nav.prefsSavedBody")}</p>`);
   }
 }
 
