@@ -93,6 +93,45 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Self hosted Noto Sans script subsets for the multilingual MVP. Variable
+   weight files covering 400 to 700, served like every other font here, no
+   CDN. unicode-range means a browser only downloads a file when glyphs from
+   that script actually render, so English visitors fetch nothing new. Noto
+   Sans is SIL OFL licensed, the same licence as the existing font files. */
+@font-face {
+  font-family: 'Noto Sans Gujarati';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-gujarati.woff2') format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+}
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-devanagari.woff2') format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+@font-face {
+  font-family: 'Noto Sans Bengali';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-bengali.woff2') format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+}
+
+@font-face {
+  font-family: 'Noto Sans Gurmukhi';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-gurmukhi.woff2') format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+}
+
 :root {
   --font-heading: "Lexend", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
@@ -9632,4 +9671,179 @@ body.theme-dark .check-dot.badge-high {
   justify-content: center;
   gap: 12px;
   margin-top: 4px;
+}
+
+/* Shown in English notice for the multilingual MVP. Appears under a cue card
+   only when the active language is not English and part of the card's engine
+   text had no reviewed translation in the template bank. Quiet by design. */
+.i18n-english-note {
+  margin: 8px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Language switcher, detection banner, and script font stacks for the
+   multilingual MVP. Everything uses the existing theme tokens. The switcher
+   is a quiet text pill; the banner is a calm dismissible strip under the
+   header, never a blocking gate. */
+.language-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.language-switch-btn:hover {
+  border-color: color-mix(in srgb, var(--theme-accent) 30%, var(--line) 70%);
+}
+
+.language-switch-mobile {
+  display: none;
+}
+
+.landing-language-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.landing-shell {
+  position: relative;
+}
+
+.language-banner {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--sage) 40%, var(--surface) 60%);
+  color: var(--text);
+}
+
+.language-banner.hidden {
+  display: none;
+}
+
+.language-banner-text {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.language-banner-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.language-banner-switch,
+.language-banner-dismiss {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.language-banner-switch {
+  border: 1px solid color-mix(in srgb, var(--green) 45%, var(--line) 55%);
+  background: var(--green);
+  color: var(--surface);
+}
+
+.language-banner-dismiss {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.language-options {
+  display: grid;
+  gap: 10px;
+}
+
+.language-option {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.language-option.selected {
+  border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--line) 55%);
+  background: color-mix(in srgb, var(--sage) 45%, var(--surface) 55%);
+  color: var(--text);
+}
+
+/* The switcher options and the detection banner show every language in its
+   own script whatever the active language, so their stack carries all three
+   Noto faces. Each face is unicode-range scoped, so only the file for a
+   script actually on screen is ever downloaded. */
+.language-option,
+.language-switch-label,
+.language-banner {
+  font-family: "Atkinson Hyperlegible", "Noto Sans Gujarati", "Noto Sans Devanagari", "Noto Sans Bengali", "Noto Sans Gurmukhi", "Segoe UI", Arial, sans-serif;
+}
+
+/* Script font stacks: for Gujarati, Hindi and Bengali the matching Noto Sans
+   face joins the stack. Latin glyphs still come from Lexend and Atkinson,
+   because the Noto faces are unicode-range scoped to their own scripts. */
+body[data-lang="gu"] {
+  --font-heading: "Lexend", "Noto Sans Gujarati", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans Gujarati", "Segoe UI", Arial, sans-serif;
+}
+
+body[data-lang="hi"] {
+  --font-heading: "Lexend", "Noto Sans Devanagari", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans Devanagari", "Segoe UI", Arial, sans-serif;
+}
+
+body[data-lang="bn"] {
+  --font-heading: "Lexend", "Noto Sans Bengali", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans Bengali", "Segoe UI", Arial, sans-serif;
+}
+
+body[data-lang="pa"] {
+  --font-heading: "Lexend", "Noto Sans Gurmukhi", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans Gurmukhi", "Segoe UI", Arial, sans-serif;
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    position: relative;
+  }
+
+  .language-switch-mobile {
+    display: inline-flex;
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  body[data-page="landing"] .language-switch-mobile {
+    display: none;
+  }
+
+  .landing-language-btn {
+    top: -6px;
+  }
 }

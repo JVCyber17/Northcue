@@ -35,13 +35,15 @@ async function simplifyRoute({ file, fields, directories }) {
   const requestedJobId = fields.jobId || fields.job_id || "";
   const selectedCategory = fields.documentCategory || "auto";
   const anonymousSessionId = fields.anonymousSessionId || "";
+  const interfaceLanguage = normaliseInterfaceLanguage(fields.language);
 
   if (action === "analyse") {
     return await analyseStoredDocument({
       jobId: requestedJobId,
       selectedCategory,
       anonymousSessionId,
-      resultsDir
+      resultsDir,
+      interfaceLanguage
     });
   }
 
@@ -154,7 +156,8 @@ async function simplifyRoute({ file, fields, directories }) {
     mimeType,
     originalName,
     selectedCategory,
-    anonymousSessionId
+    anonymousSessionId,
+    interfaceLanguage
   });
 
   const output = run.api_output;
@@ -292,7 +295,7 @@ async function extractUploadedFileText({
   };
 }
 
-async function analyseStoredDocument({ jobId, selectedCategory, anonymousSessionId, resultsDir }) {
+async function analyseStoredDocument({ jobId, selectedCategory, anonymousSessionId, resultsDir, interfaceLanguage }) {
   cleanupOldOcrSessions();
 
   const storedDocument = ocrSessionStore.get(jobId);
@@ -318,7 +321,8 @@ async function analyseStoredDocument({ jobId, selectedCategory, anonymousSession
     mimeType: storedDocument.mimeType,
     originalName: storedDocument.originalName,
     selectedCategory,
-    anonymousSessionId
+    anonymousSessionId,
+    interfaceLanguage
   });
 
   const output = run.api_output;
@@ -349,11 +353,28 @@ async function analyseDocumentText(extractedText, fileMeta = {}) {
   });
 
   // Optional backend-only AI pass. If it is unavailable, slow, invalid, or unsafe,
-  // the existing rules-based result is returned unchanged.
+  // the existing rules-based result is returned unchanged. When the interface
+  // language is not English the pass is skipped entirely inside the service:
+  // AI phrasing is English only in the multilingual MVP, and non English cards
+  // are the deterministic rules cards translated by the template bank.
   return await applyAiStructuredResult({
     rulesRun,
-    extractedText
+    extractedText,
+    language: fileMeta.interfaceLanguage
   });
+}
+
+// Interface language sent by the frontend with the analyse request. Validated
+// against the same language list the browser uses (public/i18n/config.js is a
+// plain UMD data module, so requiring it here keeps a single source of truth).
+// Anything unknown falls back to English, which means the AI pass behaviour
+// is unchanged for every existing caller.
+const I18N_CONFIG = require("../../public/i18n/config");
+
+function normaliseInterfaceLanguage(value) {
+  const cleaned = String(value || "").toLowerCase().trim();
+  const known = I18N_CONFIG.languages.some((entry) => entry.code === cleaned);
+  return known ? cleaned : "en";
 }
 
 function buildSafeStoredResult(output = {}) {

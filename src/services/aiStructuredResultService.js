@@ -11,7 +11,7 @@ const AI_TIMEOUT_MS = Number(process.env.CLEARSTEPS_AI_TIMEOUT_MS || 25000);
 // ever cut off mid-content.
 const AI_OUTBOUND_TEXT_MAX_CHARS = Math.max(1000, Number(process.env.CLEARSTEPS_AI_TEXT_MAX_CHARS || 8000));
 
-async function applyAiStructuredResult({ rulesRun, extractedText }) {
+async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   const output = rulesRun.api_output;
 
   // Backstop: run the proven pay/credential stripper over the rules-engine cards
@@ -23,6 +23,23 @@ async function applyAiStructuredResult({ rulesRun, extractedText }) {
   const fallbackStructuredResult = output.structured_result;
   const startedAt = Date.now();
   const model = DEFAULT_MODEL;
+
+  // Hard gate: AI phrasing is English only in the multilingual MVP. When the
+  // interface language is anything else, skip the AI pass entirely and serve
+  // the deterministic rules cards, which the frontend translates through the
+  // reviewed template bank. This mirrors the other hard gates below and sits
+  // after the stripper so safety filtering still applies to what is served.
+  if (language && language !== "en") {
+    attachAiMetadata(output, {
+      ai_used: false,
+      ai_status: "skipped",
+      ai_provider: "openai",
+      ai_model: model,
+      ai_duration_ms: 0,
+      ai_error_code: "non_english_language"
+    });
+    return rulesRun;
+  }
 
   const inputQuality = output.trust?.input_quality || "unknown";
   const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);

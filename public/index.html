@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Northcue</title>
-    <meta name="description" content="Northcue turns confusing documents into calm, clear next steps.">
+    <meta name="description" content="Northcue turns confusing documents into calm, clear next steps." data-i18n-content="meta.description">
     <link rel="icon" href="/favicon.ico?v=logo-20260704a" sizes="any">
     <link rel="icon" type="image/svg+xml" href="/assets/northcue-mark.svg?v=logo-20260704a">
     <link rel="manifest" href="/manifest.webmanifest">
@@ -16,11 +16,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="preload" as="image" href="/assets/northcue-document-stack.png">
-    <link rel="stylesheet" href="/styles.css?v=why-visuals-20260713a">
+    <link rel="stylesheet" href="/styles.css?v=i18n-merge-20260727a">
   </head>
   <body data-page="landing">
     <header class="topbar">
-      <a href="/" class="brand-button brand-link" data-page-link="home" aria-label="Go to homepage">
+      <a href="/" class="brand-button brand-link" data-page-link="home" aria-label="Go to homepage" data-i18n-aria-label="topbar.aria.goHome">
         <img
           class="brand-icon"
           src="/assets/northcue-mark.svg?v=logo-20260704a"
@@ -29,40 +29,54 @@
           data-logo-dark="/assets/northcue-mark.svg?v=logo-20260704a"
           data-logo-light="/assets/northcue-mark-on-dark.svg?v=logo-20260704a"
         >
-        <span class="brand-name">Northcue</span>
+        <span class="brand-name" data-i18n="topbar.brandName">Northcue</span>
       </a>
 
-      <nav class="top-links" aria-label="Main pages">
-        <button type="button" class="top-link active" data-page-link="home">Home</button>
-        <button type="button" class="top-link" data-page-link="journey">Understand</button>
-        <button type="button" class="top-link" data-page-link="help">Help</button>
+      <nav class="top-links" aria-label="Main pages" data-i18n-aria-label="topbar.aria.mainPages">
+        <button type="button" class="top-link active" data-page-link="home" data-i18n="topbar.nav.home">Home</button>
+        <button type="button" class="top-link" data-page-link="journey" data-i18n="topbar.nav.understand">Understand</button>
+        <button type="button" class="top-link" data-page-link="help" data-i18n="topbar.nav.help">Help</button>
       </nav>
 
-      <div class="mode-row" aria-label="Comfort controls">
-        <div class="theme-switch" role="group" aria-label="Theme">
-          <button type="button" class="theme-seg active" data-theme="light" aria-label="Light theme" aria-pressed="true">
+      <div class="mode-row" aria-label="Comfort controls" data-i18n-aria-label="topbar.aria.comfortControls">
+        <div class="theme-switch" role="group" aria-label="Theme" data-i18n-aria-label="topbar.aria.theme">
+          <button type="button" class="theme-seg active" data-theme="light" aria-label="Light theme" data-i18n-aria-label="topbar.aria.lightTheme" aria-pressed="true">
             <img class="northcue-icon northcue-theme-seg-icon" src="/icons/northcue/light-mode.png" alt="" data-theme-art="utility" data-icon-name="light-mode">
           </button>
-          <button type="button" class="theme-seg" data-theme="dark" aria-label="Dark mode" aria-pressed="false">
+          <button type="button" class="theme-seg" data-theme="dark" aria-label="Dark mode" data-i18n-aria-label="topbar.aria.darkMode" aria-pressed="false">
             <img class="northcue-icon northcue-theme-seg-icon" src="/icons/northcue/dark-mode.png" alt="" data-theme-art="utility" data-icon-name="dark-mode">
           </button>
         </div>
-        <button type="button" class="mode-btn" data-toggle="focus-mode" aria-label="Focus mode">
+        <button type="button" class="mode-btn" data-toggle="focus-mode" aria-label="Focus mode" data-i18n-aria-label="topbar.aria.focusMode">
           <span class="top-mode-icon northcue-circle-soft-green" aria-hidden="true">
             <img class="northcue-icon northcue-top-main-icon" src="/icons/northcue/foreground/focus-mode.png" alt="" data-theme-art="icon" data-icon-name="focus-mode">
           </span>
-          <span>Focus</span>
+          <span data-i18n="topbar.mode.focus">Focus</span>
         </button>
-        <button type="button" class="mode-btn" data-toggle="dyslexia-mode" aria-label="Text comfort">
+        <button type="button" class="mode-btn" data-toggle="dyslexia-mode" aria-label="Text comfort" data-i18n-aria-label="topbar.aria.textComfort">
           <span class="top-mode-icon northcue-circle-soft-cream text-mode-icon" aria-hidden="true">Aa</span>
-          <span>Text</span>
+          <span data-i18n="topbar.mode.text">Text</span>
         </button>
-        <button type="button" class="mode-btn colour-wheel-btn" id="colour-wheel" aria-label="Open colour and comfort settings">
+        <button type="button" class="mode-btn colour-wheel-btn" id="colour-wheel" aria-label="Open colour and comfort settings" data-i18n-aria-label="topbar.aria.openComfort">
           <span class="colour-swatch" aria-hidden="true"></span>
-          <span>Comfort</span>
+          <span data-i18n="topbar.mode.comfort">Comfort</span>
+        </button>
+        <button type="button" class="language-switch-btn" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+          <span class="language-switch-label" data-language-label>English</span>
         </button>
       </div>
+      <button type="button" class="language-switch-btn language-switch-mobile" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+        <span class="language-switch-label" data-language-label>English</span>
+      </button>
     </header>
+
+    <div class="language-banner hidden" data-language-banner role="region" aria-label="Language suggestion" data-i18n-aria-label="language.aria.banner">
+      <p class="language-banner-text" data-language-banner-text></p>
+      <div class="language-banner-actions">
+        <button type="button" class="language-banner-switch" data-language-banner-switch></button>
+        <button type="button" class="language-banner-dismiss" data-language-banner-dismiss></button>
+      </div>
+    </div>
 
     <main class="app-main">
       <section id="page-landing" class="page active" aria-labelledby="landing-title">
@@ -73,22 +87,25 @@
           </div>
 
           <div class="landing-shell">
-            <a href="/" class="landing-brand brand-link" data-page-link="home" aria-label="Go to homepage">
-              <img class="landing-logo-img" src="/assets/northcue-lockup-light.svg?v=logo-20260704a" alt="Northcue">
+            <a href="/" class="landing-brand brand-link" data-page-link="home" aria-label="Go to homepage" data-i18n-aria-label="landing.aria.goHome">
+              <img class="landing-logo-img" src="/assets/northcue-lockup-light.svg?v=logo-20260704a" alt="Northcue" data-i18n-alt="landing.alt.logo">
             </a>
-            <h1 id="landing-title">Your letter,<br>made clearer.</h1>
+            <button type="button" class="language-switch-btn landing-language-btn" data-language-open aria-label="Choose language" data-i18n-aria-label="language.aria.open">
+              <span class="language-switch-label" data-language-label>English</span>
+            </button>
+            <h1 id="landing-title"><span data-i18n="landing.headline.line1">Your letter,</span><br><span data-i18n="landing.headline.line2">made clearer.</span></h1>
             <p class="landing-copy">
-              Upload a bill, notice, or letter.
+              <span data-i18n="landing.copy.line1">Upload a bill, notice, or letter.</span>
               <br>
-              We make it clear.
+              <span data-i18n="landing.copy.line2">We make it clear.</span>
             </p>
             <button type="button" class="landing-start-btn" data-page-link="journey">
-              Make it clearer <span class="landing-arrow" aria-hidden="true"></span>
+              <span data-i18n="landing.cta">Make it clearer</span> <span class="landing-arrow" aria-hidden="true"></span>
             </button>
           </div>
 
           <div class="landing-cue-previews" aria-hidden="true">
-            <p class="landing-cue-label">A preview of your cue cards</p>
+            <p class="landing-cue-label" data-i18n="landing.preview.label">A preview of your cue cards</p>
             <article class="landing-cue-preview">
               <span class="landing-cue-icon">
                 <svg viewBox="0 0 48 48" focusable="false">
@@ -97,8 +114,8 @@
                 </svg>
               </span>
               <div>
-                <strong>What it is</strong>
-                <span class="landing-cue-line">What the letter appears to be</span>
+                <strong data-i18n="landing.preview.whatIs.title">What it is</strong>
+                <span class="landing-cue-line" data-i18n="landing.preview.whatIs.line">What the letter appears to be</span>
               </div>            </article>
             <article class="landing-cue-preview">
               <span class="landing-cue-icon">
@@ -110,8 +127,8 @@
                 </svg>
               </span>
               <div>
-                <strong>What to do</strong>
-                <span class="landing-cue-line">The safest next thing to check</span>
+                <strong data-i18n="landing.preview.whatToDo.title">What to do</strong>
+                <span class="landing-cue-line" data-i18n="landing.preview.whatToDo.line">The safest next thing to check</span>
               </div>            </article>
             <article class="landing-cue-preview">
               <span class="landing-cue-icon">
@@ -127,8 +144,8 @@
                 </svg>
               </span>
               <div>
-                <strong>When it matters</strong>
-                <span class="landing-cue-line">Any visible dates that matter</span>
+                <strong data-i18n="landing.preview.whenMatters.title">When it matters</strong>
+                <span class="landing-cue-line" data-i18n="landing.preview.whenMatters.line">Any visible dates that matter</span>
               </div>            </article>
           </div>
 
@@ -142,38 +159,38 @@
                 </svg>
               </span>
               <div>
-                <strong>Council Tax bill</strong>
+                <strong data-i18n="landing.example.title">Council Tax bill</strong>
                 <i></i><i></i>
                 <div class="landing-example-tags">
-                  <span class="landing-example-tag">Due 14 Jul</span>
-                  <span class="landing-example-tag">&pound;128</span>
+                  <span class="landing-example-tag" data-i18n="landing.example.tagDue">Due 14 Jul</span>
+                  <span class="landing-example-tag" data-i18n="landing.example.tagAmount">&pound;128</span>
                 </div>
               </div>
             </article>
-            <p class="landing-example-more">Plus what to check next</p>
+            <p class="landing-example-more" data-i18n="landing.example.more">Plus what to check next</p>
           </div>
         </div>
       </section>
 
       <section id="page-home" class="page" aria-labelledby="home-title">
-        <div class="home-welcome" aria-label="Welcome to Northcue">
+        <div class="home-welcome" aria-label="Welcome to Northcue" data-i18n-aria-label="home.welcome.aria.region">
           <section class="home-welcome-hero">
-            <h2 class="home-welcome-title">Your letter,<br>made clearer.</h2>
-            <p class="home-welcome-sub">Upload a bill, notice, or letter and get calm cue cards.</p>
-            <button type="button" class="primary-btn home-welcome-start" data-page-link="journey">Start with a document</button>
-            <p class="home-welcome-privacy">Only used to make your cards.</p>
+            <h2 class="home-welcome-title"><span data-i18n="home.welcome.title.line1">Your letter,</span><br><span data-i18n="home.welcome.title.line2">made clearer.</span></h2>
+            <p class="home-welcome-sub" data-i18n="home.welcome.subtitle">Upload a bill, notice, or letter and get calm cue cards.</p>
+            <button type="button" class="primary-btn home-welcome-start" data-page-link="journey" data-i18n="home.welcome.start">Start with a document</button>
+            <p class="home-welcome-privacy" data-i18n="home.welcome.privacy">Only used to make your cards.</p>
           </section>
 
           <section class="home-welcome-section home-welcome-steps">
-            <h3 class="home-welcome-heading">How it works</h3>
+            <h3 class="home-welcome-heading" data-i18n="home.welcome.hiwHeading">How it works</h3>
             <ol class="hiw-list">
               <li class="hiw-step">
                 <span class="home-welcome-icon northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-welcome-img" src="/icons/northcue/foreground/upload.png" alt="">
                 </span>
                 <span class="hiw-copy">
-                  <strong>Upload</strong>
-                  <small>A letter, bill, notice, or screenshot.</small>
+                  <strong data-i18n="home.hiw.upload.title">Upload</strong>
+                  <small data-i18n="home.hiw.upload.line">A letter, bill, notice, or screenshot.</small>
                 </span>
               </li>
               <li class="hiw-step">
@@ -181,8 +198,8 @@
                   <img class="home-welcome-img" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
                 <span class="hiw-copy">
-                  <strong>Understand</strong>
-                  <small>Northcue reads it and finds the key points.</small>
+                  <strong data-i18n="home.hiw.understand.title">Understand</strong>
+                  <small data-i18n="home.hiw.understand.line">Northcue reads it and finds the key points.</small>
                 </span>
               </li>
               <li class="hiw-step">
@@ -190,8 +207,8 @@
                   <img class="home-welcome-img" src="/icons/northcue/foreground/shield-check.png" alt="">
                 </span>
                 <span class="hiw-copy">
-                  <strong>Check</strong>
-                  <small>It highlights what matters and what to check.</small>
+                  <strong data-i18n="home.hiw.check.title">Check</strong>
+                  <small data-i18n="home.hiw.check.line">It highlights what matters and what to check.</small>
                 </span>
               </li>
               <li class="hiw-step">
@@ -199,8 +216,8 @@
                   <img class="home-welcome-img" src="/icons/northcue/foreground/act-next-step.png" alt="">
                 </span>
                 <span class="hiw-copy">
-                  <strong>Act</strong>
-                  <small>You get calm cue cards with a clear next step.</small>
+                  <strong data-i18n="home.hiw.act.title">Act</strong>
+                  <small data-i18n="home.hiw.act.line">You get calm cue cards with a clear next step.</small>
                 </span>
               </li>
             </ol>
@@ -257,32 +274,32 @@
              .home-dashboard-head + .home-mobile-actions render instead. Reuses
              existing component classes, icons and data-* wiring so every
              destination matches the current home exactly. -->
-        <div class="home-board" aria-label="Northcue home">
+        <div class="home-board" aria-label="Northcue home" data-i18n-aria-label="home.board.aria.region">
           <div class="home-board-col home-board-col-left">
 
             <section class="home-board-panel home-board-hero">
-              <h1 class="home-board-title">Your letter,<br>made clearer.</h1>
-              <p class="home-board-sub">Upload a bill, notice, or letter and get calm cue cards.</p>
+              <h1 class="home-board-title"><span data-i18n="home.board.title.line1">Your letter,</span><br><span data-i18n="home.board.title.line2">made clearer.</span></h1>
+              <p class="home-board-sub" data-i18n="home.board.subtitle">Upload a bill, notice, or letter and get calm cue cards.</p>
               <button type="button" class="home-upload-btn home-board-start" data-page-link="journey">
                 <svg class="home-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path d="M12 15V4"></path>
                   <path d="M7.5 8.5 12 4l4.5 4.5"></path>
                   <path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"></path>
                 </svg>
-                Start with a document
+                <span data-i18n="home.board.start">Start with a document</span>
               </button>
-              <p class="focus-helper focus-home-helper" aria-live="polite">Focus mode: start with the main upload action.</p>
+              <p class="focus-helper focus-home-helper" aria-live="polite" data-i18n="home.board.focusHelper">Focus mode: start with the main upload action.</p>
             </section>
 
             <section class="home-board-panel home-board-help">
-              <h2 class="home-board-heading">What do you need help with?</h2>
+              <h2 class="home-board-heading" data-i18n="home.board.helpHeading">What do you need help with?</h2>
               <button type="button" class="home-tile-card" data-help-open="overwhelmed">
                 <span class="home-icon-bubble home-icon-lavender northcue-circle-soft-purple" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>I feel overwhelmed</strong>
-                  <small>Get calm support before reading.</small>
+                  <strong data-i18n="home.board.overwhelmed.title">I feel overwhelmed</strong>
+                  <small data-i18n="home.board.overwhelmed.line">Get calm support before reading.</small>
                 </span>
                 <span class="home-card-arrow" aria-hidden="true"></span>
               </button>
@@ -290,33 +307,33 @@
                 <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/next-arrow.png" alt="">
                 </span>
-                <span class="home-help-line-text"><strong>Help with a document or something else</strong> on the Help page</span>
+                <span class="home-help-line-text"><strong data-i18n="home.board.helpLineDoc.strong">Help with a document or something else</strong> <span data-i18n="home.board.helpLineDoc.rest">on the Help page</span></span>
               </button>
               <button type="button" class="home-help-line" data-page-link="why-northcue">
                 <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/foreground/shield-check.png" alt="">
                 </span>
-                <span class="home-help-line-text"><strong>Why Northcue is different</strong> and how it keeps you safe</span>
+                <span class="home-help-line-text"><strong data-i18n="home.board.helpLineWhy.strong">Why Northcue is different</strong> <span data-i18n="home.board.helpLineWhy.rest">and how it keeps you safe</span></span>
               </button>
             </section>
 
-            <section class="home-board-panel home-board-connect" aria-label="Feedback and privacy">
+            <section class="home-board-panel home-board-connect" aria-label="Feedback and privacy" data-i18n-aria-label="home.board.aria.connect">
               <button type="button" class="home-tile-card home-board-connect-item" data-feedback-open>
                 <span class="home-icon-bubble home-icon-warm northcue-circle-soft-cream" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>Give feedback</strong>
-                  <small>Tell us what helped or felt confusing.</small>
+                  <strong data-i18n="home.board.feedback.title">Give feedback</strong>
+                  <small data-i18n="home.board.feedback.line">Tell us what helped or felt confusing.</small>
                 </span>
               </button>
-              <article class="home-tile-card home-static-card home-board-connect-item is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
+              <article class="home-tile-card home-static-card home-board-connect-item is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy" data-i18n-aria-label="home.board.aria.privacyCard">
                 <span class="home-icon-bubble home-icon-solid northcue-circle-soft-green" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>Private &amp; secure</strong>
-                  <small>Your documents stay private.</small>
+                  <strong data-i18n="home.board.private.title">Private &amp; secure</strong>
+                  <small data-i18n="home.board.private.line">Your documents stay private.</small>
                 </span>
               </article>
             </section>
@@ -325,42 +342,42 @@
 
           <div class="home-board-col home-board-col-right">
 
-            <section class="home-process-panel home-board-process" aria-label="How Northcue works">
+            <section class="home-process-panel home-board-process" aria-label="How Northcue works" data-i18n-aria-label="home.board.aria.process">
               <header>
-                <h2>How Northcue works</h2>
-                <p>A simple way to understand a document.</p>
+                <h2 data-i18n="home.board.process.heading">How Northcue works</h2>
+                <p data-i18n="home.board.process.subtitle">A simple way to understand a document.</p>
               </header>
               <div class="process-orbit" aria-hidden="true">
                 <div class="process-step">
                   <span class="process-icon-circle northcue-circle-white">
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                   </span>
-                  <strong>Upload</strong>
-                  <small>Add your document</small>
+                  <strong data-i18n="home.process.upload.title">Upload</strong>
+                  <small data-i18n="home.process.upload.line">Add your document</small>
                 </div>
                 <span class="process-chevron" aria-hidden="true"></span>
                 <div class="process-step">
                   <span class="process-icon-circle northcue-circle-white">
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                   </span>
-                  <strong>Understand</strong>
-                  <small>We explain it simply</small>
+                  <strong data-i18n="home.process.understand.title">Understand</strong>
+                  <small data-i18n="home.process.understand.line">We explain it simply</small>
                 </div>
                 <span class="process-chevron" aria-hidden="true"></span>
                 <div class="process-step">
                   <span class="process-icon-circle northcue-circle-white">
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/safety-check.png" alt="">
                   </span>
-                  <strong>Check</strong>
-                  <small>We highlight key details</small>
+                  <strong data-i18n="home.process.check.title">Check</strong>
+                  <small data-i18n="home.process.check.line">We highlight key details</small>
                 </div>
                 <span class="process-chevron" aria-hidden="true"></span>
                 <div class="process-step">
                   <span class="process-icon-circle northcue-circle-white">
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
                   </span>
-                  <strong>Act</strong>
-                  <small>You choose what to do next</small>
+                  <strong data-i18n="home.process.act.title">Act</strong>
+                  <small data-i18n="home.process.act.line">You choose what to do next</small>
                 </div>
               </div>
             </section>
@@ -420,9 +437,9 @@
         <div class="home-dashboard">
           <section class="home-action-panel" aria-labelledby="home-title">
             <header class="home-dashboard-head">
-              <h1 id="home-title"><span class="home-title-full">What do you need help with today?</span><span class="home-title-compact">Here if you need us</span></h1>
-              <p>Northcue turns a confusing bill, notice or official letter into calm cue cards. They show what it appears to be, what matters, and what to check next.</p>
-              <p class="focus-helper focus-home-helper" aria-live="polite">Focus mode: start with the main upload action.</p>
+              <h1 id="home-title"><span class="home-title-full" data-i18n="home.dash.titleFull">What do you need help with today?</span><span class="home-title-compact" data-i18n="home.dash.titleCompact">Here if you need us</span></h1>
+              <p data-i18n="home.dash.intro">Northcue turns a confusing bill, notice or official letter into calm cue cards. They show what it appears to be, what matters, and what to check next.</p>
+              <p class="focus-helper focus-home-helper" aria-live="polite" data-i18n="home.dash.focusHelper">Focus mode: start with the main upload action.</p>
             </header>
 
             <article class="home-primary-card">
@@ -430,26 +447,26 @@
                 <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document.png" alt="">
               </span>
               <div class="home-card-copy">
-                <h2>Understand a document</h2>
+                <h2 data-i18n="home.dash.primary.heading">Understand a document</h2>
                 <button type="button" class="home-upload-btn" data-page-link="journey">
                   <svg class="home-button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M12 15V4"></path>
                     <path d="M7.5 8.5 12 4l4.5 4.5"></path>
                     <path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"></path>
                   </svg>
-                  Upload
+                  <span data-i18n="home.dash.primary.upload">Upload</span>
                 </button>
               </div>
             </article>
 
-            <div class="home-card-grid" aria-label="Home options">
+            <div class="home-card-grid" aria-label="Home options" data-i18n-aria-label="home.dash.aria.options">
               <button type="button" class="home-tile-card" data-page-link="help">
                 <span class="home-icon-bubble home-icon-lavender northcue-circle-soft-purple" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>I feel overwhelmed</strong>
-                  <small>Get calm support before reading.</small>
+                  <strong data-i18n="home.dash.overwhelmed.title">I feel overwhelmed</strong>
+                  <small data-i18n="home.dash.overwhelmed.line">Get calm support before reading.</small>
                 </span>
                 <span class="home-card-arrow" aria-hidden="true"></span>
               </button>
@@ -459,8 +476,8 @@
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>Give feedback</strong>
-                  <small>Tell us what helped or felt confusing.</small>
+                  <strong data-i18n="home.dash.feedback.title">Give feedback</strong>
+                  <small data-i18n="home.dash.feedback.line">Tell us what helped or felt confusing.</small>
                 </span>
                 <span class="home-card-arrow" aria-hidden="true"></span>
               </button>
@@ -470,18 +487,18 @@
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/folder.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>Your documents</strong>
-                  <small>Your documents will appear here after you upload one.</small>
+                  <strong data-i18n="home.dash.documents.title">Your documents</strong>
+                  <small data-i18n="home.dash.documents.line">Your documents will appear here after you upload one.</small>
                 </span>
               </article>
 
-              <article class="home-tile-card home-static-card is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
+              <article class="home-tile-card home-static-card is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy" data-i18n-aria-label="home.dash.aria.privacyCard">
                 <span class="home-icon-bubble home-icon-solid northcue-circle-soft-green" aria-hidden="true">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>Private and secure</strong>
-                  <small>Your documents stay private.</small>
+                  <strong data-i18n="home.dash.private.title">Private and secure</strong>
+                  <small data-i18n="home.dash.private.line">Your documents stay private.</small>
                 </span>
                 <span class="home-card-arrow" aria-hidden="true"></span>
               </article>
@@ -493,8 +510,8 @@
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
                 </span>
                 <span class="home-card-copy">
-                  <strong>I feel overwhelmed</strong>
-                  <small>Get calm support before reading.</small>
+                  <strong data-i18n="home.mobile.overwhelmed.title">I feel overwhelmed</strong>
+                  <small data-i18n="home.mobile.overwhelmed.line">Get calm support before reading.</small>
                 </span>
                 <span class="home-card-arrow" aria-hidden="true"></span>
               </button>
@@ -503,14 +520,14 @@
                 <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/next-arrow.png" alt="">
                 </span>
-                <span class="home-help-line-text"><strong>Help with a document or something else</strong> on the Help page</span>
+                <span class="home-help-line-text"><strong data-i18n="home.mobile.helpLineDoc.strong">Help with a document or something else</strong> <span data-i18n="home.mobile.helpLineDoc.rest">on the Help page</span></span>
               </button>
 
               <button type="button" class="home-help-line" data-page-link="why-northcue">
                 <span class="home-mini-icon northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/foreground/shield-check.png" alt="">
                 </span>
-                <span class="home-help-line-text"><strong>Why Northcue is different</strong> and how it keeps you safe</span>
+                <span class="home-help-line-text"><strong data-i18n="home.mobile.helpLineWhy.strong">Why Northcue is different</strong> <span data-i18n="home.mobile.helpLineWhy.rest">and how it keeps you safe</span></span>
               </button>
 
               <hr class="home-mobile-divider" aria-hidden="true">
@@ -519,7 +536,7 @@
                 <span class="home-mini-icon northcue-circle-soft-cream" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/foreground/chat-message.png" alt="">
                 </span>
-                <span class="home-quiet-label">Give feedback</span>
+                <span class="home-quiet-label" data-i18n="home.mobile.feedback">Give feedback</span>
                 <span class="home-quiet-chevron" aria-hidden="true"></span>
               </button>
 
@@ -527,15 +544,15 @@
                 <span class="home-privacy-shield northcue-circle-soft-green" aria-hidden="true">
                   <img class="home-mini-img" src="/icons/northcue/foreground/shield-check.png" alt="">
                 </span>
-                <span class="home-privacy-text">Private and secure. See how</span>
+                <span class="home-privacy-text" data-i18n="home.mobile.privacyLine">Private and secure. See how</span>
               </button>
             </div>
           </section>
 
-          <section class="home-process-panel" aria-label="How Northcue works">
+          <section class="home-process-panel" aria-label="How Northcue works" data-i18n-aria-label="home.dash.aria.process">
             <header>
-              <h2>How Northcue works</h2>
-              <p>A simple way to understand a document.</p>
+              <h2 data-i18n="home.dash.process.heading">How Northcue works</h2>
+              <p data-i18n="home.dash.process.subtitle">A simple way to understand a document.</p>
             </header>
 
             <div class="process-orbit" aria-hidden="true">
@@ -543,8 +560,8 @@
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                 </span>
-                <strong>Upload</strong>
-                <small>Add your document</small>
+                <strong data-i18n="home.process.upload.title">Upload</strong>
+                <small data-i18n="home.process.upload.line">Add your document</small>
               </div>
 
               <span class="process-chevron" aria-hidden="true"></span>
@@ -553,8 +570,8 @@
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
-                <strong>Understand</strong>
-                <small>We explain it simply</small>
+                <strong data-i18n="home.process.understand.title">Understand</strong>
+                <small data-i18n="home.process.understand.line">We explain it simply</small>
               </div>
 
               <span class="process-chevron" aria-hidden="true"></span>
@@ -563,8 +580,8 @@
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/safety-check.png" alt="">
                 </span>
-                <strong>Check</strong>
-                <small>We highlight key details</small>
+                <strong data-i18n="home.process.check.title">Check</strong>
+                <small data-i18n="home.process.check.line">We highlight key details</small>
               </div>
 
               <span class="process-chevron" aria-hidden="true"></span>
@@ -573,8 +590,8 @@
                 <span class="process-icon-circle northcue-circle-white">
                   <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
                 </span>
-                <strong>Act</strong>
-                <small>You choose what to do next</small>
+                <strong data-i18n="home.process.act.title">Act</strong>
+                <small data-i18n="home.process.act.line">You choose what to do next</small>
               </div>
             </div>
           </section>
@@ -586,13 +603,13 @@
               <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
             </span>
             <div class="install-card-body">
-              <h2 class="install-card-title" id="install-card-title">Add Northcue to your phone</h2>
-              <p class="install-card-line">Keep it one tap away, like an app.</p>
+              <h2 class="install-card-title" id="install-card-title" data-i18n="install.card.title">Add Northcue to your phone</h2>
+              <p class="install-card-line" data-i18n="install.card.line">Keep it one tap away, like an app.</p>
               <div class="install-card-actions" data-install-actions>
-                <button type="button" class="install-btn" data-install-trigger>Install Northcue</button>
-                <button type="button" class="install-dismiss" data-install-dismiss>Not now</button>
+                <button type="button" class="install-btn" data-install-trigger data-i18n="install.card.install">Install Northcue</button>
+                <button type="button" class="install-dismiss" data-install-dismiss data-i18n="install.card.dismiss">Not now</button>
               </div>
-              <p class="install-ios-line" data-install-ios hidden>On iPhone, tap Share, then Add to Home Screen.</p>
+              <p class="install-ios-line" data-install-ios hidden data-i18n="install.card.iosLine">On iPhone, tap Share, then Add to Home Screen.</p>
             </div>
           </section>
 
@@ -601,14 +618,14 @@
               <span class="install-footline-mark" aria-hidden="true">
                 <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
               </span>
-              <span>Add Northcue to your phone</span>
+              <span data-i18n="install.footline.android">Add Northcue to your phone</span>
             </button>
             <div class="install-footline-ios" data-install-ios hidden>
               <span class="install-footline-mark" aria-hidden="true">
                 <img src="/assets/northcue-mark.svg?v=logo-20260704a" alt="">
               </span>
-              <span class="install-footline-iostext">Add Northcue to your phone</span>
-              <small>On iPhone, tap Share, then Add to Home Screen.</small>
+              <span class="install-footline-iostext" data-i18n="install.footline.ios">Add Northcue to your phone</span>
+              <small data-i18n="install.footline.iosLine">On iPhone, tap Share, then Add to Home Screen.</small>
             </div>
           </div>
         </div>
@@ -616,54 +633,54 @@
 
       <section id="page-journey" class="page journey-page upload-active" aria-labelledby="journey-title">
         <div class="journey-shell">
-          <h1 id="journey-title"><span class="journey-title-full">Start with one document</span><span class="journey-title-compact">Start with a document</span></h1>
-          <p class="journey-upload-subtitle">Upload a file and we&rsquo;ll turn it into calm cue cards.</p>
-          <p class="journey-upload-subtitle-mobile">Ready when you are.</p>
-          <p class="focus-helper focus-upload-helper" aria-live="polite">Focus mode: choose one file, then press Understand this document.</p>
-          <div class="journey-rail" aria-label="Document steps">
+          <h1 id="journey-title"><span class="journey-title-full" data-i18n="journey.titleFull">Start with one document</span><span class="journey-title-compact" data-i18n="journey.titleCompact">Start with a document</span></h1>
+          <p class="journey-upload-subtitle" data-i18n="journey.upload.subtitle">Upload a file and we&rsquo;ll turn it into calm cue cards.</p>
+          <p class="journey-upload-subtitle-mobile" data-i18n="journey.upload.subtitleMobile">Ready when you are.</p>
+          <p class="focus-helper focus-upload-helper" aria-live="polite" data-i18n="journey.upload.focusHelper">Focus mode: choose one file, then press Understand this document.</p>
+          <div class="journey-rail" aria-label="Document steps" data-i18n-aria-label="journey.aria.steps">
             <button type="button" class="rail-step active" data-rail="upload">
               <span class="emoji-icon rail-emoji journey-icon-slot">
                 <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/upload.png" alt="">
               </span>
-              Upload
+              <span data-i18n="journey.rail.upload">Upload</span>
             </button>
             <button type="button" class="rail-step" data-rail="understand">
               <span class="emoji-icon rail-emoji journey-icon-slot">
                 <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/document-check.png" alt="">
               </span>
-              Understand
+              <span data-i18n="journey.rail.understand">Understand</span>
             </button>
             <button type="button" class="rail-step" data-rail="act">
               <span class="emoji-icon rail-emoji journey-icon-slot">
                 <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/act-next-step.png" alt="">
               </span>
-              Act
+              <span data-i18n="journey.rail.act">Act</span>
             </button>
             <button type="button" class="rail-step" data-rail="check">
               <span class="emoji-icon rail-emoji journey-icon-slot">
                 <img class="northcue-icon northcue-rail-icon" src="/icons/northcue/foreground/search.png" alt="">
               </span>
-              Check
+              <span data-i18n="journey.rail.check">Check</span>
             </button>
           </div>
 
-          <section class="upload-panel" aria-label="Upload area">
+          <section class="upload-panel" aria-label="Upload area" data-i18n-aria-label="journey.aria.uploadArea">
             <form id="upload-form">
               <div class="dropzone-wrapper">
                 <label class="dropzone" for="document-file">
                   <span class="upload-hero-icon" aria-hidden="true">
                     <img class="northcue-icon northcue-main-icon" src="/icons/northcue/foreground/upload.png" alt="">
                   </span>
-                  <span class="dropzone-title">Drag and drop, or <span>browse</span></span>
-                  <span class="dropzone-choose">Choose a file</span>
-                  <span id="file-name" class="dropzone-sub">PDF, JPG or PNG</span>
+                  <span class="dropzone-title"><span data-i18n="journey.dropzone.titleLead" style="color:inherit;text-decoration:none">Drag and drop, or</span> <span data-i18n="journey.dropzone.browse">browse</span></span>
+                  <span class="dropzone-choose" data-i18n="journey.upload.chooseFile">Choose a file</span>
+                  <span id="file-name" class="dropzone-sub" data-i18n="journey.dropzone.formats">PDF, JPG or PNG</span>
                 </label>
                 <label id="take-photo" class="take-photo-btn" for="camera-capture">
                   <svg class="take-photo-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M4.5 8.5h3l1.4-2h6.2l1.4 2h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z"></path>
                     <circle cx="12" cy="13.5" r="3.1"></circle>
                   </svg>
-                  Take a photo
+                  <span data-i18n="journey.takePhoto">Take a photo</span>
                 </label>
               </div>
               <input id="document-file" name="document" type="file" accept="application/pdf,image/jpeg,image/png,image/webp,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
@@ -674,74 +691,74 @@
                   <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                 </span>
                 <span class="ready-copy">
-                  <strong data-status-title>Document ready</strong>
+                  <strong data-status-title data-i18n="status.readyTitle">Document ready</strong>
                   <span data-status-detail></span>
                 </span>
-                <button type="button" id="remove-document" class="ready-remove" aria-label="Choose a different document">Replace</button>
+                <button type="button" id="remove-document" class="ready-remove" aria-label="Choose a different document" data-i18n-aria-label="journey.aria.replaceDoc" data-i18n="journey.status.replace">Replace</button>
               </div>
 
               <p class="reading-hint" data-reading-hint aria-live="polite" hidden></p>
 
               <div class="type-confirm" aria-live="polite">
                 <span class="type-confirm-text" data-type-label></span>
-                <button type="button" class="change-type-btn" aria-expanded="false">Change type</button>
+                <button type="button" class="change-type-btn" aria-expanded="false" data-i18n="journey.type.change">Change type</button>
               </div>
 
               <div class="document-type-row">
-                <div class="chips" role="radiogroup" aria-label="Document type">
-                  <button type="button" class="chip active" data-category="auto" role="radio" aria-checked="true">Auto detect</button>
-                  <button type="button" class="chip" data-category="letter" role="radio" aria-checked="false">Letter</button>
-                  <button type="button" class="chip" data-category="bill" role="radio" aria-checked="false">Bill</button>
+                <div class="chips" role="radiogroup" aria-label="Document type" data-i18n-aria-label="journey.aria.docType">
+                  <button type="button" class="chip active" data-category="auto" role="radio" aria-checked="true" data-i18n="journey.type.auto">Auto detect</button>
+                  <button type="button" class="chip" data-category="letter" role="radio" aria-checked="false" data-i18n="journey.type.letter">Letter</button>
+                  <button type="button" class="chip" data-category="bill" role="radio" aria-checked="false" data-i18n="journey.type.bill">Bill</button>
                   <div class="more-type-wrapper">
                     <button type="button" id="more-type-button" class="more-type-button" aria-expanded="false" aria-controls="more-type-menu">
-                      <span data-more-label>More</span>
+                      <span data-more-label data-i18n="journey.type.more">More</span>
                     </button>
                     <div id="more-type-menu" class="more-type-menu hidden" role="menu">
-                      <button type="button" class="chip more-type-option" data-category="work" role="radio" aria-checked="false">Work</button>
-                      <button type="button" class="chip more-type-option" data-category="medical" role="radio" aria-checked="false">Medical</button>
-                      <button type="button" class="chip more-type-option" data-category="school" role="radio" aria-checked="false">School</button>
-                      <button type="button" class="chip more-type-option" data-category="legal" role="radio" aria-checked="false">Legal</button>
-                      <button type="button" class="chip more-type-option" data-category="email" role="radio" aria-checked="false">Email</button>
-                      <button type="button" class="chip more-type-option" data-category="article" role="radio" aria-checked="false">Article</button>
-                      <button type="button" class="chip more-type-option" data-category="other" role="radio" aria-checked="false">Other</button>
+                      <button type="button" class="chip more-type-option" data-category="work" role="radio" aria-checked="false" data-i18n="journey.type.work">Work</button>
+                      <button type="button" class="chip more-type-option" data-category="medical" role="radio" aria-checked="false" data-i18n="journey.type.medical">Medical</button>
+                      <button type="button" class="chip more-type-option" data-category="school" role="radio" aria-checked="false" data-i18n="journey.type.school">School</button>
+                      <button type="button" class="chip more-type-option" data-category="legal" role="radio" aria-checked="false" data-i18n="journey.type.legal">Legal</button>
+                      <button type="button" class="chip more-type-option" data-category="email" role="radio" aria-checked="false" data-i18n="journey.type.email">Email</button>
+                      <button type="button" class="chip more-type-option" data-category="article" role="radio" aria-checked="false" data-i18n="journey.type.article">Article</button>
+                      <button type="button" class="chip more-type-option" data-category="other" role="radio" aria-checked="false" data-i18n="journey.type.other">Other</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="upload-actions">
-                <button type="submit" id="submit-button" class="primary-btn">Understand this document <span aria-hidden="true">&rarr;</span></button>
-                <button type="button" id="card-style-button" class="outline-btn" hidden>Card style</button>
-                <button type="button" id="check-button" class="outline-btn" hidden>Document check</button>
+                <button type="submit" id="submit-button" class="primary-btn"><span data-i18n="journey.submit">Understand this document</span> <span aria-hidden="true">&rarr;</span></button>
+                <button type="button" id="card-style-button" class="outline-btn" hidden data-i18n="journey.cardStyle">Card style</button>
+                <button type="button" id="check-button" class="outline-btn" hidden data-i18n="journey.docCheck">Document check</button>
               </div>
 
-              <div class="privacy-note is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy">
+              <div class="privacy-note is-privacy-link" data-page-link="privacy" role="button" tabindex="0" aria-label="Read how Northcue protects your privacy" data-i18n-aria-label="journey.aria.privacyNote">
                 <span class="privacy-note-icon journey-icon-slot" aria-hidden="true">
                   <img class="northcue-icon northcue-status-icon" src="/icons/northcue/foreground/private-secure.png" alt="">
                 </span>
                 <span>
-                  <strong>Private and secure</strong>
-                  <small>Only used to make your cards.</small>
+                  <strong data-i18n="journey.privacy.title">Private and secure</strong>
+                  <small data-i18n="journey.privacy.line">Only used to make your cards.</small>
                 </span>
               </div>
-              <button type="button" class="privacy-line-mobile" data-page-link="privacy">Your document is not stored. We only use it to make your cards.</button>
+              <button type="button" class="privacy-line-mobile" data-page-link="privacy" data-i18n="journey.privacy.mobile">Your document is not stored. We only use it to make your cards.</button>
             </form>
           </section>
 
           <div class="results-head">
             <div>
-              <h1>Understand your document</h1>
-              <p>We break it into clear cards, one step at a time.</p>
-              <p class="focus-helper focus-card-helper" aria-live="polite">Focus mode: one card at a time. Actions are hidden until you exit Focus.</p>
+              <h1 data-i18n="journey.results.heading">Understand your document</h1>
+              <p data-i18n="journey.results.subtitle">We break it into clear cards, one step at a time.</p>
+              <p class="focus-helper focus-card-helper" aria-live="polite" data-i18n="journey.results.focusHelper">Focus mode: one card at a time. Actions are hidden until you exit Focus.</p>
             </div>
           </div>
 
           <div class="journey-main">
             <div class="result-card-stack">
-              <section class="cue-card-panel" aria-label="Guided card">
+              <section class="cue-card-panel" aria-label="Guided card" data-i18n-aria-label="journey.aria.guidedCard">
                 <div class="card-top">
                   <div class="card-top-left">
-                    <p id="card-progress" class="card-progress">Card 1 of 6</p>
+                    <p id="card-progress" class="card-progress" data-i18n="journey.card.progress">Card 1 of 6</p>
                     <button type="button" id="card-focus-toggle" class="focus-card-toggle" aria-pressed="false">
                       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                         <circle cx="12" cy="12" r="6.5"></circle>
@@ -750,7 +767,7 @@
                         <path d="M3 12h3"></path>
                         <path d="M18 12h3"></path>
                       </svg>
-                      <span>Focus on card</span>
+                      <span data-i18n="journey.card.focusToggle">Focus on card</span>
                     </button>
                     <button type="button" id="card-detail-toggle" class="focus-card-toggle detail-toggle" aria-pressed="false">
                       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -758,10 +775,10 @@
                         <path d="M5 12h14"></path>
                         <path d="M5 16h9"></path>
                       </svg>
-                      <span>Simple view</span>
+                      <span data-i18n="journey.card.detailToggle">Simple view</span>
                     </button>
                   </div>
-                  <div id="progress-dots" class="progress-dots" aria-label="Cue card progress"></div>
+                  <div id="progress-dots" class="progress-dots" aria-label="Cue card progress" data-i18n-aria-label="journey.aria.progress"></div>
                 </div>
 
                 <div class="card-divider"></div>
@@ -770,19 +787,20 @@
                   <div id="card-icon" class="cue-logo northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-cue-icon" src="/icons/northcue/foreground/document.png" alt="">
                   </div>
-                  <h2 id="card-title">What is this?</h2>
-                  <p id="card-answer" class="card-answer">This looks like a formal document.</p>
-                  <p id="card-explanation" class="card-explanation">It can be read clearly, so we can pull out the key points.</p>
+                  <h2 id="card-title" data-i18n="journey.card.title">What is this?</h2>
+                  <p id="card-answer" class="card-answer" data-i18n="journey.card.answer">This looks like a formal document.</p>
+                  <p id="card-explanation" class="card-explanation" data-i18n="journey.card.explanation">It can be read clearly, so we can pull out the key points.</p>
+                  <p id="card-i18n-note" class="i18n-english-note hidden" data-i18n="i18n.shownInEnglish">This part is shown in English.</p>
                   <ul id="card-steps" class="card-steps hidden"></ul>
                 </div>
 
                 <div class="card-nav">
-                  <button type="button" id="card-back" class="outline-btn">&larr; Back</button>
-                  <button type="button" id="card-next" class="primary-btn">Next &rarr;</button>
+                  <button type="button" id="card-back" class="outline-btn" data-i18n="journey.card.back">&larr; Back</button>
+                  <button type="button" id="card-next" class="primary-btn" data-i18n="journey.card.next">Next &rarr;</button>
                 </div>
               </section>
 
-              <div id="completion-screen" class="completion-screen hidden" aria-label="Document complete" aria-live="polite">
+              <div id="completion-screen" class="completion-screen hidden" aria-label="Document complete" data-i18n-aria-label="journey.aria.complete" aria-live="polite">
                 <span class="completion-circle northcue-circle-soft-green" aria-hidden="true">
                   <svg viewBox="0 0 24 24" focusable="false">
                     <path d="M5 19l4-10 6 6-10 4z"></path>
@@ -793,52 +811,52 @@
                     <path d="M12.5 4.5l.8-2.5"></path>
                   </svg>
                 </span>
-                <h2 class="completion-headline">You made it.</h2>
-                <p class="completion-body">You've been through all <span id="completion-card-count">your</span> cards. Your document is clearer now, and the original is always there whenever you want to check it.</p>
-                <button type="button" class="primary-btn completion-calendar-btn" id="completion-add-calendar">Add to calendar</button>
+                <h2 class="completion-headline" data-i18n="journey.done.headline">You made it.</h2>
+                <p class="completion-body"><span data-i18n="journey.done.bodyBefore">You've been through all</span> <span id="completion-card-count">your</span> <span data-i18n="journey.done.bodyAfter">cards. Your document is clearer now, and the original is always there whenever you want to check it.</span></p>
+                <button type="button" class="primary-btn completion-calendar-btn" id="completion-add-calendar" data-i18n="journey.done.addCalendar">Add to calendar</button>
                 <div class="completion-secondary">
-                  <button type="button" class="completion-text-link" id="completion-upload-another">Understand another</button>
+                  <button type="button" class="completion-text-link" id="completion-upload-another" data-i18n="journey.done.another">Understand another</button>
                   <span aria-hidden="true" class="completion-divider">&middot;</span>
-                  <button type="button" class="completion-text-link" id="completion-back-home">Back to home</button>
+                  <button type="button" class="completion-text-link" id="completion-back-home" data-i18n="journey.done.backHome">Back to home</button>
                 </div>
-                <button type="button" class="completion-feedback-link" id="completion-feedback" data-feedback-open>Was this helpful?</button>
+                <button type="button" class="completion-feedback-link" id="completion-feedback" data-feedback-open data-i18n="journey.done.feedback">Was this helpful?</button>
               </div>
 
-              <p id="card-feedback" class="micro-feedback">Good start. Let's go one card at a time.</p>
+              <p id="card-feedback" class="micro-feedback" data-i18n="journey.card.microFeedback">Good start. Let's go one card at a time.</p>
             </div>
 
-            <aside class="action-panel" aria-label="Actions">
-              <h2>Actions</h2>
+            <aside class="action-panel" aria-label="Actions" data-i18n-aria-label="journey.aria.actions">
+              <h2 data-i18n="journey.actions.heading">Actions</h2>
               <div class="action-grid">
                 <button type="button" class="action-btn" id="copy-summary">
                   <span class="action-icon action-copy northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/copy-summary.png" alt="">
                   </span>
-                  Copy summary
+                  <span data-i18n="journey.actions.copy">Copy summary</span>
                 </button>
                 <button type="button" class="action-btn" id="review-check">
                   <span class="action-icon action-check northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/document-check.png" alt="">
                   </span>
-                  Document check
+                  <span data-i18n="journey.actions.check">Document check</span>
                 </button>
                 <button type="button" class="action-btn" id="add-calendar">
                   <span class="action-icon action-calendar northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/add-deadline.png" alt="">
                   </span>
-                  Add to calendar
+                  <span data-i18n="journey.actions.calendar">Add to calendar</span>
                 </button>
                 <button type="button" class="action-btn" id="upload-another">
                   <span class="action-icon action-upload northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/upload-add.png" alt="">
                   </span>
-                  Upload another document
+                  <span data-i18n="journey.actions.uploadAnother">Upload another document</span>
                 </button>
                 <button type="button" class="action-btn" id="give-feedback">
                   <span class="action-icon action-feedback northcue-circle-soft-green" aria-hidden="true">
                     <img class="northcue-icon northcue-action-icon" src="/icons/northcue/foreground/chat-message.png" alt="">
                   </span>
-                  Give feedback
+                  <span data-i18n="journey.actions.feedback">Give feedback</span>
                 </button>
               </div>
 
@@ -857,15 +875,15 @@
                 <path d="M12.5 4.5l.8-2.5"></path>
               </svg>
             </span>
-            <span><strong>Hurray, you completed this section.</strong> Great job, your journey is clearer now.</span>
+            <span><strong data-i18n="journey.achievement.strong">Hurray, you completed this section.</strong> <span data-i18n="journey.achievement.rest">Great job, your journey is clearer now.</span></span>
           </div>
 
-          <section id="card-feedback-panel" class="after-card-feedback hidden" aria-label="Feedback after cue cards">
+          <section id="card-feedback-panel" class="after-card-feedback hidden" aria-label="Feedback after cue cards" data-i18n-aria-label="journey.aria.afterFeedback">
             <div>
-              <h2>Was this helpful?</h2>
-              <p>Tell us what felt clear or confusing.</p>
+              <h2 data-i18n="journey.afterFeedback.heading">Was this helpful?</h2>
+              <p data-i18n="journey.afterFeedback.subtitle">Tell us what felt clear or confusing.</p>
             </div>
-            <button type="button" class="primary-btn" data-feedback-open>Give feedback</button>
+            <button type="button" class="primary-btn" data-feedback-open data-i18n="journey.afterFeedback.cta">Give feedback</button>
           </section>
         </div>
       </section>
@@ -873,71 +891,71 @@
       <section id="page-help" class="page" aria-labelledby="help-title">
         <div class="help-layout">
           <div class="help-head">
-            <p class="eyebrow">Help</p>
-            <h1 id="help-title">Support when<br>things feel hard</h1>
-            <p class="focus-helper focus-help-helper" aria-live="polite">Focus mode: choose one support card. Details open in a small popup.</p>
+            <p class="eyebrow" data-i18n="help.head.eyebrow">Help</p>
+            <h1 id="help-title"><span data-i18n="help.head.title.line1">Support when</span><br><span data-i18n="help.head.title.line2">things feel hard</span></h1>
+            <p class="focus-helper focus-help-helper" aria-live="polite" data-i18n="help.head.focusHelper">Focus mode: choose one support card. Details open in a small popup.</p>
           </div>
 
-          <p class="help-tier-label">Quick help with your document</p>
+          <p class="help-tier-label" data-i18n="help.tier.quick">Quick help with your document</p>
           <div class="help-cards">
             <button type="button" class="help-card" data-help="fake">
               <span class="help-icon-bubble cream" aria-hidden="true">
                 <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/fake-document.png" alt="">
               </span>
-              <strong>I think this document is fake</strong>
+              <strong data-i18n="help.card.fake">I think this document is fake</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="deadline">
               <span class="help-icon-bubble blue" aria-hidden="true">
                 <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/deadline.png" alt="">
               </span>
-              <strong>I cannot find the deadline</strong>
+              <strong data-i18n="help.card.deadline">I cannot find the deadline</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="time">
               <span class="help-icon-bubble cream" aria-hidden="true">
                 <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/time.png" alt="">
               </span>
-              <strong>I need more time</strong>
+              <strong data-i18n="help.card.time">I need more time</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
             <button type="button" class="help-card" data-help="wrong">
               <span class="help-icon-bubble lavender" aria-hidden="true">
                 <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/wrong-file.png" alt="">
               </span>
-              <strong>I uploaded the wrong file</strong>
+              <strong data-i18n="help.card.wrong">I uploaded the wrong file</strong>
               <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
             </button>
           </div>
 
           <div class="help-support-tier">
-            <p class="help-tier-label">When you need more support</p>
+            <p class="help-tier-label" data-i18n="help.tier.support">When you need more support</p>
             <div class="help-cards">
               <button type="button" class="help-card" data-help="overwhelmed">
                 <span class="help-icon-bubble lavender" aria-hidden="true">
                   <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/overwhelmed.png" alt="">
                 </span>
-                <strong>I feel overwhelmed</strong>
+                <strong data-i18n="help.card.overwhelmed">I feel overwhelmed</strong>
                 <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
               </button>
               <button type="button" class="help-card" data-help="person">
                 <span class="help-icon-bubble blue" aria-hidden="true">
                   <img class="northcue-icon northcue-help-icon" src="/icons/northcue/foreground/need-help.png" alt="">
                 </span>
-                <strong>I need someone to help me</strong>
+                <strong data-i18n="help.card.person">I need someone to help me</strong>
                 <span class="help-card-arrow" aria-hidden="true">&rsaquo;</span>
               </button>
             </div>
             <div class="help-simple-card help-contact-card">
               <div class="help-contact-card-body">
-                <h3>Give feedback, or ask us to get in touch</h3>
-                <p>Tell us how Northcue worked for you, or leave your details and we'll reach out.</p>
+                <h3 data-i18n="help.contact.heading">Give feedback, or ask us to get in touch</h3>
+                <p data-i18n="help.contact.subtitle">Tell us how Northcue worked for you, or leave your details and we'll reach out.</p>
               </div>
-              <button type="button" class="soft-purple-btn" data-feedback-open>Write to us</button>
+              <button type="button" class="soft-purple-btn" data-feedback-open data-i18n="help.contact.cta">Write to us</button>
             </div>
           </div>
 
-          <p class="help-safety-note"><svg class="help-safety-icon" aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/><line x1="10" y1="10" x2="10" y2="13.5"/></svg><span>If you or someone else is in immediate danger, call 999. Northcue is not an emergency service.</span></p>
+          <p class="help-safety-note"><svg class="help-safety-icon" aria-hidden="true" focusable="false" viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/><line x1="10" y1="10" x2="10" y2="13.5"/></svg><span data-i18n="help.safetyNote">If you or someone else is in immediate danger, call 999. Northcue is not an emergency service.</span></p>
         </div>
       </section>
 
@@ -945,27 +963,27 @@
         <div class="comfort-layout">
           <div class="comfort-head">
             <span class="comfort-eyebrow">
-              <span class="comfort-eyebrow-full">Accessibility settings</span>
-              <span class="comfort-eyebrow-short">Settings</span>
+              <span class="comfort-eyebrow-full" data-i18n="comfort.eyebrowFull">Accessibility settings</span>
+              <span class="comfort-eyebrow-short" data-i18n="comfort.eyebrowShort">Settings</span>
             </span>
-            <h1 id="comfort-title">Make Northcue comfortable for you<span class="green-dot">.</span></h1>
-            <p>Choose settings that make reading feel easier.</p>
+            <h1 id="comfort-title"><span data-i18n="comfort.title">Make Northcue comfortable for you</span><span class="green-dot">.</span></h1>
+            <p data-i18n="comfort.subtitle">Choose settings that make reading feel easier.</p>
           </div>
 
           <div class="comfort-settings-stack">
             <div class="settings-appearance">
-              <p class="settings-appearance-label">Appearance</p>
+              <p class="settings-appearance-label" data-i18n="comfort.appearance.label">Appearance</p>
               <div class="appearance-toggles">
                 <button type="button" class="appearance-toggle" data-theme="dark" aria-pressed="false">
                   <span class="appearance-toggle-text">
-                    <span class="appearance-toggle-label">Dark mode</span>
+                    <span class="appearance-toggle-label" data-i18n="comfort.appearance.dark">Dark mode</span>
                   </span>
                   <span class="appearance-switch" aria-hidden="true"></span>
                 </button>
                 <button type="button" class="appearance-toggle" data-toggle="focus-mode" aria-pressed="false">
                   <span class="appearance-toggle-text">
-                    <span class="appearance-toggle-label">Focus mode</span>
-                    <span class="appearance-toggle-help">Simplifies the screen so you see less at once. Works best when reading your cue cards.</span>
+                    <span class="appearance-toggle-label" data-i18n="comfort.appearance.focus">Focus mode</span>
+                    <span class="appearance-toggle-help" data-i18n="comfort.appearance.focusHelp">Simplifies the screen so you see less at once. Works best when reading your cue cards.</span>
                   </span>
                   <span class="appearance-switch" aria-hidden="true"></span>
                 </button>
@@ -973,46 +991,46 @@
             </div>
             <div class="settings-panel">
             <div class="settings-section">
-              <p>Colour style</p>
+              <p data-i18n="comfort.colour.label">Colour style</p>
               <div class="colour-style-row">
-                <button type="button" class="colour-style selected" data-colour-style="calm"><span class="swatch calm-swatch"></span>Calm</button>
-                <button type="button" class="colour-style" data-colour-style="lavender"><span class="swatch lavender-swatch"></span>Soft Lavender</button>
-                <button type="button" class="colour-style" data-colour-style="cream"><span class="swatch cream-swatch"></span>Warm Cream</button>
-                <button type="button" class="colour-style" data-colour-style="sage"><span class="swatch sage-swatch"></span>Sage Focus</button>
-                <button type="button" class="colour-style" data-colour-style="classic"><span class="swatch classic-swatch"></span>Classic</button>
+                <button type="button" class="colour-style selected" data-colour-style="calm"><span class="swatch calm-swatch"></span><span data-i18n="comfort.colour.calm">Calm</span></button>
+                <button type="button" class="colour-style" data-colour-style="lavender"><span class="swatch lavender-swatch"></span><span data-i18n="comfort.colour.lavender">Soft Lavender</span></button>
+                <button type="button" class="colour-style" data-colour-style="cream"><span class="swatch cream-swatch"></span><span data-i18n="comfort.colour.cream">Warm Cream</span></button>
+                <button type="button" class="colour-style" data-colour-style="sage"><span class="swatch sage-swatch"></span><span data-i18n="comfort.colour.sage">Sage Focus</span></button>
+                <button type="button" class="colour-style" data-colour-style="classic"><span class="swatch classic-swatch"></span><span data-i18n="comfort.colour.classic">Classic</span></button>
               </div>
             </div>
 
             <div class="settings-section">
-              <p>Text size</p>
+              <p data-i18n="comfort.textSize.label">Text size</p>
               <div class="segmented">
-                <button type="button" class="text-size-btn" data-text-size="small"><strong>Aa</strong>Smaller</button>
-                <button type="button" class="text-size-btn selected" data-text-size="medium"><strong>Aa</strong>Medium</button>
-                <button type="button" class="text-size-btn" data-text-size="large"><strong>Aa</strong>Larger</button>
+                <button type="button" class="text-size-btn" data-text-size="small"><strong>Aa</strong><span data-i18n="comfort.textSize.small">Smaller</span></button>
+                <button type="button" class="text-size-btn selected" data-text-size="medium"><strong>Aa</strong><span data-i18n="comfort.textSize.medium">Medium</span></button>
+                <button type="button" class="text-size-btn" data-text-size="large"><strong>Aa</strong><span data-i18n="comfort.textSize.large">Larger</span></button>
               </div>
             </div>
 
             <div class="settings-section">
-              <p>Reading card style</p>
+              <p data-i18n="comfort.cardStyle.label">Reading card style</p>
               <div class="card-style-row">
-                <button type="button" class="card-style-choice selected" data-card-style-choice="soft"><span></span><strong>Soft rounded</strong><small>Gentle corners and padding</small></button>
-                <button type="button" class="card-style-choice" data-card-style-choice="standard"><span></span><strong>Standard</strong><small>More defined edges</small></button>
+                <button type="button" class="card-style-choice selected" data-card-style-choice="soft"><span></span><strong data-i18n="comfort.cardStyle.soft.title">Soft rounded</strong><small data-i18n="comfort.cardStyle.soft.line">Gentle corners and padding</small></button>
+                <button type="button" class="card-style-choice" data-card-style-choice="standard"><span></span><strong data-i18n="comfort.cardStyle.standard.title">Standard</strong><small data-i18n="comfort.cardStyle.standard.line">More defined edges</small></button>
               </div>
             </div>
 
             <div class="settings-section">
-              <p>Background style</p>
+              <p data-i18n="comfort.background.label">Background style</p>
               <div class="background-style-grid">
-                <button type="button" class="background-style-choice selected" data-background-style="plain"><span class="background-preview"></span><span>Plain calm</span></button>
-                <button type="button" class="background-style-choice" data-background-style="dots"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="36" cy="36" r="4"/><circle cx="64" cy="36" r="4"/><circle cx="36" cy="64" r="4"/><circle cx="64" cy="64" r="4"/></g></svg></span><span>Soft dots</span></button>
-                <button type="button" class="background-style-choice" data-background-style="shapes"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="33" cy="62" r="12"/><rect x="52" y="50" width="26" height="26" rx="8"/><path d="M50 17 L52.6 24.4 L60.5 24.6 L54.2 29.4 L56.5 36.9 L50 32.4 L43.5 36.9 L45.8 29.4 L39.5 24.6 L47.4 24.4 Z"/></g></svg></span><span>Soft shapes</span></button>
-                <button type="button" class="background-style-choice" data-background-style="notebook"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="34" y1="40" x2="66" y2="40"/><line x1="34" y1="50" x2="66" y2="50"/><line x1="34" y1="60" x2="66" y2="60"/></g></svg></span><span>School notebook</span></button>
-                <button type="button" class="background-style-choice" data-background-style="animals"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M34 44 L29 25 L49 38 Z"/><path d="M66 44 L71 25 L51 38 Z"/><circle cx="50" cy="58" r="20"/><path d="M40 55 q3 -3 6 0"/><path d="M54 55 q3 -3 6 0"/><path d="M47 62 L50 65 L53 62"/><path d="M24 58 L38 60"/><path d="M24 64 L38 63"/><path d="M76 58 L62 60"/><path d="M76 64 L62 63"/></g></svg></span><span>Soft friends</span></button>
+                <button type="button" class="background-style-choice selected" data-background-style="plain"><span class="background-preview"></span><span data-i18n="comfort.background.plain">Plain calm</span></button>
+                <button type="button" class="background-style-choice" data-background-style="dots"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="36" cy="36" r="4"/><circle cx="64" cy="36" r="4"/><circle cx="36" cy="64" r="4"/><circle cx="64" cy="64" r="4"/></g></svg></span><span data-i18n="comfort.background.dots">Soft dots</span></button>
+                <button type="button" class="background-style-choice" data-background-style="shapes"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="33" cy="62" r="12"/><rect x="52" y="50" width="26" height="26" rx="8"/><path d="M50 17 L52.6 24.4 L60.5 24.6 L54.2 29.4 L56.5 36.9 L50 32.4 L43.5 36.9 L45.8 29.4 L39.5 24.6 L47.4 24.4 Z"/></g></svg></span><span data-i18n="comfort.background.shapes">Soft shapes</span></button>
+                <button type="button" class="background-style-choice" data-background-style="notebook"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="34" y1="40" x2="66" y2="40"/><line x1="34" y1="50" x2="66" y2="50"/><line x1="34" y1="60" x2="66" y2="60"/></g></svg></span><span data-i18n="comfort.background.notebook">School notebook</span></button>
+                <button type="button" class="background-style-choice" data-background-style="animals"><span class="background-preview"><svg class="background-preview-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M34 44 L29 25 L49 38 Z"/><path d="M66 44 L71 25 L51 38 Z"/><circle cx="50" cy="58" r="20"/><path d="M40 55 q3 -3 6 0"/><path d="M54 55 q3 -3 6 0"/><path d="M47 62 L50 65 L53 62"/><path d="M24 58 L38 60"/><path d="M24 64 L38 63"/><path d="M76 58 L62 60"/><path d="M76 64 L62 63"/></g></svg></span><span data-i18n="comfort.background.animals">Soft friends</span></button>
               </div>
             </div>
             </div>
 
-            <p class="saved-on-device">Saved on this device. You can change this anytime.</p>
+            <p class="saved-on-device" data-i18n="comfort.savedNote">Saved on this device. You can change this anytime.</p>
           </div>
 
         </div>
@@ -1024,16 +1042,16 @@
             <span class="privacy-icon privacy-icon-lg" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3l7 3v5c0 5.1-3.1 8.4-7 9.6-3.9-1.2-7-4.5-7-9.6V6z"></path><path d="M9 11.6l2.1 2.1L15.4 9.4"></path></svg>
             </span>
-            <h1 id="privacy-title">Your privacy<span class="green-dot">.</span></h1>
-            <p class="privacy-intro">The documents people bring to Northcue can feel personal. We treat them that way. Here is how we look after them, simply.</p>
+            <h1 id="privacy-title"><span data-i18n="privacy.head.title">Your privacy</span><span class="green-dot">.</span></h1>
+            <p class="privacy-intro" data-i18n="privacy.head.intro">The documents people bring to Northcue can feel personal. We treat them that way. Here is how we look after them, simply.</p>
           </header>
 
-          <ol class="privacy-journey" aria-label="How Northcue handles your document">
+          <ol class="privacy-journey" aria-label="How Northcue handles your document" data-i18n-aria-label="privacy.aria.journey">
             <li class="privacy-step">
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><path d="M12 15.5V4.5"></path><path d="M7.5 9l4.5-4.5L16.5 9"></path><path d="M5 15.5v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3"></path></svg>
               </span>
-              <span class="privacy-step-label">You upload</span>
+              <span class="privacy-step-label" data-i18n="privacy.step.upload">You upload</span>
             </li>
             <li class="privacy-step-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
@@ -1042,7 +1060,7 @@
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4"></rect></svg>
               </span>
-              <span class="privacy-step-label">Northcue structures it</span>
+              <span class="privacy-step-label" data-i18n="privacy.step.structure">Northcue structures it</span>
             </li>
             <li class="privacy-step-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
@@ -1051,7 +1069,7 @@
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><path d="M12 4l1.5 4.2 4.2 1.5-4.2 1.5L12 15.4l-1.5-4.2L6.3 9.7l4.2-1.5z"></path><path d="M18 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"></path></svg>
               </span>
-              <span class="privacy-step-label">AI helps phrase it clearly</span>
+              <span class="privacy-step-label" data-i18n="privacy.step.ai">AI helps phrase it clearly</span>
             </li>
             <li class="privacy-step-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6l6 6-6 6"></path></svg>
@@ -1060,14 +1078,14 @@
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><path d="M4.5 7h15"></path><path d="M9 7V5.2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V7"></path><path d="M6.5 7l.9 12.1a1 1 0 0 0 1 .9h7.2a1 1 0 0 0 1-.9L18.5 7"></path><path d="M10 11v5M14 11v5"></path></svg>
               </span>
-              <span class="privacy-step-label">It is deleted</span>
+              <span class="privacy-step-label" data-i18n="privacy.step.deleted">It is deleted</span>
             </li>
           </ol>
-          <p class="privacy-journey-caption">Your document is deleted after we read it. We keep only anonymous information, never its contents.</p>
+          <p class="privacy-journey-caption" data-i18n="privacy.journeyCaption">Your document is deleted after we read it. We keep only anonymous information, never its contents.</p>
 
           <div class="privacy-panel privacy-authenticity">
-            <h2>The thinking is ours</h2>
-            <p>Northcue is not a chatbot. We built our own system that reads your document, works out what it appears to be, and carefully decides what belongs on each cue card and how gently to word it. That structure, and the safety behind it, is Northcue's own work. An AI provider only helps put it into clear, friendly language at the end.</p>
+            <h2 data-i18n="privacy.thinking.heading">The thinking is ours</h2>
+            <p data-i18n="privacy.thinking.body">Northcue is not a chatbot. We built our own system that reads your document, works out what it appears to be, and carefully decides what belongs on each cue card and how gently to word it. That structure, and the safety behind it, is Northcue's own work. An AI provider only helps put it into clear, friendly language at the end.</p>
           </div>
 
           <div class="privacy-card-row">
@@ -1075,15 +1093,15 @@
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.2 12.4l2.5 2.5 5-5.3"></path></svg>
               </span>
-              <h3>What we keep</h3>
-              <p>Only anonymous information, like the type of document and whether it read clearly. Never linked to you.</p>
+              <h3 data-i18n="privacy.keep.heading">What we keep</h3>
+              <p data-i18n="privacy.keep.body">Only anonymous information, like the type of document and whether it read clearly. Never linked to you.</p>
             </div>
             <div class="privacy-card">
               <span class="privacy-icon privacy-icon-md" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="10.5" width="14" height="9.5" rx="2"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path><path d="M12 14.4v2.6"></path></svg>
               </span>
-              <h3>What we never keep</h3>
-              <p>Your document, its text, or your name, address, and account numbers.</p>
+              <h3 data-i18n="privacy.never.heading">What we never keep</h3>
+              <p data-i18n="privacy.never.body">Your document, its text, or your name, address, and account numbers.</p>
             </div>
           </div>
 
@@ -1091,46 +1109,46 @@
             <span class="privacy-icon privacy-icon-md" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.4"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.4"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.4"></rect></svg>
             </span>
-            <h2>How your cards are made</h2>
-            <p>Northcue structures your cue cards and decides what matters. To help phrase them clearly, an AI provider reads what is on your document. That text is only used to make your cards, it is processed securely, it is not used to train AI, and it is not stored.</p>
+            <h2 data-i18n="privacy.cards.heading">How your cards are made</h2>
+            <p data-i18n="privacy.cards.body">Northcue structures your cue cards and decides what matters. To help phrase them clearly, an AI provider reads what is on your document. That text is only used to make your cards, it is processed securely, it is not used to train AI, and it is not stored.</p>
           </div>
 
           <div class="privacy-panel">
             <span class="privacy-icon privacy-icon-md" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect><path d="M4.5 7.5l7.5 5.5 7.5-5.5"></path></svg>
             </span>
-            <h2>Questions</h2>
-            <p>If you have any questions about your privacy, you will find how to reach us in the full privacy details.</p>
+            <h2 data-i18n="privacy.questions.heading">Questions</h2>
+            <p data-i18n="privacy.questions.body">If you have any questions about your privacy, you will find how to reach us in the full privacy details.</p>
           </div>
 
           <!-- TODO: page-privacy-full is a stub. Build the full privacy details page in a separate task; this link is already wired to it. -->
           <button type="button" class="privacy-full-link" data-page-link="privacy-full">
             <span class="privacy-full-text">
-              <strong>Read the full privacy details</strong>
-              <small>The complete version, including the AI provider we use and how long anything is kept.</small>
+              <strong data-i18n="privacy.fullLink.title">Read the full privacy details</strong>
+              <small data-i18n="privacy.fullLink.line">The complete version, including the AI provider we use and how long anything is kept.</small>
             </span>
             <span class="privacy-full-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13"></path><path d="M12.5 6l6 6-6 6"></path></svg>
             </span>
           </button>
 
-          <p class="privacy-closing">Northcue is a reading aid. It does not give legal, financial, or official advice. Always check your original document.</p>
+          <p class="privacy-closing" data-i18n="privacy.closing">Northcue is a reading aid. It does not give legal, financial, or official advice. Always check your original document.</p>
         </div>
       </section>
 
       <section id="page-privacy-full" class="page" aria-labelledby="privacy-full-title">
         <div class="privacy-full-stub">
-          <h1 id="privacy-full-title">Full privacy details<span class="green-dot">.</span></h1>
-          <p>The complete privacy details page is coming soon.</p>
-          <button type="button" class="outline-btn" data-page-link="privacy">Back to privacy</button>
+          <h1 id="privacy-full-title"><span data-i18n="privacyFull.title">Full privacy details</span><span class="green-dot">.</span></h1>
+          <p data-i18n="privacyFull.comingSoon">The complete privacy details page is coming soon.</p>
+          <button type="button" class="outline-btn" data-page-link="privacy" data-i18n="privacyFull.back">Back to privacy</button>
         </div>
       </section>
 
       <section id="page-why-northcue" class="page" aria-labelledby="why-northcue-title">
         <div class="why-layout">
           <header class="why-head">
-            <h1 id="why-northcue-title">There's AI everywhere. Why is this different<span class="green-dot">?</span></h1>
-            <p class="why-lead">Built for the moment an official envelope makes your chest tighten.</p>
+            <h1 id="why-northcue-title"><span data-i18n="why.head.title">There's AI everywhere. Why is this different</span><span class="green-dot">?</span></h1>
+            <p class="why-lead" data-i18n="why.head.lead">Built for the moment an official envelope makes your chest tighten.</p>
           </header>
 
           <div class="why-block help-simple-card">
@@ -1154,8 +1172,8 @@
                 </g>
               </svg>
             </div>
-            <h3>Your document is never kept.</h3>
-            <p>Your file is deleted as soon as it is read. What stays behind is anonymous, never the words on your letter.</p>
+            <h3 data-i18n="why.blockA.title">Your document is never kept.</h3>
+            <p data-i18n="why.blockA.body">Your file is deleted as soon as it is read. What stays behind is anonymous, never the words on your letter.</p>
           </div>
 
           <div class="why-block help-simple-card">
@@ -1174,8 +1192,8 @@
                 <path d="M226 74h46M226 90h46M226 106h30" style="stroke-width:2"/>
               </svg>
             </div>
-            <h3>AI never decides your safety.</h3>
-            <p>A fixed set of rules decides what your document appears to be and how carefully to treat it. AI is only allowed to soften the wording, never to change the judgement.</p>
+            <h3 data-i18n="why.blockB.title">AI never decides your safety.</h3>
+            <p data-i18n="why.blockB.body">A fixed set of rules decides what your document appears to be and how carefully to treat it. AI is only allowed to soften the wording, never to change the judgement.</p>
           </div>
 
           <div class="why-block help-simple-card">
@@ -1198,8 +1216,8 @@
                 </g>
               </svg>
             </div>
-            <h3>It knows when to say I'm not sure.</h3>
-            <p>Northcue will not reassure you about a serious letter, and will not alarm you about a routine one. When it cannot tell, it says so honestly.</p>
+            <h3 data-i18n="why.blockC.title">It knows when to say I'm not sure.</h3>
+            <p data-i18n="why.blockC.body">Northcue will not reassure you about a serious letter, and will not alarm you about a routine one. When it cannot tell, it says so honestly.</p>
           </div>
 
           <div class="why-block help-simple-card">
@@ -1216,22 +1234,22 @@
                 <path d="M194 112h24" style="stroke-width:2.5"/>
               </svg>
             </div>
-            <h3>Sometimes the safest answer is no.</h3>
-            <p>If an upload looks like a scam or does not look like a real letter, Northcue declines instead of guessing. Refusing is part of how it keeps you safe.</p>
+            <h3 data-i18n="why.blockD.title">Sometimes the safest answer is no.</h3>
+            <p data-i18n="why.blockD.body">If an upload looks like a scam or does not look like a real letter, Northcue declines instead of guessing. Refusing is part of how it keeps you safe.</p>
           </div>
 
-          <p class="why-closing">Never a chatbot. Never advice. Never invents what is not in your document.</p>
+          <p class="why-closing" data-i18n="why.closing">Never a chatbot. Never advice. Never invents what is not in your document.</p>
 
           <div class="why-cta-row">
-            <button type="button" class="primary-btn" data-page-link="journey">Try it with your letter</button>
-            <button type="button" class="outline-btn" data-page-link="home">Back to home</button>
+            <button type="button" class="primary-btn" data-page-link="journey" data-i18n="why.cta.try">Try it with your letter</button>
+            <button type="button" class="outline-btn" data-page-link="home" data-i18n="why.cta.home">Back to home</button>
           </div>
         </div>
       </section>
     </main>
 
     <!-- Mobile bottom navigation. Shown only at 760px and below, hidden on the landing page. Each tab reuses the existing data-page-link wiring, so setPage handles the active state and aria-current. The brand and comfort controls in the topbar are left as they are. -->
-    <nav class="mobile-tabbar" aria-label="Main sections">
+    <nav class="mobile-tabbar" aria-label="Main sections" data-i18n-aria-label="tabbar.aria.sections">
       <span class="mobile-tabbar__indicator" aria-hidden="true"></span>
       <button type="button" class="mobile-tab" data-page-link="home">
         <span class="mobile-tab__icon" aria-hidden="true">
@@ -1241,7 +1259,7 @@
             <path d="M9.7 20.4v-5.3a1.2 1.2 0 0 1 1.2-1.2h2.2a1.2 1.2 0 0 1 1.2 1.2v5.3"></path>
           </svg>
         </span>
-        <span class="mobile-tab__label">Home</span>
+        <span class="mobile-tab__label" data-i18n="tabbar.home">Home</span>
       </button>
       <button type="button" class="mobile-tab" data-page-link="journey">
         <span class="mobile-tab__icon" aria-hidden="true">
@@ -1251,7 +1269,7 @@
             <path d="M12 4.4v10.4"></path>
           </svg>
         </span>
-        <span class="mobile-tab__label">Understand</span>
+        <span class="mobile-tab__label" data-i18n="tabbar.understand">Understand</span>
       </button>
       <button type="button" class="mobile-tab" data-page-link="help">
         <span class="mobile-tab__icon" aria-hidden="true">
@@ -1262,7 +1280,7 @@
             <path d="M15.3 9.8h.01"></path>
           </svg>
         </span>
-        <span class="mobile-tab__label">Help</span>
+        <span class="mobile-tab__label" data-i18n="tabbar.help">Help</span>
       </button>
       <button type="button" class="mobile-tab" data-page-link="comfort">
         <span class="mobile-tab__icon" aria-hidden="true">
@@ -1271,19 +1289,24 @@
             <circle cx="12" cy="12" r="3.3"></circle>
           </svg>
         </span>
-        <span class="mobile-tab__label">Settings</span>
+        <span class="mobile-tab__label" data-i18n="tabbar.settings">Settings</span>
       </button>
     </nav>
 
     <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-box">
-        <button type="button" id="modal-close" class="modal-close" aria-label="Go back">Back</button>
-        <h2 id="modal-title">Details</h2>
+        <button type="button" id="modal-close" class="modal-close" aria-label="Go back" data-i18n-aria-label="modal.aria.close" data-i18n="modal.close">Back</button>
+        <h2 id="modal-title" data-i18n="modal.title">Details</h2>
         <div id="modal-content"></div>
       </div>
     </div>
 
-    <script src="/app.js?v=why-page-20260713a"></script>
+    <script src="/i18n/config.js?v=i18n-20260714a"></script>
+    <script src="/i18n/en.js?v=i18n-20260714a"></script>
+    <script src="/i18n/templates-en.js?v=i18n-20260714a"></script>
+    <script src="/i18n/templateBank.js?v=i18n-20260714a"></script>
+    <script src="/i18n.js?v=i18n-20260714a"></script>
+    <script src="/app.js?v=i18n-merge-20260727a"></script>
     <script>
       // PWA install support. The app never depends on the worker; if
       // registration fails, normal browsing is completely unaffected.
