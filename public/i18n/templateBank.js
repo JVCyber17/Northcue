@@ -61,9 +61,60 @@
     return compiledPatterns;
   }
 
-  function fillTemplate(template, values) {
+  // Slots whose value is Northcue's OWN vocabulary rather than something read
+  // off the reader's letter. These have reviewed translations in the bank
+  // under tpl.label.<slot>.*, so leaving them in English produces a sentence
+  // that is half translated. Every other slot (amount, date, sender, dates,
+  // header_date and the document derived clauses) is inserted verbatim on
+  // purpose, so the value still matches the letter in the reader's hand.
+  var VOCABULARY_SLOTS = ["type_label", "category_label", "topic"];
+
+  var vocabularyIndex = null;
+
+  // English label value to id, scoped per slot so a value can never resolve
+  // to a label from an unrelated namespace. Matching is case insensitive
+  // because the engine may capitalise a label at the start of a sentence.
+  function buildVocabularyIndex() {
+    if (vocabularyIndex) return vocabularyIndex;
+    vocabularyIndex = {};
+    var exact = englishBank().exact;
+    VOCABULARY_SLOTS.forEach(function (slot) {
+      var map = {};
+      var prefix = "tpl.label." + slot + ".";
+      Object.keys(exact).forEach(function (id) {
+        if (id.indexOf(prefix) === 0) {
+          map[String(exact[id]).toLowerCase()] = id;
+        }
+      });
+      vocabularyIndex[slot] = map;
+    });
+    return vocabularyIndex;
+  }
+
+  function translateVocabularyValue(slotName, value, targetBank) {
+    if (VOCABULARY_SLOTS.indexOf(slotName) === -1) return value;
+    var index = buildVocabularyIndex();
+    var needle = String(value).trim().toLowerCase();
+    // Prefer the namespace that matches this slot, then fall back to the
+    // other vocabulary namespaces, because the engine can legitimately put a
+    // category style label into a type slot. Only ever matches Northcue's own
+    // label vocabulary, so a document value can never be rewritten this way.
+    var id = (index[slotName] || {})[needle];
+    if (!id) {
+      for (var i = 0; i < VOCABULARY_SLOTS.length && !id; i++) {
+        id = (index[VOCABULARY_SLOTS[i]] || {})[needle];
+      }
+    }
+    if (!id) return value;
+    var translated = (targetBank.exact || {})[id];
+    return translated === undefined ? value : translated;
+  }
+
+  function fillTemplate(template, values, targetBank) {
     return template.replace(/\{(\w+)\}/g, function (match, name) {
-      return Object.prototype.hasOwnProperty.call(values, name) ? values[name] : match;
+      if (!Object.prototype.hasOwnProperty.call(values, name)) return match;
+      var value = values[name];
+      return targetBank ? translateVocabularyValue(name, value, targetBank) : value;
     });
   }
 
@@ -105,7 +156,7 @@
         var translatedTemplate = (target.patterns || {})[patterns[i].id];
         if (translatedTemplate) {
           return {
-            text: fillTemplate(translatedTemplate, match.groups || {}),
+            text: fillTemplate(translatedTemplate, match.groups || {}, target),
             translated: true,
             templateId: patterns[i].id
           };
@@ -122,6 +173,7 @@
   function resetCaches() {
     compiledPatterns = null;
     exactIndex = null;
+    vocabularyIndex = null;
   }
 
   var api = {

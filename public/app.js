@@ -2285,6 +2285,20 @@ function openDocumentCheck() {
 // re renders any visible engine content, and remembers the choice. The
 // switcher labels always show the active language's native name.
 function wireLanguageControls() {
+  // The three switcher buttons are static markup in index.html, so the
+  // enabled flags in i18n/config.js only become a true off switch if the
+  // control is hidden here as well. With fewer than two languages enabled
+  // there is nothing to switch between, so the button is meaningless and
+  // must not appear at all: the site should look exactly as it did before
+  // any of the language work existed.
+  if (NorthcueI18n.languageList().length < 2) {
+    document.querySelectorAll("[data-language-open]").forEach((control) => {
+      control.classList.add("hidden");
+      control.setAttribute("hidden", "hidden");
+    });
+    return;
+  }
+
   function refreshSwitcherLabels() {
     const active = NorthcueI18n.getLanguage();
     const entry = NorthcueI18n.languageList().find((item) => item.code === active);

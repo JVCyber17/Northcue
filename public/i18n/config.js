@@ -23,7 +23,7 @@
       {
         code: "pl",
         nativeName: "Polski",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue jest dostępne po polsku.",
         bannerSwitch: "Przełącz na polski",
         bannerDismiss: "Nie, dziękuję"
@@ -31,7 +31,7 @@
       {
         code: "ro",
         nativeName: "Română",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue este disponibil în limba română.",
         bannerSwitch: "Comută la română",
         bannerDismiss: "Nu, mulțumesc"
@@ -39,7 +39,7 @@
       {
         code: "gu",
         nativeName: "ગુજરાતી",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue ગુજરાતીમાં ઉપલબ્ધ છે.",
         bannerSwitch: "ગુજરાતીમાં બદલો",
         bannerDismiss: "ના, આભાર"
@@ -47,7 +47,7 @@
       {
         code: "hi",
         nativeName: "हिन्दी",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue हिन्दी में उपलब्ध है.",
         bannerSwitch: "हिन्दी में बदलें",
         bannerDismiss: "नहीं, धन्यवाद"
@@ -55,7 +55,7 @@
       {
         code: "bn",
         nativeName: "বাংলা",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue বাংলায় উপলব্ধ.",
         bannerSwitch: "বাংলায় পরিবর্তন করুন",
         bannerDismiss: "না, ধন্যবাদ"
@@ -63,7 +63,7 @@
       {
         code: "pt",
         nativeName: "Português",
-        enabled: true,
+        enabled: false,
         bannerOffer: "O Northcue está disponível em português.",
         bannerSwitch: "Mudar para português",
         bannerDismiss: "Não, obrigado"
@@ -71,7 +71,7 @@
       {
         code: "es",
         nativeName: "Español",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue está disponible en español.",
         bannerSwitch: "Cambiar a español",
         bannerDismiss: "No, gracias"
@@ -79,7 +79,7 @@
       {
         code: "fr",
         nativeName: "Français",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue est disponible en français.",
         bannerSwitch: "Passer au français",
         bannerDismiss: "Non, merci"
@@ -87,7 +87,7 @@
       {
         code: "pa",
         nativeName: "ਪੰਜਾਬੀ",
-        enabled: true,
+        enabled: false,
         bannerOffer: "Northcue ਪੰਜਾਬੀ ਵਿੱਚ ਉਪਲਬਧ ਹੈ.",
         bannerSwitch: "ਪੰਜਾਬੀ ਵਿੱਚ ਬਦਲੋ",
         bannerDismiss: "ਨਹੀਂ, ਧੰਨਵਾਦ"

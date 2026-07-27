@@ -4,6 +4,7 @@
 // never alter slot values.
 
 const assert = require("node:assert/strict");
+const path = require("node:path");
 const test = require("node:test");
 
 // The bank runtime and the English bank are UMD style browser files that
@@ -94,6 +95,62 @@ test("template bank matcher", async (t) => {
       if (/[–—]/.test(entry.template)) offenders.push(entry.id);
     });
     assert.deepEqual(offenders, []);
+  });
+
+  await t.test("Northcue's own vocabulary translates inside a sentence, document values do not", () => {
+    // Document type and category labels are Northcue's wording, so leaving
+    // them in English produces a half translated sentence. Amounts, dates and
+    // sender names come off the reader's letter and must stay verbatim so
+    // they still match the paper in their hand.
+    const languages = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+    const vocabularyValues = {
+      type_label: "an official letter",
+      category_label: "a bill or payment request",
+      topic: "housing or rent"
+    };
+    const vocabularyPatterns = englishBank.patterns.filter((entry) =>
+      /\{(type_label|category_label|topic)\}/.test(entry.template)
+    );
+    assert.ok(vocabularyPatterns.length > 0, "expected patterns that embed a label");
+
+    const leaks = [];
+    const lostValues = [];
+    languages.forEach((code) => {
+      const targetBank = require(path.join(__dirname, "..", "public", "i18n", "templates-" + code));
+      globalThis["NORTHCUE_TEMPLATES_" + code.toUpperCase()] = targetBank;
+      vocabularyPatterns.forEach((entry) => {
+        let sentence = entry.template;
+        Object.entries(vocabularyValues).forEach(([slot, value]) => {
+          sentence = sentence.split("{" + slot + "}").join(value);
+        });
+        sentence = sentence.replace(/\{\w+\}/g, "Hounslow Council");
+        const result = bankRuntime.translateEngineSentence(sentence, code);
+        if (!result.translated) return;
+        Object.values(vocabularyValues).forEach((value) => {
+          if (result.text.includes(value)) leaks.push(code + ":" + entry.id);
+        });
+        // Only patterns that actually carry a document value can be checked
+        // for verbatim survival; several of these embed a label and nothing
+        // else. The value came off the reader's letter, so it must survive.
+        const carriesDocumentValue = /\{(?!type_label|category_label|topic)\w+\}/.test(entry.template);
+        if (carriesDocumentValue && !result.text.includes("Hounslow Council")) {
+          lostValues.push(code + ":" + entry.id);
+        }
+      });
+    });
+    assert.deepEqual(leaks, [], "Northcue labels must not render in English");
+    assert.deepEqual(lostValues, [], "document values must be inserted verbatim");
+  });
+
+  await t.test("amounts and dates are never rewritten by the vocabulary lookup", () => {
+    globalThis.NORTHCUE_TEMPLATES_PT = require(path.join(__dirname, "..", "public", "i18n", "templates-pt"));
+    const result = bankRuntime.translateEngineSentence(
+      "Hounslow Council appears to have sent an official notice mentioning £142.50.",
+      "pt"
+    );
+    assert.equal(result.translated, true);
+    assert.ok(result.text.includes("£142.50"), "amount must stay exactly as printed on the letter");
+    assert.ok(result.text.includes("Hounslow Council"), "sender must stay exactly as printed");
   });
 
   await t.test("pure assembly templates never act as catch all matchers", () => {
