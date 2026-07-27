@@ -67,6 +67,30 @@
         bannerOffer: "O Northcue está disponível em português.",
         bannerSwitch: "Mudar para português",
         bannerDismiss: "Não, obrigado"
+      },
+      {
+        code: "es",
+        nativeName: "Español",
+        enabled: true,
+        bannerOffer: "Northcue está disponible en español.",
+        bannerSwitch: "Cambiar a español",
+        bannerDismiss: "No, gracias"
+      },
+      {
+        code: "fr",
+        nativeName: "Français",
+        enabled: true,
+        bannerOffer: "Northcue est disponible en français.",
+        bannerSwitch: "Passer au français",
+        bannerDismiss: "Non, merci"
+      },
+      {
+        code: "pa",
+        nativeName: "ਪੰਜਾਬੀ",
+        enabled: true,
+        bannerOffer: "Northcue ਪੰਜਾਬੀ ਵਿੱਚ ਉਪਲਬਧ ਹੈ.",
+        bannerSwitch: "ਪੰਜਾਬੀ ਵਿੱਚ ਬਦਲੋ",
+        bannerDismiss: "ਨਹੀਂ, ਧੰਨਵਾਦ"
       }
     ]
   };

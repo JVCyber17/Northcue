@@ -123,6 +123,15 @@
   unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
 }
 
+@font-face {
+  font-family: 'Noto Sans Gurmukhi';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-sans-gurmukhi.woff2') format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+}
+
 :root {
   --font-heading: "Lexend", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
@@ -9788,7 +9797,7 @@ body.theme-dark .check-dot.badge-high {
 .language-option,
 .language-switch-label,
 .language-banner {
-  font-family: "Atkinson Hyperlegible", "Noto Sans Gujarati", "Noto Sans Devanagari", "Noto Sans Bengali", "Segoe UI", Arial, sans-serif;
+  font-family: "Atkinson Hyperlegible", "Noto Sans Gujarati", "Noto Sans Devanagari", "Noto Sans Bengali", "Noto Sans Gurmukhi", "Segoe UI", Arial, sans-serif;
 }
 
 /* Script font stacks: for Gujarati, Hindi and Bengali the matching Noto Sans
@@ -9807,6 +9816,11 @@ body[data-lang="hi"] {
 body[data-lang="bn"] {
   --font-heading: "Lexend", "Noto Sans Bengali", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible", "Noto Sans Bengali", "Segoe UI", Arial, sans-serif;
+}
+
+body[data-lang="pa"] {
+  --font-heading: "Lexend", "Noto Sans Gurmukhi", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans Gurmukhi", "Segoe UI", Arial, sans-serif;
 }
 
 @media (max-width: 760px) {

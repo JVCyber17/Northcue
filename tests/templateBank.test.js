@@ -96,17 +96,49 @@ test("template bank matcher", async (t) => {
     assert.deepEqual(offenders, []);
   });
 
+  await t.test("pure assembly templates never act as catch all matchers", () => {
+    // "{title} {short_answer}" and friends are the engine's internal assembly
+    // templates. If they were matchable they would swallow any unmatched
+    // sentence, return it unchanged, and wrongly report it as translated,
+    // hiding the shown in English notice from the reader.
+    const assemblyIds = englishBank.patterns
+      .filter((entry) => entry.template.replace(/\{\w+\}/g, "").trim().length < 4)
+      .map((entry) => entry.id);
+    assert.ok(assemblyIds.length > 0, "expected some pure assembly templates in the bank");
+
+    globalThis.NORTHCUE_TEMPLATES_YY = { exact: {}, patterns: {} };
+    try {
+      const result = bankRuntime.translateEngineSentence(
+        "A sentence the bank has never seen before.",
+        "yy"
+      );
+      assert.equal(result.translated, false, "an unknown sentence must not report success");
+      assert.equal(result.text, "A sentence the bank has never seen before.");
+      assert.ok(
+        !assemblyIds.includes(result.templateId),
+        "an assembly template must never claim an unknown sentence"
+      );
+    } finally {
+      delete globalThis.NORTHCUE_TEMPLATES_YY;
+      bankRuntime.resetCaches();
+    }
+  });
+
   await t.test("every pattern template compiles and matches its own example", () => {
     // Fill each template's slots with sample values and confirm the compiled
     // pattern matches its own output, which proves the regex round trip. An
     // empty target bank forces the matcher through pattern identification.
     globalThis.NORTHCUE_TEMPLATES_ZZ = { exact: {}, patterns: {} };
     try {
-      englishBank.patterns.forEach((entry) => {
-        const sample = entry.template.replace(/\{(\w+)\}/g, "SAMPLEVALUE");
-        const result = bankRuntime.translateEngineSentence(sample, "zz");
-        assert.equal(result.templateId, entry.id, "pattern should match its own sample: " + entry.id);
-      });
+      englishBank.patterns
+        // Pure assembly templates are deliberately not matchable, see the
+        // catch all test above.
+        .filter((entry) => entry.template.replace(/\{\w+\}/g, "").trim().length >= 4)
+        .forEach((entry) => {
+          const sample = entry.template.replace(/\{(\w+)\}/g, "SAMPLEVALUE");
+          const result = bankRuntime.translateEngineSentence(sample, "zz");
+          assert.equal(result.templateId, entry.id, "pattern should match its own sample: " + entry.id);
+        });
     } finally {
       delete globalThis.NORTHCUE_TEMPLATES_ZZ;
     }

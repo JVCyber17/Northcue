@@ -26,6 +26,21 @@
     return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
+  // A template made almost entirely of slots, for example "{title}
+  // {short_answer}", would match ANY sentence and hand it back unchanged while
+  // reporting success. Those are the engine's internal assembly templates for
+  // display_text and the speech script, not card sentences a reader sees, so
+  // they are excluded from matching. Without this guard a sentence with no
+  // real translation would be silently passed off as translated and the shown
+  // in English notice would never appear. Four characters of literal text is
+  // enough to keep every genuine template (the shortest real one is
+  // "Check {action_sentence}") while excluding the pure assembly ones.
+  var MIN_LITERAL_ANCHOR = 4;
+
+  function literalLengthOf(template) {
+    return template.replace(/\{\w+\}/g, "").trim().length;
+  }
+
   // Compile each English template into an anchored regex with named slot
   // captures. "{amount} is due by {date}" becomes ^(?<amount>.+?) is due by
   // (?<date>.+?)$ with literals escaped. Lazy captures keep boundaries at the
@@ -34,13 +49,15 @@
   // shadow a more specific one whose extra words a lazy slot would absorb.
   function compilePatterns() {
     if (compiledPatterns) return compiledPatterns;
-    compiledPatterns = englishBank().patterns.map(function (entry) {
-      var source = "^" + escapeRegex(entry.template).replace(/\\\{(\w+)\\\}/g, function (m, name) {
-        return "(?<" + name + ">.+?)";
-      }) + "$";
-      var literalLength = entry.template.replace(/\{\w+\}/g, "").length;
-      return { id: entry.id, template: entry.template, regex: new RegExp(source), literalLength: literalLength };
-    }).sort(function (a, b) { return b.literalLength - a.literalLength; });
+    compiledPatterns = englishBank().patterns
+      .filter(function (entry) { return literalLengthOf(entry.template) >= MIN_LITERAL_ANCHOR; })
+      .map(function (entry) {
+        var source = "^" + escapeRegex(entry.template).replace(/\\\{(\w+)\\\}/g, function (m, name) {
+          return "(?<" + name + ">.+?)";
+        }) + "$";
+        return { id: entry.id, template: entry.template, regex: new RegExp(source), literalLength: literalLengthOf(entry.template) };
+      })
+      .sort(function (a, b) { return b.literalLength - a.literalLength; });
     return compiledPatterns;
   }
 
