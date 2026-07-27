@@ -6940,7 +6940,9 @@ body.theme-dark .landing-cue-preview {
 
 .modal-close {
   float: right;
-  min-height: 42px;
+  /* 44px is the minimum comfortable touch target. This is the control that
+     closes the sheet, so it should never be the smallest thing on screen. */
+  min-height: 44px;
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -6968,7 +6970,7 @@ body.theme-dark .landing-cue-preview {
 }
 
 .feedback-modal .modal-close {
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 16px;
   border-radius: 10px;
   background: var(--surface-soft);
@@ -7166,6 +7168,13 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   font-weight: 800;
   text-decoration: underline;
   text-underline-offset: 3px;
+  /* This is the control someone reaches for after a mis-tap, so it needs a
+     full size touch target rather than the height of its text. The negative
+     margin keeps the bar looking exactly as it did. */
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 6px;
+  margin: -8px -6px;
 }
 
 .feedback-chip-grid {

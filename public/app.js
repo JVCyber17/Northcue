@@ -400,6 +400,12 @@ let selectedType = "auto";
 let activeCardStyle = "simple";
 let cardIndex = 0;
 let latestResult = createMockApiResult();
+// latestResult starts as the built in demo result so the example card can
+// render before anything is uploaded. That demo carries a document category,
+// a trust assessment and a severity, so feedback given before a real upload
+// would otherwise be filed against a document the reader never had. This flag
+// is the only reliable way to tell a real analysis from the demo.
+let hasAnalysedDocument = false;
 let pendingDocumentJobId = null;
 let currentTheme = "calm";
 let currentBackgroundStyle = "plain";
@@ -931,6 +937,7 @@ function wireUpload() {
 
       latestResult = normalizeApiResult(payload);
       latestResult.hasUploaded = true;
+      hasAnalysedDocument = true;
       latestUploadInputQuality = latestResult.trust?.input_quality || "unknown";
       latestOcrStatus = latestResult.debug?.ocr_status || latestOcrStatus || "unknown";
       pendingDocumentJobId = null;
@@ -1041,6 +1048,7 @@ async function analyseReadyDocument() {
 
     latestResult = normalizeApiResult(payload);
     latestResult.hasUploaded = true;
+    hasAnalysedDocument = true;
     latestUploadInputQuality = latestResult.trust?.input_quality || latestUploadInputQuality || "unknown";
     latestOcrStatus = latestResult.debug?.ocr_status || latestOcrStatus || "completed";
     pendingDocumentJobId = null;
@@ -1507,6 +1515,7 @@ function wireActions() {
     fileName.textContent = t("status.fileTypesHint");
     setStatusKey("status.chooseToBegin");
     latestResult = createMockApiResult();
+    hasAnalysedDocument = false;
     cardIndex = 0;
     renderCard();
     setJourneyStep("upload");
@@ -2771,6 +2780,16 @@ function renderFeedbackStepTwo(answerKey) {
   modalContent.querySelector(".feedback-reason-chip")?.focus();
 }
 
+// The get in touch route collects a contact detail and a note and currently
+// has nowhere to send them: there is no endpoint, no table, and no mailbox.
+// It used to finish by telling the reader that someone would be in touch,
+// which is a promise Northcue cannot keep, and the people most likely to use
+// it are the ones least able to afford waiting for help that is not coming.
+// The route is hidden until it has somewhere to go. Everything behind this
+// flag still works, so switching it back on is a one line change once the
+// endpoint exists. See FEEDBACK_AUDIT.md.
+const CONTACT_REQUEST_ENABLED = false;
+
 function buildFeedbackStepOneMarkup() {
   const choices = Object.entries(feedbackChoices).map(([key, choice]) => `
     <button type="button" class="feedback-choice-card ${choice.tone}" data-feedback-choice="${key}">
@@ -2792,11 +2811,13 @@ function buildFeedbackStepOneMarkup() {
         ${choices}
       </div>
       <p class="feedback-private-note">${feedbackPrivacyIcon()} ${t("feedback.privateNote")}</p>
+      ${CONTACT_REQUEST_ENABLED ? `
       <div class="feedback-contact-option">
         <hr class="feedback-rule">
         <p class="feedback-or-text">${t("feedback.orContact")}</p>
         <button type="button" class="outline-btn feedback-contact-btn" data-contact-request>${t("feedback.contactBtn")}</button>
       </div>
+      ` : ""}
     </section>
   `;
 }
@@ -2910,6 +2931,19 @@ function getFeedbackPayload(panel) {
     ? panel.querySelector("#modal-feedback-contact")?.value.trim() || ""
     : "";
 
+  // Document metadata is only ever sent when a real document has actually been
+  // analysed. Before that, latestResult still holds the built in demo result,
+  // and sending its category, trust and severity would file this feedback
+  // against a document the reader never uploaded. Feedback from the home page
+  // or the help page is about Northcue itself, so it carries no document.
+  const documentContext = hasAnalysedDocument
+    ? {
+        document_category: latestResult.trust?.document_category || selectedType || "unknown",
+        trust_level: latestResult.trust?.trust_assessment || "unknown",
+        severity_level: latestResult.trust?.severity_level || "unknown"
+      }
+    : {};
+
   return {
     rating: normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer),
     reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected")).map((chip) => chip.dataset.reason),
@@ -2918,12 +2952,14 @@ function getFeedbackPayload(panel) {
     email,
     page: document.body.dataset.page || "unknown",
     section: panel.dataset.feedbackContext || "feedback",
-    document_category: latestResult.trust?.document_category || selectedType || "unknown",
-    trust_level: latestResult.trust?.trust_assessment || "unknown",
-    severity_level: latestResult.trust?.severity_level || "unknown"
+    ...documentContext
   };
 }
 
+// Local safety net for when the feedback endpoint cannot be reached. The reply
+// address is deliberately NOT kept here: the reader agreed to Northcue
+// receiving it, not to it sitting in local storage on what may be a shared
+// family device, and nothing ever reads this store back to send it on.
 function saveFeedbackFallback(feedback) {
   const savedFeedback = JSON.parse(localStorage.getItem("clearsteps-feedback") || "[]");
   savedFeedback.unshift({
@@ -2931,7 +2967,6 @@ function saveFeedbackFallback(feedback) {
     reasons: feedback.reasons,
     note: feedback.note,
     contact_permission: feedback.contact_permission,
-    email: feedback.email,
     page: feedback.page,
     section: feedback.section,
     document_category: feedback.document_category,
