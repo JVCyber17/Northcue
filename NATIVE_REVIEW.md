@@ -1,0 +1,131 @@
+# For a native speaker: twenty minutes, please
+
+Thank you for helping. Northcue turns confusing official letters, bills and
+government post into short calm cards for people who find that post stressful.
+It is being translated into nine languages. Everything so far is a machine
+draft checked by machine. **You are the first person who actually speaks the
+language to look at it.**
+
+You do not need to be technical and you do not need to read any code. Below is
+the short list for your language. Please answer in whatever form is easiest,
+even just "1 fine, 2 wrong, should be X".
+
+**The one thing that matters most.** Northcue must never sound more certain,
+more alarming, or more commanding than it needs to. The reader may be frightened
+and holding a letter about money they do not have. If any answer below sounds
+like an order, or like a threat, say so, even if the words are correct.
+
+---
+
+## Every language: three questions
+
+Please answer these three first. They take five minutes and they matter more
+than anything else on this page.
+
+**Q1. Do these two sound clearly different in seriousness?**
+
+> A. *(the urgent one)*
+> B. *(the one below it)*
+
+Find them in `public/i18n/templates-<your language>.js` as `tpl.mip.urgent` and
+`tpl.mip.high`. A reader must be able to tell a bailiff notice from routine post
+by the first few words. **Does A sound more serious than B, immediately?**
+
+**Q2. Does this make you less likely to do what a scam letter asks?**
+
+> `tpl.scam.risk_card` and `tpl.scam.risk_extractor`
+
+These two lines exist to stop someone paying a fraudster. **Do they sound like
+a warning to you personally, or like a general statement about the world?**
+They should feel like they are about you.
+
+**Q3. Does anything on that card sound like a machine wrote it?**
+
+Point at anything that reads as translated English rather than something a
+careful person would actually say. You do not need to fix it, just mark it.
+
+---
+
+## Then, your language only
+
+### Polish
+1. The whole file currently addresses the reader informally, as *ty*. It is
+   being changed to formal. **Does formal Polish sound cold or distancing here,
+   given the reader is anxious?** If it does, say where.
+2. `tpl.summary.topic_clear`: does it say the topic *appears* to be X, or that
+   it *is* X? English hedges. Ours may have lost the hedge.
+3. Any sentence with a number in it: does the grammar still work with 1, with
+   2, and with 28? Polish changes the noun after numbers and our templates use
+   one fixed form.
+
+### Romanian
+1. Same formality question as Polish. The file is informal and is being changed
+   to formal. **Does it sound cold?**
+2. `tpl.banner.suspicious_urgent` used to say *serios*. It now says *grav*.
+   **Is grav right for "this may be dangerous"?**
+3. Sentences that insert a sender or an amount: do the articles still attach
+   correctly, or do you get something like "de la Hounslow Council" where
+   Romanian wants a different form?
+
+### Gujarati
+1. `tpl.scam.risk_extractor` used to read as an instruction to share your
+   private data. It now uses "શેર કરી બેસી શકો છો". **Does it now clearly warn
+   against sharing rather than suggest it?**
+2. We use a full stop everywhere and never the danda. **Does that look wrong to
+   you, or acceptable for an app?**
+
+### Hindi
+1. `tpl.mip.urgent` now uses **अत्यावश्यक** and `tpl.mip.high` uses
+   **महत्वपूर्ण**. Both used to be ज़रूरी, which made them sound identical.
+   **Is अत्यावश्यक clearly more urgent than महत्वपूर्ण to an ordinary reader?**
+   It is a formal word; if it sounds bureaucratic, tell us what you would say.
+2. The decline message: is there a sentence that stops halfway, a bare "if this
+   is" with nothing after it?
+
+### Bengali
+1. The two scam lines were rewritten so the reader is the subject, "you could
+   lose money" rather than "money may get lost". **Do they now sound like they
+   are about the reader?**
+2. Where a sender name in English letters is followed by a possessive, does it
+   read correctly, or does the suffix look detached from the name?
+
+### Portuguese
+1. Does this read as European or Brazilian Portuguese? We asked for neutral and
+   suspect it leans European. **Would a Brazilian reader notice in the first
+   card?**
+2. `tpl.summary` lines for medical and legal documents: do they state something
+   as flat fact where the others hedge?
+
+### Spanish
+1. Does it read as Peninsular or neutral? Same question as Portuguese.
+2. `tpl.scam.action_verify` was rewritten to remove *su*, which meant both
+   "its" and "your". **Is it now unambiguous whose website to check?**
+3. Do any two cards give different deadlines for the same letter, one saying
+   "before" and one "up to"?
+
+### French
+1. Sentences naming the sender were changed from *de* to *par*, so
+   "une facture envoyée par EDF" rather than "de EDF". **Does that read
+   naturally, or is it stilted?**
+2. We use a plain space before "?" and ":". French usually sets a narrow space.
+   **Does the plain space look wrong enough to fix?**
+
+### Panjabi
+1. `tpl.mip.urgent` now opens "ਇਸ ਵੱਲ ਤੁਰੰਤ ਧਿਆਨ ਦੇਣ ਦੀ ਲੋੜ ਹੈ" instead of
+   "ਇਹ ਜ਼ਰੂਰੀ ਹੈ", which was identical to the tier below it. **Is it clearly
+   more urgent now, and does it sound natural?**
+2. The eviction and repossession wording is more vivid than the English legal
+   nouns, closer to "thrown out of the house". **Is that too frightening, or
+   is it what a person would actually say?**
+3. We chose everyday words over formal ones throughout: ਚਿੱਠੀ not ਪੱਤਰ, ਤਾਰੀਖ਼
+   not ਮਿਤੀ, ਠੱਗੀ not ਧੋਖਾਧੜੀ. **Agree?**
+
+---
+
+## What we are not asking you to do
+
+You do not need to check spelling across 800 strings, and you do not need to
+read the interface text. If the answers above are good, the rest follows. If
+you have appetite for more afterwards, the file `translations-review/<your
+language>/SAMPLES.md` shows every card sentence filled with realistic values,
+and reading those aloud is the fastest way to hear what is wrong.

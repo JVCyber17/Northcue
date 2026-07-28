@@ -9,7 +9,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "Esto no parece una carta oficial ni una factura. Si lo es, pruebe con una foto más nítida o con otra página.",
-      "tpl.banner.suspicious_urgent": "Esto puede ser sospechoso y serio. Compruébelo antes de actuar.",
+      "tpl.banner.suspicious_urgent": "Esto puede ser sospechoso y grave. Compruébelo antes de actuar.",
       "tpl.banner.high_stakes_urgent": "Esto parece una carta importante que puede necesitar una respuesta pronto. Léala con atención y revise el documento original, por favor.",
       "tpl.banner.high_stakes": "Esto parece una carta importante. Léala con atención y revise el documento original, por favor.",
       "tpl.banner.urgent": "Esto parece importante. Conviene no dejarlo pasar.",
@@ -19,8 +19,8 @@
       "tpl.banner.default": "Lea la tarjeta del paso siguiente antes de actuar.",
 
       "tpl.scam.most_important": "Compruebe la autenticidad antes de hacer nada.",
-      "tpl.scam.action_verify": "Compruebe la organización en su sitio web oficial.",
-      "tpl.scam.action_official_contact": "Use datos de contacto de una fuente oficial.",
+      "tpl.scam.action_verify": "Busque el sitio web oficial de la organización y compruébela allí.",
+      "tpl.scam.action_official_contact": "Use datos de contacto que encuentre usted en una fuente oficial.",
       "tpl.scam.action_protect": "Mantenga protegidos su dinero y sus datos personales.",
       "tpl.scam.risk_extractor": "Podría perder dinero o compartir datos privados.",
       "tpl.scam.helpful_note": "No use los enlaces ni los números de este documento hasta comprobarlos.",

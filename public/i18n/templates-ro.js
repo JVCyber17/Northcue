@@ -7,7 +7,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "Acesta nu pare a fi o scrisoare oficială sau o factură. Dacă este, încearcă o fotografie mai clară sau o altă pagină.",
-      "tpl.banner.suspicious_urgent": "Acesta poate fi suspect și serios. Verifică înainte de a acționa.",
+      "tpl.banner.suspicious_urgent": "Acesta poate fi suspect și grav. Verificați înainte de a acționa.",
       "tpl.banner.high_stakes_urgent": "Aceasta pare o scrisoare importantă care poate avea nevoie de acțiune curând. Te rugăm să o citești cu atenție și să verifici documentul original.",
       "tpl.banner.high_stakes": "Aceasta pare o scrisoare importantă. Te rugăm să o citești cu atenție și să verifici documentul original.",
       "tpl.banner.urgent": "Acesta pare important. Nu îl ignora.",

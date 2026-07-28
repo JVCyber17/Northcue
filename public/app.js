@@ -2454,10 +2454,41 @@ function renderCard() {
     englishNote.classList.toggle("hidden", !anyUntranslated);
   }
 
+  const cardText = [translatedTitle.text, translatedAnswer.text]
+    .concat(Array.isArray(card.steps) ? card.steps.map((step) => translatedEngineText(step).text) : [])
+    .join(" ");
+  const moneyNote = document.querySelector("#card-money-note");
+  if (moneyNote) {
+    moneyNote.classList.toggle("hidden", !shouldExplainMoneyFormat(cardText));
+  }
+
   renderProgressDots();
   prepareThemeAwareArtMetadata();
   updateThemeAwareArt();
   trackCurrentCardViewed();
+}
+
+// Languages that write 1.234,56 where the UK writes 1,234.56. In these, an
+// amount lifted verbatim off a UK letter can be read at the wrong magnitude:
+// "£1,247.00" looks like roughly one and a quarter pounds, and "£8.50" can
+// look like eight hundred and fifty. On an enforcement notice that is not a
+// cosmetic problem.
+//
+// The digits are never touched, because the figure has to match the paper in
+// the reader's hand. Instead the card carries a short note naming the UK
+// convention, so the number is unambiguous in context. Languages that already
+// use a full stop for the decimal, including all four Indic ones here, do not
+// need it and do not get it.
+const INVERTED_NUMBER_FORMAT_LANGUAGES = ["pl", "ro", "es", "fr", "pt"];
+
+// Only amounts carrying a separator are ambiguous. "£40" reads the same
+// everywhere and needs no explanation.
+const SEPARATED_AMOUNT = /£\s?\d[\d\s]*[.,]\d/;
+
+function shouldExplainMoneyFormat(text) {
+  const language = NorthcueI18n.getLanguage();
+  if (INVERTED_NUMBER_FORMAT_LANGUAGES.indexOf(language) === -1) return false;
+  return SEPARATED_AMOUNT.test(String(text || ""));
 }
 
 function showCompletionScreen() {

@@ -1,5 +1,200 @@
 # Translation quality review, nine languages
 
+> **Status, 28 July 2026.** The original review below was read and report only.
+> A first round of fixes has now been applied. **This round is not the whole
+> job.** What is done, what is deliberately decided, and what is still
+> outstanding are all recorded in "Fix round 1" immediately below. Read that
+> section before trusting any verdict in the original review, because several
+> of them have changed. All nine languages remain disabled.
+
+---
+
+# Fix round 1
+
+## What was fixed and verified
+
+### Cross cutting 1, number formatting. Decided and built.
+
+The decision was to keep the digits exactly as printed so the figure still
+matches the paper in the reader's hand, and to remove the ambiguity in the
+surrounding text instead.
+
+The design: a short note appears on any card that shows an amount containing a
+separator, naming the UK convention explicitly. It appears **only** in the five
+languages where the convention is inverted, Polish, Romanian, Spanish, French
+and Portuguese. The four Indic languages already use a full stop for the
+decimal, so they never see it.
+
+The note is gated on a separator being present, because "£40" reads the same
+everywhere and does not need explaining. One point the original review missed:
+the risk is not only that "£1,247.00" reads as one and a quarter pounds. In the
+same five languages "£8.50" can read as eight hundred and fifty, because the
+full stop is their thousands separator. The note covers both directions.
+
+Implementation is `shouldExplainMoneyFormat()` in `app.js` plus the new
+`i18n.moneyFormat` string in all ten languages. No digits are ever touched and
+the engine is untouched.
+
+### Cross cutting 3, the untranslated bailiff line. Decided and built.
+
+The line stays in English, because it is lifted word for word from the
+document. What changed is that the reader is now told why.
+
+The old notice read "This part is shown in English." That states a fact and
+explains nothing, on the action card of the most frightening letter Northcue
+handles. It now reads, in each language, the equivalent of "One line here is
+copied word for word from your letter, so it stays in English. These are the
+sender's own words, not ours."
+
+That turns an unexplained gap into a visible quotation, and it tells the reader
+the words belong to the sender rather than to Northcue, which matters when the
+line is an unhedged command.
+
+### Cross cutting 4, Panjabi cross community word choices. Decided.
+
+All nine were reviewed and **all nine drafts were confirmed**, with one
+overriding piece of reasoning: the files are Gurmukhi only, and the choice of
+script has already selected the audience. UK readers of Gurmukhi are
+predominantly of Indian Sikh heritage; Pakistani heritage Panjabi speakers
+generally read Shahmukhi. Optimising the vocabulary for a readership that
+cannot read the script would help nobody.
+
+Within that, everyday words were preferred over formal ones throughout, because
+the reader is anxious and rushed:
+
+| | Chosen | Rejected | Reason |
+|---|---|---|---|
+| 1 | ਧੰਨਵਾਦ | ਸ਼ੁਕਰੀਆ | Script already selects the audience |
+| 2 | ਕਿਰਪਾ ਕਰਕੇ | ਮਿਹਰਬਾਨੀ ਕਰਕੇ | Standard in Gurmukhi writing |
+| 3 | ਭਾਸ਼ਾ | ਜ਼ਬਾਨ | Standard in Gurmukhi writing |
+| 4 | ਅਦਾਇਗੀ | ਭੁਗਤਾਨ | Everyday speech, not officialese |
+| 5 | ਸੰਸਥਾ | ਅਦਾਰਾ | Standard in Gurmukhi writing |
+| 6 | ਤਾਰੀਖ਼ | ਮਿਤੀ | Everyday; ਮਿਤੀ is official register |
+| 7 | ਠੱਗੀ | ਧੋਖਾਧੜੀ | Lands faster, and this is the scam card |
+| 8 | ਚਿੱਠੀ | ਪੱਤਰ, ਖ਼ਤ | Everyday word, understood by all |
+| 9 | ਦਸਤਾਵੇਜ਼ | ਕਾਗ਼ਜ਼ਾਤ | Understood across both communities |
+
+Consistency was then checked mechanically across both Panjabi files: every
+chosen term appears, and **no rejected alternative appears even once**.
+
+### Cross cutting 5, label leaks. Already fixed, re verified.
+
+Fixed before the merge, in the matcher rather than the translation files, so it
+covers all nine at once. Guarded by a test that sweeps nine languages against
+nine vocabulary patterns.
+
+### Safety, the severity ladder. Fixed in Hindi and Panjabi.
+
+Hindi was the most serious finding in the original review and it was real.
+`tpl.mip.urgent` and `tpl.mip.high` both opened "यह ज़रूरी है", because ज़रूरी
+covers both "necessary" and "urgent". A bailiff notice and routine post began
+with identical words.
+
+**Panjabi had exactly the same collapse and the original review missed it.**
+`ਇਹ ਜ਼ਰੂਰੀ ਹੈ` opened both tiers, for the same reason.
+
+Hindi now uses अत्यावश्यक for the urgent tier and महत्वपूर्ण for the tier below,
+which share no root. Panjabi rebuilds the top tier around ਤੁਰੰਤ ਧਿਆਨ, immediate
+attention, which states time pressure rather than importance, against
+ਮਹੱਤਵਪੂਰਨ below it.
+
+A check now enforces this across all nine, and getting its metric right took
+three attempts that are worth recording because each failure was instructive:
+
+1. "Do the tier openings differ" flagged **English itself**. English uses
+   parallel construction deliberately: every `tpl.risk` tier opens "Ignoring
+   this". That is style, not collapse.
+2. "How many characters until they diverge" did not catch the Hindi bug at all.
+   Hindi diverged at character 12, well inside any sensible tolerance, purely
+   because one tier ended "है." and the other "है,".
+3. "Compare the first clause, splitting on commas" flagged Polish, Gujarati and
+   Bengali, which attach the urgency clause with a comma where English attaches
+   it without one. Those three were correct all along.
+
+What actually separates the defect from the false alarms is the *relationship*
+between tiers. English `high_stakes_urgent` is `high_stakes` plus an extra
+clause, so a translation doing the same is right. English `mip.urgent` and
+`mip.high` are not in that relationship, they use different adjectives, so a
+translation that makes one a prefix of the other has collapsed a tier. The
+check flags any pair whose relationship is weaker than English's, and it has
+been confirmed to catch the original Hindi values and to clear the current ones.
+
+### Safety, a false friend in four languages, not one.
+
+The review found Romanian "serios", which means earnest or trustworthy rather
+than grave, so the highest alarm line read as "may be suspicious and also
+trustworthy".
+
+Checking the same string across the others, **Spanish "serio", Portuguese
+"sério" and French "sérieux" all carry the same earnest or reliable sense**.
+The top scam banner was softening itself in four languages. All four now use
+grave, which carries danger in all of them.
+
+### Safety, the rest of the per language findings.
+
+| Language | Defect | Fix |
+|---|---|---|
+| Gujarati | "શેર કરી બેસો" is imperative, so the risk line read as an instruction to go ahead and share private data | Potential form, "શેર કરી બેસી શકો છો" |
+| Bengali | Both scam risk lines were agentless, "money may get lost" | Reader restored as the subject of both |
+| Hindi | Same agentless problem in `risk_extractor`, not flagged in the original review | Reader restored |
+| Panjabi | Same again, also not flagged | Reader restored |
+| Portuguese | `risk_card` said only "there may be a risk of", dropping the deception and the reader | "Pode ser enganado e levado a" |
+| French | "amené à", led to, dropped the deception from the only string naming it | "trompé et amené à" |
+| French | Both high stakes banners were bare commands where English hedges with "Please" | "Veuillez" restored |
+| Spanish | "su" means both its and your, so the scam card no longer said whose website to trust | Rewritten with no possessive at all |
+
+### Grammar, French elision. Fixed structurally.
+
+"de {sender}" rendered "de EDF" where French requires "d'EDF", across twelve
+patterns. Rather than teach the template bank French phonology for one
+language, the sentences were restructured around **par**, which never elides:
+"par EDF", "par Orange", "par Hounslow Council" are all correct for every
+possible sender, with nothing to get wrong later.
+
+This surfaced a second bug in my own first attempt, which is worth recording.
+"Cela semble être {type_label}, envoyé par {sender}" forces the participle to
+agree with a label whose gender is unknown until runtime: "une lettre
+officielle" is feminine, "un avis officiel" masculine, and no single form is
+right. That sentence was split in two, which removes the agreement entirely.
+Both genders verified rendering correctly.
+
+Slots that cannot trigger elision were deliberately left alone: `{amount}`
+always begins with a currency symbol and `{date}` with a digit.
+
+## Still outstanding
+
+This is the honest remainder, and it is substantial. None of it is blocked on a
+decision; it is unfinished work, not deferred work.
+
+1. **Cross cutting 2, formality in Polish and Romanian.** The decision is made
+   and recorded: formal address in every language, because these readers are
+   dealing with debt and enforcement and respect ages better than familiarity.
+   It is **not yet applied**. Both files are written informal throughout, and
+   converting them means reviewing roughly nine hundred strings each for verb
+   form, pronoun and imperative. A careless regex sweep over that volume would
+   introduce more errors than it fixed, so it has been left rather than done
+   badly.
+2. **The bulk of the grammar work.** French elision is done. Bengali detached
+   genitive suffixes, Polish numeral agreement, Romanian article attachment and
+   the remaining inflection failures across the 51 patterns are not. The
+   original review counted roughly 150 failing pattern renders across the nine
+   languages; twelve are fixed.
+3. **Polish hedge and Spanish deadline consistency.** Both identified in the
+   original review, neither fixed.
+4. **Naturalness.** No systematic pass was made over strings that read as
+   translated English.
+5. **The fresh adversarial review round.** Not run. The review that would have
+   validated this round has not happened, so the fixes above are verified
+   mechanically and by my own reading, not by a second adversarial pass.
+
+Everything in this round was verified by rendering through the real matcher,
+by the ladder check, and by the parity suite. Nothing here has been seen by a
+native speaker of any of the nine languages.
+
+---
+
+# Original review, 27 July 2026
+
 Read and report only. **No translation file was changed.** Branch `feature/multilingual-mvp`, still unmerged and undeployed.
 
 ## How this was tested
