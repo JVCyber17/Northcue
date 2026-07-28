@@ -1794,6 +1794,25 @@ function wireFeedback() {
       return;
     }
 
+    // Checked before the reason chips because a confidence chip carries both
+    // classes for styling. Single select, and tapping the chosen answer again
+    // clears it, so the question stays skippable after a stray tap.
+    const confidenceChip = event.target.closest(".feedback-confidence-chip");
+    if (confidenceChip) {
+      const wasSelected = confidenceChip.getAttribute("aria-pressed") === "true";
+      confidenceChip.closest(".feedback-confidence-grid")
+        ?.querySelectorAll(".feedback-confidence-chip")
+        .forEach((chip) => {
+          chip.classList.remove("selected");
+          chip.setAttribute("aria-pressed", "false");
+        });
+      if (!wasSelected) {
+        confidenceChip.classList.add("selected");
+        confidenceChip.setAttribute("aria-pressed", "true");
+      }
+      return;
+    }
+
     const feedbackChip = event.target.closest(".feedback-reason-chip");
     if (feedbackChip) {
       const isSelected = feedbackChip.getAttribute("aria-pressed") === "true";
@@ -2830,6 +2849,16 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
     </button>
   `).join("");
 
+  // The one measure of confidence Northcue collects. Single select and fully
+  // skippable: tapping the chosen answer again clears it, so nobody is forced
+  // past a question they would rather not answer.
+  const confidenceChips = confidenceChoices.map((entry) => `
+    <button type="button" class="feedback-reason-chip feedback-confidence-chip" data-confidence="${entry.value}" aria-pressed="false">
+      ${feedbackConfidenceIcon(entry.value)}
+      <span>${escapeHtml(t(entry.labelKey))}</span>
+    </button>
+  `).join("");
+
   const selectedRating = `<strong>${escapeHtml(t(choice.ratingKey))}</strong>`;
 
   return `
@@ -2845,8 +2874,16 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
       <div class="feedback-chip-grid" role="group" aria-label="${escapeHtml(t(choice.headingKey))}">
         ${chips}
       </div>
+      <div class="feedback-question feedback-confidence-question">
+        <h3>${t("feedback.confidenceHeading")}</h3>
+        <p>${t("feedback.confidenceHint")}</p>
+      </div>
+      <div class="feedback-chip-grid feedback-confidence-grid" role="group" aria-label="${t("feedback.aria.confidence")}">
+        ${confidenceChips}
+      </div>
       <label class="feedback-label" for="modal-feedback-comment">${t("feedback.anythingElse")} <span>${t("feedback.optional")}</span></label>
-      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="${t("feedback.commentPlaceholder")}"></textarea>
+      <textarea id="modal-feedback-comment" class="short-feedback-comment" maxlength="240" placeholder="${t("feedback.commentPlaceholder")}" aria-describedby="modal-feedback-comment-privacy"></textarea>
+      <small id="modal-feedback-comment-privacy" class="feedback-field-note">${t("feedback.commentPrivacyNote")}</small>
       <div class="feedback-contact-toggle-row">
         <label>
           <input id="modal-feedback-contact-toggle" type="checkbox">
@@ -2862,6 +2899,26 @@ function buildFeedbackStepTwoMarkup(answerKey, choice) {
       <p class="feedback-saved-message" role="status" aria-live="polite"></p>
     </section>
   `;
+}
+
+// The three confidence answers. Wire values are snake case because that is what
+// the feedback_events.confidence_after column stores and reports on; the labels
+// resolve through t() so they translate with everything else.
+const confidenceChoices = [
+  { value: "more_able", labelKey: "feedback.confidence.moreAble" },
+  { value: "about_same", labelKey: "feedback.confidence.aboutSame" },
+  { value: "still_unsure", labelKey: "feedback.confidence.stillUnsure" }
+];
+
+function feedbackConfidenceIcon(value) {
+  const icons = {
+    // A step up, steady, and a question mark. Line only, matching the reason chips.
+    more_able: `<svg viewBox="0 0 24 24" focusable="false"><path d="M4 18h5v-4H4z"></path><path d="M9.5 18h5v-8h-5z"></path><path d="M15 18h5V6h-5z"></path></svg>`,
+    about_same: `<svg viewBox="0 0 24 24" focusable="false"><path d="M5 10h14"></path><path d="M5 14h14"></path></svg>`,
+    still_unsure: `<svg viewBox="0 0 24 24" focusable="false"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.3-1.5 2.4"></path><path d="M12 17.5h.01"></path></svg>`
+  };
+
+  return icons[value] || icons.about_same;
 }
 
 function feedbackFaceMarkup(key) {
@@ -2944,9 +3001,16 @@ function getFeedbackPayload(panel) {
       }
     : {};
 
+  // Null when the reader skipped the question, which is expected and normal.
+  const confidenceAfter = panel.querySelector(".feedback-confidence-chip.selected")?.dataset.confidence || "";
+
   return {
     rating: normaliseFeedbackRating(panel.dataset.rating, panel.dataset.answer),
-    reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected")).map((chip) => chip.dataset.reason),
+    // Confidence chips share the reason chip class for styling, so they are
+    // excluded here to keep the two answers in their own fields.
+    reasons: Array.from(panel.querySelectorAll(".feedback-reason-chip.selected:not(.feedback-confidence-chip)"))
+      .map((chip) => chip.dataset.reason),
+    confidence_after: confidenceAfter,
     note: panel.querySelector(".short-feedback-comment")?.value.trim() || "",
     contact_permission: contactChecked,
     email,
@@ -2965,6 +3029,7 @@ function saveFeedbackFallback(feedback) {
   savedFeedback.unshift({
     rating: feedback.rating,
     reasons: feedback.reasons,
+    confidence_after: feedback.confidence_after,
     note: feedback.note,
     contact_permission: feedback.contact_permission,
     page: feedback.page,

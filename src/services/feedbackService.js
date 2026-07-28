@@ -3,6 +3,10 @@ const { getSupabaseAdminClient } = require("./supabaseService");
 const VALID_RATINGS = new Set(["yes", "little", "no"]);
 const VALID_TRUST_LEVELS = new Set(["high", "medium", "low", "unknown"]);
 const VALID_SEVERITY_LEVELS = new Set(["low", "medium", "high", "urgent"]);
+// How the reader felt about their letter after reading the cards. One optional
+// tap, so most rows will not carry it. Anything outside this set is dropped
+// rather than stored, which keeps the column reportable without a cleanup pass.
+const VALID_CONFIDENCE_LEVELS = new Set(["more_able", "about_same", "still_unsure"]);
 const MAX_NOTE_LENGTH = 500;
 const MAX_REASONS = 8;
 const MAX_EMAIL_LENGTH = 254;
@@ -74,6 +78,13 @@ function normaliseOptionalEnum(value, allowedValues, fallback = null) {
   return fallback;
 }
 
+// Returns one of the three confidence answers, or null when the reader skipped
+// the question or sent something unrecognised. Skipping is a normal outcome
+// here, not an error, so this never throws.
+function normaliseConfidence(value) {
+  return normaliseOptionalEnum(value, VALID_CONFIDENCE_LEVELS);
+}
+
 async function saveFeedbackEvent(payload, options = {}) {
   const rating = normaliseRating(payload.rating);
   if (!rating) {
@@ -98,6 +109,14 @@ async function saveFeedbackEvent(payload, options = {}) {
     severity_level: normaliseOptionalEnum(payload.severity_level, VALID_SEVERITY_LEVELS)
   };
 
+  // Optional confidence answer, one tap and skippable, so most rows will not
+  // carry it. Added only when the reader actually chose something, for the same
+  // reason as contact_email below. See supabase/phase8_feedback_confidence.sql.
+  const confidenceAfter = normaliseConfidence(payload.confidence_after || payload.confidenceAfter);
+  if (confidenceAfter) {
+    row.confidence_after = confidenceAfter;
+  }
+
   // Optional reply address. Stored intact (never through sanitiseNote). Only added
   // to the row when a plausible email is present, so ordinary feedback does not
   // reference the contact_email column — keeping inserts working even before the
@@ -112,11 +131,7 @@ async function saveFeedbackEvent(payload, options = {}) {
     throw new Error("Supabase is not configured. Add Supabase environment variables before saving feedback.");
   }
 
-  const { data, error } = await supabase
-    .from("feedback_events")
-    .insert(row)
-    .select("id")
-    .single();
+  const { data, error } = await insertFeedbackRow(supabase, row);
 
   if (error) {
     throw error;
@@ -125,9 +140,42 @@ async function saveFeedbackEvent(payload, options = {}) {
   return { id: data.id };
 }
 
+// Columns that only appear on some rows and were each added by a later
+// migration. If the database has not caught up yet, naming one of them fails
+// the whole insert and the rating, the reasons and the note go down with it.
+// Losing a reader's answer because a column is late is never the right trade,
+// so the retry drops the optional fields and keeps the answer.
+const OPTIONAL_FEEDBACK_COLUMNS = ["confidence_after", "contact_email"];
+
+function isUnknownColumnError(error) {
+  if (!error) return false;
+  // PostgREST schema cache miss, and the underlying Postgres undefined column.
+  return error.code === "PGRST204" || error.code === "42703";
+}
+
+async function insertFeedbackRow(supabase, row) {
+  const first = await supabase.from("feedback_events").insert(row).select("id").single();
+  if (!isUnknownColumnError(first.error)) return first;
+
+  const carriesOptional = OPTIONAL_FEEDBACK_COLUMNS.some((column) =>
+    Object.prototype.hasOwnProperty.call(row, column)
+  );
+  if (!carriesOptional) return first;
+
+  const reducedRow = { ...row };
+  OPTIONAL_FEEDBACK_COLUMNS.forEach((column) => delete reducedRow[column]);
+  console.warn(
+    "Feedback insert retried without optional columns. Run the pending Supabase migration:",
+    first.error.message
+  );
+
+  return await supabase.from("feedback_events").insert(reducedRow).select("id").single();
+}
+
 module.exports = {
   saveFeedbackEvent,
   sanitiseNote,
   normaliseRating,
-  normaliseEmail
+  normaliseEmail,
+  normaliseConfidence
 };

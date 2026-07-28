@@ -1,5 +1,13 @@
 # Feedback capture audit
 
+> **Update, 28 July 2026.** Decisions 1 and 2 below are now resolved. The
+> confidence question is built and the note warning is now persistent helper
+> text. Two migrations are waiting to be run in Supabase,
+> `phase7_feedback_contact_email.sql` and `phase8_feedback_confidence.sql`,
+> along with the one off `cleanup_feedback_events_20260728.sql`. Until phase 8
+> runs, a confidence answer is dropped rather than stored, and the rest of the
+> feedback still saves. Decisions 3, 4 and 5 are still open.
+
 Walked the whole path: the buttons that open it, the two step flow, the browser
 payload, the server route, the sanitiser, and the live table. Where I could
 test something rather than read it, I tested it.
@@ -89,10 +97,15 @@ had ever used it**. It works: a submission with an address returned 201 and the
 address landed intact in `contact_email`.
 
 That test left one row in your table, marked `page: feedback_audit`,
-`section: audit_email_path`. I did not delete it, because deleting from your
-production data is your call, not mine. Worth knowing: five of the ten
-pre existing rows are also smoke tests from earlier sessions, so filter on
-`page` before you read anything as real user signal.
+`section: audit_email_path`, and a second, `audit_confidence`, was added on
+28 July when testing the new column. I did not delete either, because deleting
+from your production data is your call, not mine.
+
+**Correction.** I first wrote that five of the ten pre existing rows were smoke
+tests. Three were: `pre_deploy`, `predeploy_check` and `deployment_smoke`, all
+from 06 June. Adding my two audit rows makes five test rows in total, which is
+what `cleanup_feedback_events_20260728.sql` removes. Either way, filter on
+`page` before reading anything as real user signal.
 
 ## Are people warned not to paste private details
 
@@ -236,6 +249,18 @@ My recommendation is A. It is the only version that gives you a number you can
 put in front of a funder for confidence, and it costs one optional tap. If you
 want, A and B combine well.
 
+**Built, 28 July.** Option A shipped as specified. The question sits under the
+reason chips in step two, reads "How do you feel about this letter now?" with
+the hint "Optional. Tap one if it fits.", and offers three chips: More able to
+deal with it, About the same, Still unsure. It is single select, and tapping
+the chosen answer again clears it, so a stray tap cannot trap someone into
+answering. It stores to `feedback_events.confidence_after` as `more_able`,
+`about_same` or `still_unsure`, null when skipped, so it reports per respondent.
+
+Read it as a rate over the rows that answered, not over all feedback. Because
+it is optional you will get a lower denominator than the helpfulness rating,
+and that is the price of not pressuring anyone.
+
 ---
 
 ## Needs your decision
@@ -248,10 +273,13 @@ only storage that exists is `contact_email`, and the note sanitiser strips phone
 numbers, so a phone number would be lost. That needs deciding before it goes
 back on, which is why I did not just wire it up.
 
-**2. The privacy warning on the note box.** Currently placeholder only, so it
-vanishes as the reader types. I recommend moving it to a visible line under the
-box, reusing the existing `.feedback-private-note` component already used in
-step one. It is a new visible element, so it is yours to approve.
+**2. The privacy warning on the note box. Resolved 28 July.** It was
+placeholder only, so it vanished as the reader typed. The placeholder is now
+just "A short note is enough.", and the warning sits below the field as
+persistent helper text reading "Please leave out names, addresses and account
+numbers." It is tied to the field with `aria-describedby`, so screen readers
+announce it with the box rather than as a stray line, and it is styled quiet
+rather than alarming.
 
 **3. `document_session_id` is never populated, 0 of 10 rows.** You cannot join
 feedback to the document that produced it, so you cannot ask whether people

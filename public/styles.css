@@ -578,6 +578,7 @@ body.text-small {
 #modal .feedback-choice-card strong { font-size: calc(20px * var(--text-scale, 1)); }
 #modal .feedback-choice-card small { font-size: calc(14px * var(--text-scale, 1)); }
 #modal .feedback-private-note { font-size: calc(14px * var(--text-scale, 1)); }
+#modal .feedback-field-note { font-size: calc(14px * var(--text-scale, 1)); }
 #modal .feedback-or-text { font-size: calc(14px * var(--text-scale, 1)); }
 
 /* Desktop-only: the colour-style labels are hidden (font-size 0) on phones. */
@@ -7234,6 +7235,22 @@ body.theme-dark .feedback-modal .modal-box h2::before {
   color: var(--text);
   font: inherit;
   resize: vertical;
+}
+
+/* Persistent helper text under the note box. This used to live in the
+   placeholder, which vanishes the moment someone starts typing, so the warning
+   disappeared exactly when it was needed. Quiet by design: it is guidance, not
+   an alarm. */
+.feedback-flow .feedback-field-note {
+  display: block;
+  margin-top: -4px;
+  color: var(--muted);
+}
+
+/* The confidence question follows a chip grid, so it needs a little air above
+   it to read as a separate question rather than more of the same list. */
+.feedback-flow .feedback-confidence-question {
+  margin-top: 4px;
 }
 
 .feedback-contact-toggle-row {

@@ -48,6 +48,63 @@ test("feedback evidence quality", async (t) => {
     assert.equal(rating, "yes");
   });
 
+  await t.test("the confidence answer normalises to the three reportable values", () => {
+    assert.equal(feedbackService.normaliseConfidence("more_able"), "more_able");
+    assert.equal(feedbackService.normaliseConfidence("about_same"), "about_same");
+    assert.equal(feedbackService.normaliseConfidence("still_unsure"), "still_unsure");
+    assert.equal(feedbackService.normaliseConfidence("MORE_ABLE"), "more_able");
+  });
+
+  await t.test("skipping the confidence question is a normal outcome, not an error", () => {
+    // The question is optional, so most rows will not carry it. An absent or
+    // unrecognised answer must become null rather than throwing or being
+    // guessed at, otherwise the column stops being reportable.
+    assert.equal(feedbackService.normaliseConfidence(""), null);
+    assert.equal(feedbackService.normaliseConfidence(undefined), null);
+    assert.equal(feedbackService.normaliseConfidence("very confident"), null);
+    assert.equal(feedbackService.normaliseConfidence("<script>"), null);
+  });
+
+  await t.test("the confidence question is single select and skippable", () => {
+    // Tapping the chosen answer again clears it, so a stray tap does not trap
+    // someone into answering a question they would rather leave alone.
+    assert.match(
+      APP_SOURCE,
+      /feedback-confidence-chip[\s\S]{0,600}wasSelected/,
+      "the handler must clear the answer when the same chip is tapped again"
+    );
+    // Confidence chips share the reason chip class for styling, so the reason
+    // collector must exclude them or the two answers contaminate each other.
+    assert.match(
+      APP_SOURCE,
+      /feedback-reason-chip\.selected:not\(\.feedback-confidence-chip\)/,
+      "reasons must exclude confidence chips"
+    );
+  });
+
+  await t.test("the note privacy warning is persistent, not placeholder only", () => {
+    // A placeholder disappears the moment someone starts typing, which is
+    // exactly when the warning matters.
+    assert.match(APP_SOURCE, /feedback-field-note/, "expected a persistent helper note");
+    assert.match(
+      APP_SOURCE,
+      /aria-describedby="modal-feedback-comment-privacy"/,
+      "the note must be announced with the field"
+    );
+  });
+
+  await t.test("optional columns never take the whole feedback down with them", () => {
+    // confidence_after and contact_email each arrived in a later migration. If
+    // the database has not caught up, naming one fails the insert and the
+    // rating, reasons and note are lost too.
+    const service = fs.readFileSync(
+      path.join(__dirname, "..", "src", "services", "feedbackService.js"), "utf8"
+    );
+    assert.match(service, /PGRST204/, "must recognise the schema cache miss");
+    assert.match(service, /OPTIONAL_FEEDBACK_COLUMNS/, "must know which columns are optional");
+    assert.match(service, /delete reducedRow\[column\]/, "must retry without them");
+  });
+
   await t.test("the reply address is never written to local storage", () => {
     // The reader agreed to Northcue receiving their address, not to it being
     // left on what may be a shared family device, and nothing reads this
