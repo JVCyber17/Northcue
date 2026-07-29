@@ -1,5 +1,181 @@
 # Translation quality review, nine languages
 
+---
+
+# Corrected scan, all nine languages (28 July 2026)
+
+Findings only. **No translation content was changed in this pass.**
+
+## Which earlier verdicts are now unreliable
+
+**Every per language count in the sections below this one was produced with a
+scanner that used JavaScript `\b`, and is wrong.** Treat the numbers as void
+and the prose as unverified. Specifically:
+
+| Claim | Status |
+|---|---|
+| "Polish 19 of 51 patterns failing grammar", and the same per language table | **Void.** Never reproduced from rendered output |
+| "Polish and Romanian are consistently informal" | **Confirmed**, and it is the only informality finding that survives |
+| French, Spanish and Portuguese informality | **Void, and wrong in the opposite direction.** All three are already formal |
+| Gujarati "14 strings flagged as informal, discarded on inspection" | **Correct to have discarded**, and the corrected scanner now rejects them automatically |
+| "Polish numeral agreement" | **Void.** No template inserts a number, see the Polish round 2 section |
+| The lost hedge and weakened warning counts | **Void.** See "what the scanner cannot tell you" below |
+
+## The bug, precisely
+
+JavaScript's `\b` is a transition between `[A-Za-z0-9_]` and anything else.
+Every letter outside ASCII counts as a non word character. That corrupts
+matching in **both** directions, which is why it survived so long: the numbers
+looked plausible either way.
+
+**It misses terms** that begin or end with a non ASCII letter, because there is
+no ASCII boundary to find:
+
+    /\bSprawdź\b/.test("Prosimy Sprawdź to.")     ->  false
+    /\bਤੁਸੀਂ\b/.test("ਇਹ ਤੁਸੀਂ ਲਈ ਹੈ.")                ->  false
+
+**It invents terms** inside words, because an accented letter looks like a
+boundary, so word fragments match as whole words:
+
+    /\btes\b/.test("informations complètes")      ->  true
+    /\bVerifica\b/.test("Verificação do documento") ->  true
+
+Which direction dominates depends on the language's morphology. Polish and
+Romanian terms end in diacritics, so they under reported. French and Portuguese
+have common short terms sitting after accented letters inside longer words, so
+they over reported.
+
+## The second order bug, in my own fix
+
+`\p{L}` alone is **still wrong** for Indic scripts. Vowel signs are Unicode
+category M, a combining mark, not a letter. In the Gujarati word વપરાતું ("is
+used") the sequence તું is preceded by the vowel sign ા (U+0ABE), so a
+lookbehind excluding only `\p{L}` finds a non letter, declares a boundary, and
+matches the informal pronoun inside an ordinary verb. That produced five false
+Gujarati hits, the same shape as the fourteen the very first review discarded.
+
+The boundary class has to be `[\p{L}\p{M}\p{N}]`. One of the audit agents found
+this independently, which is the only reason I am confident it is the last of
+it.
+
+## Corrected counts
+
+From `node scripts/scan-translations.js`, reproducible:
+
+| | strings | informal | `\b` said | hidden by the bug | hedge screen | refusal screen |
+|---|---|---|---|---|---|---|
+| Polish | 897 | **140** | 126 | +14 | 8 | 9 |
+| Romanian | 897 | **250** | 211 | **+39** | 5 | 8 |
+| French | 897 | **0** | 10 | −10 | 11 | 2 |
+| Portuguese | 897 | **0** | 4 | −4 | 4 | 11 |
+| Spanish | 897 | **0** | 0 | 0 | 7 | 9 |
+| Gujarati | 897 | **0** | 0 | 0 | 3 | 5 |
+| Hindi | 897 | **0** | 0 | 0 | 9 | 5 |
+| Bengali | 897 | **0** | 0 | 0 | 7 | 7 |
+| Panjabi | 897 | **0** | 0 | 0 | 9 | 1 |
+
+**Only Polish and Romanian carry informal address.** The other seven are
+already formal. That reverses the earlier assumption that French, Spanish and
+Portuguese needed conversion, and it is the single most useful thing in this
+pass: it removes three languages from the formality backlog entirely.
+
+Romanian is the largest remaining job at 250 strings, and it is the whole file
+rather than a block: `Scrisoarea ta`, `cardurilor tale`, `Ce să faci`.
+
+The informal column is the one I trust. It was validated with positive
+controls (a sentence using the informal pronoun must be found), negative
+controls (the formal pronoun must not be), and substring traps (the pronoun
+inside an ordinary verb must not be) on all four Indic scripts.
+
+## Three more scanner defects found by reading output, not by trusting counts
+
+1. **Bare words made useless refusal markers.** Listing "do" and "not" made
+   "What to do" a refusal and gave Romanian 22 meaningless hits.
+2. **Spanish and Portuguese informal imperatives are homographs of the third
+   person indicative**, which is also the polite form. `se usa` ("is used") and
+   `Usted elige` (**correct formal address**) were both flagged as informal. 23
+   Spanish hits collapsed to 0.
+3. **French has that trap twice.** `Utilise une urgence artificielle` is the
+   *document* using urgency, a scam signal label, not a command; and
+   `Que dois-je faire ?` is first person. 6 hits collapsed to 0.
+
+## What the scanner cannot tell you
+
+The hedge and refusal columns are **screening filters, not defect counts**.
+Nine independent language audits triaged them and returned **zero real lost
+hedges in eight languages and one in Spanish**, against roughly 60 mechanical
+hits. Sampling Gujarati and Polish by hand agrees: `looks for` is not a hedge,
+`could not read` is a plain negative, and `શકશે`, `પણ હોય`, `mogłoby`,
+`się wydaje` are all hedges the term lists did not know. Both lists were
+tightened afterwards, which is why the counts above are lower than the agents
+saw.
+
+Weakened warnings and machine sounding constructions are not mechanically
+detectable at all. They need a reader.
+
+## A methodological failure worth recording
+
+I launched the nine language audit and then **kept editing the scanner while it
+ran**. The agents were therefore reading a moving target, and their counts do
+not reproduce: one reported Bengali `lostRefusal: 24` where the file yields 7,
+another Hindi "46 hits" where it yields 14, another Panjabi 17 where it yields
+1. The adversarial verifiers caught this in six of the nine languages, which is
+the only reason it is recorded here rather than published as findings.
+
+**No count from that audit is used above.** The counts in this section come
+from the committed scanner, run after it stopped changing. What the audit
+contributed that survives is qualitative and was verified independently.
+
+## The one thing this pass found that no scan would have
+
+**All 55 scam and severity signal labels fall back to English in every
+language.** Found by an adversarial verifier reading the render path, then
+confirmed directly:
+
+`checkWhyChips()` in `public/app.js` strips the trailing full stop from each
+signal before translating it. The template bank's exact index is keyed on the
+full string *including* the stop, so the lookup misses every time:
+
+    bank value       "Uses pressure wording."       -> translates
+    after chip strip "Uses pressure wording"        -> falls back to English
+
+A Polish reader opening Document check on a suspected scam sees
+`Uses pressure wording` and `Mentions final notice wording` in English. These
+are the chips that explain *why* Northcue flagged the document, on the panel
+where that explanation matters most.
+
+This is a code defect, not a translation defect, and it is one line. It is left
+unfixed because this pass is findings only.
+
+## Other findings from the audit that a reader should check
+
+Reported as leads rather than confirmed defects, since the counts they sat
+beside proved unreliable. Each was named with a rendered example:
+
+- **Spanish** `tpl.banner.high_stakes_urgent`: "may need action soon" became
+  "puede necesitar **una respuesta** pronto", narrowing any action to a reply.
+- **French** `tpl.summary.bill_in_credit`: English hedges twice, "your account
+  **may** be in credit, so there **may** be nothing to pay". The French moves
+  the hedge onto the verb, which reads as more settled on the one card about
+  money the reader might not owe.
+- **French** `tpl.label.signal.severity.legal_response`: "required" became
+  "demandée", obligation downgraded to request. (Moot in practice until the
+  chip bug above is fixed, since this label never reaches the reader.)
+- **Polish** `tpl.banner.urgent`: English "Do not ignore it" is the only bare
+  prohibition in the nine banner set. Polish "Prosimy tego nie ignorować" is
+  the register of a notice board, and six sibling banners also open with
+  "Prosimy", so the one distinctive banner stops being distinctive.
+- **Polish** register split, measured not judged: `pl.js` has 68 informal
+  strings and zero formal, `templates-pl.js` has 100 formal and zero informal.
+  `status.documentReady` and `tpl.error.document_ready` ship the same sentence
+  in both registers, and a reader can see both on one screen.
+- **Romanian** `tpl.risk.medium` breaks the mood ladder: urgent and high use
+  the conditional "ar putea", medium uses the indicative "poate".
+- **Bengali** `tpl.date.dates_appear` and **Panjabi** `tpl.consequence.avoid`:
+  hedges added or lost relative to the English.
+
+---
+
 > **Status, 28 July 2026.** The original review below was read and report only.
 > A first round of fixes has now been applied. **This round is not the whole
 > job.** What is done, what is deliberately decided, and what is still
