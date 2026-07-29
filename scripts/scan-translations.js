@@ -102,7 +102,24 @@ const INFORMAL = {
     "Kliknij", "kliknij", "Otwórz", "otwórz", "Wpisz", "wpisz", "Weź", "weź",
     "Pamiętaj", "pamiętaj", "Traktuj", "traktuj", "ignoruj",
     "możesz", "masz", "chcesz", "sprawdzisz", "podejmiesz", "odpowiesz",
-    "zechcesz", "jesteś", "będziesz", "musisz", "potrzebujesz"
+    "zechcesz", "jesteś", "będziesz", "musisz", "potrzebujesz",
+    // Extended after the July 2026 rendered reading found imperatives the
+    // list did not know (a proven failure mode: a term absent here scans as
+    // clean). Every 2sg form met during the Polish conversion is now listed.
+    "Podążaj", "podążaj", "Miej", "miej", "Wyślij", "wyślij",
+    "Zignoruj", "zignoruj", "Znajdź", "znajdź", "Spójrz", "spójrz",
+    "Zanotuj", "zanotuj", "Zostaw", "zostaw", "Usuń", "usuń",
+    "Skopiuj", "skopiuj", "Udostępnij", "udostępnij", "Wypróbuj", "wypróbuj",
+    "Przejdź", "przejdź", "Włącz", "włącz", "Wyłącz", "wyłącz",
+    "Zrób", "zrób", "Poproś", "poproś", "Powiedz", "powiedz",
+    "Zamień", "zamień", "Zacznij", "zacznij", "Zapisz", "zapisz",
+    "Naciśnij", "naciśnij", "Stuknij", "stuknij", "Zadzwoń", "zadzwoń",
+    "Uzyskaj", "uzyskaj", "Ukryj", "ukryj", "Wyszukaj", "wyszukaj",
+    "Skorzystaj", "skorzystaj", "polegaj", "płać", "podawaj", "wklejaj",
+    "odznacz", "patrz", "idź", "Idź", "Zacznijcie", "zacznijcie",
+    "widzisz", "wysyłasz", "przesyłasz", "czujesz", "znajdziesz",
+    "upewnisz", "wyjdziesz", "decydujesz", "zaczniesz", "ustawisz",
+    "Otrzymujesz", "otrzymujesz", "Wyjaśnij", "wyjaśnij"
   ],
   ro: [
     "tu", "Tu", "tine", "Tine", "ție", "Ție", "tău", "ta", "tale", "tăi",

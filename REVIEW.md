@@ -64,7 +64,7 @@ AI-complete, including re-render and a fresh adversarial read.
 |------------|--------|-----------------------|----------------------------|-------------|----------|
 | Gujarati   | 0      | 0 (5 fixed)           | formal, confirmed          | 0 (2 fixed) | AI-complete |
 | Hindi      | 0 (3 fixed) | 0 (fixed at the root) | formal, confirmed     | 0 (3 fixed) | AI-complete |
-| Polish     | 0      | 0                     | bank 4 informal left; dict informal throughout | 1 + dict pass | 2 |
+| Polish     | 0      | 0                     | formal, converted this pass | 0 (fixed)  | AI-complete |
 | Romanian   | 3 classes | 8 surfaces (1 class) | informal throughout (both files) | 3        | 2-3      |
 | Bengali    | 0      | 2 (+1 style decision) | formal, confirmed          | 6 + tail    | 1-2      |
 | Panjabi    | 4      | 3 classes (~9 surfaces) | formal, confirmed        | 10 + vocab Qs | 2      |
@@ -240,43 +240,77 @@ mirrors English exactly).
 Disproved in Phase 0, unchanged: "9 of 51 patterns failing grammar" (real
 count was 2 surfaces, one root cause, now fixed).
 
-## Polish (bank 4 informal strings; dictionary conversion outstanding; 2 sessions)
+## Polish (AI-COMPLETE, 30 July 2026; awaiting native review)
 
-Safety: bank clean, verified in render. podstępem present, Państwo as subject
-on both risk lines, mip_topic hedge restored, bill_in_credit double hedge kept,
-mogłoby/może mood distinction preserved. The three recorded native questions
-stand (banner.urgent register, zweryfikować, Państwo coldness). The dict's
-safety-adjacent Document check strings are content-faithful but informal
-(`check.scamDeadline` "Zignoruj...", `check.lowTrustStep` "Znajdź... sprawdź").
+The language is finished: the four informal bank strings are converted, the
+interface dictionary is converted in every block, Polish's instances of the
+cross-language classes are fixed, and the register decisions are recorded
+below for the native reviewer. Roughly 165 strings changed this session
+(12 bank, 150 dictionary, plus 3 prose lines the extended screen surfaced);
+every changed line was read in rendered output.
 
-DISPROVED round-2 claim: "all 273 exact sentences scan clean / whole bank
-formal". Four informal strings remain in the bank, found by rendered reading;
-the committed scanner's term list does not know these imperatives and reported
-a false all-clear:
-1. `tpl.readable.helpful_note`: "Traktuj to jako pomoc w czytaniu..." (its
-   siblings use "prosimy traktować", an inconsistent register pair).
-2. `tpl.next_step.default`: "Podążaj za kartą z działaniem krok po kroku."
-   (also keeps the "karta z działaniem" literalism round 2 fixed in
-   next_step.urgent).
-3. `tpl.note.reference`: "Miej numer referencyjny pod ręką."
-4. `tpl.action.send_documents`: "Wyślij dokumenty lub formularz, o które proszą."
+The register rules applied, recorded so nobody has to reverse-engineer them:
+- Prosimy plus infinitive for every prose request, matching the bank.
+- Państwo where the reader must own the sentence (possessives, risk lines,
+  the completion count restructure "Mają Państwo za sobą wszystkie karty...").
+- Warm impersonals where address adds nothing: encouragements ("Świetnie to
+  idzie", "Spokojnie, każde tempo jest dobre"), help-guide reassurances
+  ("To zupełnie zrozumiałe"), ability statements ("Można to zmienić...").
+- CONTROL LABELS KEEP THE CONVENTIONAL UI IMPERATIVE: buttons, links, tabs,
+  aria labels on controls, and short instructional step headings (Prześlij,
+  Wybierz plik, Włącz tryb skupienia, Dalej). This is standard register-
+  neutral Polish UI, the same convention gov.pl services and Polish banking
+  apps use with formal customers, and converting them to Prosimy phrases
+  would read broken. The extended scanner intentionally still flags them
+  (61 control labels), so the screen stays honest about what was kept.
+  THIS IS THE ONE DECISION THE NATIVE REVIEWER MUST CONFIRM (question 1 in
+  NATIVE_REVIEW.md).
 
-Grammar around inserted values: no defects found across 51 x 3. Colon frames
-protect the topic slots; the completion-count restructure works in render.
+What changed, by the session order:
+1. The four bank strings: "Prosimy traktować to jako pomoc w czytaniu...",
+   "Prosimy wykonywać kroki z karty jeden po drugim." (also retiring the
+   "karta z działaniem" literalism), "Prosimy mieć numer referencyjny pod
+   ręką.", "Prosimy wysłać dokumenty lub formularz, o które proszą."
+2. The dictionary, all blocks: landing, home, install, journey, status,
+   help, helpGuides, comfort, privacy, why, check, feedback, nav. The
+   recorded same-screen register splits are resolved: status.documentReady
+   now matches the bank exactly ("Dokument jest gotowy."), status.tryAgain
+   matches "Prosimy spróbować ponownie.", and the three mixed-register
+   feedback strings read as one register ("Prosimy nie podawać...").
+   The safety-adjacent check strings are formal and full strength
+   ("Prosimy ignorować wszelkie terminy..., dopóki nie będzie pewności...").
+   The informal example email placeholder became imie@przyklad.pl.
+3. Cross-language classes: consequence.avoid reports the letter's own claim
+   without the added hedge ("...nie zostanie dokonana, nastąpi: {X}."), the
+   same decision as Gujarati and Hindi; the four password and PIN chips plus
+   verify_identity, freeze and suspend regained Państwa (class 3).
+   check_wrap, consequence.reported and may_follow were already sound.
+4. Naturalness: the calendar event title is now "Do sprawdzenia: {label}",
+   grammatical for every label; encouragements and guides kept their warmth
+   through the conversion.
 
-Formality, re-derived honestly: bank has exactly the 4 strings above; the
-dictionary is informal essentially throughout, in every block (landing, home,
-install, journey, status, help, helpGuides, comfort, privacy, why, check,
-feedback, nav/aria). Scanner floor says ~136 dict strings; treat as a floor.
-Same-screen register splits are live today: `status.documentReady` "Twój
-dokument jest gotowy." against the bank's "Dokument jest gotowy.";
-`status.tryAgain` "Spróbuj ponownie." against "Prosimy spróbować ponownie.";
-and three feedback strings mix registers inside one sentence ("Prosimy, nie
-podawaj/wklejaj..."). Regenerate the working list at fix time with an extended
-term list, then confirm by reading.
+Tooling: the scanner's Polish informal list gained roughly forty imperative
+and 2sg forms met during the conversion. The extended screen then surfaced
+three prose lines the manual pass had missed (landing.copy.line1,
+helpGuides.time.step1Detail, feedback.chooseFirst); all three are converted.
+That is the screen-then-read loop working as the standards intend.
 
-Naturalness: dictionary Polish is warm and idiomatic; the conversion must not
-flatten it. Round-2 bank naturalness fixes verified in render.
+Verification: render diff read line by line (11 bank exact lines, 3 pattern
+lines, 150 dictionary lines, nothing unintended); 244 tests pass; live at
+phone width via ?lang=pl in light, dark and focus across the landing,
+journey, cards, check panel, help page, a help guide popup and the feedback
+modal, with a real scam document through the engine; compositions
+(readingTyped, calendar title, scamDeadline) confirmed through the real t().
+Fresh adversarial read: urgent clearly outranks routine, the scam panel
+names Państwo on every chip and would stop compliance, and nothing reads
+like a bureaucracy; the one deliberate office-register line remains
+banner.urgent ("Prosimy tego nie ignorować"), which stays an open native
+question from round 2.
+
+For the native reviewer, beyond the standing round-2 questions: the control-
+label convention above; the hero "Państwa list, teraz jaśniejszy." tone; the
+emergency line register ("...prosimy natychmiast zadzwonić pod numer 999.");
+and "nastąpi" inside the attributed consequence.
 
 ## Romanian (largest job: whole-file formal conversion; 2-3 sessions)
 

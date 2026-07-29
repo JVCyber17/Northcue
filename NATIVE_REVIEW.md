@@ -50,9 +50,29 @@ careful person would actually say. You do not need to fix it, just mark it.
 
 ### Polish
 
-Polish has had a full pass on the cue card text, so its questions are more
-specific than the others. The interface text has not been touched yet and is
-still informal, so please ignore buttons and menus.
+Polish is AI-complete (30 July 2026): the cue card text had its full pass
+earlier, and the whole interface is now converted to the same formal register.
+
+**0. The interface decision that needs your confirmation first.** Prose is
+formal everywhere (Prosimy plus infinitive, Państwo where the sentence is
+about you), but BUTTONS, LINKS AND SHORT STEP HEADINGS keep the conventional
+Polish UI imperative: Prześlij, Wybierz plik, Włącz tryb skupienia, Dalej.
+That is the register gov.pl and Polish banking apps use with formal
+customers. **Does that split feel right, or do any of those controls read
+too familiar next to the formal prose around them?**
+
+**0a. The homepage headline now reads "Państwa list, teraz jaśniejszy."**
+**Does Państwo work in a headline, or does it tip into stiffness there?**
+
+**0b. The emergency line reads "Jeśli Państwu lub komuś innemu grozi
+bezpośrednie niebezpieczeństwo, prosimy natychmiast zadzwonić pod numer
+999."** In an emergency, is prosimy right, or should this one line be a
+direct command?
+
+**0c. The consequence card now reports the letter's own claim without
+softening: "Dokument informuje, że jeśli płatność nie zostanie dokonana,
+nastąpi: {the letter's words}."** Does this clearly read as the LETTER's
+threat, reported by Northcue, and not as Northcue threatening you?
 
 **1. The big one. Does the formal register read as respectful, or as cold?**
 
