@@ -79,11 +79,11 @@
     vocabularyIndex = {};
     var exact = englishBank().exact;
     VOCABULARY_SLOTS.forEach(function (slot) {
-      var map = {};
+      var map = new Map();
       var prefix = "tpl.label." + slot + ".";
       Object.keys(exact).forEach(function (id) {
         if (id.indexOf(prefix) === 0) {
-          map[String(exact[id]).toLowerCase()] = id;
+          map.set(String(exact[id]).toLowerCase(), id);
         }
       });
       vocabularyIndex[slot] = map;
@@ -99,10 +99,11 @@
     // other vocabulary namespaces, because the engine can legitimately put a
     // category style label into a type slot. Only ever matches Northcue's own
     // label vocabulary, so a document value can never be rewritten this way.
-    var id = (index[slotName] || {})[needle];
+    var id = index[slotName] ? index[slotName].get(needle) : undefined;
     if (!id) {
       for (var i = 0; i < VOCABULARY_SLOTS.length && !id; i++) {
-        id = (index[VOCABULARY_SLOTS[i]] || {})[needle];
+        var slotMap = index[VOCABULARY_SLOTS[i]];
+        id = slotMap ? slotMap.get(needle) : undefined;
       }
     }
     if (!id) return value;
@@ -118,17 +119,19 @@
     });
   }
 
+  // English sentence to template id, built once and consulted as a Map so an
+  // exact lookup is constant time no matter how large the bank grows.
   var exactIndex = null;
 
   function exactIdFor(text) {
     if (!exactIndex) {
-      exactIndex = {};
+      exactIndex = new Map();
       var exact = englishBank().exact;
       Object.keys(exact).forEach(function (id) {
-        exactIndex[exact[id]] = id;
+        exactIndex.set(exact[id], id);
       });
     }
-    return Object.prototype.hasOwnProperty.call(exactIndex, text) ? exactIndex[text] : null;
+    return exactIndex.has(text) ? exactIndex.get(text) : null;
   }
 
   // Translate one engine sentence into the target language. Returns

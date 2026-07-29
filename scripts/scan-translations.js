@@ -41,7 +41,10 @@ const fs = require("fs");
 const path = require("path");
 
 const I18N_DIR = path.join(__dirname, "..", "public", "i18n");
-const LANGS = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+// Languages come from config, the single source of truth for the list.
+const LANGS = require(path.join(I18N_DIR, "config.js")).languages
+  .map((entry) => entry.code)
+  .filter((code) => code !== "en");
 
 // --------------------------------------------------------------------------
 // Boundary helper. Everything in this file goes through here.

@@ -102,7 +102,9 @@ test("template bank matcher", async (t) => {
     // them in English produces a half translated sentence. Amounts, dates and
     // sender names come off the reader's letter and must stay verbatim so
     // they still match the paper in their hand.
-    const languages = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+    const languages = require("../public/i18n/config.js").languages
+      .map((entry) => entry.code)
+      .filter((code) => code !== "en");
     const vocabularyValues = {
       type_label: "an official letter",
       category_label: "a bill or payment request",

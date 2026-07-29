@@ -2435,10 +2435,15 @@ function renderCard() {
 
   let anyUntranslated = !translatedTitle.translated || !translatedAnswer.translated;
 
-  if (Array.isArray(card.steps) && card.steps.length > 0) {
+  // Each step is translated once and the results reused below for the money
+  // format check, so an untranslated step costs one pattern scan, not two.
+  const translatedSteps = Array.isArray(card.steps)
+    ? card.steps.map((step) => translatedEngineText(step))
+    : [];
+
+  if (translatedSteps.length > 0) {
     cardSteps.classList.remove("hidden");
-    cardSteps.innerHTML = card.steps.map((step) => {
-      const translatedStep = translatedEngineText(step);
+    cardSteps.innerHTML = translatedSteps.map((translatedStep) => {
       if (!translatedStep.translated) anyUntranslated = true;
       return `<li>${escapeHtml(translatedStep.text)}</li>`;
     }).join("");
@@ -2455,7 +2460,7 @@ function renderCard() {
   }
 
   const cardText = [translatedTitle.text, translatedAnswer.text]
-    .concat(Array.isArray(card.steps) ? card.steps.map((step) => translatedEngineText(step).text) : [])
+    .concat(translatedSteps.map((translatedStep) => translatedStep.text))
     .join(" ");
   const moneyNote = document.querySelector("#card-money-note");
   if (moneyNote) {
@@ -2468,7 +2473,7 @@ function renderCard() {
   trackCurrentCardViewed();
 }
 
-// Languages that write 1.234,56 where the UK writes 1,234.56. In these, an
+// Some languages write 1.234,56 where the UK writes 1,234.56. In these, an
 // amount lifted verbatim off a UK letter can be read at the wrong magnitude:
 // "£1,247.00" looks like roughly one and a quarter pounds, and "£8.50" can
 // look like eight hundred and fifty. On an enforcement notice that is not a
@@ -2476,18 +2481,17 @@ function renderCard() {
 //
 // The digits are never touched, because the figure has to match the paper in
 // the reader's hand. Instead the card carries a short note naming the UK
-// convention, so the number is unambiguous in context. Languages that already
-// use a full stop for the decimal, including all four Indic ones here, do not
-// need it and do not get it.
-const INVERTED_NUMBER_FORMAT_LANGUAGES = ["pl", "ro", "es", "fr", "pt"];
-
+// convention, so the number is unambiguous in context. Which languages need
+// the note is data, not code: config.js marks them with invertedNumberFormat,
+// so adding a language never means editing this file.
+//
 // Only amounts carrying a separator are ambiguous. "£40" reads the same
 // everywhere and needs no explanation.
 const SEPARATED_AMOUNT = /£\s?\d[\d\s]*[.,]\d/;
 
 function shouldExplainMoneyFormat(text) {
-  const language = NorthcueI18n.getLanguage();
-  if (INVERTED_NUMBER_FORMAT_LANGUAGES.indexOf(language) === -1) return false;
+  const entry = NorthcueI18n.languageEntry();
+  if (!entry || !entry.invertedNumberFormat) return false;
   return SEPARATED_AMOUNT.test(String(text || ""));
 }
 

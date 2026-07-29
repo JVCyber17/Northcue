@@ -33,8 +33,8 @@ procedure for switching one on.
 
 A native speaker needs to sign off two files for that language:
 
-- `public/i18n/<code>.js` — the interface dictionary
-- `public/i18n/templates-<code>.js` — the sentence bank used for card text
+- `public/i18n/<code>.js`, the interface dictionary
+- `public/i18n/templates-<code>.js`, the sentence bank used for card text
 
 Give them `translations-review/<code>/SAMPLES.md`, which shows the real
 rendered output rather than raw strings, and `REVIEW.md`, which lists the
@@ -61,9 +61,13 @@ two or more languages are enabled, on all three of its positions (desktop
 topbar, mobile topbar, landing page). The first visit detection banner starts
 offering that language to browsers that ask for it.
 
-Then bump two cache values so returning visitors get the new files:
+Then bump the cache values so returning visitors get the new files. There are
+three places, and which ones apply depends on what changed:
 
-- the `?v=` query strings on `styles.css` and `app.js` in `public/index.html`
+- the `?v=` query strings in `public/index.html` (`styles.css`, `app.js`, and
+  the five `/i18n/` script tags share two tokens)
+- `VERSION` in `public/i18n.js`, which stamps the on-demand per-language file
+  fetches, so bump it whenever any `<code>.js` or `templates-<code>.js` changed
 - `CACHE_VERSION` in `public/sw.js`
 
 ## What to check after enabling
@@ -81,6 +85,32 @@ Then, in the browser at phone width:
 4. Any sentence the bank cannot translate shows in English with the small
    notice under the card. That is correct behaviour, not a bug.
 5. Check light, dark and focus mode.
+
+## Adding a language that does not exist yet
+
+Enabling covers the nine shipped languages. A genuinely new language is one
+file set plus one config entry, and the structure keeps that true:
+
+1. Create `public/i18n/<code>.js` (the Tier 1 dictionary, every key in
+   `en.js`) and `public/i18n/templates-<code>.js` (the Tier 2 bank, every id
+   in `templates-en.js`). Mark both DRAFT PENDING HUMAN REVIEW.
+2. Add one entry to `public/i18n/config.js`: code, nativeName, `enabled:
+   false`, the three banner strings, and `invertedNumberFormat: true` if the
+   language writes 1.234,56 where the UK writes 1,234.56.
+3. Run `npm test`. Every language-sweeping test discovers the new code from
+   config automatically: parity, the severity ladder, the lookup contract,
+   the word boundary guard. Missing keys, missing bank ids, dashes, or a
+   collapsed tier all fail the build with the code named.
+4. Bump the cache values (previous section) and verify with the localhost
+   `?lang=<code>` preview.
+
+The one documented exception: a language in a script the site has never
+rendered (the current fonts cover Latin, Gujarati, Devanagari, Bengali and
+Gurmukhi) also needs font work in `public/styles.css`, following the existing
+pattern: a vendored variable font in `public/assets/fonts/`, an `@font-face`
+block scoped by `unicode-range`, the family added to the language switcher
+stack, and a `body[data-lang="<code>"]` block. Right-to-left scripts are a
+larger piece of work and are recorded as out of scope in PLAN.md.
 
 ## Turning it back off
 

@@ -26,7 +26,11 @@ const test = require("node:test");
 
 const REPO = path.join(__dirname, "..");
 const I18N = path.join(REPO, "public", "i18n");
-const LANGS = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+// Languages come from config so a newly added language is covered by this
+// contract automatically, never silently exempt.
+const LANGS = require(path.join(I18N, "config.js")).languages
+  .map((entry) => entry.code)
+  .filter((code) => code !== "en");
 
 const enBank = require(path.join(I18N, "templates-en.js"));
 const bank = require(path.join(I18N, "templateBank.js"));

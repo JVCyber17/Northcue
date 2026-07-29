@@ -13,11 +13,14 @@
 //
 // Dictionaries are plain scripts assigning window.NORTHCUE_STRINGS_<CODE>.
 // English ships in the page; other languages load on demand by script
-// injection and are cached for the session.
+// injection. Only the active language stays resident: switching away unloads
+// the previous language's globals, so memory holds English plus at most one
+// other language no matter how many the reader tries. Switching back is a
+// re-fetch, served by the HTTP cache or the service worker's runtime cache.
 (function (root) {
   var STORAGE_KEY = "northcue_language";
   var BANNER_DISMISS_KEY = "northcue_language_banner_dismissed";
-  var VERSION = "i18n-20260714a";
+  var VERSION = "i18n-20260729a";
 
   function config() {
     return root.NORTHCUE_I18N_CONFIG || { defaultLanguage: "en", languages: [{ code: "en", nativeName: "English", enabled: true }] };
@@ -85,6 +88,15 @@
 
   function dictionaryFor(code) {
     return root["NORTHCUE_STRINGS_" + String(code || "").toUpperCase()] || null;
+  }
+
+  // The config entry for a language, defaulting to the active one. This is
+  // how application code reads per language behaviour flags (for example
+  // invertedNumberFormat), so language differences stay data in config.js
+  // rather than code branches.
+  function languageEntry(code) {
+    var wanted = code || activeLanguage;
+    return config().languages.filter(function (entry) { return entry.code === wanted; })[0] || null;
   }
 
   var activeLanguage = "en";
@@ -179,14 +191,29 @@
     });
   }
 
+  // Removes a non English language from memory: its two window globals and
+  // its loaded flag. English never unloads, because it is the canonical key
+  // set, the matcher's source keys, and the fallback. The bank caches are
+  // English derived, so they survive an unload untouched.
+  function unloadLanguage(code) {
+    if (!code || code === "en") return;
+    var suffix = String(code).toUpperCase();
+    delete root["NORTHCUE_STRINGS_" + suffix];
+    delete root["NORTHCUE_TEMPLATES_" + suffix];
+    delete loadedLanguages[code];
+  }
+
   // Applies a language: loads its dictionary if needed, rewrites tagged
   // markup, updates html lang, and remembers the choice. Falls back to
-  // English if the file cannot be loaded.
+  // English if the file cannot be loaded. The previously active language is
+  // unloaded, so only English plus the active language stay in memory.
   function setLanguage(code, options) {
     var settings = options || {};
     var target = isSupported(code) ? code : "en";
+    var previous = activeLanguage;
     loadLanguageFile(target, function (ok) {
       activeLanguage = ok ? target : "en";
+      if (previous !== activeLanguage) unloadLanguage(previous);
       markDocumentLanguage(activeLanguage);
       applyTranslations();
       if (settings.remember !== false) {
@@ -261,6 +288,9 @@
     setLanguage: setLanguage,
     applyTranslations: applyTranslations,
     languageList: languageList,
+    languageEntry: languageEntry,
+    // Exported so the active-language-only memory policy is testable.
+    unloadLanguage: unloadLanguage,
     detectionState: detectionState,
     dismissDetectionBanner: dismissDetectionBanner,
     isSupported: isSupported,

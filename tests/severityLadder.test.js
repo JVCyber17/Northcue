@@ -26,7 +26,11 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 const test = require("node:test");
 
-const LANGS = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+// Languages come from config so a newly added language is covered by this
+// safety check automatically, never silently exempt.
+const LANGS = require("../public/i18n/config.js").languages
+  .map((entry) => entry.code)
+  .filter((code) => code !== "en");
 const en = require("../public/i18n/templates-en");
 
 const LADDERS = {

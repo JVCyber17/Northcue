@@ -8,6 +8,12 @@
 // dictionary has loaded. DRAFT PENDING HUMAN REVIEW: every non English banner
 // string below is a machine draft awaiting a human check, like the language
 // files themselves. No em or en dashes anywhere.
+//
+// Per language behaviour lives here as data, never as code branches in app.js
+// (see docs/i18n/engineering-standards.md). invertedNumberFormat marks the
+// languages that write 1.234,56 where the UK writes 1,234.56, so an amount
+// copied verbatim off a UK letter is ambiguous and the money format note must
+// show. Languages without the flag never see the note.
 (function (root) {
   var config = {
     defaultLanguage: "en",
@@ -24,6 +30,7 @@
         code: "pl",
         nativeName: "Polski",
         enabled: false,
+        invertedNumberFormat: true,
         bannerOffer: "Northcue jest dostępne po polsku.",
         bannerSwitch: "Przełącz na polski",
         bannerDismiss: "Nie, dziękuję"
@@ -32,6 +39,7 @@
         code: "ro",
         nativeName: "Română",
         enabled: false,
+        invertedNumberFormat: true,
         bannerOffer: "Northcue este disponibil în limba română.",
         bannerSwitch: "Comută la română",
         bannerDismiss: "Nu, mulțumesc"
@@ -64,6 +72,7 @@
         code: "pt",
         nativeName: "Português",
         enabled: false,
+        invertedNumberFormat: true,
         bannerOffer: "O Northcue está disponível em português.",
         bannerSwitch: "Mudar para português",
         bannerDismiss: "Não, obrigado"
@@ -72,6 +81,7 @@
         code: "es",
         nativeName: "Español",
         enabled: false,
+        invertedNumberFormat: true,
         bannerOffer: "Northcue está disponible en español.",
         bannerSwitch: "Cambiar a español",
         bannerDismiss: "No, gracias"
@@ -80,6 +90,7 @@
         code: "fr",
         nativeName: "Français",
         enabled: false,
+        invertedNumberFormat: true,
         bannerOffer: "Northcue est disponible en français.",
         bannerSwitch: "Passer au français",
         bannerDismiss: "Non, merci"

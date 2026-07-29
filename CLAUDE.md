@@ -74,6 +74,15 @@ backgrounds, rounded strokes, generous white space, simple cards. Avoid
 purple gradient blobs, decorative tech orbs, or flashy SaaS dashboard
 energy.
 
+## i18n engineering standards
+All multilingual work follows docs/i18n/engineering-standards.md, in every
+phase: lookups stay constant time, regexes compile once, only the active
+language stays in memory, nothing non-English enters the initial bundle,
+language differences are config data rather than code branches, and adding a
+language or a bank sentence stays the one documented process
+(docs/i18n/enabling-a-language.md, docs/i18n/adding-a-bank-sentence.md).
+tests/i18nStandards.test.js enforces the mechanical parts.
+
 ## Coding standards
 Standing rules for all future code in this project — read and follow
 them by default every session. Goal: clean, readable, maintainable

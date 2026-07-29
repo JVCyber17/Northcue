@@ -32,7 +32,11 @@ const path = require("node:path");
 const test = require("node:test");
 
 const REPO = path.join(__dirname, "..");
-const LANGUAGE_CODES = ["pl", "ro", "gu", "hi", "bn", "pt", "es", "fr", "pa"];
+// Languages come from config so the detection below keeps up when one is
+// added, without a hand-maintained copy of the list.
+const LANGUAGE_CODES = require("../public/i18n/config.js").languages
+  .map((entry) => entry.code)
+  .filter((code) => code !== "en");
 
 // Directories that can contain scanners. src/ is deliberately excluded: the
 // rules engine and the AI stripper run over English document text, where \b is
@@ -62,7 +66,11 @@ function readsTranslatedContent(source, relPath) {
   if (relPath.includes("wordBoundarySafety")) return false;      // this file
   if (/templates-\s*\+/.test(source)) return true;               // "templates-" + code
   if (/i18n[/\\]"\s*\+/.test(source)) return true;               // "i18n/" + code
-  if (/templates-(pl|ro|gu|hi|bn|pt|es|fr|pa)/.test(source)) return true;
+  // Consuming the bank's output is reading translated content too. This is
+  // what keeps app.js in scope: it holds no language list of its own (per
+  // the engineering standards) but renders translated sentences everywhere.
+  if (/translateEngineSentence|translatedEngineText/.test(source)) return true;
+  if (new RegExp("templates-(" + LANGUAGE_CODES.join("|") + ")").test(source)) return true;
   const codesMentioned = LANGUAGE_CODES.filter((c) =>
     new RegExp('["\']' + c + '["\']').test(source)
   );
