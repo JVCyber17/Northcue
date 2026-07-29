@@ -1,10 +1,21 @@
 #!/usr/bin/env node
-// Northcue translation scanner.
+// Northcue translation scanner. SCREENING TOOL ONLY, NEVER VERIFICATION.
 //
 // Scans a translated language for the defect classes the reviews look for:
 // informal address, lost hedges, and softened refusals. Weakened warnings and
 // machine sounding constructions are not mechanically detectable and are left
 // to a reader; this tool narrows what a reader has to look at.
+//
+// EVERY COUNT HERE IS A FLOOR. The scanner only finds terms on its lists,
+// and the lists have been proven incomplete twice: the ASCII \b bug hid
+// diacritic-final terms, and after that was fixed the term list itself
+// missed four informal imperatives (Traktuj, Podążaj, Miej, Wyślij) that
+// rendered reading caught in a bank the scanner called clean. A zero from
+// this tool means "nothing on my lists", never "nothing there". The only
+// accepted verification is reading rendered output: the render tools
+// (render-language.js, render-exact.js, render-dictionary.js) print English
+// beside every rendering for exactly that purpose. See
+// docs/i18n/engineering-standards.md.
 //
 // WHY THIS FILE EXISTS AT ALL, AND WHY IT NEVER USES \b
 //
@@ -308,6 +319,11 @@ function main() {
         String(s.lostRefusal)
       );
     });
+    console.log(
+      "\nScreening counts only: every number is a floor, limited to this" +
+      "\nscanner's term lists. Zero means nothing on the lists, not nothing" +
+      "\nthere. Verify by reading rendered output (scripts/render-*.js)."
+    );
   }
 }
 

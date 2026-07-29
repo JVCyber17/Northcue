@@ -73,6 +73,34 @@ relitigates them)
   price of standard 3). The HTTP cache and the service worker's runtime cache
   make that cheap.
 
+## Scanners are screening tools, never verification
+
+Decided 29 July 2026, after the same failure mode shipped twice: the ASCII
+boundary bug hid diacritic-final terms, and after that was fixed the
+corrected scanner's term list still missed four informal imperatives in a
+bank it reported clean. The alternative (making scanners self-auditing) is
+not implementable in principle: the failure is always a term absent from the
+scanner's own knowledge, and no mechanism can flag what it cannot recognise
+without an independent oracle. The rendered corpus, read by a competent
+reader, is that oracle.
+
+The rule, binding for all language work:
+
+- Scanner output is a screen that narrows what a reader looks at. Every
+  count is a floor. A scanner zero is never evidence of absence and must
+  never be cited as verification of anything.
+- The only accepted verification of language content is reading rendered
+  output: `scripts/render-language.js`, `scripts/render-exact.js` and
+  `scripts/render-dictionary.js` print the English beside every rendering
+  for exactly this purpose.
+- After any conversion or fix pass, extend the scanner's term lists with
+  whatever the rendered reading found that the scanner missed, so the screen
+  gets denser over time, and then verify by reading anyway.
+
+`scripts/scan-translations.js` states this in its header and prints it under
+its own summary table, so a future session cannot mistake the counts for
+findings. No test asserts scanner counts, deliberately.
+
 ## The known structural risk
 
 Nothing connects the engine to the bank automatically: when the engine learns

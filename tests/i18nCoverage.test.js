@@ -30,6 +30,23 @@ function extractTCallKeys(source) {
   return keys;
 }
 
+// Keys also reach t() through data maps (helpGuides, feedbackChoices, the
+// labelKeys maps, cardEncouragementKeys), where a typo would ship as a raw
+// key on screen without ever appearing in a literal t("...") call. So every
+// string literal that LOOKS like a dictionary key (dotted, and rooted in a
+// namespace en.js actually has) must exist in en.js, wherever it is written.
+function extractDictionaryShapedLiterals(source, namespaces) {
+  const keys = new Set();
+  const literalPattern = /"([a-z][a-zA-Z0-9]*(?:\.[a-zA-Z0-9_]+)+)"/g;
+  let match;
+  while ((match = literalPattern.exec(source)) !== null) {
+    if (namespaces.has(match[1].split(".")[0])) {
+      keys.add(match[1]);
+    }
+  }
+  return keys;
+}
+
 test("i18n coverage", async (t) => {
   const html = fs.readFileSync(path.join(publicDir, "index.html"), "utf8");
   const appJs = fs.readFileSync(path.join(publicDir, "app.js"), "utf8");
@@ -54,6 +71,19 @@ test("i18n coverage", async (t) => {
       (key) => !Object.prototype.hasOwnProperty.call(english, key)
     );
     assert.deepEqual(missing, []);
+  });
+
+  await t.test("every dictionary-shaped literal in app.js exists in en.js", () => {
+    // Closes the key-map gap found in the caller-to-bank audit: keys stored
+    // in data maps never pass through a literal t("...") call, so the
+    // extraction above cannot see them. A dotted literal rooted in a real
+    // dictionary namespace must resolve, wherever in app.js it is written.
+    const namespaces = new Set(Object.keys(english).map((key) => key.split(".")[0]));
+    const missing = [...extractDictionaryShapedLiterals(appJs, namespaces)].filter(
+      (key) => !Object.prototype.hasOwnProperty.call(english, key)
+    );
+    assert.deepEqual(missing, [],
+      "these look like dictionary keys but do not exist in en.js");
   });
 
   await t.test("no English string contains an em or en dash", () => {

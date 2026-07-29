@@ -166,6 +166,19 @@ test("template bank lookup contract", async (t) => {
       "and must not excuse it as a bare trim");
   });
 
+  await t.test("the bank call-site census matches the inventory", () => {
+    // docs/i18n/caller-to-bank-inventory.md lists every place text crosses
+    // into the bank and what may happen to it on the way. A new call site is
+    // fine, but it must be a conscious decision: check its argument against
+    // the contract (raw value or String(x).trim() only), add it to the
+    // inventory, then update this count.
+    const calls = APP_SOURCE.match(/translatedEngineText\(/g) || [];
+    assert.equal(calls.length, 16,
+      "translatedEngineText call count changed (15 call sites + 1 definition). " +
+      "Verify the new or removed site against docs/i18n/caller-to-bank-inventory.md, " +
+      "update the inventory, then update this census.");
+  });
+
   await t.test("chips are stripped for display, after translation", () => {
     // The fix, checked at the level that matters: the reader must not see a
     // full stop on a chip, and must not see English.
