@@ -63,7 +63,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Language   | Safety | Grammar around values | Formality state            | Naturalness | Sessions |
 |------------|--------|-----------------------|----------------------------|-------------|----------|
 | Gujarati   | 0      | 0 (5 fixed)           | formal, confirmed          | 0 (2 fixed) | AI-complete |
-| Hindi      | 3      | 2 (1 root cause)      | formal, confirmed          | 4 minor     | 1        |
+| Hindi      | 0 (3 fixed) | 0 (fixed at the root) | formal, confirmed     | 0 (3 fixed) | AI-complete |
 | Polish     | 0      | 0                     | bank 4 informal left; dict informal throughout | 1 + dict pass | 2 |
 | Romanian   | 3 classes | 8 surfaces (1 class) | informal throughout (both files) | 3        | 2-3      |
 | Bengali    | 0      | 2 (+1 style decision) | formal, confirmed          | 6 + tail    | 1-2      |
@@ -184,37 +184,61 @@ the existing scam-line and full-stop questions stand.
 Disproved in Phase 0, unchanged: "12 of 51 patterns failing grammar" (real
 pattern-level count was 3, all now fixed).
 
-## Hindi (3 safety items; 1 session)
+## Hindi (AI-COMPLETE, 30 July 2026; awaiting native review)
 
-Safety:
-1. `tpl.banner.non_document`: "अगर यह है, तो...", the clipped "if this is"
-   the original review flagged, CONFIRMED still live. Siblings already use the
-   full "अगर यह कोई पत्र या बिल है"; the banner is the one outlier.
-2. `tpl.banner.urgent`: "यह अत्यावश्यक लगता है" escalates English "This looks
-   important", and the same English is rendered "यह ज़रूरी लगता है" in
-   warning.urgent_result. Align on ज़रूरी (no ladder collision; the mip pair
-   owns अत्यावश्यक/महत्वपूर्ण).
-3. `tpl.readable.risk_response` / `risk_dates`: reader dropped ("...छूट सकती
-   है" agentless) where English says "You may miss...". Class finding 3.
+Every defect from the Phase 0 list is fixed and verified by rendered output.
+Thirty-two strings changed (thirty bank, two dictionary); the render diff
+against the Phase 0 corpus shows exactly the intended lines and nothing else.
 
-Grammar, one root cause: topic labels are stored in the oblique case (right for
-the "के बारे में / से जुड़ी" frames, which all render correctly) but ungrammatical
-in the two nominative frames: `tpl.readable.mip_topic` ("...अदालती मामले लगता
-है") and `tpl.check.topic` ("विषय जाँचें: किसी कानूनी या अदालती मामले."). Fix at
-the label level plus frame postpositions. `tpl.action.check_wrap` is already
-correct in Hindi ("यह जाँचें: ..."), the colon strategy to copy elsewhere.
+THE LABEL MODEL QUESTION, ANSWERED: no data-model change is needed. Hindi's
+case class is solved by rewording within one-form-per-label: the topic labels
+moved to the nominative (their citation form) and the three about-frames
+moved onto the colon strategy the product already uses in Polish and
+Gujarati ("...हो सकती है. विषय: {topic}."), which leaves the two previously
+broken nominative frames grammatical for every value and fixes check.topic
+for free. The same shape is the plan for Panjabi's mirror-image problem
+(direct-case labels breaking its ਬਾਰੇ frames): keep the labels in citation
+form, let the frame carry the case via a colon or an inflected head noun.
+One form per label holds across all nine.
 
-Formality: formal throughout, confirmed. Dict slot frames are safe because all
-typeName/label values happen to be masculine.
+What changed, by the phase order:
+1. Safety class. The decline banner's clipped conditional is whole ("अगर यह
+   कोई पत्र या बिल है, तो..."). banner.urgent no longer escalates: "यह ज़रूरी
+   लगता है." matches English "This looks important." and its own
+   warning.urgent_result (the mip pair keeps अत्यावश्यक/महत्वपूर्ण; ladder test
+   green; rendered ladder confirmed, not reworked). Both readable risk lines
+   regained the reader ("आपसे ... छूट सकती है"). The four password and PIN
+   chips and verify_identity regained आपसे/आपकी (class finding 3).
+   consequence.avoid stopped adding the hedge and reports the letter's claim
+   ("...भुगतान न होने पर ऐसा होगा: {consequence}."), the same decision as
+   Gujarati.
+2. Grammar around inserted values. Ten topic labels to nominative; the three
+   about-frames to colon frames; consequence.reported dropped the stranded कि
+   ("दस्तावेज़ में लिखा है: {X}."); may_follow became number-neutral ("इसके बाद
+   ऐसा हो सकता है: {X}"). All verified across the three contrasting value
+   sets; every render is grammatical for every label gender and case.
+3. Naturalness. severity.termination glossed concretely ("कॉन्ट्रैक्ट या नौकरी
+   खत्म होने का ज़िक्र है."); feedback.confidence.moreAble gender-neutral and
+   personal ("अब इसे संभालना आसान लगता है"); landing tag "14 Jul तक".
+   Left deliberately: the internal Analytics casing strings (never shown to
+   readers).
 
-Naturalness, minor: `feedback.confidence.moreAble` "अधिक सक्षम लगता है" is
-impersonal and dangling (suggest "अब इसे संभालना आसान लगता है");
-severity.termination "समाप्ति का ज़िक्र है" vague (Gujarati glosses it; copy
-that); landing tag "देय 14 Jul" stiff; Analytics/analytics casing (internal).
+Verification: render diff scoped to intended lines only; 244 tests pass
+including the ladder; live at phone width in light, dark and focus via
+?lang=hi with a real scam document through the engine (cards, chips with
+आपकी, check panel all Hindi, no overflow); both dictionary changes through
+the real t() path. Fresh adversarial read: urgent clearly outranks routine,
+the scam card keeps the reader as the one who loses and names the deception
+on every chip, nothing reads machine-made.
 
-Verified fixed: the severity ladder (अत्यावश्यक vs महत्वपूर्ण), scam set with
-धोखे से and reader as subject, chips fully translated.
-Disproved: "9 of 51 patterns failing grammar" (real count: 2, one root cause).
+For the native reviewer (also in NATIVE_REVIEW.md): whether "ऐसा होगा" inside
+the attribution reads as the letter's threat rather than Northcue's; whether
+the "विषय:" colon frames read naturally on the cards; whether banner ज़रूरी
+beside card अत्यावश्यक reads correctly on the same screen (that pairing
+mirrors English exactly).
+
+Disproved in Phase 0, unchanged: "9 of 51 patterns failing grammar" (real
+count was 2 surfaces, one root cause, now fixed).
 
 ## Polish (bank 4 informal strings; dictionary conversion outstanding; 2 sessions)
 

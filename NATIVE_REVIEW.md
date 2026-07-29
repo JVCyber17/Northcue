@@ -125,12 +125,32 @@ are specific.
    technical?**
 
 ### Hindi
+
+Hindi has had its full pass (AI-complete, 30 July 2026), so its questions
+are specific.
+
 1. `tpl.mip.urgent` now uses **अत्यावश्यक** and `tpl.mip.high` uses
    **महत्वपूर्ण**. Both used to be ज़रूरी, which made them sound identical.
    **Is अत्यावश्यक clearly more urgent than महत्वपूर्ण to an ordinary reader?**
    It is a formal word; if it sounds bureaucratic, tell us what you would say.
-2. The decline message: is there a sentence that stops halfway, a bare "if this
-   is" with nothing after it?
+2. The decline banner used to stop halfway ("अगर यह है, तो..."). It now reads
+   "अगर यह कोई पत्र या बिल है, तो साफ फ़ोटो या कोई दूसरा पेज आज़माएँ."
+   **Does it read whole now?**
+3. On a serious letter the top banner says "यह ज़रूरी लगता है. इसे अनदेखा न
+   करें." and the card below it says "यह अत्यावश्यक है." **Does that pairing
+   read right on one screen, banner calm, card urgent?** English makes the
+   same distinction (looks important / is urgent).
+4. The consequence card used to soften the letter's threat with "हो सकता है".
+   It now reports the letter's own claim:
+   > दस्तावेज़ कहता है कि भुगतान न होने पर ऐसा होगा: {the letter's words}.
+   **Does this clearly read as the LETTER's threat, reported by Northcue,
+   and not as Northcue threatening you?**
+5. Several card sentences now name the topic after a colon:
+   > इसमें कोई आखिरी तारीख हो सकती है. विषय: कानूनी या अदालती मामला.
+   > सबसे साफ विषय यह लगता है: अपॉइंटमेंट.
+   **Do these read naturally on a card, or too much like a form?**
+6. The risk lines now keep you in the sentence: "आपसे जवाब का कोई अनुरोध या
+   कोई ज़रूरी तारीख छूट सकती है." **Natural, or would you say it differently?**
 
 ### Bengali
 1. The two scam lines were rewritten so the reader is the subject, "you could
