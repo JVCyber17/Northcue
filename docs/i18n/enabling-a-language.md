@@ -1,5 +1,29 @@
 # Turning a language on
 
+## Looking at one first, without turning it on
+
+Add `?lang=<code>` to a localhost URL:
+
+```bash
+npm start
+```
+
+Then open `http://localhost:3000/?lang=fr`. The whole site renders in that
+language, including cue cards, and a badge at the bottom names it so a
+disabled draft is never mistaken for shipped state.
+
+This works only on a loopback host. On northcue.co.uk the parameter does
+nothing at all: no language file is fetched and the page stays in English.
+The `enabled` flags are not touched, so the switcher stays hidden and the
+detection banner keeps its production behaviour. The choice is never
+remembered, so removing the parameter restores English on the next load.
+
+Use this to check translation work before shipping it. It is the only
+supported way to see a disabled language, and it is much safer than flipping
+`enabled` locally and risking that edit reaching a commit.
+
+
+
 Every language shipped with the multilingual merge is switched **off**. The
 translation review found real problems in all nine, so none of them should
 reach a reader until a native speaker has checked it. This file is the whole
