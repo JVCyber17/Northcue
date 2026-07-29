@@ -2673,9 +2673,13 @@ function parseDeadlineToDate(text) {
   const value = String(text).trim();
   if (!value) return null;
 
+  // ascii-boundary-ok: matches ASCII digits in a machine date format, never
+  // translated prose, so the ASCII definition of a word boundary is correct
+  // here. See tests/wordBoundarySafety.test.js.
   let match = value.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
   if (match) return validDateParts(Number(match[1]), Number(match[2]), Number(match[3]));
 
+  // ascii-boundary-ok: as above, digits only.
   match = value.match(/\b(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})\b/);
   if (match) {
     let year = Number(match[3]);
