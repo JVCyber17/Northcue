@@ -103,11 +103,26 @@ is jarring, but we cannot translate the date itself.
    Romanian wants a different form?
 
 ### Gujarati
+
+Gujarati has had its full pass (AI-complete, 30 July 2026), so its questions
+are specific.
+
 1. `tpl.scam.risk_extractor` used to read as an instruction to share your
    private data. It now uses "શેર કરી બેસી શકો છો". **Does it now clearly warn
    against sharing rather than suggest it?**
 2. We use a full stop everywhere and never the danda. **Does that look wrong to
    you, or acceptable for an app?**
+3. The consequence card used to soften the letter's threat with "થઈ શકે છે".
+   It now reports the letter's own claim:
+   > દસ્તાવેજમાં લખ્યું છે કે જો ચુકવણી ન થાય તો આવું થશે: {the letter's words}.
+   **Does this clearly read as the LETTER's threat, reported by Northcue,
+   and not as Northcue threatening you?** That attribution is the whole point.
+4. To stay correct for every document type, some sentences now use the
+   invariant participle: "મોકલેલ હોય એવું જણાય છે", "તરફથી આવેલ", "દર્શાવેલ છે".
+   **Do these read as normal formal Gujarati, or noticeably stiff?**
+5. While reading, the status line says "તમારો દસ્તાવેજ (બિલ) વાંચી રહ્યા છીએ…"
+   with the detected type in brackets. **Acceptable, or does the bracket feel
+   technical?**
 
 ### Hindi
 1. `tpl.mip.urgent` now uses **अत्यावश्यक** and `tpl.mip.high` uses

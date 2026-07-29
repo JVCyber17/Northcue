@@ -62,7 +62,7 @@ AI-complete, including re-render and a fresh adversarial read.
 
 | Language   | Safety | Grammar around values | Formality state            | Naturalness | Sessions |
 |------------|--------|-----------------------|----------------------------|-------------|----------|
-| Gujarati   | 0      | 5                     | formal, confirmed          | 2 minor     | 1        |
+| Gujarati   | 0      | 0 (5 fixed)           | formal, confirmed          | 0 (2 fixed) | AI-complete |
 | Hindi      | 3      | 2 (1 root cause)      | formal, confirmed          | 4 minor     | 1        |
 | Polish     | 0      | 0                     | bank 4 informal left; dict informal throughout | 1 + dict pass | 2 |
 | Romanian   | 3 classes | 8 surfaces (1 class) | informal throughout (both files) | 3        | 2-3      |
@@ -139,32 +139,50 @@ regional question and the Bengali suffix-hyphenation style call.
 
 # Per-language work lists
 
-## Gujarati (verified clean on safety; 1 session)
+## Gujarati (AI-COMPLETE, 30 July 2026; awaiting native review)
 
-Safety: none outstanding. Ladder distinct (તાકીદનું vs મહત્વનું), scam lines keep
-reader and deception, potential-form fix on risk_extractor holds, hedges intact.
-Watch item for the native reviewer: the added hedge in tpl.consequence.avoid
-(class finding 2).
+Every defect from the Phase 0 list is fixed and verified by rendered output.
+Ten strings changed (seven bank, three dictionary); the render diff against
+the Phase 0 corpus shows exactly the intended lines and nothing else.
 
-Grammar around inserted values, 5 defects:
-1. `tpl.summary.garbled_sender`: hardcoded masculine "મોકલ્યો હોય" breaks with
-   the feminine label "બિલ કે ચુકવણીની વિનંતી" (renders "વિનંતી મોકલ્યો", set A).
-2. `tpl.readable.summary_sender`: hardcoded "આવેલો" breaks the same way.
-3. `tpl.action.check_wrap`: renders "the amount shown. તપાસો", stranded verb
-   after the English fragment's full stop. The original review's punctuation
-   claim, CONFIRMED still live. Colon frame fixes it (Hindi already has one).
-4. Dict `status.readingTyped`: "તમારો {typeName}" is wrong for neuter બિલ.
-5. Dict `journey.calendarEventTitle`: "તમારો {label}" same class (એનર્જી બિલ).
-Borderline native question: "આ {typeName} જેવું લાગે છે" with masculine nouns.
+What changed, by the phase order:
+1. Safety class. `tpl.consequence.avoid` no longer adds "થઈ શકે છે" inside the
+   attributed consequence; it now reports the document's own claim the way
+   English does ("...તો આવું થશે: {consequence}."). The four confirm and enter
+   password and PIN chips regained the reader ("તમને પાસવર્ડની ખાતરી કરવાનું કહે
+   છે.") for consistency with their siblings (class finding 3). All other
+   classes checked: banner.urgent matches English exactly (no class 5 drift),
+   readable risk lines keep the reader, no male-only forms (gender-neutral
+   plurals throughout), mip ladder intact.
+2. Grammar around inserted values. The two gender-locked frames now use the
+   invariant participle the file already uses elsewhere (જણાવેલ precedent):
+   garbled_sender "મોકલેલ હોય એવું જણાય છે", readable.summary_sender "તરફથી આવેલ
+   {type_label}", both grammatical for every label gender. check_wrap uses the
+   colon frame ("આ તપાસો: {action_sentence}"), ending the stranded verb.
+   Dictionary frames made gender-safe: "તમારો દસ્તાવેજ ({typeName}) વાંચી રહ્યા
+   છીએ…", "આ {typeName} હોય એવું લાગે છે." (hedge on the clause, not the noun),
+   and the calendar title "{label} તપાસો" (verb-final, no possessive).
+   NO data-model change was needed: rewording within the current model solved
+   the whole class for Gujarati.
+3. Naturalness. consequence.reported dropped the doubled connective
+   ("જણાવ્યું છે: {X}"); severity.information_only reads plainly
+   ("ફક્ત માહિતી તરીકે દર્શાવેલ છે.").
 
-Formality: formal throughout, confirmed by rendered reading (the old
-"14 informal" was a scanner artifact, already discarded, now re-confirmed).
+Verification: render diff scoped to intended lines only; 244 tests pass;
+live at phone width in light, dark and focus via ?lang=gu, including a real
+scam document through the engine (cards, chips and check panel all Gujarati,
+no overflow); the three dictionary compositions confirmed through the real
+t() path. Fresh adversarial read: urgent clearly outranks routine, the scam
+card keeps the reader as the one who loses and names the deception, nothing
+reads machine-made.
 
-Naturalness, minor: `tpl.consequence.reported` "જણાવ્યું છે કે:" doubles the
-connective before the colon; `tpl.label.signal.severity.information_only`
-slightly stilted. Dictionary reads warm and human throughout.
+For the native reviewer (also in NATIVE_REVIEW.md): whether "આવું થશે" inside
+the attribution reads as the letter's threat rather than Northcue's; whether
+the invariant participles (મોકલેલ, આવેલ, દર્શાવેલ) sit naturally or stiffly;
+the existing scam-line and full-stop questions stand.
 
-Disproved: "12 of 51 patterns failing grammar" (real pattern-level count: 3).
+Disproved in Phase 0, unchanged: "12 of 51 patterns failing grammar" (real
+pattern-level count was 3, all now fixed).
 
 ## Hindi (3 safety items; 1 session)
 
