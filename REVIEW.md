@@ -161,6 +161,181 @@ Both genders verified rendering correctly.
 Slots that cannot trigger elision were deliberately left alone: `{amount}`
 always begins with a currency symbol and `{date}` with a digit.
 
+---
+
+# Polish, round 2 (28 July 2026)
+
+Polish only. Worked from rendered output throughout, never from files: every
+pattern was put through the real matcher with three value sets chosen to
+trigger Polish numeral agreement, and every fix below was confirmed by reading
+the card rather than by checking the file contains a string.
+
+## Two premises in the brief turned out to be wrong
+
+**There is no numeral agreement problem in the Polish bank, because no template
+inserts a number.** The 51 patterns use exactly seventeen slots and not one of
+them is a count: sender, date, amount, topic, dates, type_label, title,
+category_label, short_answer, header_date, consequence, sentence_body,
+consequence_clause, action_sentence, explanation, key_points, field_list. A
+number can therefore never land next to a noun that has to agree with it. The
+"Polish numeral agreement" line in the first review was my own inference and it
+was not checked against the actual slots.
+
+The one place a count does reach the interface is the completion screen, and
+**the Polish draft had already solved it** by restructuring: "Masz za sobą
+wszystkie karty, a było ich {count} łącznie" puts the noun before the number
+and an invariant word after it, so it is grammatical for any value. That is
+exactly the restructuring strategy the brief asks for, already applied.
+
+**The case agreement risk on inserted labels was also already solved.** Five
+patterns insert {topic}, and several topics are feminine ("umówiona wizyta",
+"sprawa prawna lub sądowa") where nominative and accusative differ. Every one
+of those five patterns uses a colon before the slot, "Temat: {topic}", so the
+label stays nominative regardless of gender. The type_label and category_label
+values are all masculine inanimate or neuter, where the two cases coincide, so
+they are safe in both the "wygląda na" (accusative) and "dokument to"
+(nominative) frames.
+
+So the largest category in the brief was, for Polish, already correct.
+
+## Safety defects, found and fixed
+
+**The lost hedge, as REVIEW.md said.** `tpl.readable.mip_topic` read
+"Najwyraźniejszy temat to:", which states the topic as fact where English
+hedges with "appears to be". Now "Wygląda na to, że najwyraźniejszy temat to:".
+
+A sweep of every exact sentence, pattern and dictionary string for the same
+class flagged thirteen candidates, and **twelve were false alarms of my own
+pattern**: "mogłoby" and "się wydaje" are hedges it did not recognise, and
+"could not read" is a plain negative rather than a hedge. Polish had lost
+exactly one hedge, the one already known.
+
+**The scam card had lost the deception.** `tpl.scam.risk_card` said "Ktoś może
+nakłonić Cię", where "nakłonić" is neutral persuasion. English says "tricked".
+On the card whose only job is to stop someone complying with a fraudster,
+neutral persuasion is the wrong word. Now "Ktoś może podstępem nakłonić
+Państwa". The active construction is deliberate: the Polish passive participle
+is gendered (oszukany / oszukana) and the reader's gender is unknown.
+
+**Both high stakes banners had dropped the English "Please"**, leaving bare
+commands on the two most serious banners. Restored as "Prosimy".
+
+**The Romance false friend does not extend to Polish.** "poważne" means grave
+in the weighty sense and carries none of the earnest or trustworthy reading
+that broke Romanian, Spanish, Portuguese and French. Checked, correct, left
+alone.
+
+**The severity ladder is intact.** "To jest pilne" against "To jest ważne"
+keeps the tiers apart, and the ladder test passes.
+
+## Formality: the bank block is converted, the interface block is not
+
+**Register decision.** Polish formal address has three candidate forms and only
+one works here:
+
+- *Pan / Pani* forces a guess at the reader's gender in every sentence, and the
+  "Pan/Pani" slash workaround is tax office register, the opposite of calm.
+- *Prosimy + infinitive* is the standard institutional request form. Formal,
+  warm, and carries no gender at all. **This is the default.**
+- *Państwo* is formal, gender neutral, and keeps the reader as the grammatical
+  subject. **Used only where the reader must be the subject**, which in
+  practice means the risk lines. An agentless warning is the exact defect that
+  had to be fixed in Bengali, Hindi and Panjabi, so trading the reader out of a
+  scam warning to gain register purity would be a bad trade.
+
+"zanim podejmiesz działanie" becomes "przed podjęciem działania", impersonal
+and shorter. Reflexive "swoje" is kept: it is not second person and is correct
+in formal Polish.
+
+**Where formality made things colder, and what was done about it.** The risk
+lines are the only place it bit. "Możesz stracić pieniądze" is warmer than
+"Mogą Państwo stracić pieniądze", and the formal version does read more
+distant. It was kept formal because the alternative that preserves warmth is
+the informal *ty*, which the decision rules out, and the alternative that
+preserves register without *Państwo* is an agentless construction, which is a
+safety defect. Of the three, distance is the least harmful. A native speaker
+should confirm this specific trade, and it is question 1 in NATIVE_REVIEW.md.
+
+**A scanner bug worth recording, because it produced a false all clear.** The
+first informality scan reported zero remaining informal strings in the bank
+while the rendered card plainly read "Sprawdź oryginał". JavaScript's `\b` is
+ASCII only, so in `/\bSprawdź\b/` the trailing boundary sits after "ź"
+(U+017A), which JS does not treat as a word character, and the term never
+matches. Every Polish word ending in a diacritic was invisible: Sprawdź,
+Prześlij, Chroń, Cię, Twoją, możesz. The true count was 210 informal strings,
+not the 179 first reported. Rewritten with `\p{L}` lookarounds and the `u`
+flag. **This is why the brief's instruction to confirm by rendered output
+rather than by asserting the file matters, and it caught a mistake that a file
+level check had already passed.**
+
+### Converted: the whole bank, 103 strings
+
+Everything that can appear on a cue card is now formal: all 273 exact sentences
+and all 51 patterns scan clean with the corrected scanner. Verified by
+rendering the bailiff scenario and the routine scenario side by side, and by
+checking all 51 patterns still match the bank rather than falling back (the 9
+fallbacks are the three pure assembly templates, unchanged from before).
+
+### Not converted: the interface dictionary, 158 strings
+
+`public/i18n/pl.js` is untouched by this session and remains informal
+throughout. It is interface chrome: buttons, headings, help pages, settings,
+status messages. Nothing in it renders on a cue card.
+
+The blocks remaining, in the order they should be done:
+
+| Block | Strings | Notes |
+|---|---|---|
+| `journey.*` | 34 | Upload and card reading flow, the most seen |
+| `home.*` | 24 | Landing and home tiles |
+| `feedback.*` | 12 | The feedback flow |
+| `helpGuides.*` | 22 | Five help guides |
+| `status.*` | 14 | Upload status messages |
+| `privacy.*` + `why.*` | 15 | Two content pages |
+| `check.*` | 6 | Document check modal |
+| everything else | 31 | comfort, install, nav, aria, landing, help, topbar |
+
+Re run `scratchpad/pl_informal.js` to regenerate that list exactly; it prints
+key, matched term and current value for each.
+
+## Naturalness
+
+Fixed what sounded like a machine when read aloud:
+
+- `tpl.mip.high` repeated "to" twice in one short sentence, the giveaway of
+  English word order. Now "To jest ważne, ale nie jest to nagły wypadek."
+- `tpl.next_step.urgent` said "kartę z działaniem", a literal rendering of "the
+  action card" that means nothing in Polish, then a participle clause English
+  would use and Polish would not. Rewritten as a person would say it.
+- All three `tpl.risk.*` tiers used "spowodować" for "cause". "Doprowadzić do"
+  is what a person says about a consequence arriving over time.
+
+## Adversarial read
+
+Read the finished cards as a frightened person, urgent against routine:
+
+- **Does the urgent card feel more serious?** Yes, and clearly. "podejrzane i
+  poważne" against "zwykły dokument"; "To jest pilne, być może trzeba działać
+  jeszcze dziś" against "To wygląda na samą informację"; "mogłoby szybko
+  doprowadzić do poważnych problemów" against "może doprowadzić do opóźnień".
+- **Does the scam card make me less likely to comply?** Yes. The deception is
+  named, the reader is the subject of both risk lines, and the instruction not
+  to use numbers from the document is unambiguous.
+- **Does anything sound like a machine?** Three things did; all three are fixed
+  above. One stays on the list for a native ear: "zweryfikować" is correct but
+  stiff, and a Polish person warning a friend would say "sprawdzić w
+  niezależnym źródle". It was kept because English distinguishes "verify" from
+  "check" and the engine relies on that distinction.
+
+## Still outstanding for Polish
+
+1. The interface dictionary, 158 strings, listed by block above.
+2. Naturalness across the dictionary, not yet read at all.
+3. The "zweryfikować" register question, for a native ear.
+4. Whether formal *Państwo* on the risk lines reads too cold.
+
+---
+
 ## Still outstanding
 
 This is the honest remainder, and it is substantial. None of it is blocked on a

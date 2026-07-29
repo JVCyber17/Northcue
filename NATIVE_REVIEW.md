@@ -49,14 +49,49 @@ careful person would actually say. You do not need to fix it, just mark it.
 ## Then, your language only
 
 ### Polish
-1. The whole file currently addresses the reader informally, as *ty*. It is
-   being changed to formal. **Does formal Polish sound cold or distancing here,
-   given the reader is anxious?** If it does, say where.
-2. `tpl.summary.topic_clear`: does it say the topic *appears* to be X, or that
-   it *is* X? English hedges. Ours may have lost the hedge.
-3. Any sentence with a number in it: does the grammar still work with 1, with
-   2, and with 28? Polish changes the noun after numbers and our templates use
-   one fixed form.
+
+Polish has had a full pass on the cue card text, so its questions are more
+specific than the others. The interface text has not been touched yet and is
+still informal, so please ignore buttons and menus.
+
+**1. The big one. Does the formal register read as respectful, or as cold?**
+
+Cue cards now use *Prosimy* plus an infinitive for anything we ask the reader
+to do, and *Państwo* where the sentence has to be about them:
+
+> Prosimy sprawdzić oryginalny dokument przed podjęciem działania.
+> Mogą Państwo stracić pieniądze lub udostępnić prywatne dane.
+
+The reader is anxious and holding a letter about money. We chose formal because
+*ty* felt too familiar for debt and enforcement, and because *Pan/Pani* would
+mean guessing their gender in every sentence. **Is that the right call, and is
+there anywhere it has tipped from respectful into cold?** The second sentence
+above is the one we are least sure about.
+
+**2. Is "zweryfikować" too stiff for a scam warning?**
+
+> To może być podejrzane i poważne. Prosimy to zweryfikować przed podjęciem działania.
+
+English distinguishes "verify" from "check" and we kept that distinction. But
+"zweryfikować" is officialese. **Would a Polish person warning a friend say
+this, or would they say "sprawdzić w niezależnym źródle"?**
+
+**3. Does the deception land?**
+
+> Ktoś może podstępem nakłonić Państwa do niebezpiecznej płatności lub udostępnienia danych.
+
+This used to say only "nakłonić", persuade, which lost the trickery. **Does
+"podstępem" make it clear somebody is trying to deceive them?**
+
+**4. Dates stay in English, like "3 September 2026", because they are copied
+from the letter.** So a card can read "Wizyta jest zaplanowana na 3 September
+2026." **How badly does that read?** We can introduce them differently if it
+is jarring, but we cannot translate the date itself.
+
+**5. Read these two aloud. Does the first sound more serious than the second?**
+
+> To jest pilne. Być może trzeba działać jeszcze dziś.
+> To jest ważne, ale nie jest to nagły wypadek.
 
 ### Romanian
 1. Same formality question as Polish. The file is informal and is being changed
