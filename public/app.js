@@ -3314,16 +3314,37 @@ function friendlyCategoryLabel(category) {
 
 // Human-readable "why" chips from the engine's signal arrays, de-duplicated and
 // with the trailing full stop trimmed. Returns [] so the row can be hidden.
+// Chips read better without a closing full stop, but that is a PRESENTATION
+// choice and it has to happen after the lookup, not before it.
+//
+// The template bank indexes every sentence exactly as the engine emits it,
+// stop included, so stripping first made all 55 scam and severity labels miss
+// the index and fall back to English in every language. A Polish reader
+// opening Document check on a suspected scam saw "Uses pressure wording", on
+// the panel whose whole job is explaining why the document was flagged.
+// Guarded by tests/bankLookupContract.test.js.
+function stripSentenceStop(text) {
+  // The danda is included defensively. Northcue's Indic files use a full stop
+  // by instruction, but a chip should not silently keep a stop if that changes.
+  return String(text).trim().replace(/[.।]+$/, "").trim();
+}
+
 function checkWhyChips(trust) {
   const signals = [].concat(trust.severity_signals || [], trust.scam_signals || []);
   const seen = new Set();
   const chips = [];
   signals.forEach((signal) => {
-    const text = String(signal || "").trim().replace(/\.+$/, "");
-    const key = text.toLowerCase();
-    if (!text || seen.has(key)) return;
+    const raw = String(signal || "").trim();
+    if (!raw) return;
+    // Deduplicate on the English, insensitive to the trailing stop, so two
+    // signals differing only by punctuation still collapse to one chip.
+    const key = stripSentenceStop(raw).toLowerCase();
+    if (!key || seen.has(key)) return;
     seen.add(key);
-    chips.push(`<span class="check-why-chip">${escapeHtml(translatedEngineText(text).text)}</span>`);
+    // Translate the signal as the bank knows it, then trim the stop off
+    // whatever comes back, in whichever language it comes back in.
+    const translated = translatedEngineText(raw).text;
+    chips.push(`<span class="check-why-chip">${escapeHtml(stripSentenceStop(translated))}</span>`);
   });
   return chips;
 }

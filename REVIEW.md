@@ -144,8 +144,26 @@ A Polish reader opening Document check on a suspected scam sees
 are the chips that explain *why* Northcue flagged the document, on the panel
 where that explanation matters most.
 
-This is a code defect, not a translation defect, and it is one line. It is left
-unfixed because this pass is findings only.
+**Fixed, 28 July 2026.** The strip now happens after the lookup rather than
+before it, so the signal is translated as the bank knows it and the stop is
+trimmed off whatever comes back. Deduplication still ignores the stop, so two
+signals differing only by punctuation collapse to one chip.
+
+Verified by rendering the Document check panel in **all nine languages**
+through the dev override, on a document triggering four scam signals and one
+triggering four severity signals: 8 chips per language, **zero English, zero
+trailing stops**. Panjabi keeps "Bailiff (ਵਸੂਲੀ ਅਫ਼ਸਰ)" by the deliberate UK
+term plus gloss convention, not as a fallback.
+
+Guarded by `tests/bankLookupContract.test.js`, which exists because this class
+of bug is invisible to everything else in the suite: parity compares keys and
+every key was present, content scans read values and every translation was
+sitting in the file unused, and the ladder test compares bank entries to each
+other and never goes through a call path. The defect lived entirely in the gap
+between caller and index. The test checks that gap from both sides: every bank
+sentence resolves in every language, and no caller in `app.js` transforms a
+value before handing it to the bank. Confirmed to fail against the exact code
+that shipped.
 
 ## Other findings from the audit that a reader should check
 
