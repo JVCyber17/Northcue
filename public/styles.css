@@ -9873,3 +9873,26 @@ body[data-lang="pa"] {
     top: -6px;
   }
 }
+
+/* Local development language preview badge. Created only by i18n.js when a
+   ?lang= preview is active, which cannot happen off a loopback host, so this
+   rule never matches anything in production. Fixed to the bottom so it does
+   not disturb the layout being reviewed. */
+.dev-language-preview {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  z-index: 9999;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 24px);
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--soft-shadow);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  pointer-events: none;
+}

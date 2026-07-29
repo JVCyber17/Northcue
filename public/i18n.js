@@ -27,8 +27,60 @@
     return config().languages.filter(function (entry) { return entry.enabled; });
   }
 
+  // Local development only preview.
+  //
+  // Every language ships disabled, which is correct, but it also means there
+  // is no way to look at one rendering without editing config.js, and that
+  // edit is exactly the thing that must never reach production by accident.
+  // This allows ?lang=fr on localhost and does nothing anywhere else.
+  //
+  // Deliberately narrow, in four separate ways:
+  //   1. The host must match a loopback name exactly, or be a real subdomain
+  //      of .localhost. Never a substring or bare suffix test, because
+  //      "localhost.example.com" and "notlocalhost" would both pass one.
+  //   2. The code must be two ASCII letters AND already listed in config.js.
+  //      loadLanguageFile() builds a script src from this value, so anything
+  //      looser would be a path injection.
+  //   3. The choice is never written to localStorage, so a preview cannot
+  //      outlive the tab or contaminate a normal session.
+  //   4. The enabled flags are not touched and languageList() is unchanged,
+  //      so the switcher stays hidden and the detection banner keeps its
+  //      production behaviour.
+  var LOOPBACK_HOSTS = ["localhost", "127.0.0.1", "::1", "[::1]"];
+  var LOCALHOST_SUFFIX = ".localhost";
+
+  function isDevPreviewHost(hostname) {
+    var candidate = hostname === undefined
+      ? (root.location && root.location.hostname)
+      : hostname;
+    var host = String(candidate == null ? "" : candidate).toLowerCase();
+    if (!host) return false;
+    if (LOOPBACK_HOSTS.indexOf(host) !== -1) return true;
+    // A named loopback subdomain such as app.localhost also resolves locally.
+    // The length test is what stops the bare string ".localhost" and anything
+    // that merely ends in those letters, like "evillocalhost".
+    return host.length > LOCALHOST_SUFFIX.length &&
+      host.slice(-LOCALHOST_SUFFIX.length) === LOCALHOST_SUFFIX;
+  }
+
+  function isKnownLanguage(code) {
+    return config().languages.some(function (entry) { return entry.code === code; });
+  }
+
+  function devPreviewLanguage() {
+    if (!isDevPreviewHost()) return "";
+    var search = (root.location && root.location.search) || "";
+    var match = /[?&]lang=([A-Za-z]{2})(?:&|$)/.exec(search);
+    if (!match) return "";
+    var code = match[1].toLowerCase();
+    return isKnownLanguage(code) ? code : "";
+  }
+
   function isSupported(code) {
-    return languageList().some(function (entry) { return entry.code === code; });
+    if (languageList().some(function (entry) { return entry.code === code; })) return true;
+    // A disabled language counts as supported only for the one code named in
+    // the URL, and only on a development host.
+    return Boolean(code) && code === devPreviewLanguage();
   }
 
   function dictionaryFor(code) {
@@ -169,6 +221,16 @@
   // Initial state: apply a stored non English choice before app.js renders.
   // In English nothing is rewritten, keeping the site identical to today.
   function initialise() {
+    // A development preview wins over any stored choice, and is never
+    // remembered, so removing the query parameter restores normal behaviour
+    // on the next load.
+    var preview = devPreviewLanguage();
+    if (preview && preview !== "en") {
+      setLanguage(preview, { remember: false });
+      showDevPreviewBadge(preview);
+      return;
+    }
+
     var stored = storedLanguage();
     if (stored && stored !== "en" && isSupported(stored)) {
       setLanguage(stored, { remember: false });
@@ -176,6 +238,21 @@
       activeLanguage = "en";
       markDocumentLanguage("en");
     }
+  }
+
+  // Makes it obvious that what is on screen is a preview of an unreleased
+  // language, so a disabled language can never be mistaken for shipped state.
+  // Only ever created when devPreviewLanguage() has already returned a code,
+  // which cannot happen off a development host.
+  function showDevPreviewBadge(code) {
+    if (!document.body || document.querySelector(".dev-language-preview")) return;
+    var entry = config().languages.filter(function (item) { return item.code === code; })[0];
+    var badge = document.createElement("div");
+    badge.className = "dev-language-preview";
+    badge.setAttribute("role", "status");
+    badge.textContent = "Local preview: " + ((entry && entry.nativeName) || code) +
+      " (" + code + "), disabled in production";
+    document.body.appendChild(badge);
   }
 
   var api = {
@@ -186,7 +263,11 @@
     languageList: languageList,
     detectionState: detectionState,
     dismissDetectionBanner: dismissDetectionBanner,
-    isSupported: isSupported
+    isSupported: isSupported,
+    // Exported for tests. isDevPreviewHost takes an explicit hostname so the
+    // predicate can be checked against hostile values without a browser.
+    isDevPreviewHost: isDevPreviewHost,
+    devPreviewLanguage: devPreviewLanguage
   };
 
   root.NorthcueI18n = api;
