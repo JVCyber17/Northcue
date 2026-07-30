@@ -111,7 +111,7 @@
       "tpl.summary.benefits": "Il s'agit d'aides sociales.",
       "tpl.summary.insurance": "Il s'agit d'assurance.",
       "tpl.summary.email": "Cela semble être un message e-mail.",
-      "tpl.summary.unknown": "Il s'agit d'un document officiel lisible.",
+      "tpl.summary.unknown": "Il s'agit d'un document formel lisible.",
 
       "tpl.mip.suspicious": "Cela peut être suspect. Vérifiez d'abord.",
       "tpl.mip.urgent": "C'est urgent. Vous devrez peut-être agir aujourd'hui.",
@@ -131,7 +131,7 @@
       "tpl.note.records": "Conservez ceci avec vos documents, au cas où vous en auriez besoin plus tard.",
       "tpl.note.links": "N'utilisez pas les liens ni les numéros du document tant qu'ils ne sont pas vérifiés.",
       "tpl.note.outgoing": "Cela ressemble à un document que vous envoyez.",
-      "tpl.note.normal": "Cela ressemble à une lettre officielle ordinaire.",
+      "tpl.note.normal": "Cela ressemble à une lettre formelle ordinaire.",
       "tpl.note.unknown": "Certains détails ne sont pas clairs. Vérifiez le document original.",
       "tpl.note.missing": "Certains détails manquent. Vérifiez l'original.",
 
@@ -205,7 +205,7 @@
       "tpl.label.signal.authentic.pdf": "Envoyé au format PDF.",
       "tpl.label.signal.authentic.reference": "Contient des éléments de référence.",
       "tpl.label.signal.authentic.date": "Contient un format de date.",
-      "tpl.label.signal.authentic.formal": "Contient une structure de lettre officielle.",
+      "tpl.label.signal.authentic.formal": "Contient une structure de lettre formelle.",
 
       "tpl.label.signal.severity.court_action": "Mentionne une action en justice.",
       "tpl.label.signal.severity.eviction": "Mentionne un risque d'expulsion.",
@@ -304,7 +304,7 @@
 
       "tpl.mock.review_reason": "Certains détails peuvent être à vérifier.",
       "tpl.mock.safe_next_step": "Vérifiez le document original avant d'agir.",
-      "tpl.mock.what_is_this": "Cela ressemble à un document officiel.",
+      "tpl.mock.what_is_this": "Cela ressemble à un document formel.",
       "tpl.mock.what_matters_most": "Cela peut demander une vérification bientôt.",
       "tpl.mock.action_answer": "Vérifiez le montant et la date d'échéance.",
       "tpl.mock.step_check_amount": "Vérifiez le montant.",
@@ -315,8 +315,8 @@
     patterns: {
       "tpl.deadline.appointment": "Votre rendez-vous est prévu le {date}.",
       "tpl.deadline.due": "Échéance le {date}.",
-      "tpl.summary.bill_full": "{sender} semble vous demander de payer {amount} avant le {date}.",
-      "tpl.summary.bill_amount_date": "Cela semble être une demande de paiement de {amount}, à régler avant le {date}.",
+      "tpl.summary.bill_full": "{sender} semble vous demander de payer {amount} au plus tard le {date}.",
+      "tpl.summary.bill_amount_date": "Cela semble être une demande de paiement de {amount}, à régler au plus tard le {date}.",
       "tpl.summary.bill_sender_amount": "{sender} semble vous demander de payer {amount}.",
       "tpl.summary.bill_sender_date": "Cela semble être une facture envoyée par {sender}, datée du {date}.",
       "tpl.summary.bill_amount": "Cela semble être une demande de paiement de {amount}.",

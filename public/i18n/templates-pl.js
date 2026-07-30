@@ -324,7 +324,7 @@
       "tpl.summary.gov_sender_amount": "Wygląda na to, że nadawcą urzędowego zawiadomienia jest {sender}, a w treści pojawia się kwota {amount}.",
       "tpl.summary.gov_sender": "To wygląda na urzędowe zawiadomienie od {sender}.",
       "tpl.summary.gov_amount": "To wygląda na urzędowe zawiadomienie, w którym pojawia się kwota {amount}.",
-      "tpl.summary.appt_sender_date": "To wygląda na zawiadomienie o wizycie od {sender}, z datą {date}.",
+      "tpl.summary.appt_sender_date": "To wygląda na zawiadomienie od {sender} o wizycie w dniu {date}.",
       "tpl.summary.appt_sender": "To wygląda na zawiadomienie o wizycie od {sender}.",
       "tpl.summary.appt_date": "To wygląda na zawiadomienie o wizycie w dniu {date}.",
       "tpl.summary.generic_full": "To wygląda na dokument od {sender}, w którym pojawia się kwota {amount} i data {date}.",

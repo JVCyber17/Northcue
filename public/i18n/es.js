@@ -408,7 +408,7 @@
     "check.lowTrustStep": "No podemos confirmar quién lo envía. Busque por su cuenta los datos de contacto oficiales de esa organización y compruébelo. No use los datos impresos en esta carta.",
     "check.noRushPrefix": "Sin prisa. {base}",
     "check.urgencyUrgent": "Parece haber poco tiempo",
-    "check.urgencyHigh": "Con plazo cercano",
+    "check.urgencyHigh": "El tiempo importa",
     "check.urgencyMedium": "Merece atención",
     "check.urgencyLow": "Sin prisa",
     "check.genuineHighReview": "Parece auténtico, merece una revisión rápida",

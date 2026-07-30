@@ -534,7 +534,7 @@
     "feedback.anythingElse": "আর কিছু?",
     "feedback.optional": "ঐচ্ছিক",
     "feedback.commentPlaceholder": "একটি ছোট নোটই যথেষ্ট.",
-    "feedback.commentPrivacyNote": "অনুগ্রহ করে নাম, ঠিকানা ও অ্যাকাউন্ট নম্বর লিখবেন না.",
+    "feedback.commentPrivacyNote": "দয়া করে নাম, ঠিকানা ও অ্যাকাউন্ট নম্বর লিখবেন না.",
     "feedback.confidenceHeading": "এই চিঠিটি নিয়ে এখন আপনার কেমন লাগছে?",
     "feedback.confidenceHint": "ঐচ্ছিক. মানানসই হলে একটি বেছে নিন.",
     "feedback.confidence.moreAble": "এটি সামলাতে আরও সক্ষম মনে হচ্ছে",

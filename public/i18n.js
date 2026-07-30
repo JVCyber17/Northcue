@@ -20,7 +20,7 @@
 (function (root) {
   var STORAGE_KEY = "northcue_language";
   var BANNER_DISMISS_KEY = "northcue_language_banner_dismissed";
-  var VERSION = "i18n-20260729a";
+  var VERSION = "i18n-20260730a";
 
   function config() {
     return root.NORTHCUE_I18N_CONFIG || { defaultLanguage: "en", languages: [{ code: "en", nativeName: "English", enabled: true }] };

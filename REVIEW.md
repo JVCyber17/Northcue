@@ -970,6 +970,24 @@ frame. Per the plan, the founder personally reviews Gujarati and Hindi.
 Next phase: Phase 3 native review as reviewers become available, then
 Phase 4 staged release, one language at a time.
 
+## PHASE 3A: FINAL CROSS-LANGUAGE VERIFICATION (30 July 2026)
+
+One deep pass per language before staged release; the full method, the
+per-language verdicts, every fix and every held finding live in
+PHASE3A_VERIFICATION.md. Outcome: all nine languages are RELEASE-CANDIDATE
+(Bengali conditional only on its one open suffix-convention decision), with
+30 small mechanical fixes applied and re-verified by rendered diff, suite
+245/245, and the judgement calls added to NATIVE_REVIEW.md as Phase 3A
+additions. The safety-relevant catches were: the Hindi garbled-text warning
+had hardened "may be unreliable" into "cannot be" (the same class 2 Panjabi's
+pass fixed), the Hindi and Panjabi ladder medium rungs had weakened "likely"
+to "may", French bills read an exclusive "avant le" against the inclusive
+deadline card, four French sentences upgraded "formal" to "officiel", the
+Gujarati freeze chip threatened closure instead of freezing, and the Spanish
+high-urgency chip asserted a concrete deadline. The Romanian legal_or_court
+label family joined the Spanish and Portuguese court-label settlement
+(de instanță). All nine languages remain disabled.
+
 ---
 
 ## Notes for Phase 1 (the caller-to-bank hunt)

@@ -455,6 +455,84 @@ the punctuation mark here, or does it suggest the Gurmukhi dot diacritic?**
 
 ---
 
+## Phase 3A additions (30 July 2026): a few extra questions per language
+
+A final machine verification pass ran after the questions above were written.
+It fixed small mechanical slips directly and left these judgement calls for
+you. Same rules: quick answers are fine.
+
+**Polish.** The urgent next step adds "wyłącznie" (act exclusively on trusted
+details) and the 999 line adds "natychmiast"; both are stronger than the
+English, in the cautious direction. Keep or trim? One pattern can produce
+"w sprawie: sprawa prawna lub sądowa"; is the doubling acceptable, or should
+the frame say "na temat:"? On the urgent screen, "Wygląda na to, że nadawcą
+urzędowego zawiadomienia jest X" presents notice-hood as given inside the
+hedge; fine, or restructure like the garbled variant ("a dokument to list
+urzędowy")?
+
+**Romanian.** "Citiți mai întâi cardul de acțiune." compresses "before you
+act" to "first"; strong enough? "Amenință că vă îngheață contul." uses the
+standard present after amenință; confirm. "Ascunde distragerile și arată un
+singur pas o dată." describes Focus mode rather than instructing you; fine,
+or switch to "Ascundeți..."? "Pare presat de timp" describes a person more
+than a letter; better hedge-keeping wording welcome.
+
+**Gujarati.** One string says હજુ where the corpus says હજી; pick one. અપલોડ
+is neuter in one line (થયું) and masculine in another (વાંચવો); pick one. The
+respectful plural participles (પહોંચી ગયાં છો, કરી રહ્યાં છો) are used
+throughout for gender neutrality; confirm they read respectful, not
+feminine-marked, to your community. "ક્યારે તે મહત્વનું છે?" versus "તે
+ક્યારે મહત્વનું છે?" as a card title. વાળું is written detached in two
+strings (ખાનાં વાળું, પાનાં વાળી); joined or detached? The freeze chip now
+says ફ્રીઝ કરવાની ધમકી; is the loanword right for your community?
+
+**Hindi.** The urgent card opens "यह अत्यावश्यक है."; deliberate top rung, or
+would "यह बहुत ज़रूरी है." serve better in this plain register? The refusal
+suggests "साफ फ़ोटो"; should it be the comparative "और साफ फ़ोटो"? The
+disclaimer says "सरकारी सलाह" for "official advice"; wide enough, or
+"आधिकारिक सलाह"? The ladder's middle rung now reads "जल्द ही कदम उठाने की
+ज़रूरत पड़ने की संभावना है."; natural, or is there a plainer way to keep
+"likely"?
+
+**Bengali.** "একজন AI প্রদানকারী" uses the human classifier for an
+organisation; keep the personification or switch to একটি? The landing example
+chip says "শেষ তারিখ 14 জুলাই" while real cards keep English month names; is
+the mismatch fine as marketing copy? The why page adds "বিনয়ের সাথে"
+(politely) to "Northcue declines"; keep the warmth or match the English?
+
+**Panjabi.** A feedback chip says "ਮੈਨੂੰ ਸਮਝ ਨਹੀਂ ਆਇਆ"; strict agreement
+would be ਆਈ (ਸਮਝ is feminine); which reads right? PDF is masculine in one
+error line (ਲੱਗਦਾ ਹੈ) and feminine in the next (ਵਾਲੀ PDF); pick one, or
+recast with ਇਹ ਦਸਤਾਵੇਜ਼. The non-document note says "ਜੇ ਇਹ ਉਹੀ ਹੈ"; would
+"ਜੇ ਇਹ ਚਿੱਠੀ ਜਾਂ ਬਿੱਲ ਹੈ" read more naturally? The ladder's middle rung now
+reads "ਜਲਦੀ ਹੀ ਕਦਮ ਚੁੱਕਣ ਦੀ ਲੋੜ ਪੈਣ ਦੀ ਸੰਭਾਵਨਾ ਹੈ."; natural?
+
+**Spanish.** The landing example chip says "Vence el 14 jul" while every real
+deadline says "hasta el"; align or keep? A few lines print usted for
+contrast ("Usted lo sube", "que encuentre usted en una fuente oficial");
+does the no-printed-pronouns rule license these? "Empiecen juntos por la
+tarjeta de acción." predicates juntos of you and your helper; fine as generic
+masculine, or drop it? "Con cuánta antelación puede convenir mirarlo" on the
+calm explainer; plainer alternative? The high-urgency chip now reads "El
+tiempo importa"; natural next to "Parece haber poco tiempo"?
+
+**French.** "Votre compte semble être créditeur" carries one hedge where the
+English has two ("It looks like your account may be in credit"); is semble
+enough on a reassuring sentence? "Vérifiez the amount shown." hands the
+English fragment over without a colon while the other two frames use one;
+confirm the direct handover reads naturally. "Utilise un avertissement sous
+pression." on a scam chip; clearer shape? The privacy list mixes ni and et;
+repeat ni? The card cites itself as "la fiche action" in two lines and
+"la fiche Action" in others; which capitalisation?
+
+**Portuguese.** "Verifique the amount shown." same colon question as French.
+"Este documento parece pedir uma ação sua." renders "require" with pedir and
+lets "precisa de fazer" carry the obligation; confirm. Three former
+European-only forms now read "Construímos", "Recebemos o seu pedido." and
+"concluiu esta parte"; do they read naturally to both communities?
+
+---
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to
