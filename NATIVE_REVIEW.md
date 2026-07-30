@@ -533,6 +533,54 @@ European-only forms now read "Construímos", "Recebemos o seu pedido." and
 
 ---
 
+## New since your list was written: the multi letter sentences (30 July 2026)
+
+Seven new sentences were added to every language on one day, so they have not
+been seen by any native speaker yet. They appear when someone photographs or
+uploads **more than one letter at once**. Northcue now refuses to guess which
+letter an amount or a date belongs to, and says so instead.
+
+Please read these seven in your language and answer two questions about them:
+**does the refusal sound calm and competent rather than broken or apologetic,
+and is it clear that the reader has done nothing wrong?**
+
+The seven, by where they appear:
+
+1. Card 1 headline, what was found: English "This upload appears to contain
+   more than one letter."
+2. Card 1 key point and card 2, why nothing is being asserted: "The details
+   have not been matched to a single letter." The meaning to preserve is that
+   Northcue cannot tell WHICH letter each detail belongs to, not that the
+   details are missing.
+3. Card 3, the action: "Check each letter on the original documents."
+4. Card 4, where a date would normally be: "Dates cannot be matched to one
+   letter in this upload. Check the original documents."
+5. Card 5, where an amount would normally be: "Amounts cannot be matched to one
+   letter in this upload. Check the original documents."
+6. A key point in the other case, where the letters WERE separated and only the
+   first was read: "Only the first letter in this upload has been read." **Is it
+   unmistakable that the other letters were not read at all?** This is the one
+   most likely to be misread as "we read the first one first".
+7. Card 6, the closing suggestion: "Uploading one letter at a time gives a
+   clearer result."
+
+Specific questions the machine drafts raised, per language, worth confirming:
+
+- **Polish**: "przypisać do konkretnego listu" was chosen over the literal "do
+  jednego listu", because the literal can be read as "they all belong to one
+  letter". Does the chosen wording say what it should?
+- **Romanian**: "o anumită scrisoare" over "o singură scrisoare" for the same
+  reason. Also, does "Datele" read as dates and not data in the card 4 line?
+- **Gujarati**: does "ફક્ત ... જ" make it plain that the remaining letters were
+  not read? And is "એક વખતે" or "એક સમયે" the natural phrase for "at a time"?
+- **Bengali, Hindi, Panjabi**: the plural "original documents" is new; the rest
+  of the corpus says it in the singular. Does the plural read correctly beside
+  the existing lines?
+- **Spanish, French, Portuguese**: the word chosen for "upload" is the noun the
+  rest of your file already uses. Does it still read naturally in these seven?
+
+---
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to

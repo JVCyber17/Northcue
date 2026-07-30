@@ -25,6 +25,14 @@
       "tpl.scam.risk_card": "Cineva ar putea să vă păcălească să faceți o plată nesigură sau să divulgați date.",
       "tpl.scam.summary": "Acesta poate fi un mesaj suspect despre bani sau date personale.",
 
+      "tpl.multi.summary": "Această încărcare pare să conțină mai multe scrisori.",
+      "tpl.multi.most_important": "Detaliile nu au fost asociate cu o anumită scrisoare.",
+      "tpl.multi.action": "Verificați fiecare scrisoare pe documentele originale.",
+      "tpl.multi.no_deadline": "Datele nu pot fi asociate cu o anumită scrisoare din această încărcare. Verificați documentele originale.",
+      "tpl.multi.check": "Sumele nu pot fi asociate cu o anumită scrisoare din această încărcare. Verificați documentele originale.",
+      "tpl.multi.first_only_notice": "Din această încărcare a fost citită doar prima scrisoare.",
+      "tpl.multi.helpful_note": "Dacă încărcați câte o scrisoare pe rând, rezultatul este mai clar.",
+
       "tpl.nondoc.summary": "Acest fișier nu pare a fi o scrisoare oficială sau o factură.",
       "tpl.nondoc.most_important": "Northcue nu a putut găsi lucrurile pe care o scrisoare oficială le are de obicei, cum ar fi un expeditor, o referință sau o dată.",
       "tpl.nondoc.action": "Încărcați o fotografie mai clară sau o altă pagină dacă acest fișier este o scrisoare sau o factură.",

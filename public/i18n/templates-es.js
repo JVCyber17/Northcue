@@ -27,6 +27,14 @@
       "tpl.scam.risk_card": "Podrían engañarle para que pague o comparta datos sin seguridad.",
       "tpl.scam.summary": "Esto puede ser un mensaje sospechoso sobre dinero o datos.",
 
+      "tpl.multi.summary": "Este archivo parece contener más de una carta.",
+      "tpl.multi.most_important": "No se ha podido saber a qué carta corresponde cada detalle.",
+      "tpl.multi.action": "Revise cada carta en los documentos originales.",
+      "tpl.multi.no_deadline": "En este archivo no se puede saber a qué carta corresponde cada fecha. Revise los documentos originales.",
+      "tpl.multi.check": "En este archivo no se puede saber a qué carta corresponde cada importe. Revise los documentos originales.",
+      "tpl.multi.first_only_notice": "Solo se ha leído la primera carta de este archivo.",
+      "tpl.multi.helpful_note": "Subir una carta cada vez da un resultado más claro.",
+
       "tpl.nondoc.summary": "Esto no parece una carta oficial ni una factura.",
       "tpl.nondoc.most_important": "Northcue no ha encontrado lo que suele tener una carta oficial, como un remitente, una referencia o una fecha.",
       "tpl.nondoc.action": "Suba una foto más nítida o pruebe con otra página si esto es una carta o una factura.",

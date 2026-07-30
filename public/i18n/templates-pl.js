@@ -26,6 +26,14 @@
       "tpl.scam.risk_card": "Ktoś może podstępem nakłonić Państwa do niebezpiecznej płatności lub udostępnienia danych.",
       "tpl.scam.summary": "To może być podejrzana wiadomość dotycząca pieniędzy lub danych.",
 
+      "tpl.multi.summary": "Wygląda na to, że ten plik zawiera więcej niż jeden list.",
+      "tpl.multi.most_important": "Nie przypisano szczegółów do konkretnego listu.",
+      "tpl.multi.action": "Prosimy sprawdzić każdy list w oryginalnych dokumentach.",
+      "tpl.multi.no_deadline": "W tym pliku nie można przypisać dat do konkretnego listu. Prosimy sprawdzić oryginalne dokumenty.",
+      "tpl.multi.check": "W tym pliku nie można przypisać kwot do konkretnego listu. Prosimy sprawdzić oryginalne dokumenty.",
+      "tpl.multi.first_only_notice": "Z tego pliku odczytano tylko pierwszy list.",
+      "tpl.multi.helpful_note": "Przesyłanie jednego listu naraz daje jaśniejszy wynik.",
+
       "tpl.nondoc.summary": "To nie wygląda na urzędowy list ani rachunek.",
       "tpl.nondoc.most_important": "Northcue nie znalazł elementów, które urzędowy list zwykle ma, takich jak nadawca, numer referencyjny lub data.",
       "tpl.nondoc.action": "Prosimy przesłać wyraźniejsze zdjęcie lub inną stronę, jeśli to list lub rachunek.",

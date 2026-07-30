@@ -25,6 +25,14 @@
       "tpl.scam.risk_card": "You may be tricked into unsafe payment or data sharing.",
       "tpl.scam.summary": "This may be a suspicious message about money or details.",
 
+      "tpl.multi.summary": "This upload appears to contain more than one letter.",
+      "tpl.multi.most_important": "The details have not been matched to a single letter.",
+      "tpl.multi.action": "Check each letter on the original documents.",
+      "tpl.multi.no_deadline": "Dates cannot be matched to one letter in this upload. Check the original documents.",
+      "tpl.multi.check": "Amounts cannot be matched to one letter in this upload. Check the original documents.",
+      "tpl.multi.first_only_notice": "Only the first letter in this upload has been read.",
+      "tpl.multi.helpful_note": "Uploading one letter at a time gives a clearer result.",
+
       "tpl.nondoc.summary": "This does not look like an official letter or bill.",
       "tpl.nondoc.most_important": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
       "tpl.nondoc.action": "Upload a clearer photo or a different page if this is a letter or bill.",

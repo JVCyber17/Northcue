@@ -34,6 +34,7 @@ function runClearStepsEngine({ extractedText, fileMeta }) {
   const extraction = runExtractorLayer({
     text: primaryText,
     trust,
+    split,
     prompt: extractorPrompt
   });
 
@@ -218,7 +219,70 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
   };
 }
 
-function runExtractorLayer({ text, trust }) {
+// Wording for a multi letter upload. The engine may only emit sentences that
+// exist in the template bank, so these match tpl.multi.* in templates-en.js.
+const MULTI_LETTER = {
+  summary: "This upload appears to contain more than one letter.",
+  point: "The details have not been matched to a single letter.",
+  action: "Check each letter on the original documents.",
+  noDeadline: "Dates cannot be matched to one letter in this upload. Check the original documents.",
+  check: "Amounts cannot be matched to one letter in this upload. Check the original documents.",
+  firstOnlyNotice: "Only the first letter in this upload has been read.",
+  helpfulNote: "Uploading one letter at a time gives a clearer result."
+};
+
+// Extraction, plus the multi letter attribution rule.
+//
+// When an upload holds more than one letter, an amount and a date can come from
+// different letters, and composing them into "X is asking you to pay A by D"
+// states a relationship no document made. The engine therefore declines to
+// compose rather than guessing which letter a fact belongs to. Two shapes:
+//
+//   first_only  the letters were separated, so the facts below belong to the
+//               first letter and are kept; the reader is told the rest were
+//               not read.
+//   fused       the boundary was detected but the text could not be separated,
+//               so every extractor ran across all of the letters and no value
+//               can be attributed. Every field a card would assert a relation
+//               from is dropped.
+function runExtractorLayer({ text, trust, split }) {
+  return applyMultiLetterAttribution(buildExtraction({ text, trust }), trust, split);
+}
+
+function applyMultiLetterAttribution(extraction, trust, split) {
+  if (!split || !split.isMultiLetterInput) return extraction;
+
+  // The refusal paths keep priority. An unsupported upload or a suspected scam
+  // already has its own honest answer, and that answer is not improved by
+  // replacing it with the multi letter one.
+  if (trust.processing_mode === "unsupported" || trust.processing_mode === "verification_only") {
+    return extraction;
+  }
+
+  if (split.documents.length > 1) {
+    return Object.assign({}, extraction, { multi_letter_state: "first_only" });
+  }
+
+  const fused = Object.assign({}, extraction, {
+    summary: MULTI_LETTER.summary,
+    most_important_point: MULTI_LETTER.point,
+    actions: [MULTI_LETTER.action],
+    deadline: null,
+    visible_dates: [],
+    header_date: null,
+    has_consequence: false,
+    consequence_sentence: null,
+    money_amounts: [],
+    helpful_note: MULTI_LETTER.helpfulNote,
+    multi_letter_state: "fused"
+  });
+  // The reading aid renderer composes its own sender and topic sentences, which
+  // is the same fusion by another route, so the fused upload leaves that path.
+  delete fused.readable_unsupported_signals;
+  return fused;
+}
+
+function buildExtraction({ text, trust }) {
   if (trust.processing_mode === "unsupported") {
     // A probable non-document gets a calm, honest "this is not an official letter"
     // message, never a reading-aid that pretends to understand it.
@@ -401,7 +465,7 @@ function runRendererLayer({ trust, extraction }) {
     {
       id: "helpful_note",
       title: "Helpful note",
-      short_answer: cleanLine(inferHelpfulNote(trust, extraction.helpful_note)),
+      short_answer: cleanLine(inferHelpfulNote(trust, extraction.helpful_note, extraction.multi_letter_state)),
       status: cardStatus
     }
   ];
@@ -685,12 +749,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_is_this",
       title: "What is this?",
       explanation: oldCardById.get("what_is_this")?.short_answer || extraction.summary,
-      // On the reading-aid paths the "not fully trained" caution moves off the
-      // headline into a key point so the headline can lead with what the letter
-      // is, while the caution stays visible.
-      keyPoints: extraction.readable_unsupported_signals
-        ? [extraction.most_important_point, "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."]
-        : [extraction.most_important_point],
+      keyPoints: buildFirstCardKeyPoints(extraction),
       actionNeeded: null
     },
     {
@@ -737,7 +796,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       legacyId: "helpful_note",
       cardType: "what_if_i_feel_stuck",
       title: "Helpful note",
-      explanation: oldCardById.get("helpful_note")?.short_answer || inferHelpfulNote(trust, extraction.helpful_note),
+      explanation: oldCardById.get("helpful_note")?.short_answer || inferHelpfulNote(trust, extraction.helpful_note, extraction.multi_letter_state),
       keyPoints: [trust.safe_next_step],
       actionNeeded: trust.safe_next_step || null
     }
@@ -766,9 +825,28 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
   });
 }
 
+// Card 1 key points. The headline leads with what the letter is, so the
+// cautions ride underneath it: the reading-aid paths add the "not fully
+// trained" note, and a separated multi letter upload adds the notice that only
+// the first letter was read. Both are additive, so a document that is on the
+// aid path AND multi letter keeps both.
+function buildFirstCardKeyPoints(extraction) {
+  const points = [extraction.most_important_point];
+  if (extraction.readable_unsupported_signals) {
+    points.push("Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.");
+  }
+  if (extraction.multi_letter_state === "first_only") {
+    points.push(MULTI_LETTER.firstOnlyNotice);
+  }
+  return points;
+}
+
 // Card "What should I check?" headline. Uses the amount/date the engine already
 // has so it is not the bare "Check key details on the original document."
 function buildCheckExplanation(extraction) {
+  // Same rule as the deadline card: amounts from different letters must not be
+  // presented as one letter's amount.
+  if (extraction.multi_letter_state === "fused") return MULTI_LETTER.check;
   const amount = firstOrNull(extraction.money_amounts);
   const date = extraction.deadline;
   if (amount && date) return `Check the amount (${amount}) and the date (${date}) on the original document.`;
@@ -1142,6 +1220,9 @@ function extractHeaderDate(text) {
 // remaining (non-header) dates to check, or reports the letter date plainly.
 // Never invents or computes a deadline.
 function buildNoDeadlineMessage(extraction) {
+  // A fused multi letter upload has dates from more than one letter, so naming
+  // any of them as the deadline would attribute it to the wrong letter.
+  if (extraction.multi_letter_state === "fused") return MULTI_LETTER.noDeadline;
   const dates = Array.isArray(extraction.visible_dates) ? extraction.visible_dates : [];
   if (dates.length > 0) {
     return `No clear due date. These dates appear in the document: ${dates.slice(0, 3).join(", ")}. Check what they refer to.`;
@@ -2056,7 +2137,12 @@ function inferContextNote(text, trust) {
   return "Keep this with your records in case you need it later.";
 }
 
-function inferHelpfulNote(trust, extractorNote) {
+function inferHelpfulNote(trust, extractorNote, multiLetterState) {
+  // A multi letter upload keeps its own note. Without this the trust branches
+  // below would answer "This looks like a normal formal letter." on an upload
+  // the engine has just said holds more than one letter.
+  if (multiLetterState) return MULTI_LETTER.helpfulNote;
+
   if (trust.trust_assessment === "low") {
     return "Do not use links or numbers in the document until checked.";
   }

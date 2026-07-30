@@ -27,6 +27,14 @@
       "tpl.scam.risk_card": "On pourrait vous tromper et vous amener à faire un paiement peu sûr ou à partager des données.",
       "tpl.scam.summary": "Cela peut être un message suspect au sujet d'argent ou de données.",
 
+      "tpl.multi.summary": "Cet envoi semble contenir plusieurs lettres.",
+      "tpl.multi.most_important": "Les détails n'ont pas été rattachés à une lettre précise.",
+      "tpl.multi.action": "Vérifiez chaque lettre sur les documents originaux.",
+      "tpl.multi.no_deadline": "Dans cet envoi, les dates ne peuvent pas être rattachées à une lettre précise. Vérifiez les documents originaux.",
+      "tpl.multi.check": "Dans cet envoi, les montants ne peuvent pas être rattachés à une lettre précise. Vérifiez les documents originaux.",
+      "tpl.multi.first_only_notice": "Seule la première lettre de cet envoi a été lue.",
+      "tpl.multi.helpful_note": "Envoyer une lettre à la fois donne un résultat plus clair.",
+
       "tpl.nondoc.summary": "Cela ne ressemble pas à une lettre officielle ni à une facture.",
       "tpl.nondoc.most_important": "Northcue n'a pas trouvé ce qu'une lettre officielle contient d'habitude, comme un expéditeur, une référence ou une date.",
       "tpl.nondoc.action": "Envoyez une photo plus nette ou une autre page s'il s'agit d'une lettre ou d'une facture.",

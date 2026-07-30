@@ -15,6 +15,17 @@
 // garble score of 0.06 and "poor" at 0.25, and garbled_by_ocr additionally
 // requires 160 characters, so the corrupted entries below are written to sit
 // either side of those thresholds on purpose.
+//
+// The three multi letter entries cover the three shapes separately, because the
+// engine treats them differently and only two of them are currently detected:
+//   multi_document_greetings  detected, NOT separated, so the attribution rule
+//                             declines to compose
+//   multi_document_split      detected AND separated, so the first letter's
+//                             facts are kept and the reader is told the rest
+//                             were not read
+//   multi_document            NOT detected at all, because the separator is a
+//                             page header rather than a bare rule, so this
+//                             entry records the shape that still fuses
 
 "use strict";
 
@@ -403,8 +414,8 @@ const CORPUS = [
   },
   {
     id: "multi_document",
-    label: "Two letters in one upload",
-    intent: "splitDocuments path. Only the first letter is analysed; the second is dropped.",
+    label: "Two letters in one upload, page header separator",
+    intent: "Multi letter that splitDocuments does NOT detect at all: the separator is a page header, not a bare rule. Records that this shape still fuses, pending a separate decision on the separator vocabulary.",
     text: [
       "EDF Energy",
       "Your electricity bill",
@@ -414,6 +425,45 @@ const CORPUS = [
       "",
       "--- Page 2 ---",
       "",
+      "Hounslow Borough Council",
+      "Council Tax Bill 2026/2027",
+      "Bill date: 12 March 2026",
+      "Amount to pay: £1,381.50",
+      "First instalment due by 1 April 2026."
+    ].join("\n")
+  },
+
+  {
+    id: "multi_document_greetings",
+    label: "Two letters in one upload, detected by greetings and NOT separated",
+    intent: "Multi letter, fused shape. isMultiLetterInput is true while documents.length is 1, so every extractor ran across both letters. The engine must decline to compose a sentence relating a sender, an amount and a date.",
+    text: [
+      "Dear Ms Sharma",
+      "EDF Energy",
+      "Your electricity bill",
+      "Bill date: 4 May 2026",
+      "Amount due: £214.63",
+      "Please pay by 28 May 2026.",
+      "",
+      "Dear Ms Sharma",
+      "Hounslow Borough Council",
+      "Council Tax Bill 2026/2027",
+      "Bill date: 12 March 2026",
+      "Amount to pay: £1,381.50",
+      "First instalment due by 1 April 2026."
+    ].join("\n")
+  },
+  {
+    id: "multi_document_split",
+    label: "Two letters in one upload, separated by a rule",
+    intent: "Multi letter, first_only shape. The letters were separated, so the first letter's facts are correct and are kept. The reader must be told the other letter was not read.",
+    text: [
+      "EDF Energy",
+      "Your electricity bill",
+      "Bill date: 4 May 2026",
+      "Amount due: £214.63",
+      "Please pay by 28 May 2026.",
+      "---",
       "Hounslow Borough Council",
       "Council Tax Bill 2026/2027",
       "Bill date: 12 March 2026",

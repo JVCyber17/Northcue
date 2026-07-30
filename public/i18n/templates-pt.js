@@ -26,6 +26,14 @@
       "tpl.scam.risk_card": "Pode ser vítima de um engano e acabar por fazer um pagamento inseguro ou partilhar dados.",
       "tpl.scam.summary": "Isto pode ser uma mensagem suspeita sobre dinheiro ou dados.",
 
+      "tpl.multi.summary": "Este envio parece conter mais de uma carta.",
+      "tpl.multi.most_important": "Os detalhes não foram associados a uma carta específica.",
+      "tpl.multi.action": "Verifique cada carta nos documentos originais.",
+      "tpl.multi.no_deadline": "Neste envio, as datas não podem ser associadas a uma carta específica. Verifique os documentos originais.",
+      "tpl.multi.check": "Neste envio, os valores não podem ser associados a uma carta específica. Verifique os documentos originais.",
+      "tpl.multi.first_only_notice": "Foi lida apenas a primeira carta deste envio.",
+      "tpl.multi.helpful_note": "Enviar uma carta de cada vez dá um resultado mais claro.",
+
       "tpl.nondoc.summary": "Isto não parece uma carta oficial nem uma fatura.",
       "tpl.nondoc.most_important": "O Northcue não encontrou o que uma carta oficial costuma ter, como um remetente, uma referência ou uma data.",
       "tpl.nondoc.action": "Envie uma foto mais nítida ou uma página diferente se isto for uma carta ou fatura.",

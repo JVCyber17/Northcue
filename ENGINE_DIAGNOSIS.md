@@ -333,6 +333,23 @@ in the engine's own internal state.
 | Severity signals for card 2 key points | Empty | **No** | Card 2's key points are `trust.severity_signals` (line 701), which was `[]` on all five documents including the urgent bailiff notice, so card 2 carried no document-specific information anywhere in the set. |
 | `appeal_rights`, `support_options`, `evidence_spans` | **Never** | **No** | Hard-coded `[]` at all seven construction sites. No extractor function exists. This is why "contact us to discuss a payment plan" is lost. |
 | Confidence | Yes | **No** | `overall_confidence` and `confidence_level` have **zero** occurrences in `public/app.js`, and no branch changes wording based on them. |
+| Every warning the engine raises | Yes, `structured_result.warnings` | **No** | See the dead channel below. |
+
+### The warnings channel is dead (recorded 30 July 2026)
+
+`buildStructuredWarnings` (line 815) raises a warning for a suspected scam, an
+unreadable upload, an urgent document, and any document needing human review,
+including "Multiple documents may be mixed in one upload." Every one of them is
+placed in `structured_result.warnings` and **none of them is ever displayed**.
+`public/app.js` reads exactly three things from the structured result: the object
+itself at line 3665, `.cards` at line 3678, and a null default at line 3768.
+`warnings` has zero occurrences in the frontend.
+
+This is why the multi-letter work carries its message inside the cards rather
+than through this channel. Deciding whether to surface `warnings` in the UI, and
+what that would look like on a calm six-card screen, is a separate question that
+has not been taken. Until it is, any engine change that "warns" the reader by
+pushing a string into `warnings` is writing to a channel with no reader.
 
 ---
 
