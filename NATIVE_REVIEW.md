@@ -294,11 +294,45 @@ letter's own and cannot be translated. **Does the colon handover read
 acceptably?**
 
 ### Portuguese
-1. Does this read as European or Brazilian Portuguese? We asked for neutral and
-   suspect it leans European. **Would a Brazilian reader notice in the first
-   card?**
-2. `tpl.summary` lines for medical and legal documents: do they state something
-   as flat fact where the others hedge?
+
+Portuguese is AI-complete (30 July 2026) and was NEUTRALISED between
+European and Brazilian reading this session, so the region questions come
+first. Ideally one reader from each community answers 1 and 2.
+
+**1. The neutralisation. We replaced the high-traffic European markers:
+enviar not carregar, arquivo not ficheiro, senha not palavra-passe,
+telefone not telemóvel, administração local not câmara municipal, "parece
+pedir" not "parece estar a pedir", "Leitura em curso..." not "A ler...".**
+**As a Portuguese reader: does anything now read wrong or foreign? As a
+Brazilian reader: does anything still stumble?**
+
+**2. Two deliberate keeps: "contactos" keeps its c (valid in both
+spellings, transparent both ways), and the iPhone install line quotes the
+pt-PT share menu ("Adicionar ao ecrã principal").** **Right calls?**
+
+**3. The bailiff chip now reads "Menciona ação de agentes de execução
+(bailiffs)."** It used to say "agentes de cobrança", ordinary debt
+collectors. **Does "agentes de execução" carry the court-backed weight,
+and is the English gloss helpful or noise?**
+
+**4. The consequence card reports the letter's own claim: "O documento
+indica que, se um pagamento não for feito, acontecerá isto: {the letter's
+words}."** **Does this clearly read as the LETTER's threat, reported by
+Northcue, and not as Northcue threatening you?**
+
+**5. The scam risk card avoids gendering you: "Pode ser vítima de um
+engano e acabar por fazer um pagamento inseguro ou partilhar dados."**
+**Does "ser vítima de um engano" land as a personal warning, or is it
+too soft compared with "ser enganado"?**
+
+**6. One frame avoids gender on purpose: "Isto parece ser uma carta
+oficial e vem de Hounslow Council."** The label before "e vem de" changes
+gender. **Natural, or engineered?**
+
+**7. Read these two aloud. Does the first sound clearly more serious?**
+
+> Isto é urgente. Pode ter de agir hoje.
+> Isto é importante, mas não é uma emergência.
 
 ### Spanish
 

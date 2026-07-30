@@ -70,7 +70,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Panjabi    | 0 (4 fixed) | 0 (all classes fixed) | formal, confirmed     | 0 (fixed) | AI-complete |
 | Spanish    | 0 (7 fixed) | 0 (fixed)        | usted, confirmed           | 0 (fixed) | AI-complete |
 | French     | 0 (all fixed) | 0 (fixed)       | vous, confirmed            | 0 (fixed) | AI-complete |
-| Portuguese | 4 (+1 class) | 6               | formal, confirmed          | 6 + regional decision | 1-2 (+0.5) |
+| Portuguese | 0 (all fixed) | 0 (fixed)       | formal, neutralised this pass | 0 (fixed) | AI-complete |
 
 Suggested completion order stays as planned: Gujarati and Hindi first (small,
 founder-reviewable), then Polish (bank residue plus the dictionary conversion),
@@ -801,60 +801,174 @@ voice; the consequence card reads as the letter's threat reported by
 Northcue, filed as the standard attribution question; nothing reads like
 a machine, and the Veuillez register is uniform rather than officious.
 
-## Portuguese (4 safety items plus one class; 1-2 sessions, +0.5 if neutralising region)
+## Portuguese (AI-COMPLETE, 30 July 2026)
 
-Safety, verified in render:
-1. `tpl.label.signal.severity.bailiff`: "Menciona ação de agentes de
-   cobrança." UNDERSTATES, bailiffs are court-authorised enforcement agents,
-   "agentes de cobrança" are ordinary debt collectors, and this label feeds
-   the top severity tier. Fix with the UK-term-plus-gloss convention:
-   "agentes de execução (bailiffs)".
-2. `tpl.next_step.urgent`: "Veja já o cartão de ação...", "já" pushes harder
-   than English "now", as the closing line of the bailiff card set. This
-   LOCATES the old vague lead "one bailiff line more pressing than English".
-   Fix "Veja agora...".
-3. `tpl.risk.high`: "multas" narrower than "penalties" ("penalizações").
-4. Scam chip verify_identity: "Pressiona para verificar a sua identidade..."
-   has no object pronoun, nobody is being pressured. Fix "Pressiona para que
-   verifique...".
-5. Class finding 4: "enganado" male-only in risk_card.
-DISPROVED earlier claims (against the English sources): "medical and legal
-summary lines assert flat fact where siblings hedge", the English originals
-are themselves flat; Portuguese matches its source, and all 16 summary exacts
-plus 20 summary patterns keep their hedges. Ladder, grave, refusals, risk_card
-shape all verified intact.
+THE REGIONAL DECISION, SETTLED THIS SESSION: hemisphere-neutral wording,
+per the original brief. Reasoning: the UK Portuguese-speaking audience
+includes both Portuguese and Brazilian communities, with the Brazilian
+community the larger; the file's EP markers sat on the highest-traffic
+surfaces (card 1, the submit status, the scam chips); and unlike Panjabi
+there is no script argument for one side. The scope is the ten
+high-traffic marker families Phase 0 listed, resolved as: the estar-a
+progressives recast (parece pedir, Leitura em curso, Vamos tratar como,
+Vai muito bem); ficheiro to arquivo; carregar/carregamento to
+enviar/envio; palavra-passe to senha on all four scam-chip surfaces;
+telemóvel to telefone; câmara municipal to administração local; "para si"
+rephrased (funcionou no seu caso), because it reads reflexive to
+Brazilian readers; ecrã avoided in our own prose (Simplifica a página; a
+screenshot is "um screenshot", the word both communities use in the UK),
+kept ONLY inside the iOS share-menu quote, which cites the pt-PT OS
+wording (the same OS-quote precedent as Bengali and Panjabi); and
+contacto/contactos KEPT with the c, the one marker resolved by keeping:
+the spelling is Acordo-valid, transparent to Brazilian readers, and the
+alternative reads as a typo to European ones. Shared-register EP forms
+both communities read without stumbling (demasiado, marcação,
+arrendamento, definições) stay. Verified mechanically: zero occurrences
+of carreg-, ficheiro, palavra-passe, telemóvel, câmara municipal, estar-a
+progressives or "para si" anywhere in the re-rendered corpus, with the
+single deliberate ecrã in the iOS quote.
 
-Grammar around inserted values: missing "de" before dates in generic_full and
-generic_amount_date ("e a data 1 May 2026", siblings write "com data de");
-"pode seguir-se" singular against plural values (class 1); de+sender chains
-misread in composed patterns ("documento jurídico ou do tribunal de Marston..."
-reads as the court OF Marston; "pedido de pagamento de EDF" ambiguous, move
-to "enviado por {sender}"); consequence frames ("indica que the amount shown.",
-"indica a late fee" where "a" reads as the feminine article); bill_in_credit
-drops "your" ("A conta..." should be "A sua conta..."); the "do tribunal /
-de tribunal" label family inconsistency drives the misparse, settle
-"jurídico ou judicial".
+Safety, all closed: the bailiff chip carries enforcement weight with the
+UK-term-plus-gloss convention ("agentes de execução (bailiffs)"), fixing
+the under-alarming failure on the top severity tier; next_step.urgent
+says "Veja agora", no longer pushing past English as the bailiff set's
+closing line; risk.high says "penalizações"; the verify_identity chip has
+its object ("Pressiona para que verifique a sua identidade..."); and
+risk_card is gender-free via the vítima recast ("Pode ser vítima de um
+engano e acabar por fazer um pagamento inseguro ou partilhar dados."),
+since Portuguese has no gender-free object clitic. The class-2 check the
+phase brief ordered: consequence.avoid carries NO added hedge (indica,
+reports as fact), confirmed clean. The password and PIN chips were
+checked for the French failure specifically: their "Pede que confirme"
+subjunctive carries the reader as its subject, so no object restore was
+needed; recorded as checked. mip.urgent regained its reader ("Pode ter
+de agir hoje."), the cross-language class-3 shape.
 
-Formality and region: formal third-person throughout, confirmed (no tu-forms;
-"Não ignore" and kin are formal subjunctives; "Comecem" correctly plural).
-Region: internally consistent EUROPEAN Portuguese, confirming the old review's
-direction, with high-visibility markers on the first card and primary status:
-"parece estar a pedir" (card 1), "A ler..." (submit status), ficheiro,
-carregar/carregamento, ecrã, palavra-passe (scam chips), contacte/contactos,
-câmara municipal, telemóvel, "para si". DECISION FOR THE FOUNDER, recorded not
-made: stay EP (UK Portuguese speakers skew EP, but there is no script argument
-like Panjabi's) or neutralise the roughly ten high-traffic markers.
+Grammar: "a data de {date}" in both generic frames; the consequence
+frames took the cross-language colon shape ("O documento indica que, se
+um pagamento não for feito, acontecerá isto: {consequence}.", "O
+documento indica o seguinte: {sentence_body}.", "depois, pode acontecer
+isto: {consequence_clause}"), which dissolves the pode-seguir-se singular
+lock and the a-late-fee article misparse together; the de+sender chains
+are gone (readable.summary_sender uses Spanish's agreement-free clause
+"Isto parece ser {type_label} e vem de {sender}." because type_label
+values span genders; benefits.summary_sender says "enviada por" against
+its fixed feminine head); the label family settled on "jurídico ou
+judicial" across all six surfaces, which also kills the
+court-OF-Marston misparse; bill_in_credit regained "A sua conta" in both
+forms; cardStyleSelected took the colon frame ("Estilo selecionado:
+{styleLabel}.", the ro/es/fr defect and fix).
 
-Naturalness, top items: home.dash.intro first paragraph ("carta oficial
-confusa" agrees only with the last list item, plus "Eles mostram" calque);
-banner.urgent "Não ignore." truncated; the "é precisa" family stiff
-(mip.medium, action_check, legal_response, where "resposta legal" also risks
-reading as "lawful reply"; use jurídica); the 999 emergency line requires
-re-parsing mid-crisis ("Se estiver em perigo imediato, ou se outra pessoa
-estiver, ligue para o 999."); "mencionando" gerund calque; "Contacte...
-contactos" echo doubled on the bailiff action card; review.template "marcas de
-modelo por preencher" opaque and adds a claim; genuineLow comma splice;
-summary.outgoing drops "by you" while its sibling keeps it.
+Naturalness: home.dash.intro anchors its agreement on "um documento
+confuso" and "Os cartões mostram" replaces the calque; banner.urgent
+completes ("Não o ignore."); the é-precisa family reads plainly ("seja
+necessário agir", "é exigida uma resposta jurídica", which also removes
+the lawful-reply misreading); the 999 line puts its subjects first ("Se
+você ou outra pessoa estiver em perigo imediato, ligue para o 999.",
+the one deliberate "você", clarity over register purity in an
+emergency); the mencionando gerunds became "e menciona"; the
+Contacte-contactos echo became "Fale com o remetente usando contactos de
+confiança."; review.template dropped its added claim ("Foram encontrados
+sinais de modelo."); genuineLow lost its comma splice; summary.outgoing
+regained its reader ("que preparou para enviar") with categoryOutgoing
+made parallel.
+
+DISPROVED claims stay disproved: the medical and legal summary lines
+match their flat English sources; all hedges verified present.
+
+VERIFICATION: 245/245 tests pass, scanner informal count 0, no dashes.
+About 55 bank strings and 60 dictionary strings changed; rendered corpus
+re-generated with the frozen tooling and byte-diffed, every changed line
+read across all three value sets. Live at 375px via ?lang=pt in light,
+dark and focus: landing, a real scam document through the engine (all
+six cards read in place, the £499.00 slot correct), the check panel with
+the senha chip and the splice-free genuineLow live, no horizontal
+overflow, and the help page with "Enviei o arquivo errado", "no seu
+caso" and the rebuilt 999 line.
+
+Adversarial read as a frightened reader: "Isto é urgente. Pode ter de
+agir hoje." clearly outranks "importante, mas não é uma emergência"; the
+bailiff chip now sounds like enforcement, not routine debt collection;
+the scam card names the deception and would stop me; nothing reads like
+a machine, and the neutralised wording reads as one calm voice rather
+than a region.
+
+---
+
+## PHASE 2 CLOSING SUMMARY (30 July 2026)
+
+All nine languages have had their full Phase 2 pass, every fix verified by
+rendered output against the frozen Phase 0 corpus, live at phone width in
+light, dark and focus, with the full test suite green (245) and all nine
+languages still disabled.
+
+Status: Gujarati AI-COMPLETE. Hindi AI-COMPLETE. Polish AI-COMPLETE.
+Romanian AI-COMPLETE. Bengali AI-COMPLETE-PENDING-CONVENTION (one open
+decision, the suffix-hyphenation convention, deliberately left to the
+native checker with the complete 35-string list in NATIVE_REVIEW.md).
+Panjabi AI-COMPLETE. Spanish AI-COMPLETE. French AI-COMPLETE. Portuguese
+AI-COMPLETE, neutralised between European and Brazilian reading under the
+settled regional decision recorded in its section.
+
+THE CROSS-LANGUAGE DECISIONS THAT NOW BIND ALL NINE:
+1. Attributed consequences report the letter's own claim without added
+   modality, through a colon frame that also isolates the verbatim
+   English fragment. Fixed where the hedge had crept in (gu, hi, pl, bn,
+   pa), confirmed absent then colon-framed in es, fr and pt, verified
+   clean in ro.
+2. Verbatim English fragments are handed over after a colon, never
+   inflected around: check_wrap, reported and may_follow share the shape
+   in every language that needed it.
+3. Labels stay in citation form and frames carry the case or gender:
+   Hindi's nominative labels with colon frames, Panjabi's ਵਿਸ਼ਾ mirror,
+   Gujarati's invariant participles. Where type_label values span
+   genders, either an overt fixed-gender subject (Panjabi) or the
+   agreement-free clause (Spanish, Portuguese) does the work. The same
+   principle covers calendarEventTitle and cardStyleSelected everywhere
+   the label could break the frame (pl, ro, pa, es, fr, pt).
+4. Readers stay inside warnings and chips: the password and PIN chips
+   carry their object pronoun in es, fr and pa, বাংলা's verify_identity
+   carries আপনার, and Portuguese's subjunctive was checked and already
+   carries the reader.
+5. No adjective or participle is predicated of the reader in a language
+   where it would gender them: active recasts (ro, fr), the vítima shape
+   (pt), and genderless feedback options (ro, pa, fr).
+6. Deadlines use one inclusive convention per language; Spanish's
+   "hasta el" decision closed the last two-readings-of-one-date risk.
+7. OS menu items keep the OS's own wording (bn, pa, pt); our own button
+   names are quoted inside helper prose everywhere they appear.
+8. The banner says looks-important while the card says
+   needs-attention-today; no language repeats one sentence on one screen.
+9. Register systems are recorded per language in their sections: Polish
+   Prosimy/Państwo with the control-label convention, Romanian full
+   dumneavoastră with no control split, Spanish usted without printed
+   pronouns, French vous with uniform Veuillez, Portuguese
+   hemisphere-neutral formal third person.
+10. Scanners stay screening tools: informal term lists densify after
+    every pass, homograph terms move into documented comments when the
+    formal text makes them third person (Romanian), and hedge and
+    refusal legs are floors, never verdicts.
+11. No danda in the Indic files, no em or en dashes anywhere, and the
+    French plain space before ? and : is a committed spec decision.
+
+WHAT WAITS ON NATIVE REVIEWERS (all questions live in NATIVE_REVIEW.md):
+Every language answers the three universal questions first (does urgent
+outrank high aloud, do the scam lines feel personal, does anything read
+machine-made), then its specific list: Polish 0 to 5 led by the
+control-label convention; Romanian 0 to 7 led by plural imperatives as
+tab names; Gujarati 1 to 5 including the danda and invariant-participle
+checks; Hindi 1 to 6 including the banner pairing and the विषय frames;
+Bengali 0 to 6 led by THE ONE OPEN DECISION, the suffix convention over
+35 enumerated strings; Panjabi 1 to 7 including the ਫ਼ੌਜਦਾਰੀ and ਬਿੰਦੀ
+vocabulary calls; Spanish 1 to 7 led by the inclusive-deadline
+confirmation; French 1 to 7 led by the par and annoncé-par frames;
+Portuguese 1 to 7 led by the neutralisation check, ideally one reader
+from each community. The consequence-attribution question repeats in
+every language by design; it is the product's most safety-sensitive
+frame. Per the plan, the founder personally reviews Gujarati and Hindi.
+
+Next phase: Phase 3 native review as reviewers become available, then
+Phase 4 staged release, one language at a time.
 
 ---
 
