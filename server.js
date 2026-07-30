@@ -12,7 +12,7 @@ const {
   appendAnonymousSessionCookie
 } = require("./src/services/anonymousSessionService");
 const { getPublicErrorResponse } = require("./src/utils/httpErrors");
-const { readRequestBody, parseMultipartForm } = require("./src/utils/requestParsing");
+const { readRequestBody, parseMultipartForm, jsonBodyToFields } = require("./src/utils/requestParsing");
 const { loadEnvFile } = require("./src/utils/loadEnv");
 const { inspectPdfPageLimit } = require("./src/utils/pdfSafety");
 const { createRateLimiter } = require("./src/utils/rateLimiter");
@@ -239,12 +239,7 @@ async function handleSimplify(req, res) {
     const body = await readRequestBody(req, MAX_UPLOAD_BYTES);
     try {
       const json = JSON.parse(body.toString("utf8"));
-      fields = {
-        pastedText: typeof json.text === "string" ? json.text : "",
-        documentCategory: typeof json.documentCategory === "string" ? json.documentCategory : "auto",
-        action: typeof json.action === "string" ? json.action : "",
-        jobId: typeof json.job_id === "string" ? json.job_id : ""
-      };
+      fields = jsonBodyToFields(json);
     } catch (error) {
       return sendJson(res, 400, { error: "Invalid JSON body." });
     }

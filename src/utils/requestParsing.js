@@ -76,6 +76,22 @@ function parseMultipartForm(body, contentType) {
   return form;
 }
 
+// The JSON twin of parseMultipartForm's fields. Every field the frontend
+// sends in a JSON /api/simplify body and the simplify route reads must be
+// retained here: a dropped field fails silently, because the route just sees
+// undefined and applies its default. That is exactly how the interface
+// language once fell out of the AI language gate on the analyse path, so the
+// retained set is guarded by tests/jsonFieldParity.test.js.
+function jsonBodyToFields(json) {
+  return {
+    pastedText: typeof json.text === "string" ? json.text : "",
+    documentCategory: typeof json.documentCategory === "string" ? json.documentCategory : "auto",
+    action: typeof json.action === "string" ? json.action : "",
+    jobId: typeof json.job_id === "string" ? json.job_id : "",
+    language: typeof json.language === "string" ? json.language : ""
+  };
+}
+
 function splitBuffer(buffer, separator) {
   const parts = [];
   let start = buffer.indexOf(separator);
@@ -107,4 +123,4 @@ function trimBoundaryPart(part) {
   return output;
 }
 
-module.exports = { readRequestBody, parseMultipartForm };
+module.exports = { readRequestBody, parseMultipartForm, jsonBodyToFields };
