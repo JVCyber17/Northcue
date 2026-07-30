@@ -61,21 +61,27 @@ test("development language preview", async (t) => {
     assert.equal(i18n.devPreviewLanguage(), "");
   });
 
-  await t.test("a disabled language is not supported without a preview", () => {
-    // This is the production behaviour that must not change: every one of the
-    // nine ships disabled and isSupported must keep saying so.
+  await t.test("isSupported mirrors the enabled flags exactly", () => {
+    // The off switch must keep working in both directions now that the nine
+    // languages have shipped: an enabled language is supported, and any
+    // language switched back off must immediately stop being supported,
+    // preview or not.
     const config = require(path.join(PUBLIC_DIR, "i18n", "config.js"));
-    const disabled = config.languages.filter((entry) => !entry.enabled);
-    assert.ok(disabled.length >= 9, "expected the nine languages to still be disabled");
-    disabled.forEach((entry) => {
-      assert.equal(i18n.isSupported(entry.code), false, entry.code + " must stay unsupported");
+    config.languages.forEach((entry) => {
+      assert.equal(i18n.isSupported(entry.code), entry.enabled,
+        entry.code + " support must equal its enabled flag");
     });
   });
 
   await t.test("the switcher list is unaffected by the preview mechanism", () => {
     // languageList() drives the switcher and the detection banner. The preview
-    // deliberately does not touch it, so both keep production behaviour.
-    assert.deepEqual(i18n.languageList().map((entry) => entry.code), ["en"]);
+    // deliberately does not touch it, so both always mirror the enabled flags
+    // and nothing else.
+    const config = require(path.join(PUBLIC_DIR, "i18n", "config.js"));
+    assert.deepEqual(
+      i18n.languageList().map((entry) => entry.code),
+      config.languages.filter((entry) => entry.enabled).map((entry) => entry.code)
+    );
   });
 
   await t.test("the preview cannot be persisted", () => {
