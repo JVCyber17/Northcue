@@ -301,11 +301,42 @@ acceptably?**
    as flat fact where the others hedge?
 
 ### Spanish
-1. Does it read as Peninsular or neutral? Same question as Portuguese.
-2. `tpl.scam.action_verify` was rewritten to remove *su*, which meant both
-   "its" and "your". **Is it now unambiguous whose website to check?**
-3. Do any two cards give different deadlines for the same letter, one saying
-   "before" and one "up to"?
+
+Spanish is AI-complete (30 July 2026), so its questions are specific.
+
+**1. The deadline decision. Every deadline now uses the inclusive form:
+"con plazo hasta el 1 June 2026" on the money card and "Plazo hasta el
+1 June 2026" on the deadline card.** One template used to say "antes del",
+which is a different last day. **Does "hasta el" clearly include that day
+for you, in both Spain and Latin America?**
+
+**2. The urgent banner now reads "Esto parece importante. No lo deje
+pasar."** It used to advise ("Conviene no dejarlo pasar."). **Is the
+direct form right on an urgent banner, or too commanding?**
+
+**3. The consequence card reports the letter's own claim: "El documento
+dice que, si no se realiza un pago, pasará esto: {the letter's words}."**
+**Does this clearly read as the LETTER's threat, reported by Northcue,
+and not as Northcue threatening you?**
+
+**4. Three lines were rewritten to kill the su-ambiguity (its/your):
+"Busque por su cuenta los datos de contacto oficiales de esa
+organización", "Use el sitio web o la aplicación oficial de esa
+organización".** **Is it now unambiguous whose website to check?**
+
+**5. Hemisphere check. We changed Enhorabuena to Felicidades, desahucio to
+desalojo, "¿Cuánto corre?" to "¿Cuánta urgencia tiene?", and one "pulse"
+to "toque".** **Does anything else in the first cards read as
+Spain-only or as Latin-America-only to you?**
+
+**6. One frame avoids gender on purpose: "Esto parece una carta oficial y
+viene de Hounslow Council."** The label before "y viene de" changes gender,
+so no participle would agree. **Does it read natural, or engineered?**
+
+**7. Read these two aloud. Does the first sound clearly more serious?**
+
+> Esto es urgente. Puede que necesite actuar hoy.
+> Esto es importante, pero no es una emergencia.
 
 ### French
 1. Sentences naming the sender were changed from *de* to *par*, so

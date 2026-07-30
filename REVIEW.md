@@ -68,7 +68,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Romanian   | 0 (3 classes fixed) | 0 (9 surfaces fixed) | formal, converted this pass | 0 (fixed) | AI-complete |
 | Bengali    | 0 (2 classes fixed) | 0 (fixed; convention pending) | formal, confirmed | 0 (fixed) | AI-complete-pending-convention |
 | Panjabi    | 0 (4 fixed) | 0 (all classes fixed) | formal, confirmed     | 0 (fixed) | AI-complete |
-| Spanish    | 7      | 5                     | usted, confirmed           | 5 + regional| 1-2      |
+| Spanish    | 0 (7 fixed) | 0 (fixed)        | usted, confirmed           | 0 (fixed) | AI-complete |
 | French     | 2 (+1 class) | 4               | vous, confirmed            | high-count batch | 1-2 |
 | Portuguese | 4 (+1 class) | 6               | formal, confirmed          | 6 + regional decision | 1-2 (+0.5) |
 
@@ -648,55 +648,85 @@ screen; the scam card names me and the deception; the consequence card
 reads as the letter's threat reported by Northcue, filed as the standard
 attribution question for the native reviewer.
 
-## Spanish (7 safety items; 1-2 sessions)
+## Spanish (AI-COMPLETE, 30 July 2026)
 
-Safety, all verified in render:
-1. DEADLINE INCONSISTENCY, live inside one rendered document: card 1
-   "...pago de £8.50 antes del 1 June 2026" (bill_full, exclusive) against
-   card 4 "Plazo hasta el 1 June 2026" (deadline.due, inclusive). bill_full is
-   the only money-plus-date template using "antes del". The original review's
-   Spanish deadline claim, CONFIRMED and located. Align to the inclusive form.
-2. `tpl.banner.urgent`: "Conviene no dejarlo pasar." turns the prohibition
-   "Do not ignore it." into advice, on the urgent banner. Fix "No lo deje pasar."
-3. `why.blockD.body`: "Northcue prefiere no responder antes que adivinar"
-   softens the refusal to a preference and contradicts its own next sentence
-   ("Negarse..."). Fix to "se niega a responder".
-4. `status.readingHintTyped`: "Tipo detectado: {typeName}." asserts detection
-   as fact where English hedges ("This looks like"). Fix "Parece ser de este
-   tipo: {typeName}."
-5. Residual su-ambiguity on the low-trust path: `check.lowTrustStep` "Busque
-   usted mismo sus datos de contacto oficiales" (their/your) and
-   `helpGuides.fake.step2Detail` "Use su sitio web o su aplicación oficial."
-   The exact failure mode action_verify was rewritten to avoid, surviving in
-   two sibling strings. Fix with "de esa organización".
-6. `tpl.banner.high_stakes_urgent`: "puede necesitar una respuesta pronto"
-   narrows "action" to a reply. The earlier lead, CONFIRMED. Fix "...que quizá
-   haya que atender pronto."
-7. The "conviene" family downgrades "need checking" to advisability on the
-   caution tier (banner.caution, review.default, review.borderline,
-   lowQuality.helpful_note). Batch fix toward necessity.
-Minor: risk.high "recargos" narrower than "penalties".
-Verified intact: ladder, grave, scam set (engañarle, reader kept, action_verify
-clean), moneyFormat note correct and natural.
+Every item on the verified list is fixed and render-verified in one session:
+the seven safety items led by the deadline inconsistency, the grammar
+classes, the hemisphere neutralisations and the naturalness list. About 25
+bank strings and 12 dictionary strings changed; every changed line was read
+across all three value sets.
 
-Grammar around inserted values: consequence frames (dice/que plus bare English
-fragment; "podría producirse" singular against plural values, class finding 1);
-"y una fecha, 1 May 2026." stranded apposition in generic_full and
-generic_amount_date; stacked-de misreads ("solicitud de pago de EDF", "carta de
-prestaciones sociales de EDF", move to "enviada por {sender}");
-appt_sender_date C needs "para el {date}".
+THE DEADLINE DECISION: Northcue expresses a deadline in Spanish with the
+INCLUSIVE form, "hasta el {date}" ("con plazo hasta el {date}" where it
+follows an amount, "Vence el" on the landing tag, both already inclusive).
+bill_full was the one exclusive holdout ("antes del") and now reads "con
+plazo hasta el {date}", matching card 4's "Plazo hasta el {date}" so one
+document can no longer show two different last days for the same date.
+Verified mechanically: zero occurrences of "antes del" remain anywhere in
+the re-rendered corpus, and the enforcement scenario's card 1 and card 4
+now carry the same reading of 1 June 2026.
 
-Formality and region: usted consistent everywhere, confirmed. Peninsular items
-to neutralise: "Enhorabuena", "¿Cuánto corre?" / "corre prisa" (also unclear as
-a heading), "desahucio" (LatAm desalojo) on the eviction chip, one "pulse"
-where the file elsewhere says "toque". "usted mismo" twice is also male-only
-(drop the pronoun).
+Safety, the other six closed: banner.urgent restored the prohibition ("No
+lo deje pasar."); why.blockD.body refuses instead of preferring ("se niega
+a responder en lugar de adivinar", agreeing with its own next sentence);
+status.readingHintTyped hedges detection with the label-safe colon frame
+("Parece ser de este tipo: {typeName}.", which also sidesteps the gendered
+article the typeName values would otherwise force); the su-ambiguity died
+in both surviving strings ("los datos de contacto oficiales de esa
+organización", "el sitio web o la aplicación oficial de esa organización");
+banner.high_stakes_urgent widened back from a reply to attention ("que
+quizá haya que atender pronto"); and the conviene family is necessity now
+("Hace falta revisar...") across banner.caution, review.default,
+review.borderline, lowQuality.helpful_note and mock.what_matters_most.
+risk.high says "sanciones". The class-2 check the phase brief ordered:
+Spanish's consequence.avoid carries NO added hedge (dice, reports as
+fact), confirmed clean; its class-1 frame is fixed below.
 
-Naturalness, top items: bill_in_credit "su cuenta puede estar a favor" (wrong
-collocation, on the money card; "tenga saldo a favor"); landing "Nosotros la
-aclaramos." (la fails with "un aviso"); check.genuineMeaning "de quien dice
-ser" incomplete; password chips drop "you" where the sibling keeps it ("Le
-pide..."); privacy intro "Los tratamos así." dangling.
+Grammar: the three consequence frames took the cross-language colon shape
+("El documento dice que, si no se realiza un pago, pasará esto:
+{consequence}.", "El documento indica lo siguiente: {sentence_body}.",
+"después podría pasar esto: {consequence_clause}", which also dissolves
+the podría-producirse singular lock). The stranded appositions read "y la
+fecha {date}" in generic_full and generic_amount_date. The stacked-de
+misreads are gone: benefits.summary_sender says "enviada por {sender}"
+(fixed feminine head), and readable.summary_sender, whose type_label
+values render in BOTH genders, uses the agreement-free clause "Esto parece
+{type_label} y viene de {sender}.", a lock my first fix (enviada) would
+have reintroduced, caught in the render read and corrected.
+appt_sender_date says "para el {date}". One instance beyond the list, the
+same defect Romanian had: cardStyleSelected locked masculine "seleccionado"
+against feminine style labels; fixed with the colon frame "Estilo
+seleccionado: {styleLabel}."
+
+Region and formality: usted throughout, no vosotros, no printed pronouns
+added. Neutralised: Enhorabuena to Felicidades, the corre-prisa pair to
+"¿Cuánta urgencia tiene?" and "Parece haber poco tiempo" (heading now
+clear as a question), desahucio to desalojo on the eviction chip, the one
+"pulse" to "toque" (with the button label quoted, the cross-language
+decision). Both "usted mismo" male-only forms became "por su cuenta".
+
+Naturalness: bill_in_credit says "Puede que su cuenta tenga saldo a favor"
+in both forms; the landing pronoun is the neuter "Nosotros lo aclaramos."
+so the mixed antecedents hold; check.genuineMeaning completes ("de quien
+dice enviarla"); the four password and PIN chips regained the reader ("Le
+pide...", class finding 3); the privacy intro lands ("Los tratamos como
+tales.").
+
+VERIFICATION: 245/245 tests pass, scanner informal count 0, no dashes.
+Rendered corpus re-generated with the frozen tooling and byte-diffed; only
+the intended lines moved, read line by line across all three value sets.
+Live at 375px via ?lang=es in light, dark and focus: landing, a real scam
+document through the engine (all six cards read in place, the £499.00
+slot correct), the check panel showing "¿Cuánta urgencia tiene?", the
+scam deadline line and "Le pide confirmar una contraseña", and the help
+page with the fake-document guide popup showing both su-ambiguity fixes.
+
+Adversarial read as a frightened reader: "Esto es urgente. Puede que
+necesite actuar hoy." clearly outranks "importante, pero no es una
+emergencia"; the urgent banner now forbids rather than advises; the scam
+card speaks to me ("Podrían engañarle...") and the chips name me; nothing
+reads like a machine, and the one deliberately firm line stays the
+prohibition on the urgent banner, filed for the native reviewer.
 
 ## French (2 safety items plus one class; 1-2 sessions)
 
