@@ -448,13 +448,30 @@ o parolă" / "Amenință că vă suspendă contul într-un timp scurt"), help
 page, the overwhelmed guide popup, and the feedback modal through the
 "Nu, m-a derutat" path with the confidence options.
 
-CROSS-LANGUAGE FINDING recorded during verification, not a Romanian file
-defect: two dynamically set aria-labels (the focus-mode toggle and the
-card detail toggle, app.js around lines 654 and 693) are written with t()
-at init, before the async language file lands, so they stay English until
-first toggled in every non-English language. applyTranslations() covers
-data-i18n markup only. Filed as a separate app-layer task; language files
-cannot fix it.
+CROSS-LANGUAGE FINDING, found during this verification and FIXED the same
+day (30 July 2026), app layer, not a Romanian file defect: strings that
+app.js writes with t() at init resolved from English because the language
+file loads asynchronously, and applyTranslations() covers data-i18n markup
+only. The audit of every dynamic writer found four affected surfaces: the
+focus-mode toggle labels, the card detail toggle, the detected-type line,
+and the keyed status line; the toggles were broken twice over, because
+applyTranslations also stomped their state-dependent visible spans back to
+the default label whenever a language applied (a saved simple-view state
+showed the aria for one state and the span for the other). Everything
+else dynamic is written at render or open time and resolves correctly.
+The fix is one function, refreshDynamicI18nText() in app.js, which
+re-runs the toggle setters with state read back from the DOM and nothing
+saved, re-resolves the type line, and re-derives the status line from
+lastStatusTitleKey. It runs on every northcue:languagechange event,
+attached BEFORE the switcher's fewer-than-two-languages early return
+(otherwise the dev preview never gets it), plus once at wiring time to
+cover a language file that finished loading first. Guarded by a new
+i18nStandards test (245 total now); cache tokens bumped (index.html
+app.js ?v=, sw.js CACHE_VERSION). Verified live at 375px on first load
+with NO toggling: ?lang=pl announces "Tryb skupienia" and, with simple
+view active from saved preferences, aria and span agree on "Pokaż pełne
+szczegóły"; ?lang=ro announces "Mod concentrare" and "Arătați toate
+detaliile"; plain English load is unchanged with a clean console.
 
 ## Bengali (safety clean; 1-2 sessions)
 

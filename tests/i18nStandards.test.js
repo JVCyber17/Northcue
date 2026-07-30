@@ -81,6 +81,21 @@ test("i18n engineering standards", async (t) => {
       "setLanguage must unload the previously active language");
   });
 
+  await t.test("dynamic labels re-resolve when a language loads or switches", () => {
+    // Init-time t() calls resolve from English because a language file loads
+    // asynchronously, and applyTranslations only reaches data-i18n markup.
+    // app.js must therefore re-resolve the strings it writes dynamically
+    // (toggle aria-labels and spans, the keyed status line, the detected
+    // type line) on every language load, and the hook must sit outside the
+    // two-languages-enabled switcher gate or the dev preview never gets it.
+    const appSource = read("public/app.js");
+    assert.match(appSource, /function refreshDynamicI18nText\(\)/,
+      "the dynamic wording refresh function must exist");
+    assert.match(appSource,
+      /addEventListener\("northcue:languagechange", refreshDynamicI18nText\)/,
+      "the refresh must run on every language load or switch");
+  });
+
   await t.test("the initial page bundle carries no non-English language file", () => {
     const html = read("public/index.html");
     CODES.forEach((code) => {

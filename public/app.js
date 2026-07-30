@@ -705,6 +705,22 @@ function setSimpleView(isActive, options = {}) {
   }
 }
 
+// Re-resolves every translated string app.js writes outside data-i18n
+// markup: the state-dependent toggle labels (aria-label plus visible span,
+// which applyTranslations would otherwise stomp back to the default), the
+// detected-type line, and the keyed status line. Needed because a language
+// file loads asynchronously, so init-time t() calls resolve from English,
+// and because a runtime language switch must reach these too. State is read
+// back from the DOM and nothing is saved: wording only, never behaviour.
+function refreshDynamicI18nText() {
+  setFocusMode(document.body.classList.contains("focus-mode"), { save: false });
+  setSimpleView(document.body.classList.contains("cards-simple"), { save: false });
+  updateTypeConfirmLabel();
+  if (lastStatusTitleKey) {
+    setStatusKey(lastStatusTitleKey, Boolean(statusText && statusText.classList.contains("error")));
+  }
+}
+
 function trackCurrentCardViewed() {
   if (!hasUploadedResult()) return;
 
@@ -2313,6 +2329,16 @@ function openDocumentCheck() {
 // re renders any visible engine content, and remembers the choice. The
 // switcher labels always show the active language's native name.
 function wireLanguageControls() {
+  // Wording refresh, attached BEFORE the switcher early-return below so it
+  // exists even when zero or one language is enabled: the development
+  // preview (?lang=xx) loads a language with the switcher hidden, and the
+  // language file can land either side of this line. The immediate call
+  // covers a file that loaded first (in English it rewrites identical
+  // strings); the listener covers one that lands later, and every runtime
+  // switch after that.
+  document.addEventListener("northcue:languagechange", refreshDynamicI18nText);
+  refreshDynamicI18nText();
+
   // The three switcher buttons are static markup in index.html, so the
   // enabled flags in i18n/config.js only become a true off switch if the
   // control is hidden here as well. With fewer than two languages enabled
