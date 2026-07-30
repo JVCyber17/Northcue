@@ -315,14 +315,48 @@ acceptably?**
    **Does the plain space look wrong enough to fix?**
 
 ### Panjabi
-1. `tpl.mip.urgent` now opens "ਇਸ ਵੱਲ ਤੁਰੰਤ ਧਿਆਨ ਦੇਣ ਦੀ ਲੋੜ ਹੈ" instead of
-   "ਇਹ ਜ਼ਰੂਰੀ ਹੈ", which was identical to the tier below it. **Is it clearly
-   more urgent now, and does it sound natural?**
-2. The eviction and repossession wording is more vivid than the English legal
-   nouns, closer to "thrown out of the house". **Is that too frightening, or
-   is it what a person would actually say?**
-3. We chose everyday words over formal ones throughout: ਚਿੱਠੀ not ਪੱਤਰ, ਤਾਰੀਖ਼
-   not ਮਿਤੀ, ਠੱਗੀ not ਧੋਖਾਧੜੀ. **Agree?**
+
+Panjabi is AI-complete (30 July 2026), so its questions are specific.
+
+**1. The urgency pair. On a serious letter the top banner now says "ਇਹ
+ਜ਼ਰੂਰੀ ਲੱਗਦਾ ਹੈ. ਇਸਨੂੰ ਅਣਗੌਲਿਆ ਨਾ ਕਰੋ." and the card below it says "ਇਸ ਵੱਲ
+ਤੁਰੰਤ ਧਿਆਨ ਦੇਣ ਦੀ ਲੋੜ ਹੈ. ਤੁਹਾਨੂੰ ਸ਼ਾਇਦ ਅੱਜ ਹੀ ਕਦਮ ਚੁੱਕਣਾ ਪਵੇ."** The banner
+used to say almost the same thing as the card. **Does the pairing read
+right on one screen now, banner calm, card urgent?**
+
+**2. The consequence card reports the letter's own claim without
+softening: "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਇਗੀ ਨਾ ਹੋਣ ਉੱਤੇ ਇਹ ਹੋਵੇਗਾ: {the
+letter's words}."** It used to add "ਹੋ ਸਕਦਾ ਹੈ" to the letter's threat.
+**Does this clearly read as the LETTER's threat, reported by Northcue, and
+not as Northcue threatening you?**
+
+**3. Several card sentences now name the topic after a colon:**
+
+> ਇਸ ਵਿੱਚ ਕੋਈ ਆਖ਼ਰੀ ਤਾਰੀਖ਼ ਹੋ ਸਕਦੀ ਹੈ. ਵਿਸ਼ਾ: ਕੋਈ ਕਾਨੂੰਨੀ ਜਾਂ ਅਦਾਲਤੀ ਮਾਮਲਾ.
+> ਇਹ ਕੋਈ ਜਵਾਬ ਮੰਗ ਸਕਦਾ ਹੈ. ਵਿਸ਼ਾ: ਘਰ ਜਾਂ ਕਿਰਾਇਆ.
+
+We did this because "ਮਾਮਲਾ ਬਾਰੇ" was breaking the grammar (ਬਾਰੇ wants
+ਮਾਮਲੇ), and the label list cannot inflect. **Do these read naturally on a
+card, or too much like a form?**
+
+**4. Some card answers now start "ਇਹ ਦਸਤਾਵੇਜ਼ ... ਲੱਗਦਾ ਹੈ", and the
+garbled card says "ਲੱਗਦਾ ਹੈ ਕਿ EDF ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: ਇੱਕ ਅਧਿਕਾਰਤ ਚਿੱਠੀ."**
+Both exist so the verb never has to guess the gender of what follows.
+**Do they read as normal sentences, or noticeably engineered?**
+
+**5. The check panel urgency chips now read "ਸਮਾਂ ਘੱਟ ਲੱਗਦਾ ਹੈ" above
+"ਸਮਾਂ ਜ਼ਰੂਰੀ ਹੈ".** **Is the first clearly more pressing than the second?**
+
+**6. The eviction and repossession wording is more vivid than the English
+legal nouns, closer to "thrown out of the house".** **Is that too
+frightening, or is it what a person would actually say?**
+
+**7. We chose everyday words over formal ones throughout: ਚਿੱਠੀ not ਪੱਤਰ,
+ਤਾਰੀਖ਼ not ਮਿਤੀ, ਠੱਗੀ not ਧੋਖਾਧੜੀ.** **Agree?** Two specific words to check:
+the prosecution chip says ਫ਼ੌਜਦਾਰੀ ਮੁਕੱਦਮਾ, **is ਫ਼ੌਜਦਾਰੀ clear to your
+community, or would ਅਪਰਾਧਿਕ ਮਾਮਲਾ with a gloss be safer?** And the
+money-format note says ਬਿੰਦੀ for the decimal point, **does ਬਿੰਦੀ read as
+the punctuation mark here, or does it suggest the Gurmukhi dot diacritic?**
 
 ---
 

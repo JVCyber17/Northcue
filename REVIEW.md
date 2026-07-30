@@ -67,7 +67,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Polish     | 0      | 0                     | formal, converted this pass | 0 (fixed)  | AI-complete |
 | Romanian   | 0 (3 classes fixed) | 0 (9 surfaces fixed) | formal, converted this pass | 0 (fixed) | AI-complete |
 | Bengali    | 0 (2 classes fixed) | 0 (fixed; convention pending) | formal, confirmed | 0 (fixed) | AI-complete-pending-convention |
-| Panjabi    | 4      | 3 classes (~9 surfaces) | formal, confirmed        | 10 + vocab Qs | 2      |
+| Panjabi    | 0 (4 fixed) | 0 (all classes fixed) | formal, confirmed     | 0 (fixed) | AI-complete |
 | Spanish    | 7      | 5                     | usted, confirmed           | 5 + regional| 1-2      |
 | French     | 2 (+1 class) | 4               | vous, confirmed            | high-count batch | 1-2 |
 | Portuguese | 4 (+1 class) | 6               | formal, confirmed          | 6 + regional decision | 1-2 (+0.5) |
@@ -557,69 +557,96 @@ card speaks about me and the deception verb ঠকিয়ে is present; the
 consequence card now reads as the letter's threat reported by Northcue,
 filed as the standard attribution question for the native reviewer.
 
-## Panjabi (4 safety items; 2 sessions)
+## Panjabi (AI-COMPLETE, 30 July 2026)
 
-Safety, all verified in render:
-1. `tpl.banner.urgent`: "ਇਸ ਵੱਲ ਤੁਰੰਤ ਧਿਆਨ ਦੇਣ ਦੀ ਲੋੜ ਲੱਗਦੀ ਹੈ." escalates English
-   "This looks important." to the immediate-attention construction AND
-   near-duplicates the mip.urgent opener that renders on the same screen
-   (banner plus card 2 saying almost the same thing). Since mip.high owns
-   ਮਹੱਤਵਪੂਰਨ and the ladder is safe, banner.urgent can return to ਜ਼ਰੂਰੀ
-   ("ਇਹ ਜ਼ਰੂਰੀ ਲੱਗਦਾ ਹੈ. ਇਸਨੂੰ ਅਣਗੌਲਿਆ ਨਾ ਕਰੋ."). Class finding 5; decide explicitly.
-2. `tpl.garbled.review_reason`: "ਭਰੋਸੇਯੋਗ ਨਹੀਂ ਹੋ ਸਕਦੀਆਂ" reads "CANNOT be
-   reliable", strengthened past English "may be unreliable". Fix "ਸ਼ਾਇਦ
-   ਭਰੋਸੇਯੋਗ ਨਾ ਹੋਣ" (the dict already has the correct may-not pattern).
-3. Five scam-signal chips are agentless where English says "you": confirm and
-   enter password, confirm and enter PIN, verify_identity ("ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ
-   ਲਈ ਕਿਹਾ ਗਿਆ ਹੈ.") while siblings keep ਤੁਹਾਡਾ. Restore ਤੁਹਾਨੂੰ. Class finding 3.
-4. `tpl.consequence.avoid` adds "ਹੋ ਸਕਦਾ ਹੈ" inside the attributed consequence , 
-   the original review's Panjabi lead, CONFIRMED as an added hedge. Class 2.
-Verified intact: rebuilt ladder (ਤੁਰੰਤ ਧਿਆਨ vs ਮਹੱਤਵਪੂਰਨ plus ਐਮਰਜੈਂਸੀ ਨਹੀਂ, reader
-present with ਸ਼ਾਇਦ hedge), scam risk lines (ਗੁੰਮਰਾਹ ਕਰਕੇ deception, reader
-present, ਕਰ ਬੈਠ potential form), ਗੰਭੀਰ on suspicious_urgent, refusals full
-strength, the Bailiff/Council Tax/Benefits term-plus-gloss policy systematic
-and correctly inflected, no danda anywhere.
+Every item on the verified list is fixed and render-verified in one session:
+the four safety items, all three grammar classes including the mirrored
+label problem, the label defect, both formality wobbles, and the whole
+naturalness list. About 30 bank strings and 13 dictionary strings changed;
+every changed line was read across all three value sets.
 
-Grammar around inserted values, three classes plus one label:
-1. Gender-locked frames, BOTH directions (class finding 7):
-   `tpl.summary.garbled` locked masculine ("ਬੇਨਤੀ ਲੱਗਦਾ ਹੈ", "ਚਿੱਠੀ ਲੱਗਦਾ ਹੈ" , 
-   wrong in sets A and B); `tpl.readable.summary_sender` / `.summary` /
-   `.summary_topic` locked feminine ("ਦਸਤਾਵੇਜ਼ ਲੱਗਦੀ ਹੈ", wrong in set C);
-   `tpl.summary.garbled_sender` ergative participle locked masculine
-   ("ਬੇਨਤੀ ਭੇਜਿਆ ਹੈ", "ਚਿੱਠੀ ਭੇਜਿਆ ਹੈ", ਨੇ agreement follows the object).
-2. Topic labels stored in the direct case break the three ਬਾਰੇ frames:
-   "ਕੋਈ ਕਾਨੂੰਨੀ ਜਾਂ ਅਦਾਲਤੀ ਮਾਮਲਾ ਬਾਰੇ", "ਘਰ ਜਾਂ ਕਿਰਾਇਆ ਬਾਰੇ" (mip_deadline,
-   mip_response, summary_topic), ਬਾਰੇ requires the oblique (ਮਾਮਲੇ, ਕਿਰਾਏ).
-   Every label ending in -ਾ breaks the same way. Mirror image of Hindi.
-3. Class-finding-1 frames: may_follow and consequence.avoid lock a singular
-   ਹੋ ਸਕਦਾ ਹੈ over plural English values; consequence.reported strands ਕਿ
-   before a noun phrase.
-Label defect: `tpl.label.type_label.legal_or_court` reads "ਕਾਨੂੰਨੀ ਜਾਂ ਅਦਾਲਤੀ
-ਇੱਕ ਚਿੱਠੀ", the article cannot sit between adjective and noun (sibling
-category_label gets it right). Minor: analytics ਫ਼ੀਲਡ never pluralises.
-Clean, checked: date postpositions across all sets, parenthesis and colon
-frames, ਨੇ/ਵੱਲੋਂ/ਦਾ with Latin senders, organisation-as-singular.
+Safety, all four closed:
+1. banner.urgent returned to ਜ਼ਰੂਰੀ ("ਇਹ ਜ਼ਰੂਰੀ ਲੱਗਦਾ ਹੈ. ਇਸਨੂੰ ਅਣਗੌਲਿਆ ਨਾ
+   ਕਰੋ."), the explicit class-5 decision: the banner no longer escalates
+   past English and no longer near-duplicates the mip.urgent opener on the
+   same screen. The ladder test's relational checks stay green (banner vs
+   both high_stakes tiers is distinct, as in English).
+2. garbled.review_reason regained the hedge: "ਰਕਮਾਂ ਅਤੇ ਤਾਰੀਖ਼ਾਂ ਸ਼ਾਇਦ
+   ਭਰੋਸੇਯੋਗ ਨਾ ਹੋਣ." replaces the cannot-be-reliable hardening.
+3. All five agentless scam chips regained the reader: ਤੁਹਾਨੂੰ on the four
+   password and PIN chips, ਤੁਹਾਡੀ on verify_identity, matching their
+   freeze and suspend neighbours.
+4. consequence.avoid reports the letter's claim without the added "ਹੋ ਸਕਦਾ
+   ਹੈ", through the cross-language colon frame: "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਇਗੀ
+   ਨਾ ਹੋਣ ਉੱਤੇ ਇਹ ਹੋਵੇਗਾ: {consequence}." (the gu/hi/pl/bn decision). Its
+   class-1 siblings took the same shape: reported "ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਲਿਖਿਆ ਹੈ:
+   {sentence_body}." (stranded ਕਿ gone) and may_follow "ਇਸ ਤੋਂ ਬਾਅਦ ਇਹ ਹੋ
+   ਸਕਦਾ ਹੈ: {consequence_clause}" (hedge kept, it is English's own; the
+   singular lock over plural values dissolved with the colon).
+Verified intact and untouched: the rebuilt mip ladder, the scam risk lines
+(ਗੁੰਮਰਾਹ ਕਰਕੇ, reader present, ਕਰ ਬੈਠ), ਗੰਭੀਰ on suspicious_urgent,
+refusals, the term-plus-gloss policy.
 
-Formality: formal throughout, zero informal forms, confirmed. Two wobbles:
-`feedback.confidence.moreAble` forces the reader's own voice masculine
-("...ਸਮਰੱਥ ਮਹਿਸੂਸ ਕਰਦਾ ਹਾਂ") where every sibling chip is gender-free, replace
-with a genderless shape ("ਹੁਣ ਇਸ ਨਾਲ ਨਜਿੱਠਣਾ ਵੱਧ ਸੌਖਾ ਲੱਗਦਾ ਹੈ"); and "feedback"
-is ਫੀਡਬੈਕ in six strings but ਰਾਏ in the help-page pair, settle on ਫੀਡਬੈਕ.
+Grammar, all surfaces fixed with Hindi's proven strategy:
+1. The mirrored label problem: topic labels stay in citation form and the
+   three ਬਾਰੇ frames became ਵਿਸ਼ਾ colon frames, mirroring Hindi exactly
+   ("ਇਸ ਵਿੱਚ ਕੋਈ ਆਖ਼ਰੀ ਤਾਰੀਖ਼ ਹੋ ਸਕਦੀ ਹੈ. ਵਿਸ਼ਾ: {topic}.", "ਇਹ ਕੋਈ ਜਵਾਬ ਮੰਗ
+   ਸਕਦਾ ਹੈ. ਵਿਸ਼ਾ: {topic}.", summary_topic "ਇਹ ਦਸਤਾਵੇਜ਼ {type_label} ਲੱਗਦਾ
+   ਹੈ. ਵਿਸ਼ਾ: {topic}."). Grammatical for every label in every set in
+   render; the doubled articles of sets A and B dissolved with the split.
+2. Gender-locked frames, both directions, fixed by anchoring agreement on
+   an overt masculine subject: "ਇਹ ਦਸਤਾਵੇਜ਼ {category_label/type_label}
+   ਲੱਗਦਾ ਹੈ" in garbled, readable.summary, summary_sender and
+   summary_topic, correct with feminine ਬੇਨਤੀ and masculine ਦਸਤਾਵੇਜ਼ values
+   alike. garbled_sender's ergative now agrees with an invariant object:
+   "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: {category_label}."
+3. The label defect fixed: type_label.legal_or_court is "ਇੱਕ ਕਾਨੂੰਨੀ ਜਾਂ
+   ਅਦਾਲਤੀ ਚਿੱਠੀ", article before the adjective like its siblings.
+Also fixed in the same family: journey.calendarEventTitle's ਆਪਣਾ locked
+masculine against feminine ਚਿੱਠੀ labels; it took the label-safe colon frame
+"ਜਾਂਚਣ ਲਈ: {label}" (the pl/ro decision), with the generic made parallel.
+Still latent, no fix needed: analytics ਫ਼ੀਲਡ never pluralises.
 
-Naturalness, top items (all verified): "ਅਸਲ ਜਾਂਚੋ" in three strings leaves the
-adjective without its noun (add ਦਸਤਾਵੇਜ਼); the "ਇਹ {sender} ਵੱਲੋਂ ਲੱਗਦਾ ਹੈ" frame
-(15 renders) is clipped, needs a participle ("ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ"); the check
-panel urgency chips are a time-sensitive calque ("ਸਮੇਂ ਦੇ ਲਿਹਾਜ਼ ਨਾਲ ਜ਼ਰੂਰੀ");
-"ਸ਼ਾਂਤ ਸਹਾਰਾ ਲਓ" calque; severity.documents_to_send "ਭੇਜਣ ਵਾਲੇ ਦਸਤਾਵੇਜ਼ਾਂ"
-momentarily reads as the SENDER's documents because ਭੇਜਣ ਵਾਲਾ means the sender
-throughout this product; the benefits check strings carry the English comma
-pair with a case gap; why.blockC's poetic "ਡਰਾਵੇਗਾ ਨਹੀਂ" inversion; "Northcue
-... ਸਿਖਾਇਆ ਨਹੀਂ ਗਿਆ" reads as a badly-taught person (use ਸਿਖਲਾਈ or ਤਿਆਰ ਨਹੀਂ);
-doubled articles in summary_topic sets A and B; landing tag "ਦੇਣਯੋਗ 14 Jul".
-Native vocabulary questions beyond the nine settled choices: ਫ਼ੌਜਦਾਰੀ opaque on
-the prosecution chip (consider ਅਪਰਾਧਿਕ plus gloss); ਬਿੰਦੀ in the money-format
-note names a Gurmukhi diacritic (consider ਦਸ਼ਮਲਵ ਨੁਕਤਾ); the landing "Council
-Tax ਬਿੱਲ" is the one Council Tax string without its gloss.
+Formality wobbles, both settled: feedback.confidence.moreAble is the
+genderless "ਹੁਣ ਇਸ ਨਾਲ ਨਜਿੱਠਣਾ ਵੱਧ ਸੌਖਾ ਲੱਗਦਾ ਹੈ"; feedback is ਫੀਡਬੈਕ
+everywhere, the help-page ਰਾਏ pair converted with its agreement.
+
+Naturalness, all items resolved: ਅਸਲ regained ਦਸਤਾਵੇਜ਼ in the three bare
+strings; the clipped sender frame gained its participle ("ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ
+ਹੈ", all 15 renders correct); the urgency chips dropped the calque ("ਸਮਾਂ
+ਘੱਟ ਲੱਗਦਾ ਹੈ" above "ਸਮਾਂ ਜ਼ਰੂਰੀ ਹੈ", ladder preserved); "ਸ਼ਾਂਤ ਸਹਾਰਾ ਲਓ"
+became "ਥੋੜ੍ਹਾ ਸਹਾਰਾ ਲਓ" (three keys); documents_to_send is "ਭੇਜਣ ਲਈ
+ਦਸਤਾਵੇਜ਼ਾਂ", no longer colliding with ਭੇਜਣ ਵਾਲਾ the sender; the benefits
+comma pairs closed their case gap ("ਅਸਲ ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਜਾਂ ਭੇਜਣ ਵਾਲੇ ਤੋਂ
+ਜਾਂਚੋ"); why.blockC uses the plain negative ("ਤੁਹਾਨੂੰ ਨਹੀਂ ਡਰਾਵੇਗਾ"); the
+badly-taught-person reading is gone ("ਅਜੇ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤਿਆਰ ਨਹੀਂ", three
+strings); the landing tag is "14 Jul ਤੱਕ" (the Hindi decision); the landing
+example title carries its gloss ("Council Tax (ਕੌਂਸਲ ਟੈਕਸ) ਬਿੱਲ"), closing
+the one gloss gap; the focus helper quotes its button label ('ਇਸ ਦਸਤਾਵੇਜ਼
+ਨੂੰ ਸਮਝੋ'), the Bengali decision.
+
+The nine settled cross-community word choices were not reopened. No new
+choice made this session carries that weight (ਤਿਆਰ, ਥੋੜ੍ਹਾ ਸਹਾਰਾ, ਸਮਾਂ ਘੱਟ
+are register-neutral); ਫ਼ੌਜਦਾਰੀ and ਬਿੰਦੀ remain native vocabulary
+questions, filed in NATIVE_REVIEW.md.
+
+VERIFICATION: 245/245 tests pass, scanner informal count 0, no danda, no
+dashes. Rendered corpus re-generated with the frozen tooling and
+byte-diffed; only the intended lines moved, read line by line across all
+three value sets. Live at 375px via ?lang=pa in light, dark and focus
+with Gurmukhi rendering correctly throughout (conjuncts, addhak, nukta):
+landing with the glossed example tile, a real scam document through the
+engine (all six cards read in place, the £499.00 slot correct), the check
+panel with "ਤੁਹਾਨੂੰ ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਕਿਹਾ ਗਿਆ ਹੈ" live, the help page
+with ਫੀਡਬੈਕ settled and the 999 line intact, and the feedback modal with
+the genderless confidence option.
+
+Adversarial read as a frightened reader: the banner now says looks
+important while card 2 says needs immediate attention with "ਅੱਜ ਹੀ", so
+urgency clearly outranks routine without the same sentence twice on one
+screen; the scam card names me and the deception; the consequence card
+reads as the letter's threat reported by Northcue, filed as the standard
+attribution question for the native reviewer.
 
 ## Spanish (7 safety items; 1-2 sessions)
 
