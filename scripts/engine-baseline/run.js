@@ -1,0 +1,309 @@
+#!/usr/bin/env node
+// Engine regression baseline.
+//
+// Captures, for every document in corpus.js, exactly what the rules engine
+// knows and exactly what it renders, with the AI pass disabled, and diffs that
+// against a frozen baseline committed next to this file.
+//
+// Why this exists: engine work is riskier than wording work, and the
+// translation phases were only safe because every change was proved against a
+// frozen render. This is the same protection for the engine itself.
+//
+//   node scripts/engine-baseline/run.js            check against the baseline
+//   node scripts/engine-baseline/run.js --check    the same, explicitly
+//   node scripts/engine-baseline/run.js --print    print current output only
+//   node scripts/engine-baseline/run.js --update   rewrite the baseline
+//
+// --check exits 1 when anything moved, so it can gate a commit.
+//
+// The AI pass is disabled by construction, not by configuration: the capture
+// calls applyAiStructuredResult with a non English language, and the language
+// gate is the FIRST gate in that function, so no request can reach the
+// provider. The recorded ai_error_code in each block proves it for every
+// document. Running the rules cards through that function is deliberate: the
+// safety stripper it applies is what a reader actually sees, on every non AI
+// path and in every one of the nine translated languages.
+//
+// Determinism: the job id is fixed per document, and the timestamped and
+// environment dependent debug fields are excluded, so a clean run is
+// byte-identical every time.
+
+"use strict";
+
+const fs = require("node:fs");
+const path = require("node:path");
+
+const { CORPUS } = require("./corpus");
+const { runClearStepsEngine } = require("../../src/services/clearStepsEngine");
+const { applyAiStructuredResult } = require("../../src/services/aiStructuredResultService");
+
+const BASELINE_PATH = path.join(__dirname, "baseline.txt");
+const NON_ENGLISH_LANGUAGE = "pl";
+const RULE = "=".repeat(78);
+
+function stable(value) {
+  return JSON.stringify(value, null, 2);
+}
+
+function metaOf(structuredResult) {
+  return {
+    document_type: structuredResult.document_type,
+    document_type_label: structuredResult.document_type_label,
+    document_type_confidence: structuredResult.document_type_confidence,
+    overall_confidence: structuredResult.overall_confidence,
+    risk_level: structuredResult.risk_level,
+    processing_mode: structuredResult.processing_mode,
+    needs_user_check: structuredResult.needs_user_check,
+    summary: structuredResult.summary,
+    warnings: structuredResult.warnings
+  };
+}
+
+async function captureDocument(entry) {
+  const fileMeta = {
+    mimeType: "application/pdf",
+    selectedCategory: "auto",
+    jobId: "baseline-" + entry.id,
+    anonymousSessionId: null
+  };
+
+  const run = runClearStepsEngine({ extractedText: entry.text, fileMeta });
+  const engineCards = stable(run.api_output.structured_result.cards);
+
+  const lines = [];
+  lines.push(RULE);
+  lines.push("DOCUMENT: " + entry.id);
+  lines.push("LABEL:    " + entry.label);
+  lines.push("INTENT:   " + entry.intent);
+  lines.push(RULE);
+
+  lines.push("");
+  lines.push("[source text]");
+  entry.text.split("\n").forEach((l) => lines.push("  | " + l));
+
+  lines.push("");
+  lines.push("[trust_internal]");
+  lines.push(stable(run.structured_output.trust_internal));
+
+  lines.push("");
+  lines.push("[extractor_internal]");
+  lines.push(stable(run.structured_output.extractor_internal));
+
+  lines.push("");
+  lines.push("[banner]");
+  lines.push(stable(run.api_output.banner));
+
+  lines.push("");
+  lines.push("[structured_result: meta]");
+  lines.push(stable(metaOf(run.api_output.structured_result)));
+
+  lines.push("");
+  lines.push("[structured_result: cards, engine output]");
+  lines.push(engineCards);
+
+  // The reader visible pass. The safety stripper runs on every non AI path, so
+  // the engine cards above are not necessarily what reaches the screen.
+  const applied = await applyAiStructuredResult({
+    rulesRun: runClearStepsEngine({ extractedText: entry.text, fileMeta }),
+    extractedText: entry.text,
+    language: NON_ENGLISH_LANGUAGE
+  });
+  const ai = (applied.api_output.debug && applied.api_output.debug.ai) || {};
+  const readerCards = stable(applied.api_output.structured_result.cards);
+
+  lines.push("");
+  lines.push("[ai pass]");
+  lines.push(stable({
+    ai_used: ai.ai_used,
+    ai_status: ai.ai_status,
+    ai_error_code: ai.ai_error_code
+  }));
+
+  lines.push("");
+  lines.push("[reader visible cards, after the safety stripper]");
+  lines.push(readerCards === engineCards
+    ? "  identical to the engine output above"
+    : readerCards);
+
+  lines.push("");
+  return lines.join("\n");
+}
+
+async function buildReport() {
+  const blocks = [];
+  blocks.push("# Northcue engine regression baseline");
+  blocks.push("#");
+  blocks.push("# Generated by scripts/engine-baseline/run.js with the AI pass disabled.");
+  blocks.push("# Do not edit by hand. Regenerate with --update and read the diff.");
+  blocks.push("#");
+  blocks.push("# Documents: " + CORPUS.length);
+  blocks.push("");
+  for (const entry of CORPUS) {
+    blocks.push(await captureDocument(entry));
+  }
+  return blocks.join("\n");
+}
+
+// ---------------------------------------------------------------- diffing
+
+function splitBlocks(text) {
+  const blocks = new Map();
+  const order = [];
+  let currentId = "__header__";
+  let current = [];
+  for (const line of String(text).split("\n")) {
+    const match = line.match(/^DOCUMENT: (\S+)$/);
+    if (match) {
+      blocks.set(currentId, current);
+      order.push(currentId);
+      currentId = match[1];
+      current = [];
+    }
+    current.push(line);
+  }
+  blocks.set(currentId, current);
+  order.push(currentId);
+  return { blocks, order };
+}
+
+// Classic LCS diff. Blocks are a few hundred lines each, so the quadratic table
+// is small, and the output is a real line by line diff rather than a positional
+// comparison that desynchronises the moment a line is inserted.
+function diffLines(before, after) {
+  const n = before.length;
+  const m = after.length;
+  const table = Array.from({ length: n + 1 }, () => new Uint32Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      table[i][j] = before[i] === after[j]
+        ? table[i + 1][j + 1] + 1
+        : Math.max(table[i + 1][j], table[i][j + 1]);
+    }
+  }
+
+  const out = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (before[i] === after[j]) {
+      out.push({ type: " ", text: before[i] });
+      i++;
+      j++;
+    } else if (table[i + 1][j] >= table[i][j + 1]) {
+      out.push({ type: "-", text: before[i] });
+      i++;
+    } else {
+      out.push({ type: "+", text: after[j] });
+      j++;
+    }
+  }
+  while (i < n) out.push({ type: "-", text: before[i++] });
+  while (j < m) out.push({ type: "+", text: after[j++] });
+  return out;
+}
+
+function printBlockDiff(id, before, after) {
+  const diff = diffLines(before, after);
+  const changed = diff.filter((row) => row.type !== " ").length;
+  if (!changed) return 0;
+
+  console.log("");
+  console.log("~".repeat(78));
+  console.log("CHANGED: " + id + "  (" + changed + " line" + (changed === 1 ? "" : "s") + ")");
+  console.log("~".repeat(78));
+
+  const CONTEXT = 2;
+  const keep = new Set();
+  diff.forEach((row, index) => {
+    if (row.type === " ") return;
+    for (let k = Math.max(0, index - CONTEXT); k <= Math.min(diff.length - 1, index + CONTEXT); k++) {
+      keep.add(k);
+    }
+  });
+
+  let lastPrinted = -1;
+  [...keep].sort((a, b) => a - b).forEach((index) => {
+    if (lastPrinted >= 0 && index > lastPrinted + 1) console.log("   ...");
+    const row = diff[index];
+    console.log(" " + row.type + " " + row.text);
+    lastPrinted = index;
+  });
+  return changed;
+}
+
+function compare(baselineText, currentText) {
+  const base = splitBlocks(baselineText);
+  const now = splitBlocks(currentText);
+  const ids = [...new Set([...base.order, ...now.order])];
+
+  let changedDocuments = 0;
+  let changedLines = 0;
+
+  ids.forEach((id) => {
+    const before = base.blocks.get(id);
+    const after = now.blocks.get(id);
+    if (before && !after) {
+      console.log("");
+      console.log("REMOVED FROM CORPUS: " + id);
+      changedDocuments++;
+      return;
+    }
+    if (!before && after) {
+      console.log("");
+      console.log("NEW IN CORPUS: " + id + " (no baseline to compare against)");
+      changedDocuments++;
+      return;
+    }
+    const lines = printBlockDiff(id, before, after);
+    if (lines) {
+      changedDocuments++;
+      changedLines += lines;
+    }
+  });
+
+  return { changedDocuments, changedLines, total: ids.length - 1 };
+}
+
+// ------------------------------------------------------------------- main
+
+(async () => {
+  const mode = process.argv[2] || "--check";
+  const current = await buildReport();
+
+  if (mode === "--print") {
+    process.stdout.write(current + "\n");
+    return;
+  }
+
+  if (mode === "--update") {
+    fs.writeFileSync(BASELINE_PATH, current + "\n", "utf8");
+    console.log("Baseline written: " + path.relative(process.cwd(), BASELINE_PATH));
+    console.log("Documents: " + CORPUS.length);
+    return;
+  }
+
+  if (mode !== "--check") {
+    console.error("Unknown option " + mode + ". Use --check, --print or --update.");
+    process.exit(2);
+  }
+
+  if (!fs.existsSync(BASELINE_PATH)) {
+    console.error("No baseline found. Create one with --update.");
+    process.exit(2);
+  }
+
+  const baseline = fs.readFileSync(BASELINE_PATH, "utf8");
+  if (baseline.trimEnd() === current.trimEnd()) {
+    console.log("Engine baseline: no change across " + CORPUS.length + " documents.");
+    return;
+  }
+
+  const { changedDocuments, changedLines } = compare(baseline.trimEnd(), current.trimEnd());
+  console.log("");
+  console.log("=".repeat(78));
+  console.log("Engine baseline CHANGED: " + changedDocuments + " of " + CORPUS.length +
+    " documents, " + changedLines + " lines.");
+  console.log("Read every line above. If all of it is intended, run --update and commit.");
+  console.log("=".repeat(78));
+  process.exit(1);
+})();
