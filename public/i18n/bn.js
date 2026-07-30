@@ -129,7 +129,7 @@
     "journey.titleCompact": "একটি ডকুমেন্ট দিয়ে শুরু করুন",
     "journey.upload.subtitle": "একটি ফাইল আপলোড করুন, আমরা সেটিকে শান্ত কিউ কার্ডে বদলে দেব.",
     "journey.upload.subtitleMobile": "আপনি তৈরি হলেই শুরু.",
-    "journey.upload.focusHelper": "ফোকাস মোড: একটি ফাইল বেছে নিন, তারপর এই ডকুমেন্টটি বুঝুন বোতামটি চাপুন.",
+    "journey.upload.focusHelper": "ফোকাস মোড: একটি ফাইল বেছে নিন, তারপর 'এই ডকুমেন্টটি বুঝুন' বোতামটি চাপুন.",
     "journey.aria.steps": "ডকুমেন্টের ধাপ",
     "journey.rail.upload": "আপলোড",
     "journey.rail.understand": "বুঝুন",

@@ -233,11 +233,65 @@ are specific.
    कोई ज़रूरी तारीख छूट सकती है." **Natural, or would you say it differently?**
 
 ### Bengali
-1. The two scam lines were rewritten so the reader is the subject, "you could
-   lose money" rather than "money may get lost". **Do they now sound like they
-   are about the reader?**
-2. Where a sender name in English letters is followed by a possessive, does it
-   read correctly, or does the suffix look detached from the name?
+
+Bengali is AI-complete except for ONE decision that is deliberately yours,
+question 0. Everything else had its pass on 30 July 2026.
+
+**0. The suffix convention. This is the one open decision, and this list is
+complete, so you can settle it once.** When a case ending or classifier
+follows a name, date or amount written in English letters, the files
+currently put a SPACE before it: "EDF এর কাছ থেকে", "1 May 2026 এর মধ্যে",
+"Northcue এর", "6 টির মধ্যে". The standard written convention hyphenates
+(EDF-এর, 2026-এর, 6টির). **Should these be hyphenated, attached, or left
+with the space?** The strings affected, so one decision covers all of them:
+
+> Card sentences that insert a sender, amount or date (19): tpl.deadline.due,
+> tpl.summary.bill_full, bill_amount_date, bill_sender_date, bill_amount,
+> bill_sender, bill_in_credit_sender, gov_sender_amount, gov_sender,
+> gov_amount, appt_sender_date, appt_sender, generic_full,
+> generic_sender_amount, generic_sender_date, generic_sender,
+> tpl.readable.summary_sender, tpl.benefits.summary_sender,
+> tpl.readable.sender_card.
+> Fixed sentences with a Latin name (3): tpl.garbled.review_reason ("OCR এ"),
+> tpl.error.pdf_scanned ("এই PDF টি"), tpl.error.file_too_large
+> ("Northcue এর").
+> Interface lines with Northcue or iPhone (9): home.welcome.aria.region,
+> privacy.head.intro, privacy.thinking.body, journey.icsDescription,
+> comfort.title, feedback.intro, feedback.thanksBody, install.card.iosLine,
+> install.footline.iosLine.
+> Numbers with a classifier (4): journey.card.progress ("6 টির মধ্যে"),
+> journey.cardProgress, aria.progressDot, and the completion line where the
+> count sits between "আপনি মোট" and "টি কার্ডই দেখে ফেলেছেন".
+
+**1. The two scam lines keep the reader as the subject: "আপনি টাকা হারাতে
+পারেন বা ব্যক্তিগত তথ্য শেয়ার করে ফেলতে পারেন." and "আপনাকে ঠকিয়ে অনিরাপদ
+পেমেন্ট করানো বা তথ্য শেয়ার করানো হতে পারে."** **Do they sound like they are
+about you personally, and does ঠকিয়ে make the deception clear?**
+
+**2. Card 1 now says "এটি বিমা সংক্রান্ত." where it used to stop at "এটি
+বিমা নিয়ে."** The old form read cut off. **Does the সংক্রান্ত frame read as
+a complete, calm sentence, or is it too stiff for the product's most-seen
+card?** Same shape on eight answers (bills, appointments, work, school,
+housing, banking, benefits, insurance).
+
+**3. The consequence card reports the letter's own claim without softening:
+"ডকুমেন্টটি বলছে, পেমেন্ট না করলে এটি হবে: {the letter's words}. মূল
+ডকুমেন্টটি দেখে নিন."** It used to add "হতে পারে" to the letter's threat.
+**Does this clearly read as the LETTER's threat, reported by Northcue, and
+not as Northcue threatening you?**
+
+**4. Read these two aloud. Does the first sound clearly more serious?**
+
+> এটি জরুরি. আপনাকে আজই পদক্ষেপ নিতে হতে পারে.
+> এটি গুরুত্বপূর্ণ, তবে জরুরি অবস্থা নয়.
+
+**5. We use a full stop everywhere and never the danda.** **Does that
+look wrong to you, or acceptable for an app?**
+
+**6. Sentences that quote the letter switch to English after a colon:
+"ডকুমেন্টে লেখা আছে: the amount shown."** The English words are the
+letter's own and cannot be translated. **Does the colon handover read
+acceptably?**
 
 ### Portuguese
 1. Does this read as European or Brazilian Portuguese? We asked for neutral and

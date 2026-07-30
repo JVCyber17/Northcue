@@ -66,7 +66,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Hindi      | 0 (3 fixed) | 0 (fixed at the root) | formal, confirmed     | 0 (3 fixed) | AI-complete |
 | Polish     | 0      | 0                     | formal, converted this pass | 0 (fixed)  | AI-complete |
 | Romanian   | 0 (3 classes fixed) | 0 (9 surfaces fixed) | formal, converted this pass | 0 (fixed) | AI-complete |
-| Bengali    | 0      | 2 (+1 style decision) | formal, confirmed          | 6 + tail    | 1-2      |
+| Bengali    | 0 (2 classes fixed) | 0 (fixed; convention pending) | formal, confirmed | 0 (fixed) | AI-complete-pending-convention |
 | Panjabi    | 4      | 3 classes (~9 surfaces) | formal, confirmed        | 10 + vocab Qs | 2      |
 | Spanish    | 7      | 5                     | usted, confirmed           | 5 + regional| 1-2      |
 | French     | 2 (+1 class) | 4               | vous, confirmed            | high-count batch | 1-2 |
@@ -473,41 +473,89 @@ view active from saved preferences, aria and span agree on "Pokaż pełne
 szczegóły"; ?lang=ro announces "Mod concentrare" and "Arătați toate
 detaliile"; plain English load is unchanged with a clean console.
 
-## Bengali (safety clean; 1-2 sessions)
+## Bengali (AI-COMPLETE-PENDING-CONVENTION, 30 July 2026)
 
-Safety: none outstanding. Ladder monotonic, গুরুতর in place, both scam fixes
-hold (reader present, ঠকিয়ে present), refusals full strength, no danda
-anywhere. Watch items only: mip.urgent's second sentence is impersonal;
-scam chip verify_identity lacks আপনার where neighbours keep it.
+Everything on the verified list is fixed and render-verified; the one open
+item is the suffix-hyphenation convention, which is deliberately NOT decided
+here. The affected strings are enumerated in NATIVE_REVIEW.md so the native
+checker can settle it once with the full list in front of them. Until then
+the file keeps its current space-detached convention, confirmed consistent
+(zero hyphenated instances in either file).
 
-Grammar around inserted values:
-1. `tpl.action.check_wrap`: "যাচাই করুন the amount shown.", verb-first calque
-   in a verb-final language (class finding 1).
-2. `tpl.consequence.reported`: "লেখা আছে যে the amount shown.", যে demands a
-   clause; genitive frame fixes it.
-3. Style decision, pervasive (hundreds of lines, one decision): case endings
-   and classifiers detached from Latin values ("EDF এর", "1 May 2026 এর মধ্যে",
-   "6 টির মধ্যে"). Standard convention hyphenates (EDF-এর, 2026-এর, 6টির).
-   This is the original review's "detached genitive suffix" claim, CONFIRMED
-   as a class; decide once, apply mechanically.
-No value-dependent agreement breaks across 51 x 3.
+WHAT WAS FIXED, all verified in re-rendered output against the frozen
+pre-session corpus (19 bank strings and 1 dictionary string changed; every
+changed line was read across all three value sets):
 
-Formality: formal throughout, zero informal forms, confirmed.
+Safety and classes:
+1. Class 2, found on the check the phase brief ordered even though Phase 0
+   had marked Bengali safety clean: tpl.consequence.avoid added "হতে পারে"
+   inside the letter's attributed consequence where English reports without
+   modality. It now reports the claim with the cross-language colon frame:
+   "ডকুমেন্টটি বলছে, পেমেন্ট না করলে এটি হবে: {consequence}. মূল ডকুমেন্টটি
+   দেখে নিন." (the gu/hi/pl decision).
+2. Class 1, broken frames around verbatim English fragments, three fixes to
+   the colon frame: check_wrap "এটি যাচাই করুন: {action_sentence}" (was the
+   verb-first calque "যাচাই করুন the amount shown."), reported "ডকুমেন্টে
+   লেখা আছে: {sentence_body}." (was যে stranded before a noun phrase), and
+   may_follow "এরপর এটি হতে পারে: {consequence_clause}" (was the fragment
+   sentence-initial; the hedge here is English's own "may follow" and is
+   kept).
+3. Class 3, readers restored: mip.urgent second sentence now "আপনাকে আজই
+   পদক্ষেপ নিতে হতে পারে.", risk_response and risk_dates gained আপনার
+   ("...আপনার চোখ এড়িয়ে যেতে পারে."), and the verify_identity chip gained
+   আপনার ("অল্প সময়ের মধ্যে আপনার পরিচয় যাচাই করতে চাপ দেওয়া হয়েছে.") to
+   match its freeze and suspend neighbours.
 
-Naturalness, priority order:
-1. Eight card-1 answers are verbless "X নিয়ে." fragments (bill_generic,
-   appointment_generic, employment, education, housing, bank_or_loan,
-   benefits, insurance), "এটি বিমা নিয়ে." reads cut off, on the product's
-   highest-traffic card.
-2. `tpl.summary.garbled_sender` puts the object after the verb; its sibling
-   gov_sender_amount gets it right.
-3. `tpl.readable.mip_topic` breaks the "...বলে মনে হচ্ছে" frame.
-4. `tpl.review.unsupported` negation scope can invert the meaning.
-5. risk_response/risk_dates: "চোখ এড়িয়ে যেতে পারে" with no possessor (class 3).
-6. `tpl.review.verification` "সন্দেহজনক ধরন" collides with ধরন = document type
-   everywhere else; use লক্ষণ.
-Plus a recorded lower tier (দেখা যাওয়া attributive, bare অঙ্ক in mock steps,
-doubled একটি, unquoted button label in focusHelper, পড়ার যোগ্য stacking).
+Grammar and naturalness:
+4. The eight verbless "X নিয়ে." card-1 answers are complete predicates now
+   with the সংক্রান্ত frame ("এটি বিমা সংক্রান্ত.", "এটি বিল বা পেমেন্টের
+   অনুরোধ সংক্রান্ত."), one shape across all eight; সংক্রান্ত is already the
+   file's own register (বেনিফিট বা কল্যাণ সংক্রান্ত চিঠি). Flagged for the
+   native reviewer in case it reads stiff.
+5. garbled_sender restored object-verb order ("মনে হচ্ছে {sender}
+   {category_label} পাঠিয়েছে."), matching its gov_sender_amount sibling;
+   correct with all three senders in render.
+6. mip_topic rejoined the file's verb-final frame ("সবচেয়ে পরিষ্কার বিষয়টি
+   {topic} বলে মনে হচ্ছে."); Bengali needs no citation-form change because
+   topics carry no case or gender agreement, so the Hindi label model
+   question does not arise.
+7. review.unsupported negation scope fixed with the adjective the file
+   already owns ("কিছু অংশ অস্পষ্ট বা অসমর্থিত."); review.verification now
+   uses লক্ষণ so ধরন stays reserved for document type.
+8. Lower tier, all resolved: the দেখা যাওয়া attributive is gone (check.dates
+   "এই তারিখগুলি যাচাই করুন:", kp_amount "দেখানো অঙ্ক:", risk_dates
+   rephrased); bare অঙ্ক in the mock steps became টাকার অঙ্ক, the file's own
+   moneyFormat idiom; the focusHelper button label is quoted ('এই
+   ডকুমেন্টটি বুঝুন'); পড়ার যোগ্য stacking removed (review_reason "এই
+   ধরনের ডকুমেন্ট পড়া গেলেও এখনও পুরোপুরি সমর্থিত নয়.", summary.unknown
+   "এটি একটি আনুষ্ঠানিক ডকুমেন্ট, যা পরিষ্কারভাবে পড়া যাচ্ছে."). The
+   "doubled একটি" note was checked against the full rendered corpus: no
+   adjacent doubling exists anywhere; the "আরও পরিষ্কার একটি ছবি বা অন্য
+   একটি পাতা" coordination is natural and left alone.
+
+Formality: formal throughout, zero informal forms, re-confirmed by the
+scanner after the changes. No danda and no dashes in either file. The
+scanner's hedge and refusal rows for Bengali were read one by one: all are
+the documented screen-noise shapes (Bengali fuses negation into verb
+endings like পায়নি that the marker list cannot see, and the English side
+false-fires on could and appear); every Bengali line carries its negation
+or hedge in the verb morphology. Term lists left as screening floors,
+consistent with the Polish and Romanian sessions.
+
+VERIFICATION: 245/245 tests pass. Rendered corpus re-generated with the
+frozen tooling and byte-diffed; only the intended lines moved. Live at
+375px via ?lang=bn in light, dark and focus: landing, journey upload with
+the quoted focus helper, a real scam document through the engine (all six
+cards read in place, card 5 showing "দেখানো অঙ্ক: £499.00."), the check
+panel with the scam category, "আমরা নিশ্চিত নই, দয়া করে সাবধান থাকুন",
+the scam deadline line and reader-present chips, and the help page with
+the 999 line intact.
+
+Adversarial read as a frightened reader: জরুরি with "আপনাকে আজই" clearly
+outranks গুরুত্বপূর্ণ with its explicit "তবে জরুরি অবস্থা নয়"; the scam
+card speaks about me and the deception verb ঠকিয়ে is present; the
+consequence card now reads as the letter's threat reported by Northcue,
+filed as the standard attribution question for the native reviewer.
 
 ## Panjabi (4 safety items; 2 sessions)
 
