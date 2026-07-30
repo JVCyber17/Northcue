@@ -339,11 +339,41 @@ so no participle would agree. **Does it read natural, or engineered?**
 > Esto es importante, pero no es una emergencia.
 
 ### French
-1. Sentences naming the sender were changed from *de* to *par*, so
-   "une facture envoyée par EDF" rather than "de EDF". **Does that read
-   naturally, or is it stilted?**
-2. We use a plain space before "?" and ":". French usually sets a narrow space.
-   **Does the plain space look wrong enough to fix?**
+
+French is AI-complete (30 July 2026), so its questions are specific.
+
+**1. Sentences naming the sender use *par*, never *de*: "une facture
+envoyée par EDF", and appointments now read "un rendez-vous annoncé par
+EDF, le 1 May 2026".** This avoids the de/d' elision problem with English
+names, and "annoncé par" avoids claiming the appointment is WITH the
+sender. **Do these read naturally, or stilted?**
+
+**2. The consequence card reports the letter's own claim: "Le document
+indique que, si un paiement n'est pas effectué, il se passera ceci : {the
+letter's words}."** **Does this clearly read as the LETTER's threat,
+reported by Northcue, and not as Northcue threatening you?**
+
+**3. Northcue's requests all use Veuillez + infinitive now ("Veuillez
+envoyer une image plus nette."), never a trailing "s'il vous plaît".**
+**Does the uniform Veuillez read polite, or bureaucratic when it repeats
+across error messages?**
+
+**4. Gender. No form addresses the reader as male only: "On pourrait vous
+tromper...", "pour vous en assurer", "Encore des doutes", "Oui, cela m'a
+été utile".** **Do these read as natural things a person would tap, or as
+evasions?**
+
+**5. We say "juridique ou judiciaire" for legal-or-court everywhere.**
+It used to say "juridique ou de tribunal". **Right call?**
+
+**6. We use a plain space before "?" and ":". French usually sets a narrow
+non-breaking space; this is a recorded spec decision.** **Does the plain
+space look wrong enough to revisit?**
+
+**7. Read these two aloud. Does the first sound clearly more serious?**
+
+> C'est urgent. Vous devrez peut-être agir aujourd'hui.
+> C'est important, mais ce n'est pas une urgence.
 
 ### Panjabi
 

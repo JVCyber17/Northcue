@@ -69,7 +69,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Bengali    | 0 (2 classes fixed) | 0 (fixed; convention pending) | formal, confirmed | 0 (fixed) | AI-complete-pending-convention |
 | Panjabi    | 0 (4 fixed) | 0 (all classes fixed) | formal, confirmed     | 0 (fixed) | AI-complete |
 | Spanish    | 0 (7 fixed) | 0 (fixed)        | usted, confirmed           | 0 (fixed) | AI-complete |
-| French     | 2 (+1 class) | 4               | vous, confirmed            | high-count batch | 1-2 |
+| French     | 0 (all fixed) | 0 (fixed)       | vous, confirmed            | 0 (fixed) | AI-complete |
 | Portuguese | 4 (+1 class) | 6               | formal, confirmed          | 6 + regional decision | 1-2 (+0.5) |
 
 Suggested completion order stays as planned: Gujarati and Hindi first (small,
@@ -728,52 +728,78 @@ card speaks to me ("Podrían engañarle...") and the chips name me; nothing
 reads like a machine, and the one deliberately firm line stays the
 prohibition on the urgent banner, filed for the native reviewer.
 
-## French (2 safety items plus one class; 1-2 sessions)
+## French (AI-COMPLETE, 30 July 2026)
 
-Safety, verified in render:
-1. `tpl.label.signal.severity.legal_response` still reads "est demandée"
-   (obligation downgraded to request). The old review called this moot while
-   the chip bug hid the label; the chip fix now delivers it to readers, so it
-   is live. Sibling severity.immediate_payment uses "exigé" correctly. Fix
-   "est exigée".
-2. English "Please" became a bare command in three strings:
-   `tpl.error.pdf_scanned` ("envoyez plutôt...", the only politeness-free
-   error string in its set), `feedback.badEmail`, `check.genuineLow` ("faites
-   attention"). Restore the house Veuillez pattern.
-3. Class finding 4: "trompé", "pour en être sûr" (twice), "Toujours incertain"
-   address the reader as male only.
-Watch, naturalness not safety: risk.urgent "problèmes sérieux" and why.blockC
-"lettre sérieuse" are idiomatic French (not the serios false-friend failure,
-which required the document itself to be called earnest), but "graves" would
-match the banner's register; align during the fix pass.
-Verified intact: grave, Veuillez on both high-stakes banners, trompé with
-reader as subject, hedges (bill_in_credit keeps both hedge slots; one stacked
-hedge flattened to a single "semble", acceptable, recorded), ladder, zero
-de/d'+sender shapes (the par strategy held everywhere), correct participle
-agreement, scam-signal labels correctly third-person.
+Every item on the verified list is fixed and render-verified in one session.
+About 30 bank strings and 17 dictionary strings changed; every changed line
+was read across all three value sets.
 
-Grammar around inserted values:
-1. Missing "du" before dates in generic_full, generic_amount_date,
-   generic_sender_date ("...et la date 1 May 2026"), nine rendered lines;
-   siblings do it right ("datée du"). Fix "la date du {date}".
-2. `tpl.consequence.may_follow`: "further charges peut suivre" (class 1).
-3. Dict `journey.cardStyleSelected` "{styleLabel} sélectionné.", all four
-   possible values are feminine, so it is wrong four times out of four. Fix
-   "Style choisi : {styleLabel}."
-4. Consequence frames lack a colon/quote cue plus a latent qu' elision hazard.
+Safety: the legal_response chip carries the required weight ("est exigée",
+matching its immediate_payment sibling, live since the chip fix delivered
+it to readers). The three bare commands regained the house politeness, and
+the whole ", s'il vous plaît" trailer family (14 lines, including the
+status.errorTitle page heading) converted to the Veuillez + infinitive
+house pattern in the same pass; the one kept "s'il vous plaît" is
+feedback.contactBtn, the reader's own voice asking Northcue to call. The
+class-2 check the phase brief ordered: French's consequence.avoid carries
+NO added hedge ("indique", reports as fact), confirmed clean; its missing
+colon cue is fixed below.
 
-Formality: vous throughout, confirmed.
+Class 4, male-only reader forms, all closed: risk_card went active ("On
+pourrait vous tromper et vous amener à..."), "pour en être sûr" became
+"pour vous en assurer" (three surfaces: benefits response and both
+in-credit forms), "Toujours incertain" became "Encore des doutes", and the
+sweep caught one more instance beyond the list: "cela m'a aidé" agrees
+with the reader through the preceding object pronoun, so the yes-rating
+pair became "Oui, cela m'a été utile" / "Cela m'a été utile" (été
+invariable). Class 3: the four password and PIN chips regained the reader
+("Vous demande de confirmer un mot de passe."), matching their
+verify_identity, freeze and suspend siblings; this session's rendered
+reading located it even though Phase 0's third-person note had passed the
+labels (the subjects were right; the object "you" was missing).
 
-Naturalness, top items: the "juridique ou de tribunal" family (should be
-judiciaire), highest reach; trailing ", s'il vous plaît" on 14 lines including
-a page heading (house style is Veuillez + infinitive); "Quelque chose s'est mal
-passé" calque; "Gardez ... protégés" calque on the scam action step
-("Protégez votre argent..."); "rendez-vous avec EDF" asserts the sender is the
-counterparty where English says "from" (small accuracy loss); "envoyé par vous"
-twice; unquoted "je ne suis pas sûr" in why.blockC.title; "serre la poitrine"
-calque; moneyFormat "Dans l'écriture britannique" unidiomatic; "Sensible aux
-délais" opaque as a chip; "Crème chaud" misagreement. The plain space before
-? and : still holds product-wide (known accepted item).
+Grammar: "la date du {date}" in all three generic frames, nine rendered
+lines correct; the consequence frames took the cross-language colon shape
+("Le document indique que, si un paiement n'est pas effectué, il se
+passera ceci : {consequence}.", "Le document indique ceci :
+{sentence_body}.", "ensuite, il peut se passer ceci :
+{consequence_clause}"), which kills the may_follow class-1 shape and the
+latent qu' elision hazard together; cardStyleSelected is the colon frame
+"Style choisi : {styleLabel}." (was wrong four times out of four).
+
+Elision re-verified: zero de/d'+sender shapes anywhere in the re-rendered
+corpus, the par strategy holds, and the appointment frames joined it
+("un rendez-vous annoncé par {sender}, le {date}"), which also repairs
+the with-the-sender accuracy loss.
+
+Naturalness, all items resolved: the juridique-ou-de-tribunal family is
+judiciaire on all six surfaces (five bank, one dict category); "Une erreur
+s'est produite." replaces the calque; "Protégez votre argent et vos
+données personnelles."; "que vous avez envoyé / envoyée" for the two
+envoyé-par-vous forms; why.blockC.title quotes 'je ne suis pas sûr'; the
+lead says "vous serre le cœur"; moneyFormat says "Dans le format
+britannique,"; the opaque chip is "Le temps compte"; "Crème chaude"
+agrees; risk.urgent and why.blockC align on graves/grave. The plain space
+before ? and : stays product-wide, the committed spec decision, no
+non-breaking spaces introduced.
+
+VERIFICATION: 245/245 tests pass, scanner informal count 0, no dashes,
+hedge and refusal rows read one by one (all the documented en-side noise;
+every French line carries its hedge in pourriez or n'a pas pu). Rendered
+corpus re-generated with the frozen tooling and byte-diffed; only the
+intended lines moved. Live at 375px via ?lang=fr in light, dark and
+focus: landing, a real scam document through the engine (all six cards
+read in place, the £499.00 slot and the new moneyFormat note correct),
+the check panel with "veuillez faire attention" and the restored-reader
+chip live, NO horizontal overflow with the long French strings at phone
+width, the help page and the feedback modal with the de-gendered options.
+
+Adversarial read as a frightened reader: "C'est urgent. Vous devrez
+peut-être agir aujourd'hui." clearly outranks "important, mais ce n'est
+pas une urgence"; the scam card names me and the trickery in active
+voice; the consequence card reads as the letter's threat reported by
+Northcue, filed as the standard attribution question; nothing reads like
+a machine, and the Veuillez register is uniform rather than officious.
 
 ## Portuguese (4 safety items plus one class; 1-2 sessions, +0.5 if neutralising region)
 
