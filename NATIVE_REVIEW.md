@@ -114,13 +114,73 @@ is jarring, but we cannot translate the date itself.
 > To jest ważne, ale nie jest to nagły wypadek.
 
 ### Romanian
-1. Same formality question as Polish. The file is informal and is being changed
-   to formal. **Does it sound cold?**
-2. `tpl.banner.suspicious_urgent` used to say *serios*. It now says *grav*.
-   **Is grav right for "this may be dangerous"?**
-3. Sentences that insert a sender or an amount: do the articles still attach
-   correctly, or do you get something like "de la Hounslow Council" where
-   Romanian wants a different form?
+
+Romanian is AI-complete (30 July 2026): both files were converted from tu to
+the dumneavoastră register in one pass, so the register questions matter most.
+
+**0. The register decision that needs your confirmation first.** Everything
+is second person plural now, including buttons, the navigation tabs and step
+titles: Încărcați, Alegeți un fișier, and the Understand tab is called
+"Înțelegeți". We chose this because the plural imperative is what Romanian
+institutional and banking software uses, and unlike other languages it is
+the polite form itself. **Do plural imperatives as TAB AND STEP NAMES read
+normal, or would you expect nouns there (Încărcare, Înțelegere)?**
+
+**0a. The homepage headline now reads "Scrisoarea dumneavoastră, mai
+clară."** On a phone the long word takes its own line. **Does dumneavoastră
+work in a headline, or does it tip into stiffness there?**
+
+**0b. The emergency line reads "Dacă dumneavoastră sau altcineva sunteți în
+pericol imediat, sunați la 999."** In an emergency, is this right, or is it
+too ceremonial for that one line?
+
+**0c. `tpl.banner.suspicious_urgent` says *grav*.** It used to say *serios*.
+**Is grav right for "this may be dangerous"?**
+
+**1. The big one. Does the formal register read as respectful, or as cold?**
+
+The scam warnings now read:
+
+> Ați putea pierde bani sau divulga date private.
+> Cineva ar putea să vă păcălească să faceți o plată nesigură sau să divulgați date.
+
+We chose "divulga" over "împărtăși" because handing data to a stranger is
+disclosure, not sharing, and it is the word Romanian banks use. **Is that the
+right call, or would a Romanian person warning a friend say it differently
+("să dai datele")?** The reader is anxious and holding a letter about money;
+tell us anywhere the register tips from respectful into office-cold.
+
+**2. Gender. Romanian adjectives would guess the reader's gender, so none is
+predicated of the reader anywhere.** That produced these rewrites:
+
+> Totul pare copleșitor. (for "I feel overwhelmed")
+> Nu, m-a derutat. (for "No, I was confused")
+> Încă am îndoieli. (for "Still unsure")
+> Îmi este mai ușor să mă ocup de ea. (for "I feel more able to deal with it")
+
+**Do these read as natural things a person would tap, or as evasions?**
+
+**3. "Pentru siguranță" closes the in-credit card: "Verificați documentul
+original pentru siguranță."** English says "to be sure". **Does pentru
+siguranță carry that, or does it read like "for safety"?**
+
+**4. Some card answers now start without a pronoun: "Pare a fi o factură
+sau o cerere de plată."** We dropped "Acesta" because the thing named after
+the verb changes gender. **Natural subject drop, or does it read clipped?**
+
+**5. Sentences that insert a sender or an amount: do the articles still
+attach correctly, or do you get something like "de la Hounslow Council"
+where Romanian wants a different form?**
+
+**6. Dates stay in English, like "3 September 2026", because they are copied
+from the letter.** So a card can read "Programarea dumneavoastră este pe
+3 September 2026." **How badly does that read?**
+
+**7. Read these two aloud. Does the first sound more serious than the
+second?**
+
+> Acesta este urgent. S-ar putea să fie nevoie să acționați astăzi.
+> Acesta este important, dar nu o urgență.
 
 ### Gujarati
 

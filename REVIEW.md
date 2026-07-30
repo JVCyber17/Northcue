@@ -65,7 +65,7 @@ AI-complete, including re-render and a fresh adversarial read.
 | Gujarati   | 0      | 0 (5 fixed)           | formal, confirmed          | 0 (2 fixed) | AI-complete |
 | Hindi      | 0 (3 fixed) | 0 (fixed at the root) | formal, confirmed     | 0 (3 fixed) | AI-complete |
 | Polish     | 0      | 0                     | formal, converted this pass | 0 (fixed)  | AI-complete |
-| Romanian   | 3 classes | 8 surfaces (1 class) | informal throughout (both files) | 3        | 2-3      |
+| Romanian   | 0 (3 classes fixed) | 0 (9 surfaces fixed) | formal, converted this pass | 0 (fixed) | AI-complete |
 | Bengali    | 0      | 2 (+1 style decision) | formal, confirmed          | 6 + tail    | 1-2      |
 | Panjabi    | 4      | 3 classes (~9 surfaces) | formal, confirmed        | 10 + vocab Qs | 2      |
 | Spanish    | 7      | 5                     | usted, confirmed           | 5 + regional| 1-2      |
@@ -312,45 +312,149 @@ label convention above; the hero "Państwa list, teraz jaśniejszy." tone; the
 emergency line register ("...prosimy natychmiast zadzwonić pod numer 999.");
 and "nastąpi" inside the attributed consequence.
 
-## Romanian (largest job: whole-file formal conversion; 2-3 sessions)
+## Romanian (AI-COMPLETE, 30 July 2026)
 
-Safety, verified state: "grav" fix holds; ladder intact; scam lines keep reader
-and deception. Three outstanding classes:
-1. Male-only reader forms (class finding 4): "păcălit" (risk_card), "ca să fii
-   sigur" (bill_in_credit, exact and pattern), dict "Găsește singur..."
-   (check.lowTrustStep), dict "Mă simt mai capabil..." (confidence.moreAble).
-   Fold de-gendering into the conversion.
-2. "împărtăși" for disclosing data on three safety strings (risk_extractor,
-   risk_card, strip.detail_request), the verb is for sharing feelings, not
-   handing over data; use divulga/transmite. Blunts the scam warning.
-3. Register inconsistency inside the safety set: `tpl.banner.suspicious_urgent`
-   alone is ALREADY formal ("Verificați") while every sibling is informal , 
-   flag so the conversion does not double-convert it.
+Whole-file formal conversion done in one session: every second person
+singular form in both files is converted, all three outstanding safety
+classes and the eight grammar surfaces are fixed, and the scanner's Romanian
+term list is extended and reshaped. Details below; native questions are in
+NATIVE_REVIEW.md.
 
-DISPROVED earlier lead: `tpl.risk.medium` "poate crea" does not break the mood
-ladder, English itself steps from "could" (urgent, high) down to "may"
-(medium); ar putea/poate mirrors it exactly.
+REGISTER RULES FOR THE CONVERSION, recorded 30 July 2026 before any string
+was changed, the equivalent decisions to Polish's:
 
-Grammar, one class, eight surfaces: hardcoded masculine "Acesta (nu) pare a fi
-/ acesta este" against variable- or feminine-gender predicates. Patterns 22-25
-(summary.garbled, readable.summary_sender, readable.summary,
-readable.summary_topic) render "Acesta pare a fi o factură / o scrisoare
-oficială" in two of three value sets; exacts banner.non_document,
-nondoc.summary, nondoc.action, nondoc.next_step share the shape. Fix by
-dropping the pronoun ("Pare a fi o factură...") or "Acest fișier pare a fi...".
-Latent only, no fix needed: "toate cele {count} carduri" would need "de" if a
-count ever reached 20; card counts are single digits.
-Verified correct, no defect: the dict slot frames (typeNames carry indefinite
-articles, calendar labels definite ones, "Citim o scrisoare...", "Verifică
-factura").
+1. Formal address is dumneavoastră-register second person plural throughout.
+   Where English says Please, the pattern is "Vă rugăm să" plus the plural
+   subjunctive ("Vă rugăm să încărcați o imagine mai clară."). Card
+   instructions without Please use the bare plural imperative ("Verificați
+   documentul original."), which in Romanian IS the polite form, not a
+   register break.
+2. On risk lines the reader stays the grammatical subject, via the plural
+   conditional, which carries no gender: "Ați putea pierde bani sau divulga
+   date private."
+3. Controls, buttons, nav tabs and step headings need NO register split in
+   Romanian, unlike Polish. The plural imperative (Încărcați, Alegeți,
+   Trimiteți, Aflați mai multe) is simultaneously the formal register and
+   the standard convention of Romanian institutional and banking software
+   (Microsoft ro-RO style, e-guvernare, bank sites). So controls convert
+   along with prose and the file ends with zero second person singular
+   forms. Nouns stay nouns (Acasă, Ajutor, Concentrare).
+4. Possessives: tău/ta/tale become "dumneavoastră" after the noun, kept
+   where ownership matters (the reader's document, data, feedback), dropped
+   for the bare definite article where the sentence would stack two of them.
+5. Warm impersonals where address adds nothing, so encouragement does not
+   drown in dumneavoastră: "Merge foarte bine.", "Aproape gata.", "Orice
+   ritm este bun."
+6. De-gendering is folded into the conversion (class finding 4). In formal
+   address Romanian participles and adjectives still agree with the
+   reader's real gender ("sunteți sigur/sigură"), so NO adjective or
+   participle may be predicated of the reader anywhere in either file.
+   Rephrase actively or impersonally: "Cineva ar putea să vă păcălească"
+   for păcălit, "pe cont propriu" for singur, "Totul pare copleșitor" for
+   copleșit, "M-a derutat" for confuz, "Îmi este mai ușor să mă ocup de ea"
+   for capabil, "Încă am îndoieli" for nesigur. The Phase 0 list had four
+   instances; the conversion sweep must also catch copleșit, confuz and
+   sigur in the feedback and help blocks, same class.
+7. "împărtăși" is for sharing feelings; disclosing data to a stranger is
+   "divulga" (risk_extractor, risk_card, strip.detail_request, and the
+   fake-document guide). Sharing the summary with a trusted helper stays
+   "împărtăși".
+8. Cue-card naming settled to one term each: the six cards are "carduri cu
+   indicii"; the card with the steps is "cardul de acțiune" everywhere, so
+   banner.default retires "cardul cu pasul următor".
+9. The hardcoded masculine "Acesta (nu) pare a fi" frames: drop the pronoun
+   in slot frames ("Pare a fi {type_label}..."), Romanian subject drop is
+   native, and name the subject in the fixed non-document strings ("Acest
+   fișier nu pare a fi...").
+10. tpl.banner.suspicious_urgent is ALREADY formal and stays byte-identical
+    through the conversion.
 
-Formality: informal throughout both files, confirmed in render. Scanner floor
-250; same term-list caveat as Polish. This is the planned whole-file
-conversion, with items 1-2 folded in.
+WHAT WAS FIXED, all verified in re-rendered output against the frozen
+pre-session corpus (about 100 bank strings and about 175 dictionary strings
+changed; every changed line was read):
 
-Naturalness: "Ține-ți banii și detaliile personale protejate" calque (scam
-action step); cue-card naming wobbles ("carduri cu indicii" vs "cardul de
-acțiune" vs "cardul cu pasul următor"), settle one term.
+Safety classes, all three closed:
+1. Male-only reader forms (class finding 4): risk_card is now active voice,
+   "Cineva ar putea să vă păcălească să faceți o plată nesigură sau să
+   divulgați date."; "ca să fii sigur" became "pentru siguranță" on both
+   bill_in_credit forms; check.lowTrustStep uses "Căutați pe cont propriu";
+   confidence.moreAble became "Îmi este mai ușor să mă ocup de ea". The
+   conversion sweep found the same class in three more places Phase 0 had
+   not listed and fixed them the same way: "Mă simt copleșit" (four keys)
+   became "Totul pare copleșitor", "Nu, am fost confuz / Am rămas confuz"
+   became "Nu, m-a derutat / Tot nu mi-e clar", "Încă nu sunt sigur" became
+   "Încă am îndoieli". No adjective or participle is predicated of the
+   reader anywhere in either file now.
+2. "împărtăși" for handing over data became "divulga" on risk_extractor,
+   risk_card, strip.detail_request and the fake-document guide. The single
+   kept "Împărtășiți" (person.step1Detail) is sharing the summary with a
+   trusted helper, the verb's real sense. Alongside, "detalii personale"
+   was settled to "date personale", the standard data-protection term.
+3. tpl.banner.suspicious_urgent was already formal and is byte-identical
+   through the conversion, confirmed by diff.
+
+Grammar class, all nine surfaces: the four slot patterns dropped the
+pronoun ("Pare a fi {category_label}. ..." / "Pare a fi {type_label}
+despre {topic}.", correct in all three value sets in render), and the four
+fixed exacts name the subject ("Acest fișier nu pare a fi..."). A ninth
+instance surfaced during conversion: journey.cardStyleSelected locked
+masculine "selectat" against feminine and plural style labels; fixed with
+the label-safe colon frame "Stil selectat: {styleLabel}." (the Hindi
+citation-form principle). calendarEventTitle also moved to the colon frame
+"De verificat: {label}", matching the Polish decision.
+
+Formality: zero second person singular forms remain in either file. The
+scanner's Romanian informal count is 0; its list was roughly tripled with
+every 2sg form met during the conversion, and reshaped for the Romanian
+homograph trap (2sg imperative of -a/-e verbs equals the 3rd person
+indicative, and the -e infinitive equals the imperative): "citește",
+"folosește" and "trimite" are documented in the list's comment instead of
+listed, because their only remaining matches are third person or
+infinitive ("Folosește un limbaj de presiune", "Northcue îl citește",
+"pentru a trimite"). The screen-then-read loop caught nine dictionary
+strings the manual pass had missed (language.title and language.aria.open
+"Alege limba", topbar.aria.openComfort, landing.example.more,
+landing.preview.whatToDo.title, journey.aria.privacyNote,
+help.tier.support, status.typeConfirmAuto, check.categoryOutgoing); all
+nine are converted. One deliberate exception stays: "Adaugă la ecranul
+principal" inside the two iOS install lines quotes the iPhone share-menu
+item and keeps the OS's own wording; our verb in the same sentence is
+formal ("atingeți").
+
+Naturalness: the "Ține-ți banii și detaliile personale protejate" calque
+became "Protejați-vă banii și datele personale."; the cue-card naming
+wobble is settled ("carduri cu indicii" for the six cards, "cardul de
+acțiune" for the action card, banner.default now "Citiți mai întâi cardul
+de acțiune."); bill_in_credit lost its double hedge ("Se pare că este
+posibil ca...") for "Contul dumneavoastră pare să fie în credit, deci
+s-ar putea să nu aveți nimic de plătit.", both hedges preserved once each;
+mip.action_required ends "Vedeți ce aveți de făcut."; encouragements are
+warm impersonals ("Merge foarte bine.", "Aproape gata.", "Orice ritm este
+bun.").
+
+DISPROVED earlier lead, unchanged: tpl.risk.medium "poate crea" does not
+break the mood ladder; English itself steps from could down to may.
+Latent only, still no fix needed: "toate cele {count} carduri" would need
+"de" at 20 or more; card counts are single digits.
+
+VERIFICATION: 244/244 tests pass. Rendered corpus re-generated with the
+frozen tooling and byte-diffed against the pre-session baseline; every
+changed line was read, and nothing outside the intended strings moved.
+Live at 375px via ?lang=ro in light, dark and focus: landing, journey
+upload, a real scam document through the engine (all six cards read in
+place, banner, check panel with hero step, "Nu suntem siguri, vă rugăm să
+aveți grijă", the scam deadline line and the chips "Vă cere să confirmați
+o parolă" / "Amenință că vă suspendă contul într-un timp scurt"), help
+page, the overwhelmed guide popup, and the feedback modal through the
+"Nu, m-a derutat" path with the confidence options.
+
+CROSS-LANGUAGE FINDING recorded during verification, not a Romanian file
+defect: two dynamically set aria-labels (the focus-mode toggle and the
+card detail toggle, app.js around lines 654 and 693) are written with t()
+at init, before the async language file lands, so they stay English until
+first toggled in every non-English language. applyTranslations() covers
+data-i18n markup only. Filed as a separate app-layer task; language files
+cannot fix it.
 
 ## Bengali (safety clean; 1-2 sessions)
 

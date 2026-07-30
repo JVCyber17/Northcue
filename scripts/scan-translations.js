@@ -121,14 +121,49 @@ const INFORMAL = {
     "upewnisz", "wyjdziesz", "decydujesz", "zaczniesz", "ustawisz",
     "Otrzymujesz", "otrzymujesz", "Wyjaśnij", "wyjaśnij"
   ],
+  // Romanian has the Romance homograph trap in one specific shape: the second
+  // person singular imperative of an -a or -e verb is identical to the third
+  // person indicative. "Folosește un limbaj de presiune" is "[the document]
+  // uses pressure language", a scam signal label, and "Northcue îl citește"
+  // is "Northcue reads it". After the July 2026 formal conversion the only
+  // remaining matches for "citește" and "folosește" were third person, so
+  // those two are not listed (their unambiguous relatives citești and
+  // Folosește-l are). The -e verb infinitive is spelled like the imperative
+  // too: "pentru a trimite" is formal, so "trimite" is also not listed
+  // (trimiți is). The other bare imperatives stay listed while the files
+  // contain no third person or infinitive use of them; if one appears
+  // legitimately, move that term into this comment instead of ignoring the
+  // hit.
   ro: [
     "tu", "Tu", "tine", "Tine", "ție", "Ție", "tău", "ta", "tale", "tăi",
-    "ți", "te", "Te",
-    "verifică", "Verifică", "încearcă", "Încearcă", "citește", "Citește",
-    "trimite", "Trimite", "alege", "Alege", "vezi", "Vezi", "apasă", "Apasă",
-    "folosește", "Folosește", "contactează", "Contactează", "așteaptă",
+    "ți", "te", "Te", "îți", "Îți",
+    "verifică", "Verifică", "încearcă", "Încearcă",
+    "alege", "Alege", "vezi", "Vezi", "apasă", "Apasă",
+    "contactează", "Contactează", "așteaptă",
     "poți", "ai", "faci", "ești", "trebuie să faci", "vrei", "acționezi",
-    "ignora", "Ignora"
+    "ignora", "Ignora",
+    // Extended after the July 2026 rendered reading, the proven failure mode:
+    // a term absent here scans as clean. Every second person singular form
+    // met during the Romanian conversion is listed.
+    "încarcă", "Încarcă", "mergi", "Mergi", "fii", "verifici", "încarci",
+    "încerci", "aștepți", "plătești", "citești", "răspunzi", "trimiți",
+    "participi", "alegi", "primești", "începi", "știi", "simți", "decizi",
+    "revii", "înțelegi", "găsești", "incluzi", "adaugi", "lipești",
+    "descurci", "ieși", "pornește", "Pornește", "deschide", "Deschide",
+    "salvează", "Salvează", "elimină", "Elimină", "copiază", "Copiază",
+    "oprește", "Oprește", "închide", "Închide", "înlocuiește", "Înlocuiește",
+    "răsfoiește", "instalează", "Instalează", "atinge", "trage", "Trage",
+    "plasează", "roagă", "Roagă", "lasă", "Lasă", "sună", "Sună",
+    "schimbă", "Schimbă",
+    "nu plăti", "Nu plăti", "nu folosi", "Nu folosi", "nu împărtăși",
+    "nu divulga",
+    "Fă-o", "fă-o", "Ține-ți", "ține-ți", "Ține-l", "ține-l",
+    "Încarcă-l", "încarcă-l", "Verifică-l", "verifică-l",
+    "Deschide-l", "deschide-l", "Roagă-i", "roagă-i", "Noteaz-o", "noteaz-o",
+    "adaug-o", "Uită-te", "uită-te", "Lasă-ne", "lasă-ne",
+    "Spune-ne", "spune-ne", "Încearcă-l", "încearcă-l",
+    "Folosește-l", "folosește-l", "Folosește-le", "folosește-le",
+    "Contactează-mă", "contactează-mă"
   ],
   // Portuguese and Spanish need a narrower list than the others, because their
   // informal (tu / tú) imperative is a HOMOGRAPH of the third person singular
