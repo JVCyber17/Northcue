@@ -482,6 +482,66 @@ this is one line closer to it rather than the cause. The durable answer is
 probably to shorten the garbled summary rather than to keep trimming what it
 says.
 
+**U-1. Fields the engine extracts and nothing reads.** Audited 31 July 2026 by
+testing whether each value ever reaches text the reader sees, rather than by
+grepping, since grep counts writes as reads.
+
+| Field | Documents holding a value | Reaching the reader |
+|---|---|---|
+| `contact_details` | **0** | 0 |
+| `appeal_rights`, `support_options`, `evidence_spans` | **0** | 0 |
+| `document_type_label` | 30 | **0** |
+| `authentic_signals` | 30 | **0** |
+| `reference_numbers` | 9 | 1 |
+| `review_reason` | 30 | 6 |
+| engine `risk` line | 30 | 4 |
+
+`serious_document_signals` was the seventh and is now read by card 2.
+
+Two corrections to the older diagnosis. **`contact_details` is not unread, it is
+unpopulated**: `extractContactDetails` matches email addresses only, and no
+corpus letter contains one, so wiring it up would show nothing. **`appeal_rights`,
+`support_options` and `evidence_spans` are hardcoded `[]` on every path** and are
+placeholders rather than extracted facts.
+
+**Do not surface `review_reason` or `authentic_signals`.** `review_reason` has
+only two distinct values across all thirty documents, both generic, one of them
+the reassurance recorded as latent site 9. `authentic_signals` describes the
+UPLOAD rather than the letter: "Uploaded as PDF format.", "Contains reference
+details.", "Contains formal letter structure."
+
+**U-2. `reference_numbers` on card 6: approved in principle, deferred on layout
+headroom.** Card 6 already tells the reader to keep the reference number ready
+without showing it, which is the obvious placement. Three gates are required and
+were specified before deferral:
+
+1. **Suppress on `garbled_by_ocr`.** Verified that a damaged reference is
+   extracted and would be offered verbatim: damaging the digits of
+   `ocr_enforcement` yields `["Reference: EN-77l2O934"]`. A reader who quotes
+   that gets nowhere and believes they have done the right thing. **A damaged
+   reference is worse than none.**
+2. **Suppress on `verification_only`.** `scam_phishing` holds
+   `["Reference: SEC-99120"]`, and Northcue must never help a reader quote a
+   scam's own reference back to it.
+3. **Require a digit, and take only the first survivor.** That removes
+   `"reference above"` from `bailiff_enforcement` and `"reference agencies"`
+   from `bank_loan_letter`, which are 2 of the 9 held values and are pure noise
+   from the phrase "credit reference agencies".
+
+Deferred because card 6 has the least headroom of the candidates: measured at
+375px in Romanian it goes from **634px to 761px** with the reference line, 51px
+from the 812px viewport, and O-10 already records card 1 exceeding that limit in
+the longest languages. Expected movement: 5 documents.
+
+**U-3. The reference regex misses a common UK format.**
+`/\bref(?:erence)?[:\s-]*[a-z0-9-]{4,}\b/gi` requires four characters after the
+label, and `legal_solicitor`'s `"Our ref: HG/DR/22981"` fails because the run
+after `ref: ` is `HG`, two characters, before the slash stops the match. Slashed
+and spaced reference formats are ordinary on solicitor and council letters, so
+the field both misses real references and captures noise. Worth fixing before
+U-2 ships, or U-2 will surface nothing on the documents that most often carry a
+reference.
+
 ## OCR work not approved
 
 - **Tier 3 SHIPPED 31 July 2026** as `58a2981`: character-class tolerance for
