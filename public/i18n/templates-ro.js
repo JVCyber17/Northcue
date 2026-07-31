@@ -345,7 +345,7 @@
       "tpl.summary.generic_sender_amount": "Acesta pare a fi de la {sender} și menționează {amount}.",
       "tpl.summary.generic_sender_date": "Acesta pare a fi de la {sender}, cu data {date}.",
       "tpl.summary.generic_sender": "Acesta pare a fi de la {sender}.",
-      "tpl.summary.garbled_sender": "{sender} pare să fi trimis {category_label}. Calitatea textului este prea slabă pentru a citi sigur sumele sau datele exacte. Verificați aceste detalii pe documentul original.",
+      "tpl.summary.garbled_sender": "{sender} pare să fi trimis {category_label}. Calitatea textului este prea slabă pentru a citi sigur numele expeditorului, sumele sau datele. Verificați aceste detalii pe documentul original.",
       "tpl.summary.garbled": "Pare a fi {category_label}. Calitatea textului este prea slabă pentru a citi sigur sumele sau datele exacte. Verificați aceste detalii pe documentul original.",
       "tpl.readable.summary_sender": "Pare a fi {type_label} de la {sender}.",
       "tpl.readable.summary": "Pare a fi {type_label}.",

@@ -347,7 +347,7 @@
       "tpl.summary.generic_sender_amount": "Esto parece venir de {sender}, y menciona {amount}.",
       "tpl.summary.generic_sender_date": "Esto parece venir de {sender}, con fecha {date}.",
       "tpl.summary.generic_sender": "Esto parece venir de {sender}.",
-      "tpl.summary.garbled_sender": "{sender} parece haber enviado {category_label}. La calidad del texto es demasiado baja para leer con seguridad importes o fechas concretas. Revise esos datos en el documento original.",
+      "tpl.summary.garbled_sender": "{sender} parece haber enviado {category_label}. La calidad del texto es demasiado baja para leer con seguridad el nombre del remitente, los importes o las fechas. Revise esos datos en el documento original.",
       "tpl.summary.garbled": "Esto parece {category_label}. La calidad del texto es demasiado baja para leer con seguridad importes o fechas concretas. Revise esos datos en el documento original.",
       "tpl.readable.summary_sender": "Esto parece {type_label} y viene de {sender}.",
       "tpl.readable.summary": "Esto parece {type_label}.",

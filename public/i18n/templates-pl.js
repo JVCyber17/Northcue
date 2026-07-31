@@ -346,7 +346,7 @@
       "tpl.summary.generic_sender_amount": "To wygląda na dokument od {sender}, w którym pojawia się kwota {amount}.",
       "tpl.summary.generic_sender_date": "To wygląda na dokument od {sender}, z datą {date}.",
       "tpl.summary.generic_sender": "To wygląda na dokument od {sender}.",
-      "tpl.summary.garbled_sender": "Wygląda na to, że nadawcą jest {sender}, a dokument to {category_label}. Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać konkretne kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
+      "tpl.summary.garbled_sender": "Wygląda na to, że nadawcą jest {sender}, a dokument to {category_label}. Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać nazwę nadawcy, kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
       "tpl.summary.garbled": "To wygląda na {category_label}. Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać konkretne kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
       "tpl.readable.summary_sender": "To wygląda na {type_label} od {sender}.",
       "tpl.readable.summary": "To wygląda na {type_label}.",

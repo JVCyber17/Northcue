@@ -344,7 +344,7 @@
       "tpl.summary.generic_sender_amount": "यह {sender} की ओर से लगता है, जिसमें {amount} का ज़िक्र है.",
       "tpl.summary.generic_sender_date": "यह {sender} की ओर से लगता है, जिस पर {date} की तारीख है.",
       "tpl.summary.generic_sender": "यह {sender} की ओर से लगता है.",
-      "tpl.summary.garbled_sender": "ऐसा लगता है कि {sender} ने {category_label} भेजा है. टेक्स्ट की गुणवत्ता इतनी कम है कि सटीक रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
+      "tpl.summary.garbled_sender": "ऐसा लगता है कि {sender} ने {category_label} भेजा है. टेक्स्ट की गुणवत्ता इतनी कम है कि भेजने वाले का नाम, रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
       "tpl.summary.garbled": "यह {category_label} लगता है. टेक्स्ट की गुणवत्ता इतनी कम है कि सटीक रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
       "tpl.readable.summary_sender": "यह {sender} की ओर से {type_label} लगता है.",
       "tpl.readable.summary": "यह {type_label} लगता है.",

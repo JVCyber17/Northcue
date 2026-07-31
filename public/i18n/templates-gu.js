@@ -346,7 +346,7 @@
       "tpl.summary.generic_sender_amount": "આ {sender} તરફથી આવેલું જણાય છે, જેમાં {amount} નો ઉલ્લેખ છે.",
       "tpl.summary.generic_sender_date": "આ {sender} તરફથી આવેલું જણાય છે, જેની તારીખ {date} છે.",
       "tpl.summary.generic_sender": "આ {sender} તરફથી આવેલું જણાય છે.",
-      "tpl.summary.garbled_sender": "{sender} એ {category_label} મોકલેલ હોય એવું જણાય છે. લખાણની ગુણવત્તા એટલી ઓછી છે કે ચોક્કસ રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
+      "tpl.summary.garbled_sender": "{sender} એ {category_label} મોકલેલ હોય એવું જણાય છે. લખાણની ગુણવત્તા એટલી ઓછી છે કે મોકલનારનું નામ, રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
       "tpl.summary.garbled": "આ {category_label} હોવાનું જણાય છે. લખાણની ગુણવત્તા એટલી ઓછી છે કે ચોક્કસ રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
       "tpl.readable.summary_sender": "આ {sender} તરફથી આવેલ {type_label} હોવાનું જણાય છે.",
       "tpl.readable.summary": "આ {type_label} હોવાનું જણાય છે.",

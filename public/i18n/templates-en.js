@@ -352,7 +352,7 @@
       { id: "tpl.summary.generic_sender_amount", template: "This appears to be from {sender}, mentioning {amount}." },
       { id: "tpl.summary.generic_sender_date", template: "This appears to be from {sender}, with a date of {date}." },
       { id: "tpl.summary.generic_sender", template: "This appears to be from {sender}." },
-      { id: "tpl.summary.garbled_sender", template: "{sender} appears to have sent {category_label}. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details." },
+      { id: "tpl.summary.garbled_sender", template: "{sender} appears to have sent {category_label}. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details." },
       { id: "tpl.summary.garbled", template: "This appears to be {category_label}. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details." },
       { id: "tpl.readable.summary_sender", template: "This appears to be {type_label} from {sender}." },
       { id: "tpl.readable.summary", template: "This appears to be {type_label}." },

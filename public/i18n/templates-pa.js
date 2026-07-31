@@ -344,7 +344,7 @@
       "tpl.summary.generic_sender_amount": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ {amount} ਦਾ ਜ਼ਿਕਰ ਹੈ.",
       "tpl.summary.generic_sender_date": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ, ਜਿਸ ਉੱਤੇ {date} ਦੀ ਤਾਰੀਖ਼ ਹੈ.",
       "tpl.summary.generic_sender": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ.",
-      "tpl.summary.garbled_sender": "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: {category_label}. ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਸਹੀ ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+      "tpl.summary.garbled_sender": "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: {category_label}. ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਭੇਜਣ ਵਾਲੇ ਦਾ ਨਾਂ, ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
       "tpl.summary.garbled": "ਇਹ ਦਸਤਾਵੇਜ਼ {category_label} ਲੱਗਦਾ ਹੈ. ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਸਹੀ ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
       "tpl.readable.summary_sender": "ਇਹ ਦਸਤਾਵੇਜ਼ {sender} ਵੱਲੋਂ {type_label} ਲੱਗਦਾ ਹੈ.",
       "tpl.readable.summary": "ਇਹ ਦਸਤਾਵੇਜ਼ {type_label} ਲੱਗਦਾ ਹੈ.",

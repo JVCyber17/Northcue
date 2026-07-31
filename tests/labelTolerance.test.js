@@ -176,3 +176,50 @@ test("the boundaries of tolerance", async (t) => {
       "scam detection must stay literal, so tolerance cannot manufacture a scam signal");
   });
 });
+
+test("the damaged sender is kept, and the caution covers it", async (t) => {
+  // Tolerance cannot repair a sender: it matches damaged input against a known
+  // vocabulary, and a name is not in any vocabulary, so there is nothing to
+  // recover it to. Card 1 was hedging amounts and dates while stating the name
+  // flatly, and the name is read from the same damaged text.
+  await t.test("the name is still shown", () => {
+    ["ocr_enforcement", "ocr_energy_bill"].forEach((id) => {
+      const card = analyse(byId(id)).api_output.structured_result.cards[0];
+      assert.match(card.simple_explanation, /Marst0n|Ener9y/,
+        id + ": the sender must be kept, not declined");
+    });
+  });
+
+  await t.test("the caution names the sender alongside amounts and dates", () => {
+    ["ocr_enforcement", "ocr_energy_bill"].forEach((id) => {
+      const card = analyse(byId(id)).api_output.structured_result.cards[0];
+      assert.match(card.simple_explanation, /the sender's name, amounts or dates/,
+        id + ": the hedge must cover the one thing the card names without it");
+    });
+  });
+
+  await t.test("a garbled document with no sender keeps the narrower caution", () => {
+    // tpl.summary.garbled names no sender, so widening its caution would claim
+    // uncertainty about something it never states.
+    const noSender = [
+      "N0TICE OF ENF0RCEMENT", "Reference: EN-77120934",
+      "Am0unt outstanding: £1,247.00",
+      "You must c0ntact us on 0333 320 122 by 3September 2026.",
+      "If paym3nt is not received an enf0rcement agent may attend your pr0perty.",
+      "Further fees will be added to the am0unt outstanding on this acc0unt."
+    ].join("\n");
+    const run = analyse(noSender);
+    if (run.structured_output.trust_internal.garbled_by_ocr) {
+      const text = run.api_output.structured_result.cards[0].simple_explanation;
+      if (!/appears to have sent/.test(text)) {
+        assert.doesNotMatch(text, /the sender's name/,
+          "a card that names no sender must not hedge one");
+      }
+    }
+  });
+
+  await t.test("a clean document is unaffected", () => {
+    const card = analyse(byId("bailiff_enforcement")).api_output.structured_result.cards[0];
+    assert.doesNotMatch(card.simple_explanation, /text quality is too low/);
+  });
+});

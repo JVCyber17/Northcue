@@ -2340,10 +2340,22 @@ function inferGarbledSummary(text, trust) {
     insurance:       "an insurance document"
   };
   const label = categoryLabels[trust.document_category] || "a formal document";
-  const base = sender
-    ? `${sender} appears to have sent ${label}.`
-    : `This appears to be ${label}.`;
-  return `${base} The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.`;
+  // The caution names the sender when there is one. Card 1 was hedging amounts
+  // and dates while stating the sender's name flatly, and the name is read from
+  // the same damaged text: "Marst0n Holdings Enf0rcement Agents", "EDF Ener9y".
+  //
+  // The name is kept rather than declined, because on an enforcement notice
+  // knowing who is chasing you is worth more than a tidy card, and the reader
+  // can match a damaged name to the paper more easily than a missing one. What
+  // changes is that the hedge already on the card now covers it.
+  //
+  // Label tolerance cannot repair a sender: it matches damaged input against a
+  // known vocabulary, and a name is not in any vocabulary. There is nothing to
+  // recover it to.
+  if (!sender) {
+    return `This appears to be ${label}. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.`;
+  }
+  return `${sender} appears to have sent ${label}. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.`;
 }
 
 function inferMostImportantPoint(trust, actions) {

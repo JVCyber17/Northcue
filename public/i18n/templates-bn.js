@@ -344,7 +344,7 @@
       "tpl.summary.generic_sender_amount": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে, যাতে {amount} এর কথা আছে.",
       "tpl.summary.generic_sender_date": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে, তারিখ {date}.",
       "tpl.summary.generic_sender": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে.",
-      "tpl.summary.garbled_sender": "মনে হচ্ছে {sender} {category_label} পাঠিয়েছে. লেখার মান এত কম যে নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
+      "tpl.summary.garbled_sender": "মনে হচ্ছে {sender} {category_label} পাঠিয়েছে. লেখার মান এত কম যে প্রেরকের নাম, নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
       "tpl.summary.garbled": "এটি {category_label} বলে মনে হচ্ছে. লেখার মান এত কম যে নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
       "tpl.readable.summary_sender": "এটি {sender} এর কাছ থেকে আসা {type_label} বলে মনে হচ্ছে.",
       "tpl.readable.summary": "এটি {type_label} বলে মনে হচ্ছে.",
