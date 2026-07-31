@@ -484,12 +484,14 @@ says.
 
 ## OCR work not approved
 
-- **Tier 3 SHIPPED 31 July 2026** as 58a2981, restricted to entries of five
-  characters or more. Originally proposed as character-class tolerance for the
-  four label vocabularies and
-  `GREETING` only. Evidence gathered: 25 correct recoveries across the corpus
-  with zero false positives, and zero collisions across 540,000 generated UK
-  reference strings and 400,000 mixed alphanumeric references.
+- **Tier 3 SHIPPED 31 July 2026** as `58a2981`: character-class tolerance for
+  the four label vocabularies and `GREETING`, restricted to entries of five
+  characters or more. Verified evidence, replacing the incorrect figures this
+  bullet previously carried: **25 correct recoveries across the corpus, zero
+  corpus false matches, and zero collisions across 150,000 generated UK
+  reference strings at the five-character threshold**. Without the threshold the
+  same run gives 54 collisions. See the correction note at the head of this
+  section.
 - **Not proposed at all: tolerance in any classification vocabulary.** Those
   lists hold two-to-four character entries matched against the whole document
   with no anchor. `gp` becomes `[g9]p`, which matches "a standing charge of 9p
