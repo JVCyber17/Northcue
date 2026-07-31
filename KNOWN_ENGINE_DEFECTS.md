@@ -362,6 +362,20 @@ Widening the gap was a deliberate consequence of keeping the fix to one commit,
 not an oversight. The right resolution is one shared definition, as was done for
 `MONEY` in the same session.
 
+**This divergence is not a separate defect from O-5, it is its cause.** Traced
+31 July 2026: on `ocr_council_tax`, `extractVisibleDates` does not find
+`1April 2026`, so `dateParts` is empty and `buildReadableDateMessage` returns
+"No clear date was found." `coLocation.selectDeadline` does find it, so
+`primaryDate` is set and the key point and `possible_deadline` both name it.
+One fact, two patterns, opposite answers, both rendered on the same card.
+
+**Two independent copies of one rule with different behaviour is a recurring
+class in this codebase**, and the same shape as the caller-to-bank gaps behind
+the trust panel and AI gate defects: the copies agree while both are simple,
+drift the moment one is corrected, and nothing fails until a reader sees the
+result. Whenever a pattern or vocabulary exists twice, the fix is one
+definition and one caller, not two kept in step by hand.
+
 **O-4. A recovered date is carried verbatim, so card text can show the damage.**
 `ocr_council_tax` now yields `1April 2026` and that exact string reaches the
 reader. The value is correct and the letter on paper reads "1 April 2026", so
