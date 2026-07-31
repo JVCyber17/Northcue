@@ -170,13 +170,19 @@ rows, one row at a time. Substantial baseline movement, mostly corrections.
 
 These need no adversarial phrase. They are in the shipped output today.
 
-**B-1. `bailiff_enforcement` has no deadline.** Source text: "You must contact us
-on 0333 320 122 by 3 September 2026." Output: `main_date: null`, card 4 "No clear
-due date. These dates appear in the document: 20 August 2026, 3 July 2026,
-3 September 2026. Check what they refer to." The most urgent document in the
-corpus presents its contact deadline as one of three undifferentiated dates.
-**This is a deadline-extraction defect, not a classification one, and it is
-arguably the highest-harm single item in the whole audit.**
+**B-1. CLOSED 31 July 2026.** `bailiff_enforcement` had no deadline. Source
+text: "You must contact us on 0333 320 122 by 3 September 2026." Output:
+`main_date: null`, card 4 "No clear due date. These dates appear in the
+document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer
+to." The most urgent document in the corpus presented its contact deadline as
+one of three undifferentiated dates.
+
+Closed by Tier 3 of the deadline vocabulary, the discontiguous label: an
+obligation head carrying a first person plural object, a bounded lazy gap of at
+most 44 characters holding the contact method, and the temporal "by". Card 4
+now reads "Due by 3 September 2026." and `main_date` carries it. One corpus
+document moved, none lost or changed a deadline, zero protected fields.
+Guarded in `tests/deadlineVocabulary.test.js`.
 
 **B-2. `legal_solicitor` is mislabelled "Bill or payment notice".** A document
 headed LETTER BEFORE ACTION classifies as `bill_or_payment`, because
@@ -227,10 +233,17 @@ harness.
 # Deadline extraction defects
 
 Added **31 July 2026** after a sweep of contact, response and attendance
-obligation phrasings across four issuing-authority domains. Tier 1 of that
-work shipped: date labels now bind forwards only, require nothing but
-punctuation between label and date, and test 3 covers the whole label span.
-The vocabulary itself was not changed, so everything below is open.
+obligation phrasings across four issuing-authority domains.
+
+Three tiers have shipped. Tier 1: date labels bind forwards only, require
+nothing but punctuation between label and date, and test 3 covers the whole
+label span. Tier 2: five literals for the class that states a date in a field
+rather than a sentence ("Compliance date:", "Date for compliance:", "Response
+date:", "act by", "you must act by"), each word bounded because three of the
+five matched inside longer words. Tier 3: discontiguous labels, which closed
+B-1. Tier 4, new literals beyond these, is still open.
+
+Everything below is open unless it says otherwise.
 
 Guarded parts are in `tests/coLocation.test.js`. Nothing below is guarded, for
 the same reason as above: a test asserting current-but-wrong behaviour reads as
@@ -311,6 +324,58 @@ co-location, and is probably a larger win than any remaining tier.
 co-location was built to remove. It supplies `main_date` for `education_letter`,
 `employment_letter`, `insurance_letter` and others. Those answers are correct
 only while each of those letters contains exactly one body date.
+
+**D-9. Both readings of a numeric date are accepted as a deadline, and neither
+is chosen.** `isPlausibleNumericDate` in `src/services/clearStepsEngine.js`
+returns true when EITHER a day-first or a month-first reading is in range:
+
+```js
+return (a >= 1 && a <= 31 && b >= 1 && b <= 12) ||
+       (a >= 1 && a <= 12 && b >= 1 && b <= 31);
+```
+
+That is deliberate for finding a date and unresolved for meaning one. Verified
+against the engine on 31 July 2026, both promoted to `deadline`:
+
+```
+"Please pay by 03/06/2026."   -> deadline "03/06/2026"    3 June or 6 March
+"Please pay by 06/03/2026."   -> deadline "06/03/2026"    6 March or 3 June
+```
+
+The two readings are 95 days apart and, against that date, land on opposite
+sides of today. The shape appears on documents produced by US-configured
+billing systems, which UK organisations do use.
+
+Echoing the string is defensible: the reader can compare it against the paper.
+Anything that computes from it is not, and that is the harm this records.
+
+**D-10. Years with two readings, or none, are accepted as deadlines.** Same
+verification run, all three promoted:
+
+```
+"Please pay by 28 May 26."    -> deadline "28 May 26"     2026 or 1926
+"Please pay by 5 April 99."   -> deadline "5 April 99"    1999 or 2099
+"Please pay by 1 April 226."  -> deadline "1 April 226"
+```
+
+`LONG_DATE` in `coLocation.js` ends `\d{2,4}`, so a two or three digit year is
+accepted with no century rule and no sanity bound. A four digit year far from
+now ("1 April 9999") is accepted too.
+
+**What P1 did and did not do about D-9 and D-10.** `summary.deadline_iso`, added
+31 July 2026, refuses every example above: the month must be named rather than
+numbered, the year must be four digits, and the day must exist in that month.
+So nothing that reasons about dates can inherit either defect through that
+field.
+
+**The acceptance itself is unfixed.** `extraction.deadline`, `summary.main_date`
+and card 4 still carry all five strings above and still present them as the
+document's deadline. P1 gates the arithmetic, not the extraction. Fixing the
+extraction means deciding what the cards should do with an ambiguous date, and
+declining to show one at all is a worse answer than showing it, because the
+reader holding the letter can resolve it and Northcue cannot. The likely fix is
+to keep showing it and mark it unresolvable, which is a card-wording change and
+therefore a separate piece of work.
 
 ---
 
@@ -592,8 +657,14 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 
 ## Recommended order for future work
 
-1. **B-1**, the missing deadline on the enforcement notice. Highest harm, and it
-   is not a classification change at all.
+~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by
+   Tier 3 of the deadline vocabulary, 31 July 2026.
+
+1. **D-1 and D-2**, the two rules that promote a date stating no obligation.
+   These moved to the top when B-1 closed, and they matter more now than they
+   did: `deadline_iso` means a wrong deadline can become wrong arithmetic, and
+   D-1's "Your tenancy began before 1 April 2024" already parses cleanly under
+   every P1 gate.
 2. **Expand the scam corpus** to at least four documents: a link-only courier
    smish, a Gateway credential harvest, a refund scam, a council impersonation.
    This unblocks F3 and is a prerequisite for any loosening.
@@ -602,7 +673,11 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 5. **W2**, decouple the four early returns in `detectDocumentCategory` so
    category is always computed and template / outgoing / scam become independent
    flags the card layer reads.
-6. **F6**, word-bound and reorder the category rows, one row per change.
+6. **F6**, word-bound and reorder the category rows, one row per change. The
+   same hazard was found and fixed inside the co-location date vocabulary in
+   Tier 2, where three of five new literals matched inside longer words; the
+   older co-location entries ("less", "used", "paid", "from") are still
+   unbounded and belong to this item.
 
 Do not combine any two of these in one commit. The baseline harness diffs the
 whole render, so a combined change produces a diff nobody can read.

@@ -119,7 +119,11 @@ function validateSummary(summary, errors) {
     return;
   }
 
-  ["one_line_summary", "main_action", "main_date", "main_amount"].forEach((key) => {
+  // deadline_iso is required, not optional. sanitizeSummary always carries it
+  // from the rules output, so its absence means someone removed it there, and
+  // a field that quietly becomes undefined reads downstream as "this date may
+  // not be reasoned about" rather than as a bug.
+  ["one_line_summary", "main_action", "main_date", "deadline_iso", "main_amount"].forEach((key) => {
     if (!Object.prototype.hasOwnProperty.call(summary, key)) {
       errors.push(`summary.${key} is required`);
     }
@@ -196,6 +200,21 @@ function sanitizeSummary(candidate, fallback) {
     one_line_summary: cleanNullableText(candidate.one_line_summary ?? fallback.one_line_summary, 180),
     main_action: cleanNullableText(candidate.main_action ?? fallback.main_action, 180),
     main_date: cleanNullableText(candidate.main_date ?? fallback.main_date, 80),
+    // From the fallback ALWAYS, never from the candidate. Two reasons, and both
+    // matter.
+    //
+    // This function rebuilds the summary from a fixed key list, so a field
+    // omitted here does not survive the AI pass at all: it would be present on
+    // every non-English document, where the language gate skips the provider,
+    // and silently absent on English ones. That is the same silent-drop shape
+    // jsonFieldParity.test.js guards on the request side.
+    //
+    // And deadline_iso is a rules-engine judgement about whether a date may be
+    // reasoned about, made behind five gates that read trust and extraction
+    // state the model never sees. A model cannot re-derive it and must not be
+    // able to assert it, so the ?? fallback pattern used above would be wrong
+    // here even though it reads consistently.
+    deadline_iso: cleanNullableText(fallback.deadline_iso, 10),
     main_amount: cleanNullableText(candidate.main_amount ?? fallback.main_amount, 80)
   };
 }

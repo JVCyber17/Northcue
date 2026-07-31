@@ -9,6 +9,7 @@ const { cardSchema, allowedCardIds } = require("../schemas/cardSchema");
 const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
+const deadlineIso = require("../utils/deadlineIso");
 
 // Co-location decline vocabulary. These match ids in the template bank, so the
 // nine translated languages carry them; see docs/i18n/adding-a-bank-sentence.md.
@@ -893,6 +894,16 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
       one_line_summary: cleanLine(extraction.summary || "Not clearly stated."),
       main_action: actionLine,
       main_date: deadline,
+      // main_date's machine readable twin, and null far more often than it is.
+      // Beside it on purpose, so nothing has to look in two places to find out
+      // whether the date the reader sees may also be reasoned about. Nothing
+      // renders this today; the five gates behind it are in deadlineIso.
+      deadline_iso: deadlineIso.deadlineIsoFor({
+        garbledByOcr: trust.garbled_by_ocr,
+        processingMode: trust.processing_mode,
+        multiLetterState: extraction.multi_letter_state,
+        deadline: extraction.deadline
+      }),
       main_amount: moneyAmount
     },
     cards: buildStructuredCards({ trust, extraction, displayCards }),
@@ -1459,11 +1470,16 @@ function extractVisibleDates(text) {
   ).slice(0, 5);
 }
 
+// days?/weeks?/months? (plural alternative first via the optional s) so
+// "within 14 days" is not truncated to "within 14 day". The source lives in
+// deadlineIso, which also needs to recognise a whole value as a period, and one
+// definition is the rule here: this file and coLocation each carried their own
+// copy of the date patterns once, and they drifted the moment one was fixed.
+const VISIBLE_TIMEFRAME = new RegExp(deadlineIso.RELATIVE_TIMEFRAME_SOURCE, "gi");
+
 function extractVisibleTimeframes(text) {
   const value = String(text || "");
-  // days?/weeks?/months? (plural alternative first via the optional s) so
-  // "within 14 days" is not truncated to "within 14 day".
-  const matches = value.match(/\bwithin\s+\d+\s+(?:days?|weeks?|months?)|\b(?:today|tomorrow|next week|next month)\b/gi) || [];
+  const matches = value.match(VISIBLE_TIMEFRAME) || [];
   return unique(matches.map(cleanLine)).slice(0, 3);
 }
 

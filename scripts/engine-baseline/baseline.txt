@@ -112,6 +112,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "one_line_summary": "Hounslow Borough Council appears to be asking you to pay £1,381.50 by 1 April 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "1 April 2026",
+    "deadline_iso": "2026-04-01",
     "main_amount": "£1,381.50"
   },
   "warnings": []
@@ -342,6 +343,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "one_line_summary": "EDF Energy appears to be asking you to pay £214.63 by 28 May 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "28 May 2026",
+    "deadline_iso": "2026-05-28",
     "main_amount": "£214.63"
   },
   "warnings": []
@@ -567,6 +569,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "one_line_summary": "Thames Water appears to be asking you to pay £142.60 by 30 June 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "30 June 2026",
+    "deadline_iso": "2026-06-30",
     "main_amount": "£142.60"
   },
   "warnings": []
@@ -788,6 +791,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "one_line_summary": "Your monthly bill appears to be asking you to pay £45.19.",
     "main_action": "No action needed right now.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": "£45.19"
   },
   "warnings": []
@@ -1019,6 +1023,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "31 July 2026",
+    "deadline_iso": "2026-07-31",
     "main_amount": "£486.20"
   },
   "warnings": []
@@ -1246,6 +1251,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "one_line_summary": "This appears to be an appointment from West Middlesex University Hospital on 1 July 2026.",
     "main_action": "Attend the appointment or meeting.",
     "main_date": "1 July 2026",
+    "deadline_iso": "2026-07-01",
     "main_amount": null
   },
   "warnings": []
@@ -1480,6 +1486,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "one_line_summary": "This appears to be a bank or finance letter about british gas.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -1711,6 +1718,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "one_line_summary": "Marston Holdings Enforcement Agents appears to have sent an official notice mentioning £1,247.00.",
     "main_action": "Contact the sender using trusted contact details.",
     "main_date": "3 September 2026",
+    "deadline_iso": "2026-09-03",
     "main_amount": "£1,247.00"
   },
   "warnings": [
@@ -2051,6 +2059,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "one_line_summary": "This appears to be from Brightside Housing Association, mentioning £2,480.00 and a date of 12 September 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "12 September 2026",
+    "deadline_iso": "2026-09-12",
     "main_amount": "£2,480.00"
   },
   "warnings": [
@@ -2288,6 +2297,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "one_line_summary": "This appears to be from HM Courts and Tribunals Service, mentioning £726.00 and a date of 30 September 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "30 September 2026",
+    "deadline_iso": "2026-09-30",
     "main_amount": "£726.00"
   },
   "warnings": [
@@ -2527,6 +2537,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "one_line_summary": "This appears to be a housing letter from London Borough of Hounslow.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "within 14 days",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -2747,6 +2758,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "one_line_summary": "Hartley and Grange Solicitors appears to be asking you to pay £3,410.00.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": "£3,410.00"
   },
   "warnings": []
@@ -2978,6 +2990,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "one_line_summary": "This appears to be a formal letter from Chelsea and Westminster Hospital.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -3209,6 +3222,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "one_line_summary": "This appears to be a formal letter from Ravenscourt Logistics Limited.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "17 June 2026",
+    "deadline_iso": "2026-06-17",
     "main_amount": null
   },
   "warnings": []
@@ -3442,6 +3456,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "one_line_summary": "This appears to be a school or education letter from Springwell Primary School.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "5 June 2026",
+    "deadline_iso": "2026-06-05",
     "main_amount": null
   },
   "warnings": []
@@ -3674,6 +3689,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "one_line_summary": "This appears to be an insurance letter about insurance.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "1 July 2026",
+    "deadline_iso": "2026-07-01",
     "main_amount": null
   },
   "warnings": []
@@ -3896,6 +3912,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "one_line_summary": "Halifax appears to be asking you to pay £418.60.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": "£418.60"
   },
   "warnings": []
@@ -4127,6 +4144,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "one_line_summary": "This appears to be a benefits letter from Department for Work and Pensions.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -4348,6 +4366,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "one_line_summary": "This may be a suspicious message about money or details.",
     "main_action": "Verify the organisation on its official website.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
@@ -4563,6 +4582,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "one_line_summary": "This does not look like an official letter or bill.",
     "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
@@ -4789,6 +4809,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "one_line_summary": "This appears to be a benefits letter.",
     "main_action": "Check the original document, or with the sender, whether you need to respond or send anything.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -5002,6 +5023,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "one_line_summary": "This looks like a document sent by you.",
     "main_action": "No action needed right now.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -5218,6 +5240,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "one_line_summary": "This upload appears to contain more than one letter.",
     "main_action": "Check each letter on the original documents.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
@@ -5437,6 +5460,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "one_line_summary": "This upload appears to contain more than one letter.",
     "main_action": "Check each letter on the original documents.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
@@ -5657,6 +5681,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "one_line_summary": "EDF Energy appears to be asking you to pay £214.63 by 28 May 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "28 May 2026",
+    "deadline_iso": "2026-05-28",
     "main_amount": "£214.63"
   },
   "warnings": [
@@ -5896,6 +5921,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "1 April 2026",
+    "deadline_iso": null,
     "main_amount": "£1,381.50"
   },
   "warnings": []
@@ -6119,6 +6145,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "one_line_summary": "EDF Ener9y appears to have sent a bill or payment request.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": "£214.63"
   },
   "warnings": []
@@ -6340,6 +6367,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": "£1,247.00"
   },
   "warnings": [
@@ -6551,6 +6579,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "one_line_summary": "Readable text is limited in this upload.",
     "main_action": "Upload a clearer copy if possible.",
     "main_date": null,
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
@@ -6775,6 +6804,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "one_line_summary": "This appears to be a formal letter.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "28 May 2026",
+    "deadline_iso": "2026-05-28",
     "main_amount": "£214.63"
   },
   "warnings": []
