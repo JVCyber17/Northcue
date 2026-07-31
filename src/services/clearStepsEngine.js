@@ -1772,8 +1772,35 @@ function estimateOcrGarbling(text) {
   return garbledCount / tokens.length;
 }
 
+// A blank form the reader has not filled in yet, as opposed to a letter that
+// merely contains a bracket.
+//
+// The previous test was /\[[^\]]+\]|{[^}]+}|<[^>]+>|.../ and matched ANY square,
+// curly or angle bracket. In a UK letter angle brackets are an email address,
+// and square brackets are a reference number, a neutral legal citation, or a
+// clinical reference range. Each of those turned a genuine letter into "This
+// looks like a template with blank fields." and a label of "Unknown document".
+//
+// It also never caught the thing it was for: the UK blank form convention is an
+// underscore run or a dot leader, so the one real blank form in the corpus was
+// classified as an ordinary letter. Both halves of that are fixed here.
+const TEMPLATE_MARKERS = [
+  // A square bracket only counts when what is inside it is placeholder shaped:
+  // empty, a fill rule, or an instruction to the person completing the form.
+  /\[\s*\]/,
+  /\[[\s_.]*\]/,
+  /\[\s*(?:insert|enter|your|add|delete|tick|choose|select|name|address|date|amount|x)\b[^\]]*\]/i,
+  // Curly braces are a mail merge field. No UK letter prints them.
+  /\{[^}]*\}/,
+  // Fill in rules: four or more underscores, or a dot leader.
+  /_{4,}/,
+  /\.{5,}\s*$/m,
+  /\binsert name\b|\binsert date\b|\btemplate\b/i
+];
+
 function looksTemplate(text) {
-  return /\[[^\]]+\]|{[^}]+}|<[^>]+>|insert name|insert date|template/i.test(String(text || ""));
+  const value = String(text || "");
+  return TEMPLATE_MARKERS.some((marker) => marker.test(value));
 }
 
 function looksOutgoing(lower) {

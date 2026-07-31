@@ -4685,13 +4685,13 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
   "trust_assessment": "medium",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "benefits",
-  "document_type": "official_incoming",
+  "document_category": "template",
+  "document_type": "template",
   "processing_mode": "caution",
   "is_probable_non_document": false,
   "confidence": "medium",
   "needs_human_review": false,
-  "review_reason": "Some details need checking before action.",
+  "review_reason": "Template markers were found.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
@@ -4704,7 +4704,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
   "input_quality": "good",
   "garbled_by_ocr": false,
   "sender_guess": null,
-  "is_template": false,
+  "is_template": true,
   "is_outgoing": false,
   "is_multi_document": false,
   "safe_next_step": "Check key details on the original document before acting."

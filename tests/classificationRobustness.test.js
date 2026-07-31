@@ -113,3 +113,77 @@ test("W1: a document we may not trust keeps its date visible", async (t) => {
     });
   });
 });
+
+test("F1: ordinary brackets are not template placeholders", async (t) => {
+  // looksTemplate matched any square, curly or angle bracket. Angle brackets in
+  // a UK letter are an email address; square brackets are a reference, a legal
+  // citation, or a clinical reference range. Each of these flipped a genuine
+  // letter to document_type template, label "Unknown document", and card 1
+  // "This looks like a template with blank fields."
+  const REAL_LETTER_BRACKETS = [
+    ["an email address in angle brackets", "bailiff_enforcement", "Please contact us at <enforcement@marstonholdings.co.uk>"],
+    ["a council email address", "council_tax", "Please email us at <counciltax@hounslow.gov.uk> if your details have changed."],
+    ["a school email address", "education_letter", "Please contact the school office at <office@springwell.sch.uk> with any questions."],
+    ["a bracketed reference number", "bailiff_enforcement", "Your reference [MH-2291-A] should be quoted on all correspondence."],
+    ["a neutral legal citation", "court_fine", "We refer you to the judgment in Ali v Chandler [2019] EWCA Civ 677."],
+    ["a clinical reference range", "medical_letter", "Your recent blood test showed haemoglobin 132 g/L [130 - 170]."]
+  ];
+
+  for (const [why, id, line] of REAL_LETTER_BRACKETS) {
+    await t.test(why + " does not make it a template", () => {
+      const run = classify(withLine(id, line));
+      assert.notEqual(run.trust.document_type, "template", why);
+      assert.notEqual(run.trust.document_category, "template", why);
+      assert.doesNotMatch(run.cards[0].simple_explanation, /template with blank fields/, why);
+    });
+  }
+
+  await t.test("a genuine blank form is caught, which it was not before", () => {
+    // The old regex tested for bracket placeholders. The actual UK blank form
+    // convention is underscore runs and dot leaders, which is why the one real
+    // blank form in the corpus was classified as an ordinary letter.
+    const form = [
+      "APPLICATION FOR HOUSING BENEFIT",
+      "Name: ____________________",
+      "Address: ____________________",
+      "Total weekly income: £________"
+    ].join("\n");
+    assert.equal(classify(form).trust.document_type, "template",
+      "underscore fill lines are what a real UK blank form uses");
+  });
+
+  await t.test("prescribed form tick boxes are still a template", () => {
+    // A possession notice or payment slip printed with empty boxes for the
+    // sender to complete genuinely is a form.
+    ["Payment method: [ ] Debit card [ ] Bank transfer [ ] Cheque",
+      "Grounds for possession: [ ] Rent arrears  [ ] Anti-social behaviour"]
+      .forEach((line) => {
+        assert.equal(classify("Hounslow Borough Council\n" + line).trust.document_type, "template", line);
+      });
+  });
+
+  await t.test("explicit placeholder wording is still caught", () => {
+    ["Dear [insert name]", "Dear {name}", "[your address here]", "Please insert date here",
+      "This is a template letter"]
+      .forEach((line) => {
+        const run = classify([
+          "Hounslow Borough Council",
+          line,
+          "Reference: CT-2291",
+          "Amount to pay: £120.00"
+        ].join("\n"));
+        assert.equal(run.trust.document_type, "template", line);
+      });
+  });
+
+  await t.test("blank_template is the only corpus document that is a template", () => {
+    // It is the one genuine blank form in the corpus, an unfilled HOUSING
+    // BENEFIT application, and the old regex missed it: it was classified
+    // "benefits" and labelled a real benefits letter. Correcting that is the
+    // one intended baseline movement from this fix.
+    const templates = CORPUS
+      .filter((entry) => classify(entry.text).trust.document_type === "template")
+      .map((entry) => entry.id);
+    assert.deepEqual(templates, ["blank_template"]);
+  });
+});
