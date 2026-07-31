@@ -1656,7 +1656,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
     "Contact the sender using trusted contact details.",
-    "Amount outstanding: £1,247.00 You must contact us on 0333 320 122 by 3 September 2026."
+    "You must contact us on 0333 320 122 by 3 September 2026."
   ],
   "deadline": null,
   "visible_dates": [
@@ -1759,14 +1759,14 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "simple_explanation": "Contact the sender using trusted contact details.",
     "key_points": [
       "Contact the sender using trusted contact details.",
-      "Amount outstanding: £1,247.00 You must contact us on 0333 320 122 by 3 September 2026."
+      "You must contact us on 0333 320 122 by 3 September 2026."
     ],
     "action_needed": "Contact the sender using trusted contact details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. Amount outstanding: £1,247.00 You must contact us on 0333 320 122 by 3 September 2026.",
+    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. You must contact us on 0333 320 122 by 3 September 2026.",
     "status": "urgent"
   },
   {
@@ -1990,7 +1990,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
     "Check the payment amount and due date.",
-    "Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026."
+    "You must clear the arrears by 12 September 2026."
   ],
   "deadline": "12 September 2026",
   "visible_dates": [
@@ -2090,14 +2090,14 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026."
+      "You must clear the arrears by 12 September 2026."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. You must clear the arrears by 12 September 2026.",
     "status": "urgent"
   },
   {
@@ -4049,7 +4049,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
   "most_important_point": "This may ask you to do something. Check the original document carefully.",
   "actions": [
     "Check the payment amount and due date.",
-    "Your new monthly payment will be £742.19. You must report any change in your circumstances within one month."
+    "You must report any change in your circumstances within one month."
   ],
   "deadline": null,
   "risk": "You may miss a response request or important date.",
@@ -4156,14 +4156,14 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Your new monthly payment will be £742.19. You must report any change in your circumstances within one month."
+      "You must report any change in your circumstances within one month."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Your new monthly payment will be £742.19. You must report any change in your circumstances within one month.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. You must report any change in your circumstances within one month.",
     "status": "normal"
   },
   {

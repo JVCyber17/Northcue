@@ -1564,13 +1564,24 @@ function extractSentenceAround(text, matchIndex) {
   const raw = String(text || "");
   const beforeStr = raw.slice(0, matchIndex);
 
-  // Walk backwards to find the last line that starts with a capital letter.
+  // Walk backwards to the last line that starts with a capital letter.
+  //
+  // The match's OWN line counts. Scanning only what comes before the match
+  // meant a match at the start of its line could never see that line's start,
+  // so the walk landed one line too early and swept the previous line in. On
+  // the enforcement notice that turned "You must contact us on 0333 320 122 by
+  // 3 September 2026." into "Amount outstanding: £1,247.00 You must contact us
+  // on 0333 320 122 by 3 September 2026." The existing field-label guard did
+  // not catch it, because it rejects two or more "Label: value" markers and
+  // this sweeps in exactly one.
+  const lineStart = beforeStr.lastIndexOf("\n") + 1;
   let sentenceStart = 0;
   const capLineRe = /(?:^|\n)([A-Z])/g;
   let m;
   while ((m = capLineRe.exec(beforeStr)) !== null) {
     sentenceStart = m.index + (beforeStr[m.index] === "\n" ? 1 : 0);
   }
+  if (/[A-Z]/.test(raw[lineStart] || "")) sentenceStart = Math.max(sentenceStart, lineStart);
 
   // Walk forward to the next sentence-ending punctuation, skipping a period that
   // is part of a decimal number (e.g. the "." in "£130.00") so an amount is not

@@ -173,3 +173,55 @@ test("fix 2: a composed line always outranks a sentence from the document", asyn
     }
   });
 });
+
+test("fix 3: a lifted sentence starts at its own line", async (t) => {
+  // extractSentenceAround walked back through the text BEFORE the match, so a
+  // match at the start of its line could never see that line's own start. The
+  // walk landed one line early and swept the previous line in, on clean
+  // documents as well as damaged ones.
+  const EXPECTED = {
+    bailiff_enforcement: "You must contact us on 0333 320 122 by 3 September 2026.",
+    eviction_possession: "You must clear the arrears by 12 September 2026.",
+    benefits_dwp: "You must report any change in your circumstances within one month."
+  };
+
+  for (const [id, sentence] of Object.entries(EXPECTED)) {
+    await t.test(id + " carries its own sentence and nothing above it", () => {
+      const actions = analyse(byId(id)).structured_output.extractor_internal.actions;
+      assert.ok(actions.includes(sentence),
+        id + " actions were " + JSON.stringify(actions));
+      assert.ok(sentence.startsWith("You must"),
+        "the sentence must begin where the document begins it");
+    });
+  }
+
+  await t.test("no lifted sentence carries a field label from the line above", () => {
+    // The old output began "Amount outstanding: £1,247.00 You must contact us".
+    // The existing guard rejects two or more "Label: value" markers, so exactly
+    // one slipped through.
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const actions = analyse(entry.text).structured_output.extractor_internal.actions || [];
+      actions.forEach((action) => {
+        const obligation = action.search(/\b(?:You must|You are required to|You need to)\b/);
+        if (obligation > 0) offenders.push(entry.id + ": " + JSON.stringify(action));
+      });
+    });
+    assert.deepEqual(offenders, []);
+  });
+
+  await t.test("a genuine leading clause is still kept", () => {
+    // The walk-back exists to preserve conditional openings. Narrowing it must
+    // not lose them.
+    const text = [
+      "Hounslow Borough Council",
+      "Council tax reminder",
+      "Reference: CT-88213",
+      "If anyone over 18 moves into the property, you must tell us within 21 days.",
+      "Amount to pay: £120.00"
+    ].join("\n");
+    const actions = analyse(text).structured_output.extractor_internal.actions;
+    assert.ok(actions.some((action) => action.startsWith("If anyone over 18")),
+      "actions were " + JSON.stringify(actions));
+  });
+});
