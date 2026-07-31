@@ -1312,24 +1312,13 @@ function stripSenderPrefix(line) {
   return cleanLine(String(line || "").replace(/^\s*(?:from|to|sender)\s*:\s*/i, ""));
 }
 
+// One definition of what a date looks like, shared with co-location. This file
+// previously carried its own copy of these patterns, so the two could be
+// corrected independently and disagree, which is exactly what happened.
 function extractVisibleDates(text) {
-  const value = String(text || "");
-  const matches = [];
-
-  // Numeric dates are validated to exclude sort codes and other NN-NN-NN sequences.
-  (value.match(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g) || []).forEach((m) => {
-    if (isPlausibleNumericDate(m)) matches.push(cleanLine(m));
-  });
-
-  const longPatterns = [
-    /\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi,
-    /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi
-  ];
-  longPatterns.forEach((pattern) => {
-    (value.match(pattern) || []).forEach((m) => matches.push(cleanLine(m)));
-  });
-
-  return unique(matches).slice(0, 5);
+  return unique(
+    coLocation.findDates(text, isPlausibleNumericDate).map((date) => cleanLine(date.value))
+  ).slice(0, 5);
 }
 
 function extractVisibleTimeframes(text) {

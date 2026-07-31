@@ -5814,7 +5814,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
 [extractor_internal]
 {
   "summary": "This appears to be a formal letter about tax or HMRC.",
-  "most_important_point": "The clearest topic appears to be tax or HMRC. Check the original for details.",
+  "most_important_point": "This may include a deadline about tax or HMRC. Check the original before acting.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
@@ -5837,16 +5837,19 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   "readable_unsupported_signals": {
     "sender": null,
     "topic": "tax or HMRC",
-    "dateParts": [],
+    "dateParts": [
+      "1April 2026"
+    ],
     "primaryDate": "1April 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": true,
-    "mostImportantPoint": "The clearest topic appears to be tax or HMRC. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
+    "mostImportantPoint": "This may include a deadline about tax or HMRC. Check the original before acting.",
+    "dateMessage": "These may be important dates: 1April 2026. Check what they refer to.",
     "risk": "You may miss a response request or important date.",
     "keyChecks": [
       "Check who sent the document.",
       "Check the topic: tax or HMRC.",
+      "Check these visible dates: 1April 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -5888,7 +5891,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "title": "What is this?",
     "simple_explanation": "This appears to be a formal letter about tax or HMRC.",
     "key_points": [
-      "The clearest topic appears to be tax or HMRC. Check the original for details.",
+      "This may include a deadline about tax or HMRC. Check the original before acting.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -5896,7 +5899,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about tax or HMRC.. The clearest topic appears to be tax or HMRC. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a formal letter about tax or HMRC.. This may include a deadline about tax or HMRC. Check the original before acting. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -5936,7 +5939,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
+    "simple_explanation": "These may be important dates: 1April 2026. Check what they refer to.",
     "key_points": [
       "Check this date on the original document: 1April 2026."
     ],
@@ -5945,7 +5948,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document.. Check this date on the original document: 1April 2026.",
+    "read_aloud_text": "When is it due?. These may be important dates: 1April 2026. Check what they refer to.. Check this date on the original document: 1April 2026.",
     "status": "normal"
   },
   {

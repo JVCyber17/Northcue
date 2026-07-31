@@ -126,6 +126,94 @@ test("dates: the run-on guard, which is the whole safety of that change", async 
   });
 });
 
+test("dates: one definition, shared by co-location and the engine", async (t) => {
+  // extractVisibleDates carried an independent copy of these patterns. The two
+  // drifted the moment one was corrected: after the separator fix they
+  // disagreed on four shapes, and that disagreement is what put "No clear date
+  // was found." on the same card as "Check this date: 1April 2026."
+  await t.test("the union finds every shape either copy used to find", () => {
+    const SHAPES = [
+      ["1 April 2026", "plain day first"],
+      ["1April 2026", "day first, separator lost to OCR"],
+      ["1st April 2026", "ordinal, previously only the engine's copy"],
+      ["April 1, 2026", "month first, previously only the engine's copy"],
+      ["April 1 2026", "month first without the comma"],
+      ["Apr 1st, 2026", "abbreviated month with an ordinal"],
+      ["01/04/2026", "numeric"]
+    ];
+    SHAPES.forEach(([shape, why]) => {
+      assert.deepEqual(co.findDates(shape, () => true).map((v) => v.value), [shape], why);
+    });
+  });
+
+  await t.test("month first keeps mandatory separators, and must", () => {
+    // With \s* it reads "May 2026" as day 20 of May in year 26. A bare month
+    // and year is one of the commonest things a letter writes.
+    ["May 2026", "September 2026", "Period covered May 2026 to June 2026"]
+      .forEach((shape) => {
+        assert.deepEqual(co.findDates(shape, () => true).map((v) => v.value), [], shape);
+      });
+  });
+
+  await t.test("the run-on guard survives the widening", () => {
+    ["£1,04720 August 2026", "£1,047.20 August 2026", "Total 1247 August 2026",
+      "Ref 8842001 May 2026", "20261 April 2026"]
+      .forEach((shape) => {
+        assert.deepEqual(co.findDates(shape, () => true).map((v) => v.value), [], shape);
+      });
+  });
+
+  await t.test("the engine and co-location cannot disagree about a date", () => {
+    // The structural guarantee. Both now read one definition, so every date the
+    // engine lists must be one co-location found.
+    CORPUS.forEach((entry) => {
+      const listed = analyse(entry.text).structured_output.extractor_internal.visible_dates || [];
+      const found = co.findDates(entry.text).map((v) => v.value);
+      listed.forEach((date) => {
+        assert.ok(found.includes(date),
+          entry.id + ": the engine listed " + date + " and co-location did not find it");
+      });
+    });
+  });
+});
+
+test("no card may contradict its own date field, on either path", async (t) => {
+  // The defect this closes: card 4's sentence said "No clear date was found."
+  // while its key point and possible_deadline both named 1April 2026, because
+  // the sentence was computed from one date pattern and the field from another.
+  const SAYS_NONE = /no clear (?:due )?date|no deadline clearly stated|no clear date/i;
+
+  await t.test("across every corpus document", () => {
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const structured = analyse(entry.text).api_output.structured_result;
+      const card = structured.cards[3];
+      if (card.possible_deadline) {
+        if (SAYS_NONE.test(card.simple_explanation)) {
+          offenders.push(entry.id + ": text says no date, field says " + card.possible_deadline);
+        } else if (!card.simple_explanation.includes(card.possible_deadline)) {
+          offenders.push(entry.id + ": text omits the field's date " + card.possible_deadline);
+        }
+      }
+      (card.key_points || []).forEach((point) => {
+        const named = point.match(/\d{1,2}\s*[A-Za-z]+\s*\d{4}/);
+        if (named && !card.simple_explanation.includes(named[0])) {
+          offenders.push(entry.id + ": key point names " + named[0] + " but the sentence does not");
+        }
+      });
+      if (structured.summary.main_date !== (card.possible_deadline || null)) {
+        offenders.push(entry.id + ": main_date and possible_deadline differ");
+      }
+    });
+    assert.deepEqual(offenders, []);
+  });
+
+  await t.test("the guard would catch a reintroduction", () => {
+    assert.match("No clear date was found. Check the original document.", SAYS_NONE);
+    assert.ok(CORPUS.length >= 30);
+  });
+});
+
 test("money: every amount in the corpus is still found in full", async (t) => {
   // 31 distinct amounts across 30 documents. Tightening a value pattern risks
   // losing genuine values, so this is the counterweight to the decline tests.

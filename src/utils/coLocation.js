@@ -135,7 +135,15 @@ const MONEY = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|[.,]\d|[
 // lookbehind requires that whatever precedes the day is not a digit and not a
 // decimal separator carrying digits, so a date can never be carved out of a
 // longer number.
-const LONG_DATE = /(?<![\d.,])\b\d{1,2}\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s*\d{2,4}\b/gi;
+const LONG_DATE = /(?<![\d.,])\b\d{1,2}(?:st|nd|rd|th)?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s*\d{2,4}\b/gi;
+
+// Month-first order, "April 1, 2026". Kept separate because its separators must
+// stay mandatory. With \s* it reads "May 2026" as day 20 of May in year 26, and
+// a bare month and year is one of the commonest things a letter writes: "Period
+// covered May 2026 to June 2026" would yield two dates that are not dates.
+// Day-first has no such collision, because a day-first match must begin with a
+// digit and a bare month cannot.
+const MONTH_FIRST_DATE = /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi;
 const NUMERIC_DATE = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
 
 // ---------------------------------------------------------------------------
@@ -209,12 +217,21 @@ function findAmounts(text) {
   return locate(String(text || ""), MONEY);
 }
 
+// The one definition of what a date looks like. The engine's extractVisibleDates
+// carried an independent copy of these patterns, and the two drifted the moment
+// one was corrected: after the separator fix they disagreed on four shapes, and
+// that disagreement is what put "No clear date was found." on the same card as
+// "Check this date on the original document: 1April 2026."
+//
+// This is the union of both copies. Day-first gains ordinals, month-first order
+// is new to co-location, and both were previously only in the engine's copy.
 function findDates(text, isPlausibleNumericDate) {
   const value = String(text || "");
   const long = locate(value, LONG_DATE);
+  const monthFirst = locate(value, MONTH_FIRST_DATE);
   const numeric = locate(value, NUMERIC_DATE,
     (raw) => (isPlausibleNumericDate ? isPlausibleNumericDate(raw) : true));
-  return long.concat(numeric).sort((a, b) => a.index - b.index);
+  return long.concat(monthFirst, numeric).sort((a, b) => a.index - b.index);
 }
 
 // ---------------------------------------------------------------------------
