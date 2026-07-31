@@ -2644,7 +2644,17 @@ function extractActions(text, trust) {
     return ["No action needed right now."];
   }
 
-  return unique(actions);
+  // A composed line always outranks a sentence lifted out of the document,
+  // whatever order they matched in. normalizeActionLine takes actions[0] as the
+  // card 3 headline, so without this the headline depends on which pattern
+  // happened to fire first, and a raw sentence can lead the card whenever the
+  // composed probes are pushed later or fail. A raw sentence may be a key
+  // point; it may never be the instruction. Stable sort, so the existing order
+  // within each group is untouched.
+  return unique(actions)
+    .map((action, position) => ({ action, position }))
+    .sort((a, b) => (isComposedAction(b.action) - isComposedAction(a.action)) || (a.position - b.position))
+    .map((entry) => entry.action);
 }
 
 // One definition of what an amount looks like, shared with co-location. This

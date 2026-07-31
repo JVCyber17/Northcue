@@ -100,3 +100,76 @@ test("fix 1: a garbled document never shows a sentence lifted from itself", asyn
     });
   });
 });
+
+// The composed lines Northcue writes, lifted from the engine source so this
+// test cannot drift from the set the engine actually uses.
+function composedActions() {
+  const source = require("node:fs").readFileSync(
+    path.join(__dirname, "..", "src", "services", "clearStepsEngine.js"), "utf8");
+  const block = source.match(/const COMPOSED_ACTIONS = new Set\(\[([\s\S]*?)\]\);/);
+  assert.ok(block, "COMPOSED_ACTIONS was not found in the engine");
+  // None of these lines contains a quote or a backslash, so a plain
+  // quoted-run match is enough and needs no escaping.
+  return new Set((block[1].match(/"[^"]*"/g) || []).map((quoted) => JSON.parse(quoted)));
+}
+
+test("fix 2: a composed line always outranks a sentence from the document", async (t) => {
+  const COMPOSED = composedActions();
+
+  await t.test("across every corpus document", () => {
+    // normalizeActionLine takes actions[0] as the card 3 headline, so this is
+    // the property that keeps a raw sentence out of the instruction slot.
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const actions = analyse(entry.text).structured_output.extractor_internal.actions || [];
+      if (!actions.some((action) => COMPOSED.has(action))) return;
+      if (!COMPOSED.has(actions[0])) {
+        offenders.push(entry.id + ": headline is raw text: " + JSON.stringify(actions[0]));
+      }
+    });
+    assert.deepEqual(offenders, []);
+  });
+
+  await t.test("a raw sentence may still be a key point", () => {
+    // The rule demotes raw text, it does not delete it. On the clean
+    // enforcement notice the document's own sentence is still carried.
+    const actions = analyse(byId("bailiff_enforcement")).structured_output.extractor_internal.actions;
+    assert.ok(COMPOSED.has(actions[0]), "the headline must be composed");
+    assert.ok(actions.slice(1).some((action) => !COMPOSED.has(action)),
+      "the document's own sentence must still be available as a key point");
+  });
+
+  await t.test("the guarantee holds when the document states the obligation first", () => {
+    // Moving the obligation sentence above the line that triggers the composed
+    // probe must not change which one leads.
+    const text = [
+      "Hounslow Borough Council",
+      "Council tax reminder",
+      "Reference: CT-88213",
+      "You must tell us if anyone over 18 moves into the property.",
+      "Amount to pay: £120.00",
+      "Please contact us if you cannot pay by 1 April 2026."
+    ].join("\n");
+    const actions = analyse(text).structured_output.extractor_internal.actions;
+    assert.ok(COMPOSED.has(actions[0]),
+      "headline was " + JSON.stringify(actions[0]));
+  });
+
+  await t.test("with no composed line there is nothing to outrank", () => {
+    // Stated so the limit of this rule is explicit rather than assumed. A clean
+    // document whose only signal is an obligation still leads with that
+    // sentence, which is correct: it is the only thing the engine knows.
+    const text = [
+      "Springwell Primary School",
+      "Reference: SW/2026/1180",
+      "Date: 12 May 2026",
+      "Dear Parent or Carer",
+      "We are writing about the school records we hold for your child.",
+      "You must tell us if your home address changes during the school year."
+    ].join("\n");
+    const actions = analyse(text).structured_output.extractor_internal.actions;
+    if (!actions.some((action) => COMPOSED.has(action))) {
+      assert.ok(!COMPOSED.has(actions[0]), "premise: no composed line fired here");
+    }
+  });
+});
