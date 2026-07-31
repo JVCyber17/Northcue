@@ -120,7 +120,22 @@ const GREETING = /^\s*(?:dear\b|to whom it may concern)/i;
 // a prefix is not.
 const MONEY = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|[.,]\d|[A-Za-z])/gi;
 
-const LONG_DATE = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
+// A long form date, with the separators optional.
+//
+// OCR loses the space between a day and a month routinely, and the two OCR
+// documents in the corpus both show it: "20August 2026", "3September 2026",
+// "4May 2026", "28May 2026". Requiring \s+ meant those documents produced ZERO
+// parseable dates, so no amount of vocabulary or co-location work could reach
+// them. There was nothing to bind.
+//
+// The left boundary is the whole safety of this change. \b alone is not enough
+// once the separator is optional: in "£1,04720 August 2026" there is no word
+// boundary inside "04720", but a naive optional separator would still let the
+// pattern start at "20" and read a date out of the middle of an amount. The
+// lookbehind requires that whatever precedes the day is not a digit and not a
+// decimal separator carrying digits, so a date can never be carved out of a
+// longer number.
+const LONG_DATE = /(?<![\d.,])\b\d{1,2}\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s*\d{2,4}\b/gi;
 const NUMERIC_DATE = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
 
 // ---------------------------------------------------------------------------

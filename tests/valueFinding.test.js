@@ -75,6 +75,57 @@ test("money: unseparated thousands are read whole, not truncated", async (t) => 
   });
 });
 
+test("dates: a lost space between day and month no longer hides the date", async (t) => {
+  // OCR drops this space routinely and both OCR documents in the corpus show
+  // it. Requiring \s+ meant they produced ZERO parseable dates, so no amount of
+  // vocabulary or co-location work could reach them: there was nothing to bind.
+  const RECOVERED = ["20August 2026", "3September 2026", "4May 2026", "28May 2026"];
+  for (const shape of RECOVERED) {
+    await t.test(shape + " is found", () => {
+      assert.deepEqual(co.findDates(shape).map((v) => v.value), [shape]);
+    });
+  }
+
+  await t.test("both separators are optional, not just the first", () => {
+    assert.deepEqual(co.findDates("12September2026").map((v) => v.value), ["12September2026"]);
+  });
+
+  await t.test("ordinary spaced dates are unaffected", () => {
+    ["12 September 2026", "1 April 2026", "28 May 2026", "5 June 2026", "31 July 2026"]
+      .forEach((shape) => {
+        assert.deepEqual(co.findDates(shape).map((v) => v.value), [shape], shape);
+      });
+  });
+});
+
+test("dates: the run-on guard, which is the whole safety of that change", async (t) => {
+  // \b alone is not enough once the separator is optional. There is no word
+  // boundary inside "04720", so without the lookbehind the pattern would start
+  // at "20" and read a date out of the middle of an amount.
+  const RUN_ONS = [
+    ["£1,04720 August 2026", "a date carved out of an amount"],
+    ["£1,047.20 August 2026", "the same across a decimal point"],
+    ["Total 1247 August 2026", "a bare four figure number before a month"],
+    ["Ref 8842001 May 2026", "a reference number before a month"],
+    ["20261 April 2026", "a year run into a day"]
+  ];
+
+  for (const [shape, why] of RUN_ONS) {
+    await t.test(why + ": " + shape, () => {
+      assert.deepEqual(co.findDates(shape).map((v) => v.value), [],
+        "a date must never be carved out of a longer number");
+    });
+  }
+
+  await t.test("a genuine date after an amount on the same line still reads", () => {
+    // The guard rejects a digit immediately before the day, not a digit
+    // anywhere earlier on the line.
+    assert.deepEqual(
+      co.findDates("Amount to pay: £1,381.50 by 1 April 2026").map((v) => v.value),
+      ["1 April 2026"]);
+  });
+});
+
 test("money: every amount in the corpus is still found in full", async (t) => {
   // 31 distinct amounts across 30 documents. Tightening a value pattern risks
   // losing genuine values, so this is the counterweight to the decline tests.

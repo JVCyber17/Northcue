@@ -5818,7 +5818,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
+  "deadline": "1April 2026",
   "risk": "You may miss a response request or important date.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
@@ -5838,7 +5838,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "sender": null,
     "topic": "tax or HMRC",
     "dateParts": [],
-    "primaryDate": null,
+    "primaryDate": "1April 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": true,
     "mostImportantPoint": "The clearest topic appears to be tax or HMRC. Check the original for details.",
@@ -5873,7 +5873,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   "summary": {
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": null,
+    "main_date": "1April 2026",
     "main_amount": "£1,381.50"
   },
   "warnings": []
@@ -5937,13 +5937,15 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
     "simple_explanation": "No clear date was found. Check the original document.",
-    "key_points": [],
+    "key_points": [
+      "Check this date on the original document: 1April 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "1April 2026",
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. No clear date was found. Check the original document.. Check this date on the original document: 1April 2026.",
     "status": "normal"
   },
   {
@@ -5951,8 +5953,9 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,381.50) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,381.50) and the date (1April 2026) on the original document.",
     "key_points": [
+      "Date: 1April 2026.",
       "Amount shown: £1,381.50."
     ],
     "action_needed": null,
@@ -5960,7 +5963,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "possible_payment": "£1,381.50",
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£1,381.50) and any dates on the original document.. Amount shown: £1,381.50.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,381.50) and the date (1April 2026) on the original document.. Date: 1April 2026. Amount shown: £1,381.50.",
     "status": "normal"
   },
   {
