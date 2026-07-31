@@ -331,18 +331,18 @@
    "steps": 2
   },
   "bailiff_enforcement|4": {
-   "px": 533,
-   "lang": "pl",
-   "answerChars": 127,
-   "stepChars": 0,
-   "steps": 0
+   "px": 461,
+   "lang": "es",
+   "answerChars": 24,
+   "stepChars": 59,
+   "steps": 1
   },
   "bailiff_enforcement|5": {
-   "px": 587,
-   "lang": "pl",
-   "answerChars": 68,
-   "stepChars": 24,
-   "steps": 1
+   "px": 623,
+   "lang": "fr",
+   "answerChars": 86,
+   "stepChars": 47,
+   "steps": 2
   },
   "bailiff_enforcement|6": {
    "px": 648,

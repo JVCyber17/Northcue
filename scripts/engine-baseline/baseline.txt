@@ -1660,7 +1660,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "Contact the sender using trusted contact details.",
     "You must contact us on 0333 320 122 by 3 September 2026."
   ],
-  "deadline": null,
+  "deadline": "3 September 2026",
   "visible_dates": [
     "20 August 2026",
     "3 July 2026",
@@ -1710,7 +1710,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "summary": {
     "one_line_summary": "Marston Holdings Enforcement Agents appears to have sent an official notice mentioning £1,247.00.",
     "main_action": "Contact the sender using trusted contact details.",
-    "main_date": null,
+    "main_date": "3 September 2026",
     "main_amount": "£1,247.00"
   },
   "warnings": [
@@ -1777,14 +1777,16 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to.",
-    "key_points": [],
+    "simple_explanation": "Due by 3 September 2026.",
+    "key_points": [
+      "Check this date on the original document: 3 September 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "3 September 2026",
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to..",
+    "read_aloud_text": "When is it due?. Due by 3 September 2026.. Check this date on the original document: 3 September 2026.",
     "status": "urgent"
   },
   {
@@ -1792,8 +1794,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,247.00) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,247.00) and the date (3 September 2026) on the original document.",
     "key_points": [
+      "Date: 3 September 2026.",
       "Amount shown: £1,247.00."
     ],
     "action_needed": null,
@@ -1801,7 +1804,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": "£1,247.00",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and any dates on the original document.. Amount shown: £1,247.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and the date (3 September 2026) on the original document.. Date: 3 September 2026. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {
@@ -1890,14 +1893,16 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to.",
-    "key_points": [],
+    "simple_explanation": "Due by 3 September 2026.",
+    "key_points": [
+      "Check this date on the original document: 3 September 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "3 September 2026",
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to..",
+    "read_aloud_text": "When is it due?. Due by 3 September 2026.. Check this date on the original document: 3 September 2026.",
     "status": "urgent"
   },
   {
@@ -1905,8 +1910,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,247.00) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,247.00) and the date (3 September 2026) on the original document.",
     "key_points": [
+      "Date: 3 September 2026.",
       "Amount shown: £1,247.00."
     ],
     "action_needed": null,
@@ -1914,7 +1920,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": "£1,247.00",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and any dates on the original document.. Amount shown: £1,247.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and the date (3 September 2026) on the original document.. Date: 3 September 2026. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {

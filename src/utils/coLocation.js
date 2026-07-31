@@ -101,6 +101,58 @@ const DATE_COMPETES = [
   "reading taken", "read on", "covering", "from", "printed"
 ];
 
+// DISCONTIGUOUS LABELS. An obligation to make contact almost never puts its
+// "by" next to its verb, because the reader has to be told HOW to make contact
+// first. The corpus's most urgent document is the whole case:
+//
+//   "You must contact us on 0333 320 122 by 3 September 2026."
+//
+// "contact us by" is already a literal, and it cannot see this, because the
+// phone number sits between the two halves. Recorded as B-1, and described
+// there as arguably the highest-harm single item in the audit: the enforcement
+// notice showed main_date null and listed its contact deadline as one of three
+// undifferentiated dates.
+//
+// A spanning entry is a head, a bounded gap, and the temporal "by". The whole
+// thing is the label, so label.end lands immediately before the date and every
+// existing rule still applies unchanged: forward-only proximity, the adjacency
+// test, same block, and the between-test, which reads from label.index and so
+// sweeps the entire clause for a competing label.
+//
+// THE HEAD MUST CARRY A FIRST PERSON PLURAL OBJECT. This is the rule that makes
+// the class safe rather than merely narrow. A head like a bare "respond" or
+// "reply" lets the SENDER be the subject, and "We will respond to your
+// complaint by 3 September 2026" is a service promise, not the reader's
+// deadline. With "us" as the object the reader is the only possible actor.
+// Verified: the four sender-subject forms above match nothing here.
+//
+// "pay" was tried as a head and rejected. It matches inside "payment" and
+// "payments", so it fired on four corpus documents, and it is the one verb
+// Tier 1b exists to defend against ("You agreed to pay by direct debit on
+// 3 July 2026"). Giving the most overloaded verb in the vocabulary a 44
+// character reach is the change most likely to reintroduce D-1's failure
+// shape. Left out on purpose; do not add it without new evidence.
+const DATE_GOVERNS_SPANNING = [
+  "contact us", "reply to us", "write to us", "respond to us", "notify us"
+];
+
+// The gap bound, measured rather than chosen. Across fifteen realistic UK
+// contact clauses the interposed object runs 12 to 48 characters, median 31:
+//
+//    17   " on 0333 320 122 "                          the corpus, B-1
+//    27   " on the number shown above "
+//    31   " quoting reference EN-77120934 "
+//    34   " using the details on this notice "
+//    44   " at the address on the front of this letter "
+//    48   " on 020 8583 2000 quoting reference EN-77120934 "
+//
+// 44 covers fourteen of the fifteen. The one it does not is a clause that
+// stacks two objects, a phone number AND a reference, and that exclusion is
+// deliberate: the cost of a bound that is too small is a null deadline, which
+// the cards already word honestly, and the cost of one that is too large is a
+// wrong date asserted confidently. The asymmetry says pick the smaller.
+const MAX_LABEL_GAP = 44;
+
 // ---------------------------------------------------------------------------
 // OCR tolerance, for LABELS ONLY.
 //
@@ -172,6 +224,44 @@ function labelPattern(phrase) {
     const source = WORD_BOUNDED.has(phrase) ? "\\b" + body + "\\b" : body;
     pattern = new RegExp(source, "gi");
     labelPatterns.set(phrase, pattern);
+  }
+  return pattern;
+}
+
+// Compiles a discontiguous entry: head, bounded gap, temporal "by".
+//
+// THE QUANTIFIER MUST BE LAZY, and this is the detail the whole pattern turns
+// on. A greedy gap reaches for the LAST "by" within range, so a line carrying a
+// second one loses the date entirely:
+//
+//   "You must contact us on 0333 320 122 by 3 September 2026 or pay by card."
+//     greedy   label ends after "pay by", the date now sits BEHIND the label,
+//              forward-only proximity rejects it, deadline null
+//     lazy     label ends after the first "by", binds 3 September 2026
+//
+// Worth being exact about what this does and does not fix, because the earlier
+// note on this overstated it: on the flagship line as the corpus actually
+// writes it, greedy and lazy agree, because that line contains only one "by".
+// Greedy fails on the very next realistic variant of it, not on it.
+//
+// The gap is [^\n], so a discontiguous label never spans a line. Proximity
+// already allows a label on the line above a date; a label that could also run
+// ACROSS lines would make its own extent, and therefore the between-test's
+// span, unbounded in the one direction that matters.
+//
+// Both ends are word bounded. Without them "contact us" matches inside
+// "contact usage" and "notify us" inside "notify usual contacts", which is the
+// same substring hazard the tier 2 literals hit.
+const spanningPatterns = new Map();
+function spanningPattern(head) {
+  let pattern = spanningPatterns.get(head);
+  if (!pattern) {
+    const body = head.length >= MIN_TOLERANT_LENGTH
+      ? tolerantLabelSource(head)
+      : head.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    pattern = new RegExp(
+      "\\b" + body + "\\b[^\\n]{0," + MAX_LABEL_GAP + "}?\\bby\\b", "gi");
+    spanningPatterns.set(head, pattern);
   }
   return pattern;
 }
@@ -374,6 +464,37 @@ function locateLabels(text, phrases) {
   return hits.sort((a, b) => a.index - b.index);
 }
 
+// Where does a discontiguous entry sit? Same hit shape as locateLabels, so
+// every test downstream treats it identically. index is the start of the head
+// and end is the character after "by", which is what makes the adjacency test
+// see only the whitespace before the date.
+//
+// phrase reads "contact us ... by" rather than the raw source, because it is
+// reported back through selectDeadline and a regex is not an explanation.
+function locateSpanningLabels(text, heads) {
+  const source = String(text || "");
+  const starts = lineStarts(source);
+  const blocks = blockIndexes(source.split("\n"));
+  const hits = [];
+  heads.forEach((head) => {
+    const pattern = spanningPattern(head);
+    pattern.lastIndex = 0;
+    let match;
+    while ((match = pattern.exec(source)) !== null) {
+      const lineIndex = lineIndexAt(starts, match.index);
+      hits.push({
+        phrase: head + " ... by",
+        index: match.index,
+        end: match.index + match[0].length,
+        lineIndex,
+        block: blocks[lineIndex]
+      });
+      if (pattern.lastIndex === match.index) pattern.lastIndex++;
+    }
+  });
+  return hits.sort((a, b) => a.index - b.index);
+}
+
 // TEST 1. Same line, or the label on the line immediately above.
 //
 // For MONEY the label may sit either side of the value on the same line.
@@ -505,11 +626,23 @@ function selectAmount(text) {
 }
 
 // The one date the document says is a deadline, or null.
+//
+// Contiguous and discontiguous labels are one pool. A spanning hit is not a
+// weaker kind of evidence to be consulted only on failure: it is the same
+// claim, written with the contact method in the middle, and it competes on
+// distance with everything else exactly as another literal would.
+//
+// Deliberately NOT wired into isClaimedByCompetingDateLabel. That function
+// answers a narrower question for the reading-aid fallback, and it tests
+// proximity without the forward-only rule, so a spanning label would gain
+// governing power there under weaker conditions than it has here.
 function selectDeadline(text, isPlausibleNumericDate) {
   const source = String(text || "");
   const values = findDates(source, isPlausibleNumericDate);
   if (!values.length) return null;
-  const governs = locateLabels(source, DATE_GOVERNS);
+  const governs = locateLabels(source, DATE_GOVERNS)
+    .concat(locateSpanningLabels(source, DATE_GOVERNS_SPANNING))
+    .sort((a, b) => a.index - b.index);
   const competes = locateLabels(source, DATE_COMPETES);
 
   for (const value of values) {
@@ -565,6 +698,7 @@ module.exports = {
   findAmounts,
   findDates,
   locateLabels,
+  locateSpanningLabels,
   passesProximity,
   passesSameBlock,
   passesNoCompetingLabel,
@@ -577,5 +711,7 @@ module.exports = {
   AMOUNT_GOVERNS,
   AMOUNT_COMPETES,
   DATE_GOVERNS,
-  DATE_COMPETES
+  DATE_GOVERNS_SPANNING,
+  DATE_COMPETES,
+  MAX_LABEL_GAP
 };

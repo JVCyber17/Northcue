@@ -119,6 +119,191 @@ test("tier 2 keeps every rule the vocabulary already had", async (t) => {
   });
 });
 
+// --------------------------------------------------------------- tier 3
+
+test("a contact obligation binds its date across the contact method", async (t) => {
+  // B-1. The most urgent document in the corpus stated its deadline as
+  // "You must contact us on 0333 320 122 by 3 September 2026" and showed
+  // main_date null, because the phone number sits between "contact us" and
+  // "by". Card 4 listed the contact deadline as one of three undifferentiated
+  // dates on a notice about an enforcement agent attending the reader's home.
+  await t.test("the flagship, end to end through the engine", () => {
+    const run = runClearStepsEngine({
+      extractedText: byId("bailiff_enforcement"),
+      fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "b1" }
+    });
+    const result = run.api_output.structured_result;
+    assert.equal(run.structured_output.extractor_internal.deadline, "3 September 2026");
+    assert.equal(result.summary.main_date, "3 September 2026");
+    assert.equal(result.cards[3].possible_deadline, "3 September 2026");
+    assert.equal(result.cards[3].simple_explanation, "Due by 3 September 2026.");
+  });
+
+  const INTERPOSED = [
+    ["phone number", "You must contact us on 0333 320 122 by 3 September 2026."],
+    ["freephone", "You must contact us on 0800 121 4433 by 3 September 2026."],
+    ["number with extension", "Please contact us on 020 8583 2000 ext 4471 by 3 September 2026."],
+    ["number shown above", "You must contact us on the number shown above by 3 September 2026."],
+    ["a named team", "Please contact us in the council tax recovery team by 3 September 2026."],
+    ["a reference to quote", "You must contact us quoting reference EN-77120934 by 3 September 2026."],
+    ["an email address", "Please contact us at revenues@hounslow.gov.uk by 3 September 2026."],
+    ["a postal address", "Please reply to us at the address shown above by 3 September 2026."],
+    ["in writing", "You must respond to us in writing by 3 September 2026."],
+    ["the front of the letter", "You must write to us at the address on the front of this letter by 3 September 2026."],
+    ["a change of circumstances", "You must notify us of any change in your circumstances by 3 September 2026."]
+  ];
+
+  for (const [why, line] of INTERPOSED) {
+    await t.test(why + ": " + JSON.stringify(line.slice(0, 46) + "..."), () => {
+      assert.equal(deadline(notice([line])), "3 September 2026");
+    });
+  }
+
+  await t.test("OCR damage in the head does not lose the binding", () => {
+    // The same sentence as ocr_enforcement writes it, with the lost separator
+    // in the date too. Co-location finds it; see the layering test below for
+    // why the engine still declines to show it.
+    assert.equal(deadline("You must c0ntact us on 0333 320 122 by 3September 2026."), "3September 2026");
+  });
+});
+
+test("the gap is bounded, and the bound is the one that was measured", async (t) => {
+  const withGap = (n) => "You must contact us on " + "x".repeat(Math.max(0, n - 5)) + " by 3 September 2026.";
+
+  await t.test("MAX_LABEL_GAP is 44", () => {
+    assert.equal(co.MAX_LABEL_GAP, 44,
+      "the bound was measured across fifteen realistic contact clauses; changing it needs new measurements");
+  });
+
+  await t.test("a gap of exactly 44 binds", () => {
+    assert.equal(deadline(notice([withGap(44)])), "3 September 2026");
+  });
+
+  await t.test("a gap of 45 does not", () => {
+    assert.equal(deadline(notice([withGap(45)])), null,
+      "an unbounded reach is what turns a nearby sentence into this sentence's deadline");
+  });
+});
+
+test("the gap quantifier is lazy, and this test is what keeps it lazy", async (t) => {
+  // A greedy gap reaches for the LAST "by" in range. The label then ends AFTER
+  // the date, forward-only proximity rejects it, and the deadline is null.
+  const TWO_BY = "You must contact us on 0333 320 122 by 3 September 2026 or pay by card.";
+
+  await t.test("a second by on the same line does not cost the date", () => {
+    assert.equal(deadline(notice([TWO_BY])), "3 September 2026");
+  });
+
+  await t.test("the greedy form really does lose it, so the test above bites", () => {
+    // Built here rather than imported, so this asserts the mechanism rather
+    // than trusting the description of it.
+    const greedy = /\bcontact us\b[^\n]{0,44}\bby\b/i.exec(TWO_BY);
+    const lazy = /\bcontact us\b[^\n]{0,44}?\bby\b/i.exec(TWO_BY);
+    assert.ok(greedy[0].endsWith("pay by"), "greedy ran on to the second by: " + JSON.stringify(greedy[0]));
+    assert.ok(lazy[0].endsWith("122 by"), "lazy stopped at the first: " + JSON.stringify(lazy[0]));
+    const dateAt = TWO_BY.indexOf("3 September 2026");
+    assert.ok(greedy.index + greedy[0].length > dateAt,
+      "under greedy the date sits behind the label, which is why it is rejected");
+  });
+
+  await t.test("the flagship line itself does NOT distinguish them", () => {
+    // Worth pinning, because the earlier note claimed greedy left the flagship
+    // null. It does not: that line carries only one "by". Greedy fails on the
+    // next realistic variant of it, not on it.
+    const one = "You must contact us on 0333 320 122 by 3 September 2026.";
+    assert.equal(/\bcontact us\b[^\n]{0,44}\bby\b/i.exec(one)[0],
+      /\bcontact us\b[^\n]{0,44}?\bby\b/i.exec(one)[0]);
+  });
+});
+
+test("widening the label does not widen what it may bind", async (t) => {
+  await t.test("the adjacency test still runs on the whole label", () => {
+    // The run-on guard. "by telephone on <date>" is an instrumental by, and the
+    // words after it are what reject the bind. Tier 1b, still load bearing.
+    assert.equal(deadline(notice([
+      "You must contact us on 0333 320 122 by telephone on 3 September 2026."
+    ])), null);
+  });
+
+  await t.test("a competing label hiding inside the gap rejects the bind", () => {
+    // The between-test reads from label.index, so it sweeps the whole clause.
+    // Before spanning labels existed that span was a few characters wide.
+    assert.equal(deadline(notice([
+      "You must contact us about the year ending 5 April 2026 by 3 September 2026."
+    ])), null);
+  });
+
+  await t.test("a discontiguous label never spans a line", () => {
+    assert.equal(deadline(notice(["You must contact us", "on 0333 320 122 by 3 September 2026."])), null);
+  });
+
+  await t.test("the head does not match inside a longer word", () => {
+    assert.equal(deadline(notice(["Please review contact usage on this account by 3 September 2026."])), null);
+    assert.equal(deadline(notice(["We will notify usual contacts on the account by 3 September 2026."])), null);
+  });
+
+  await t.test("the sender may not be the subject", () => {
+    // Every head carries a first person plural object, so a service promise
+    // cannot be read as the reader's deadline.
+    [
+      "We will respond to your complaint by 3 September 2026.",
+      "We will reply to you by 3 September 2026.",
+      "We will write to you again by 3 September 2026.",
+      "We will notify you of the outcome by 3 September 2026."
+    ].forEach((line) => {
+      assert.equal(deadline(notice([line])), null, JSON.stringify(line));
+    });
+  });
+
+  await t.test("pay is not a head, and the reason is in the vocabulary", () => {
+    assert.equal(co.DATE_GOVERNS_SPANNING.includes("pay"), false,
+      "pay matches inside payment and is the verb tier 1b exists to defend against");
+    assert.equal(deadline(notice([
+      "You agreed to pay us by direct debit on 3 July 2026."
+    ])), null);
+  });
+});
+
+test("tier 3 stops where the other layers say stop", async (t) => {
+  await t.test("a garbled document finds the date and still declines to show it", () => {
+    // ocr_enforcement carries the same sentence. Co-location binds it, and the
+    // garble branch nulls it anyway, because a date read off text the engine
+    // has called unreliable is not a date to assert. Two layers, and this pins
+    // that the second one is what holds.
+    const text = byId("ocr_enforcement");
+    assert.ok(co.selectDeadline(text, isPlausibleNumericDate), "premise: co-location binds it");
+    const run = runClearStepsEngine({
+      extractedText: text,
+      fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "t3" }
+    });
+    assert.equal(run.structured_output.trust_internal.garbled_by_ocr, true, "premise");
+    assert.equal(run.structured_output.extractor_internal.deadline, null,
+      "the garble branch, not co-location, is what keeps this off the card");
+  });
+
+  await t.test("exactly one corpus document gains a deadline, and none loses one", () => {
+    const EXPECTED = {
+      council_tax: "1 April 2026", energy_bill: "28 May 2026", water_bill: "30 June 2026",
+      gov_hmrc: "31 July 2026", appointment_nhs: "1 July 2026",
+      bailiff_enforcement: "3 September 2026", eviction_possession: "12 September 2026",
+      court_fine: "30 September 2026", housing_letter: "within 14 days",
+      employment_letter: "17 June 2026", education_letter: "5 June 2026",
+      insurance_letter: "1 July 2026", multi_document_split: "28 May 2026",
+      ocr_council_tax: "1April 2026", photo_snippet_short: "28 May 2026"
+    };
+    const found = {};
+    CORPUS.forEach((entry) => {
+      const run = runClearStepsEngine({
+        extractedText: entry.text,
+        fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "t3all" }
+      });
+      const value = run.structured_output.extractor_internal.deadline;
+      if (value) found[entry.id] = value;
+    });
+    assert.deepEqual(found, EXPECTED);
+  });
+});
+
 test("tier 2 moves nothing that was already correct", async (t) => {
   await t.test("no new entry fires anywhere in the corpus", () => {
     const NEW = ["compliance date", "date for compliance", "response date", "act by", "you must act by"];
