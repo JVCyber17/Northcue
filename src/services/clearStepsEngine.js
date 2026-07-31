@@ -8,6 +8,29 @@ const { extractorSchema } = require("../schemas/extractorSchema");
 const { cardSchema, allowedCardIds } = require("../schemas/cardSchema");
 const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
+const coLocation = require("../utils/coLocation");
+
+// Co-location decline vocabulary. These match ids in the template bank, so the
+// nine translated languages carry them; see docs/i18n/adding-a-bank-sentence.md.
+const UNLABELLED = {
+  amount: "An amount is shown but the document does not label what it is for. Check the original document.",
+  date: "A date is shown but the document does not label what it is for. Check the original document.",
+  amountPoint: "An amount is shown without a label.",
+  datePoint: "A date is shown without a label."
+};
+
+// The single amount selector. Replaces bestMoneyAmount (largest) and
+// firstOrNull (first in document order), which disagreed with each other and
+// were both guesses about meaning. Returns the amount the document labels as
+// owed, or null. Never the largest, never the first.
+//
+// Card 1, card 5 and summary.main_amount all read the ONE value this produces,
+// stored once on the extraction, so the two cards cannot disagree by
+// construction rather than by luck.
+function selectedAmountFor(text) {
+  const chosen = coLocation.selectAmount(text);
+  return chosen ? chosen.value : null;
+}
 
 const SUPPORTED_MIME_TYPES = [
   "application/pdf",
@@ -246,7 +269,26 @@ const MULTI_LETTER = {
 //               can be attributed. Every field a card would assert a relation
 //               from is dropped.
 function runExtractorLayer({ text, trust, split }) {
-  return applyMultiLetterAttribution(buildExtraction({ text, trust }), trust, split);
+  return applyMultiLetterAttribution(withSelectedAmount(buildExtraction({ text, trust }), text), trust, split);
+}
+
+// Selects the one amount, for every extraction branch rather than only the
+// normal one, so a garbled or reading-aid document is judged by the same rule
+// as a clean one.
+//
+// Branches that deliberately force money_amounts to [] keep money suppressed:
+// the verification-only path and the poor-quality path do that on purpose, and
+// co-location must not reintroduce an amount they chose not to show.
+function withSelectedAmount(extraction, text) {
+  const amounts = Array.isArray(extraction.money_amounts) ? extraction.money_amounts : [];
+  if (!amounts.length) {
+    return Object.assign({}, extraction, { selected_amount: null, unlabelled_amount: false });
+  }
+  const chosen = coLocation.selectAmount(text);
+  return Object.assign({}, extraction, {
+    selected_amount: chosen ? chosen.value : null,
+    unlabelled_amount: !chosen
+  });
 }
 
 function applyMultiLetterAttribution(extraction, trust, split) {
@@ -273,6 +315,10 @@ function applyMultiLetterAttribution(extraction, trust, split) {
     has_consequence: false,
     consequence_sentence: null,
     money_amounts: [],
+    // The selected amount is an attribution too, so it goes with the rest. A
+    // fused upload must not name a number, whatever labelled it.
+    selected_amount: null,
+    unlabelled_amount: false,
     helpful_note: MULTI_LETTER.helpfulNote,
     multi_letter_state: "fused"
   });
@@ -701,7 +747,8 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
       : labelForStructuredDocumentType(documentType, trust.document_category);
   const actionLine = normalizeActionLine(extraction.actions);
   const deadline = extraction.deadline || null;
-  const moneyAmount = bestMoneyAmount(extraction.money_amounts);
+  // The one selected amount, or null. Not the largest, not the first.
+  const moneyAmount = extraction.selected_amount || null;
 
   return {
     schema_version: "clearsteps_structured_v1",
@@ -739,7 +786,9 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
   const status = statusFromTrustAndSeverity(trust);
   const actionLine = normalizeActionLine(extraction.actions);
   const deadlineText = extraction.deadline ? `Due by ${extraction.deadline}.` : "No deadline clearly stated.";
-  const paymentAmount = firstOrNull(extraction.money_amounts);
+  // Card 5 reads the same selected amount as card 1 and the summary. This is
+  // the structural half of "the two cards can never disagree about money".
+  const paymentAmount = extraction.selected_amount || null;
   const oldCardById = new Map(displayCards.map((card) => [card.id, card]));
   const deadlineDisplayText = oldCardById.get("when_is_it_due")?.short_answer || deadlineText;
 
@@ -847,11 +896,15 @@ function buildCheckExplanation(extraction) {
   // Same rule as the deadline card: amounts from different letters must not be
   // presented as one letter's amount.
   if (extraction.multi_letter_state === "fused") return MULTI_LETTER.check;
-  const amount = firstOrNull(extraction.money_amounts);
+  const amount = extraction.selected_amount || null;
   const date = extraction.deadline;
   if (amount && date) return `Check the amount (${amount}) and the date (${date}) on the original document.`;
   if (amount) return `Check the amount (${amount}) and any dates on the original document.`;
   if (date) return `Check the date (${date}) and any amounts on the original document.`;
+  // The document shows money but labels none of it. State the finding without
+  // relating it, the same shape the multi letter path uses, rather than
+  // reaching for the largest or the first.
+  if (extraction.unlabelled_amount) return UNLABELLED.amount;
   return "Check key details on the original document.";
 }
 
@@ -859,7 +912,8 @@ function buildCheckKeyPoints({ trust, extraction }) {
   const points = [];
 
   if (extraction.deadline) points.push(`Date: ${extraction.deadline}.`);
-  if (firstOrNull(extraction.money_amounts)) points.push(`Amount shown: ${firstOrNull(extraction.money_amounts)}.`);
+  if (extraction.selected_amount) points.push(`Amount shown: ${extraction.selected_amount}.`);
+  else if (extraction.unlabelled_amount) points.push(UNLABELLED.amountPoint);
   if (trust.processing_mode === "verification_only") {
     points.push("Use official contact details before acting.");
   } else if (trust.needs_human_review) {
@@ -970,7 +1024,20 @@ function extractReadableDocumentSignals(text, trust) {
   const dateParts = unique([...visibleDates, ...visibleTimeframes]).slice(0, 4);
   const hasResponseRequest = /\b(please respond|respond by|response|reply by|submit|provide|return|complete|consultation|representation|comment|contact)\b/i.test(value);
   const hasDeadlineLanguage = /\b(deadline|due by|by no later than|no later than|before|within|reply by|respond by|return by|submit by|complete by)\b/i.test(value);
-  const primaryDate = dateParts[0] || null;
+  // The reading-aid path used the first visible date, which is the same "first
+  // in document order" guess co-location exists to remove. A date the document
+  // labels as something else is not a deadline: "your next statement will be
+  // issued on 9 August" was being shown as the deadline on a statement that
+  // says there is nothing to pay. Prefer a co-located deadline, otherwise take
+  // the first date no competing label has claimed, otherwise none.
+  //
+  // dateParts itself is left alone: listing the dates that appear in a letter
+  // is honest, because that list claims nothing about what they mean.
+  const colocatedDeadline = coLocation.selectDeadline(value, isPlausibleNumericDate);
+  const unclaimedDates = dateParts.filter(
+    (candidate) => !coLocation.isClaimedByCompetingDateLabel(value, candidate, isPlausibleNumericDate)
+  );
+  const primaryDate = colocatedDeadline ? colocatedDeadline.value : (unclaimedDates[0] || null);
 
   const mostImportantPoint = buildReadableMostImportantPoint({
     text: value,
@@ -1983,7 +2050,10 @@ function inferSummary(text, trust) {
 
   const cat = trust.document_category;
   const sender = extractSummaryFirstLineSender(text) || trust.sender_guess;
-  const amount = bestMoneyAmount(extractMoneyAmounts(text));
+  // The same selected amount card 5 uses. inferSummary used to run its own
+  // selector here, which is how card 1 and card 5 came to name different
+  // numbers on one screen. There is now one source.
+  const amount = selectedAmountFor(text);
   const date = cat === "appointment"
     ? (extractAppointmentDate(text) || extractDeadline(text))
     : extractDeadline(text);
@@ -2181,6 +2251,15 @@ function isPlausibleNumericDate(dateStr) {
 function extractDeadline(text) {
   const value = String(text || "");
 
+  // Co-location first. A date governed by a deadline label, with no competing
+  // label between them, is the deadline the document states. This is what
+  // stops "the year ending 5 April 2026" being read as the deadline when the
+  // letter says "You must pay by 31 July 2026", and stops "your next statement
+  // will be issued on 9 August" becoming a deadline on a letter that says
+  // there is nothing to pay.
+  const colocated = coLocation.selectDeadline(value, isPlausibleNumericDate);
+  if (colocated) return colocated.value;
+
   // Keywords that, when appearing within 35 chars before a date, mark it as a deadline.
   // "to pay" catches "Failure to pay the outstanding amount by 24 June 2026" style clauses
   // where "to pay" lands in the window but "pay by" (adjacent) does not.
@@ -2197,7 +2276,10 @@ function extractDeadline(text) {
     while ((match = pattern.exec(value)) !== null) {
       if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
       const before = value.slice(Math.max(0, match.index - 35), match.index);
-      if (deadlineContext.test(before) && !backwardLookingContext.test(before)) return match[0];
+      if (deadlineContext.test(before) && !backwardLookingContext.test(before) &&
+          !coLocation.isClaimedByCompetingDateLabel(value, match[0], isPlausibleNumericDate)) {
+        return match[0];
+      }
     }
   }
 
@@ -2208,7 +2290,10 @@ function extractDeadline(text) {
     while ((match = pattern.exec(value)) !== null) {
       if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
       const before = value.slice(Math.max(0, match.index - 35), match.index);
-      if (deadlineContext.test(before)) return match[0];
+      if (deadlineContext.test(before) &&
+          !coLocation.isClaimedByCompetingDateLabel(value, match[0], isPlausibleNumericDate)) {
+        return match[0];
+      }
     }
   }
 
@@ -2225,6 +2310,16 @@ function extractDeadline(text) {
 // header vs "Date: Tuesday 01 July 2026" inside the appointment details block).
 function extractAppointmentDate(text) {
   const value = String(text || "");
+
+  // The greeting zone rule. An appointment letter carries two dates under the
+  // same "Date:" label: the letter date in the header block, and the
+  // appointment itself in the body. A date above the greeting is when the
+  // letter was written; a date below it is what the letter is about. Without
+  // this the card announced the appointment on the day the letter was typed.
+  const content = coLocation.selectContentDate(value, isPlausibleNumericDate);
+  const letterDate = coLocation.selectLetterDate(value, isPlausibleNumericDate);
+  if (content && letterDate && content.value !== letterDate.value) return content.value;
+
   const lines = value.split(/\r?\n/);
   const appointmentFieldRe = /\b(?:department|consultant|location|clinic|time)\b/i;
 

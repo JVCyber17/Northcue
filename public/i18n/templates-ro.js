@@ -83,6 +83,10 @@
       "tpl.check.generic": "Verificați detaliile cheie pe documentul original.",
       "tpl.check.no_extra": "Nu sunt menționate clar verificări suplimentare.",
       "tpl.check.unclear_details": "Verificați detaliile neclare pe original.",
+      "tpl.unlabelled.amount": "O sumă este afișată, dar documentul nu precizează la ce se referă. Verificați documentul original.",
+      "tpl.unlabelled.date": "O dată este afișată, dar documentul nu precizează la ce se referă. Verificați documentul original.",
+      "tpl.unlabelled.amount_point": "O sumă este afișată, fără o etichetă.",
+      "tpl.unlabelled.date_point": "O dată este afișată, fără o etichetă.",
 
       "tpl.warning.suspicious_card": "Acesta poate fi suspect. Verificați înainte de a acționa.",
       "tpl.warning.suspicious_result": "Acesta poate fi suspect. Verificați folosind date de contact oficiale înainte de a acționa.",

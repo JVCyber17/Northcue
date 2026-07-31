@@ -85,6 +85,10 @@
       "tpl.check.generic": "Revise los datos clave en el documento original.",
       "tpl.check.no_extra": "No se indican otras comprobaciones con claridad.",
       "tpl.check.unclear_details": "Revise en el original los detalles que no queden claros.",
+      "tpl.unlabelled.amount": "Se muestra un importe, pero el documento no indica a qué corresponde. Revise el documento original.",
+      "tpl.unlabelled.date": "Se muestra una fecha, pero el documento no indica a qué corresponde. Revise el documento original.",
+      "tpl.unlabelled.amount_point": "Se muestra un importe, sin indicar a qué corresponde.",
+      "tpl.unlabelled.date_point": "Se muestra una fecha, sin indicar a qué corresponde.",
 
       "tpl.warning.suspicious_card": "Esto puede ser sospechoso. Compruébelo antes de actuar.",
       "tpl.warning.suspicious_result": "Esto puede ser sospechoso. Compruébelo con datos de contacto oficiales antes de actuar.",

@@ -85,6 +85,10 @@
       "tpl.check.generic": "Vérifiez les détails clés sur le document original.",
       "tpl.check.no_extra": "Aucune vérification supplémentaire clairement indiquée.",
       "tpl.check.unclear_details": "Vérifiez les détails peu clairs sur l'original.",
+      "tpl.unlabelled.amount": "Un montant est affiché, mais le document ne précise pas à quoi il correspond. Vérifiez le document original.",
+      "tpl.unlabelled.date": "Une date est affichée, mais le document ne précise pas à quoi elle correspond. Vérifiez le document original.",
+      "tpl.unlabelled.amount_point": "Un montant est affiché, sans indication de ce qu'il représente.",
+      "tpl.unlabelled.date_point": "Une date est affichée, sans indication de ce qu'elle représente.",
 
       "tpl.warning.suspicious_card": "Cela peut être suspect. Vérifiez avant d'agir.",
       "tpl.warning.suspicious_result": "Cela peut être suspect. Vérifiez avec des coordonnées officielles avant d'agir.",

@@ -59,7 +59,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
 
 [extractor_internal]
 {
-  "summary": "Hounslow Borough Council appears to be asking you to pay £1,842.00 by 1 April 2026.",
+  "summary": "Hounslow Borough Council appears to be asking you to pay £1,381.50 by 1 April 2026.",
   "most_important_point": "This document appears to require an action from you. See what you need to do.",
   "actions": [
     "Check the payment amount and due date.",
@@ -87,7 +87,9 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£1,381.50",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -107,10 +109,10 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "Hounslow Borough Council appears to be asking you to pay £1,842.00 by 1 April 2026.",
+    "one_line_summary": "Hounslow Borough Council appears to be asking you to pay £1,381.50 by 1 April 2026.",
     "main_action": "Check the payment amount and due date.",
     "main_date": "1 April 2026",
-    "main_amount": "£1,842.00"
+    "main_amount": "£1,381.50"
   },
   "warnings": []
 }
@@ -122,7 +124,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "Hounslow Borough Council appears to be asking you to pay £1,842.00 by 1 April 2026.",
+    "simple_explanation": "Hounslow Borough Council appears to be asking you to pay £1,381.50 by 1 April 2026.",
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
@@ -131,7 +133,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. Hounslow Borough Council appears to be asking you to pay £1,842.00 by 1 April 2026.. This document appears to require an action from you. See what you need to do.",
+    "read_aloud_text": "What is this?. Hounslow Borough Council appears to be asking you to pay £1,381.50 by 1 April 2026.. This document appears to require an action from you. See what you need to do.",
     "status": "normal"
   },
   {
@@ -189,17 +191,17 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,842.00) and the date (1 April 2026) on the original document.",
+    "simple_explanation": "Check the amount (£1,381.50) and the date (1 April 2026) on the original document.",
     "key_points": [
       "Date: 1 April 2026.",
-      "Amount shown: £1,842.00."
+      "Amount shown: £1,381.50."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,842.00",
+    "possible_payment": "£1,381.50",
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£1,842.00) and the date (1 April 2026) on the original document.. Date: 1 April 2026. Amount shown: £1,842.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,381.50) and the date (1 April 2026) on the original document.. Date: 1 April 2026. Amount shown: £1,381.50.",
     "status": "normal"
   },
   {
@@ -315,7 +317,9 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£214.63",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -417,17 +421,17 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£0.00) and the date (28 May 2026) on the original document.",
+    "simple_explanation": "Check the amount (£214.63) and the date (28 May 2026) on the original document.",
     "key_points": [
       "Date: 28 May 2026.",
-      "Amount shown: £0.00."
+      "Amount shown: £214.63."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£0.00",
+    "possible_payment": "£214.63",
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£0.00) and the date (28 May 2026) on the original document.. Date: 28 May 2026. Amount shown: £0.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£214.63) and the date (28 May 2026) on the original document.. Date: 28 May 2026. Amount shown: £214.63.",
     "status": "good"
   },
   {
@@ -537,7 +541,9 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£142.60",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -638,17 +644,17 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£68.40) and the date (30 June 2026) on the original document.",
+    "simple_explanation": "Check the amount (£142.60) and the date (30 June 2026) on the original document.",
     "key_points": [
       "Date: 30 June 2026.",
-      "Amount shown: £68.40."
+      "Amount shown: £142.60."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£68.40",
+    "possible_payment": "£142.60",
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£68.40) and the date (30 June 2026) on the original document.. Date: 30 June 2026. Amount shown: £68.40.",
+    "read_aloud_text": "What should I check?. Check the amount (£142.60) and the date (30 June 2026) on the original document.. Date: 30 June 2026. Amount shown: £142.60.",
     "status": "normal"
   },
   {
@@ -756,7 +762,9 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£45.19",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -855,16 +863,16 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£41.99) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£45.19) and any dates on the original document.",
     "key_points": [
-      "Amount shown: £41.99."
+      "Amount shown: £45.19."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£41.99",
+    "possible_payment": "£45.19",
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£41.99) and any dates on the original document.. Amount shown: £41.99.",
+    "read_aloud_text": "What should I check?. Check the amount (£45.19) and any dates on the original document.. Amount shown: £45.19.",
     "status": "normal"
   },
   {
@@ -951,7 +959,7 @@ INTENT:   document_category government. Official notice with a reference and a r
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": "5 April 2026",
+  "deadline": "31 July 2026",
   "risk": "You may miss a response request or important date.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
@@ -972,7 +980,7 @@ INTENT:   document_category government. Official notice with a reference and a r
       "5 April 2026",
       "31 July 2026"
     ],
-    "primaryDate": "5 April 2026",
+    "primaryDate": "31 July 2026",
     "hasResponseRequest": true,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "This may ask for a response about tax or HMRC. Check the original document.",
@@ -985,7 +993,9 @@ INTENT:   document_category government. Official notice with a reference and a r
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": "£486.20",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -1007,7 +1017,7 @@ INTENT:   document_category government. Official notice with a reference and a r
   "summary": {
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": "5 April 2026",
+    "main_date": "31 July 2026",
     "main_amount": "£486.20"
   },
   "warnings": []
@@ -1072,14 +1082,14 @@ INTENT:   document_category government. Official notice with a reference and a r
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.",
     "key_points": [
-      "Check this date on the original document: 5 April 2026."
+      "Check this date on the original document: 31 July 2026."
     ],
     "action_needed": null,
-    "possible_deadline": "5 April 2026",
+    "possible_deadline": "31 July 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.. Check this date on the original document: 5 April 2026.",
+    "read_aloud_text": "When is it due?. These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.. Check this date on the original document: 31 July 2026.",
     "status": "good"
   },
   {
@@ -1087,9 +1097,9 @@ INTENT:   document_category government. Official notice with a reference and a r
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£486.20) and the date (5 April 2026) on the original document.",
+    "simple_explanation": "Check the amount (£486.20) and the date (31 July 2026) on the original document.",
     "key_points": [
-      "Date: 5 April 2026.",
+      "Date: 31 July 2026.",
       "Amount shown: £486.20."
     ],
     "action_needed": null,
@@ -1097,7 +1107,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "possible_payment": "£486.20",
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£486.20) and the date (5 April 2026) on the original document.. Date: 5 April 2026. Amount shown: £486.20.",
+    "read_aloud_text": "What should I check?. Check the amount (£486.20) and the date (31 July 2026) on the original document.. Date: 31 July 2026. Amount shown: £486.20.",
     "status": "good"
   },
   {
@@ -1186,12 +1196,12 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
 
 [extractor_internal]
 {
-  "summary": "This appears to be an appointment from West Middlesex University Hospital on 5 June 2026.",
+  "summary": "This appears to be an appointment from West Middlesex University Hospital on 1 July 2026.",
   "most_important_point": "Action is likely needed soon.",
   "actions": [
     "Attend the appointment or meeting."
   ],
-  "deadline": "5 June 2026",
+  "deadline": "1 July 2026",
   "visible_dates": [
     "1 July 2026"
   ],
@@ -1210,7 +1220,9 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -1230,9 +1242,9 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   "processing_mode": "normal",
   "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This appears to be an appointment from West Middlesex University Hospital on 5 June 2026.",
+    "one_line_summary": "This appears to be an appointment from West Middlesex University Hospital on 1 July 2026.",
     "main_action": "Attend the appointment or meeting.",
-    "main_date": "5 June 2026",
+    "main_date": "1 July 2026",
     "main_amount": null
   },
   "warnings": []
@@ -1245,7 +1257,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This appears to be an appointment from West Middlesex University Hospital on 5 June 2026.",
+    "simple_explanation": "This appears to be an appointment from West Middlesex University Hospital on 1 July 2026.",
     "key_points": [
       "Action is likely needed soon."
     ],
@@ -1254,7 +1266,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be an appointment from West Middlesex University Hospital on 5 June 2026.. Action is likely needed soon.",
+    "read_aloud_text": "What is this?. This appears to be an appointment from West Middlesex University Hospital on 1 July 2026.. Action is likely needed soon.",
     "status": "normal"
   },
   {
@@ -1296,16 +1308,16 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "Your appointment is on 5 June 2026.",
+    "simple_explanation": "Your appointment is on 1 July 2026.",
     "key_points": [
-      "Check this date on the original document: 5 June 2026."
+      "Check this date on the original document: 1 July 2026."
     ],
     "action_needed": null,
-    "possible_deadline": "5 June 2026",
+    "possible_deadline": "1 July 2026",
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "When is it due?. Your appointment is on 5 June 2026.. Check this date on the original document: 5 June 2026.",
+    "read_aloud_text": "When is it due?. Your appointment is on 1 July 2026.. Check this date on the original document: 1 July 2026.",
     "status": "normal"
   },
   {
@@ -1313,16 +1325,16 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the date (5 June 2026) and any amounts on the original document.",
+    "simple_explanation": "Check the date (1 July 2026) and any amounts on the original document.",
     "key_points": [
-      "Date: 5 June 2026."
+      "Date: 1 July 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the date (5 June 2026) and any amounts on the original document.. Date: 5 June 2026.",
+    "read_aloud_text": "What should I check?. Check the date (1 July 2026) and any amounts on the original document.. Date: 1 July 2026.",
     "status": "normal"
   },
   {
@@ -1407,7 +1419,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": "9 August 2026",
+  "deadline": null,
   "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
@@ -1429,7 +1441,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "dateParts": [
       "9 August 2026"
     ],
-    "primaryDate": "9 August 2026",
+    "primaryDate": null,
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
@@ -1441,7 +1453,9 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
       "Check these visible dates: 9 August 2026.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -1463,8 +1477,8 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
   "summary": {
     "one_line_summary": "This appears to be a bank or finance letter about british gas.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": "9 August 2026",
-    "main_amount": "£180.00"
+    "main_date": null,
+    "main_amount": null
   },
   "warnings": []
 }
@@ -1527,15 +1541,13 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 9 August 2026. Check what they refer to.",
-    "key_points": [
-      "Check this date on the original document: 9 August 2026."
-    ],
+    "key_points": [],
     "action_needed": null,
-    "possible_deadline": "9 August 2026",
+    "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 9 August 2026. Check what they refer to.. Check this date on the original document: 9 August 2026.",
+    "read_aloud_text": "When is it due?. These dates appear in the document: 9 August 2026. Check what they refer to..",
     "status": "normal"
   },
   {
@@ -1543,17 +1555,16 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£96.14) and the date (9 August 2026) on the original document.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Date: 9 August 2026.",
-      "Amount shown: £96.14."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£96.14",
+    "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£96.14) and the date (9 August 2026) on the original document.. Date: 9 August 2026. Amount shown: £96.14.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -1674,7 +1685,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£1,247.00",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -1776,16 +1789,16 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,047.00) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,247.00) and any dates on the original document.",
     "key_points": [
-      "Amount shown: £1,047.00."
+      "Amount shown: £1,247.00."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,047.00",
+    "possible_payment": "£1,247.00",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,047.00) and any dates on the original document.. Amount shown: £1,047.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and any dates on the original document.. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {
@@ -1886,16 +1899,16 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,047.00) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,247.00) and any dates on the original document.",
     "key_points": [
-      "Amount shown: £1,047.00."
+      "Amount shown: £1,247.00."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,047.00",
+    "possible_payment": "£1,247.00",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,047.00) and any dates on the original document.. Amount shown: £1,047.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and any dates on the original document.. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {
@@ -2012,7 +2025,9 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": "£2,480.00",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -2256,7 +2271,9 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": "£726.00",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -2362,17 +2379,17 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£660.00) and the date (30 September 2026) on the original document.",
+    "simple_explanation": "Check the amount (£726.00) and the date (30 September 2026) on the original document.",
     "key_points": [
       "Date: 30 September 2026.",
-      "Amount shown: £660.00."
+      "Amount shown: £726.00."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£660.00",
+    "possible_payment": "£726.00",
     "confidence_level": "medium",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£660.00) and the date (30 September 2026) on the original document.. Date: 30 September 2026. Amount shown: £660.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£726.00) and the date (30 September 2026) on the original document.. Date: 30 September 2026. Amount shown: £726.00.",
     "status": "urgent"
   },
   {
@@ -2492,7 +2509,9 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -2708,7 +2727,9 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£3,410.00",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -2934,7 +2955,9 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -3163,7 +3186,9 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
       "Check these visible dates: 17 June 2026.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -3394,7 +3419,9 @@ INTENT:   education category through the aid path. Consent deadline.
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -3417,7 +3444,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "one_line_summary": "This appears to be a school or education letter from Springwell Primary School.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "5 June 2026",
-    "main_amount": "£185.00"
+    "main_amount": null
   },
   "warnings": []
 }
@@ -3496,17 +3523,17 @@ INTENT:   education category through the aid path. Consent deadline.
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£185.00) and the date (5 June 2026) on the original document.",
+    "simple_explanation": "Check the date (5 June 2026) and any amounts on the original document.",
     "key_points": [
       "Date: 5 June 2026.",
-      "Amount shown: £185.00."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£185.00",
+    "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£185.00) and the date (5 June 2026) on the original document.. Date: 5 June 2026. Amount shown: £185.00.",
+    "read_aloud_text": "What should I check?. Check the date (5 June 2026) and any amounts on the original document.. Date: 5 June 2026. An amount is shown without a label.",
     "status": "good"
   },
   {
@@ -3624,7 +3651,9 @@ INTENT:   insurance category through the aid path. Auto renewal date.
       "Check these visible dates: 1 July 2026.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -3647,7 +3676,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "one_line_summary": "This appears to be an insurance letter about insurance.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "1 July 2026",
-    "main_amount": "£324.18"
+    "main_amount": null
   },
   "warnings": []
 }
@@ -3726,17 +3755,17 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£324.18) and the date (1 July 2026) on the original document.",
+    "simple_explanation": "Check the date (1 July 2026) and any amounts on the original document.",
     "key_points": [
       "Date: 1 July 2026.",
-      "Amount shown: £324.18."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£324.18",
+    "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£324.18) and the date (1 July 2026) on the original document.. Date: 1 July 2026. Amount shown: £324.18.",
+    "read_aloud_text": "What should I check?. Check the date (1 July 2026) and any amounts on the original document.. Date: 1 July 2026. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -3846,7 +3875,9 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": "£418.60",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -4075,7 +4106,9 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
       "Check these visible dates: 1 August 2026.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -4098,7 +4131,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "one_line_summary": "This appears to be a benefits letter from Department for Work and Pensions.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
-    "main_amount": "£742.19"
+    "main_amount": null
   },
   "warnings": []
 }
@@ -4176,16 +4209,16 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£742.19) and any dates on the original document.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Amount shown: £742.19."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£742.19",
+    "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£742.19) and any dates on the original document.. Amount shown: £742.19.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -4293,7 +4326,9 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Suspicious patterns were detected.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -4506,7 +4541,9 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "This does not look like an official document.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -4730,7 +4767,9 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
       "Check whether a response is requested.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -4941,7 +4980,9 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "Looks like an outgoing document.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -5155,6 +5196,8 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
   "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false,
   "multi_letter_state": "fused"
 }
 
@@ -5372,6 +5415,8 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
   "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false,
   "multi_letter_state": "fused"
 }
 
@@ -5590,6 +5635,8 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
   "evidence_spans": [],
+  "selected_amount": "£214.63",
+  "unlabelled_amount": false,
   "multi_letter_state": "first_only"
 }
 
@@ -5824,7 +5871,9 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
       "Check the topic: tax or HMRC.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": "£1,381.50",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -5847,7 +5896,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
-    "main_amount": "£1,842.00"
+    "main_amount": "£1,381.50"
   },
   "warnings": []
 }
@@ -5924,16 +5973,16 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,842.00) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£1,381.50) and any dates on the original document.",
     "key_points": [
-      "Amount shown: £1,842.00."
+      "Amount shown: £1,381.50."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,842.00",
+    "possible_payment": "£1,381.50",
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£1,842.00) and any dates on the original document.. Amount shown: £1,842.00.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,381.50) and any dates on the original document.. Amount shown: £1,381.50.",
     "status": "normal"
   },
   {
@@ -6039,7 +6088,9 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -6062,7 +6113,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "one_line_summary": "EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
-    "main_amount": "£214.63"
+    "main_amount": null
   },
   "warnings": []
 }
@@ -6139,16 +6190,16 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£0.00) and any dates on the original document.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Amount shown: £0.00."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£0.00",
+    "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£0.00) and any dates on the original document.. Amount shown: £0.00.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "good"
   },
   {
@@ -6254,7 +6305,9 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": true
 }
 
 [banner]
@@ -6277,7 +6330,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
     "main_action": "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.",
     "main_date": null,
-    "main_amount": "£1,247.00"
+    "main_amount": null
   },
   "warnings": [
     "This looks important. Check the original document carefully."
@@ -6355,16 +6408,16 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,047.00) and any dates on the original document.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Amount shown: £1,047.00."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,047.00",
+    "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,047.00) and any dates on the original document.. Amount shown: £1,047.00.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "urgent"
   },
   {
@@ -6464,16 +6517,16 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,047.00) and any dates on the original document.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Amount shown: £1,047.00."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£1,047.00",
+    "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,047.00) and any dates on the original document.. Amount shown: £1,047.00.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "urgent"
   },
   {
@@ -6559,7 +6612,9 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Some parts are unclear or unsupported.",
-  "evidence_spans": []
+  "evidence_spans": [],
+  "selected_amount": null,
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -6781,7 +6836,9 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
       "Check these visible dates: 28 May 2026.",
       "Use official contact details before acting."
     ]
-  }
+  },
+  "selected_amount": "£214.63",
+  "unlabelled_amount": false
 }
 
 [banner]

@@ -84,6 +84,16 @@
       "tpl.check.no_extra": "No extra checks clearly stated.",
       "tpl.check.unclear_details": "Check unclear details on the original.",
 
+      // Co-location decline vocabulary. When the document shows a value but
+      // does not label what it is for, the engine states what was found
+      // without relating it, rather than picking the largest or the first.
+      // Same shape as the multi letter decline: name the finding, hand the
+      // reader back to the original.
+      "tpl.unlabelled.amount": "An amount is shown but the document does not label what it is for. Check the original document.",
+      "tpl.unlabelled.date": "A date is shown but the document does not label what it is for. Check the original document.",
+      "tpl.unlabelled.amount_point": "An amount is shown without a label.",
+      "tpl.unlabelled.date_point": "A date is shown without a label.",
+
       "tpl.warning.suspicious_card": "This may be suspicious. Verify before acting.",
       "tpl.warning.suspicious_result": "This may be suspicious. Verify using official contact details before acting.",
       "tpl.warning.urgent_result": "This looks important. Check the original document carefully.",

@@ -84,6 +84,10 @@
       "tpl.check.generic": "Prosimy sprawdzić kluczowe szczegóły w oryginalnym dokumencie.",
       "tpl.check.no_extra": "Nie wskazano wyraźnie dodatkowych rzeczy do sprawdzenia.",
       "tpl.check.unclear_details": "Prosimy sprawdzić niejasne szczegóły w oryginale.",
+      "tpl.unlabelled.amount": "Widoczna jest kwota, ale dokument nie wskazuje, czego dotyczy. Prosimy sprawdzić oryginalny dokument.",
+      "tpl.unlabelled.date": "Widoczna jest data, ale dokument nie wskazuje, czego dotyczy. Prosimy sprawdzić oryginalny dokument.",
+      "tpl.unlabelled.amount_point": "Kwota jest widoczna, ale bez opisu.",
+      "tpl.unlabelled.date_point": "Data jest widoczna, ale bez opisu.",
 
       "tpl.warning.suspicious_card": "To może być podejrzane. Prosimy to zweryfikować przed podjęciem działania.",
       "tpl.warning.suspicious_result": "To może być podejrzane. Prosimy zweryfikować to przez oficjalne dane kontaktowe przed podjęciem działania.",
