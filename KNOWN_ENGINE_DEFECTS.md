@@ -312,6 +312,109 @@ co-location was built to remove. It supplies `main_date` for `education_letter`,
 `employment_letter`, `insurance_letter` and others. Those answers are correct
 only while each of those letters contains exactly one body date.
 
+---
+
+# OCR and value-finding defects
+
+Added **31 July 2026** after an audit of every site that pattern-matches raw
+text, across 75 verified findings. Two fixes shipped: `MONEY` now matches an
+amount whole or not at all, and `LONG_DATE` tolerates a lost separator with a
+run-on guard. No tolerance shipped. Everything below is open.
+
+**O-1. `extractContactDetails` presents an unvalidated email as contactable.**
+The email regex extracts a match and never checks it. OCR damage inside an
+address produces a plausible but wrong string, and the engine offers it to the
+reader as the way to contact the sender. On a document where the alternative is
+a bailiff attending, sending a reply to a mistyped address is a silent failure:
+the reader believes they have responded. The same function should treat a
+damaged address the way the amount pattern now treats a damaged amount, by
+declining rather than asserting a corrupted value.
+
+**O-2. `extractActions` promotes a raw garbled sentence to the reader.** When
+its safe-action literal alternation fails to match, the fallback lifts a
+sentence out of the document verbatim. On damaged input that sentence is the
+damage. Live today on `ocr_enforcement`, card 3:
+
+```
+"Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by
+ 3September 2026."
+```
+
+That is the answer to "What do I need to do?" on the most urgent document in the
+corpus, and card 1 in the same run correctly says the text quality is too low to
+read amounts and dates reliably. The two contradict each other, and the action
+card is the one a reader acts on.
+
+**O-3. The two long-date patterns now disagree on four shapes, up from two.**
+`coLocation.LONG_DATE` and `extractVisibleDates` are independent copies. Before
+the separator fix they disagreed on ordinals and month-first order; they now
+also disagree on lost separators, because only one copy was changed:
+
+| input | `coLocation.LONG_DATE` | `extractVisibleDates` |
+|---|---|---|
+| `1 April 2026` | found | found |
+| `1April 2026` | **found** | not found |
+| `20August 2026` | **found** | not found |
+| `1st April 2026` | not found | **found** |
+| `April 1, 2026` | not found | **found** |
+
+Widening the gap was a deliberate consequence of keeping the fix to one commit,
+not an oversight. The right resolution is one shared definition, as was done for
+`MONEY` in the same session.
+
+**O-4. A recovered date is carried verbatim, so card text can show the damage.**
+`ocr_council_tax` now yields `1April 2026` and that exact string reaches the
+reader. The value is correct and the letter on paper reads "1 April 2026", so
+verbatim-from-OCR is not the same as verbatim-from-paper here. Normalising
+whitespace on display would fix it, and would be a change to card text rather
+than to extraction.
+
+**O-5. D-4 above is now live on `ocr_council_tax`.** Card 4's sentence reads
+"No clear date was found. Check the original document." while its key point
+reads "Check this date on the original document: 1April 2026." and
+`possible_deadline` is set. The sentence comes from `buildReadableDateMessage`
+and the field from `signals.primaryDate`; they agreed only while both were null.
+**This is the most urgent item in this section**, because it is a visible
+self-contradiction of exactly the kind the severity-contradiction work removed
+elsewhere.
+
+**O-6. Damage to a competing label makes the engine more confident, not less.**
+`AMOUNT_COMPETES` entries exist to make `governingLabel` decline. `in credit`,
+`total charge` and `previous balance` are guards, so OCR damage to them removes
+a refusal rather than a claim, and an in-credit statement can read as a demand.
+Tolerance would help here, which is the inverse of the usual argument.
+
+**O-7. Damage to `GREETING` flips an appointment date to the letter date.**
+Verified: `D3ar Patient` on `appointment_nhs` moves `selectContentDate` from
+1 July 2026 to 5 June 2026, the letter date. One damaged character re-opens the
+defect the greeting-zone rule was built to close.
+
+**O-8. `detectSeriousDocumentSignals` is defeated by damage to a single
+phrase.** It is the only thing that raises a Notice of Enforcement to the urgent
+tier, and it matches literals. Damage to "notice of enforcement" or "bailiff"
+drops the stakes floor, and with it the banner, the severity sentence and the
+card warnings.
+
+## OCR work not approved
+
+- **Tier 3**, character-class tolerance for the four label vocabularies and
+  `GREETING` only. Evidence gathered: 25 correct recoveries across the corpus
+  with zero false positives, and zero collisions across 540,000 generated UK
+  reference strings and 400,000 mixed alphanumeric references.
+- **Not proposed at all: tolerance in any classification vocabulary.** Those
+  lists hold two-to-four character entries matched against the whole document
+  with no anchor. `gp` becomes `[g9]p`, which matches "a standing charge of 9p
+  per day" on essentially every UK energy bill and would push it into the
+  medical category. `nhs` becomes `nh[s5]`, which matches the reference
+  `NH5-2291`. A false scam or category signal costs the reader their deadline;
+  a false value candidate is merely offered to co-location, which usually
+  rejects it.
+- **Not proposed: any edit-distance or fuzzy matching.** It is a categorically
+  wider tolerance than confusable folding and none of the evidence gathered
+  covers it.
+
+---
+
 ## Deadline work not yet approved
 
 Tiers 2 to 4 of the Phase B proposal, in the order they should be considered:
