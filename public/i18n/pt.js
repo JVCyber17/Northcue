@@ -349,6 +349,7 @@
     "journey.next": "Seguinte &rarr;",
     "journey.finish": "Terminar",
     "journey.explainWhatIsThis": "O texto lê-se com clareza, por isso conseguimos retirar os pontos principais.",
+    "journey.explainWhatIsThisHardToRead": "Parte do texto foi difícil de ler, por isso verifique o documento original.",
     "journey.explainWhatMattersMost": "Isto ajuda a saber o que precisa de atenção primeiro.",
     "journey.explainWhatToDo": "Use estes passos pequenos, um de cada vez.",
     "journey.explainDueWithDate": "Confirme esta data antes de criar um lembrete.",

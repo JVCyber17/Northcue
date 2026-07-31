@@ -1780,7 +1780,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
-    "warning": null,
+    "warning": "This looks important. Do not ignore it.",
     "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to..",
     "status": "urgent"
   },
@@ -1806,7 +1806,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "This looks like a normal formal letter.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
@@ -1815,7 +1815,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]
@@ -1890,7 +1890,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
-    "warning": null,
+    "warning": "This looks important. Do not ignore it.",
     "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 20 August 2026, 3 July 2026, 3 September 2026. Check what they refer to..",
     "status": "urgent"
   },
@@ -1916,7 +1916,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "This looks like a normal formal letter.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
@@ -1925,7 +1925,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]
@@ -2845,7 +2845,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Keep this with your records in case you need it later.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check key details on the original document before acting."
     ],
@@ -2854,7 +2854,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. Keep this with your records in case you need it later.. Check key details on the original document before acting.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check key details on the original document before acting.",
     "status": "caution"
   }
 ]
@@ -6399,7 +6399,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": null,
+    "warning": "This looks important. Do not ignore it.",
     "read_aloud_text": "When is it due?. A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document..",
     "status": "urgent"
   },
@@ -6425,7 +6425,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "This looks like a normal formal letter.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
@@ -6434,7 +6434,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]
@@ -6508,7 +6508,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": null,
+    "warning": "This looks important. Do not ignore it.",
     "read_aloud_text": "When is it due?. A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document..",
     "status": "urgent"
   },
@@ -6534,7 +6534,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "This looks like a normal formal letter.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
@@ -6543,7 +6543,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]

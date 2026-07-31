@@ -144,6 +144,7 @@
       "tpl.note.links": "N'utilisez pas les liens ni les numéros du document tant qu'ils ne sont pas vérifiés.",
       "tpl.note.outgoing": "Cela ressemble à un document que vous envoyez.",
       "tpl.note.normal": "Cela ressemble à une lettre formelle ordinaire.",
+      "tpl.note.high_stakes": "Cela semble être un courrier important. Demandez à une personne de confiance de vous aider si vous ne savez pas quoi faire.",
       "tpl.note.unknown": "Certains détails ne sont pas clairs. Vérifiez le document original.",
       "tpl.note.missing": "Certains détails manquent. Vérifiez l'original.",
 

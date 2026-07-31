@@ -351,6 +351,7 @@
     "journey.next": "Suivant &rarr;",
     "journey.finish": "Terminer",
     "journey.explainWhatIsThis": "Le texte se lit clairement, nous pouvons donc en tirer les points essentiels.",
+    "journey.explainWhatIsThisHardToRead": "Une partie du texte était difficile à lire, vérifiez donc le document original.",
     "journey.explainWhatMattersMost": "Cela vous aide à savoir ce qui demande votre attention en premier.",
     "journey.explainWhatToDo": "Prenez-les comme de petites étapes, une à la fois.",
     "journey.explainDueWithDate": "Vérifiez cette date avant de créer un rappel.",

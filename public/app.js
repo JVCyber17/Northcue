@@ -2576,9 +2576,25 @@ function showCueCardIcon(cardId) {
   });
 }
 
+// True when the engine is not confident the upload was read cleanly. Card 1
+// already says so in its own words on these documents, so the line underneath
+// must not claim the opposite.
+function uploadWasHardToRead() {
+  const trust = latestResult?.trust;
+  if (!trust) return false;
+  return trust.input_quality === "poor" ||
+    trust.input_quality === "borderline" ||
+    trust.processing_mode === "unsupported";
+}
+
 function shortCardExplanation(card) {
   if (card.id === "what_is_this") {
-    return t("journey.explainWhatIsThis");
+    // "It can be read clearly, so we can pull out the key points." sat directly
+    // beneath a card 1 reading "The text quality is too low to read specific
+    // amounts or dates reliably", on the same screen, in every language.
+    return uploadWasHardToRead()
+      ? t("journey.explainWhatIsThisHardToRead")
+      : t("journey.explainWhatIsThis");
   }
   if (card.id === "what_matters_most") {
     return t("journey.explainWhatMattersMost");

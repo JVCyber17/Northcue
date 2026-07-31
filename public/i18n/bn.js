@@ -348,6 +348,7 @@
     "journey.next": "পরবর্তী &rarr;",
     "journey.finish": "শেষ করুন",
     "journey.explainWhatIsThis": "এটি পরিষ্কারভাবে পড়া যাচ্ছে, তাই আমরা মূল বিষয়গুলি তুলে আনতে পারি.",
+    "journey.explainWhatIsThisHardToRead": "কিছু অংশ পড়তে অসুবিধা হয়েছে, তাই মূল ডকুমেন্টটি দেখে নিন.",
     "journey.explainWhatMattersMost": "এতে বুঝতে সুবিধা হয় কোনটির দিকে আগে নজর দেওয়া দরকার.",
     "journey.explainWhatToDo": "এগুলিকে ছোট ছোট ধাপ হিসেবে নিন, একবারে একটি.",
     "journey.explainDueWithDate": "রিমাইন্ডার তৈরির আগে এই তারিখটি মিলিয়ে নিন.",

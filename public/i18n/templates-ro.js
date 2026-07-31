@@ -142,6 +142,7 @@
       "tpl.note.links": "Nu folosiți linkuri sau numere din document până nu sunt verificate.",
       "tpl.note.outgoing": "Acesta pare un document trimis de dumneavoastră.",
       "tpl.note.normal": "Aceasta pare o scrisoare formală obișnuită.",
+      "tpl.note.high_stakes": "Aceasta pare o scrisoare importantă. Puteți ruga pe cineva de încredere să vă ajute dacă nu știți ce să faceți.",
       "tpl.note.unknown": "Unele detalii sunt neclare. Verificați documentul original.",
       "tpl.note.missing": "Unele detalii lipsesc. Verificați originalul.",
 

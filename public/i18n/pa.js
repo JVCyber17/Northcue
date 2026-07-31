@@ -348,6 +348,7 @@
     "journey.next": "ਅੱਗੇ &rarr;",
     "journey.finish": "ਸਮਾਪਤ",
     "journey.explainWhatIsThis": "ਇਹ ਸਾਫ਼ ਪੜ੍ਹਿਆ ਜਾ ਸਕਦਾ ਹੈ, ਇਸ ਲਈ ਅਸੀਂ ਮੁੱਖ ਗੱਲਾਂ ਕੱਢ ਸਕਦੇ ਹਾਂ.",
+    "journey.explainWhatIsThisHardToRead": "ਕੁਝ ਹਿੱਸਾ ਪੜ੍ਹਨ ਵਿੱਚ ਔਖਾ ਸੀ, ਇਸ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
     "journey.explainWhatMattersMost": "ਇਸ ਨਾਲ ਤੁਹਾਨੂੰ ਪਤਾ ਲੱਗਦਾ ਹੈ ਕਿ ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਕਿਸ ਗੱਲ ਵੱਲ ਧਿਆਨ ਦੇਣਾ ਹੈ.",
     "journey.explainWhatToDo": "ਇਨ੍ਹਾਂ ਨੂੰ ਛੋਟੇ ਕਦਮਾਂ ਵਾਂਗ ਲਓ, ਇੱਕ ਵਾਰ ਵਿੱਚ ਇੱਕ.",
     "journey.explainDueWithDate": "ਰਿਮਾਈਂਡਰ ਬਣਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਇਹ ਤਾਰੀਖ਼ ਜਾਂਚ ਲਓ.",

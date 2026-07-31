@@ -581,6 +581,47 @@ Specific questions the machine drafts raised, per language, worth confirming:
 
 ---
 
+## New since your list was written: two sentences about serious letters (31 July 2026)
+
+Two more sentences were added to every language on one day, so no native
+speaker has seen them yet.
+
+**1. The helpful note on a serious letter.** Northcue used to end a bailiff or
+enforcement letter with "This looks like a normal formal letter." That was
+wrong and it has been fixed. The replacement, in your file as
+`tpl.note.high_stakes`, is English "This looks like an important letter. Ask
+someone you trust if you are not sure what to do."
+
+This one carries the most weight of anything added recently, because it appears
+on the letters that frighten people most. Three questions:
+
+- Does it sound **calm but not reassuring**? It must not imply the letter is
+  routine, and it must not sound like an alarm either.
+- Is "ask someone you trust" an **offer**, not an instruction? The reader must
+  not feel told what to do, or that they cannot manage alone.
+- Does your language's word for "important" here sound like *serious and worth
+  attention*, rather than *urgent, act now*? The urgency is already said
+  elsewhere on the same screen, so this line should not repeat it.
+
+Note for **Polish**: the draft uses the impersonal "można poprosić o pomoc
+zaufaną osobę" rather than a direct command, to match the register of the rest
+of the file. Does that read as gentle rather than distant?
+
+Note for **Romanian, Spanish, French, Portuguese**: the draft reuses the exact
+first clause already in your `tpl.banner.high_stakes`, so the two lines agree
+on screen. If you change one, the other should change with it.
+
+**2. When the photo was hard to read.** In `<your language>.js`, not the
+templates file, as `journey.explainWhatIsThisHardToRead`: English "Some of the
+text was hard to read, so check the original document."
+
+It sits under the first card when the upload was blurry or damaged. It replaced
+a line that wrongly said the text could be read clearly. **Does it put the
+difficulty on the photo rather than on the reader?** It must not sound like the
+person took a bad picture.
+
+---
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to

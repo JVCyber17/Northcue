@@ -143,6 +143,7 @@
       "tpl.note.links": "Prosimy nie korzystać z linków ani numerów w dokumencie do czasu ich sprawdzenia.",
       "tpl.note.outgoing": "To wygląda na dokument wychodzący.",
       "tpl.note.normal": "To wygląda na zwykły oficjalny list.",
+      "tpl.note.high_stakes": "To wygląda na ważny list. Jeśli coś jest niejasne, można poprosić o pomoc zaufaną osobę.",
       "tpl.note.unknown": "Niektóre szczegóły są niejasne. Prosimy sprawdzić oryginalny dokument.",
       "tpl.note.missing": "Niektórych szczegółów brakuje. Prosimy sprawdzić oryginał.",
 

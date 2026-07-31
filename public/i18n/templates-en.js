@@ -148,6 +148,7 @@
       "tpl.note.links": "Do not use links or numbers in the document until checked.",
       "tpl.note.outgoing": "This looks like an outgoing document.",
       "tpl.note.normal": "This looks like a normal formal letter.",
+      "tpl.note.high_stakes": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
       "tpl.note.unknown": "Some details are unclear. Check the original document.",
       "tpl.note.missing": "Some details are missing. Check the original.",
 

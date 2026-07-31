@@ -254,6 +254,15 @@ const MULTI_LETTER = {
   helpfulNote: "Uploading one letter at a time gives a clearer result."
 };
 
+// Card 6 on a serious document. Calm and supportive, never reassuring: the
+// banner and cards 2 and 5 carry the urgency, so this card's only job is to
+// stop contradicting them. It does not repeat "check the original document",
+// which the banner and this card's own key point already say, because at
+// phone width the longer wording pushed card 6 to eight lines in the longest
+// language and short cards are the point of the product.
+const HIGH_STAKES_NOTE =
+  "This looks like an important letter. Ask someone you trust if you are not sure what to do.";
+
 // Extraction, plus the multi letter attribution rule.
 //
 // When an upload holds more than one letter, an amount and a date can come from
@@ -929,16 +938,22 @@ function buildStructuredCardWarning({ trust, cardType }) {
     return "This may be suspicious. Verify before acting.";
   }
 
+  // Severity outranks both the readability note and the signals test. The
+  // stakes floor (raiseSeverityTo) can make a document urgent without adding
+  // anything to severity_signals, so an empty signals array is not evidence
+  // that a document is calm. Reading it as though it were left the deadline
+  // card, the one card about time running out, as the only silent card on a
+  // notice of enforcement. Scam wording still wins, so it stays first.
+  if (trust.severity_level === "urgent") {
+    return "This looks important. Do not ignore it.";
+  }
+
   if (trust.processing_mode === "unsupported") {
     return "This upload may be hard to read.";
   }
 
   if (cardType === "when_does_it_matter" && !trust.severity_signals.length) {
     return null;
-  }
-
-  if (trust.severity_level === "urgent") {
-    return "This looks important. Do not ignore it.";
   }
 
   return null;
@@ -2212,6 +2227,17 @@ function inferHelpfulNote(trust, extractorNote, multiLetterState) {
   // below would answer "This looks like a normal formal letter." on an upload
   // the engine has just said holds more than one letter.
   if (multiLetterState) return MULTI_LETTER.helpfulNote;
+
+  // A serious document is never described as normal, whatever its trust score.
+  // A genuine bailiff or possession letter comes from a real organisation, so
+  // trust is high and severity is urgent at the same time, and the trust
+  // branches below would answer "This looks like a normal formal letter." on a
+  // notice of enforcement. Same shape and position as the buildBanner guard:
+  // it sits above the trust branches and excludes low trust, so the scam
+  // wording still wins.
+  if (trust.is_high_stakes && trust.trust_assessment !== "low") {
+    return HIGH_STAKES_NOTE;
+  }
 
   if (trust.trust_assessment === "low") {
     return "Do not use links or numbers in the document until checked.";

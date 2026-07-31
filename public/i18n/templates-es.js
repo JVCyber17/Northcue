@@ -144,6 +144,7 @@
       "tpl.note.links": "No use los enlaces ni los números del documento hasta comprobarlos.",
       "tpl.note.outgoing": "Esto parece un documento de salida.",
       "tpl.note.normal": "Esto parece una carta formal normal.",
+      "tpl.note.high_stakes": "Esto parece una carta importante. Pida a alguien de confianza que le ayude si no sabe qué hacer.",
       "tpl.note.unknown": "Algunos detalles no están claros. Revise el documento original.",
       "tpl.note.missing": "Faltan algunos detalles. Revise el original.",
 
