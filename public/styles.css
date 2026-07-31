@@ -5301,6 +5301,16 @@ body.theme-dark .change-type-btn { color: var(--muted); }
   text-align: center;
 }
 
+/* Wraps the card icon and its title. Stacked and centred by default, exactly
+   as they were before the wrapper existed; the phone-width rule turns this into
+   a single row to reclaim the stacked height. */
+.card-heading-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .cue-logo {
   display: grid;
   place-items: center;
@@ -9004,6 +9014,43 @@ body.theme-dark .check-dot.badge-high {
     box-shadow: none;
     color: var(--green);
     font-weight: 800;
+  }
+
+  /* ── Reclaimed vertical space at phone width ──────────────
+     Measured at 375px: 308px of every card was fixed furniture
+     before a word of content, against an 812px viewport, and six
+     cards overflowed in Polish. What follows returns that space
+     without removing anything the reader sees.
+
+     The icon and the title were stacked, costing 44px of icon plus
+     8px of margin plus 18px of title on every card of every
+     document. They now share one row, so the brand mark stays at
+     full size and the pair costs one row instead of two. Nothing is
+     hidden and nothing is shrunk. */
+  .card-heading-row {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* flex: none, or the icon's 80px inner canvas stretches the row to 82px and
+     the change costs height instead of saving it. */
+  .card-heading-row .cue-logo {
+    flex: none;
+    margin: 0;
+  }
+
+  .card-heading-row h2 {
+    text-align: left;
+  }
+
+  /* The panel's own padding. 24px top and bottom is generous on a
+     desktop card and simply lost on a phone. 16px keeps the card
+     from feeling boxed in while returning 16px. The gap between the
+     card and the page around it is untouched, so the card reads as
+     less padded at its own edges rather than as denser. */
+  .cue-card-panel {
+    padding: 16px 20px 14px;
   }
 }
 
