@@ -173,6 +173,126 @@ test("co-location: selection never falls back to largest or first", async (t) =>
   });
 });
 
+test("tier 1a: a date label binds forwards only", async (t) => {
+  // The either-side allowance on the same line was added for MONEY, so that
+  // "an amount of £486.20 still to pay" binds. Dates were sharing it, and a
+  // letter routinely states several dates, so a label at the end of a line
+  // could reach backwards and capture an earlier one.
+  await t.test("a label at the end of a line does not capture an earlier date", () => {
+    // Both dates on one line, the real deadline last. This is one OCR line
+    // join away from the bailiff notice, which already carries "Liability
+    // Order obtained by Hounslow Borough Council on 3 July 2026" on its own
+    // line.
+    const chosen = co.selectDeadline(
+      "A liability order was granted on 3 July 2026 and the full balance is now due by 3 September 2026.");
+    assert.equal(chosen && chosen.value, "3 September 2026",
+      "the label must reach forward to its own date, not backwards to the order date");
+  });
+
+  await t.test("money keeps the either-side allowance it was designed for", () => {
+    const chosen = co.selectAmount("Our records show an amount of £486.20 still to pay.");
+    assert.equal(chosen && chosen.value, "£486.20",
+      "forward-only must not have been applied to amounts");
+  });
+
+  await t.test("a label on the line above still binds its date", () => {
+    assert.equal(co.selectDeadline("Payment due by\n3 September 2026").value, "3 September 2026");
+  });
+});
+
+test("tier 1b: only punctuation may sit between a date label and its date", async (t) => {
+  // A "<verb> by" literal cannot tell a temporal "by" from an instrumental or
+  // agentive one. Every sentence here was binding the wrong date before this
+  // rule, and every one is ordinary UK correspondence.
+  const INSTRUMENTAL = [
+    ["pay by", "You agreed to pay by direct debit on 3 July 2026."],
+    ["pay by", "You agreed to pay by instalments of £50.00 on 3 July 2026."],
+    // "cleared by" was added in a1f21ff as a possession-notice shape and
+    // brought this agentive reading with it.
+    ["cleared by", "The arrears were cleared by a third party on 3 July 2026."],
+    ["cleared by", "The balance was cleared by us on 3 July 2026."],
+    ["paid in full by", "Your account was paid in full by direct debit on 3 July 2026."],
+    ["contact us by", "You can contact us by telephone on 020 8321 5000 about your appointment on 1 July 2026."],
+    ["contact us by", "You can contact us by phone, by post or by email about the meeting on 17 June 2026."]
+  ];
+
+  for (const [entry, sentence] of INSTRUMENTAL) {
+    await t.test(entry + ": " + sentence.slice(0, 52), () => {
+      assert.equal(co.selectDeadline(sentence), null,
+        "an instrumental or agentive 'by' is not a deadline");
+    });
+  }
+
+  await t.test("the same entries still bind a real deadline", () => {
+    assert.equal(co.selectDeadline("You must pay by 3 September 2026.").value, "3 September 2026");
+    assert.equal(co.selectDeadline("The balance must be cleared by 3 September 2026.").value, "3 September 2026");
+    assert.equal(co.selectDeadline("You must contact us by 3 September 2026.").value, "3 September 2026");
+  });
+
+  await t.test("generous tabular padding is not a barrier", () => {
+    // The rule is on CONTENT, not on a character count. A numeric bound small
+    // enough to reject "by direct debit on" would reject all of these.
+    assert.equal(co.selectDeadline("Pay by:  3 September 2026").value, "3 September 2026");
+    assert.equal(co.selectDeadline("Deadline .......... 3 September 2026").value, "3 September 2026");
+    assert.equal(co.selectDeadline("Payment due       3 September 2026").value, "3 September 2026");
+  });
+});
+
+test("tier 1c: a competing label inside the label's own span is caught", async (t) => {
+  await t.test("the span starts at the label, not after it", () => {
+    // With today's short literals this rarely bites. It is a precondition for
+    // any gap-tolerant label, which would cover a whole clause and could hide
+    // a competing label inside it.
+    assert.equal(
+      co.passesNoCompetingLabel({ index: 0, end: 10 }, { index: 30 }, [{ index: 5 }]),
+      false,
+      "a competing label at index 5 sits inside the label span 0..10 and must be seen");
+  });
+
+  await t.test("a competing label outside the span is ignored", () => {
+    assert.equal(
+      co.passesNoCompetingLabel({ index: 20, end: 30 }, { index: 40 }, [{ index: 5 }]),
+      true);
+  });
+});
+
+test("tier 1: adding governing labels can never null a bound date", async (t) => {
+  // The structural property that makes tiers 2 to 4 safe to consider. Extra
+  // candidates can only make governingLabel's rival check LESS likely to fire,
+  // so a date that binds today cannot stop binding because the vocabulary grew.
+  // Verified by growing it, not by reasoning about it.
+  await t.test("every corpus date that binds today still binds with a wider vocabulary", () => {
+    const before = new Map();
+    CORPUS.forEach((entry) => {
+      const chosen = co.selectDeadline(entry.text);
+      if (chosen) before.set(entry.id, chosen.value);
+    });
+    assert.ok(before.size >= 7, "the corpus must still hold bound dates to check");
+
+    const EXTRA = [
+      "get in touch by", "let us know by", "hear from you by", "you have until",
+      "must reach us by", "must be made by", "must do so by", "up to date by",
+      "compliance date", "response date", "act by"
+    ];
+    co.DATE_GOVERNS.push(...EXTRA);
+    try {
+      const lost = [];
+      before.forEach((value, id) => {
+        const now = co.selectDeadline(CORPUS.find((e) => e.id === id).text);
+        if (!now) lost.push(id + ": " + value + " -> null");
+      });
+      assert.deepEqual(lost, [], "a wider vocabulary must never remove a binding");
+    } finally {
+      co.DATE_GOVERNS.splice(co.DATE_GOVERNS.length - EXTRA.length, EXTRA.length);
+    }
+  });
+
+  await t.test("the vocabulary is restored after that test", () => {
+    assert.ok(!co.DATE_GOVERNS.includes("get in touch by"),
+      "the mutation above must not leak into later tests");
+  });
+});
+
 test("co-location: card 1 and card 5 can never name different amounts", async (t) => {
   await t.test("structurally, both read one field", () => {
     // The guarantee is structural, not incidental. Both consumers read

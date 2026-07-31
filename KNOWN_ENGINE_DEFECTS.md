@@ -1,4 +1,18 @@
-# Known classification defects
+# Known engine defects
+
+Defects found by audit, verified against the real engine, and not yet fixed.
+Two subsystems so far: **classification** (what the engine decides a document
+is) and **deadline extraction** (which date, if any, it presents as an
+obligation).
+
+> **This is a defect list, not a specification.** Nothing here describes
+> intended behaviour. Do not write a test that asserts any of it, because a test
+> asserting current-but-wrong behaviour teaches the next reader that it is
+> wanted. Fixed items get tests; open items get this file.
+
+---
+
+# Classification defects
 
 Northcue's classification layer decides what a document *is*: its category, its
 type, whether it is trusted, and which processing mode it takes. Every
@@ -20,11 +34,6 @@ letter. 36 of them cost a parsed deadline or amount. 14 were rated critical.**
 
 This file records what remains. It exists so nothing found in that audit is
 lost, and so a future session can tell a known defect from a new regression.
-
-> **This is a defect list, not a specification.** Nothing here describes
-> intended behaviour. Do not write a test that asserts any of it, because a test
-> asserting current-but-wrong behaviour teaches the next reader that it is
-> wanted. Fixed items get tests; open items get this file.
 
 ## Reproducing any of it
 
@@ -210,6 +219,120 @@ source has "Rent arrears as at today:" as a field label.
 **B-9. The scam corpus is one document.** `scam_phishing` is the only adversarial
 document among thirty. This is a blocker on F3 and a standing weakness in the
 harness.
+
+---
+
+---
+
+# Deadline extraction defects
+
+Added **31 July 2026** after a sweep of contact, response and attendance
+obligation phrasings across four issuing-authority domains. Tier 1 of that
+work shipped: date labels now bind forwards only, require nothing but
+punctuation between label and date, and test 3 covers the whole label span.
+The vocabulary itself was not changed, so everything below is open.
+
+Guarded parts are in `tests/coLocation.test.js`. Nothing below is guarded, for
+the same reason as above: a test asserting current-but-wrong behaviour reads as
+a specification.
+
+**D-1. The bare `before` in `extractDeadline`'s fallback promotes mentions.**
+`src/services/clearStepsEngine.js`, the `deadlineContext` regex, ends
+`|cleared\s+before|before)`. The bare token promotes any date within 35
+characters after the word "before", with no verb requirement and no obligation
+test. Verified, all pure mentions, all promoted to `deadline` today:
+
+```
+"Any payments made before 3 July 2026 are not included in this balance."  -> 3 July 2026
+"Your tenancy began before 1 April 2024."                                 -> 1 April 2024
+"Please arrive fifteen minutes before your appointment on 1 July 2026."   -> 1 July 2026
+```
+
+This is the inverse of the defect Phase B was opened to fix: not a deadline the
+engine cannot see, but a rule broad enough to turn a background date into a
+headline one. It is why no bare preposition should ever be added to
+`DATE_GOVERNS`: any `before` entry must be verb-anchored.
+
+**D-2. `backwardLookingContext` is unreachable for co-located dates.** The guard
+exists to reject `was due`, `were due`, `became due` and `overdue since`.
+Co-location runs first and returns before it, so:
+
+```
+co.selectDeadline("Your last payment was due on 3 July 2026 and has not been received.")
+  -> { value: "3 July 2026", label: "due on" }
+```
+
+A past-tense receipt becomes a future deadline, and an existing safety rule is
+bypassed rather than absent.
+
+**D-3. `benefits_dwp` can never show a deadline.**
+`buildBenefitsReadingAidExtraction` hardcodes `deadline: null` and
+`signals.primaryDate = null` for every welfare letter. That was deliberate,
+because benefits letters list several dates and the engine could not tell which
+was the deadline. It now means **no change to `coLocation.js` can ever surface a
+DWP deadline**, including phrasings co-location binds perfectly. Any future
+deadline work must decide whether that path is still the right answer now that
+binding exists.
+
+**D-4. Card text and `possible_deadline` are computed from different sources on
+the reading-aid path.** Eight corpus documents sit on that path. Card 4's
+sentence comes from `buildReadableDateMessage`; `possible_deadline` and
+`main_date` come from `signals.primaryDate`. They agree today by accident.
+`insurance_letter` shows the failure shape: if `selectDeadline` starts firing on
+it, the card would read "These may be important dates: 1 July 2026" while the
+field beneath became "1 August 2026". **Review card text coherence, not only
+`main_date`, on any change to this layer.**
+
+**D-5. `insurance_letter` reports the letter date as its deadline.**
+`main_date` is **1 July 2026**, which the document labels "Date of this notice".
+The real obligation is on line 7: "unless you tell us otherwise before
+1 August 2026". Not fixed by the Tier 1 rules and not fixed by any currently
+proposed vocabulary, because the only shape that would reach it is a bare
+`before`, which D-1 rules out.
+
+**D-6. `housing_letter` emits a relative period where a date belongs.**
+`deadline` is the string `"within 14 days"`, from the reading-aid path, and card
+4 reads "These may be important dates: within 14 days."
+
+**D-7. `ocr_enforcement` has zero parseable dates.** `LONG_DATE` in
+`coLocation.js` requires whitespace between the day and the month, so
+`3September 2026` and `20August 2026` are invisible:
+
+```
+co.findDates("You must c0ntact us by 3September 2026.")  ->  []
+```
+
+The most urgent OCR document in the corpus can surface no date at all, and no
+vocabulary or proximity change can reach it. A tolerant variant
+(`\b\d{1,2}\s*(?:jan|feb|...)`) is a change to date *finding* rather than to
+co-location, and is probably a larger win than any remaining tier.
+
+**D-8. `unclaimedDates[0]` is still the first-date-in-document-order guess** that
+co-location was built to remove. It supplies `main_date` for `education_letter`,
+`employment_letter`, `insurance_letter` and others. Those answers are correct
+only while each of those letters contains exactly one body date.
+
+## Deadline work not yet approved
+
+Tiers 2 to 4 of the Phase B proposal, in the order they should be considered:
+
+- **Tier 2**, five adjacent literals (`compliance date`, `date for compliance`,
+  `response date`, `act by`, `you must act by`). No agentive, instrumental or
+  past-tense reading exists for any.
+- **Tier 3**, bounded-gap patterns replacing the class A literals, so
+  `contact us [on 0333 320 122] by` can bind at all. The gap bound must be 44
+  and the quantifiers must be **lazy**: a greedy gap runs past the date to the
+  next `by` on the following line, the label then ends after the value, and
+  forward-only proximity correctly rejects it, leaving the flagship null.
+- **Tier 4**, eight new literals, each with a verified mention control.
+
+Tier 1 shipping first was the precondition: every `<verb> by` entry in tiers 3
+and 4 carries the instrumental hazard, and the adjacency rule is the single
+guard that neutralises all of them at once.
+
+Expected effect of tiers 2 to 4 on top of Tier 1: **two documents gain a
+deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
+7 July 2026), nothing changes value, nothing is lost.
 
 ---
 

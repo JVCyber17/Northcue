@@ -206,15 +206,53 @@ function locateLabels(text, phrases) {
 
 // TEST 1. Same line, or the label on the line immediately above.
 //
-// On the same line the label may sit either side of the value. English writes
-// both "Amount to pay: £1,381.50" and "an amount of £486.20 still to pay", and
-// both state the relationship. Across lines only the label above counts: a
-// label on the NEXT line belongs to whatever follows it, not to what came
-// before, which is how "Amount to pay" on the line under a running total keeps
-// its own value.
-function passesProximity(label, value) {
-  if (label.lineIndex === value.lineIndex) return true;
+// For MONEY the label may sit either side of the value on the same line.
+// English writes both "Amount to pay: £1,381.50" and "an amount of £486.20
+// still to pay", and both state the relationship.
+//
+// For DATES it may not. Allowing a date label to reach backwards let the "due
+// by" at the end of a line capture an earlier date on the same line:
+//
+//   "A liability order was granted on 3 July 2026 and the full balance is now
+//    due by 3 September 2026."   ->  bound 3 JULY, the order date
+//
+// Dates differ from money because a letter routinely states several, and the
+// one that matters is almost always the one a label points forward at. Across
+// lines only the label above ever counts, for both kinds: a label on the NEXT
+// line belongs to whatever follows it, not to what came before.
+function passesProximity(label, value, forwardOnly) {
+  if (label.lineIndex === value.lineIndex) {
+    return forwardOnly ? label.end <= value.index : true;
+  }
   return label.lineIndex === value.lineIndex - 1 && label.end <= value.index;
+}
+
+// TEST 1b. Nothing but punctuation and whitespace between a date label and its
+// date.
+//
+// A "<verb> by" literal cannot tell a temporal "by" from an instrumental or
+// agentive one, so "pay by", "cleared by" and "paid in full by" were all
+// binding the wrong date:
+//
+//   "You agreed to pay by direct debit on 3 July 2026."          -> 3 July
+//   "The arrears were cleared by a third party on 3 July 2026."  -> 3 July
+//
+// The test is on CONTENT, not on a character count. Real tabular layouts pad
+// generously, and a small numeric bound would reject all of these:
+//
+//   "Pay by:  3 September 2026"                  gap 3
+//   "Compliance date          3 September 2026"  gap 10
+//   "Deadline .......... 3 September 2026"       gap 12
+//
+// Letters and digits are what an instrumental reading always brings with it
+// ("by direct debit on", "by telephone on 0800 121 4433 about"), and what a
+// genuine deadline label never does.
+//
+// Money is exempt: its label may follow its value, and "still to pay" is
+// separated from "£486.20" by a word.
+function passesAdjacency(label, value, source) {
+  if (label.end > value.index) return true;
+  return !/[A-Za-z0-9]/.test(source.slice(label.end, value.index));
 }
 
 // TEST 2. Same blank-line-delimited block.
@@ -222,9 +260,16 @@ function passesSameBlock(label, value) {
   return label.block === value.block;
 }
 
-// TEST 3. No competing label of the same kind between the label and the value.
+// TEST 3. No competing label of the same kind anywhere across the label and the
+// value.
+//
+// The span runs from the START of the label, not its end, so a competing label
+// sitting inside the label's own extent is caught. With today's short literals
+// that span is a few characters, but any future gap-tolerant label would cover
+// a whole clause, and a competing label hiding inside it would otherwise be
+// invisible to this test.
 function passesNoCompetingLabel(label, value, competingHits) {
-  const from = Math.min(label.end, value.index);
+  const from = Math.min(label.index, value.index);
   const to = Math.max(label.end, value.index);
   return !competingHits.some((other) => other.index >= from && other.index < to);
 }
@@ -244,8 +289,15 @@ function distanceTo(label, value) {
 // precedes it, so neither the between-test nor the nearest-wins rule can
 // separate them, and the honest answer is to decline rather than to pick a
 // side.
-function governingLabel(value, governHits, competeHits) {
-  const binds = (label) => passesProximity(label, value) && passesSameBlock(label, value);
+function governingLabel(value, governHits, competeHits, options) {
+  const forwardOnly = Boolean(options && options.forwardOnly);
+  const source = options && options.source;
+  const adjacent = (label) =>
+    !source || !forwardOnly || passesAdjacency(label, value, source);
+  const binds = (label) =>
+    passesProximity(label, value, forwardOnly) &&
+    passesSameBlock(label, value) &&
+    adjacent(label);
 
   const candidates = governHits
     .filter(binds)
@@ -291,7 +343,8 @@ function selectDeadline(text, isPlausibleNumericDate) {
   const competes = locateLabels(source, DATE_COMPETES);
 
   for (const value of values) {
-    const label = governingLabel(value, governs, competes);
+    // Dates bind forwards only, and adjacently. Money does neither.
+    const label = governingLabel(value, governs, competes, { forwardOnly: true, source });
     if (label) return { value: value.value, label: label.phrase, index: value.index };
   }
   return null;

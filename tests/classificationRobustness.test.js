@@ -13,7 +13,7 @@
 // classification at all: the only gate was the 30 document baseline harness,
 // which has no adversarial variants. Every phrase below was verified against
 // the real engine during the audit recorded in
-// KNOWN_CLASSIFICATION_DEFECTS.md at the repo root.
+// KNOWN_ENGINE_DEFECTS.md at the repo root.
 //
 // The flips that remain unfixed live in that file, not here, because a test
 // asserting current-but-wrong behaviour teaches the next session that the
