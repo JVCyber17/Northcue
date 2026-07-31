@@ -6057,6 +6057,8 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "Contact the sender using trusted contact details."
   ],
   "deadline": null,
+  "has_consequence": false,
+  "consequence_sentence": null,
   "risk": "No risk clearly stated.",
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
@@ -6274,6 +6276,8 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
+  "has_consequence": false,
+  "consequence_sentence": null,
   "risk": "Ignoring this could cause serious problems quickly.",
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [

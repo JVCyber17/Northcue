@@ -458,6 +458,18 @@ function buildExtraction({ text, trust }) {
       most_important_point: inferMostImportantPoint(trust, safeActions),
       actions: safeActions,
       deadline: null,
+      // Card 5 quotes the document's own consequence sentence verbatim when
+      // has_consequence is true, which is right on a clean letter and wrong
+      // here for the same reason the action card was: a sentence lifted out of
+      // a document we have just called unreliable is not something to present
+      // in the engine's confident register.
+      //
+      // This was already the behaviour, but only because this object happened
+      // not to set the key. Anyone completing the return object for tidiness
+      // would have reintroduced the defect with no test failing. Stated, not
+      // inherited.
+      has_consequence: false,
+      consequence_sentence: null,
       risk,
       helpful_note: note,
       money_amounts: extractMoneyAmounts(text),

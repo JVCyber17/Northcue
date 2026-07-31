@@ -1,4 +1,5 @@
-// Guards what card 3 is allowed to say.
+// Guards what cards 3 and 5 are allowed to say: the two slots where a sentence
+// lifted out of the document can reach the reader.
 //
 // extractActions has two mechanisms. Four literal probes push lines Northcue
 // WROTE, and six obligation patterns lift a sentence out of the DOCUMENT and
@@ -223,5 +224,63 @@ test("fix 3: a lifted sentence starts at its own line", async (t) => {
     const actions = analyse(text).structured_output.extractor_internal.actions;
     assert.ok(actions.some((action) => action.startsWith("If anyone over 18")),
       "actions were " + JSON.stringify(actions));
+  });
+});
+
+test("O-9: card 5 never quotes a document we have called unreliable", async (t) => {
+  // Card 5 quotes the document's own consequence sentence verbatim when
+  // has_consequence is true. That is right on a clean letter and wrong on a
+  // garbled one, for the same reason the action card was.
+  //
+  // Until this guard existed the behaviour was correct only because the
+  // garbled branch happened not to set the key. Anyone completing that return
+  // object for tidiness would have reintroduced the defect with nothing
+  // failing, which is what this test exists to stop.
+  const DAMAGED_WITH_RISK = byId("ocr_enforcement") +
+    "\nIf you do not pay, the debt will be passed to a debt collection agency and may affect your credit rating.";
+
+  await t.test("the risk phrase is undamaged, so the guard is what stops it", () => {
+    // Without this the test could pass because the phrase failed to match,
+    // which would prove nothing.
+    assert.match(DAMAGED_WITH_RISK, /debt collection agency/);
+    assert.match(DAMAGED_WITH_RISK, /credit rating/);
+  });
+
+  await t.test("has_consequence is stated as false, not left undefined", () => {
+    const extraction = analyse(DAMAGED_WITH_RISK).structured_output.extractor_internal;
+    assert.equal(extraction.has_consequence, false, "must be stated, not absent");
+    assert.equal(extraction.consequence_sentence, null);
+  });
+
+  await t.test("card 5 keeps the check form and quotes nothing", () => {
+    const card = analyse(DAMAGED_WITH_RISK).api_output.structured_result.cards[4];
+    assert.equal(card.title, "What should I check?");
+    assert.doesNotMatch(card.simple_explanation, /debt collection agency|credit rating/,
+      "card 5 must not quote a sentence out of a garbled document");
+  });
+
+  await t.test("across every garbled corpus document", () => {
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const run = analyse(entry.text);
+      if (!run.structured_output.trust_internal.garbled_by_ocr) return;
+      const extraction = run.structured_output.extractor_internal;
+      if (extraction.has_consequence) offenders.push(entry.id + ": has_consequence is truthy");
+      const card = run.api_output.structured_result.cards[4];
+      if (card.title === "What could happen if I ignore it?") {
+        offenders.push(entry.id + ": card 5 took the consequence form");
+      }
+    });
+    assert.deepEqual(offenders, []);
+  });
+
+  await t.test("a clean document still quotes its consequence, which is the point", () => {
+    // The guard must be about damage, not about consequences. Removing the
+    // quote everywhere would be a regression, not a fix.
+    const run = analyse(byId("court_fine"));
+    assert.equal(run.structured_output.trust_internal.garbled_by_ocr, false, "premise");
+    const card = run.api_output.structured_result.cards[4];
+    assert.equal(card.title, "What could happen if I ignore it?");
+    assert.match(card.simple_explanation, /bailiffs for enforcement/);
   });
 });
