@@ -359,6 +359,7 @@
       "tpl.readable.mip_topic": "Le sujet le plus clair semble être {topic}. Vérifiez les détails sur l'original.",
       "tpl.date.letter_dated": "Aucune date d'échéance claire n'a été trouvée. La lettre est datée du {header_date}.",
       "tpl.date.important_dates": "Ces dates peuvent être importantes : {dates}. Vérifiez à quoi elles correspondent.",
+      "tpl.date.primary": "Le document indique {date} comme la date qui compte. Vérifiez le document original.",
       "tpl.date.dates_appear": "Ces dates figurent dans le document : {dates}. Vérifiez à quoi elles correspondent.",
       "tpl.date.no_due_dates_appear": "Aucune date d'échéance claire. Ces dates figurent dans le document : {dates}. Vérifiez à quoi elles correspondent.",
       "tpl.check.sender": "Vérifiez l'expéditeur : {sender}.",

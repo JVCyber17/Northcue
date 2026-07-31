@@ -359,6 +359,7 @@
       "tpl.readable.mip_topic": "El tema más claro parece ser {topic}. Revise el original para ver los detalles.",
       "tpl.date.letter_dated": "No se ha encontrado una fecha de vencimiento clara. La carta tiene fecha {header_date}.",
       "tpl.date.important_dates": "Estas fechas pueden ser importantes: {dates}. Revise a qué se refieren.",
+      "tpl.date.primary": "El documento indica {date} como la fecha que importa. Revise el documento original.",
       "tpl.date.dates_appear": "En el documento aparecen estas fechas: {dates}. Revise a qué se refieren.",
       "tpl.date.no_due_dates_appear": "No hay una fecha de vencimiento clara. En el documento aparecen estas fechas: {dates}. Revise a qué se refieren.",
       "tpl.check.sender": "Revise quién lo envía: {sender}.",

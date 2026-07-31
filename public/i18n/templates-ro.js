@@ -357,6 +357,7 @@
       "tpl.readable.mip_topic": "Subiectul cel mai clar pare a fi {topic}. Verificați originalul pentru detalii.",
       "tpl.date.letter_dated": "Nu a fost găsită o dată scadentă clară. Scrisoarea este datată {header_date}.",
       "tpl.date.important_dates": "Acestea pot fi date importante: {dates}. Verificați la ce se referă.",
+      "tpl.date.primary": "Documentul arată {date} ca data care contează. Verificați documentul original.",
       "tpl.date.dates_appear": "Aceste date apar în document: {dates}. Verificați la ce se referă.",
       "tpl.date.no_due_dates_appear": "Nicio dată scadentă clară. Aceste date apar în document: {dates}. Verificați la ce se referă.",
       "tpl.check.sender": "Verificați expeditorul: {sender}.",

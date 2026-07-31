@@ -364,6 +364,7 @@
       { id: "tpl.readable.mip_topic", template: "The clearest topic appears to be {topic}. Check the original for details." },
       { id: "tpl.date.letter_dated", template: "No clear due date was found. The letter is dated {header_date}." },
       { id: "tpl.date.important_dates", template: "These may be important dates: {dates}. Check what they refer to." },
+      { id: "tpl.date.primary", template: "The document shows {date} as the date that matters. Check the original document." },
       { id: "tpl.date.dates_appear", template: "These dates appear in the document: {dates}. Check what they refer to." },
       { id: "tpl.date.no_due_dates_appear", template: "No clear due date. These dates appear in the document: {dates}. Check what they refer to." },
       { id: "tpl.check.sender", template: "Check the sender: {sender}." },

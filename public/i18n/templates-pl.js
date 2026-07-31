@@ -358,6 +358,7 @@
       "tpl.readable.mip_topic": "Wygląda na to, że najwyraźniejszy temat to: {topic}. Prosimy sprawdzić szczegóły w oryginale.",
       "tpl.date.letter_dated": "Nie znaleziono wyraźnego terminu. List nosi datę {header_date}.",
       "tpl.date.important_dates": "To mogą być ważne daty: {dates}. Prosimy sprawdzić, czego dotyczą.",
+      "tpl.date.primary": "W dokumencie {date} to data, która ma znaczenie. Prosimy sprawdzić oryginalny dokument.",
       "tpl.date.dates_appear": "W dokumencie pojawiają się te daty: {dates}. Prosimy sprawdzić, czego dotyczą.",
       "tpl.date.no_due_dates_appear": "Brak wyraźnego terminu. W dokumencie pojawiają się te daty: {dates}. Prosimy sprawdzić, czego dotyczą.",
       "tpl.check.sender": "Prosimy sprawdzić nadawcę: {sender}.",

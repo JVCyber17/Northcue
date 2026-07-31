@@ -358,6 +358,7 @@
       "tpl.readable.mip_topic": "O tema mais claro parece ser {topic}. Verifique os detalhes no original.",
       "tpl.date.letter_dated": "Não foi encontrada uma data limite clara. A carta tem data de {header_date}.",
       "tpl.date.important_dates": "Estas datas podem ser importantes: {dates}. Verifique a que se referem.",
+      "tpl.date.primary": "O documento indica {date} como a data que importa. Verifique o documento original.",
       "tpl.date.dates_appear": "Estas datas aparecem no documento: {dates}. Verifique a que se referem.",
       "tpl.date.no_due_dates_appear": "Sem data limite clara. Estas datas aparecem no documento: {dates}. Verifique a que se referem.",
       "tpl.check.sender": "Verifique o remetente: {sender}.",

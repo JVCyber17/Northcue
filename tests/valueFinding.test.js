@@ -26,6 +26,10 @@ function analyse(text) {
   });
 }
 
+function byId(id) {
+  return CORPUS.find((entry) => entry.id === id).text;
+}
+
 function amounts(text) {
   return co.findAmounts(text).map((value) => value.value);
 }
@@ -211,6 +215,32 @@ test("no card may contradict its own date field, on either path", async (t) => {
   await t.test("the guard would catch a reintroduction", () => {
     assert.match("No clear date was found. Check the original document.", SAYS_NONE);
     assert.ok(CORPUS.length >= 30);
+  });
+
+  await t.test("the aid path names the judged date without asserting the obligation", () => {
+    // The reading aid exists because Northcue is not fully trained for the
+    // category, and card 1 carries the caveat. Card 4 names the date the engine
+    // picked, and deliberately does NOT use the supported path's "Due by X."
+    const card = analyse(byId("gov_hmrc")).api_output.structured_result.cards[3];
+    assert.equal(card.simple_explanation,
+      "The document shows 31 July 2026 as the date that matters. Check the original document.");
+    assert.doesNotMatch(card.simple_explanation, /Due by/,
+      "the aid path must not claim a deadline with supported path confidence");
+  });
+
+  await t.test("a relative timeframe falls through to the list form", () => {
+    // primaryDate can hold "within 14 days", because dateParts carries
+    // timeframes too, and "The document shows within 14 days as the date that
+    // matters" is not a sentence.
+    const card = analyse(byId("housing_letter")).api_output.structured_result.cards[3];
+    assert.doesNotMatch(card.simple_explanation, /as the date that matters/);
+    assert.match(card.simple_explanation, /within 14 days/);
+  });
+
+  await t.test("several dates with no judgement are still just listed", () => {
+    const card = analyse(byId("bill_in_credit")).api_output.structured_result.cards[3];
+    assert.match(card.simple_explanation, /These dates appear in the document/);
+    assert.equal(card.possible_deadline, null);
   });
 });
 

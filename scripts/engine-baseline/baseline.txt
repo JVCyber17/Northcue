@@ -984,7 +984,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "hasResponseRequest": true,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "This may ask for a response about tax or HMRC. Check the original document.",
-    "dateMessage": "These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.",
+    "dateMessage": "The document shows 31 July 2026 as the date that matters. Check the original document.",
     "risk": "You may miss a response request or important date.",
     "keyChecks": [
       "Check who sent the document.",
@@ -1080,7 +1080,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 31 July 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 31 July 2026."
     ],
@@ -1089,7 +1089,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 5 April 2026, 31 July 2026. Check what they refer to.. Check this date on the original document: 31 July 2026.",
+    "read_aloud_text": "When is it due?. The document shows 31 July 2026 as the date that matters. Check the original document.. Check this date on the original document: 31 July 2026.",
     "status": "good"
   },
   {
@@ -3155,7 +3155,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
-    "dateMessage": "These dates appear in the document: 17 June 2026. Check what they refer to.",
+    "dateMessage": "The document shows 17 June 2026 as the date that matters. Check the original document.",
     "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check the sender: Ravenscourt Logistics Limited.",
@@ -3250,7 +3250,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 17 June 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 17 June 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 17 June 2026."
     ],
@@ -3259,7 +3259,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 17 June 2026. Check what they refer to.. Check this date on the original document: 17 June 2026.",
+    "read_aloud_text": "When is it due?. The document shows 17 June 2026 as the date that matters. Check the original document.. Check this date on the original document: 17 June 2026.",
     "status": "good"
   },
   {
@@ -3387,7 +3387,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "hasResponseRequest": true,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "This may ask for a response about school or education. Check the original document.",
-    "dateMessage": "These dates appear in the document: 5 June 2026. Check what they refer to.",
+    "dateMessage": "The document shows 5 June 2026 as the date that matters. Check the original document.",
     "risk": "You may miss a response request or important date.",
     "keyChecks": [
       "Check the sender: Springwell Primary School.",
@@ -3483,7 +3483,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 5 June 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 5 June 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 5 June 2026."
     ],
@@ -3492,7 +3492,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 5 June 2026. Check what they refer to.. Check this date on the original document: 5 June 2026.",
+    "read_aloud_text": "When is it due?. The document shows 5 June 2026 as the date that matters. Check the original document.. Check this date on the original document: 5 June 2026.",
     "status": "good"
   },
   {
@@ -3620,7 +3620,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "hasResponseRequest": false,
     "hasDeadlineLanguage": true,
     "mostImportantPoint": "This may include a deadline about insurance. Check the original before acting.",
-    "dateMessage": "These may be important dates: 1 July 2026. Check what they refer to.",
+    "dateMessage": "The document shows 1 July 2026 as the date that matters. Check the original document.",
     "risk": "You may miss a response request or important date.",
     "keyChecks": [
       "Check who sent the document.",
@@ -3715,7 +3715,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These may be important dates: 1 July 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 1 July 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 1 July 2026."
     ],
@@ -3724,7 +3724,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. These may be important dates: 1 July 2026. Check what they refer to.. Check this date on the original document: 1 July 2026.",
+    "read_aloud_text": "When is it due?. The document shows 1 July 2026 as the date that matters. Check the original document.. Check this date on the original document: 1 July 2026.",
     "status": "normal"
   },
   {
@@ -5844,7 +5844,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "hasResponseRequest": false,
     "hasDeadlineLanguage": true,
     "mostImportantPoint": "This may include a deadline about tax or HMRC. Check the original before acting.",
-    "dateMessage": "These may be important dates: 1April 2026. Check what they refer to.",
+    "dateMessage": "The document shows 1April 2026 as the date that matters. Check the original document.",
     "risk": "You may miss a response request or important date.",
     "keyChecks": [
       "Check who sent the document.",
@@ -5939,7 +5939,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These may be important dates: 1April 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 1April 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 1April 2026."
     ],
@@ -5948,7 +5948,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. These may be important dates: 1April 2026. Check what they refer to.. Check this date on the original document: 1April 2026.",
+    "read_aloud_text": "When is it due?. The document shows 1April 2026 as the date that matters. Check the original document.. Check this date on the original document: 1April 2026.",
     "status": "normal"
   },
   {
@@ -6812,7 +6812,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
-    "dateMessage": "These dates appear in the document: 28 May 2026. Check what they refer to.",
+    "dateMessage": "The document shows 28 May 2026 as the date that matters. Check the original document.",
     "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check who sent the document.",
@@ -6907,7 +6907,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 28 May 2026. Check what they refer to.",
+    "simple_explanation": "The document shows 28 May 2026 as the date that matters. Check the original document.",
     "key_points": [
       "Check this date on the original document: 28 May 2026."
     ],
@@ -6916,7 +6916,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. These dates appear in the document: 28 May 2026. Check what they refer to.. Check this date on the original document: 28 May 2026.",
+    "read_aloud_text": "When is it due?. The document shows 28 May 2026 as the date that matters. Check the original document.. Check this date on the original document: 28 May 2026.",
     "status": "normal"
   },
   {

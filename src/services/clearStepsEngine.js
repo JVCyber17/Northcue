@@ -1126,7 +1126,7 @@ function extractReadableDocumentSignals(text, trust) {
     hasResponseRequest,
     hasDeadlineLanguage,
     mostImportantPoint,
-    dateMessage: buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate }),
+    dateMessage: buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate, primaryDate }),
     risk: buildReadableRiskMessage({ dateParts, hasResponseRequest, hasDeadlineLanguage }),
     keyChecks: buildReadableKeyChecks({ sender, topic, dateParts, hasResponseRequest })
   };
@@ -1150,13 +1150,34 @@ function buildReadableMostImportantPoint({ text, topic, dateParts, hasResponseRe
   return `The clearest topic appears to be ${topic}. Check the original for details.`;
 }
 
-function buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate }) {
+function buildReadableDateMessage({ dateParts, hasDeadlineLanguage, headerDate, primaryDate }) {
+  // When the engine has judged which date matters, say so. The sentence used to
+  // be computed from dateParts alone while the card's own field carried
+  // primaryDate, so the two could disagree, and on ocr_council_tax they did.
+  //
+  // The wording stops short of the supported path's "Due by X." on purpose.
+  // This path exists because Northcue is not fully trained for the category,
+  // and card 1 carries the caveat saying so, so card 4 names the date the
+  // engine picked without asserting the obligation with confidence it has not
+  // earned.
+  // Only for something that is actually a date. primaryDate can also hold a
+  // relative timeframe, because dateParts carries those too, and "The document
+  // shows within 14 days as the date that matters" is not a sentence. A
+  // timeframe falls through to the list form, which reads correctly and claims
+  // less. That housing_letter reports a period where a date belongs is a
+  // separate defect, recorded as D-6.
+  if (primaryDate && coLocation.findDates(String(primaryDate), isPlausibleNumericDate).length > 0) {
+    return `The document shows ${primaryDate} as the date that matters. Check the original document.`;
+  }
+
   if (dateParts.length === 0) {
     return headerDate
       ? `No clear due date was found. The letter is dated ${headerDate}.`
       : "No clear date was found. Check the original document.";
   }
 
+  // Several dates and no judgement about which matters. Listing them claims
+  // nothing, which is the honest answer here.
   const visibleText = dateParts.slice(0, 3).join(", ");
   if (hasDeadlineLanguage) {
     return `These may be important dates: ${visibleText}. Check what they refer to.`;
