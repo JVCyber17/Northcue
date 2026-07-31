@@ -2531,8 +2531,13 @@ function extractActions(text, trust) {
   return unique(actions);
 }
 
+// One definition of what an amount looks like, shared with co-location. This
+// file previously carried a byte-identical copy of the pattern, so the two
+// could drift apart and one could be tightened without the other. The engine
+// already depends on coLocation for selection; it now depends on it for
+// finding too.
 function extractMoneyAmounts(text) {
-  return String(text || "").match(/(?:£|GBP)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/gi) || [];
+  return coLocation.findAmounts(text).map((amount) => amount.value);
 }
 
 function extractReferenceNumbers(text) {

@@ -96,7 +96,29 @@ const DATE_COMPETES = [
 // A greeting marks the end of the header zone.
 const GREETING = /^\s*(?:dear\b|to whom it may concern)/i;
 
-const MONEY = /(?:£|GBP)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/gi;
+// An amount, matched whole or not at all.
+//
+// The previous pattern was /(?:£|GBP)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/ and both
+// tails were optional, so it matched the longest well formed PREFIX of a
+// malformed amount instead of rejecting it. That turned ordinary inputs into
+// confident wrong answers:
+//
+//   "Amount outstanding: £1247.00"   -> "£124"    a tenfold understatement
+//   "Amount outstanding: £1.247.00"  -> "£1.24"   out by a thousand
+//   "Amount outstanding: £1,2O7.00"  -> "£1"
+//
+// The first of those is not OCR damage at all. Plenty of UK billing systems
+// print a four figure amount with no thousands separator, so the engine was
+// telling a reader that a bailiff wanted £124 when the notice said £1,247.00,
+// with input_quality "good" and confidence "high" because nothing in the
+// pipeline had any reason to doubt it.
+//
+// Two changes. Unseparated thousands are now accepted, so £1247.00 reads whole.
+// And the match must not be followed by another digit, by a separator carrying
+// digits, or by a letter, so a malformed amount declines instead of truncating.
+// Declining is safe: an amount with no value is simply not asserted. Asserting
+// a prefix is not.
+const MONEY = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|[.,]\d|[A-Za-z])/gi;
 
 const LONG_DATE = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
 const NUMERIC_DATE = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
