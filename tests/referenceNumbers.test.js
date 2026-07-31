@@ -127,3 +127,66 @@ test("the corpus gains the missed reference and loses only noise", async (t) => 
   });
 });
 
+test("a reference is never shown where quoting it would harm the reader", async (t) => {
+  // Card 6 already told the reader to keep the reference number ready. It now
+  // shows it, behind three gates.
+  const shownOn = (id) => {
+    const run = runClearStepsEngine({
+      extractedText: byId(id),
+      fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "reference-gate" }
+    });
+    return {
+      trust: run.structured_output.trust_internal,
+      held: run.structured_output.extractor_internal.reference_numbers || [],
+      points: run.api_output.structured_result.cards[5].key_points || []
+    };
+  };
+  const isShown = (points) => points.some((p) => /Keep this reference ready/.test(p));
+
+  await t.test("not on a garbled document, however clean the reference looks", () => {
+    // "Reference: EN-77l2O934" is something a reader will quote, get nowhere
+    // with, and believe they have done the right thing.
+    ["ocr_energy_bill", "ocr_enforcement"].forEach((id) => {
+      const run = shownOn(id);
+      assert.equal(run.trust.garbled_by_ocr, true, id + ": premise");
+      assert.ok(run.held.length, id + ": premise, a reference was extracted");
+      assert.equal(isShown(run.points), false, id + ": a damaged reference must not be offered");
+    });
+  });
+
+  await t.test("not on a suspected scam", () => {
+    const run = shownOn("scam_phishing");
+    assert.equal(run.trust.processing_mode, "verification_only", "premise");
+    assert.deepEqual(run.held, ["SEC-99120"], "premise, the scam's own reference is held");
+    assert.equal(isShown(run.points), false,
+      "Northcue must never help a reader quote a scam's reference back to it");
+  });
+
+  await t.test("across the corpus, no gated document shows one", () => {
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const run = shownOn(entry.id);
+      const gated = run.trust.garbled_by_ocr || run.trust.processing_mode === "verification_only";
+      if (gated && isShown(run.points)) offenders.push(entry.id);
+    });
+    assert.deepEqual(offenders, []);
+  });
+
+  await t.test("it IS shown on an ordinary letter that carries one", () => {
+    // The gates must not swallow the feature.
+    ["energy_bill", "bailiff_enforcement", "court_fine", "legal_solicitor"].forEach((id) => {
+      const run = shownOn(id);
+      assert.ok(isShown(run.points), id + ": key points were " + JSON.stringify(run.points));
+    });
+    assert.ok(shownOn("legal_solicitor").points.some((p) => p.includes("HG/DR/22981")),
+      "the reference U-3 recovered is the one now shown");
+  });
+
+  await t.test("only the first reference, never a list", () => {
+    CORPUS.forEach((entry) => {
+      const run = shownOn(entry.id);
+      const lines = run.points.filter((p) => /Keep this reference ready/.test(p));
+      assert.ok(lines.length <= 1, entry.id + " offered " + lines.length + " references");
+    });
+  });
+});

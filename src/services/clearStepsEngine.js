@@ -970,7 +970,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_if_i_feel_stuck",
       title: "Helpful note",
       explanation: oldCardById.get("helpful_note")?.short_answer || inferHelpfulNote(trust, extraction.helpful_note, extraction.multi_letter_state),
-      keyPoints: [trust.safe_next_step],
+      keyPoints: buildHelpfulNoteKeyPoints(trust, extraction),
       actionNeeded: trust.safe_next_step || null
     }
   ];

@@ -93,11 +93,11 @@
    "steps": 2
   },
   "energy_bill|6": {
-   "px": 466,
+   "px": 529,
    "lang": "ro",
    "answerChars": 39,
-   "stepChars": 36,
-   "steps": 1
+   "stepChars": 74,
+   "steps": 2
   },
   "water_bill|1": {
    "px": 641,
@@ -261,11 +261,11 @@
    "steps": 1
   },
   "appointment_nhs|6": {
-   "px": 466,
+   "px": 529,
    "lang": "ro",
    "answerChars": 39,
-   "stepChars": 36,
-   "steps": 1
+   "stepChars": 74,
+   "steps": 2
   },
   "bill_in_credit|1": {
    "px": 702,
@@ -345,11 +345,11 @@
    "steps": 1
   },
   "bailiff_enforcement|6": {
-   "px": 585,
+   "px": 648,
    "lang": "pl",
    "answerChars": 90,
-   "stepChars": 56,
-   "steps": 1
+   "stepChars": 95,
+   "steps": 2
   },
   "eviction_possession|1": {
    "px": 796,
@@ -387,11 +387,11 @@
    "steps": 2
   },
   "eviction_possession|6": {
-   "px": 585,
+   "px": 648,
    "lang": "pl",
    "answerChars": 90,
-   "stepChars": 56,
-   "steps": 1
+   "stepChars": 92,
+   "steps": 2
   },
   "court_fine|1": {
    "px": 764,
@@ -429,11 +429,11 @@
    "steps": 2
   },
   "court_fine|6": {
-   "px": 585,
+   "px": 648,
    "lang": "pl",
    "answerChars": 90,
-   "stepChars": 56,
-   "steps": 1
+   "stepChars": 94,
+   "steps": 2
   },
   "housing_letter|1": {
    "px": 702,
@@ -513,11 +513,11 @@
    "steps": 1
   },
   "legal_solicitor|6": {
-   "px": 590,
+   "px": 653,
    "lang": "pt",
    "answerChars": 90,
-   "stepChars": 57,
-   "steps": 1
+   "stepChars": 96,
+   "steps": 2
   },
   "medical_letter|1": {
    "px": 702,

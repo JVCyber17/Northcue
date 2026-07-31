@@ -441,14 +441,15 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "title": "Helpful note",
     "simple_explanation": "This looks like a normal formal letter.",
     "key_points": [
-      "Follow the action card step by step."
+      "Follow the action card step by step.",
+      "Keep this reference ready: EB-4471028."
     ],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step.",
+    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step. Keep this reference ready: EB-4471028.",
     "status": "good"
   }
 ]
@@ -1344,14 +1345,15 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "title": "Helpful note",
     "simple_explanation": "This looks like a normal formal letter.",
     "key_points": [
-      "Follow the action card step by step."
+      "Follow the action card step by step.",
+      "Keep this reference ready: WM-8842001."
     ],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step.",
+    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step. Keep this reference ready: WM-8842001.",
     "status": "normal"
   }
 ]
@@ -1809,14 +1811,15 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "title": "Helpful note",
     "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Check the action card now and act using trusted details."
+      "Check the action card now and act using trusted details.",
+      "Keep this reference ready: EN-77120934."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details. Keep this reference ready: EN-77120934.",
     "status": "urgent"
   }
 ]
@@ -1921,14 +1924,15 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "title": "Helpful note",
     "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Check the action card now and act using trusted details."
+      "Check the action card now and act using trusted details.",
+      "Keep this reference ready: EN-77120934."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details. Keep this reference ready: EN-77120934.",
     "status": "urgent"
   }
 ]
@@ -2146,14 +2150,15 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "title": "Helpful note",
     "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Check the action card now and act using trusted details."
+      "Check the action card now and act using trusted details.",
+      "Keep this reference ready: POS-2291."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details. Keep this reference ready: POS-2291.",
     "status": "urgent"
   }
 ]
@@ -2380,14 +2385,15 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "title": "Helpful note",
     "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Check the action card now and act using trusted details."
+      "Check the action card now and act using trusted details.",
+      "Keep this reference ready: CF-8830012."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details. Keep this reference ready: CF-8830012.",
     "status": "urgent"
   }
 ]
@@ -2832,14 +2838,15 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "title": "Helpful note",
     "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Check key details on the original document before acting."
+      "Check key details on the original document before acting.",
+      "Keep this reference ready: HG/DR/22981."
     ],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check key details on the original document before acting.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check key details on the original document before acting. Keep this reference ready: HG/DR/22981.",
     "status": "caution"
   }
 ]
