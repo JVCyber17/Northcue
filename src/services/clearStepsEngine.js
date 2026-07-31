@@ -1803,21 +1803,28 @@ function looksTemplate(text) {
   return TEMPLATE_MARKERS.some((marker) => marker.test(value));
 }
 
+// Only first person authorship counts. The reader saying what THEY are doing is
+// the one thing an incoming letter cannot also say.
+//
+// Four entries have been removed. "to whom it may concern", "dear sir or madam"
+// and "dear sir/madam" are salutations, and an enforcement agency uses them
+// precisely because it does not know who is at the address; "i hereby give
+// notice" is the operative verb of a served notice, so it appeared on the very
+// documents it then misclassified. Any of the four flipped a live notice of
+// enforcement to document_category outgoing, which detectDocumentCategory
+// returns before any real category test runs, and card 1 to "This looks like a
+// document sent by you." while severity stayed urgent.
+//
+// "i am writing to request" is also gone: it is standard HR, claims handler and
+// council wording on incoming letters ("I am writing to request your attendance
+// at a formal capability meeting").
 function looksOutgoing(lower) {
-  // "Yours sincerely/faithfully" and "from our team" appear in standard incoming
-  // company letters and cannot distinguish direction. Use only signals that are
-  // genuinely distinctive of user-authored (outgoing) correspondence.
   return (
-    lower.includes("to whom it may concern") ||
-    lower.includes("dear sir or madam") ||
-    lower.includes("dear sir/madam") ||
-    lower.includes("i am writing to request") ||
     lower.includes("i am writing to complain") ||
     lower.includes("i am writing to cancel") ||
     lower.includes("i am writing to dispute") ||
     lower.includes("i wish to cancel") ||
-    lower.includes("i wish to complain") ||
-    lower.includes("i hereby give notice")
+    lower.includes("i wish to complain")
   );
 }
 

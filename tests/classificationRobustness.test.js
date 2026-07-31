@@ -187,3 +187,98 @@ test("F1: ordinary brackets are not template placeholders", async (t) => {
     assert.deepEqual(templates, ["blank_template"]);
   });
 });
+
+test("F2: a salutation is not evidence the reader wrote the letter", async (t) => {
+  // looksOutgoing claimed in its own comment to use "only signals that are
+  // genuinely distinctive of user-authored correspondence". Four of its ten
+  // entries were salutations or the operative verb of a served notice. An
+  // enforcement agency writes "Dear Sir or Madam" precisely because it does not
+  // know who is at the address, and "I hereby give notice" is what a Notice of
+  // Enforcement says on its face.
+  const INCOMING = [
+    ["bailiff_enforcement", "Dear Sir or Madam"],
+    ["bailiff_enforcement", "TO WHOM IT MAY CONCERN"],
+    ["bailiff_enforcement", "I hereby give notice that I intend to take control of your goods."],
+    ["court_fine", "Dear Sir/Madam"],
+    ["court_fine", "To whom it may concern"],
+    ["eviction_possession", "Dear Sir or Madam"],
+    ["water_bill", "Dear Sir or Madam"],
+    ["employment_letter", "I am writing to request your attendance at a formal capability meeting."]
+  ];
+
+  for (const [id, line] of INCOMING) {
+    await t.test(JSON.stringify(line) + " on " + id + " stays incoming", () => {
+      const run = classify(withLine(id, line));
+      assert.notEqual(run.trust.document_type, "outgoing", line);
+      assert.notEqual(run.trust.document_category, "outgoing", line);
+      assert.doesNotMatch(run.cards[0].simple_explanation, /sent by you/,
+        "a served notice must never be described as something the reader wrote");
+    });
+  }
+
+  await t.test("first person authorship is still detected", () => {
+    [
+      "I am writing to complain about the service I received.",
+      "I am writing to cancel my policy with effect from next month.",
+      "I am writing to dispute the amount shown on my latest bill.",
+      "I wish to cancel my account.",
+      "I wish to complain about how my case was handled."
+    ].forEach((line) => {
+      const run = classify([
+        "22 Alder House, Feltham",
+        "Dear Sir or Madam",
+        line,
+        "Please confirm receipt of this letter.",
+        "Yours faithfully"
+      ].join("\n"));
+      assert.equal(run.trust.document_type, "outgoing", line);
+    });
+  });
+
+  await t.test("the corpus outgoing letter still classifies as outgoing", () => {
+    // It carries both a salutation and a first person phrase, which is why
+    // removing the salutation needles costs it nothing and the baseline does
+    // not move.
+    const run = classify(byId("outgoing_letter"));
+    assert.equal(run.trust.document_type, "outgoing");
+    assert.equal(run.trust.document_category, "outgoing");
+  });
+
+  await t.test("the accepted regression is priced, not hidden", () => {
+    // A user's own complaint that opens with a salutation and never says what
+    // they are doing now reads as incoming. This is the cost of F2 and it is
+    // recorded rather than asserted away: the worst case is a "check the
+    // amount and date" card on a letter the reader wrote.
+    const salutationOnly = [
+      "22 Alder House, Feltham",
+      "Dear Sir or Madam",
+      "Please cancel the account held in my name at the above address.",
+      "Yours faithfully"
+    ].join("\n");
+    assert.notEqual(classify(salutationOnly).trust.document_type, "outgoing",
+      "if this ever passes, F2's trade has changed and the comment above is stale");
+  });
+});
+
+test("the classification layer keeps its nerve on a realistic enforcement notice", async (t) => {
+  // A composite of the ordinary furniture a real notice of enforcement carries.
+  // None of it is evidence of anything, and before this work each line on its
+  // own destroyed the classification.
+  await t.test("a realistic notice survives its own boilerplate", () => {
+    const realistic = [
+      "Marston Holdings Enforcement Agents",
+      "NOTICE OF ENFORCEMENT",
+      "Dear Sir or Madam",
+      "I hereby give notice that I intend to take control of your goods.",
+      "Your reference [MH-2291-A] should be quoted on all correspondence.",
+      "Please contact us at <enforcement@marstonholdings.co.uk>",
+      "Amount outstanding: £1,247.00",
+      "You must contact us on 0333 320 122 by 3 September 2026."
+    ].join("\n");
+    const run = classify(realistic);
+    assert.notEqual(run.trust.document_type, "outgoing");
+    assert.notEqual(run.trust.document_type, "template");
+    assert.doesNotMatch(run.cards[0].simple_explanation, /sent by you|template with blank fields/);
+    assert.equal(run.trust.severity_level, "urgent", "the stakes floor must still fire");
+  });
+});
