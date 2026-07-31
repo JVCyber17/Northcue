@@ -2790,8 +2790,36 @@ function extractMoneyAmounts(text) {
   return coLocation.findAmounts(text).map((amount) => amount.value);
 }
 
+// The reference a letter tells the reader to quote.
+//
+// The previous pattern was /\bref(?:erence)?[:\s-]*[a-z0-9-]{4,}\b/gi and had
+// three faults. It required four characters in a class excluding the slash, so
+// "Our ref: HG/DR/22981" stopped at "HG" and was missed entirely, and slashed
+// references are the convention on exactly the solicitor and council letters
+// most likely to carry one. It captured the label into the value, so the stored
+// reference read "Reference: EN-77120934". And with no digit requirement it
+// returned "reference above" from "quoting the reference above" and "reference
+// agencies" from "credit reference agencies".
+//
+// A reference token is letters and digits joined by slash, hyphen or dot, with
+// one optional space-separated all-digit group for "Our ref HG 22981". Spaces
+// are not otherwise allowed, so "Reference: EN-77120934 and case number
+// CT-88213" yields the first reference rather than one run-on value.
+const REFERENCE = /\b(?:our\s+)?ref(?:erence)?\b[:.\s-]{0,3}([A-Za-z0-9]+(?:[/\-.][A-Za-z0-9]+)*(?:\s\d+)?)/gi;
+
 function extractReferenceNumbers(text) {
-  return String(text || "").match(/\bref(?:erence)?[:\s-]*[a-z0-9-]{4,}\b/gi) || [];
+  const found = [];
+  const source = String(text || "");
+  let match;
+  REFERENCE.lastIndex = 0;
+  while ((match = REFERENCE.exec(source)) !== null) {
+    const value = match[1].replace(/[.\s]+$/, "");
+    // A reference without a digit is a word that happened to follow the label.
+    // Filtering here rather than at display keeps every consumer honest.
+    if (!/\d/.test(value)) continue;
+    if (!found.includes(value)) found.push(value);
+  }
+  return found;
 }
 
 function extractContactDetails(text, trust) {

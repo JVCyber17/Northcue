@@ -309,7 +309,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "£214.63"
   ],
   "reference_numbers": [
-    "reference: EB-4471028"
+    "EB-4471028"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -1212,7 +1212,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [],
   "reference_numbers": [
-    "reference: WM-8842001"
+    "WM-8842001"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -1676,8 +1676,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "£235.00"
   ],
   "reference_numbers": [
-    "Reference: EN-77120934",
-    "reference above"
+    "EN-77120934"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -2009,7 +2008,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "£2,480.00"
   ],
   "reference_numbers": [
-    "Reference: POS-2291"
+    "POS-2291"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -2245,7 +2244,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "£726.00"
   ],
   "reference_numbers": [
-    "Reference: CF-8830012"
+    "CF-8830012"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -2698,11 +2697,13 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   "risk": "Unless payment is received within 14 days, legal action may be commenced without further notice to you.",
   "has_consequence": true,
   "consequence_sentence": "Unless payment is received within 14 days, legal action may be commenced without further notice to you.",
-  "helpful_note": "Keep this with your records in case you need it later.",
+  "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£3,410.00"
   ],
-  "reference_numbers": [],
+  "reference_numbers": [
+    "HG/DR/22981"
+  ],
   "contact_details": [],
   "appeal_rights": [],
   "support_options": [],
@@ -3846,13 +3847,11 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "risk": "Continued arrears may be reported to credit reference agencies and could affect your credit rating.",
   "has_consequence": true,
   "consequence_sentence": "Continued arrears may be reported to credit reference agencies and could affect your credit rating.",
-  "helpful_note": "Keep the reference number ready.",
+  "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£418.60"
   ],
-  "reference_numbers": [
-    "reference agencies"
-  ],
+  "reference_numbers": [],
   "contact_details": [],
   "appeal_rights": [],
   "support_options": [],
@@ -4303,7 +4302,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
   "helpful_note": "Do not use links or numbers from this document until checked.",
   "money_amounts": [],
   "reference_numbers": [
-    "Reference: SEC-99120"
+    "SEC-99120"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -6073,7 +6072,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "£214.63"
   ],
   "reference_numbers": [
-    "reference: EB-4471028"
+    "EB-4471028"
   ],
   "contact_details": [],
   "appeal_rights": [],
@@ -6292,7 +6291,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "£1,247.00"
   ],
   "reference_numbers": [
-    "Reference: EN-77120934"
+    "EN-77120934"
   ],
   "contact_details": [],
   "appeal_rights": [],
