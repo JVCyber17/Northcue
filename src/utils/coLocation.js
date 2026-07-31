@@ -84,7 +84,15 @@ const DATE_GOVERNS = [
   "bring your account up to date by", "settle the account by",
   "paid in full by", "make payment by",
   "vacate the property by", "vacate by", "leave the property by",
-  "remove your goods by"
+  "remove your goods by",
+  // Statutory and regulatory notices name their date without any verb at all.
+  // An environmental health notice, a planning enforcement notice and a school
+  // attendance notice all print "Compliance date:" or "Date for compliance:" in
+  // a field, and a consultation prints "Response date:". None of them says pay,
+  // respond or contact, so nothing above could reach them and the date was read
+  // as unlabelled.
+  "compliance date", "date for compliance", "response date",
+  "act by", "you must act by"
 ];
 
 const DATE_COMPETES = [
@@ -129,14 +137,39 @@ function tolerantLabelSource(phrase) {
   ).join("");
 }
 
+// Entries whose match must not begin or end inside a longer word.
+//
+// locateLabels compiles a phrase as a bare substring. That is safe for a
+// distinctive multi word literal, and unsafe for one whose text is a prefix or
+// a suffix of ordinary English. All three of these were verified against the
+// engine before this list existed, and the pipe marks what matched:
+//
+//   "act by"           "you may cont|act by| telephone", "the ex|act by|-law",
+//                      "this will imp|act by| a small amount"
+//   "response date"    "the |response date|d 3 July 2026 was received"
+//   "compliance date"  "non |compliance date|s back to 3 July 2026"
+//
+// Each collision puts a governing date label on a sentence that states no
+// obligation, which is the failure shape D-1 records for the bare "before".
+//
+// The older entries are deliberately NOT listed here. Several of them
+// ("less", "used", "paid", "from") have the same hazard, but re-bounding them
+// changes shipped extraction and belongs to its own commit with its own
+// baseline diff. This list covers what this commit adds.
+const WORD_BOUNDED = new Set([
+  "compliance date", "date for compliance", "response date",
+  "act by", "you must act by"
+]);
+
 // Compiled once per phrase and reused, per the i18n engineering standards.
 const labelPatterns = new Map();
 function labelPattern(phrase) {
   let pattern = labelPatterns.get(phrase);
   if (!pattern) {
-    const source = phrase.length >= MIN_TOLERANT_LENGTH
+    const body = phrase.length >= MIN_TOLERANT_LENGTH
       ? tolerantLabelSource(phrase)
       : phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const source = WORD_BOUNDED.has(phrase) ? "\\b" + body + "\\b" : body;
     pattern = new RegExp(source, "gi");
     labelPatterns.set(phrase, pattern);
   }
