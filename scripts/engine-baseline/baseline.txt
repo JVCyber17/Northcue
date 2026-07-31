@@ -4291,6 +4291,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "Keep your money and personal details protected."
   ],
   "deadline": null,
+  "unverified_date": null,
   "risk": "You could lose money or share private data.",
   "helpful_note": "Do not use links or numbers from this document until checked.",
   "money_amounts": [],

@@ -388,7 +388,14 @@ function buildExtraction({ text, trust }) {
         "Use contact details from an official source.",
         "Keep your money and personal details protected."
       ],
+      // deadline stays null: a date on a document we may not trust is not an
+      // obligation, so nothing downstream may treat it as one. But the reader
+      // still needs to SEE it. A person warned that a letter might be a scam
+      // needs to know how long they have to check, and deleting the date was
+      // costing far more when the scam call was wrong than it ever saved when
+      // it was right. Card 4 shows it as something stated, not something owed.
       deadline: null,
+      unverified_date: extractDeadline(text),
       risk: "You could lose money or share private data.",
       helpful_note: "Do not use links or numbers from this document until checked.",
       money_amounts: extractMoneyAmounts(text),
@@ -529,9 +536,11 @@ function runRendererLayer({ trust, extraction }) {
         ? trust.document_category === "appointment"
           ? cleanLine(`Your appointment is on ${extraction.deadline}.`)
           : cleanLine(`Due by ${extraction.deadline}.`)
-        : trust.garbled_by_ocr
-          ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
-          : cleanLine(buildNoDeadlineMessage(extraction)),
+        : extraction.unverified_date
+          ? cleanLine(`The document states a date of ${extraction.unverified_date}. Check this with the organisation before acting.`)
+          : trust.garbled_by_ocr
+            ? "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document."
+            : cleanLine(buildNoDeadlineMessage(extraction)),
       date: extraction.deadline || null,
       status: cardStatus
     },

@@ -327,6 +327,7 @@
     patterns: {
       "tpl.deadline.appointment": "Wizyta jest zaplanowana na {date}.",
       "tpl.deadline.due": "Termin: do {date}.",
+      "tpl.deadline.unverified": "W dokumencie podana jest data {date}. Prosimy sprawdzić to w organizacji przed podjęciem działań.",
       "tpl.summary.bill_full": "{sender} wydaje się prosić o zapłatę {amount} do {date}.",
       "tpl.summary.bill_amount_date": "To wygląda na prośbę o zapłatę kwoty {amount}, z terminem do {date}.",
       "tpl.summary.bill_sender_amount": "{sender} wydaje się prosić o zapłatę {amount}.",

@@ -325,6 +325,7 @@
     patterns: {
       "tpl.deadline.appointment": "आपका अपॉइंटमेंट {date} को है.",
       "tpl.deadline.due": "{date} तक देय.",
+      "tpl.deadline.unverified": "दस्तावेज़ में {date} तारीख़ दी गई है. कोई कदम उठाने से पहले संस्था से इसकी पुष्टि करें.",
       "tpl.summary.bill_full": "ऐसा लगता है कि {sender} आपसे {date} तक {amount} चुकाने के लिए कह रहा है.",
       "tpl.summary.bill_amount_date": "यह {amount} के भुगतान का अनुरोध लगता है, जो {date} तक देय है.",
       "tpl.summary.bill_sender_amount": "ऐसा लगता है कि {sender} आपसे {amount} चुकाने के लिए कह रहा है.",

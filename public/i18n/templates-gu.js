@@ -327,6 +327,7 @@
     patterns: {
       "tpl.deadline.appointment": "તમારી એપોઇન્ટમેન્ટ {date} ના રોજ છે.",
       "tpl.deadline.due": "છેલ્લી તારીખ: {date}.",
+      "tpl.deadline.unverified": "દસ્તાવેજમાં {date} તારીખ જણાવેલી છે. પગલું લેતાં પહેલાં સંસ્થા પાસેથી આની ખાતરી કરો.",
       "tpl.summary.bill_full": "{sender} તમને {date} સુધીમાં {amount} ભરવાનું કહેતું હોય એવું જણાય છે.",
       "tpl.summary.bill_amount_date": "આ {amount} ની ચુકવણીની વિનંતી હોવાનું જણાય છે, જેની છેલ્લી તારીખ {date} છે.",
       "tpl.summary.bill_sender_amount": "{sender} તમને {amount} ભરવાનું કહેતું હોય એવું જણાય છે.",

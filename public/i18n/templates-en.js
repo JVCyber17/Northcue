@@ -332,6 +332,8 @@
     patterns: [
       { id: "tpl.deadline.appointment", template: "Your appointment is on {date}." },
       { id: "tpl.deadline.due", template: "Due by {date}." },
+
+      { id: "tpl.deadline.unverified", template: "The document states a date of {date}. Check this with the organisation before acting." },
       { id: "tpl.summary.bill_full", template: "{sender} appears to be asking you to pay {amount} by {date}." },
       { id: "tpl.summary.bill_amount_date", template: "This appears to be a payment request for {amount}, due by {date}." },
       { id: "tpl.summary.bill_sender_amount", template: "{sender} appears to be asking you to pay {amount}." },

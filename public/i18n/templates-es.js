@@ -328,6 +328,7 @@
     patterns: {
       "tpl.deadline.appointment": "Su cita es el {date}.",
       "tpl.deadline.due": "Plazo hasta el {date}.",
+      "tpl.deadline.unverified": "El documento indica la fecha {date}. Compruébelo con la organización antes de actuar.",
       "tpl.summary.bill_full": "{sender} parece pedirle un pago de {amount}, con plazo hasta el {date}.",
       "tpl.summary.bill_amount_date": "Esto parece una solicitud de pago de {amount}, con plazo hasta el {date}.",
       "tpl.summary.bill_sender_amount": "{sender} parece pedirle un pago de {amount}.",

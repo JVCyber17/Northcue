@@ -325,6 +325,7 @@
     patterns: {
       "tpl.deadline.appointment": "আপনার অ্যাপয়েন্টমেন্ট {date} তারিখে.",
       "tpl.deadline.due": "{date} এর মধ্যে.",
+      "tpl.deadline.unverified": "ডকুমেন্টে {date} তারিখ দেওয়া আছে. কোনো পদক্ষেপ নেওয়ার আগে সংস্থার কাছে এটি যাচাই করুন.",
       "tpl.summary.bill_full": "মনে হচ্ছে {sender} আপনাকে {date} এর মধ্যে {amount} দিতে বলছে.",
       "tpl.summary.bill_amount_date": "এটি {amount} এর একটি পেমেন্টের অনুরোধ বলে মনে হচ্ছে, শেষ তারিখ {date}.",
       "tpl.summary.bill_sender_amount": "মনে হচ্ছে {sender} আপনাকে {amount} দিতে বলছে.",

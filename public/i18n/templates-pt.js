@@ -327,6 +327,7 @@
     patterns: {
       "tpl.deadline.appointment": "A sua marcação está agendada para {date}.",
       "tpl.deadline.due": "Prazo até {date}.",
+      "tpl.deadline.unverified": "O documento indica a data {date}. Verifique isto junto da organização antes de agir.",
       "tpl.summary.bill_full": "{sender} parece pedir o pagamento de {amount} até {date}.",
       "tpl.summary.bill_amount_date": "Isto parece ser um pedido de pagamento de {amount}, com prazo até {date}.",
       "tpl.summary.bill_sender_amount": "{sender} parece pedir o pagamento de {amount}.",

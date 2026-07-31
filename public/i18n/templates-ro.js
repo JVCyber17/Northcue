@@ -326,6 +326,7 @@
     patterns: {
       "tpl.deadline.appointment": "Programarea dumneavoastră este pe {date}.",
       "tpl.deadline.due": "Scadent până la {date}.",
+      "tpl.deadline.unverified": "Documentul menționează data {date}. Verificați acest lucru cu organizația înainte de a acționa.",
       "tpl.summary.bill_full": "{sender} pare să vă ceară să plătiți {amount} până la {date}.",
       "tpl.summary.bill_amount_date": "Aceasta pare a fi o cerere de plată pentru {amount}, scadentă până la {date}.",
       "tpl.summary.bill_sender_amount": "{sender} pare să vă ceară să plătiți {amount}.",

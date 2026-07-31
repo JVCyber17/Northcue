@@ -328,6 +328,7 @@
     patterns: {
       "tpl.deadline.appointment": "Votre rendez-vous est prévu le {date}.",
       "tpl.deadline.due": "Échéance le {date}.",
+      "tpl.deadline.unverified": "Le document indique la date {date}. Vérifiez-le auprès de l'organisme avant d'agir.",
       "tpl.summary.bill_full": "{sender} semble vous demander de payer {amount} au plus tard le {date}.",
       "tpl.summary.bill_amount_date": "Cela semble être une demande de paiement de {amount}, à régler au plus tard le {date}.",
       "tpl.summary.bill_sender_amount": "{sender} semble vous demander de payer {amount}.",
