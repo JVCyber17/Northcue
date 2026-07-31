@@ -244,6 +244,67 @@ test("no card may contradict its own date field, on either path", async (t) => {
   });
 });
 
+test("display normalisation cannot affect matching", async (t) => {
+  // The optional separator recovers "1April 2026", which is the right value,
+  // but the paper in the reader's hand says "1 April 2026". Normalisation
+  // serves the screen-matches-paper rule rather than breaking it, and it must
+  // happen at render only.
+  await t.test("the reader sees the spaced form", () => {
+    const run = analyse(byId("ocr_council_tax"));
+    const card = run.api_output.structured_result.cards[3];
+    assert.match(card.simple_explanation, /1 April 2026/);
+    assert.doesNotMatch(card.simple_explanation, /1April 2026/);
+    assert.equal(card.possible_deadline, "1 April 2026");
+    assert.equal(run.api_output.structured_result.summary.main_date, "1 April 2026");
+  });
+
+  await t.test("extraction keeps the verbatim value", () => {
+    const run = analyse(byId("ocr_council_tax"));
+    assert.equal(run.structured_output.extractor_internal.deadline, "1April 2026",
+      "extractor_internal must record what the document actually said");
+  });
+
+  await t.test("every matcher still runs on the original string", () => {
+    // The guarantee, asserted rather than argued. If normalisation had leaked
+    // upstream, co-location would be matching a string the document does not
+    // contain, and these would disagree.
+    const raw = byId("ocr_council_tax");
+    assert.equal(co.selectDeadline(raw, () => true).value, "1April 2026",
+      "co-location must still see the raw value");
+    assert.ok(co.findDates(raw).some((d) => d.value === "1April 2026"),
+      "findDates must still see the raw value");
+    const labels = co.locateLabels(raw.toLowerCase(), co.DATE_GOVERNS);
+    labels.forEach((label) => {
+      assert.equal(raw.toLowerCase().slice(label.index, label.end), label.phrase,
+        "label offsets must still address the original string");
+    });
+  });
+
+  await t.test("offsets are unchanged, because normalisation happens after them", () => {
+    // formatDateForDisplay lengthens a string, so if it ran before matching
+    // every offset after it would shift. It runs after, so nothing moves.
+    assert.notEqual(co.formatDateForDisplay("1April 2026").length, "1April 2026".length);
+    const raw = byId("ocr_council_tax");
+    co.findDates(raw).forEach((date) => {
+      assert.equal(raw.slice(date.index, date.index + date.value.length), date.value,
+        "a date's offset must still address its own raw text");
+    });
+  });
+
+  await t.test("it leaves anything that is not a long date alone", () => {
+    ["within 14 days", "01/04/2026", "April 1, 2026", "1 April 2026", "", null]
+      .forEach((value) => {
+        assert.equal(co.formatDateForDisplay(value), value == null ? "" : value, JSON.stringify(value));
+      });
+  });
+
+  await t.test("an undamaged corpus document is untouched by it", () => {
+    const run = analyse(byId("council_tax"));
+    assert.equal(run.api_output.structured_result.summary.main_date, "1 April 2026");
+    assert.equal(run.structured_output.extractor_internal.deadline, "1 April 2026");
+  });
+});
+
 test("money: every amount in the corpus is still found in full", async (t) => {
   // 31 distinct amounts across 30 documents. Tightening a value pattern risks
   // losing genuine values, so this is the counterweight to the decline tests.

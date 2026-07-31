@@ -61,9 +61,16 @@ function runClearStepsEngine({ extractedText, fileMeta }) {
     prompt: extractorPrompt
   });
 
+  // One normalisation, at the single boundary where extraction becomes output.
+  // Everything upstream, including every regex, every label lookup and all
+  // three co-location tests, has already run on the original string;
+  // extractor_internal below keeps the verbatim values. Only what the reader
+  // sees, and the display fields that must agree with it, are normalised.
+  const displayExtraction = withDisplayDates(extraction);
+
   const cards = runRendererLayer({
     trust,
-    extraction,
+    extraction: displayExtraction,
     prompt: rendererPrompt
   });
 
@@ -73,7 +80,7 @@ function runClearStepsEngine({ extractedText, fileMeta }) {
     anonymousSessionId: fileMeta.anonymousSessionId || null,
     text: primaryText,
     trust,
-    extraction,
+    extraction: displayExtraction,
     displayCards: cards
   });
 
@@ -499,6 +506,61 @@ function buildExtraction({ text, trust }) {
       : trust.review_reason,
     evidence_spans: []
   };
+}
+
+// Returns a copy of the extraction with every date the reader will see written
+// the way the paper writes it. The optional separator recovers "1April 2026",
+// which is the right value, but the letter in the reader's hand says
+// "1 April 2026", so showing the OCR form breaks the rule that the screen
+// should match the paper rather than serving it.
+//
+// A copy, never a mutation: extractor_internal must keep the verbatim values,
+// and nothing that matches or measures may ever see this.
+// Replaces each raw date inside an already-built sentence with its display
+// form. The header date is covered too, because it can carry the same damage.
+function rewriteDatesForDisplay(sentence, dateParts, primaryDate) {
+  if (typeof sentence !== "string") return sentence;
+  const raws = unique(
+    [].concat(Array.isArray(dateParts) ? dateParts : [], primaryDate || [])
+      .filter(Boolean)
+      .concat(extractVisibleDates(sentence))
+  );
+  return raws.reduce((text, raw) => {
+    const shown = coLocation.formatDateForDisplay(raw);
+    return shown === raw ? text : text.split(raw).join(shown);
+  }, sentence);
+}
+
+function withDisplayDates(extraction) {
+  const display = Object.assign({}, extraction);
+  if (display.deadline) display.deadline = coLocation.formatDateForDisplay(display.deadline);
+  if (display.header_date) display.header_date = coLocation.formatDateForDisplay(display.header_date);
+  if (Array.isArray(display.visible_dates)) {
+    display.visible_dates = display.visible_dates.map(coLocation.formatDateForDisplay);
+  }
+  const signals = display.readable_unsupported_signals;
+  if (signals) {
+    // The date sentence is rebuilt from the normalised values rather than
+    // patched afterwards, so it cannot drift from the fields beside it. That
+    // drift is the whole defect this session closed.
+    const primaryDate = signals.primaryDate
+      ? coLocation.formatDateForDisplay(signals.primaryDate)
+      : signals.primaryDate;
+    const dateParts = Array.isArray(signals.dateParts)
+      ? signals.dateParts.map(coLocation.formatDateForDisplay)
+      : signals.dateParts;
+    display.readable_unsupported_signals = Object.assign({}, signals, {
+      primaryDate,
+      dateParts,
+      // Each raw date is replaced by its display form inside the sentence the
+      // extractor already built. Rebuilding the sentence here instead would
+      // need every input that produced it, and dropping one of them silently
+      // lost "The letter is dated 27 May 2026." from medical_letter. For an
+      // undamaged date the replacement is a no-op.
+      dateMessage: rewriteDatesForDisplay(signals.dateMessage, signals.dateParts, signals.primaryDate)
+    });
+  }
+  return display;
 }
 
 function runRendererLayer({ trust, extraction }) {

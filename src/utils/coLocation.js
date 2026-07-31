@@ -217,6 +217,28 @@ function findAmounts(text) {
   return locate(String(text || ""), MONEY);
 }
 
+// A date as the reader should SEE it, never as it is matched.
+//
+// The optional separator recovers "1April 2026" from OCR, which is the right
+// value, but the paper in the reader's hand says "1 April 2026". Northcue shows
+// values verbatim so the screen matches the paper, and here verbatim-from-OCR
+// is not verbatim-from-paper. Restoring the space serves that rule rather than
+// breaking it.
+//
+// This is called at render time only. Extraction, locateLabels, all three
+// co-location tests and every offset run on the original string, so
+// normalisation cannot change what matches what. tests/valueFinding.test.js
+// asserts that directly.
+const MONTH_NAME = /^(\d{1,2})(st|nd|rd|th)?\s*([A-Za-z]+?)\s*(\d{2,4})$/;
+
+function formatDateForDisplay(value) {
+  const raw = String(value == null ? "" : value).trim();
+  const parts = MONTH_NAME.exec(raw);
+  if (!parts) return raw;
+  const [, day, ordinal, month, year] = parts;
+  return day + (ordinal || "") + " " + month + " " + year;
+}
+
 // The one definition of what a date looks like. The engine's extractVisibleDates
 // carried an independent copy of these patterns, and the two drifted the moment
 // one was corrected: after the separator fix they disagreed on four shapes, and
@@ -455,6 +477,7 @@ module.exports = {
   governingLabel,
   selectAmount,
   selectDeadline,
+  formatDateForDisplay,
   selectLetterDate,
   selectContentDate,
   AMOUNT_GOVERNS,
