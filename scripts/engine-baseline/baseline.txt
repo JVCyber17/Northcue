@@ -6271,7 +6271,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
   "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
-    "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026."
+    "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
   "risk": "Ignoring this could cause serious problems quickly.",
@@ -6312,7 +6312,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "needs_user_check": true,
   "summary": {
     "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
-    "main_action": "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.",
+    "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
     "main_amount": null
   },
@@ -6360,16 +6360,16 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.",
+    "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026."
+      "Check the original document to see whether a response or action is needed."
     ],
-    "action_needed": "Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.",
+    "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.. Am0unt outstanding: £1,247.00 You must c0ntact us on 0333 320 122 by 3September 2026.",
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
     "status": "urgent"
   },
   {
@@ -6431,106 +6431,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
 }
 
 [reader visible cards, after the safety stripper]
-[
-  {
-    "card_id": "what_is_this",
-    "card_number": 1,
-    "card_type": "what_is_this",
-    "title": "What is this?",
-    "simple_explanation": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
-    "key_points": [
-      "This is urgent. You may need to act today."
-    ],
-    "action_needed": null,
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What is this?. Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.. This is urgent. You may need to act today.",
-    "status": "urgent"
-  },
-  {
-    "card_id": "what_matters_most",
-    "card_number": 2,
-    "card_type": "what_matters_most",
-    "title": "What matters most?",
-    "simple_explanation": "This is urgent. You may need to act today.",
-    "key_points": [],
-    "action_needed": null,
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This is urgent. You may need to act today..",
-    "status": "urgent"
-  },
-  {
-    "card_id": "what_do_i_need_to_do",
-    "card_number": 3,
-    "card_type": "what_do_i_need_to_do",
-    "title": "What do I need to do?",
-    "simple_explanation": "Am0unt outstanding: £1,247.00 You must c0ntact us on the number in the original document by 3September 2026.",
-    "key_points": [
-      "Am0unt outstanding: £1,247.00 You must c0ntact us on the number in the original document by 3September 2026."
-    ],
-    "action_needed": "Am0unt outstanding: £1,247.00 You must c0ntact us on the number in the original document by 3September 2026.",
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Am0unt outstanding: £1,247.00 You must c0ntact us on the number in the original document by 3September 2026.. Am0unt outstanding: £1,247.00 You must c0ntact us on the number in the original document by 3September 2026.",
-    "status": "urgent"
-  },
-  {
-    "card_id": "when_is_it_due",
-    "card_number": 4,
-    "card_type": "when_does_it_matter",
-    "title": "When is it due?",
-    "simple_explanation": "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document.",
-    "key_points": [],
-    "action_needed": null,
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "When is it due?. A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document..",
-    "status": "urgent"
-  },
-  {
-    "card_id": "what_could_happen",
-    "card_number": 5,
-    "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
-    "key_points": [
-      "An amount is shown without a label."
-    ],
-    "action_needed": null,
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
-    "status": "urgent"
-  },
-  {
-    "card_id": "helpful_note",
-    "card_number": 6,
-    "card_type": "what_if_i_feel_stuck",
-    "title": "Helpful note",
-    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
-    "key_points": [
-      "Check the action card now and act using trusted details."
-    ],
-    "action_needed": "Check the action card now and act using trusted details.",
-    "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
-    "status": "urgent"
-  }
-]
+  identical to the engine output above
 
 ==============================================================================
 DOCUMENT: ocr_heavy_damage

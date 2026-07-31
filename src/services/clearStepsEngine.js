@@ -446,10 +446,17 @@ function buildExtraction({ text, trust }) {
   // category-level summary without specific figures and null the deadline so the
   // renderer can show a "check the original" message instead of a wrong date.
   if (trust.garbled_by_ocr) {
+    // Actions were passed through this branch untouched while the deadline
+    // beside them was nulled, so the same document was judged too damaged to
+    // name a date and confident enough to name an action. On ocr_enforcement
+    // that produced card 3 reading "Am0unt outstanding: £1,247.00 You must
+    // c0ntact us on 0333 320 122 by 3September 2026." A sentence lifted out of
+    // a document we have just called unreliable is not an instruction.
+    const safeActions = withoutRawDocumentText(actions, trust);
     return {
       summary: inferGarbledSummary(text, trust),
-      most_important_point: inferMostImportantPoint(trust, actions),
-      actions,
+      most_important_point: inferMostImportantPoint(trust, safeActions),
+      actions: safeActions,
       deadline: null,
       risk,
       helpful_note: note,
@@ -2522,6 +2529,43 @@ function extractAppointmentDate(text) {
     if (numMatch && isPlausibleNumericDate(numMatch[0])) return numMatch[0];
   }
   return null;
+}
+
+// The action lines Northcue writes, as opposed to sentences lifted out of the
+// document. Kept as one list because two rules depend on telling them apart: a
+// composed line always outranks a raw one, and on a garbled document a raw one
+// is not shown at all.
+const COMPOSED_ACTIONS = new Set([
+  "Check the payment amount and due date.",
+  "Contact the sender using trusted contact details.",
+  "Attend the appointment or meeting.",
+  "Send the requested documents or form.",
+  "No action needed right now.",
+  "Check the original document to see whether a response or action is needed.",
+  "Check the original document, or with the sender, whether you need to respond or send anything.",
+  "Upload a clearer copy if possible.",
+  "Upload a clearer photo or a different page if this is a letter or bill.",
+  "Check each letter on the original documents.",
+  "Verify the organisation on its official website.",
+  "Use contact details from an official source.",
+  "Keep your money and personal details protected."
+]);
+
+function isComposedAction(line) {
+  return COMPOSED_ACTIONS.has(String(line || "").trim());
+}
+
+// Drops sentences lifted out of the document, keeping the lines Northcue wrote.
+// When nothing composed survives, the reader gets the decline this path already
+// uses elsewhere rather than silence: the engine can see there is an obligation,
+// because "you must" matched, and cannot read it reliably. Saying so is a
+// supported card state.
+function withoutRawDocumentText(actions, trust) {
+  const composed = (Array.isArray(actions) ? actions : []).filter(isComposedAction);
+  if (composed.length) return composed;
+  return trust.input_quality === "poor"
+    ? ["Upload a clearer copy if possible."]
+    : ["Check the original document to see whether a response or action is needed."];
 }
 
 function extractActions(text, trust) {
