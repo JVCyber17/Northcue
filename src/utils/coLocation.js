@@ -93,8 +93,61 @@ const DATE_COMPETES = [
   "reading taken", "read on", "covering", "from", "printed"
 ];
 
-// A greeting marks the end of the header zone.
-const GREETING = /^\s*(?:dear\b|to whom it may concern)/i;
+// ---------------------------------------------------------------------------
+// OCR tolerance, for LABELS ONLY.
+//
+// A phone photograph substitutes digits for letters constantly, and the corpus
+// shows it: "Am0unt due", "Am0unt outstanding", "Prev1ous balance", "c0ntact
+// us". A damaged label is invisible to a literal match, so a document can carry
+// a perfectly readable £214.63 next to a label the engine cannot see, and
+// decline.
+//
+// A CHARACTER CLASS PER LETTER, not a substitution map. The digit 1 is
+// ambiguous between i and l and both readings are needed ("B1ll" wants i,
+// "C1ear" wants l), so no single fold can serve both. A class matches exactly
+// one character, so a pattern stays 1:1 in length and every offset survives,
+// which is what lets co-location keep measuring against the original string.
+//
+// NEVER FOLD THE DOCUMENT WHOLESALE. Folding the text destroys the values the
+// labels point at: £214.63 becomes £2l4.6e and findDates drops from 2 to 0. The
+// tolerance lives in the label pattern; the document is never rewritten.
+//
+// MINIMUM LENGTH FIVE, and this is evidence, not caution. Across 150,000
+// generated UK reference strings the full vocabulary produced 54 false matches,
+// all from two short entries: "less" matched inside "Reference: MZMZ-43713556"
+// (1355 folds to less) and "fee" inside "Policy number: SF33485198". At five
+// characters and above the collisions go to zero and all 25 corpus recoveries
+// are kept, because neither short entry recovers anything. This is the same
+// hazard that keeps the classification vocabularies out of scope entirely,
+// where "gp" would fold to [g9]p and match "9p per day" on every energy bill.
+const CONFUSABLE = { o: "o0", i: "i1", l: "l1", e: "e3", a: "a4", s: "s5", g: "g9", b: "b6" };
+const MIN_TOLERANT_LENGTH = 5;
+
+function tolerantLabelSource(phrase) {
+  return phrase.split("").map((ch) =>
+    (CONFUSABLE[ch] ? "[" + CONFUSABLE[ch] + "]" : ch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+  ).join("");
+}
+
+// Compiled once per phrase and reused, per the i18n engineering standards.
+const labelPatterns = new Map();
+function labelPattern(phrase) {
+  let pattern = labelPatterns.get(phrase);
+  if (!pattern) {
+    const source = phrase.length >= MIN_TOLERANT_LENGTH
+      ? tolerantLabelSource(phrase)
+      : phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    pattern = new RegExp(source, "gi");
+    labelPatterns.set(phrase, pattern);
+  }
+  return pattern;
+}
+
+// A greeting marks the end of the header zone. Tolerant for the same reason as
+// the labels: "D3ar Patient" moved the NHS appointment date back to the letter
+// date, re-opening the greeting-zone rule with one damaged character.
+const GREETING = new RegExp("^\\s*(?:" + tolerantLabelSource("dear") + "\\b|" +
+  tolerantLabelSource("to whom it may concern") + ")", "i");
 
 // An amount, matched whole or not at all.
 //
@@ -262,19 +315,27 @@ function findDates(text, isPlausibleNumericDate) {
 
 // Where does a label phrase sit? Returns every occurrence with its position.
 function locateLabels(text, phrases) {
-  const lower = String(text || "").toLowerCase();
+  const source = String(text || "");
   const starts = lineStarts(text);
   const lines = text.split("\n");
   const blocks = blockIndexes(lines);
   const hits = [];
   phrases.forEach((phrase) => {
-    let from = 0;
-    for (;;) {
-      const at = lower.indexOf(phrase, from);
-      if (at === -1) break;
-      const lineIndex = lineIndexAt(starts, at);
-      hits.push({ phrase, index: at, end: at + phrase.length, lineIndex, block: blocks[lineIndex] });
-      from = at + phrase.length;
+    // The pattern is case-insensitive and, above the length threshold, tolerant
+    // of digit-for-letter damage. It is 1:1 in length, so index and end still
+    // address the original string exactly as the old indexOf did.
+    const pattern = labelPattern(phrase);
+    pattern.lastIndex = 0;
+    let match;
+    while ((match = pattern.exec(source)) !== null) {
+      hits.push({
+        phrase,
+        index: match.index,
+        end: match.index + match[0].length,
+        lineIndex: lineIndexAt(starts, match.index),
+        block: blocks[lineIndexAt(starts, match.index)]
+      });
+      if (pattern.lastIndex === match.index) pattern.lastIndex++;
     }
   });
   return hits.sort((a, b) => a.index - b.index);

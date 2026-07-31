@@ -273,10 +273,26 @@ test("display normalisation cannot affect matching", async (t) => {
       "co-location must still see the raw value");
     assert.ok(co.findDates(raw).some((d) => d.value === "1April 2026"),
       "findDates must still see the raw value");
-    const labels = co.locateLabels(raw.toLowerCase(), co.DATE_GOVERNS);
+    const labels = co.locateLabels(raw, co.DATE_GOVERNS);
     labels.forEach((label) => {
-      assert.equal(raw.toLowerCase().slice(label.index, label.end), label.phrase,
-        "label offsets must still address the original string");
+      // Label matching is tolerant of digit-for-letter damage, so the slice is
+      // what the DOCUMENT says and phrase is the canonical form. They are not
+      // equal, and must be the same LENGTH: that is the 1:1 property offsets
+      // depend on.
+      const slice = raw.slice(label.index, label.end);
+      assert.equal(slice.length, label.phrase.length,
+        "a tolerant label match must stay 1:1 in length, or every offset after it shifts");
+      // Character by character, because the digit 1 stands for both i and l and
+      // no single fold can express that. Each character is either the phrase's
+      // own letter or a permitted confusable of it.
+      const CONFUSABLE = { o: "o0", i: "i1", l: "l1", e: "e3", a: "a4", s: "s5", g: "g9", b: "b6" };
+      slice.toLowerCase().split("").forEach((ch, i) => {
+        const want = label.phrase[i];
+        const allowed = CONFUSABLE[want] || want;
+        assert.ok(allowed.includes(ch),
+          "at offset " + i + " of " + JSON.stringify(label.phrase) +
+          " the document has " + JSON.stringify(ch) + ", which is not " + want + " or a confusable of it");
+      });
     });
   });
 

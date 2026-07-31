@@ -6073,8 +6073,8 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "needs_human_review": true,
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
   "evidence_spans": [],
-  "selected_amount": null,
-  "unlabelled_amount": true
+  "selected_amount": "£214.63",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -6097,7 +6097,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "one_line_summary": "EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
-    "main_amount": null
+    "main_amount": "£214.63"
   },
   "warnings": []
 }
@@ -6174,16 +6174,16 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
+    "simple_explanation": "Check the amount (£214.63) and any dates on the original document.",
     "key_points": [
-      "An amount is shown without a label."
+      "Amount shown: £214.63."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": null,
+    "possible_payment": "£214.63",
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
+    "read_aloud_text": "What should I check?. Check the amount (£214.63) and any dates on the original document.. Amount shown: £214.63.",
     "status": "good"
   },
   {
@@ -6290,8 +6290,8 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "needs_human_review": true,
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
   "evidence_spans": [],
-  "selected_amount": null,
-  "unlabelled_amount": true
+  "selected_amount": "£1,247.00",
+  "unlabelled_amount": false
 }
 
 [banner]
@@ -6314,7 +6314,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
-    "main_amount": null
+    "main_amount": "£1,247.00"
   },
   "warnings": [
     "This looks important. Check the original document carefully."
@@ -6392,16 +6392,16 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
+    "simple_explanation": "Check the amount (£1,247.00) and any dates on the original document.",
     "key_points": [
-      "An amount is shown without a label."
+      "Amount shown: £1,247.00."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": null,
+    "possible_payment": "£1,247.00",
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
+    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and any dates on the original document.. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {
