@@ -53,6 +53,8 @@
       "tpl.lowQuality.next_step": "Envie uma cópia mais nítida antes de agir.",
       "tpl.lowQuality.summary_category": "Este documento não é totalmente legível.",
 
+      "tpl.garbled.caution_sender": "A qualidade do texto é demasiado baixa para ler com fiabilidade o nome do remetente, os valores ou as datas. Verifique estes detalhes no documento original.",
+      "tpl.garbled.caution": "A qualidade do texto é demasiado baixa para ler valores ou datas com fiabilidade. Verifique estes detalhes no documento original.",
       "tpl.garbled.deadline": "Pode haver uma data ou um prazo neste documento, mas a qualidade do texto é demasiado baixa para ler com fiabilidade. Verifique o documento original.",
       "tpl.garbled.review_reason": "A leitura OCR ficou confusa. Valores e datas podem não ser fiáveis.",
 
@@ -334,6 +336,7 @@
     patterns: {
       "tpl.deadline.appointment": "A sua marcação está agendada para {date}.",
       "tpl.deadline.due": "Prazo até {date}.",
+      "tpl.note.reference_ready": "Tenha esta referência à mão: {reference}.",
       "tpl.deadline.unverified": "O documento indica a data {date}. Verifique isto junto da organização antes de agir.",
       "tpl.summary.bill_full": "{sender} parece pedir o pagamento de {amount} até {date}.",
       "tpl.summary.bill_amount_date": "Isto parece ser um pedido de pagamento de {amount}, com prazo até {date}.",
@@ -353,8 +356,8 @@
       "tpl.summary.generic_sender_amount": "Isto parece ser de {sender} e menciona {amount}.",
       "tpl.summary.generic_sender_date": "Isto parece ser de {sender}, com data de {date}.",
       "tpl.summary.generic_sender": "Isto parece ser de {sender}.",
-      "tpl.summary.garbled_sender": "{sender} parece ter enviado {category_label}. A qualidade do texto é demasiado baixa para ler com fiabilidade o nome do remetente, os valores ou as datas. Verifique estes detalhes no documento original.",
-      "tpl.summary.garbled": "Isto parece ser {category_label}. A qualidade do texto é demasiado baixa para ler valores ou datas com fiabilidade. Verifique estes detalhes no documento original.",
+      "tpl.summary.garbled_sender": "{sender} parece ter enviado {category_label}.",
+      "tpl.summary.garbled": "Este documento parece ser {category_label}.",
       "tpl.readable.summary_sender": "Isto parece ser {type_label} e vem de {sender}.",
       "tpl.readable.summary": "Isto parece ser {type_label}.",
       "tpl.readable.summary_topic": "Isto parece ser {type_label} sobre {topic}.",

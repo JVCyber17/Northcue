@@ -455,6 +455,7 @@ function buildExtraction({ text, trust }) {
     const safeActions = withoutRawDocumentText(actions, trust);
     return {
       summary: inferGarbledSummary(text, trust),
+      garbled_caution: inferGarbledCaution(text, trust),
       most_important_point: inferMostImportantPoint(trust, safeActions),
       actions: safeActions,
       deadline: null,
@@ -1002,8 +1003,43 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
 // trained" note, and a separated multi letter upload adds the notice that only
 // the first letter was read. Both are additive, so a document that is on the
 // aid path AND multi letter keeps both.
+// Card 6 already tells the reader to keep the reference number ready. It now
+// shows the reference as well, which is what that advice was for.
+//
+// Three gates, and each exists for its own reason.
+//
+// GARBLED. A damaged reference is worse than none: "Reference: EN-77l2O934" is
+// something a reader will quote to an enforcement agency, get nowhere with, and
+// believe they have done the right thing. Same rule as everywhere else on this
+// path, gate what is QUOTED from the document.
+//
+// VERIFICATION ONLY. Never help a reader quote a suspected scam's own reference
+// back to it. scam_phishing carries "SEC-99120" and it must stay unshown.
+//
+// FIRST ONLY. One reference is what a letter asks for; a list invites the
+// reader to choose, which is the opposite of the help intended.
+//
+// There is deliberately no digit filter here. That moved into
+// extractReferenceNumbers with U-3, so "reference above" and "reference
+// agencies" never reach this layer at all, and duplicating the check would put
+// the same rule in two places to drift apart.
+function buildHelpfulNoteKeyPoints(trust, extraction) {
+  const points = [trust.safe_next_step];
+  const references = extraction.reference_numbers || [];
+  if (references.length && !trust.garbled_by_ocr && trust.processing_mode !== "verification_only") {
+    points.push(`Keep this reference ready: ${references[0]}.`);
+  }
+  return points.filter(Boolean);
+}
+
 function buildFirstCardKeyPoints(extraction, trust) {
   const points = [extraction.most_important_point];
+  // The quality caution rides under the headline rather than inside it. As part
+  // of the answer it ran 486 to 518px at phone width and pushed both garbled
+  // documents past the viewport; here it costs a fraction of that.
+  if (extraction.garbled_caution) {
+    points.push(extraction.garbled_caution);
+  }
   // Keyed on what the document IS, not on which path read it. A possession
   // notice and a court fine are diverted off the reading aid for being
   // serious, and the advice boundary they were relying on has to travel with
@@ -2413,6 +2449,21 @@ function inferSummary(text, trust) {
   return summaryByCategory[cat] || "This is a readable formal document.";
 }
 
+// The quality caution that used to sit inside the garbled card 1 answer. Two
+// forms, because the caution covers the sender's name only when the card names
+// one: widening it on a card that names no sender would claim uncertainty about
+// something it never states.
+const GARBLED_CAUTION = {
+  withSender: "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+  withoutSender: "The text quality is too low to read specific amounts or dates reliably. Check the original document for these details."
+};
+
+function inferGarbledCaution(text, trust) {
+  return (extractSummaryFirstLineSender(text) || trust.sender_guess)
+    ? GARBLED_CAUTION.withSender
+    : GARBLED_CAUTION.withoutSender;
+}
+
 function inferGarbledSummary(text, trust) {
   const sender = extractSummaryFirstLineSender(text) || trust.sender_guess;
   const categoryLabels = {
@@ -2441,10 +2492,19 @@ function inferGarbledSummary(text, trust) {
   // Label tolerance cannot repair a sender: it matches damaged input against a
   // known vocabulary, and a name is not in any vocabulary. There is nothing to
   // recover it to.
-  if (!sender) {
-    return `This appears to be ${label}. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.`;
-  }
-  return `${sender} appears to have sent ${label}. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.`;
+  // The caution is a KEY POINT, not part of this sentence. Carrying sender,
+  // category and caution in one answer ran 486 to 518px at phone width, over
+  // half the panel, and put both garbled documents past the viewport. The
+  // key-point layout absorbs it at a fraction of the height, and the answer
+  // gets to be the one thing card 1 is for: what the letter appears to be.
+  // See GARBLED_CAUTION.
+  // "This document appears to be X." rather than "This appears to be X.",
+  // because the shorter frame is byte identical to tpl.readable.summary once
+  // the caution is removed, and two ids sharing one template make the bank
+  // matcher ambiguous. tests/templateBank.test.js catches that.
+  return sender
+    ? `${sender} appears to have sent ${label}.`
+    : `This document appears to be ${label}.`;
 }
 
 function inferMostImportantPoint(trust, actions) {

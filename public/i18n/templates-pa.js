@@ -51,6 +51,8 @@
       "tpl.lowQuality.next_step": "ਕਦਮ ਚੁੱਕਣ ਤੋਂ ਪਹਿਲਾਂ ਸਾਫ਼ ਕਾਪੀ ਅਪਲੋਡ ਕਰੋ.",
       "tpl.lowQuality.summary_category": "ਇਹ ਦਸਤਾਵੇਜ਼ ਪੂਰੀ ਤਰ੍ਹਾਂ ਪੜ੍ਹਨ ਯੋਗ ਨਹੀਂ ਹੈ.",
 
+      "tpl.garbled.caution_sender": "ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਭੇਜਣ ਵਾਲੇ ਦਾ ਨਾਂ, ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+      "tpl.garbled.caution": "ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਸਹੀ ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
       "tpl.garbled.deadline": "ਇਸ ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਕੋਈ ਤਾਰੀਖ਼ ਜਾਂ ਆਖ਼ਰੀ ਤਾਰੀਖ਼ ਹੋ ਸਕਦੀ ਹੈ, ਪਰ ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਉਸਨੂੰ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ. ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
       "tpl.garbled.review_reason": "OCR ਵਿੱਚ ਟੈਕਸਟ ਵਿਗੜਿਆ ਮਿਲਿਆ. ਰਕਮਾਂ ਅਤੇ ਤਾਰੀਖ਼ਾਂ ਸ਼ਾਇਦ ਭਰੋਸੇਯੋਗ ਨਾ ਹੋਣ.",
 
@@ -332,6 +334,7 @@
     patterns: {
       "tpl.deadline.appointment": "ਤੁਹਾਡੀ ਅਪੌਇੰਟਮੈਂਟ {date} ਨੂੰ ਹੈ.",
       "tpl.deadline.due": "{date} ਤੱਕ ਦੇਣਾ ਹੈ.",
+      "tpl.note.reference_ready": "ਇਹ ਰੈਫ਼ਰੈਂਸ ਨੰਬਰ ਤਿਆਰ ਰੱਖੋ: {reference}.",
       "tpl.deadline.unverified": "ਦਸਤਾਵੇਜ਼ ਵਿੱਚ {date} ਤਾਰੀਖ਼ ਦਿੱਤੀ ਗਈ ਹੈ. ਕੋਈ ਕਦਮ ਚੁੱਕਣ ਤੋਂ ਪਹਿਲਾਂ ਸੰਸਥਾ ਤੋਂ ਇਸਦੀ ਪੁਸ਼ਟੀ ਕਰੋ.",
       "tpl.summary.bill_full": "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਤੁਹਾਨੂੰ {date} ਤੱਕ {amount} ਦੇਣ ਲਈ ਕਹਿ ਰਿਹਾ ਹੈ.",
       "tpl.summary.bill_amount_date": "ਇਹ {amount} ਦੀ ਅਦਾਇਗੀ ਦੀ ਬੇਨਤੀ ਲੱਗਦੀ ਹੈ, ਜੋ {date} ਤੱਕ ਦੇਣੀ ਹੈ.",
@@ -351,8 +354,8 @@
       "tpl.summary.generic_sender_amount": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ {amount} ਦਾ ਜ਼ਿਕਰ ਹੈ.",
       "tpl.summary.generic_sender_date": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ, ਜਿਸ ਉੱਤੇ {date} ਦੀ ਤਾਰੀਖ਼ ਹੈ.",
       "tpl.summary.generic_sender": "ਇਹ {sender} ਵੱਲੋਂ ਆਇਆ ਲੱਗਦਾ ਹੈ.",
-      "tpl.summary.garbled_sender": "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: {category_label}. ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਭੇਜਣ ਵਾਲੇ ਦਾ ਨਾਂ, ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
-      "tpl.summary.garbled": "ਇਹ ਦਸਤਾਵੇਜ਼ {category_label} ਲੱਗਦਾ ਹੈ. ਟੈਕਸਟ ਦੀ ਗੁਣਵੱਤਾ ਇੰਨੀ ਘੱਟ ਹੈ ਕਿ ਸਹੀ ਰਕਮਾਂ ਜਾਂ ਤਾਰੀਖ਼ਾਂ ਭਰੋਸੇ ਨਾਲ ਪੜ੍ਹੀਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ. ਇਨ੍ਹਾਂ ਵੇਰਵਿਆਂ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+      "tpl.summary.garbled_sender": "ਲੱਗਦਾ ਹੈ ਕਿ {sender} ਨੇ ਇਹ ਭੇਜਿਆ ਹੈ: {category_label}.",
+      "tpl.summary.garbled": "ਇਹ ਦਸਤਾਵੇਜ਼ {category_label} ਲੱਗਦਾ ਹੈ.",
       "tpl.readable.summary_sender": "ਇਹ ਦਸਤਾਵੇਜ਼ {sender} ਵੱਲੋਂ {type_label} ਲੱਗਦਾ ਹੈ.",
       "tpl.readable.summary": "ਇਹ ਦਸਤਾਵੇਜ਼ {type_label} ਲੱਗਦਾ ਹੈ.",
       "tpl.readable.summary_topic": "ਇਹ ਦਸਤਾਵੇਜ਼ {type_label} ਲੱਗਦਾ ਹੈ. ਵਿਸ਼ਾ: {topic}.",

@@ -53,6 +53,8 @@
       "tpl.lowQuality.next_step": "પગલું લેતાં પહેલાં વધુ સ્પષ્ટ નકલ અપલોડ કરો.",
       "tpl.lowQuality.summary_category": "આ દસ્તાવેજ પૂરેપૂરો વાંચી શકાય તેવો નથી.",
 
+      "tpl.garbled.caution_sender": "લખાણની ગુણવત્તા એટલી ઓછી છે કે મોકલનારનું નામ, રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
+      "tpl.garbled.caution": "લખાણની ગુણવત્તા એટલી ઓછી છે કે ચોક્કસ રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
       "tpl.garbled.deadline": "આ દસ્તાવેજમાં કોઈ તારીખ કે છેલ્લી તારીખ હોઈ શકે છે, પણ લખાણની ગુણવત્તા એટલી ઓછી છે કે તેને ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. અસલ દસ્તાવેજ તપાસો.",
       "tpl.garbled.review_reason": "OCR માં લખાણ ગૂંચવાયેલું જણાયું. રકમ અને તારીખો ભરોસાપાત્ર ન પણ હોય.",
 
@@ -334,6 +336,7 @@
     patterns: {
       "tpl.deadline.appointment": "તમારી એપોઇન્ટમેન્ટ {date} ના રોજ છે.",
       "tpl.deadline.due": "છેલ્લી તારીખ: {date}.",
+      "tpl.note.reference_ready": "આ સંદર્ભ નંબર તૈયાર રાખો: {reference}.",
       "tpl.deadline.unverified": "દસ્તાવેજમાં {date} તારીખ જણાવેલી છે. પગલું લેતાં પહેલાં સંસ્થા પાસેથી આની ખાતરી કરો.",
       "tpl.summary.bill_full": "{sender} તમને {date} સુધીમાં {amount} ભરવાનું કહેતું હોય એવું જણાય છે.",
       "tpl.summary.bill_amount_date": "આ {amount} ની ચુકવણીની વિનંતી હોવાનું જણાય છે, જેની છેલ્લી તારીખ {date} છે.",
@@ -353,8 +356,8 @@
       "tpl.summary.generic_sender_amount": "આ {sender} તરફથી આવેલું જણાય છે, જેમાં {amount} નો ઉલ્લેખ છે.",
       "tpl.summary.generic_sender_date": "આ {sender} તરફથી આવેલું જણાય છે, જેની તારીખ {date} છે.",
       "tpl.summary.generic_sender": "આ {sender} તરફથી આવેલું જણાય છે.",
-      "tpl.summary.garbled_sender": "{sender} એ {category_label} મોકલેલ હોય એવું જણાય છે. લખાણની ગુણવત્તા એટલી ઓછી છે કે મોકલનારનું નામ, રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
-      "tpl.summary.garbled": "આ {category_label} હોવાનું જણાય છે. લખાણની ગુણવત્તા એટલી ઓછી છે કે ચોક્કસ રકમ કે તારીખો ભરોસાપાત્ર રીતે વાંચી શકાતી નથી. આ વિગતો માટે અસલ દસ્તાવેજ તપાસો.",
+      "tpl.summary.garbled_sender": "{sender} એ {category_label} મોકલેલ હોય એવું જણાય છે.",
+      "tpl.summary.garbled": "આ દસ્તાવેજ {category_label} લાગે છે.",
       "tpl.readable.summary_sender": "આ {sender} તરફથી આવેલ {type_label} હોવાનું જણાય છે.",
       "tpl.readable.summary": "આ {type_label} હોવાનું જણાય છે.",
       "tpl.readable.summary_topic": "આ {type_label} હોવાનું જણાય છે. વિષય: {topic}.",

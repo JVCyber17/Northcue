@@ -611,8 +611,8 @@
    "steps": 2
   },
   "education_letter|2": {
-   "px": 469,
-   "lang": "pl",
+   "px": 495,
+   "lang": "bn",
    "answerChars": 90,
    "stepChars": 0,
    "steps": 0
@@ -772,7 +772,7 @@
    "steps": 1
   },
   "scam_phishing|1": {
-   "px": 558,
+   "px": 525,
    "lang": "pl",
    "answerChars": 56,
    "stepChars": 44,
@@ -1108,11 +1108,11 @@
    "steps": 1
   },
   "ocr_energy_bill|1": {
-   "px": 823,
+   "px": 734,
    "lang": "pl",
-   "answerChars": 187,
-   "stepChars": 77,
-   "steps": 1
+   "answerChars": 58,
+   "stepChars": 205,
+   "steps": 2
   },
   "ocr_energy_bill|2": {
    "px": 495,
@@ -1150,11 +1150,11 @@
    "steps": 1
   },
   "ocr_enforcement|1": {
-   "px": 828,
+   "px": 681,
    "lang": "pl",
-   "answerChars": 205,
-   "stepChars": 42,
-   "steps": 1
+   "answerChars": 76,
+   "stepChars": 170,
+   "steps": 2
   },
   "ocr_enforcement|2": {
    "px": 493,

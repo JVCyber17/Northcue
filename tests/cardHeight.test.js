@@ -37,13 +37,10 @@ const FIXTURE = require(path.join(__dirname, "fixtures", "card-heights.json"));
 // is over or has been over: the tallest compliant card is 796px.
 const TIGHT_PX = 120;
 
-// The two cards that still exceed the viewport, with the height measured for
-// each. Listed rather than hidden: the test fails if either grows further, and
-// fails if a THIRD card joins them.
-const KNOWN_OVER = {
-  "ocr_energy_bill|1": 823,
-  "ocr_enforcement|1": 828
-};
+// No card exceeds the viewport. It was two, both card 1 on a garbled document,
+// until that answer was split into answer plus key point. The list stays so the
+// test can say plainly when one comes back rather than quietly tolerating it.
+const KNOWN_OVER = {};
 
 function currentCards() {
   const out = {};
@@ -136,12 +133,15 @@ test("card height: the sub-line rule the layout depends on", async (t) => {
   });
 
   await t.test("the cards that rely on the saving still exceed the threshold", () => {
+    // The two garbled card 1s were on this list until their answer was split
+    // into answer plus key point for height. They are now short enough to
+    // regain the sub-line, and they fit anyway, so the saving is no longer
+    // what keeps them inside the viewport. These two still depend on it.
     const now = currentCards();
-    ["ocr_energy_bill|1", "ocr_enforcement|1", "eviction_possession|1", "court_fine|1"]
-      .forEach((key) => {
-        assert.ok(now[key].answerChars >= LONG_ANSWER_CHARS,
-          key + " answer fell to " + now[key].answerChars +
-          " chars, so it regains the 59px sub-line and may overflow");
-      });
+    ["eviction_possession|1", "court_fine|1"].forEach((key) => {
+      assert.ok(now[key].answerChars >= LONG_ANSWER_CHARS,
+        key + " answer fell to " + now[key].answerChars +
+        " chars, so it regains the 59px sub-line and may overflow");
+    });
   });
 });

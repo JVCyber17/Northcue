@@ -51,6 +51,8 @@
       "tpl.lowQuality.next_step": "कोई कदम उठाने से पहले एक साफ कॉपी अपलोड करें.",
       "tpl.lowQuality.summary_category": "यह दस्तावेज़ पूरी तरह पढ़ा नहीं जा सका.",
 
+      "tpl.garbled.caution_sender": "टेक्स्ट की गुणवत्ता इतनी कम है कि भेजने वाले का नाम, रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
+      "tpl.garbled.caution": "टेक्स्ट की गुणवत्ता इतनी कम है कि सटीक रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
       "tpl.garbled.deadline": "इस दस्तावेज़ में कोई तारीख या आखिरी तारीख हो सकती है, लेकिन टेक्स्ट की गुणवत्ता इतनी कम है कि उसे भरोसे से पढ़ा नहीं जा सकता. मूल दस्तावेज़ जाँचें.",
       "tpl.garbled.review_reason": "OCR में गड़बड़ी पाई गई. हो सकता है कि रकम और तारीखें भरोसेमंद न हों.",
 
@@ -332,6 +334,7 @@
     patterns: {
       "tpl.deadline.appointment": "आपका अपॉइंटमेंट {date} को है.",
       "tpl.deadline.due": "{date} तक देय.",
+      "tpl.note.reference_ready": "यह रेफ़रेंस नंबर तैयार रखें: {reference}.",
       "tpl.deadline.unverified": "दस्तावेज़ में {date} तारीख़ दी गई है. कोई कदम उठाने से पहले संस्था से इसकी पुष्टि करें.",
       "tpl.summary.bill_full": "ऐसा लगता है कि {sender} आपसे {date} तक {amount} चुकाने के लिए कह रहा है.",
       "tpl.summary.bill_amount_date": "यह {amount} के भुगतान का अनुरोध लगता है, जो {date} तक देय है.",
@@ -351,8 +354,8 @@
       "tpl.summary.generic_sender_amount": "यह {sender} की ओर से लगता है, जिसमें {amount} का ज़िक्र है.",
       "tpl.summary.generic_sender_date": "यह {sender} की ओर से लगता है, जिस पर {date} की तारीख है.",
       "tpl.summary.generic_sender": "यह {sender} की ओर से लगता है.",
-      "tpl.summary.garbled_sender": "ऐसा लगता है कि {sender} ने {category_label} भेजा है. टेक्स्ट की गुणवत्ता इतनी कम है कि भेजने वाले का नाम, रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
-      "tpl.summary.garbled": "यह {category_label} लगता है. टेक्स्ट की गुणवत्ता इतनी कम है कि सटीक रकम या तारीखें भरोसे से पढ़ी नहीं जा सकतीं. इन ब्यौरों के लिए मूल दस्तावेज़ जाँचें.",
+      "tpl.summary.garbled_sender": "ऐसा लगता है कि {sender} ने {category_label} भेजा है.",
+      "tpl.summary.garbled": "यह दस्तावेज़ {category_label} लगता है.",
       "tpl.readable.summary_sender": "यह {sender} की ओर से {type_label} लगता है.",
       "tpl.readable.summary": "यह {type_label} लगता है.",
       "tpl.readable.summary_topic": "यह {type_label} लगता है. विषय: {topic}.",

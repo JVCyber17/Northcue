@@ -191,10 +191,14 @@ test("the damaged sender is kept, and the caution covers it", async (t) => {
   });
 
   await t.test("the caution names the sender alongside amounts and dates", () => {
+    // The caution moved out of the answer and into a key point when card 1 was
+    // split for height, so it is asserted where it now lives. What matters is
+    // unchanged: the hedge covers the name, not only the amounts and dates.
     ["ocr_enforcement", "ocr_energy_bill"].forEach((id) => {
       const card = analyse(byId(id)).api_output.structured_result.cards[0];
-      assert.match(card.simple_explanation, /the sender's name, amounts or dates/,
-        id + ": the hedge must cover the one thing the card names without it");
+      assert.ok((card.key_points || []).some((point) => /the sender's name, amounts or dates/.test(point)),
+        id + ": the hedge must cover the one thing the card names without it. Key points were " +
+        JSON.stringify(card.key_points));
     });
   });
 

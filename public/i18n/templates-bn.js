@@ -51,6 +51,8 @@
       "tpl.lowQuality.next_step": "পদক্ষেপ নেওয়ার আগে আরও পরিষ্কার একটি কপি আপলোড করুন.",
       "tpl.lowQuality.summary_category": "এই ডকুমেন্টটি পুরোপুরি পড়া যাচ্ছে না.",
 
+      "tpl.garbled.caution_sender": "লেখার মান এত কম যে প্রেরকের নাম, নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
+      "tpl.garbled.caution": "লেখার মান এত কম যে নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
       "tpl.garbled.deadline": "এই ডকুমেন্টে কোনো তারিখ বা শেষ তারিখ থাকতে পারে, কিন্তু লেখার মান এত কম যে তা নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. মূল ডকুমেন্টটি দেখে নিন.",
       "tpl.garbled.review_reason": "OCR এ লেখা এলোমেলো হয়েছে বলে ধরা পড়েছে. অঙ্ক ও তারিখ নির্ভরযোগ্য নাও হতে পারে.",
 
@@ -332,6 +334,7 @@
     patterns: {
       "tpl.deadline.appointment": "আপনার অ্যাপয়েন্টমেন্ট {date} তারিখে.",
       "tpl.deadline.due": "{date} এর মধ্যে.",
+      "tpl.note.reference_ready": "এই রেফারেন্স নম্বরটি হাতের কাছে রাখুন: {reference}.",
       "tpl.deadline.unverified": "ডকুমেন্টে {date} তারিখ দেওয়া আছে. কোনো পদক্ষেপ নেওয়ার আগে সংস্থার কাছে এটি যাচাই করুন.",
       "tpl.summary.bill_full": "মনে হচ্ছে {sender} আপনাকে {date} এর মধ্যে {amount} দিতে বলছে.",
       "tpl.summary.bill_amount_date": "এটি {amount} এর একটি পেমেন্টের অনুরোধ বলে মনে হচ্ছে, শেষ তারিখ {date}.",
@@ -351,8 +354,8 @@
       "tpl.summary.generic_sender_amount": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে, যাতে {amount} এর কথা আছে.",
       "tpl.summary.generic_sender_date": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে, তারিখ {date}.",
       "tpl.summary.generic_sender": "এটি {sender} এর কাছ থেকে এসেছে বলে মনে হচ্ছে.",
-      "tpl.summary.garbled_sender": "মনে হচ্ছে {sender} {category_label} পাঠিয়েছে. লেখার মান এত কম যে প্রেরকের নাম, নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
-      "tpl.summary.garbled": "এটি {category_label} বলে মনে হচ্ছে. লেখার মান এত কম যে নির্দিষ্ট অঙ্ক বা তারিখ নির্ভরযোগ্যভাবে পড়া যাচ্ছে না. এই বিবরণগুলির জন্য মূল ডকুমেন্টটি দেখে নিন.",
+      "tpl.summary.garbled_sender": "মনে হচ্ছে {sender} {category_label} পাঠিয়েছে.",
+      "tpl.summary.garbled": "এই ডকুমেন্টটি {category_label} বলে মনে হচ্ছে.",
       "tpl.readable.summary_sender": "এটি {sender} এর কাছ থেকে আসা {type_label} বলে মনে হচ্ছে.",
       "tpl.readable.summary": "এটি {type_label} বলে মনে হচ্ছে.",
       "tpl.readable.summary_topic": "এটি {topic} নিয়ে {type_label} বলে মনে হচ্ছে.",

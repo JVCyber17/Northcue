@@ -6056,7 +6056,8 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
 
 [extractor_internal]
 {
-  "summary": "EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+  "summary": "EDF Ener9y appears to have sent a bill or payment request.",
+  "garbled_caution": "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
   "most_important_point": "This document appears to require an action from you. See what you need to do.",
   "actions": [
     "Check the payment amount and due date.",
@@ -6102,7 +6103,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+    "one_line_summary": "EDF Ener9y appears to have sent a bill or payment request.",
     "main_action": "Check the payment amount and due date.",
     "main_date": null,
     "main_amount": "£214.63"
@@ -6117,16 +6118,17 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+    "simple_explanation": "EDF Ener9y appears to have sent a bill or payment request.",
     "key_points": [
-      "This document appears to require an action from you. See what you need to do."
+      "This document appears to require an action from you. See what you need to do.",
+      "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What is this?. EDF Ener9y appears to have sent a bill or payment request. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.. This document appears to require an action from you. See what you need to do.",
+    "read_aloud_text": "What is this?. EDF Ener9y appears to have sent a bill or payment request.. This document appears to require an action from you. See what you need to do. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
     "status": "good"
   },
   {
@@ -6276,7 +6278,8 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
 
 [extractor_internal]
 {
-  "summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+  "summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice.",
+  "garbled_caution": "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
   "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
@@ -6321,7 +6324,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+    "one_line_summary": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
     "main_amount": "£1,247.00"
@@ -6338,16 +6341,17 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+    "simple_explanation": "Marst0n Holdings Enf0rcement Agents appears to have sent an official notice.",
     "key_points": [
-      "This is urgent. You may need to act today."
+      "This is urgent. You may need to act today.",
+      "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What is this?. Marst0n Holdings Enf0rcement Agents appears to have sent an official notice. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.. This is urgent. You may need to act today.",
+    "read_aloud_text": "What is this?. Marst0n Holdings Enf0rcement Agents appears to have sent an official notice.. This is urgent. You may need to act today. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
     "status": "urgent"
   },
   {

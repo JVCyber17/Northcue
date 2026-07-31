@@ -54,6 +54,8 @@
       "tpl.lowQuality.next_step": "Suba una copia más nítida antes de actuar.",
       "tpl.lowQuality.summary_category": "Este documento no se lee del todo.",
 
+      "tpl.garbled.caution_sender": "La calidad del texto es demasiado baja para leer con seguridad el nombre del remitente, los importes o las fechas. Revise esos datos en el documento original.",
+      "tpl.garbled.caution": "La calidad del texto es demasiado baja para leer con seguridad importes o fechas concretas. Revise esos datos en el documento original.",
       "tpl.garbled.deadline": "Puede que en este documento aparezca una fecha o un plazo, pero la calidad del texto es demasiado baja para leerlo con seguridad. Revise el documento original.",
       "tpl.garbled.review_reason": "Se ha detectado texto distorsionado al leerlo. Los importes y las fechas pueden no ser fiables.",
 
@@ -335,6 +337,7 @@
     patterns: {
       "tpl.deadline.appointment": "Su cita es el {date}.",
       "tpl.deadline.due": "Plazo hasta el {date}.",
+      "tpl.note.reference_ready": "Tenga a mano esta referencia: {reference}.",
       "tpl.deadline.unverified": "El documento indica la fecha {date}. Compruébelo con la organización antes de actuar.",
       "tpl.summary.bill_full": "{sender} parece pedirle un pago de {amount}, con plazo hasta el {date}.",
       "tpl.summary.bill_amount_date": "Esto parece una solicitud de pago de {amount}, con plazo hasta el {date}.",
@@ -354,8 +357,8 @@
       "tpl.summary.generic_sender_amount": "Esto parece venir de {sender}, y menciona {amount}.",
       "tpl.summary.generic_sender_date": "Esto parece venir de {sender}, con fecha {date}.",
       "tpl.summary.generic_sender": "Esto parece venir de {sender}.",
-      "tpl.summary.garbled_sender": "{sender} parece haber enviado {category_label}. La calidad del texto es demasiado baja para leer con seguridad el nombre del remitente, los importes o las fechas. Revise esos datos en el documento original.",
-      "tpl.summary.garbled": "Esto parece {category_label}. La calidad del texto es demasiado baja para leer con seguridad importes o fechas concretas. Revise esos datos en el documento original.",
+      "tpl.summary.garbled_sender": "{sender} parece haber enviado {category_label}.",
+      "tpl.summary.garbled": "Este documento parece ser {category_label}.",
       "tpl.readable.summary_sender": "Esto parece {type_label} y viene de {sender}.",
       "tpl.readable.summary": "Esto parece {type_label}.",
       "tpl.readable.summary_topic": "Esto parece {type_label} sobre {topic}.",

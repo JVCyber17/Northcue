@@ -53,6 +53,8 @@
       "tpl.lowQuality.next_step": "Prosimy przesłać wyraźniejszą kopię przed podjęciem działania.",
       "tpl.lowQuality.summary_category": "Ten dokument nie jest w pełni czytelny.",
 
+      "tpl.garbled.caution_sender": "Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać nazwę nadawcy, kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
+      "tpl.garbled.caution": "Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać konkretne kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
       "tpl.garbled.deadline": "W tym dokumencie może występować data lub termin, ale jakość tekstu jest zbyt niska, aby odczytać je wiarygodnie. Prosimy sprawdzić oryginalny dokument.",
       "tpl.garbled.review_reason": "Wykryto zniekształcenia OCR. Kwoty i daty mogą być niewiarygodne.",
 
@@ -334,6 +336,7 @@
     patterns: {
       "tpl.deadline.appointment": "Wizyta jest zaplanowana na {date}.",
       "tpl.deadline.due": "Termin: do {date}.",
+      "tpl.note.reference_ready": "Prosimy mieć pod ręką ten numer referencyjny: {reference}.",
       "tpl.deadline.unverified": "W dokumencie podana jest data {date}. Prosimy sprawdzić to w organizacji przed podjęciem działań.",
       "tpl.summary.bill_full": "{sender} wydaje się prosić o zapłatę {amount} do {date}.",
       "tpl.summary.bill_amount_date": "To wygląda na prośbę o zapłatę kwoty {amount}, z terminem do {date}.",
@@ -353,8 +356,8 @@
       "tpl.summary.generic_sender_amount": "To wygląda na dokument od {sender}, w którym pojawia się kwota {amount}.",
       "tpl.summary.generic_sender_date": "To wygląda na dokument od {sender}, z datą {date}.",
       "tpl.summary.generic_sender": "To wygląda na dokument od {sender}.",
-      "tpl.summary.garbled_sender": "Wygląda na to, że nadawcą jest {sender}, a dokument to {category_label}. Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać nazwę nadawcy, kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
-      "tpl.summary.garbled": "To wygląda na {category_label}. Jakość tekstu jest zbyt niska, aby wiarygodnie odczytać konkretne kwoty lub daty. Prosimy sprawdzić te szczegóły w oryginalnym dokumencie.",
+      "tpl.summary.garbled_sender": "Wygląda na to, że nadawcą jest {sender}, a dokument to {category_label}.",
+      "tpl.summary.garbled": "Ten dokument to prawdopodobnie {category_label}.",
       "tpl.readable.summary_sender": "To wygląda na {type_label} od {sender}.",
       "tpl.readable.summary": "To wygląda na {type_label}.",
       "tpl.readable.summary_topic": "To wygląda na {type_label}. Temat: {topic}.",

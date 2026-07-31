@@ -52,6 +52,8 @@
       "tpl.lowQuality.next_step": "Upload a clearer copy before taking action.",
       "tpl.lowQuality.summary_category": "This document is not fully readable.",
 
+      "tpl.garbled.caution_sender": "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details.",
+      "tpl.garbled.caution": "The text quality is too low to read specific amounts or dates reliably. Check the original document for these details.",
       "tpl.garbled.deadline": "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document.",
       "tpl.garbled.review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
 
@@ -339,6 +341,7 @@
     patterns: [
       { id: "tpl.deadline.appointment", template: "Your appointment is on {date}." },
       { id: "tpl.deadline.due", template: "Due by {date}." },
+      { id: "tpl.note.reference_ready", template: "Keep this reference ready: {reference}." },
 
       { id: "tpl.deadline.unverified", template: "The document states a date of {date}. Check this with the organisation before acting." },
       { id: "tpl.summary.bill_full", template: "{sender} appears to be asking you to pay {amount} by {date}." },
@@ -359,8 +362,8 @@
       { id: "tpl.summary.generic_sender_amount", template: "This appears to be from {sender}, mentioning {amount}." },
       { id: "tpl.summary.generic_sender_date", template: "This appears to be from {sender}, with a date of {date}." },
       { id: "tpl.summary.generic_sender", template: "This appears to be from {sender}." },
-      { id: "tpl.summary.garbled_sender", template: "{sender} appears to have sent {category_label}. The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details." },
-      { id: "tpl.summary.garbled", template: "This appears to be {category_label}. The text quality is too low to read specific amounts or dates reliably. Check the original document for these details." },
+      { id: "tpl.summary.garbled_sender", template: "{sender} appears to have sent {category_label}." },
+      { id: "tpl.summary.garbled", template: "This document appears to be {category_label}." },
       { id: "tpl.readable.summary_sender", template: "This appears to be {type_label} from {sender}." },
       { id: "tpl.readable.summary", template: "This appears to be {type_label}." },
       { id: "tpl.readable.summary_topic", template: "This appears to be {type_label} about {topic}." },

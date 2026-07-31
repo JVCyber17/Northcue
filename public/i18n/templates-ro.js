@@ -52,6 +52,8 @@
       "tpl.lowQuality.next_step": "Încărcați o copie mai clară înainte de a acționa.",
       "tpl.lowQuality.summary_category": "Acest document nu este complet lizibil.",
 
+      "tpl.garbled.caution_sender": "Calitatea textului este prea slabă pentru a citi sigur numele expeditorului, sumele sau datele. Verificați aceste detalii pe documentul original.",
+      "tpl.garbled.caution": "Calitatea textului este prea slabă pentru a citi sigur sumele sau datele exacte. Verificați aceste detalii pe documentul original.",
       "tpl.garbled.deadline": "O dată sau un termen limită poate apărea în acest document, dar calitatea textului este prea slabă pentru a fi citit sigur. Verificați documentul original.",
       "tpl.garbled.review_reason": "S-a detectat text amestecat de OCR. Sumele și datele pot fi nesigure.",
 
@@ -333,6 +335,7 @@
     patterns: {
       "tpl.deadline.appointment": "Programarea dumneavoastră este pe {date}.",
       "tpl.deadline.due": "Scadent până la {date}.",
+      "tpl.note.reference_ready": "Păstrați la îndemână acest număr de referință: {reference}.",
       "tpl.deadline.unverified": "Documentul menționează data {date}. Verificați acest lucru cu organizația înainte de a acționa.",
       "tpl.summary.bill_full": "{sender} pare să vă ceară să plătiți {amount} până la {date}.",
       "tpl.summary.bill_amount_date": "Aceasta pare a fi o cerere de plată pentru {amount}, scadentă până la {date}.",
@@ -352,8 +355,8 @@
       "tpl.summary.generic_sender_amount": "Acesta pare a fi de la {sender} și menționează {amount}.",
       "tpl.summary.generic_sender_date": "Acesta pare a fi de la {sender}, cu data {date}.",
       "tpl.summary.generic_sender": "Acesta pare a fi de la {sender}.",
-      "tpl.summary.garbled_sender": "{sender} pare să fi trimis {category_label}. Calitatea textului este prea slabă pentru a citi sigur numele expeditorului, sumele sau datele. Verificați aceste detalii pe documentul original.",
-      "tpl.summary.garbled": "Pare a fi {category_label}. Calitatea textului este prea slabă pentru a citi sigur sumele sau datele exacte. Verificați aceste detalii pe documentul original.",
+      "tpl.summary.garbled_sender": "{sender} pare să fi trimis {category_label}.",
+      "tpl.summary.garbled": "Acest document pare a fi {category_label}.",
       "tpl.readable.summary_sender": "Pare a fi {type_label} de la {sender}.",
       "tpl.readable.summary": "Pare a fi {type_label}.",
       "tpl.readable.summary_topic": "Pare a fi {type_label} despre {topic}.",
