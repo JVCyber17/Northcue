@@ -217,6 +217,13 @@
       "tpl.label.signal.authentic.date": "ਤਾਰੀਖ਼ ਦਾ ਰੂਪ ਮੌਜੂਦ ਹੈ.",
       "tpl.label.signal.authentic.formal": "ਰਸਮੀ ਚਿੱਠੀ ਦਾ ਢਾਂਚਾ ਮੌਜੂਦ ਹੈ.",
 
+      "tpl.serious.enforcement": "ਇਸ ਵਿੱਚ ਵਸੂਲੀ ਦੀ ਕਾਰਵਾਈ ਜਾਂ ਬੇਲਿਫ਼ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.possession": "ਇਸ ਵਿੱਚ ਘਰ ਉੱਤੇ ਕਬਜ਼ੇ ਜਾਂ ਬੇਦਖ਼ਲੀ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.insolvency": "ਇਸ ਵਿੱਚ ਦੀਵਾਲੀਆ ਕਾਰਵਾਈ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.court": "ਇਸ ਵਿੱਚ ਅਦਾਲਤੀ ਕਾਰਵਾਈ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.debt": "ਇਸ ਵਿੱਚ ਕਰਜ਼ਾ ਵਸੂਲੀ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.supply": "ਇਸ ਵਿੱਚ ਸਪਲਾਈ ਕੱਟਣ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+      "tpl.serious.immigration": "ਇਸ ਵਿੱਚ ਇਮੀਗ੍ਰੇਸ਼ਨ ਦੇ ਫ਼ੈਸਲੇ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
       "tpl.label.signal.severity.court_action": "ਅਦਾਲਤੀ ਕਾਰਵਾਈ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
       "tpl.label.signal.severity.eviction": "ਘਰੋਂ ਕੱਢੇ ਜਾਣ ਦੇ ਖ਼ਤਰੇ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
       "tpl.label.signal.severity.winding_up": "ਕਾਰੋਬਾਰ ਬੰਦ ਕਰਨ ਦੀ ਕਾਰਵਾਈ ਦਾ ਜ਼ਿਕਰ ਹੈ.",

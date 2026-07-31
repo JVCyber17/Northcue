@@ -219,6 +219,13 @@
       "tpl.label.signal.authentic.date": "Zawiera format daty.",
       "tpl.label.signal.authentic.formal": "Zawiera strukturę oficjalnego listu.",
 
+      "tpl.serious.enforcement": "Wspomina o działaniach egzekucyjnych lub komorniku.",
+      "tpl.serious.possession": "Wspomina o odzyskaniu lokalu lub eksmisji.",
+      "tpl.serious.insolvency": "Wspomina o postępowaniu upadłościowym.",
+      "tpl.serious.court": "Wspomina o postępowaniu sądowym.",
+      "tpl.serious.debt": "Wspomina o windykacji długu.",
+      "tpl.serious.supply": "Wspomina o odcięciu dostawy.",
+      "tpl.serious.immigration": "Wspomina o decyzji imigracyjnej.",
       "tpl.label.signal.severity.court_action": "Wspomina o postępowaniu sądowym.",
       "tpl.label.signal.severity.eviction": "Wspomina o ryzyku eksmisji.",
       "tpl.label.signal.severity.winding_up": "Wspomina o postępowaniu likwidacyjnym.",

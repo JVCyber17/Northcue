@@ -220,6 +220,13 @@
       "tpl.label.signal.authentic.date": "Contient un format de date.",
       "tpl.label.signal.authentic.formal": "Contient une structure de lettre formelle.",
 
+      "tpl.serious.enforcement": "Mentionne une procédure d'exécution ou des huissiers.",
+      "tpl.serious.possession": "Mentionne une expulsion ou la reprise du logement.",
+      "tpl.serious.insolvency": "Mentionne une procédure d'insolvabilité.",
+      "tpl.serious.court": "Mentionne une action en justice.",
+      "tpl.serious.debt": "Mentionne un recouvrement de créance.",
+      "tpl.serious.supply": "Mentionne une coupure de fourniture.",
+      "tpl.serious.immigration": "Mentionne une décision d'immigration.",
       "tpl.label.signal.severity.court_action": "Mentionne une action en justice.",
       "tpl.label.signal.severity.eviction": "Mentionne un risque d'expulsion.",
       "tpl.label.signal.severity.winding_up": "Mentionne une procédure de liquidation.",

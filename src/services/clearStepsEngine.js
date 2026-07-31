@@ -929,7 +929,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_matters_most",
       title: "What matters most?",
       explanation: oldCardById.get("what_matters_most")?.short_answer || extraction.most_important_point,
-      keyPoints: trust.severity_signals,
+      keyPoints: buildSecondCardKeyPoints(trust),
       actionNeeded: null
     },
     {
@@ -2116,6 +2116,95 @@ function detectSeveritySignals(lower) {
   ];
 
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);
+}
+
+// Why a document was rated serious, in Northcue's words rather than the
+// document's.
+//
+// detectSeriousDocumentSignals returns the raw phrases it matched ("notice of
+// enforcement", "county court"). Those are vocabulary entries, not sentences,
+// and showing them verbatim would read as debug output. Each maps to a theme
+// with one composed sentence.
+//
+// Themes rather than one sentence per phrase, because the phrase list holds
+// near-duplicates by design: a notice of enforcement matches both "notice of
+// enforcement" and "enforcement agent", and a reader gains nothing from being
+// told the same thing twice. bailiff_enforcement therefore shows one bullet,
+// not two.
+const SERIOUS_SIGNAL_THEMES = {
+  enforcement: [
+    "notice of enforcement", "enforcement agent", "take control of your goods",
+    "take control of goods", "controlled goods", "warrant of control",
+    "writ of control", "high court enforcement", "bailiff"
+  ],
+  possession: [
+    "warrant of possession", "warrant for possession", "notice seeking possession",
+    "notice to quit", "accelerated possession", "possession proceedings",
+    "section 21", "section 8"
+  ],
+  insolvency: ["statutory demand", "winding up", "winding-up"],
+  court: [
+    "letter before claim", "letter before action", "county court", "moneyclaim",
+    "attachment of earnings", "charging order", "court claim"
+  ],
+  debt: ["debt collection"],
+  supply: ["supply disconnection", "supply disconnection under warrant"],
+  immigration: ["immigration refusal"]
+};
+
+const SERIOUS_SIGNAL_SENTENCES = {
+  enforcement: "This mentions enforcement action or bailiffs.",
+  possession: "This mentions possession or eviction of a home.",
+  insolvency: "This mentions insolvency action.",
+  court: "This mentions court action.",
+  debt: "This mentions debt collection.",
+  supply: "This mentions disconnection of a supply.",
+  immigration: "This mentions an immigration decision."
+};
+
+// Where detectSeveritySignals already covers a theme in its own words. Keyed on
+// the label it emits, which is a fixed constant in that function.
+const SEVERITY_LABEL_THEMES = {
+  "Mentions bailiff action.": "enforcement",
+  "Mentions eviction risk.": "possession",
+  "Mentions court action.": "court",
+  "Mentions disconnection risk.": "supply",
+  "Mentions winding up action.": "insolvency"
+};
+
+const THEME_BY_PHRASE = new Map();
+Object.entries(SERIOUS_SIGNAL_THEMES).forEach(([theme, phrases]) => {
+  phrases.forEach((phrase) => THEME_BY_PHRASE.set(phrase, theme));
+});
+
+// Card 2 key points. severity_signals holds keyword matches and is EMPTY on the
+// documents the stakes floor raised, so "This is urgent." was rendered with
+// nothing under it on three high stakes documents while the field explaining
+// why sat unread.
+//
+// No garble gate here, and that is deliberate rather than an omission. These
+// sentences are Northcue's own vocabulary, selected by a phrase match; damage
+// can stop a phrase matching, but it cannot corrupt what is shown, because
+// nothing from the document reaches the card. That is the general rule: gate
+// what is QUOTED, not what is COMPOSED.
+function buildSecondCardKeyPoints(trust) {
+  const severitySignals = trust.severity_signals || [];
+  // A severity signal can already say what a theme would say. "Mentions bailiff
+  // action." next to "This mentions enforcement action or bailiffs." is the
+  // same redundancy the themes exist to remove, arriving from the other list
+  // instead of from within one.
+  const covered = new Set(
+    severitySignals.map((label) => SEVERITY_LABEL_THEMES[label]).filter(Boolean)
+  );
+  const themes = [];
+  (trust.serious_document_signals || []).forEach((phrase) => {
+    const theme = THEME_BY_PHRASE.get(phrase);
+    if (theme && !covered.has(theme) && !themes.includes(theme)) themes.push(theme);
+  });
+  return unique([].concat(
+    severitySignals,
+    themes.map((theme) => SERIOUS_SIGNAL_SENTENCES[theme])
+  ));
 }
 
 const SERIOUS_SEVERITY_RANK = { low: 0, medium: 1, high: 2, urgent: 3 };

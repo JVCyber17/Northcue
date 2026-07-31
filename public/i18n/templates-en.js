@@ -224,6 +224,13 @@
       "tpl.label.signal.authentic.date": "Contains date format.",
       "tpl.label.signal.authentic.formal": "Contains formal letter structure.",
 
+      "tpl.serious.enforcement": "This mentions enforcement action or bailiffs.",
+      "tpl.serious.possession": "This mentions possession or eviction of a home.",
+      "tpl.serious.insolvency": "This mentions insolvency action.",
+      "tpl.serious.court": "This mentions court action.",
+      "tpl.serious.debt": "This mentions debt collection.",
+      "tpl.serious.supply": "This mentions disconnection of a supply.",
+      "tpl.serious.immigration": "This mentions an immigration decision.",
       "tpl.label.signal.severity.court_action": "Mentions court action.",
       "tpl.label.signal.severity.eviction": "Mentions eviction risk.",
       "tpl.label.signal.severity.winding_up": "Mentions winding up action.",

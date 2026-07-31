@@ -218,6 +218,13 @@
       "tpl.label.signal.authentic.date": "Conține un format de dată.",
       "tpl.label.signal.authentic.formal": "Conține structură de scrisoare formală.",
 
+      "tpl.serious.enforcement": "Menționează acțiuni de executare sau executori judecătorești.",
+      "tpl.serious.possession": "Menționează evacuarea sau recuperarea locuinței.",
+      "tpl.serious.insolvency": "Menționează o procedură de insolvență.",
+      "tpl.serious.court": "Menționează o acțiune în instanță.",
+      "tpl.serious.debt": "Menționează recuperarea unei datorii.",
+      "tpl.serious.supply": "Menționează deconectarea furnizării.",
+      "tpl.serious.immigration": "Menționează o decizie privind imigrarea.",
       "tpl.label.signal.severity.court_action": "Menționează acțiune în instanță.",
       "tpl.label.signal.severity.eviction": "Menționează risc de evacuare.",
       "tpl.label.signal.severity.winding_up": "Menționează acțiune de lichidare.",

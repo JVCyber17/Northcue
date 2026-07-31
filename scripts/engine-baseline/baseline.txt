@@ -1742,13 +1742,15 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_type": "what_matters_most",
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
-    "key_points": [],
+    "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This is urgent. You may need to act today..",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. This mentions enforcement action or bailiffs.",
     "status": "urgent"
   },
   {
@@ -1852,13 +1854,15 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_type": "what_matters_most",
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
-    "key_points": [],
+    "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This is urgent. You may need to act today..",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. This mentions enforcement action or bailiffs.",
     "status": "urgent"
   },
   {
@@ -2072,14 +2076,15 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
-      "Mentions eviction risk."
+      "Mentions eviction risk.",
+      "This mentions court action."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. Mentions eviction risk.",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. Mentions eviction risk. This mentions court action.",
     "status": "urgent"
   },
   {
@@ -2759,13 +2764,15 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "card_type": "what_matters_most",
     "title": "What matters most?",
     "simple_explanation": "This is important, but not an emergency.",
-    "key_points": [],
+    "key_points": [
+      "This mentions court action."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What matters most?. This is important, but not an emergency..",
+    "read_aloud_text": "What matters most?. This is important, but not an emergency.. This mentions court action.",
     "status": "caution"
   },
   {
@@ -6350,13 +6357,15 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "card_type": "what_matters_most",
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
-    "key_points": [],
+    "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This is urgent. You may need to act today..",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. This mentions enforcement action or bailiffs.",
     "status": "urgent"
   },
   {

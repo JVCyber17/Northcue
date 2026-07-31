@@ -219,6 +219,13 @@
       "tpl.label.signal.authentic.date": "Contém formato de data.",
       "tpl.label.signal.authentic.formal": "Contém estrutura de carta formal.",
 
+      "tpl.serious.enforcement": "Menciona ações de execução ou oficiais de execução.",
+      "tpl.serious.possession": "Menciona despejo ou retomada da habitação.",
+      "tpl.serious.insolvency": "Menciona um processo de insolvência.",
+      "tpl.serious.court": "Menciona uma ação judicial.",
+      "tpl.serious.debt": "Menciona a cobrança de uma dívida.",
+      "tpl.serious.supply": "Menciona o corte do fornecimento.",
+      "tpl.serious.immigration": "Menciona uma decisão de imigração.",
       "tpl.label.signal.severity.court_action": "Menciona ação em tribunal.",
       "tpl.label.signal.severity.eviction": "Menciona risco de despejo.",
       "tpl.label.signal.severity.winding_up": "Menciona ação de encerramento de empresa.",

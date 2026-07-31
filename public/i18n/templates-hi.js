@@ -217,6 +217,13 @@
       "tpl.label.signal.authentic.date": "तारीख का फ़ॉर्मैट मौजूद है.",
       "tpl.label.signal.authentic.formal": "औपचारिक पत्र का ढाँचा मौजूद है.",
 
+      "tpl.serious.enforcement": "इसमें वसूली की कार्रवाई या बेलिफ़ का ज़िक्र है.",
+      "tpl.serious.possession": "इसमें घर पर कब्ज़े या बेदखली का ज़िक्र है.",
+      "tpl.serious.insolvency": "इसमें दिवालिया कार्रवाई का ज़िक्र है.",
+      "tpl.serious.court": "इसमें अदालती कार्रवाई का ज़िक्र है.",
+      "tpl.serious.debt": "इसमें कर्ज़ वसूली का ज़िक्र है.",
+      "tpl.serious.supply": "इसमें आपूर्ति काटे जाने का ज़िक्र है.",
+      "tpl.serious.immigration": "इसमें आव्रजन के फ़ैसले का ज़िक्र है.",
       "tpl.label.signal.severity.court_action": "अदालती कार्रवाई का ज़िक्र है.",
       "tpl.label.signal.severity.eviction": "बेदखली के जोखिम का ज़िक्र है.",
       "tpl.label.signal.severity.winding_up": "कंपनी बंद करने की कार्रवाई का ज़िक्र है.",

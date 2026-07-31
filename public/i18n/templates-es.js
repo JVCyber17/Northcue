@@ -220,6 +220,13 @@
       "tpl.label.signal.authentic.date": "Contiene un formato de fecha.",
       "tpl.label.signal.authentic.formal": "Tiene estructura de carta formal.",
 
+      "tpl.serious.enforcement": "Menciona acciones de ejecución o agentes de embargo.",
+      "tpl.serious.possession": "Menciona el desalojo o la recuperación de la vivienda.",
+      "tpl.serious.insolvency": "Menciona un procedimiento de insolvencia.",
+      "tpl.serious.court": "Menciona una acción judicial.",
+      "tpl.serious.debt": "Menciona el cobro de una deuda.",
+      "tpl.serious.supply": "Menciona el corte del suministro.",
+      "tpl.serious.immigration": "Menciona una decisión de inmigración.",
       "tpl.label.signal.severity.court_action": "Menciona acciones judiciales.",
       "tpl.label.signal.severity.eviction": "Menciona riesgo de desalojo.",
       "tpl.label.signal.severity.winding_up": "Menciona la liquidación de una empresa.",

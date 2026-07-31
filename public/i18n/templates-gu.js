@@ -219,6 +219,13 @@
       "tpl.label.signal.authentic.date": "તારીખનું ફોર્મેટ ધરાવે છે.",
       "tpl.label.signal.authentic.formal": "ઔપચારિક પત્રનું માળખું ધરાવે છે.",
 
+      "tpl.serious.enforcement": "આમાં વસૂલાતની કાર્યવાહી કે બેલિફનો ઉલ્લેખ છે.",
+      "tpl.serious.possession": "આમાં ઘરના કબજા કે બેદખલીનો ઉલ્લેખ છે.",
+      "tpl.serious.insolvency": "આમાં નાદારીની કાર્યવાહીનો ઉલ્લેખ છે.",
+      "tpl.serious.court": "આમાં કોર્ટની કાર્યવાહીનો ઉલ્લેખ છે.",
+      "tpl.serious.debt": "આમાં દેવાની વસૂલાતનો ઉલ્લેખ છે.",
+      "tpl.serious.supply": "આમાં પુરવઠો કાપવાનો ઉલ્લેખ છે.",
+      "tpl.serious.immigration": "આમાં ઇમિગ્રેશનના નિર્ણયનો ઉલ્લેખ છે.",
       "tpl.label.signal.severity.court_action": "કોર્ટ કાર્યવાહીનો ઉલ્લેખ કરે છે.",
       "tpl.label.signal.severity.eviction": "ઘર ખાલી કરાવવાના જોખમનો ઉલ્લેખ કરે છે.",
       "tpl.label.signal.severity.winding_up": "કંપની બંધ કરવાની કાર્યવાહીનો ઉલ્લેખ કરે છે.",

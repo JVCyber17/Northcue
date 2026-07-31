@@ -217,6 +217,13 @@
       "tpl.label.signal.authentic.date": "তারিখের ফরম্যাট আছে.",
       "tpl.label.signal.authentic.formal": "আনুষ্ঠানিক চিঠির গঠন আছে.",
 
+      "tpl.serious.enforcement": "এতে বাজেয়াপ্তির পদক্ষেপ বা বেলিফের উল্লেখ আছে.",
+      "tpl.serious.possession": "এতে বাড়ির দখল বা উচ্ছেদের উল্লেখ আছে.",
+      "tpl.serious.insolvency": "এতে দেউলিয়া পদক্ষেপের উল্লেখ আছে.",
+      "tpl.serious.court": "এতে আদালতের পদক্ষেপের উল্লেখ আছে.",
+      "tpl.serious.debt": "এতে ঋণ আদায়ের উল্লেখ আছে.",
+      "tpl.serious.supply": "এতে সরবরাহ বিচ্ছিন্ন করার উল্লেখ আছে.",
+      "tpl.serious.immigration": "এতে অভিবাসন সংক্রান্ত সিদ্ধান্তের উল্লেখ আছে.",
       "tpl.label.signal.severity.court_action": "আদালতের পদক্ষেপের কথা বলা আছে.",
       "tpl.label.signal.severity.eviction": "উচ্ছেদের ঝুঁকির কথা বলা আছে.",
       "tpl.label.signal.severity.winding_up": "কোম্পানি গুটিয়ে ফেলার (winding up) পদক্ষেপের কথা বলা আছে.",
