@@ -168,3 +168,125 @@ test("multi letter attribution", async (t) => {
       "an ordinary single letter still gets its composed summary");
   });
 });
+
+// ---------------------------------------------------------------------------
+// Separator vocabulary.
+//
+// Real scanners and PDF extractors do not insert a tidy horizontal rule between
+// two letters. They emit pagination. The shapes below are the ones that reach
+// the engine in practice, and each has to arrive at the decline to assert path
+// rather than at a better composed sentence.
+//
+// The safety property being guarded is the ROUTE, not the detection. A shape
+// that only half locates a boundary raises the flag without splitting, so the
+// upload lands in the fused shape where nothing is asserted. Splitting is
+// reserved for the explicit separators, where the boundary is trustworthy
+// enough to attribute the first letter's facts.
+// ---------------------------------------------------------------------------
+
+const PAGINATED_SHAPES = {
+  "page header, decorated": LETTER_A + "\n\n--- Page 2 ---\n\n" + LETTER_B,
+  "page x of y": LETTER_A + "\n\nPage 2 of 2\n\n" + LETTER_B,
+  "bare page number": LETTER_A + "\n\nPage 2\n\n" + LETTER_B,
+  "form feed": LETTER_A + "\n\f\n" + LETTER_B,
+  "pagination then a greeting": LETTER_A + "\n\n--- Page 2 ---\n\nDear Ms Sharma\nYour council tax is now due.",
+  "repeated letterhead, no pagination":
+    "Hounslow Borough Council\nCouncil Tax Bill 2026/2027\nBill date: 12 March 2026\n" +
+    "Amount to pay: £1,381.50\n\nHounslow Borough Council\nHousing Benefit Review\nBill date: 2 April 2026"
+};
+
+// Single letters that contain one of the new shapes and must survive intact.
+// Pagination inside one letter is the common case, not the exceptional one.
+const SINGLE_LETTER_SHAPES = {
+  "multi page bill with a page header":
+    LETTER_A + "\n\n--- Page 2 ---\n\nYour tariff is Standard Variable.\n" +
+    "Charges are shown including VAT at 5 percent.",
+  "multi page bill with page x of y":
+    LETTER_B + "\n\nPage 1 of 2\n\nYour instalments are payable on the first of each month.",
+  "form feed between pages of one letter":
+    LETTER_A + "\n\f\nYour meter reading was taken on 1 May.\nCharges include VAT.",
+  // The trap this rule was shaped around: a running header that repeats the
+  // sender AND a date on every page. Both halves of a letter opening are
+  // present, so the order requirement is what saves it.
+  "running header repeating sender and date":
+    "West Middlesex University Hospital\nOutpatient Appointment\nDate: 5 June 2026\n" +
+    "Dear Patient\nYou have an appointment in the Dermatology Department.\n\n" +
+    "Page 2 of 2\n\nPlease arrive fifteen minutes early.",
+  // Two labelled dates inside one letter, which is the NHS appointment shape
+  // in the regression corpus: a letter date and an appointment date.
+  "two date labels in one letter":
+    "West Middlesex University Hospital\nOutpatient Appointment\nDate: 5 June 2026\n" +
+    "Dear Patient\nDate: Tuesday 1 July 2026\nTime: 10:40",
+  "sender named again inside prose":
+    LETTER_B + "\nPlease make cheques payable to Hounslow Borough Council."
+};
+
+test("separator vocabulary", async (t) => {
+  Object.entries(PAGINATED_SHAPES).forEach(([name, text]) => {
+    t.test("detects two letters: " + name, () => {
+      assert.equal(splitDocuments(text).isMultiLetterInput, true,
+        name + " must be recognised as more than one letter");
+    });
+
+    t.test("routes to decline, not to composition: " + name, () => {
+      // The requirement in full: detection exists to reach safety. A newly
+      // detected shape must never end up with a better composed sentence.
+      const run = analyse(text);
+      assert.equal(run.structured_output.extractor_internal.multi_letter_state, "fused",
+        name + " must reach the fused shape, where nothing is attributed");
+
+      const lines = allCardText(run);
+      lines.forEach((line) => {
+        RELATIONAL_SHAPES.forEach((shape) => {
+          assert.doesNotMatch(line, shape,
+            name + " composed a relational sentence: " + line);
+        });
+      });
+      lines.forEach((line) => {
+        assert.doesNotMatch(line, CURRENCY,
+          name + " asserted an amount it cannot attribute: " + line);
+      });
+      assert.equal(run.api_output.structured_result.summary.main_amount, null,
+        name + " must not carry a main amount");
+      assert.equal(run.api_output.structured_result.summary.main_date, null,
+        name + " must not carry a main date");
+    });
+  });
+
+  Object.entries(SINGLE_LETTER_SHAPES).forEach(([name, text]) => {
+    t.test("does not split a single letter: " + name, () => {
+      assert.equal(splitDocuments(text).isMultiLetterInput, false,
+        name + " is one letter and must not be flagged");
+      const run = analyse(text);
+      assert.equal(run.structured_output.extractor_internal.multi_letter_state, undefined,
+        name + " must not enter the multi letter path");
+    });
+  });
+
+  await t.test("pagination alone is never a letter boundary", () => {
+    // The distinction the whole rule rests on. Identical pagination, and the
+    // only difference is whether a fresh letter opens after it.
+    const continuation = LETTER_A + "\n\n--- Page 2 ---\n\nCharges include VAT at 5 percent.";
+    const newLetter = LETTER_A + "\n\n--- Page 2 ---\n\n" + LETTER_B;
+    assert.equal(splitDocuments(continuation).isMultiLetterInput, false,
+      "a continuation page must not be treated as a second letter");
+    assert.equal(splitDocuments(newLetter).isMultiLetterInput, true,
+      "a fresh letter opening after the same marker must be detected");
+  });
+
+  await t.test("the explicit separators still split, and still attribute", () => {
+    // The new shapes must not disturb the one route that is allowed to keep
+    // facts: an explicit rule is a deliberate division, so the first letter is
+    // attributable and its amount survives.
+    const split = splitDocuments(SEPARATED_BY_RULE);
+    assert.equal(split.isMultiLetterInput, true);
+    assert.equal(split.documents.length, 2, "an explicit rule still separates");
+
+    const run = analyse(SEPARATED_BY_RULE);
+    assert.equal(run.structured_output.extractor_internal.multi_letter_state, "first_only");
+    assert.match(allCardText(run).join(" "), /£214\.63/,
+      "the first letter's own amount is attributable and is kept");
+    assert.doesNotMatch(allCardText(run).join(" "), /£1,381\.50/,
+      "the second letter's amount must not appear");
+  });
+});

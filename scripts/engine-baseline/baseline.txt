@@ -5111,9 +5111,9 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": false,
-  "review_reason": "Some details need checking before action.",
+  "confidence": "low",
+  "needs_human_review": true,
+  "review_reason": "Multiple documents may be mixed in one upload.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
@@ -5128,40 +5128,34 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "sender_guess": "Council",
   "is_template": false,
   "is_outgoing": false,
-  "is_multi_document": false,
+  "is_multi_document": true,
   "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
 {
-  "summary": "EDF Energy appears to be asking you to pay £1,381.50 by 28 May 2026.",
-  "most_important_point": "This document appears to require an action from you. See what you need to do.",
+  "summary": "This upload appears to contain more than one letter.",
+  "most_important_point": "The details have not been matched to a single letter.",
   "actions": [
-    "Check the payment amount and due date."
+    "Check each letter on the original documents."
   ],
-  "deadline": "28 May 2026",
-  "visible_dates": [
-    "28 May 2026",
-    "12 March 2026",
-    "1 April 2026"
-  ],
-  "header_date": "4 May 2026",
+  "deadline": null,
+  "visible_dates": [],
+  "header_date": null,
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
-  "helpful_note": "Keep this with your records in case you need it later.",
-  "money_amounts": [
-    "£214.63",
-    "£1,381.50"
-  ],
+  "helpful_note": "Uploading one letter at a time gives a clearer result.",
+  "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "medium",
-  "needs_human_review": false,
-  "review_reason": "Some details need checking before action.",
-  "evidence_spans": []
+  "confidence": "low",
+  "needs_human_review": true,
+  "review_reason": "Multiple documents may be mixed in one upload.",
+  "evidence_spans": [],
+  "multi_letter_state": "fused"
 }
 
 [banner]
@@ -5176,17 +5170,19 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "document_type": "council_tax_notice",
   "document_type_label": "Council tax notice",
   "document_type_confidence": "high",
-  "overall_confidence": "medium",
+  "overall_confidence": "low",
   "risk_level": "low",
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "EDF Energy appears to be asking you to pay £1,381.50 by 28 May 2026.",
-    "main_action": "Check the payment amount and due date.",
-    "main_date": "28 May 2026",
-    "main_amount": "£1,381.50"
+    "one_line_summary": "This upload appears to contain more than one letter.",
+    "main_action": "Check each letter on the original documents.",
+    "main_date": null,
+    "main_amount": null
   },
-  "warnings": []
+  "warnings": [
+    "Multiple documents may be mixed in one upload."
+  ]
 }
 
 [structured_result: cards, engine output]
@@ -5196,16 +5192,16 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "EDF Energy appears to be asking you to pay £1,381.50 by 28 May 2026.",
+    "simple_explanation": "This upload appears to contain more than one letter.",
     "key_points": [
-      "This document appears to require an action from you. See what you need to do."
+      "The details have not been matched to a single letter."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What is this?. EDF Energy appears to be asking you to pay £1,381.50 by 28 May 2026.. This document appears to require an action from you. See what you need to do.",
+    "read_aloud_text": "What is this?. This upload appears to contain more than one letter.. The details have not been matched to a single letter.",
     "status": "normal"
   },
   {
@@ -5213,14 +5209,14 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "This document appears to require an action from you. See what you need to do.",
+    "simple_explanation": "The details have not been matched to a single letter.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What matters most?. This document appears to require an action from you. See what you need to do..",
+    "read_aloud_text": "What matters most?. The details have not been matched to a single letter..",
     "status": "normal"
   },
   {
@@ -5228,16 +5224,16 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check the payment amount and due date.",
+    "simple_explanation": "Check each letter on the original documents.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check each letter on the original documents."
     ],
-    "action_needed": "Check the payment amount and due date.",
+    "action_needed": "Check each letter on the original documents.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check each letter on the original documents.. Check each letter on the original documents.",
     "status": "normal"
   },
   {
@@ -5245,16 +5241,14 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "Due by 28 May 2026.",
-    "key_points": [
-      "Check this date on the original document: 28 May 2026."
-    ],
+    "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
+    "key_points": [],
     "action_needed": null,
-    "possible_deadline": "28 May 2026",
+    "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. Due by 28 May 2026.. Check this date on the original document: 28 May 2026.",
+    "read_aloud_text": "When is it due?. Dates cannot be matched to one letter in this upload. Check the original documents..",
     "status": "normal"
   },
   {
@@ -5262,17 +5256,16 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£214.63) and the date (28 May 2026) on the original document.",
+    "simple_explanation": "Amounts cannot be matched to one letter in this upload. Check the original documents.",
     "key_points": [
-      "Date: 28 May 2026.",
-      "Amount shown: £214.63."
+      "Check unclear details on the original."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": "£214.63",
-    "confidence_level": "medium",
+    "possible_payment": null,
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the amount (£214.63) and the date (28 May 2026) on the original document.. Date: 28 May 2026. Amount shown: £214.63.",
+    "read_aloud_text": "What should I check?. Amounts cannot be matched to one letter in this upload. Check the original documents.. Check unclear details on the original.",
     "status": "normal"
   },
   {
@@ -5280,16 +5273,16 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Keep this with your records in case you need it later.",
+    "simple_explanation": "Uploading one letter at a time gives a clearer result.",
     "key_points": [
       "Check key details on the original document before acting."
     ],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "Helpful note. Keep this with your records in case you need it later.. Check key details on the original document before acting.",
+    "read_aloud_text": "Helpful note. Uploading one letter at a time gives a clearer result.. Check key details on the original document before acting.",
     "status": "normal"
   }
 ]
