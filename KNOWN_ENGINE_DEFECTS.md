@@ -345,8 +345,34 @@ corpus, and card 1 in the same run correctly says the text quality is too low to
 read amounts and dates reliably. The two contradict each other, and the action
 card is the one a reader acts on.
 
-**O-9. The risk sentence is protected from garbled text by omission, not by a
-guard.** `extractRiskSentence` lifts a consequence sentence out of the document
+> **Correction, 31 July 2026, to evidence recorded earlier in this file.**
+> An earlier sweep reported **zero** collisions when confusable folding was
+> tested against generated UK reference strings, and that number was used to
+> argue label tolerance was safe. **It was wrong.** It had been run against a
+> narrow list of short entries with a one-way digit fold, not against the real
+> vocabulary. Re-running it properly over all 82 label entries and 150,000
+> generated references gives **54 false matches**, all from two short entries:
+> `less` folds out of `Reference: MZMZ-43713556` and `fee` out of
+> `Policy number: SF33485198`. That is why tolerance is restricted to entries of
+> five characters or more, which keeps all 25 corpus recoveries and takes the
+> collisions to zero. **Do not inherit the zero figure.** Any future tolerance
+> proposal must re-run the evidence against the full vocabulary it intends to
+> change.
+
+**O-9. CLOSED 31 July 2026.** The consequence sentence is now gated on
+`garbled_by_ocr` explicitly: the branch states `has_consequence: false` and
+`consequence_sentence: null` rather than leaving the keys absent. Verified by
+substituting the "tidied up" form the clean branch uses, which makes card 5 on a
+garbled enforcement notice quote "The document states that if you do not pay,
+the debt will be passed to a debt collection agency..." The test catches that
+with two failures. Guarded in `tests/actionCard.test.js`.
+
+The original entry is kept below because the shape of the defect is worth
+remembering: it was correct behaviour with no guard, and nothing would have
+failed when someone removed it.
+
+**O-9 as originally recorded. The risk sentence is protected from garbled text
+by omission, not by a guard.** `extractRiskSentence` lifts a consequence sentence out of the document
 and card 5 quotes it verbatim, which is correct and deliberate on a clean
 letter. On a garbled document it would quote an undamaged risk phrase sitting
 inside damaged text, in the same confident register that made O-2 harmful.
@@ -433,9 +459,34 @@ tier, and it matches literals. Damage to "notice of enforcement" or "bailiff"
 drops the stakes floor, and with it the banner, the severity sentence and the
 card warnings.
 
+**Fix 4, the damaged sender. RESOLVED 31 July 2026, by wording rather than by
+extraction.** Card 1 hedged amounts and dates while stating the sender's name
+flatly, and the name is read from the same damaged text.
+
+Label tolerance does not help here and its absence is not a gap in it: tolerance
+matches damaged input against a **known vocabulary**, and a name is not in any
+vocabulary, so there is nothing to recover it to. The three options were to show
+the name anyway, decline it, or show it and say it may be damaged. The third was
+taken: on an enforcement notice, knowing who is chasing you is worth more than a
+tidy card, and a reader can match a damaged name to the paper more easily than a
+missing one. `tpl.summary.garbled_sender` now reads "…too low to read the
+sender's name, amounts or dates reliably". `tpl.summary.garbled` is unchanged,
+because it names no sender.
+
+**O-10. Card 1 on a garbled document is at the height limit in the longest
+languages.** In Polish the widened caution takes it from 14 lines to 15 and the
+panel from 798px to 830px, so on an 812px viewport it now scrolls where it
+previously just fitted. Nothing is clipped and there is no horizontal overflow;
+the card simply scrolls. Card 1 was already at that limit before the change, and
+this is one line closer to it rather than the cause. The durable answer is
+probably to shorten the garbled summary rather than to keep trimming what it
+says.
+
 ## OCR work not approved
 
-- **Tier 3**, character-class tolerance for the four label vocabularies and
+- **Tier 3 SHIPPED 31 July 2026** as 58a2981, restricted to entries of five
+  characters or more. Originally proposed as character-class tolerance for the
+  four label vocabularies and
   `GREETING` only. Evidence gathered: 25 correct recoveries across the corpus
   with zero false positives, and zero collisions across 540,000 generated UK
   reference strings and 400,000 mixed alphanumeric references.
