@@ -345,6 +345,30 @@ corpus, and card 1 in the same run correctly says the text quality is too low to
 read amounts and dates reliably. The two contradict each other, and the action
 card is the one a reader acts on.
 
+**O-9. The risk sentence is protected from garbled text by omission, not by a
+guard.** `extractRiskSentence` lifts a consequence sentence out of the document
+and card 5 quotes it verbatim, which is correct and deliberate on a clean
+letter. On a garbled document it would quote an undamaged risk phrase sitting
+inside damaged text, in the same confident register that made O-2 harmful.
+
+It does not happen today, and the reason is worth stating precisely because the
+inspection first attributed it to luck, which was wrong. The `garbled_by_ocr`
+branch of `buildExtraction` returns an object that **never sets
+`has_consequence`**, so `extraction.has_consequence` is `undefined`, so card 5
+cannot take the consequence arm at all on that path. Verified by appending an
+undamaged risk sentence to `ocr_enforcement`: `has_consequence` stays
+`undefined` and card 5 keeps the "What should I check?" form.
+
+**The fix for O-2 does not cover this**, and was not meant to: it filters
+`actions`, and the risk path does not go through `actions`. The protection is
+one added field away from disappearing. Anyone completing that branch's return
+object for tidiness would reintroduce the defect with no test failing, because
+no test asserts that card 5 declines to quote on a garbled document.
+
+The durable fix is the same shape as O-2's: gate the consequence sentence on
+`garbled_by_ocr` explicitly, so the behaviour is stated rather than inherited
+from a missing key.
+
 **O-3. The two long-date patterns now disagree on four shapes, up from two.**
 `coLocation.LONG_DATE` and `extractVisibleDates` are independent copies. Before
 the separator fix they disagreed on ordinals and month-first order; they now
