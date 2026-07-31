@@ -3392,6 +3392,21 @@ function checkWhyChips(trust) {
     const translated = translatedEngineText(raw).text;
     chips.push(`<span class="check-why-chip">${escapeHtml(stripSentenceStop(translated))}</span>`);
   });
+
+  // The stakes floor (raiseSeverityTo in the engine) raises severity_level for
+  // a serious DOCUMENT TYPE, while severity_signals only ever holds keyword
+  // matches. The two do not have to agree, and on a notice of enforcement they
+  // do not: severity is urgent and the array is empty. That left the panel
+  // showing a red urgency verdict with the "Why" row hidden entirely, on the
+  // two documents whose reader most needs to know why. An unexplained alarm is
+  // the thing this product exists not to do.
+  //
+  // This is a Northcue-authored chip, so it comes from the dictionary rather
+  // than the engine bank. severity_signals itself is left alone: five other
+  // things read it and it genuinely means "keyword matches found".
+  if (!chips.length && ["high", "urgent"].includes(trust.severity_level)) {
+    chips.push(`<span class="check-why-chip">${escapeHtml(stripSentenceStop(t("check.whySeriousType")))}</span>`);
+  }
   return chips;
 }
 

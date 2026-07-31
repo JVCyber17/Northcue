@@ -399,6 +399,7 @@
     "check.uploadFirst": "પહેલાં દસ્તાવેજ અપલોડ કરો.<br>પછી Northcue વિશ્વાસ, ગંભીરતા અને આગલાં પગલાં તપાસી શકશે.",
     "check.heroLabel": "આગળ કરવા જેવી એક બાબત",
     "check.whyLabel": "કેમ",
+    "check.whySeriousType": "ગંભીર પ્રકારનો પત્ર લાગે છે.",
     "check.genuineQuestion": "શું આ સાચું છે?",
     "check.genuineMeaning": "જે મોકલનારનું નામ લખ્યું છે, ખરેખર તેમના તરફથી આવેલો સાચો પત્ર લાગે છે કે નહીં.",
     "check.urgentQuestion": "આ કેટલું તાકીદનું છે?",

@@ -399,6 +399,7 @@
     "check.uploadFirst": "पहले एक दस्तावेज़ अपलोड करें.<br>फिर Northcue भरोसा, गंभीरता और अगले कदम जाँच सकता है.",
     "check.heroLabel": "आगे करने की एक चीज़",
     "check.whyLabel": "क्यों",
+    "check.whySeriousType": "गंभीर तरह का पत्र लगता है.",
     "check.genuineQuestion": "क्या यह असली है?",
     "check.genuineMeaning": "क्या यह उसी संस्था का असली पत्र लगता है जिसकी ओर से होने का यह दावा करता है.",
     "check.urgentQuestion": "यह कितना ज़रूरी है?",

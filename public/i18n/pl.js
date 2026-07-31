@@ -399,6 +399,7 @@
     "check.uploadFirst": "Prosimy najpierw przesłać dokument.<br>Wtedy Northcue sprawdzi wiarygodność, wagę i kolejne kroki.",
     "check.heroLabel": "Jedna rzecz do zrobienia teraz",
     "check.whyLabel": "Dlaczego",
+    "check.whySeriousType": "Wygląda na poważny rodzaj listu.",
     "check.genuineQuestion": "Czy jest prawdziwy?",
     "check.genuineMeaning": "Czy to wygląda na prawdziwy list od nadawcy, który jest w nim podany.",
     "check.urgentQuestion": "Jak bardzo jest pilny?",

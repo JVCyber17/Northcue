@@ -399,6 +399,7 @@
     "check.uploadFirst": "ਪਹਿਲਾਂ ਇੱਕ ਦਸਤਾਵੇਜ਼ ਅਪਲੋਡ ਕਰੋ.<br>ਫਿਰ Northcue ਭਰੋਸਾ, ਗੰਭੀਰਤਾ ਅਤੇ ਅਗਲੇ ਕਦਮ ਜਾਂਚ ਸਕਦਾ ਹੈ.",
     "check.heroLabel": "ਅੱਗੇ ਕਰਨ ਵਾਲੀ ਇੱਕ ਗੱਲ",
     "check.whyLabel": "ਕਿਉਂ",
+    "check.whySeriousType": "ਗੰਭੀਰ ਕਿਸਮ ਦੀ ਚਿੱਠੀ ਲੱਗਦੀ ਹੈ.",
     "check.genuineQuestion": "ਕੀ ਇਹ ਅਸਲੀ ਹੈ?",
     "check.genuineMeaning": "ਕੀ ਇਹ ਉਸੇ ਸੰਸਥਾ ਦੀ ਅਸਲੀ ਚਿੱਠੀ ਲੱਗਦੀ ਹੈ ਜਿਸ ਵੱਲੋਂ ਹੋਣ ਦਾ ਇਹ ਦਾਅਵਾ ਕਰਦੀ ਹੈ.",
     "check.urgentQuestion": "ਇਹ ਕਿੰਨਾ ਜ਼ਰੂਰੀ ਹੈ?",

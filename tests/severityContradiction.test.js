@@ -352,7 +352,7 @@ test("site 6: a possession notice states its deadline without the word pay", asy
   await t.test("card 4 calls it a deadline rather than listing it", () => {
     const card4 = analyse(byId("eviction_possession")).api_output.structured_result.cards[3];
     assert.equal(card4.simple_explanation, "Due by 12 September 2026.");
-    assert.doesNotMatch(card4.simple_explanation, /\btoday\b/,
+    assert.doesNotMatch(card4.simple_explanation, /(?<!\p{L})today(?!\p{L})/u,
       "the junk token scraped from 'Rent arrears as at today' must not sit beside the real date");
   });
 
@@ -376,6 +376,90 @@ test("site 6: a possession notice states its deadline without the word pay", asy
     // And nothing calm gained one it should not have.
     ["bill_in_credit", "medical_letter", "blank_template", "outgoing_letter"].forEach((id) => {
       assert.equal(analyse(byId(id)).api_output.structured_result.summary.main_date, null, id);
+    });
+  });
+});
+
+test("site 7: the check panel never states an urgency verdict with no reason", async (t) => {
+  // checkWhyChips builds the "Why" row from severity_signals + scam_signals.
+  // The stakes floor raises severity_level for a serious document TYPE while
+  // that array only ever holds keyword matches, so on a notice of enforcement
+  // severity is urgent and the array is empty: the panel showed a red urgency
+  // verdict and hid the reason row entirely.
+  //
+  // Lifted from public/app.js source with its dependencies injected, so this
+  // tests the real function rather than a copy that can drift.
+  function loadChips(english) {
+    const source = fs.readFileSync(APP_JS, "utf8");
+    const strip = source.match(/function stripSentenceStop\(text\)[\s\S]*?\n}/);
+    const chips = source.match(/function checkWhyChips\(trust\)[\s\S]*?\n}/);
+    assert.ok(strip && chips, "checkWhyChips or stripSentenceStop was not found in public/app.js");
+    const build = new Function("t", "translatedEngineText", "escapeHtml",
+      strip[0] + "\n" + chips[0] + "\nreturn checkWhyChips;");
+    return build(
+      (key) => english[key] || key,
+      (raw) => ({ text: raw }),
+      (value) => String(value)
+    );
+  }
+
+  const english = require(path.join(__dirname, "..", "public", "i18n", "en.js"));
+  const checkWhyChips = loadChips(english);
+
+  await t.test("no corpus document shows high or urgent with zero chips", () => {
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const trust = analyse(entry.text).api_output.trust;
+      if (!["high", "urgent"].includes(trust.severity_level)) return;
+      if (checkWhyChips(trust).length === 0) offenders.push(entry.id);
+    });
+    assert.deepEqual(offenders, [],
+      "the check panel would state an urgency verdict with the reason row hidden");
+  });
+
+  await t.test("the two enforcement notices get the fallback chip", () => {
+    ["bailiff_enforcement", "ocr_enforcement"].forEach((id) => {
+      const trust = analyse(byId(id)).api_output.trust;
+      assert.deepEqual(trust.severity_signals, [], id + ": premise, the signals array is empty");
+      const chips = checkWhyChips(trust);
+      assert.equal(chips.length, 1, id);
+      assert.match(chips[0], /Looks like a serious type of letter/, id);
+    });
+  });
+
+  await t.test("documents that already have signals are untouched", () => {
+    // The fallback must never displace or duplicate a real signal.
+    ["eviction_possession", "court_fine", "scam_phishing"].forEach((id) => {
+      const trust = analyse(byId(id)).api_output.trust;
+      const chips = checkWhyChips(trust);
+      assert.ok(chips.length > 0, id);
+      chips.forEach((chip) => assert.doesNotMatch(chip, /Looks like a serious type of letter/, id));
+    });
+  });
+
+  await t.test("low and medium severity never gain a chip they did not earn", () => {
+    ["low", "medium"].forEach((level) => {
+      const chips = checkWhyChips({ severity_level: level, severity_signals: [], scam_signals: [] });
+      assert.deepEqual(chips, [], level + " severity must leave the reason row hidden");
+    });
+    // And on the real corpus, no calm document gains it.
+    CORPUS.forEach((entry) => {
+      const trust = analyse(entry.text).api_output.trust;
+      if (["high", "urgent"].includes(trust.severity_level)) return;
+      checkWhyChips(trust).forEach((chip) => {
+        assert.doesNotMatch(chip, /Looks like a serious type of letter/, entry.id);
+      });
+    });
+  });
+
+  await t.test("the fallback string exists in every language", () => {
+    // A missing key would render as the raw key inside the chip.
+    const languages = require(path.join(__dirname, "..", "public", "i18n", "config.js"))
+      .languages.map((entry) => entry.code);
+    languages.forEach((code) => {
+      const dictionary = require(path.join(__dirname, "..", "public", "i18n", code + ".js"));
+      assert.ok(dictionary["check.whySeriousType"], code + " is missing check.whySeriousType");
+      assert.doesNotMatch(dictionary["check.whySeriousType"], /[–—]/, code + " has a dash");
     });
   });
 });

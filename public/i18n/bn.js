@@ -399,6 +399,7 @@
     "check.uploadFirst": "আগে একটি ডকুমেন্ট আপলোড করুন.<br>তারপর Northcue বিশ্বাসযোগ্যতা, গুরুত্ব আর পরবর্তী ধাপ যাচাই করতে পারবে.",
     "check.heroLabel": "এরপর করার একটিমাত্র কাজ",
     "check.whyLabel": "কেন",
+    "check.whySeriousType": "গুরুতর ধরনের চিঠি বলে মনে হচ্ছে.",
     "check.genuineQuestion": "এটি কি আসল?",
     "check.genuineMeaning": "যে পাঠিয়েছে বলে লেখা আছে, চিঠিটি সত্যিই তার কাছ থেকে এসেছে বলে মনে হচ্ছে কি না.",
     "check.urgentQuestion": "এটি কতটা জরুরি?",

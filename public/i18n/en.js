@@ -400,6 +400,7 @@
     "check.uploadFirst": "Upload a document first.<br>Then Northcue can check trust, severity, and next steps.",
     "check.heroLabel": "One thing to do next",
     "check.whyLabel": "Why",
+    "check.whySeriousType": "Looks like a serious type of letter.",
     "check.genuineQuestion": "Is it genuine?",
     "check.genuineMeaning": "Whether this looks like a real letter from who it says it's from.",
     "check.urgentQuestion": "How urgent is it?",

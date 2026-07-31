@@ -399,6 +399,7 @@
     "check.uploadFirst": "Încărcați mai întâi un document.<br>Apoi Northcue poate verifica încrederea, gravitatea și pașii următori.",
     "check.heroLabel": "Un singur lucru de făcut în continuare",
     "check.whyLabel": "De ce",
+    "check.whySeriousType": "Pare un tip serios de scrisoare.",
     "check.genuineQuestion": "Este autentic?",
     "check.genuineMeaning": "Dacă aceasta pare o scrisoare reală de la cine spune că este.",
     "check.urgentQuestion": "Cât de urgent este?",

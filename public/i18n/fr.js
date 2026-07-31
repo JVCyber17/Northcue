@@ -402,6 +402,7 @@
     "check.uploadFirst": "Envoyez d'abord un document.<br>Ensuite Northcue pourra vérifier la confiance, la gravité et les prochaines étapes.",
     "check.heroLabel": "Une chose à faire ensuite",
     "check.whyLabel": "Pourquoi",
+    "check.whySeriousType": "Ressemble à un type de courrier sérieux.",
     "check.genuineQuestion": "Est-ce authentique ?",
     "check.genuineMeaning": "Si cela ressemble à une vraie lettre venant de l'expéditeur annoncé.",
     "check.urgentQuestion": "À quel point est-ce urgent ?",

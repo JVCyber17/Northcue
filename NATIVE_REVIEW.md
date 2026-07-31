@@ -622,6 +622,29 @@ person took a bad picture.
 
 ---
 
+## Expected, not a defect: card 5 quotes the letter in English
+
+On some documents the "What could happen if I ignore it?" card shows a sentence
+lifted **word for word from the reader's own letter**. UK official letters are
+written in English, so that sentence stays in English even when the rest of the
+page is in your language. This is deliberate. Those are the sender's words, not
+Northcue's, and changing them would mean putting words in the sender's mouth. It
+is the same rule that keeps amounts and dates exactly as printed, so the reader
+can match what is on screen to what is in their hand. The app says so itself in
+the line you have as `i18n.shownInEnglish`.
+
+It used to happen only on the solicitor letter. It now also happens on the
+possession notice and the court fine, because those two were moved onto the
+fuller reading path (31 July 2026).
+
+**Please do not report these English sentences as missing translations.** What
+IS worth telling us: whether the surrounding cards make it clear that the
+English line is a quotation from the letter rather than something Northcue
+failed to translate. If a reader could mistake it for a bug, the framing needs
+work even though the sentence does not.
+
+---
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to

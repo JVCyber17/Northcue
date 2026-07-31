@@ -400,6 +400,7 @@
     "check.uploadFirst": "Envie primeiro um documento.<br>Depois o Northcue pode verificar a confiança, a gravidade e os próximos passos.",
     "check.heroLabel": "Uma coisa para fazer a seguir",
     "check.whyLabel": "Porquê",
+    "check.whySeriousType": "Parece um tipo de carta sério.",
     "check.genuineQuestion": "É genuíno?",
     "check.genuineMeaning": "Se isto parece uma carta verdadeira enviada por quem diz ser.",
     "check.urgentQuestion": "Quão urgente é?",
