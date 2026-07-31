@@ -22,6 +22,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
+const co = require(path.join(__dirname, "..", "src", "utils", "coLocation"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 const englishBank = require(path.join(__dirname, "..", "public", "i18n", "templates-en.js"));
 
@@ -230,6 +231,152 @@ test("site 3: the card 1 sub line must not deny card 1", async (t) => {
         const trust = analyse(byId(id)).api_output.trust;
         assert.equal(loadChooser(trust)(card1), HARD, id);
       });
+  });
+});
+
+test("site 4: a serious document never takes the reading aid path", async (t) => {
+  // The aid path is entered on document_category alone. Housing and
+  // legal_or_court are not on the supported whitelist, so a possession notice
+  // and a court fine were routed onto a path that answers "What matters most?"
+  // with a sender caveat and retitles card 5 away from the consequence
+  // question, while a less serious solicitor letter kept both.
+  await t.test("no high stakes document carries the aid path's signals", () => {
+    const offenders = [];
+    CORPUS.forEach((entry) => {
+      const run = analyse(entry.text);
+      if (!run.structured_output.trust_internal.is_high_stakes) return;
+      if (run.structured_output.extractor_internal.readable_unsupported_signals) {
+        offenders.push(entry.id);
+      }
+    });
+    assert.deepEqual(offenders, [], "a serious document was read by the reading aid");
+  });
+
+  await t.test("the severity sentence reaches card 2 on both", () => {
+    // inferMostImportantPoint is never called on the aid path, so the engine's
+    // one severity sentence never appeared anywhere in the output.
+    ["eviction_possession", "court_fine"].forEach((id) => {
+      assert.equal(analyse(byId(id)).api_output.structured_result.cards[1].simple_explanation,
+        "This is urgent. You may need to act today.", id);
+    });
+  });
+
+  await t.test("card 5 asks the consequence question and carries the consequence", () => {
+    const eviction = analyse(byId("eviction_possession")).api_output.structured_result.cards[4];
+    assert.equal(eviction.title, "What could happen if I ignore it?");
+    assert.match(eviction.simple_explanation, /possession of your home/);
+
+    const fine = analyse(byId("court_fine")).api_output.structured_result.cards[4];
+    assert.equal(fine.title, "What could happen if I ignore it?");
+    assert.match(fine.simple_explanation, /passed to bailiffs for enforcement/);
+  });
+
+  await t.test("the human review flag and its reason survive the diversion", () => {
+    // The aid path forced these, for a reason that still holds once the
+    // document is diverted off it. Dropping them would have flipped a
+    // possession notice from needing a human check to not needing one.
+    ["eviction_possession", "court_fine"].forEach((id) => {
+      const extraction = analyse(byId(id)).structured_output.extractor_internal;
+      assert.equal(extraction.needs_human_review, true, id);
+      assert.equal(extraction.review_reason, "This readable document type is not fully supported yet.", id);
+    });
+  });
+
+  await t.test("routine letters still take the reading aid", () => {
+    // The guard must divert serious documents only. housing_letter is the same
+    // category as the possession notice but is not high stakes.
+    const run = analyse(byId("housing_letter"));
+    assert.equal(run.structured_output.trust_internal.is_high_stakes, false);
+    assert.ok(run.structured_output.extractor_internal.readable_unsupported_signals,
+      "an ordinary housing letter must keep the reading aid");
+  });
+});
+
+test("site 5: the advice boundary caveat follows the category, not the path", async (t) => {
+  const CAVEAT = /not fully trained for this type yet/;
+
+  await t.test("housing and court letters carry it off the aid path", () => {
+    ["eviction_possession", "court_fine"].forEach((id) => {
+      const run = analyse(byId(id));
+      assert.ok(!run.structured_output.extractor_internal.readable_unsupported_signals,
+        id + ": premise, this document is off the aid path");
+      const keyPoints = run.api_output.structured_result.cards[0].key_points;
+      assert.ok(keyPoints.some((point) => CAVEAT.test(point)),
+        id + ": card 1 lost the reading aid caveat. Key points were " + JSON.stringify(keyPoints));
+    });
+  });
+
+  await t.test("documents still on the aid path keep it too", () => {
+    const keyPoints = analyse(byId("housing_letter")).api_output.structured_result.cards[0].key_points;
+    assert.ok(keyPoints.some((point) => CAVEAT.test(point)));
+  });
+
+  await t.test("nothing else gains it", () => {
+    // The caveat must not spread to the document types the engine IS trained
+    // for, or it stops meaning anything. Stated as the invariant rather than a
+    // list: it appears when and only when the document is on the aid path or
+    // its category is one the engine is not fully trained for.
+    const wrong = [];
+    CORPUS.forEach((entry) => {
+      const run = analyse(entry.text);
+      const onAidPath = Boolean(run.structured_output.extractor_internal.readable_unsupported_signals);
+      const notTrainedCategory = ["housing", "legal_or_court"]
+        .includes(run.structured_output.trust_internal.document_category);
+      const shown = run.api_output.structured_result.cards[0].key_points.some((point) => CAVEAT.test(point));
+      if (shown !== (onAidPath || notTrainedCategory)) {
+        wrong.push(entry.id + ": shown=" + shown + " aid=" + onAidPath + " category=" + notTrainedCategory);
+      }
+    });
+    assert.deepEqual(wrong, []);
+  });
+
+  await t.test("fully supported letters are unaffected", () => {
+    ["council_tax", "energy_bill"].forEach((id) => {
+      const keyPoints = analyse(byId(id)).api_output.structured_result.cards[0].key_points;
+      assert.ok(!keyPoints.some((point) => CAVEAT.test(point)), id);
+    });
+  });
+});
+
+test("site 6: a possession notice states its deadline without the word pay", async (t) => {
+  // The precondition for routing these documents off the aid path. The aid
+  // path found 12 September through its own date selection; extractDeadline
+  // did not, because the deadline label vocabulary had "pay by" and "due by"
+  // but nothing a possession notice actually writes.
+  await t.test("eviction_possession keeps its deadline", () => {
+    const run = analyse(byId("eviction_possession"));
+    assert.equal(run.structured_output.extractor_internal.deadline, "12 September 2026");
+    assert.equal(run.api_output.structured_result.summary.main_date, "12 September 2026");
+  });
+
+  await t.test("card 4 calls it a deadline rather than listing it", () => {
+    const card4 = analyse(byId("eviction_possession")).api_output.structured_result.cards[3];
+    assert.equal(card4.simple_explanation, "Due by 12 September 2026.");
+    assert.doesNotMatch(card4.simple_explanation, /\btoday\b/,
+      "the junk token scraped from 'Rent arrears as at today' must not sit beside the real date");
+  });
+
+  await t.test("the new label shapes bind on their own", () => {
+    assert.equal(co.selectDeadline("You must clear the arrears by 12 September 2026.").value, "12 September 2026");
+    assert.equal(co.selectDeadline("You must vacate the property by 3 October 2026.").value, "3 October 2026");
+    assert.equal(co.selectDeadline("The balance must be cleared by 14 November 2026.").value, "14 November 2026");
+  });
+
+  await t.test("no corpus document loses a deadline to the wider vocabulary", () => {
+    // The risk of widening a governing vocabulary is a false deadline, not a
+    // lost one, so both directions are checked: every document that had a
+    // deadline still has the same one.
+    const EXPECTED = {
+      council_tax: "1 April 2026", energy_bill: "28 May 2026", water_bill: "30 June 2026",
+      gov_hmrc: "31 July 2026", eviction_possession: "12 September 2026", court_fine: "30 September 2026"
+    };
+    Object.entries(EXPECTED).forEach(([id, date]) => {
+      assert.equal(analyse(byId(id)).api_output.structured_result.summary.main_date, date, id);
+    });
+    // And nothing calm gained one it should not have.
+    ["bill_in_credit", "medical_letter", "blank_template", "outgoing_letter"].forEach((id) => {
+      assert.equal(analyse(byId(id)).api_output.structured_result.summary.main_date, null, id);
+    });
   });
 });
 

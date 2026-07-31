@@ -260,6 +260,18 @@ const MULTI_LETTER = {
 // which the banner and this card's own key point already say, because at
 // phone width the longer wording pushed card 6 to eight lines in the longest
 // language and short cards are the point of the product.
+// Shared by the reading aid path and by documents diverted off it for being
+// serious, so the two cannot drift apart.
+const UNSUPPORTED_TYPE_REVIEW_REASON = "This readable document type is not fully supported yet.";
+
+// The advice boundary caveat, and the categories that carry it whichever path
+// reads the document. Housing and court letters are the two the engine is not
+// fully trained for AND the two where being mistaken for advice does the most
+// harm, so the caveat follows the category rather than the code path.
+const TRAINING_CAVEAT =
+  "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.";
+const NOT_FULLY_TRAINED = new Set(["housing", "legal_or_court"]);
+
 const HIGH_STAKES_NOTE =
   "This looks like an important letter. Ask someone you trust if you are not sure what to do.";
 
@@ -464,8 +476,20 @@ function buildExtraction({ text, trust }) {
     appeal_rights: [],
     support_options: [],
     confidence: trust.confidence,
-    needs_human_review: trust.needs_human_review,
-    review_reason: trust.review_reason,
+    // The reading aid path forced this true for its own reason, that the type
+    // is not fully supported yet. That reason still holds for a document
+    // diverted off it for being serious, so the flag is carried rather than
+    // dropped: without this, routing a possession notice onto this path would
+    // flip it from needing a human check to not needing one.
+    // trust.needs_human_review itself is untouched.
+    needs_human_review: trust.needs_human_review || isReadableUnsupportedType(text, trust),
+    // Carried with the flag above, and for the same reason. Without it a
+    // diverted possession notice reports "No major trust issue found." as its
+    // review reason, which is pickReviewReason answering a trust question
+    // where a seriousness one was asked.
+    review_reason: isReadableUnsupportedType(text, trust)
+      ? UNSUPPORTED_TYPE_REVIEW_REASON
+      : trust.review_reason,
     evidence_spans: []
   };
 }
@@ -594,7 +618,7 @@ function buildReadableUnsupportedExtraction(text, trust) {
     support_options: [],
     confidence: trust.input_quality === "good" ? "medium" : "low",
     needs_human_review: true,
-    review_reason: "This readable document type is not fully supported yet.",
+    review_reason: UNSUPPORTED_TYPE_REVIEW_REASON,
     evidence_spans: [],
     readable_unsupported_signals: signals
   };
@@ -807,7 +831,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_is_this",
       title: "What is this?",
       explanation: oldCardById.get("what_is_this")?.short_answer || extraction.summary,
-      keyPoints: buildFirstCardKeyPoints(extraction),
+      keyPoints: buildFirstCardKeyPoints(extraction, trust),
       actionNeeded: null
     },
     {
@@ -888,10 +912,14 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
 // trained" note, and a separated multi letter upload adds the notice that only
 // the first letter was read. Both are additive, so a document that is on the
 // aid path AND multi letter keeps both.
-function buildFirstCardKeyPoints(extraction) {
+function buildFirstCardKeyPoints(extraction, trust) {
   const points = [extraction.most_important_point];
-  if (extraction.readable_unsupported_signals) {
-    points.push("Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.");
+  // Keyed on what the document IS, not on which path read it. A possession
+  // notice and a court fine are diverted off the reading aid for being
+  // serious, and the advice boundary they were relying on has to travel with
+  // them: those are the categories where "not advice" matters most.
+  if (extraction.readable_unsupported_signals || NOT_FULLY_TRAINED.has(trust && trust.document_category)) {
+    points.push(TRAINING_CAVEAT);
   }
   if (extraction.multi_letter_state === "first_only") {
     points.push(MULTI_LETTER.firstOnlyNotice);
@@ -981,7 +1009,26 @@ function buildStructuredWarnings(trust) {
   return unique(warnings);
 }
 
+// A serious document never takes the reading aid, whatever its category. The
+// aid path is entered on document_category alone, and housing and
+// legal_or_court are not on the supported whitelist, so a possession notice
+// and a court fine were answering "What matters most?" with a sender caveat
+// and titling card 5 "What should I check?", while a less serious solicitor
+// letter kept "What could happen if I ignore it?" and its real consequence.
+//
+// The aid path gave those documents two things besides its wording: the human
+// review flag and the not fully trained caveat. Both are carried over rather
+// than dropped, which is why the type test is a separate predicate.
 function shouldUseReadableUnsupportedAid(text, trust) {
+  if (trust.is_high_stakes) return false;
+  return isReadableUnsupportedType(text, trust);
+}
+
+// Whether the aid path would have claimed this document on type alone,
+// ignoring how serious it is. A high stakes document that answers true here is
+// one this engine is not fully trained for, and both the review flag and the
+// caveat still apply to it.
+function isReadableUnsupportedType(text, trust) {
   if (!text || trust.input_quality === "poor") return false;
   if (trust.processing_mode === "verification_only") return false;
   if (trust.document_type === "template" || trust.document_type === "outgoing" || trust.document_type === "possible_scam") {

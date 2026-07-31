@@ -1986,46 +1986,34 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
 
 [extractor_internal]
 {
-  "summary": "This appears to be a housing letter about housing or rent.",
-  "most_important_point": "If the arrears are not cleared we will apply to the county court for possession of your home.",
+  "summary": "This appears to be from Brightside Housing Association, mentioning £2,480.00 and a date of 12 September 2026.",
+  "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
-    "Check the original document to see whether a response or action is needed."
+    "Check the payment amount and due date.",
+    "Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026."
   ],
   "deadline": "12 September 2026",
-  "risk": "You may miss a response request or important date.",
-  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+  "visible_dates": [
+    "12 September 2026"
+  ],
+  "header_date": "14 August 2026",
+  "risk": "If the arrears are not cleared we will apply to the county court for possession of your home.",
+  "has_consequence": true,
+  "consequence_sentence": "If the arrears are not cleared we will apply to the county court for possession of your home.",
+  "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£2,480.00"
   ],
-  "reference_numbers": [],
+  "reference_numbers": [
+    "Reference: POS-2291"
+  ],
   "contact_details": [],
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "medium",
+  "confidence": "high",
   "needs_human_review": true,
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
-  "readable_unsupported_signals": {
-    "sender": null,
-    "topic": "housing or rent",
-    "dateParts": [
-      "12 September 2026",
-      "today"
-    ],
-    "primaryDate": "12 September 2026",
-    "hasResponseRequest": true,
-    "hasDeadlineLanguage": false,
-    "mostImportantPoint": "If the arrears are not cleared we will apply to the county court for possession of your home.",
-    "dateMessage": "These dates appear in the document: 12 September 2026, today. Check what they refer to.",
-    "risk": "You may miss a response request or important date.",
-    "keyChecks": [
-      "Check who sent the document.",
-      "Check the topic: housing or rent.",
-      "Check these visible dates: 12 September 2026, today.",
-      "Check whether a response is requested.",
-      "Use official contact details before acting."
-    ]
-  },
   "selected_amount": "£2,480.00",
   "unlabelled_amount": false
 }
@@ -2042,13 +2030,13 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "document_type": "unknown",
   "document_type_label": "Housing letter",
   "document_type_confidence": "unknown",
-  "overall_confidence": "medium",
+  "overall_confidence": "high",
   "risk_level": "high",
   "processing_mode": "normal",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This appears to be a housing letter about housing or rent.",
-    "main_action": "Check the original document to see whether a response or action is needed.",
+    "one_line_summary": "This appears to be from Brightside Housing Association, mentioning £2,480.00 and a date of 12 September 2026.",
+    "main_action": "Check the payment amount and due date.",
     "main_date": "12 September 2026",
     "main_amount": "£2,480.00"
   },
@@ -2064,17 +2052,17 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This appears to be a housing letter about housing or rent.",
+    "simple_explanation": "This appears to be from Brightside Housing Association, mentioning £2,480.00 and a date of 12 September 2026.",
     "key_points": [
-      "If the arrears are not cleared we will apply to the county court for possession of your home.",
+      "This is urgent. You may need to act today.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What is this?. This appears to be a housing letter about housing or rent.. If the arrears are not cleared we will apply to the county court for possession of your home. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be from Brightside Housing Association, mentioning £2,480.00 and a date of 12 September 2026.. This is urgent. You may need to act today. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "urgent"
   },
   {
@@ -2082,16 +2070,16 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "The sender is not clearly stated. Check the original document.",
+    "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
       "Mentions eviction risk."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. The sender is not clearly stated. Check the original document.. Mentions eviction risk.",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. Mentions eviction risk.",
     "status": "urgent"
   },
   {
@@ -2099,16 +2087,17 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check the original document to see whether a response or action is needed.",
+    "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the original document to see whether a response or action is needed."
+      "Check the payment amount and due date.",
+      "Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026."
     ],
-    "action_needed": "Check the original document to see whether a response or action is needed.",
+    "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Rent arrears as at today: £2,480.00 You must clear the arrears by 12 September 2026.",
     "status": "urgent"
   },
   {
@@ -2116,24 +2105,24 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 12 September 2026, today. Check what they refer to.",
+    "simple_explanation": "Due by 12 September 2026.",
     "key_points": [
       "Check this date on the original document: 12 September 2026."
     ],
     "action_needed": null,
     "possible_deadline": "12 September 2026",
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "When is it due?. These dates appear in the document: 12 September 2026, today. Check what they refer to.. Check this date on the original document: 12 September 2026.",
+    "read_aloud_text": "When is it due?. Due by 12 September 2026.. Check this date on the original document: 12 September 2026.",
     "status": "urgent"
   },
   {
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "Check the amount (£2,480.00) and the date (12 September 2026) on the original document.",
+    "title": "What could happen if I ignore it?",
+    "simple_explanation": "If the arrears are not cleared we will apply to the county court for possession of your home.",
     "key_points": [
       "Date: 12 September 2026.",
       "Amount shown: £2,480.00."
@@ -2141,9 +2130,9 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£2,480.00",
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£2,480.00) and the date (12 September 2026) on the original document.. Date: 12 September 2026. Amount shown: £2,480.00.",
+    "read_aloud_text": "What could happen if I ignore it?. If the arrears are not cleared we will apply to the county court for possession of your home.. Date: 12 September 2026. Amount shown: £2,480.00.",
     "status": "urgent"
   },
   {
@@ -2151,16 +2140,16 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]
@@ -2231,47 +2220,35 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
 
 [extractor_internal]
 {
-  "summary": "This appears to be a legal or court letter from to bailiffs for enforcement..",
-  "most_important_point": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
+  "summary": "This appears to be from HM Courts and Tribunals Service, mentioning £726.00 and a date of 30 September 2026.",
+  "most_important_point": "This is urgent. You may need to act today.",
   "actions": [
-    "Check the original document to see whether a response or action is needed."
+    "Check the payment amount and due date."
   ],
   "deadline": "30 September 2026",
-  "risk": "You may miss a response request or important date.",
-  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+  "visible_dates": [
+    "30 September 2026"
+  ],
+  "header_date": "2 September 2026",
+  "risk": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
+  "has_consequence": true,
+  "consequence_sentence": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
+  "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£660.00",
     "£66.00",
     "£726.00"
   ],
-  "reference_numbers": [],
+  "reference_numbers": [
+    "Reference: CF-8830012"
+  ],
   "contact_details": [],
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "medium",
+  "confidence": "high",
   "needs_human_review": true,
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
-  "readable_unsupported_signals": {
-    "sender": "to bailiffs for enforcement.",
-    "topic": "a legal or court matter",
-    "dateParts": [
-      "30 September 2026"
-    ],
-    "primaryDate": "30 September 2026",
-    "hasResponseRequest": true,
-    "hasDeadlineLanguage": false,
-    "mostImportantPoint": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
-    "dateMessage": "These dates appear in the document: 30 September 2026. Check what they refer to.",
-    "risk": "You may miss a response request or important date.",
-    "keyChecks": [
-      "Check the sender: to bailiffs for enforcement..",
-      "Check the topic: a legal or court matter.",
-      "Check these visible dates: 30 September 2026.",
-      "Check whether a response is requested.",
-      "Use official contact details before acting."
-    ]
-  },
   "selected_amount": "£726.00",
   "unlabelled_amount": false
 }
@@ -2288,13 +2265,13 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   "document_type": "unknown",
   "document_type_label": "Legal or court letter",
   "document_type_confidence": "unknown",
-  "overall_confidence": "medium",
+  "overall_confidence": "high",
   "risk_level": "high",
   "processing_mode": "normal",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This appears to be a legal or court letter from to bailiffs for enforcement..",
-    "main_action": "Check the original document to see whether a response or action is needed.",
+    "one_line_summary": "This appears to be from HM Courts and Tribunals Service, mentioning £726.00 and a date of 30 September 2026.",
+    "main_action": "Check the payment amount and due date.",
     "main_date": "30 September 2026",
     "main_amount": "£726.00"
   },
@@ -2310,17 +2287,17 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This appears to be a legal or court letter from to bailiffs for enforcement..",
+    "simple_explanation": "This appears to be from HM Courts and Tribunals Service, mentioning £726.00 and a date of 30 September 2026.",
     "key_points": [
-      "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
+      "This is urgent. You may need to act today.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What is this?. This appears to be a legal or court letter from to bailiffs for enforcement... Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be from HM Courts and Tribunals Service, mentioning £726.00 and a date of 30 September 2026.. This is urgent. You may need to act today. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "urgent"
   },
   {
@@ -2328,16 +2305,16 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "This appears to be from to bailiffs for enforcement.. Check the original document to confirm.",
+    "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
       "Mentions bailiff action."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What matters most?. This appears to be from to bailiffs for enforcement.. Check the original document to confirm.. Mentions bailiff action.",
+    "read_aloud_text": "What matters most?. This is urgent. You may need to act today.. Mentions bailiff action.",
     "status": "urgent"
   },
   {
@@ -2345,16 +2322,16 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check the original document to see whether a response or action is needed.",
+    "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the original document to see whether a response or action is needed."
+      "Check the payment amount and due date."
     ],
-    "action_needed": "Check the original document to see whether a response or action is needed.",
+    "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
     "status": "urgent"
   },
   {
@@ -2362,24 +2339,24 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "These dates appear in the document: 30 September 2026. Check what they refer to.",
+    "simple_explanation": "Due by 30 September 2026.",
     "key_points": [
       "Check this date on the original document: 30 September 2026."
     ],
     "action_needed": null,
     "possible_deadline": "30 September 2026",
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "When is it due?. These dates appear in the document: 30 September 2026. Check what they refer to.. Check this date on the original document: 30 September 2026.",
+    "read_aloud_text": "When is it due?. Due by 30 September 2026.. Check this date on the original document: 30 September 2026.",
     "status": "urgent"
   },
   {
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "Check the amount (£726.00) and the date (30 September 2026) on the original document.",
+    "title": "What could happen if I ignore it?",
+    "simple_explanation": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
     "key_points": [
       "Date: 30 September 2026.",
       "Amount shown: £726.00."
@@ -2387,9 +2364,9 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£726.00",
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£726.00) and the date (30 September 2026) on the original document.. Date: 30 September 2026. Amount shown: £726.00.",
+    "read_aloud_text": "What could happen if I ignore it?. Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.. Date: 30 September 2026. Amount shown: £726.00.",
     "status": "urgent"
   },
   {
@@ -2397,16 +2374,16 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
+    "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check the action card now and act using trusted details.",
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Check the action card now and act using trusted details.",
     "status": "urgent"
   }
 ]

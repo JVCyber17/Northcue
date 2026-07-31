@@ -73,7 +73,18 @@ const DATE_GOVERNS = [
   "pay by", "payment due", "due by", "due date", "payable by", "must pay by",
   "must be paid by", "no later than", "deadline", "respond by", "reply by",
   "contact us by", "return by", "submit by", "complete by", "expires",
-  "first instalment due by", "due on"
+  "first instalment due by", "due on",
+  // Possession and enforcement notices state their compliance date without ever
+  // using the word "pay": a possession notice says "clear the arrears by", a
+  // warrant says "vacate the property by". Without these the engine reads the
+  // date as unlabelled and card 4 lists it as one of several dates to work out,
+  // on the documents where the date matters most. Each entry is a specific
+  // multi word phrase, never a bare verb, so an ordinary bill cannot match.
+  "clear the arrears by", "cleared by", "clear the balance by",
+  "bring your account up to date by", "settle the account by",
+  "paid in full by", "make payment by",
+  "vacate the property by", "vacate by", "leave the property by",
+  "remove your goods by"
 ];
 
 const DATE_COMPETES = [
