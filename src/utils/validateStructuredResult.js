@@ -229,7 +229,24 @@ function validateStructuredResult(candidate, fallback, sourceText) {
   };
 }
 
-function sanitizeStructuredResult(candidate, fallback, sourceText) {
+// THE SANITISER'S VERDICT, not just its output.
+//
+// This function rebuilds the candidate field by field and then validates its
+// OWN result, returning the fallback when that fails. It returned it silently,
+// and the caller could not tell the two apart: the engine's own result
+// validates clean on the way back out, so applyAiStructuredResult recorded
+// ai_status "completed" and ai_used true on a run where nothing the model wrote
+// reached the reader.
+//
+// The reader was safe throughout. The METADATA was not, and it is the field
+// every decision about the AI is made from. Measured live on 1 August 2026,
+// three of twenty eight eligible corpus documents were discarded here while
+// reporting success, and all three were high stakes: two urgent, one high.
+//
+// The verdict is the only thing added. `result` is byte for byte what this
+// function returned before on both paths, INCLUDING the fallback by reference
+// on the rejection path, because callers compare it by identity.
+function sanitizeStructuredResultWithVerdict(candidate, fallback, sourceText) {
   const output = {
     schema_version: "clearsteps_structured_v1",
     session_id: fallback.session_id,
@@ -256,10 +273,16 @@ function sanitizeStructuredResult(candidate, fallback, sourceText) {
 
   const validation = validateStructuredResult(output, fallback, sourceText);
   if (!validation.valid) {
-    return fallback;
+    return { result: fallback, rejected: true, errors: validation.errors };
   }
 
-  return output;
+  return { result: output, rejected: false, errors: [] };
+}
+
+// The original contract, unchanged, for every caller that wants the object and
+// not the verdict. One implementation, two readings of it.
+function sanitizeStructuredResult(candidate, fallback, sourceText) {
+  return sanitizeStructuredResultWithVerdict(candidate, fallback, sourceText).result;
 }
 
 function validateSummary(summary, errors) {
@@ -510,6 +533,7 @@ function isNonEmptyString(value) {
 module.exports = {
   validateStructuredResult,
   sanitizeStructuredResult,
+  sanitizeStructuredResultWithVerdict,
   ALLOWED_DOCUMENT_TYPES,
   ALLOWED_CARD_TYPES
 };

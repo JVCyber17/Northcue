@@ -1,6 +1,6 @@
 const {
   validateStructuredResult,
-  sanitizeStructuredResult
+  sanitizeStructuredResultWithVerdict
 } = require("../utils/validateStructuredResult");
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -158,7 +158,17 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
       garbledByOcr
     });
 
-    const sanitized = sanitizeStructuredResult(candidate, fallbackStructuredResult, extractedText);
+    // The verdict, not just the object. When the sanitiser rejects the
+    // candidate it hands back the engine's own result, and that result then
+    // passes every check below, which is how a discarded model answer used to
+    // be recorded as a completed one.
+    //
+    // NOTHING BELOW THIS LINE CHANGES WHAT IS SERVED. The assignments to
+    // structured_result, display_text and tts_script stay exactly where they
+    // were and stay unconditional, so the reader receives the same bytes on
+    // both paths as before. Only the metadata branches, at the end.
+    const sanitizeVerdict = sanitizeStructuredResultWithVerdict(candidate, fallbackStructuredResult, extractedText);
+    const sanitized = sanitizeVerdict.result;
     // The exemption is built from the FALLBACK, which is the rules output for
     // this document. A model sentence that is byte-identical to one of those is
     // that sentence; anything else carrying a number is stripped.
@@ -191,6 +201,35 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
     rulesRun.structured_output.structured_result = stripped;
     rulesRun.structured_output.display_text = output.display_text;
     rulesRun.structured_output.tts_script = output.tts_script;
+
+    // Reported here rather than at the sanitiser call, so the served
+    // assignments above run identically on both paths and this stays a
+    // metadata-only branch.
+    //
+    // Its own error code, distinct from invalid_structured_result. The two mean
+    // different things and the difference is the useful part: this one says the
+    // MODEL's own output failed a guard, while invalid_structured_result says
+    // the output failed after the stripper had already rewritten it.
+    if (sanitizeVerdict.rejected) {
+      const sanitizerErrors = summarizeValidationErrors(sanitizeVerdict.errors);
+      attachAiMetadata(output, {
+        ai_used: false,
+        ai_status: "fallback",
+        ai_provider: "openai",
+        ai_model: model,
+        ai_duration_ms: Date.now() - startedAt,
+        ai_error_code: "sanitizer_rejected",
+        validation_errors: sanitizerErrors
+      });
+      logAiDebug("sanitizer_rejected", {
+        ai_status: "fallback",
+        ai_error_code: "sanitizer_rejected",
+        ai_model: model,
+        ai_duration_ms: output.debug.ai.ai_duration_ms,
+        validation_errors: sanitizerErrors
+      });
+      return rulesRun;
+    }
 
     attachAiMetadata(output, {
       ai_used: true,
