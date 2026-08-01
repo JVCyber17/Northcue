@@ -624,6 +624,28 @@ const CORPUS = [
       "If you do not, we may apply to the county court for possession of your home.",
       "If you are struggling to pay, contact the rent team on 0114 273 4567."
     ].join("\n")
+  },
+  {
+    id: "school_periodic",
+    label: "School trip consent form, with a competes word hidden inside a longer one",
+    intent: "The competes half of the word-boundary rule. 'period' matched inside " +
+      "'periodic' on the line above the deadline, so isClaimedByCompetingDateLabel " +
+      "reported the date as claimed and the reading-aid path dropped it. Before " +
+      "the boundaries this said 'These dates appear in the document' about the one " +
+      "date the letter asks the reader to act on.",
+    text: [
+      "Fairfield Community School",
+      "School office",
+      "Reference: SW-TRIP-2026",
+      "Date: 12 August 2026",
+      "",
+      "Dear Parent or Carer",
+      "",
+      "Your child has been offered a place on the residential trip.",
+      "A periodic charge applies to the trip account.",
+      "Please return the signed consent form by 3 September 2026.",
+      "The school office can answer questions on 0114 273 8890."
+    ].join("\n")
   }
 ];
 

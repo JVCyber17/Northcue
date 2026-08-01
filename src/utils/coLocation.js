@@ -189,31 +189,37 @@ function tolerantLabelSource(phrase) {
   ).join("");
 }
 
-// Entries whose match must not begin or end inside a longer word.
+// EVERY ENTRY IS MATCHED AS A WHOLE WORD.
 //
-// locateLabels compiles a phrase as a bare substring. That is safe for a
-// distinctive multi word literal, and unsafe for one whose text is a prefix or
-// a suffix of ordinary English. All three of these were verified against the
-// engine before this list existed, and the pipe marks what matched:
+// A phrase compiled as a bare substring is safe for a distinctive multi word
+// literal and unsafe for one whose text is a prefix or a suffix of ordinary
+// English. Five entries were verified colliding against the engine, and the
+// pipe marks what matched:
 //
 //   "act by"           "you may cont|act by| telephone", "the ex|act by|-law",
 //                      "this will imp|act by| a small amount"
 //   "response date"    "the |response date|d 3 July 2026 was received"
 //   "compliance date"  "non |compliance date|s back to 3 July 2026"
+//   "less"             "un|less| payment is received", on legal_solicitor
+//                      and insurance_letter in the corpus today
+//   "period"           "a |period|ic charge applies"
 //
-// Each collision puts a governing date label on a sentence that states no
-// obligation, which is the failure shape D-1 records for the bare "before".
+// THE TWO KINDS FAIL IN OPPOSITE DIRECTIONS, which is why bounding them took
+// two commits rather than one. A GOVERNS entry that over-matches ASSERTS a
+// wrong answer, which is the D-1 shape; the first three above are governs
+// entries and were bounded when they were added. A COMPETES entry that
+// over-matches makes co-location DECLINE, losing a right answer rather than
+// inventing a wrong one:
 //
-// The older entries are deliberately NOT listed here. Several of them
-// ("less", "used", "paid", "from") have the same hazard, but re-bounding them
-// changes shipped extraction and belongs to its own commit with its own
-// baseline diff. This list covers what this commit adds.
-const WORD_BOUNDED = new Set([
-  "compliance date", "date for compliance", "response date",
-  "act by", "you must act by"
-]);
-
-// Compiled once per phrase and reused, per the i18n engineering standards.
+//   "Amount to pay now: £120.00"               -> £120.00
+//   "Amount to pay unless waived: £120.00"     -> null   "less" inside "unless"
+//   "Please pay by periodic order 3 Sep 2026"  -> null   "period" inside "periodic"
+//
+// A decline is the safe direction, which is why the competes entries were left
+// alone while the governs ones were fixed. They are not harmless though.
+// isClaimedByCompetingDateLabel reads the same hits, and there a false competes
+// match on the line above a date SUPPRESSES a genuine deadline on the
+// reading-aid path. school_periodic in the corpus is that case.
 const labelPatterns = new Map();
 function labelPattern(phrase) {
   let pattern = labelPatterns.get(phrase);
@@ -221,8 +227,7 @@ function labelPattern(phrase) {
     const body = phrase.length >= MIN_TOLERANT_LENGTH
       ? tolerantLabelSource(phrase)
       : phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const source = WORD_BOUNDED.has(phrase) ? "\\b" + body + "\\b" : body;
-    pattern = new RegExp(source, "gi");
+    pattern = new RegExp("\\b" + body + "\\b", "gi");
     labelPatterns.set(phrase, pattern);
   }
   return pattern;

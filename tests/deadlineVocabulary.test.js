@@ -291,7 +291,7 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       insurance_letter: "1 July 2026", multi_document_split: "28 May 2026",
       ocr_council_tax: "1April 2026", photo_snippet_short: "28 May 2026",
       arrears_before_clause: "3 September 2026",
-      arrears_past_and_future: "3 September 2026"
+      arrears_past_and_future: "3 September 2026", school_periodic: "3 September 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {
@@ -303,6 +303,81 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       if (value) found[entry.id] = value;
     });
     assert.deepEqual(found, EXPECTED);
+  });
+});
+
+// ------------------------------------------------ word boundaries, both kinds
+
+test("a competing label never matches inside a longer word", async (t) => {
+  // The other half of the boundary rule, and it fails in the opposite direction
+  // from a governs entry. A governs over-match ASSERTS a wrong answer; a
+  // competes over-match makes co-location DECLINE, losing a right one.
+  await t.test("a false competes hit between a label and its value used to decline", () => {
+    assert.equal(co.selectAmount("Amount to pay now: £120.00").value, "£120.00", "control");
+    ["Amount to pay unless waived: £120.00",
+     "Amount to pay unused portion: £120.00",
+     "Amount to pay prepaid card: £120.00"].forEach((line) => {
+      const found = co.selectAmount(line);
+      assert.equal(found && found.value, "£120.00", line);
+    });
+  });
+
+  await t.test("for dates the between-case never arises, and this records why", () => {
+    // Money labels may sit either side of their value with words between, so a
+    // false competes hit between the two is reachable. Dates may not: Tier 1b
+    // requires nothing but punctuation and whitespace between a date label and
+    // its date, so anything with letters in it is already rejected, whether or
+    // not those letters happen to contain a competes entry.
+    assert.equal(deadline("Please pay by periodic order 3 September 2026"), null,
+      "rejected by adjacency, not by the competes entry");
+    assert.equal(deadline("Please pay by 3 September 2026"), "3 September 2026");
+    // So the date-side harm is entirely through isClaimedByCompetingDateLabel,
+    // which tests proximity rather than adjacency and therefore lets a label on
+    // the line above count. school_periodic below is that case.
+  });
+
+  await t.test("the real competing labels still compete", () => {
+    // The boundary must not disarm them. Each of these is a whole word and must
+    // still make co-location decline.
+    assert.equal(co.selectAmount("Your account is in credit by £83.86, so there is nothing to pay."), null);
+    assert.equal(deadline(notice(["Compliance date for the year ending 5 April 2026"])), null);
+    assert.equal(co.selectAmount("Less a discount of £50.00, amount to pay £120.00") !== null, true,
+      "a whole-word 'less' is still seen; this asserts the entry survives bounding");
+  });
+
+  await t.test("the two corpus documents carrying 'unless' are unaffected", () => {
+    // Both matched "less" inside "unless" before the boundaries and neither
+    // changed answer, because the false hit was not positioned between a label
+    // and a value. Pinned so the fix is known to be inert where it was inert.
+    assert.equal(co.selectAmount(byId("legal_solicitor")).value, "£3,410.00");
+    assert.equal(co.selectAmount(byId("insurance_letter")), null);
+  });
+});
+
+test("school_periodic: a competes word one line above a real deadline", async (t) => {
+  // isClaimedByCompetingDateLabel reads the same label hits, and a false
+  // competes match on the line above a date suppressed a genuine deadline on
+  // the reading-aid path. This is the live harm the competes half caused.
+  const text = byId("school_periodic");
+  const run = runClearStepsEngine({
+    extractedText: text,
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "corpus-d" }
+  });
+  const signals = run.structured_output.extractor_internal.readable_unsupported_signals;
+
+  await t.test("the date is no longer reported as claimed by a competing label", () => {
+    assert.equal(co.isClaimedByCompetingDateLabel(text, "3 September 2026", isPlausibleNumericDate), false);
+  });
+
+  await t.test("it reaches the reading-aid path, which is where the filter runs", () => {
+    assert.ok(signals, "premise: this document must stay on the aid path");
+  });
+
+  await t.test("the deadline is named instead of listed", () => {
+    assert.equal(signals.primaryDate, "3 September 2026");
+    assert.equal(run.structured_output.extractor_internal.deadline, "3 September 2026");
+    assert.match(run.api_output.structured_result.cards[3].simple_explanation,
+      /shows 3 September 2026 as the date that matters/);
   });
 });
 
