@@ -5,11 +5,51 @@ const {
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-4.1-mini";
-const AI_TIMEOUT_MS = Number(process.env.CLEARSTEPS_AI_TIMEOUT_MS || 25000);
+
+// A MISCONFIGURED NUMBER MUST NOT DISABLE THE AI IN SILENCE.
+//
+// Both settings below used to be read as `Number(process.env.X || default)`,
+// which turns any value Number() cannot parse into NaN and carries it into a
+// place where NaN means something, quietly:
+//
+//   CLEARSTEPS_AI_TIMEOUT_MS=25s   -> NaN -> setTimeout coerces NaN to 1ms, so
+//     every call aborts before the request is even sent. Every reader gets the
+//     rules cards, every session records ai_timeout, and nothing anywhere says
+//     the timeout was never a number. Confirmed by execution, including the
+//     TimeoutNaNWarning Node emits and nobody reads.
+//
+//   CLEARSTEPS_AI_TEXT_MAX_CHARS=8k -> Math.max(1000, NaN) is NaN, and
+//     "text".slice(0, NaN) is "". The model is sent an EMPTY document and still
+//     told to improve the cards using only the document text below. That is the
+//     worse of the two, because it fails towards a model working from nothing.
+//
+// Zero and negative are rejected alongside NaN and Infinity because they are
+// the same failure, not a different one: a zero or negative timeout aborts
+// instantly, and a zero-length cap sends no document. One behaviour change
+// comes with that, and it is the intended one: CLEARSTEPS_AI_TIMEOUT_MS=0
+// previously aborted every call and now uses 25000.
+//
+// Loud, and unconditionally so. This does not go through logAiDebug, because
+// that is gated behind CLEARSTEPS_AI_DEBUG and a misconfiguration nobody sees
+// is the whole problem being fixed.
+function positiveNumberSetting(name, defaultValue, minimum) {
+  const raw = process.env[name];
+  if (raw === undefined || raw === null || String(raw).trim() === "") return defaultValue;
+
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    console.warn(`[northcue-ai] ${name}=${JSON.stringify(String(raw).slice(0, 40))} is not a positive number. Using ${defaultValue}.`);
+    return defaultValue;
+  }
+
+  return typeof minimum === "number" ? Math.max(minimum, parsed) : parsed;
+}
+
+const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 25000);
 // Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
 // privacy; env-configurable so it can be raised if a genuinely long document is
 // ever cut off mid-content.
-const AI_OUTBOUND_TEXT_MAX_CHARS = Math.max(1000, Number(process.env.CLEARSTEPS_AI_TEXT_MAX_CHARS || 8000));
+const AI_OUTBOUND_TEXT_MAX_CHARS = positiveNumberSetting("CLEARSTEPS_AI_TEXT_MAX_CHARS", 8000, 1000);
 
 async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   const output = rulesRun.api_output;
@@ -579,5 +619,6 @@ module.exports = {
   stripAiViolations,
   sanitizeAiTextField,
   rulesSentenceSet,
-  redactForAi
+  redactForAi,
+  positiveNumberSetting
 };
