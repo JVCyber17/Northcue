@@ -1684,9 +1684,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "3 September 2026"
   ],
   "header_date": null,
-  "risk": "Ignoring this could cause serious problems quickly.",
-  "has_consequence": false,
-  "consequence_sentence": null,
+  "risk": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.",
+  "has_consequence": true,
+  "consequence_sentence": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.",
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£1,047.00",
@@ -1813,8 +1813,8 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "Check the amount (£1,247.00) and the date (3 September 2026) on the original document.",
+    "title": "What could happen if I ignore it?",
+    "simple_explanation": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.",
     "key_points": [
       "Date: 3 September 2026.",
       "Amount shown: £1,247.00."
@@ -1824,7 +1824,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": "£1,247.00",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£1,247.00) and the date (3 September 2026) on the original document.. Date: 3 September 2026. Amount shown: £1,247.00.",
+    "read_aloud_text": "What could happen if I ignore it?. If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.. Date: 3 September 2026. Amount shown: £1,247.00.",
     "status": "urgent"
   },
   {
@@ -6924,9 +6924,9 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "3 September 2026"
   ],
   "header_date": "4 August 2026",
-  "risk": "Ignoring this could cause serious problems quickly.",
-  "has_consequence": false,
-  "consequence_sentence": null,
+  "risk": "If you do not, the account may be passed to an enforcement agent.",
+  "has_consequence": true,
+  "consequence_sentence": "If you do not, the account may be passed to an enforcement agent.",
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£486.20"
@@ -7049,8 +7049,8 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "Check the amount (£486.20) and the date (3 September 2026) on the original document.",
+    "title": "What could happen if I ignore it?",
+    "simple_explanation": "If you do not, the account may be passed to an enforcement agent.",
     "key_points": [
       "Date: 3 September 2026.",
       "Amount shown: £486.20."
@@ -7060,7 +7060,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "possible_payment": "£486.20",
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What should I check?. Check the amount (£486.20) and the date (3 September 2026) on the original document.. Date: 3 September 2026. Amount shown: £486.20.",
+    "read_aloud_text": "What could happen if I ignore it?. If you do not, the account may be passed to an enforcement agent.. Date: 3 September 2026. Amount shown: £486.20.",
     "status": "urgent"
   },
   {

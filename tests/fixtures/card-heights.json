@@ -343,9 +343,9 @@
    "includesPassedLine": true
   },
   "bailiff_enforcement|5": {
-   "px": 623,
+   "px": 694,
    "lang": "fr",
-   "answerChars": 86,
+   "answerChars": 121,
    "stepChars": 47,
    "steps": 2
   },
@@ -1313,9 +1313,9 @@
    "includesPassedLine": true
   },
   "arrears_before_clause|5": {
-   "px": 623,
+   "px": 655,
    "lang": "fr",
-   "answerChars": 84,
+   "answerChars": 65,
    "stepChars": 45,
    "steps": 2
   },

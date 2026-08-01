@@ -281,7 +281,9 @@ test("a date the model calculated is rejected; one printed on the page is not", 
 
 test("card five's title is the engine's, not the model's", async (t) => {
   await t.test("the model cannot turn a check card into a consequence card", () => {
-    const fallback = rulesResult("bailiff_enforcement");
+    // council_tax, not bailiff_enforcement: the RISK_PHRASES sweep turned that
+    // one into a consequence card, which is what the sweep was for.
+    const fallback = rulesResult("council_tax");
     assert.equal(fallback.cards[4].title, "What should I check?", "premise");
     const candidate = clone(fallback);
     candidate.cards[4].title = "What could happen if I ignore it?";

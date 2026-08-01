@@ -477,7 +477,19 @@ function buildExtraction({ text, trust }) {
       // inherited.
       has_consequence: false,
       consequence_sentence: null,
-      risk,
+      // inferRisk QUOTES the document when a risk phrase matches, so on a
+      // garbled document it hands back the damage verbatim: widening
+      // RISK_PHRASES turned this field into "If paym3nt is not received by this
+      // date an enforcement agent may attend your pr0perty and rem0ve goods
+      // belonging to you." That is O-2's shape exactly, and the reason
+      // has_consequence and consequence_sentence are already nulled two lines
+      // above. risk was only clean here by luck: no phrase had matched this
+      // document before.
+      //
+      // Severity-based wording instead, which is what inferRisk falls through
+      // to when nothing matches, so a damaged letter says what its severity
+      // means rather than repeating text the engine has called unreliable.
+      risk: severityRisk(trust),
       helpful_note: note,
       money_amounts: extractMoneyAmounts(text),
       reference_numbers: extractReferenceNumbers(text),
@@ -1748,6 +1760,42 @@ function extractSummaryFirstLineSender(text) {
   return null;
 }
 
+// What a letter says will happen if the reader does nothing.
+//
+// Swept 1 August 2026 against the corpus and against enforcement, possession
+// and court wording, after the AI was found reporting a consequence card 5 was
+// silent about. bailiff_enforcement, the most serious document in the set,
+// had has_consequence false because its letter says "an enforcement agent may
+// attend your property and remove goods" and this list only knew the word
+// "bailiff".
+//
+// TWO OF THE ORIGINAL TWELVE HAD WORD-BOUNDARY BUGS, and both missed the
+// commonest form of their own word:
+//   disconnect(?:ion)?\b   missed "disconnected", matching only the noun
+//   eviction\b             missed "evicted"
+//
+// ORDER MATTERS. extractRiskSentence returns on the first phrase that yields a
+// sentence, so a phrase that lands on a letterhead rather than a clause is not
+// merely useless, it can shadow a later one. Two were rejected for that:
+//
+//   "enforcement agent"  is kept, but note it matches "Marston Holdings
+//                        Enforcement AgentS" in the letterhead FIRST. That
+//                        sweeps in field labels, extractSentenceAround returns
+//                        "", and the search falls through to "remove goods",
+//                        which lands correctly. It earns its place on
+//                        arrears_before_clause, where there is no such header.
+//   "liability order"    REJECTED. On bailiff_enforcement it matches "Liability
+//                        Order obtained by Hounslow Borough Council on 3 July
+//                        2026", which is a past fact, not a consequence.
+//
+// Deliberately NOT added, and recorded so a later session does not assume they
+// were missed: revenue wording ("interest will be charged", "a penalty may be
+// charged"), utility wording ("we may fit a prepayment meter", "your service
+// may be restricted"), and benefits wording ("your payments may be suspended",
+// "an overpayment may be recovered"). All are real and all are outside the
+// enforcement, possession and court scope this sweep covered; each needs its
+// own baseline review because each turns card 5 from a check card into a
+// quoting card on a different class of letter.
 const RISK_PHRASES = [
   /\bprosecution\b/i,
   /\bfixed\s+penalty\b/i,
@@ -1757,10 +1805,29 @@ const RISK_PHRASES = [
   /\blegal\s+action\b/i,
   /\breferred\s+for\s+(?:further\s+)?action\b/i,
   /\bfurther\s+action\s+(?:will|may|might|could)\s+be\s+(?:taken|pursued)\b/i,
-  /\bdisconnect(?:ion)?\b/i,
-  /\beviction\b/i,
+  /\bdisconnect(?:ion|ed|s)?\b/i,
+  /\bevict(?:ion|ed|ing)\b/i,
   /\bdebt\s+collect(?:ion|or)\b/i,
-  /\bcredit\s+(?:reference|rating|score)\b/i
+  /\bcredit\s+(?:reference|rating|score)\b/i,
+
+  // Enforcement: taking control of goods, in the words the regulations and the
+  // notices actually use.
+  /\benforcement\s+agent/i,
+  /\bremove\s+goods\b/i,
+  /\btake\s+control\s+of\s+(?:your\s+)?goods\b/i,
+  /\bgoods\s+(?:may|will|could)\s+be\s+(?:removed|sold|taken)\b/i,
+  /\bwarrant\s+of\s+control\b/i,
+
+  // Possession: what a tenant is told they stand to lose.
+  /\bpossession\s+order\b/i,
+  /\bwarrant\s+for\s+possession\b/i,
+  /\blose\s+your\s+home\b/i,
+
+  // Court: the orders a fine or a judgment can turn into.
+  /\bmagistrates.{0,3}\s+court\b/i,
+  /\battachment\s+of\s+earnings\b/i,
+  /\bcharging\s+order\b/i,
+  /\bsummons(?:ed|es)?\b/i
 ];
 
 function extractRiskSentence(text) {
@@ -2608,6 +2675,23 @@ function inferMostImportantPoint(trust, actions) {
   return "This looks like information only.";
 }
 
+// What the severity level alone implies, with nothing quoted from the page.
+//
+// Extracted from inferRisk rather than copied, because the garbled branch needs
+// exactly this and must never reach the quoting step above it.
+function severityRisk(trust) {
+  if (trust.severity_level === "urgent") {
+    return "Ignoring this could cause serious problems quickly.";
+  }
+  if (trust.severity_level === "high") {
+    return "Ignoring this could lead to penalties or service issues.";
+  }
+  if (trust.severity_level === "medium") {
+    return "Ignoring this may create delays or follow-up action.";
+  }
+  return "No risk clearly stated.";
+}
+
 function inferRisk(text, trust) {
   if (trust.processing_mode === "verification_only") {
     return "You may be tricked into unsafe payment or data sharing.";
@@ -2616,27 +2700,7 @@ function inferRisk(text, trust) {
   const riskSentence = extractRiskSentence(text);
   if (riskSentence) return riskSentence;
 
-  if (trust.severity_level === "urgent") {
-    return "Ignoring this could cause serious problems quickly.";
-  }
-
-  if (trust.severity_level === "high") {
-    return "Ignoring this could lead to penalties or service issues.";
-  }
-
-  if (trust.severity_level === "medium") {
-    return "Ignoring this may create delays or follow-up action.";
-  }
-
-  if (trust.input_quality === "poor") {
-    return "No risk clearly stated.";
-  }
-
-  if (String(text || "").toLowerCase().includes("no action needed")) {
-    return "No risk clearly stated.";
-  }
-
-  return "No risk clearly stated.";
+  return severityRisk(trust);
 }
 
 function inferContextNote(text, trust) {

@@ -601,6 +601,56 @@ rules output in its own prompt, so it can see the genuine number, and an
 allowlist of numbers would pass "Call 020 8583 4242 immediately or bailiffs will
 attend" where every word except the number was invented.
 
+## OPEN: the AI asserts an anchor the letter does not state
+
+Found in the second AI capture, 1 August 2026, on `legal_solicitor`. It survives
+every guard added that day, and it is the clearest remaining case of the AI
+stating something the engine deliberately does not.
+
+```
+the letter    "Unless payment is received within 14 days, legal action may be
+               commenced without further notice to you."      dated 11 July 2026
+engine card 4 "No clear due date was found. The letter is dated 11 July 2026."
+AI card 4     "Payment is due within 14 days of 11 July 2026."
+```
+
+The letter states a period and no anchor. "Within 14 days" on a letter before
+action is anchored to service, not to the date printed at the top, which is why
+`extractDeadline` declines and `deadline_iso` is null. The AI supplies the
+anchor.
+
+**Why no guard catches it.** Every guard added that day looks for a value that
+should not be there:
+
+- the date rule compares date strings, and no new date string appears. "11 July
+  2026" is printed on the letter and "within 14 days" is a period, not a date.
+  The first version of this output wrote "25 July 2026", which the rule does
+  catch; the model then stopped calculating and started asserting instead.
+- `possible_deadline` and `main_date` are forced from the engine, so both are
+  null. The claim lives only in the prose.
+- the command family needs an obligation addressed to the reader. "Payment is
+  due within..." addresses nobody.
+- nothing about the sentence is factually absent from the page. Both halves are
+  there; it is the RELATION between them that is invented.
+
+**The shape of the defect.** It is not a wrong value, it is an unstated
+inference presented as a statement. No pattern over the output can see it,
+because the output contains only things that are on the page. Catching it would
+mean checking a claim about the relationship between two facts, which is a
+comprehension task rather than a validation one.
+
+**The durable answer is that the AI does not author sentences.** Every guard so
+far narrows what it may author: facts are engine-owned, dates must be on the
+page, titles are pinned, commands are rejected. Each closed a real hole and each
+was found by capture rather than by reasoning. This one cannot be closed the
+same way. The options are to accept prose-level inference on documents where the
+engine has declined to state a deadline, to gate the AI off documents whose
+deadline is null, or to move the AI from authoring to selecting among sentences
+the engine wrote.
+
+Recorded rather than fixed because a guard that could catch it does not exist,
+and inventing one that half-works would read as coverage.
+
 ## OPEN: rule 4 doubles its replacement
 
 `_AI_DEBT_ORG_RE` substitutes each named debt charity independently, so a
