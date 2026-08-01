@@ -1538,87 +1538,87 @@
       "steps": 1
     },
     "polish_rent_arrears|1": {
-      "px": 552,
+      "px": 702,
       "lang": "fr",
-      "answerChars": 51,
-      "stepChars": 105,
-      "steps": 1
+      "answerChars": 72,
+      "stepChars": 204,
+      "steps": 2
     },
     "polish_rent_arrears|2": {
-      "px": 501,
-      "lang": "fr",
-      "answerChars": 105,
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
       "stepChars": 0,
       "steps": 0
     },
     "polish_rent_arrears|3": {
-      "px": 558,
-      "lang": "fr",
-      "answerChars": 71,
-      "stepChars": 71,
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
       "steps": 1
     },
     "polish_rent_arrears|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
       "stepChars": 0,
       "steps": 0
     },
     "polish_rent_arrears|5": {
-      "px": 498,
-      "lang": "pl",
-      "answerChars": 43,
-      "stepChars": 38,
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
       "steps": 1
     },
     "polish_rent_arrears|6": {
-      "px": 693,
+      "px": 655,
       "lang": "pl",
-      "answerChars": 150,
-      "stepChars": 69,
+      "answerChars": 96,
+      "stepChars": 57,
       "steps": 1
     },
     "spanish_water_final_notice|1": {
-      "px": 552,
+      "px": 669,
       "lang": "fr",
-      "answerChars": 51,
-      "stepChars": 105,
-      "steps": 1
+      "answerChars": 54,
+      "stepChars": 186,
+      "steps": 2
     },
     "spanish_water_final_notice|2": {
-      "px": 501,
-      "lang": "fr",
-      "answerChars": 105,
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
       "stepChars": 0,
       "steps": 0
     },
     "spanish_water_final_notice|3": {
-      "px": 558,
-      "lang": "fr",
-      "answerChars": 71,
-      "stepChars": 71,
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
       "steps": 1
     },
     "spanish_water_final_notice|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
       "stepChars": 0,
       "steps": 0
     },
     "spanish_water_final_notice|5": {
-      "px": 498,
-      "lang": "pl",
-      "answerChars": 43,
-      "stepChars": 38,
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
       "steps": 1
     },
     "spanish_water_final_notice|6": {
-      "px": 693,
+      "px": 655,
       "lang": "pl",
-      "answerChars": 150,
-      "stepChars": 69,
+      "answerChars": 96,
+      "stepChars": 57,
       "steps": 1
     },
     "french_hospital_appointment|1": {

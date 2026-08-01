@@ -9,6 +9,12 @@ const { cardSchema, allowedCardIds } = require("../schemas/cardSchema");
 const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
+const { countDocumentSignals } = require("../utils/documentSignals");
+
+// How many language-independent document signals stand in for the four English
+// checks in detectProbableNonDocument when all four have failed. See that
+// function, and src/utils/documentSignals.js, for why it is three.
+const MIN_DOCUMENT_SIGNALS = 3;
 const deadlineIso = require("../utils/deadlineIso");
 
 // Co-location decline vocabulary. These match ids in the template bank, so the
@@ -2197,7 +2203,26 @@ function detectProbableNonDocument({ normalizedText, lower, inputQuality, docume
     /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{4}\b/i.test(lower);
   const hasOfficialPhrasing = /\b(dear|you must|please pay|amount due|amount payable|balance|payment|outstanding|arrears|your account|on behalf of|we are writing|we have been|notice|summons|claim|benefit|appointment|tax|overdue|direct debit|refund|penalty|policy|assessment|hearing|tribunal)\b/i.test(lower);
 
-  return !(hasSender || hasReference || hasFormalDate || hasOfficialPhrasing);
+  if (hasSender || hasReference || hasFormalDate || hasOfficialPhrasing) return false;
+
+  // STRUCTURAL FALLBACK, ADDITIVE ONLY. Reached only when all four English
+  // checks above have already failed, so it can accept a document this function
+  // would otherwise refuse and can never refuse one it would otherwise accept.
+  //
+  // Three of five, chosen from measurement rather than taste. At three, none of
+  // the four real letters in the corpus is refused and the nine plain non
+  // documents stay refused. At four, employment_letter starts being refused,
+  // which is a real English letter. At one or two, a menu carrying prices and a
+  // booking line gets through.
+  //
+  // WHAT THREE ADMITS THAT TWO DID NOT, recorded rather than discovered later:
+  // a parcel delivery card, a gym flyer with prices and an offer end date, and
+  // a sole trader's invoice. Of those only the flyer is unambiguously not a
+  // document; a delivery card and a plumber's invoice are things a reader may
+  // reasonably want explained, and the invoice is a bill. A till receipt and a
+  // hotel booking confirmation score five, and both are ALREADY accepted today,
+  // so they are not part of this trade.
+  return countDocumentSignals(normalizedText) < MIN_DOCUMENT_SIGNALS;
 }
 
 function pickTrustAssessment({ inputQuality, isUnsupported, scamSignals, distrustSignals, authenticSignals }) {
