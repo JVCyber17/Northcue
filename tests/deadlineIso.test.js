@@ -213,7 +213,8 @@ test("the corpus, end to end", async (t) => {
       bailiff_enforcement: "2026-09-03", eviction_possession: "2026-09-12",
       court_fine: "2026-09-30", employment_letter: "2026-06-17",
       education_letter: "2026-06-05", insurance_letter: "2026-07-01",
-      multi_document_split: "2026-05-28", photo_snippet_short: "2026-05-28"
+      multi_document_split: "2026-05-28", photo_snippet_short: "2026-05-28",
+      arrears_before_clause: "2026-09-03"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

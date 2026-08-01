@@ -2658,7 +2658,31 @@ function extractDeadline(text) {
   // Keywords that, when appearing within 35 chars before a date, mark it as a deadline.
   // "to pay" catches "Failure to pay the outstanding amount by 24 June 2026" style clauses
   // where "to pay" lands in the window but "pay by" (adjacent) does not.
-  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|due\b[^\n]{0,22}\bby|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|before)\b/i;
+  //
+  // THE LAST ALTERNATIVE USED TO BE A BARE "before", and it is the one entry
+  // here that was not a boundary problem but a meaning one. It was already word
+  // bounded, so "beforehand" never matched it. The defect was that "before X"
+  // marks a boundary in either direction and states no obligation, so the
+  // pattern matched correctly and meant the wrong thing. Verified, all eight
+  // promoted to deadline, all eight pure mentions:
+  //
+  //   "Any payments made before 3 July 2026 are not included in this balance."
+  //   "Your tenancy began before 1 April 2024."
+  //   "Please arrive fifteen minutes before your appointment on 1 July 2026."
+  //   "This notice was served before 3 July 2026 under section 8."
+  //   "Prices shown were correct before 1 April 2026."
+  //   "If you moved in before 1 April 2024 a discount may apply."
+  //   "Meter readings taken before 3 July 2026 are estimated."
+  //   "Any appeal lodged before 3 July 2026 has already been considered."
+  //
+  // Deleting it outright was tried and rejected: four genuine obligations reach
+  // the engine through this token and nothing else finds them, because
+  // co-location binds none of them. So the token is kept and anchored to an
+  // obligation verb, which is what D-1 prescribed. Across the thirteen verified
+  // sentences the anchor separates the two sets exactly, eight rejected and
+  // five kept, with the gap bounded so the verb has to belong to the same
+  // clause as the "before".
+  const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|due\b[^\n]{0,22}\bby|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|(?:pay|paid|respond|reply|contact\s+us|tell\s+us|notify\s+us|clear|cleared|settle|settled|return|submit|comply|complete|completed|act|vacate|remove|removed)\b[^\n]{0,30}?\bbefore)\b/i;
 
   const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
   const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;

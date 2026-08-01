@@ -546,6 +546,38 @@ const CORPUS = [
     label: "Photograph of one corner of a letter",
     intent: "Very short input. input_quality poor by length, unsupported branch.",
     text: "Amount due: £214.63\nPlease pay by 28 May 2026."
+  },
+
+  // ------------------------------------------------- deadline promotion rules
+  //
+  // The rules that decide WHICH date on a letter is the deadline were all fixed
+  // against shapes no corpus document contained, so every one of them was
+  // guarded only by unit tests on invented strings. These entries exist so each
+  // rule has a whole document behind it and shows up in the rendered baseline.
+  //
+  // Each one is written so that exactly one rule decides its answer, and each
+  // was verified to produce the WRONG answer before the rule that fixed it.
+  {
+    id: "arrears_before_clause",
+    label: "Council tax arrears with a before mention and a before obligation",
+    intent: "D-1. Both readings of 'before' in one letter. The mention on line 10 " +
+      "must not be promoted; the obligation on line 11 must be. Before the verb " +
+      "anchor this reported 3 July 2026, the payments-not-included date.",
+    text: [
+      "Hounslow Borough Council",
+      "Council Tax Recovery",
+      "Reference: CT-90114",
+      "Date: 4 August 2026",
+      "",
+      "Dear Occupier",
+      "",
+      "Your council tax account is in arrears.",
+      "Amount to pay: £486.20",
+      "Any payments made before 3 July 2026 are not included in this balance.",
+      "You must pay the balance before 3 September 2026.",
+      "If you do not, the account may be passed to an enforcement agent.",
+      "If you cannot pay in full, contact the recovery team on 020 8583 4242."
+    ].join("\n")
   }
 ];
 

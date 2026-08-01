@@ -289,7 +289,8 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       court_fine: "30 September 2026", housing_letter: "within 14 days",
       employment_letter: "17 June 2026", education_letter: "5 June 2026",
       insurance_letter: "1 July 2026", multi_document_split: "28 May 2026",
-      ocr_council_tax: "1April 2026", photo_snippet_short: "28 May 2026"
+      ocr_council_tax: "1April 2026", photo_snippet_short: "28 May 2026",
+      arrears_before_clause: "3 September 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

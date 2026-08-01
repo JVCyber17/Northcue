@@ -1274,6 +1274,48 @@
    "answerChars": 96,
    "stepChars": 57,
    "steps": 1
+  },
+  "arrears_before_clause|1": {
+   "px": 628,
+   "lang": "es",
+   "answerChars": 85,
+   "stepChars": 42,
+   "steps": 1
+  },
+  "arrears_before_clause|2": {
+   "px": 493,
+   "lang": "ro",
+   "answerChars": 42,
+   "stepChars": 45,
+   "steps": 1
+  },
+  "arrears_before_clause|3": {
+   "px": 466,
+   "lang": "fr",
+   "answerChars": 38,
+   "stepChars": 38,
+   "steps": 1
+  },
+  "arrears_before_clause|4": {
+   "px": 461,
+   "lang": "es",
+   "answerChars": 24,
+   "stepChars": 59,
+   "steps": 1
+  },
+  "arrears_before_clause|5": {
+   "px": 623,
+   "lang": "fr",
+   "answerChars": 84,
+   "stepChars": 45,
+   "steps": 2
+  },
+  "arrears_before_clause|6": {
+   "px": 648,
+   "lang": "pl",
+   "answerChars": 90,
+   "stepChars": 92,
+   "steps": 2
   }
  }
 }
