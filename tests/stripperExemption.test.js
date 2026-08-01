@@ -221,7 +221,8 @@ test("through the whole pipeline", async (t) => {
     const card = applied.api_output.structured_result.cards[2];
     assert.deepEqual(card.key_points, [
       "Contact the sender using trusted contact details.",
-      GENUINE
+      GENUINE,
+      "The document gives this phone number: 0333 320 122."
     ]);
     assert.match(card.read_aloud_text, /0333 320 122/);
   });

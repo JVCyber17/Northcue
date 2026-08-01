@@ -380,6 +380,7 @@
       "tpl.check.date_any_amounts": "মূল ডকুমেন্টে তারিখ ({date}) ও যেকোনো অঙ্ক যাচাই করুন.",
       "tpl.check.kp_date": "তারিখ: {date}.",
       "tpl.check.kp_amount": "দেখানো অঙ্ক: {amount}.",
+      "tpl.contact.phone_number": "ডকুমেন্টে এই ফোন নম্বরটি দেওয়া আছে: {number}.",
       "tpl.consequence.avoid": "ডকুমেন্টটি বলছে, পেমেন্ট না করলে এটি হবে: {consequence}. মূল ডকুমেন্টটি দেখে নিন.",
       "tpl.consequence.reported": "ডকুমেন্টে লেখা আছে: {sentence_body}.",
       "tpl.consequence.may_follow": "এরপর এটি হতে পারে: {consequence_clause}",

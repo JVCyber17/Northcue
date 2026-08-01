@@ -381,6 +381,7 @@
       "tpl.check.date_any_amounts": "Verificați data ({date}) și eventualele sume de pe documentul original.",
       "tpl.check.kp_date": "Data: {date}.",
       "tpl.check.kp_amount": "Suma afișată: {amount}.",
+      "tpl.contact.phone_number": "Documentul indică acest număr de telefon: {number}.",
       "tpl.consequence.avoid": "Documentul menționează {consequence} dacă nu se face o plată. Verificați documentul original.",
       "tpl.consequence.reported": "Documentul precizează că {sentence_body}.",
       "tpl.consequence.may_follow": "Poate urma {consequence_clause}",

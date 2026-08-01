@@ -380,6 +380,7 @@
       "tpl.check.date_any_amounts": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਉੱਤੇ ਤਾਰੀਖ਼ ({date}) ਅਤੇ ਸਾਰੀਆਂ ਰਕਮਾਂ ਜਾਂਚੋ.",
       "tpl.check.kp_date": "ਤਾਰੀਖ਼: {date}.",
       "tpl.check.kp_amount": "ਦਿਖਾਈ ਗਈ ਰਕਮ: {amount}.",
+      "tpl.contact.phone_number": "ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਇਹ ਫ਼ੋਨ ਨੰਬਰ ਦਿੱਤਾ ਗਿਆ ਹੈ: {number}.",
       "tpl.consequence.avoid": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਇਗੀ ਨਾ ਹੋਣ ਉੱਤੇ ਇਹ ਹੋਵੇਗਾ: {consequence}. ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
       "tpl.consequence.reported": "ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਲਿਖਿਆ ਹੈ: {sentence_body}.",
       "tpl.consequence.may_follow": "ਇਸ ਤੋਂ ਬਾਅਦ ਇਹ ਹੋ ਸਕਦਾ ਹੈ: {consequence_clause}",

@@ -1,13 +1,14 @@
 // Guards contact_number: the one phone number the document says to ring.
 //
-// NOTHING RENDERS IT, and the last test in this file is what keeps that true.
-// A phone number reaching a card is already a settled question answered no:
-// aiStructuredResultService's stripper replaces any card sentence carrying a
-// phone-shaped number and a call-context word with "Use contact details from
-// the original document.", and it runs over rules output too. It fires on the
-// shipped product today, on bailiff_enforcement's card 3. So this field exists
-// so the extraction is decided and tested in one place, and surfacing it is a
-// separate decision about that rule.
+// It reaches card 3 as the last key point, after the actions, because it is
+// something the document states rather than something Northcue recommends.
+//
+// It only reaches the reader at all because of the stripper exemption that
+// landed alongside this: aiStructuredResultService removes every phone number
+// from every card unless the sentence is byte-identical to the rules output.
+// See tests/stripperExemption.test.js. If that exemption is narrowed, the tests
+// here still pass while the reader sees nothing, so the end-to-end assertion
+// lives in that file rather than this one.
 //
 // The tests that matter most here are the ones that assert null.
 
@@ -284,27 +285,53 @@ test("only a phone number, never an address of any kind", async (t) => {
   });
 });
 
-test("nothing renders it", async (t) => {
-  await t.test("no card on any corpus document contains the contact number", () => {
-    // The field is extraction only. Surfacing it needs the stripper rule
-    // changed deliberately, which is its own decision.
+test("card 3 reports the number, and reports it rather than recommending it", async (t) => {
+  await t.test("the twelve documents that bind show it as the last key point", () => {
+    const shown = {};
     CORPUS.forEach((entry) => {
-      const run = analyse(entry.text);
-      const value = run.structured_output.extractor_internal.contact_number;
-      if (!value) return;
-      run.api_output.structured_result.cards.forEach((card) => {
-        const text = [card.title, card.simple_explanation, card.read_aloud_text, card.action_needed]
-          .concat(card.key_points || []).filter(Boolean).join(" ");
-        assert.ok(!text.includes("The document gives this phone number"),
-          entry.id + " card " + card.card_number + " renders the contact number");
-      });
+      const cards = analyse(entry.text).api_output.structured_result.cards;
+      const points = cards[2].key_points || [];
+      const line = points.find((p) => /gives this phone number/.test(p));
+      if (line) shown[entry.id] = { line, last: points[points.length - 1] === line };
+    });
+    assert.equal(Object.keys(shown).length, 12, Object.keys(shown).join(", "));
+    Object.entries(shown).forEach(([id, s]) => {
+      assert.ok(s.last, id + ": the number must come after the actions, not among them");
     });
   });
 
-  await t.test("the field is absent from the structured result entirely", () => {
-    const result = analyse(byId("council_tax")).api_output.structured_result;
-    assert.equal(result.summary.contact_number, undefined);
-    assert.equal(analyse(byId("council_tax")).structured_output.extractor_internal.contact_number,
-      "020 8583 4242", "but it IS on the extractor, which is the point of landing it");
+  await t.test("it never becomes the action line", () => {
+    // It is not an action. normalizeActionLine reads extraction.actions, which
+    // this is deliberately not part of.
+    CORPUS.forEach((entry) => {
+      const result = analyse(entry.text).api_output.structured_result;
+      assert.doesNotMatch(String(result.summary.main_action), /gives this phone number/, entry.id);
+      assert.doesNotMatch(String(result.cards[2].action_needed), /gives this phone number/, entry.id);
+    });
+  });
+
+  await t.test("the sentence says nothing about ringing it", () => {
+    const line = analyse(byId("council_tax")).api_output.structured_result.cards[2].key_points
+      .find((p) => /gives this phone number/.test(p));
+    assert.equal(line, "The document gives this phone number: 020 8583 4242.");
+    // Split on non-letters and compare words, rather than building a regex.
+    //  is banned here because it is ASCII only, and a \p{L} lookaround is
+    // easy to get wrong through a layer of escaping. This needs neither.
+    const words = new Set(line.toLowerCase().split(/[^a-z]+/).filter(Boolean));
+    ["call", "ring", "dial", "should", "must", "now", "immediately", "you", "your"]
+      .forEach((banned) => {
+        assert.equal(words.has(banned), false,
+          "reports the number and recommends nothing, but contains " + banned);
+      });
+  });
+
+  await t.test("a gated document shows no number on any card", () => {
+    ["ocr_enforcement", "scam_phishing", "multi_document", "multi_document_greetings"].forEach((id) => {
+      analyse(byId(id)).api_output.structured_result.cards.forEach((card) => {
+        const text = [card.simple_explanation, card.read_aloud_text]
+          .concat(card.key_points || []).filter(Boolean).join(" ");
+        assert.doesNotMatch(text, /gives this phone number/, id + " card " + card.card_number);
+      });
+    });
   });
 });

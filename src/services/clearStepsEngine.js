@@ -955,6 +955,24 @@ function buildDeadlineCardKeyPoints(extraction) {
   return [write ? write(date) : `Check this date on the original document: ${date}.`];
 }
 
+// Card 3's key points: the actions Northcue composed, and then, last, the one
+// phone number the document itself gives for getting in touch.
+//
+// REPORTED, NOT RECOMMENDED. The sentence attributes the number to the document
+// and says nothing about whether to ring it, when, or what happens if the
+// reader does not. It is not an action, which is why it sits after the actions
+// rather than among them, and why normalizeActionLine never sees it and it can
+// never become the action line.
+//
+// The number inserts verbatim so it matches the paper, exactly as an amount or
+// a reference does. Everything about WHICH number, and whether there is one at
+// all, was decided in extractContactNumber, behind four gates.
+function buildActionCardKeyPoints(extraction) {
+  const actions = Array.isArray(extraction.actions) ? extraction.actions : [];
+  if (!extraction.contact_number) return actions;
+  return actions.concat(`The document gives this phone number: ${extraction.contact_number}.`);
+}
+
 function buildStructuredCards({ trust, extraction, displayCards }) {
   const status = statusFromTrustAndSeverity(trust);
   const actionLine = normalizeActionLine(extraction.actions);
@@ -987,7 +1005,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "what_do_i_need_to_do",
       title: "What do I need to do?",
       explanation: actionLine,
-      keyPoints: Array.isArray(extraction.actions) ? extraction.actions : [],
+      keyPoints: buildActionCardKeyPoints(extraction),
       actionNeeded: actionLine
     },
     {

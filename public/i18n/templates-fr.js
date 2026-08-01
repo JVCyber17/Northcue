@@ -383,6 +383,7 @@
       "tpl.check.date_any_amounts": "Vérifiez la date ({date}) et les montants éventuels sur le document original.",
       "tpl.check.kp_date": "Date : {date}.",
       "tpl.check.kp_amount": "Montant indiqué : {amount}.",
+      "tpl.contact.phone_number": "Le document indique ce numéro de téléphone : {number}.",
       "tpl.consequence.avoid": "Le document indique que, si un paiement n'est pas effectué, il se passera ceci : {consequence}. Vérifiez le document original.",
       "tpl.consequence.reported": "Le document indique ceci : {sentence_body}.",
       "tpl.consequence.may_follow": "ensuite, il peut se passer ceci : {consequence_clause}",

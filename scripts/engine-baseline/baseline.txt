@@ -161,14 +161,15 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Contact the sender using trusted contact details."
+      "Contact the sender using trusted contact details.",
+      "The document gives this phone number: 020 8583 4242."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details. The document gives this phone number: 020 8583 4242.",
     "status": "normal"
   },
   {
@@ -393,14 +394,15 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Contact the sender using trusted contact details."
+      "Contact the sender using trusted contact details.",
+      "The document gives this phone number: 0333 200 5100."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details. The document gives this phone number: 0333 200 5100.",
     "status": "good"
   },
   {
@@ -1306,14 +1308,15 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "title": "What do I need to do?",
     "simple_explanation": "Attend the appointment or meeting.",
     "key_points": [
-      "Attend the appointment or meeting."
+      "Attend the appointment or meeting.",
+      "The document gives this phone number: 020 8321 5000."
     ],
     "action_needed": "Attend the appointment or meeting.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Attend the appointment or meeting.. Attend the appointment or meeting.",
+    "read_aloud_text": "What do I need to do?. Attend the appointment or meeting.. Attend the appointment or meeting. The document gives this phone number: 020 8321 5000.",
     "status": "normal"
   },
   {
@@ -1778,14 +1781,15 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "simple_explanation": "Contact the sender using trusted contact details.",
     "key_points": [
       "Contact the sender using trusted contact details.",
-      "You must contact us on 0333 320 122 by 3 September 2026."
+      "You must contact us on 0333 320 122 by 3 September 2026.",
+      "The document gives this phone number: 0333 320 122."
     ],
     "action_needed": "Contact the sender using trusted contact details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. You must contact us on 0333 320 122 by 3 September 2026.",
+    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. You must contact us on 0333 320 122 by 3 September 2026. The document gives this phone number: 0333 320 122.",
     "status": "urgent"
   },
   {
@@ -2016,14 +2020,15 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "You must clear the arrears by 12 September 2026."
+      "You must clear the arrears by 12 September 2026.",
+      "The document gives this phone number: 020 8890 4100."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. You must clear the arrears by 12 September 2026.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. You must clear the arrears by 12 September 2026. The document gives this phone number: 020 8890 4100.",
     "status": "urgent"
   },
   {
@@ -2253,14 +2258,15 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 0300 790 9901."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0300 790 9901.",
     "status": "urgent"
   },
   {
@@ -7011,14 +7017,15 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 020 8583 4242."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 020 8583 4242.",
     "status": "urgent"
   },
   {
@@ -7241,14 +7248,15 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 0800 980 8800."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0800 980 8800.",
     "status": "normal"
   },
   {
@@ -7473,14 +7481,15 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 0114 273 4567."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0114 273 4567.",
     "status": "caution"
   },
   {
@@ -7711,14 +7720,15 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "title": "What do I need to do?",
     "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Check the original document to see whether a response or action is needed."
+      "Check the original document to see whether a response or action is needed.",
+      "The document gives this phone number: 0114 273 8890."
     ],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed. The document gives this phone number: 0114 273 8890.",
     "status": "good"
   },
   {
@@ -7937,14 +7947,15 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 0333 304 0191."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0333 304 0191.",
     "status": "normal"
   },
   {
@@ -8163,14 +8174,15 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Contact the sender using trusted contact details."
+      "Contact the sender using trusted contact details.",
+      "The document gives this phone number: 020 8583 4242."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details. The document gives this phone number: 020 8583 4242.",
     "status": "good"
   },
   {

@@ -382,6 +382,7 @@
       "tpl.check.date_any_amounts": "Prosimy sprawdzić datę ({date}) i wszystkie kwoty w oryginalnym dokumencie.",
       "tpl.check.kp_date": "Data: {date}.",
       "tpl.check.kp_amount": "Widoczna kwota: {amount}.",
+      "tpl.contact.phone_number": "W dokumencie podany jest ten numer telefonu: {number}.",
       "tpl.consequence.avoid": "Dokument informuje, że jeśli płatność nie zostanie dokonana, nastąpi: {consequence}. Prosimy sprawdzić oryginalny dokument.",
       "tpl.consequence.reported": "W dokumencie napisano: {sentence_body}.",
       "tpl.consequence.may_follow": "może nastąpić {consequence_clause}",

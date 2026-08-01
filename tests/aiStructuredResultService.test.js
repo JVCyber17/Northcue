@@ -7,6 +7,7 @@ const {
   normalizeAiErrorCode,
   summarizeValidationErrors,
   stripAiViolations,
+  rulesSentenceSet,
   sanitizeAiTextField
 } = require("../src/services/aiStructuredResultService");
 const {
@@ -290,6 +291,22 @@ test("stripAiViolations does not mutate the input object", () => {
 
 test("stripAiViolations passes through clean output unchanged", () => {
   const fallback = buildRulesRun().api_output.structured_result;
-  const stripped = stripAiViolations(clone(fallback));
+  // Given the exemption set, which is what both production callers pass, the
+  // rules output survives whole, phone number and all.
+  const stripped = stripAiViolations(clone(fallback), rulesSentenceSet(fallback));
   assert.equal(JSON.stringify(stripped.cards), JSON.stringify(fallback.cards));
+});
+
+test("stripAiViolations without an exemption set fails closed", () => {
+  // The same input, no set. The number is stripped, which is the correct
+  // default: a caller that forgets the argument gets the strictest behaviour,
+  // never the loosest. Both callers in src/ pass one; this is what protects a
+  // third that might not.
+  const fallback = buildRulesRun().api_output.structured_result;
+  const stripped = stripAiViolations(clone(fallback));
+  const actionCard = stripped.cards.find((card) => card.card_id === "what_do_i_need_to_do");
+  assert.ok(actionCard.key_points.includes("Use contact details from the original document."),
+    "got " + JSON.stringify(actionCard.key_points));
+  assert.ok(!actionCard.key_points.some((point) => /\d{3}\s?\d{3,4}/.test(point)),
+    "no phone number may survive without an exemption");
 });

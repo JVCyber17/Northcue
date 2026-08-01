@@ -383,6 +383,7 @@
       "tpl.check.date_any_amounts": "Revise la fecha ({date}) y cualquier importe en el documento original.",
       "tpl.check.kp_date": "Fecha: {date}.",
       "tpl.check.kp_amount": "Importe indicado: {amount}.",
+      "tpl.contact.phone_number": "El documento indica este número de teléfono: {number}.",
       "tpl.consequence.avoid": "El documento dice que, si no se realiza un pago, pasará esto: {consequence}. Revise el documento original.",
       "tpl.consequence.reported": "El documento indica lo siguiente: {sentence_body}.",
       "tpl.consequence.may_follow": "después podría pasar esto: {consequence_clause}",

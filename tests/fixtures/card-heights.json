@@ -30,11 +30,11 @@
    "steps": 0
   },
   "council_tax|3": {
-   "px": 556,
-   "lang": "pl",
+   "px": 624,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 87,
-   "steps": 2
+   "stepChars": 139,
+   "steps": 3
   },
   "council_tax|4": {
    "px": 474,
@@ -73,11 +73,11 @@
    "steps": 0
   },
   "energy_bill|3": {
-   "px": 556,
-   "lang": "pl",
+   "px": 624,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 87,
-   "steps": 2
+   "stepChars": 139,
+   "steps": 3
   },
   "energy_bill|4": {
    "px": 474,
@@ -243,11 +243,11 @@
    "steps": 1
   },
   "appointment_nhs|3": {
-   "px": 466,
-   "lang": "pl",
+   "px": 529,
+   "lang": "fr",
    "answerChars": 34,
-   "stepChars": 34,
-   "steps": 1
+   "stepChars": 86,
+   "steps": 2
   },
   "appointment_nhs|4": {
    "px": 507,
@@ -328,11 +328,11 @@
    "steps": 1
   },
   "bailiff_enforcement|3": {
-   "px": 685,
+   "px": 748,
    "lang": "pl",
    "answerChars": 49,
-   "stepChars": 105,
-   "steps": 2
+   "stepChars": 156,
+   "steps": 3
   },
   "bailiff_enforcement|4": {
    "px": 497,
@@ -371,11 +371,11 @@
    "steps": 2
   },
   "eviction_possession|3": {
-   "px": 594,
-   "lang": "pl",
+   "px": 661,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 86,
-   "steps": 2
+   "stepChars": 138,
+   "steps": 3
   },
   "eviction_possession|4": {
    "px": 497,
@@ -414,11 +414,11 @@
    "steps": 1
   },
   "court_fine|3": {
-   "px": 466,
-   "lang": "pl",
+   "px": 534,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
+   "stepChars": 90,
+   "steps": 2
   },
   "court_fine|4": {
    "px": 497,
@@ -1298,11 +1298,11 @@
    "steps": 1
   },
   "arrears_before_clause|3": {
-   "px": 466,
-   "lang": "fr",
+   "px": 534,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
+   "stepChars": 90,
+   "steps": 2
   },
   "arrears_before_clause|4": {
    "px": 497,
@@ -1341,11 +1341,11 @@
    "steps": 0
   },
   "failed_direct_debit|3": {
-   "px": 466,
-   "lang": "fr",
+   "px": 534,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
+   "stepChars": 90,
+   "steps": 2
   },
   "failed_direct_debit|4": {
    "px": 495,
@@ -1383,11 +1383,11 @@
    "steps": 1
   },
   "arrears_past_and_future|3": {
-   "px": 466,
+   "px": 529,
    "lang": "fr",
    "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
+   "stepChars": 90,
+   "steps": 2
   },
   "arrears_past_and_future|4": {
    "px": 497,
@@ -1426,11 +1426,11 @@
    "steps": 0
   },
   "school_periodic|3": {
-   "px": 617,
+   "px": 680,
    "lang": "pl",
    "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
+   "stepChars": 126,
+   "steps": 2
   },
   "school_periodic|4": {
    "px": 568,
@@ -1468,11 +1468,11 @@
    "steps": 0
   },
   "ambiguous_numeric_date|3": {
-   "px": 466,
+   "px": 529,
    "lang": "fr",
    "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
+   "stepChars": 90,
+   "steps": 2
   },
   "ambiguous_numeric_date|4": {
    "px": 465,
@@ -1510,11 +1510,11 @@
    "steps": 0
   },
   "short_year_date|3": {
-   "px": 556,
-   "lang": "pl",
+   "px": 624,
+   "lang": "es",
    "answerChars": 38,
-   "stepChars": 87,
-   "steps": 2
+   "stepChars": 139,
+   "steps": 3
   },
   "short_year_date|4": {
    "px": 461,

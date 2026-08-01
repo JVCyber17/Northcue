@@ -388,6 +388,7 @@
       { id: "tpl.check.date_any_amounts", template: "Check the date ({date}) and any amounts on the original document." },
       { id: "tpl.check.kp_date", template: "Date: {date}." },
       { id: "tpl.check.kp_amount", template: "Amount shown: {amount}." },
+      { id: "tpl.contact.phone_number", template: "The document gives this phone number: {number}." },
       { id: "tpl.consequence.avoid", template: "The document says {consequence} if a payment is not made. Check the original document." },
       { id: "tpl.consequence.reported", template: "The document states that {sentence_body}." },
       { id: "tpl.consequence.may_follow", template: "{consequence_clause} may follow" },
