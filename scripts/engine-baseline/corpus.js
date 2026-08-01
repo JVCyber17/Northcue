@@ -578,6 +578,29 @@ const CORPUS = [
       "If you do not, the account may be passed to an enforcement agent.",
       "If you cannot pay in full, contact the recovery team on 020 8583 4242."
     ].join("\n")
+  },
+  {
+    id: "failed_direct_debit",
+    label: "Returned direct debit, whose only dated clause is a past-tense receipt",
+    intent: "D-2. The shape the deleted second keyword pass existed to serve. " +
+      "Co-location declines on adjacency, the backward-looking guard fires, and " +
+      "the second pass promoted the receipt date anyway. The honest answer is no " +
+      "deadline: the letter asks the reader to check with their bank, not to pay " +
+      "by a date. Before the second pass was deleted this reported 3 July 2026.",
+    text: [
+      "Thames Water",
+      "Water bill payment",
+      "Reference: TW-33827",
+      "Date: 20 July 2026",
+      "",
+      "Dear Customer",
+      "",
+      "Your payment was due by direct debit on 3 July 2026 and was returned unpaid by your bank.",
+      "Amount outstanding: £164.90",
+      "Your bank may charge you for the returned payment.",
+      "Please check with your bank that the mandate is still in place.",
+      "You can talk to us about your account on 0800 980 8800."
+    ].join("\n")
   }
 ];
 

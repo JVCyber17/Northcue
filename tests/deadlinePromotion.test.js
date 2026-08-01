@@ -136,6 +136,66 @@ test("arrears_before_clause: both readings in one real letter", async (t) => {
   });
 });
 
+// --------------------------------------------------------------------- B
+
+test("a past-tense receipt is not a future deadline", async (t) => {
+  // D-2. The guard against "was due" / "became due" / "overdue since" was
+  // written, fired, and then overruled by a second keyword pass that omitted
+  // it. Every sentence below was rejected by the guard and promoted three lines
+  // later by the bypass.
+  const RECEIPTS = [
+    ["was due by, with a payment method between", "Your payment was due by direct debit on 3 July 2026 and was returned unpaid."],
+    ["were due by, standing order", "Both instalments were due by standing order on 3 July 2026."],
+    ["became due by, card payment", "The balance became due by card payment on 3 July 2026."],
+    ["overdue since", "This account has been overdue since 3 July 2026."]
+  ];
+
+  for (const [why, line] of RECEIPTS) {
+    await t.test(why, () => {
+      assert.equal(deadline([line]), null,
+        "a date describing what has already happened was promoted to the deadline");
+    });
+  }
+
+  await t.test("the guard is not doing this by declining everything", () => {
+    // The same sentence shape, forward looking, must still promote. Without
+    // this the test above would pass if extractDeadline stopped working.
+    assert.equal(deadline(["Your payment is due by direct debit on 3 July 2026."]), "3 July 2026");
+    assert.equal(deadline(["The balance is payable by 3 September 2026."]), "3 September 2026");
+  });
+});
+
+test("failed_direct_debit: a letter whose only dated clause is a receipt", async (t) => {
+  const run = runClearStepsEngine({
+    extractedText: byId("failed_direct_debit"),
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "corpus-b" }
+  });
+  const result = run.api_output.structured_result;
+
+  await t.test("no deadline is claimed", () => {
+    assert.equal(run.structured_output.extractor_internal.deadline, null);
+    assert.equal(result.summary.main_date, null);
+    assert.equal(result.summary.deadline_iso, null);
+  });
+
+  await t.test("the date is still shown, as a date rather than as an obligation", () => {
+    // The letter asks the reader to check with their bank, not to pay by a
+    // date. Card 4 lists what it can see and relates none of it.
+    assert.match(result.cards[3].simple_explanation, /No clear due date/);
+    assert.match(result.cards[3].simple_explanation, /3 July 2026/);
+  });
+
+  await t.test("it reaches the fully supported path, where the passes run", () => {
+    assert.equal(run.structured_output.extractor_internal.readable_unsupported_signals, undefined);
+  });
+
+  await t.test("co-location declines it, so only the keyword passes decide", () => {
+    // The premise of the whole document: without this, the second pass was
+    // never what produced the answer and the test would prove nothing.
+    assert.equal(co.selectDeadline(byId("failed_direct_debit"), isPlausibleNumericDate), null);
+  });
+});
+
 test("the anchor does not disturb the rest of the context vocabulary", async (t) => {
   await t.test("cleared before keeps its own literal", () => {
     assert.equal(deadline(["The balance must be cleared before 24 June 2026."]), "24 June 2026");

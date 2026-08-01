@@ -322,11 +322,11 @@ test("display normalisation cannot affect matching", async (t) => {
 });
 
 test("money: every amount in the corpus is still found in full", async (t) => {
-  // 31 distinct amounts across 30 documents. Tightening a value pattern risks
+  // Every distinct amount across the corpus. Tightening a value pattern risks
   // losing genuine values, so this is the counterweight to the decline tests.
   const EXPECTED = [
     "£0.00", "£1,047.00", "£1,247.00", "£1,381.50", "£1,842.00", "£138.15",
-    "£142.60", "£180.00", "£185.00", "£2,480.00", "£214.63", "£235.00",
+    "£142.60", "£164.90", "£180.00", "£185.00", "£2,480.00", "£214.63", "£235.00",
     "£287.50", "£3,410.00", "£3.00", "£3.20", "£324.18", "£41.99", "£418.60",
     "£45.19", "£460.50", "£486.20", "£66.00", "£660.00", "£68.40", "£726.00",
     "£74.20", "£742.19", "£75.00", "£83.86", "£96.14"

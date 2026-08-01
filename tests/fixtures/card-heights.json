@@ -1316,6 +1316,48 @@
    "answerChars": 90,
    "stepChars": 92,
    "steps": 2
+  },
+  "failed_direct_debit|1": {
+   "px": 609,
+   "lang": "fr",
+   "answerChars": 53,
+   "stepChars": 77,
+   "steps": 1
+  },
+  "failed_direct_debit|2": {
+   "px": 495,
+   "lang": "pl",
+   "answerChars": 77,
+   "stepChars": 0,
+   "steps": 0
+  },
+  "failed_direct_debit|3": {
+   "px": 466,
+   "lang": "fr",
+   "answerChars": 38,
+   "stepChars": 38,
+   "steps": 1
+  },
+  "failed_direct_debit|4": {
+   "px": 495,
+   "lang": "pt",
+   "answerChars": 93,
+   "stepChars": 0,
+   "steps": 0
+  },
+  "failed_direct_debit|5": {
+   "px": 587,
+   "lang": "pl",
+   "answerChars": 66,
+   "stepChars": 22,
+   "steps": 1
+  },
+  "failed_direct_debit|6": {
+   "px": 583,
+   "lang": "pl",
+   "answerChars": 32,
+   "stepChars": 93,
+   "steps": 2
   }
  }
 }

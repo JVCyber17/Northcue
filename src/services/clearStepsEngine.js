@@ -2687,8 +2687,26 @@ function extractDeadline(text) {
   const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
   const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
 
-  // Priority pass: skip dates preceded by past-tense language ("was due by", "became due") —
-  // those describe an already-overdue amount, not the future compliance deadline.
+  // Skip dates preceded by past-tense language ("was due by", "became due").
+  // Those describe an already-overdue amount, not the future compliance date.
+  //
+  // THERE USED TO BE A SECOND PASS BELOW THIS ONE, identical except that it
+  // omitted this guard. Its own comment described it as a "fallback for
+  // documents where the only deadline phrase is past-tense", which is a
+  // description of deliberately undoing the line above. So the guard was
+  // written, fired, and was then overruled by the next loop, and every sentence
+  // it rejected was promoted three lines later anyway:
+  //
+  //   "Your payment was due by direct debit on 3 July 2026 and was returned
+  //    unpaid by your bank."
+  //     co-location   declines, the adjacency test rejects "by direct debit on"
+  //     this pass     skipped, the guard fires
+  //     second pass   3 July 2026
+  //
+  // A guard with an unconditional bypass is worse than no guard, because it
+  // reads as protection. Deleted rather than kept: the case it claimed to serve
+  // is a letter whose only dated clause is a past-tense receipt, and the honest
+  // answer there is no deadline, which is what the cards already word for.
   const backwardLookingContext = /\b(?:was\s+due|were\s+due|became\s+due|overdue\s+since)\b/i;
   for (const pattern of [numericPattern, longPattern]) {
     let match;
@@ -2696,20 +2714,6 @@ function extractDeadline(text) {
       if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
       const before = value.slice(Math.max(0, match.index - 35), match.index);
       if (deadlineContext.test(before) && !backwardLookingContext.test(before) &&
-          !coLocation.isClaimedByCompetingDateLabel(value, match[0], isPlausibleNumericDate)) {
-        return match[0];
-      }
-    }
-  }
-
-  // Second pass: any deadline context — fallback for documents where the only deadline
-  // phrase is past-tense and no forward-looking date exists.
-  for (const pattern of [numericPattern, longPattern]) {
-    let match;
-    while ((match = pattern.exec(value)) !== null) {
-      if (pattern === numericPattern && !isPlausibleNumericDate(match[0])) continue;
-      const before = value.slice(Math.max(0, match.index - 35), match.index);
-      if (deadlineContext.test(before) &&
           !coLocation.isClaimedByCompetingDateLabel(value, match[0], isPlausibleNumericDate)) {
         return match[0];
       }
