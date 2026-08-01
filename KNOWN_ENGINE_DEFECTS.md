@@ -471,6 +471,160 @@ can see and cannot settle.
 
 ---
 
+---
+
+# Contact details, appeal routes and payment routes
+
+Inspected **1 August 2026**. Class A shipped; class B declined.
+
+## Class A, contact numbers. SHIPPED.
+
+`extractContactDetails` matched email only and populated **0 of 36** corpus
+documents, so the field was unpopulated rather than unread. `appeal_rights` and
+`support_options` were hardcoded `[]` at all seven return sites and had never
+been written to at all.
+
+`contact_number` now carries the one number a document says to ring, bound to
+the purpose printed beside it, on twelve documents. Guarded by
+`tests/contactNumber.test.js`.
+
+Two things worth keeping:
+
+**A strict UK phone pattern drops the number that matters most.**
+`bailiff_enforcement` prints `0333 320 122`, ten digits where a real 0333 number
+has eleven. The enforcement notice B-1 existed for carries the one number a well
+formed pattern rejects. Hence a loose shape with a strict leading zero, which is
+what rejects account numbers, the HMRC UTR, National Insurance numbers and
+hyphenated bank accounts.
+
+**The garbled gate is load bearing, not belt and braces.** Label tolerance means
+`c0ntact us on` binds, so `trust.garbled_by_ocr` is the only thing between a
+number read off unreliable text and the reader.
+
+## Class B, stated routes. INSPECTED AND DECLINED.
+
+Appeal windows, payment arrangements and disagreement routes. **18 of 36
+documents carry at least one route sentence.** Not built, and the reason is not
+that quotation is unsafe.
+
+**Interpretation is out, decisively.** One needle produces four incompatible
+meanings, all live in the corpus:
+
+| Sentence | What it actually is |
+|---|---|
+| `water_bill` "You can spread payments over the year by setting up a Direct Debit." | a genuine offer |
+| `council_tax` "If you do not pay by the date shown, you may lose the right to pay by instalments" | a warning the route may be REMOVED |
+| `failed_direct_debit` "Your payment was due by direct debit on 3 July 2026 and was returned unpaid" | a failure notice |
+| `broadband_bill` "This will be taken by Direct Debit on 2 May 2026." | automatic collection, not an option |
+
+A rule keying on *instalment* or *direct debit* presents all four as an offered
+arrangement. On `council_tax` that inverts the sentence.
+
+**Quotation is accurate, and it was tested rather than assumed.** The engine's
+own `extractSentenceAround` was run over all eleven corpus route sentences and
+eight adversarial ones. **Nineteen of nineteen quoted correctly**, including
+`benefits_dwp`'s appeal right, which wraps across two lines, and every trap:
+
+```
+"There is no right of appeal against this decision."      an interpreting rule inverts this
+"You had the right to appeal within 21 days of 1 Feb."    already expired, past tense
+"Your landlord may appeal the licensing decision..."      not the reader's right
+"If you are not the person named above you may ask..."    conditional on who is reading
+"...within 28 days of the date this notice was served"    anchored to service, not the letter date
+```
+
+**It fails on LENGTH, and that is why it is declined.**
+
+```
+"If you are aggrieved by this notice you may appeal to the First tier Tribunal under
+ section 204 of the Housing Act 1996 within 21 days of the date on which this notice
+ was served upon you, and you should be aware that the tribunal may confirm,"
+                                                                          cut at 243 chars
+```
+
+The 200/250 character cap truncates mid-list, losing "quash or vary the notice"
+and the costs warning. **A truncated statutory sentence is a wrong statement**,
+and statutory appeal sentences are the long ones. Declining above the limit
+would mean saying nothing on the documents where a stated route matters most,
+and something on the routine ones where it matters least. That reads as
+coverage.
+
+Also unresolved: a bulleted list collapses three routes into one run-on
+sentence, and selection between several route sentences is undetermined, since
+nothing in a letter ranks them.
+
+**THE PRECONDITION FOR REVISITING IS THE CORPUS, NOT A RULE CHANGE. There is no
+appeal window in it at all.** Not one document says "you may appeal within N
+days". A rule about appeal rights validated on zero examples of one should not
+ship. Add documents first: a plain window, one anchored to service, one anchored
+to an event, one conditional on a category of reader, one already expired, and
+one stating there is no right of appeal.
+
+---
+
+# AI stripper
+
+## The phone rules were never decided for rules output
+
+Found while building class A, and recorded because the history explains a
+behaviour nobody would guess from the code.
+
+`sanitizeAiTextField` has five rules. Two of them remove phone numbers: whole
+sentence replacement when a call-context word is present, and in-place
+substitution otherwise. Between them they are absolute. No wording ships a
+number to a card.
+
+**18 June 2026 (`317720a`)** introduced them, for AI output, and says so:
+"removes pay directives, UK phone numbers, and named debt charity references
+**from all AI output fields**... after every response". The reason is in the
+code: gpt-4.1-mini does not reliably honour prompt-level "do not" instructions.
+
+**30 June 2026 (`595e13e`)** extended the stripper to rules output, to catch
+"You must pay immediately." on an action card, lifted verbatim from a document
+by the rules engine and surfacing because the AI was skipped. Part C runs "the
+proven pay/credential stripper" on every path.
+
+**The phone rules came with it** because `stripAiViolations` applies all five
+and offered no way to take a subset. Nobody decided that a number the engine
+read off the page should be withheld. It was a side effect of a fix about
+payment commands, and it was live for a month: `bailiff_enforcement`'s card 3
+key point "You must contact us on 0333 320 122 by 3 September 2026." never
+reached a reader.
+
+Closed 1 August 2026 by a sentence-level exemption, byte-identical to that
+document's own rules output, phone rules only. Rules 1, 2 and 4 are unchanged on
+both paths, so `595e13e`'s protection is intact. Guarded by
+`tests/stripperExemption.test.js`.
+
+**A number-level allowlist was considered and rejected.** The model is shown the
+rules output in its own prompt, so it can see the genuine number, and an
+allowlist of numbers would pass "Call 020 8583 4242 immediately or bailiffs will
+attend" where every word except the number was invented.
+
+## OPEN: rule 4 doubles its replacement
+
+`_AI_DEBT_ORG_RE` substitutes each named debt charity independently, so a
+sentence naming two produces a duplicate:
+
+```
+"You can get free help from StepChange or Citizens Advice."
+  -> "You can get free help from a trusted advice service or a trusted advice service."
+```
+
+Reader-visible on any document naming two advice services, on both paths. No
+corpus document does, which is why it has gone unnoticed. The fix is to collapse
+a run of adjacent replacements into one, not to remove entries from the list.
+
+## OPEN, and not a stripper problem: a model sentence with no trigger
+
+`sanitizeAiTextField` splits into sentences and judges each alone, so a model
+may append a sentence carrying no number, no pay command and no credential ask,
+and nothing in the stripper touches it. "Do not delay." passes today and always
+has. Whether a model may add such a sentence belongs to the prompt and to
+`validateStructuredResult`, not here. Recorded so it is not mistaken for a
+regression in the exemption.
+
+
 # OCR and value-finding defects
 
 Added **31 July 2026** after an audit of every site that pattern-matches raw
@@ -767,7 +921,10 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 5. **W2**, decouple the four early returns in `detectDocumentCategory` so
    category is always computed and template / outgoing / scam become independent
    flags the card layer reads.
-6. **F6**, word-bound and reorder the category rows, one row per change. The
+6. **Collapse rule 4 of the AI stripper**, so a sentence naming two advice
+   services does not read "a trusted advice service or a trusted advice
+   service". Reader-visible on both paths, and the smallest open item here.
+7. **F6**, word-bound and reorder the category rows, one row per change. The
    same hazard was found and fixed inside the co-location date vocabulary in
    Tier 2, where three of five new literals matched inside longer words; the
    older co-location entries ("less", "used", "paid", "from") are still
