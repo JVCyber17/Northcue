@@ -150,10 +150,19 @@ function loadServiceWith(env) {
 // Honours the abort signal, the way a real fetch does. Without this the timeout
 // cannot be observed at all, because the service only sees a timeout when fetch
 // rejects with an AbortError.
+// D3 tier 1 added a SECOND provider request on this path: the fact extractor
+// runs beside the phrasing pass. Both are counted here unless told apart, and
+// the char cap belongs to the phrasing prompt, so these helpers look at which
+// request arrived rather than at how many.
+const PHRASING_MARKER = "backend structured-output layer";
+const isPhrasingRequest = (body) =>
+  String(body && body.input && body.input[0] && body.input[0].content || "").includes(PHRASING_MARKER);
+
 function abortAwareFetch(delayMs, onBody, calls) {
   return (url, init) => new Promise((resolve, reject) => {
-    if (calls) calls.count += 1;
-    if (onBody) onBody(JSON.parse(init.body));
+    const body = JSON.parse(init.body);
+    if (calls && isPhrasingRequest(body)) calls.count += 1;
+    if (onBody && isPhrasingRequest(body)) onBody(body);
     const timer = setTimeout(() => resolve(new Response(JSON.stringify({
       model: "stub", id: "stub", output_text: "{}"
     }), { status: 200, headers: { "Content-Type": "application/json" } })), delayMs);

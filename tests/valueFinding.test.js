@@ -324,12 +324,19 @@ test("display normalisation cannot affect matching", async (t) => {
 test("money: every amount in the corpus is still found in full", async (t) => {
   // Every distinct amount across the corpus. Tightening a value pattern risks
   // losing genuine values, so this is the counterweight to the decline tests.
+  // The last five are from the four non English documents added on 1 August
+  // 2026, and they make a point worth keeping: an amount is £ and digits, so
+  // the pattern finds every one of them regardless of the language around it.
+  // Two of those documents still report money_amounts as EMPTY from the engine,
+  // because detectProbableNonDocument decides they are not documents and the
+  // extraction is never reached. The money was findable. It was discarded.
   const EXPECTED = [
     "£0.00", "£1,047.00", "£1,247.00", "£1,381.50", "£1,842.00", "£138.15",
     "£142.60", "£164.90", "£180.00", "£185.00", "£2,480.00", "£214.63", "£235.00",
     "£287.50", "£3,410.00", "£312.40", "£3.00", "£3.20", "£324.18", "£41.99", "£418.60",
     "£45.19", "£460.50", "£486.20", "£66.00", "£660.00", "£68.40", "£726.00",
-    "£74.20", "£742.19", "£75.00", "£83.86", "£96.14"
+    "£74.20", "£742.19", "£75.00", "£83.86", "£96.14",
+    "£1,245.60", "£142.30", "£312.44", "£482.30"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {

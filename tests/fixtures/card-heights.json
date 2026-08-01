@@ -1,1541 +1,1709 @@
 {
- "measuredAt": "375x812",
- "viewport": 812,
- "languages": [
-  "en",
-  "pl",
-  "ro",
-  "es",
-  "fr",
-  "pt",
-  "hi",
-  "pa",
-  "gu",
-  "bn"
- ],
- "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently. Cards marked includesPassedLine were measured WITH the client rendered passed-deadline line, whether or not their date has passed yet, so the figure is an upper bound that does not go stale as a future deadline becomes a past one. answerChars and stepChars describe engine output only and never count that line.",
- "cards": {
-  "council_tax|1": {
-   "px": 641,
-   "lang": "pl",
-   "answerChars": 83,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "council_tax|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "council_tax|3": {
-   "px": 624,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 139,
-   "steps": 3
-  },
-  "council_tax|4": {
-   "px": 474,
-   "lang": "pl",
-   "answerChars": 20,
-   "stepChars": 55,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "council_tax|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 82,
-   "stepChars": 43,
-   "steps": 2
-  },
-  "council_tax|6": {
-   "px": 585,
-   "lang": "pl",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "energy_bill|1": {
-   "px": 641,
-   "lang": "fr",
-   "answerChars": 66,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "energy_bill|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "energy_bill|3": {
-   "px": 624,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 139,
-   "steps": 3
-  },
-  "energy_bill|4": {
-   "px": 474,
-   "lang": "pl",
-   "answerChars": 19,
-   "stepChars": 54,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "energy_bill|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 79,
-   "stepChars": 40,
-   "steps": 2
-  },
-  "energy_bill|6": {
-   "px": 529,
-   "lang": "ro",
-   "answerChars": 39,
-   "stepChars": 74,
-   "steps": 2
-  },
-  "water_bill|1": {
-   "px": 641,
-   "lang": "fr",
-   "answerChars": 69,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "water_bill|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "water_bill|3": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "water_bill|4": {
-   "px": 474,
-   "lang": "pl",
-   "answerChars": 20,
-   "stepChars": 55,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "water_bill|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 80,
-   "stepChars": 41,
-   "steps": 2
-  },
-  "water_bill|6": {
-   "px": 585,
-   "lang": "pl",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "broadband_bill|1": {
-   "px": 582,
-   "lang": "fr",
-   "answerChars": 57,
-   "stepChars": 33,
-   "steps": 1
-  },
-  "broadband_bill|2": {
-   "px": 380,
-   "lang": "en",
-   "answerChars": 33,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "broadband_bill|3": {
-   "px": 466,
-   "lang": "fr",
-   "answerChars": 27,
-   "stepChars": 27,
-   "steps": 1
-  },
-  "broadband_bill|4": {
-   "px": 495,
-   "lang": "pt",
-   "answerChars": 92,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "broadband_bill|5": {
-   "px": 587,
-   "lang": "pl",
-   "answerChars": 65,
-   "stepChars": 21,
-   "steps": 1
-  },
-  "broadband_bill|6": {
-   "px": 585,
-   "lang": "pl",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "gov_hmrc|1": {
-   "px": 669,
-   "lang": "fr",
-   "answerChars": 53,
-   "stepChars": 183,
-   "steps": 2
-  },
-  "gov_hmrc|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "gov_hmrc|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "gov_hmrc|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 86,
-   "stepChars": 55,
-   "steps": 1
-  },
-  "gov_hmrc|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 80,
-   "stepChars": 41,
-   "steps": 2
-  },
-  "gov_hmrc|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "appointment_nhs|1": {
-   "px": 563,
-   "lang": "pl",
-   "answerChars": 89,
-   "stepChars": 29,
-   "steps": 1
-  },
-  "appointment_nhs|2": {
-   "px": 439,
-   "lang": "pl",
-   "answerChars": 29,
-   "stepChars": 21,
-   "steps": 1
-  },
-  "appointment_nhs|3": {
-   "px": 529,
-   "lang": "fr",
-   "answerChars": 34,
-   "stepChars": 86,
-   "steps": 2
-  },
-  "appointment_nhs|4": {
-   "px": 507,
-   "lang": "pl",
-   "answerChars": 35,
-   "stepChars": 54,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "appointment_nhs|5": {
-   "px": 504,
-   "lang": "pl",
-   "answerChars": 70,
-   "stepChars": 18,
-   "steps": 1
-  },
-  "appointment_nhs|6": {
-   "px": 529,
-   "lang": "ro",
-   "answerChars": 39,
-   "stepChars": 74,
-   "steps": 2
-  },
-  "bill_in_credit|1": {
-   "px": 702,
-   "lang": "fr",
-   "answerChars": 62,
-   "stepChars": 168,
-   "steps": 2
-  },
-  "bill_in_credit|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "bill_in_credit|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "bill_in_credit|4": {
-   "px": 463,
-   "lang": "es",
-   "answerChars": 76,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "bill_in_credit|5": {
-   "px": 563,
-   "lang": "es",
-   "answerChars": 95,
-   "stepChars": 35,
-   "steps": 1
-  },
-  "bill_in_credit|6": {
-   "px": 655,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "bailiff_enforcement|1": {
-   "px": 647,
-   "lang": "fr",
-   "answerChars": 97,
-   "stepChars": 42,
-   "steps": 1
-  },
-  "bailiff_enforcement|2": {
-   "px": 493,
-   "lang": "ro",
-   "answerChars": 42,
-   "stepChars": 45,
-   "steps": 1
-  },
-  "bailiff_enforcement|3": {
-   "px": 748,
-   "lang": "pl",
-   "answerChars": 49,
-   "stepChars": 156,
-   "steps": 3
-  },
-  "bailiff_enforcement|4": {
-   "px": 497,
-   "lang": "es",
-   "answerChars": 24,
-   "stepChars": 59,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "bailiff_enforcement|5": {
-   "px": 694,
-   "lang": "fr",
-   "answerChars": 121,
-   "stepChars": 47,
-   "steps": 2
-  },
-  "bailiff_enforcement|6": {
-   "px": 648,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 95,
-   "steps": 2
-  },
-  "eviction_possession|1": {
-   "px": 796,
-   "lang": "pl",
-   "answerChars": 109,
-   "stepChars": 150,
-   "steps": 2
-  },
-  "eviction_possession|2": {
-   "px": 502,
-   "lang": "pl",
-   "answerChars": 42,
-   "stepChars": 50,
-   "steps": 2
-  },
-  "eviction_possession|3": {
-   "px": 661,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 138,
-   "steps": 3
-  },
-  "eviction_possession|4": {
-   "px": 497,
-   "lang": "es",
-   "answerChars": 25,
-   "stepChars": 60,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "eviction_possession|5": {
-   "px": 688,
-   "lang": "pl",
-   "answerChars": 93,
-   "stepChars": 48,
-   "steps": 2
-  },
-  "eviction_possession|6": {
-   "px": 648,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 92,
-   "steps": 2
-  },
-  "court_fine|1": {
-   "px": 764,
-   "lang": "pl",
-   "answerChars": 108,
-   "stepChars": 150,
-   "steps": 2
-  },
-  "court_fine|2": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 42,
-   "stepChars": 24,
-   "steps": 1
-  },
-  "court_fine|3": {
-   "px": 534,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 90,
-   "steps": 2
-  },
-  "court_fine|4": {
-   "px": 497,
-   "lang": "es",
-   "answerChars": 25,
-   "stepChars": 60,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "court_fine|5": {
-   "px": 661,
-   "lang": "pl",
-   "answerChars": 109,
-   "stepChars": 46,
-   "steps": 2
-  },
-  "court_fine|6": {
-   "px": 648,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 94,
-   "steps": 2
-  },
-  "housing_letter|1": {
-   "px": 702,
-   "lang": "fr",
-   "answerChars": 68,
-   "stepChars": 192,
-   "steps": 2
-  },
-  "housing_letter|2": {
-   "px": 463,
-   "lang": "es",
-   "answerChars": 91,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "housing_letter|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "housing_letter|4": {
-   "px": 531,
-   "lang": "es",
-   "answerChars": 71,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "housing_letter|5": {
-   "px": 504,
-   "lang": "pl",
-   "answerChars": 73,
-   "stepChars": 21,
-   "steps": 1
-  },
-  "housing_letter|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "legal_solicitor|1": {
-   "px": 582,
-   "lang": "pl",
-   "answerChars": 72,
-   "stepChars": 40,
-   "steps": 1
-  },
-  "legal_solicitor|2": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 40,
-   "stepChars": 27,
-   "steps": 1
-  },
-  "legal_solicitor|3": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "legal_solicitor|4": {
-   "px": 463,
-   "lang": "es",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "legal_solicitor|5": {
-   "px": 625,
-   "lang": "pl",
-   "answerChars": 103,
-   "stepChars": 24,
-   "steps": 1
-  },
-  "legal_solicitor|6": {
-   "px": 653,
-   "lang": "pt",
-   "answerChars": 90,
-   "stepChars": 96,
-   "steps": 2
-  },
-  "medical_letter|1": {
-   "px": 702,
-   "lang": "fr",
-   "answerChars": 73,
-   "stepChars": 191,
-   "steps": 2
-  },
-  "medical_letter|2": {
-   "px": 510,
-   "lang": "pl",
-   "answerChars": 97,
-   "stepChars": 21,
-   "steps": 1
-  },
-  "medical_letter|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "medical_letter|4": {
-   "px": 463,
-   "lang": "es",
-   "answerChars": 61,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "medical_letter|5": {
-   "px": 525,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 31,
-   "steps": 1
-  },
-  "medical_letter|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "employment_letter|1": {
-   "px": 702,
-   "lang": "fr",
-   "answerChars": 70,
-   "stepChars": 168,
-   "steps": 2
-  },
-  "employment_letter|2": {
-   "px": 469,
-   "lang": "pl",
-   "answerChars": 94,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "employment_letter|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "employment_letter|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 86,
-   "stepChars": 55,
-   "steps": 1
-  },
-  "employment_letter|5": {
-   "px": 504,
-   "lang": "pl",
-   "answerChars": 71,
-   "stepChars": 19,
-   "steps": 1
-  },
-  "employment_letter|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "education_letter|1": {
-   "px": 702,
-   "lang": "pt",
-   "answerChars": 79,
-   "stepChars": 191,
-   "steps": 2
-  },
-  "education_letter|2": {
-   "px": 495,
-   "lang": "bn",
-   "answerChars": 90,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "education_letter|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "education_letter|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 85,
-   "stepChars": 54,
-   "steps": 1
-  },
-  "education_letter|5": {
-   "px": 567,
-   "lang": "pl",
-   "answerChars": 70,
-   "stepChars": 53,
-   "steps": 2
-  },
-  "education_letter|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "insurance_letter|1": {
-   "px": 696,
-   "lang": "pl",
-   "answerChars": 55,
-   "stepChars": 186,
-   "steps": 2
-  },
-  "insurance_letter|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "insurance_letter|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "insurance_letter|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 85,
-   "stepChars": 54,
-   "steps": 1
-  },
-  "insurance_letter|5": {
-   "px": 567,
-   "lang": "pl",
-   "answerChars": 70,
-   "stepChars": 53,
-   "steps": 2
-  },
-  "insurance_letter|6": {
-   "px": 655,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "bank_loan_letter|1": {
-   "px": 576,
-   "lang": "pl",
-   "answerChars": 48,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "bank_loan_letter|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "bank_loan_letter|3": {
-   "px": 556,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 87,
-   "steps": 2
-  },
-  "bank_loan_letter|4": {
-   "px": 495,
-   "lang": "pt",
-   "answerChars": 93,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "bank_loan_letter|5": {
-   "px": 684,
-   "lang": "pl",
-   "answerChars": 99,
-   "stepChars": 22,
-   "steps": 1
-  },
-  "bank_loan_letter|6": {
-   "px": 466,
-   "lang": "ro",
-   "answerChars": 39,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "benefits_dwp|1": {
-   "px": 702,
-   "lang": "fr",
-   "answerChars": 75,
-   "stepChars": 180,
-   "steps": 2
-  },
-  "benefits_dwp|2": {
-   "px": 469,
-   "lang": "pl",
-   "answerChars": 97,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "benefits_dwp|3": {
-   "px": 621,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 104,
-   "steps": 2
-  },
-  "benefits_dwp|4": {
-   "px": 463,
-   "lang": "fr",
-   "answerChars": 70,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "benefits_dwp|5": {
-   "px": 563,
-   "lang": "es",
-   "answerChars": 95,
-   "stepChars": 35,
-   "steps": 1
-  },
-  "benefits_dwp|6": {
-   "px": 720,
-   "lang": "pl",
-   "answerChars": 146,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "scam_phishing|1": {
-   "px": 525,
-   "lang": "pl",
-   "answerChars": 56,
-   "stepChars": 44,
-   "steps": 1
-  },
-  "scam_phishing|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 44,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "scam_phishing|3": {
-   "px": 684,
-   "lang": "pl",
-   "answerChars": 48,
-   "stepChars": 139,
-   "steps": 3
-  },
-  "scam_phishing|4": {
-   "px": 398,
-   "lang": "es",
-   "answerChars": 27,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "scam_phishing|5": {
-   "px": 525,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 43,
-   "steps": 1
-  },
-  "scam_phishing|6": {
-   "px": 558,
-   "lang": "pl",
-   "answerChars": 58,
-   "stepChars": 68,
-   "steps": 1
-  },
-  "non_document_recipe|1": {
-   "px": 552,
-   "lang": "fr",
-   "answerChars": 51,
-   "stepChars": 105,
-   "steps": 1
-  },
-  "non_document_recipe|2": {
-   "px": 501,
-   "lang": "fr",
-   "answerChars": 105,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "non_document_recipe|3": {
-   "px": 558,
-   "lang": "fr",
-   "answerChars": 71,
-   "stepChars": 71,
-   "steps": 1
-  },
-  "non_document_recipe|4": {
-   "px": 398,
-   "lang": "es",
-   "answerChars": 27,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "non_document_recipe|5": {
-   "px": 498,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "non_document_recipe|6": {
-   "px": 693,
-   "lang": "pl",
-   "answerChars": 150,
-   "stepChars": 69,
-   "steps": 1
-  },
-  "blank_template|1": {
-   "px": 664,
-   "lang": "fr",
-   "answerChars": 37,
-   "stepChars": 194,
-   "steps": 2
-  },
-  "blank_template|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "blank_template|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 94,
-   "stepChars": 94,
-   "steps": 1
-  },
-  "blank_template|4": {
-   "px": 440,
-   "lang": "pl",
-   "answerChars": 53,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "blank_template|5": {
-   "px": 525,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 31,
-   "steps": 1
-  },
-  "blank_template|6": {
-   "px": 720,
-   "lang": "pl",
-   "answerChars": 146,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "outgoing_letter|1": {
-   "px": 498,
-   "lang": "pt",
-   "answerChars": 39,
-   "stepChars": 33,
-   "steps": 1
-  },
-  "outgoing_letter|2": {
-   "px": 380,
-   "lang": "en",
-   "answerChars": 33,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "outgoing_letter|3": {
-   "px": 466,
-   "lang": "fr",
-   "answerChars": 27,
-   "stepChars": 27,
-   "steps": 1
-  },
-  "outgoing_letter|4": {
-   "px": 463,
-   "lang": "es",
-   "answerChars": 61,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "outgoing_letter|5": {
-   "px": 525,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 31,
-   "steps": 1
-  },
-  "outgoing_letter|6": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 37,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "multi_document|1": {
-   "px": 466,
-   "lang": "en",
-   "answerChars": 52,
-   "stepChars": 53,
-   "steps": 1
-  },
-  "multi_document|2": {
-   "px": 430,
-   "lang": "es",
-   "answerChars": 53,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "multi_document|3": {
-   "px": 498,
-   "lang": "pl",
-   "answerChars": 44,
-   "stepChars": 44,
-   "steps": 1
-  },
-  "multi_document|4": {
-   "px": 473,
-   "lang": "pl",
-   "answerChars": 83,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "multi_document|5": {
-   "px": 563,
-   "lang": "pl",
-   "answerChars": 85,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "multi_document|6": {
-   "px": 525,
-   "lang": "ro",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "multi_document_greetings|1": {
-   "px": 466,
-   "lang": "en",
-   "answerChars": 52,
-   "stepChars": 53,
-   "steps": 1
-  },
-  "multi_document_greetings|2": {
-   "px": 430,
-   "lang": "es",
-   "answerChars": 53,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "multi_document_greetings|3": {
-   "px": 498,
-   "lang": "pl",
-   "answerChars": 44,
-   "stepChars": 44,
-   "steps": 1
-  },
-  "multi_document_greetings|4": {
-   "px": 473,
-   "lang": "pl",
-   "answerChars": 83,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "multi_document_greetings|5": {
-   "px": 563,
-   "lang": "pl",
-   "answerChars": 85,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "multi_document_greetings|6": {
-   "px": 498,
-   "lang": "ro",
-   "answerChars": 54,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "multi_document_split|1": {
-   "px": 704,
-   "lang": "fr",
-   "answerChars": 66,
-   "stepChars": 128,
-   "steps": 2
-  },
-  "multi_document_split|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "multi_document_split|3": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "multi_document_split|4": {
-   "px": 474,
-   "lang": "pl",
-   "answerChars": 19,
-   "stepChars": 54,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "multi_document_split|5": {
-   "px": 686,
-   "lang": "pl",
-   "answerChars": 79,
-   "stepChars": 78,
-   "steps": 3
-  },
-  "multi_document_split|6": {
-   "px": 525,
-   "lang": "ro",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "ocr_council_tax|1": {
-   "px": 696,
-   "lang": "fr",
-   "answerChars": 53,
-   "stepChars": 188,
-   "steps": 2
-  },
-  "ocr_council_tax|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_council_tax|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "ocr_council_tax|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 86,
-   "stepChars": 55,
-   "steps": 1
-  },
-  "ocr_council_tax|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 82,
-   "stepChars": 43,
-   "steps": 2
-  },
-  "ocr_council_tax|6": {
-   "px": 655,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "ocr_energy_bill|1": {
-   "px": 734,
-   "lang": "pl",
-   "answerChars": 58,
-   "stepChars": 205,
-   "steps": 2
-  },
-  "ocr_energy_bill|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_energy_bill|3": {
-   "px": 556,
-   "lang": "pl",
-   "answerChars": 38,
-   "stepChars": 87,
-   "steps": 2
-  },
-  "ocr_energy_bill|4": {
-   "px": 533,
-   "lang": "pl",
-   "answerChars": 129,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_energy_bill|5": {
-   "px": 587,
-   "lang": "pl",
-   "answerChars": 66,
-   "stepChars": 22,
-   "steps": 1
-  },
-  "ocr_energy_bill|6": {
-   "px": 466,
-   "lang": "ro",
-   "answerChars": 39,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "ocr_enforcement|1": {
-   "px": 681,
-   "lang": "pl",
-   "answerChars": 76,
-   "stepChars": 170,
-   "steps": 2
-  },
-  "ocr_enforcement|2": {
-   "px": 493,
-   "lang": "ro",
-   "answerChars": 42,
-   "stepChars": 45,
-   "steps": 1
-  },
-  "ocr_enforcement|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "ocr_enforcement|4": {
-   "px": 533,
-   "lang": "pl",
-   "answerChars": 129,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_enforcement|5": {
-   "px": 587,
-   "lang": "pl",
-   "answerChars": 68,
-   "stepChars": 24,
-   "steps": 1
-  },
-  "ocr_enforcement|6": {
-   "px": 585,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 56,
-   "steps": 1
-  },
-  "ocr_heavy_damage|1": {
-   "px": 439,
-   "lang": "pl",
-   "answerChars": 40,
-   "stepChars": 19,
-   "steps": 1
-  },
-  "ocr_heavy_damage|2": {
-   "px": 380,
-   "lang": "en",
-   "answerChars": 19,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_heavy_damage|3": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 34,
-   "stepChars": 34,
-   "steps": 1
-  },
-  "ocr_heavy_damage|4": {
-   "px": 533,
-   "lang": "pl",
-   "answerChars": 129,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ocr_heavy_damage|5": {
-   "px": 498,
-   "lang": "pl",
-   "answerChars": 43,
-   "stepChars": 38,
-   "steps": 1
-  },
-  "ocr_heavy_damage|6": {
-   "px": 498,
-   "lang": "pl",
-   "answerChars": 54,
-   "stepChars": 43,
-   "steps": 1
-  },
-  "photo_snippet_short|1": {
-   "px": 605,
-   "lang": "pl",
-   "answerChars": 35,
-   "stepChars": 168,
-   "steps": 2
-  },
-  "photo_snippet_short|2": {
-   "px": 463,
-   "lang": "pl",
-   "answerChars": 62,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "photo_snippet_short|3": {
-   "px": 617,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 74,
-   "steps": 1
-  },
-  "photo_snippet_short|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 85,
-   "stepChars": 54,
-   "steps": 1
-  },
-  "photo_snippet_short|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 79,
-   "stepChars": 40,
-   "steps": 2
-  },
-  "photo_snippet_short|6": {
-   "px": 655,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "arrears_before_clause|1": {
-   "px": 628,
-   "lang": "es",
-   "answerChars": 85,
-   "stepChars": 42,
-   "steps": 1
-  },
-  "arrears_before_clause|2": {
-   "px": 493,
-   "lang": "ro",
-   "answerChars": 42,
-   "stepChars": 45,
-   "steps": 1
-  },
-  "arrears_before_clause|3": {
-   "px": 534,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 90,
-   "steps": 2
-  },
-  "arrears_before_clause|4": {
-   "px": 497,
-   "lang": "es",
-   "answerChars": 24,
-   "stepChars": 59,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "arrears_before_clause|5": {
-   "px": 655,
-   "lang": "fr",
-   "answerChars": 65,
-   "stepChars": 45,
-   "steps": 2
-  },
-  "arrears_before_clause|6": {
-   "px": 648,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 92,
-   "steps": 2
-  },
-  "failed_direct_debit|1": {
-   "px": 609,
-   "lang": "fr",
-   "answerChars": 53,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "failed_direct_debit|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "failed_direct_debit|3": {
-   "px": 534,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 90,
-   "steps": 2
-  },
-  "failed_direct_debit|4": {
-   "px": 495,
-   "lang": "pt",
-   "answerChars": 93,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "failed_direct_debit|5": {
-   "px": 587,
-   "lang": "pl",
-   "answerChars": 66,
-   "stepChars": 22,
-   "steps": 1
-  },
-  "failed_direct_debit|6": {
-   "px": 583,
-   "lang": "pl",
-   "answerChars": 32,
-   "stepChars": 93,
-   "steps": 2
-  },
-  "arrears_past_and_future|1": {
-   "px": 764,
-   "lang": "pl",
-   "answerChars": 98,
-   "stepChars": 148,
-   "steps": 2
-  },
-  "arrears_past_and_future|2": {
-   "px": 466,
-   "lang": "pl",
-   "answerChars": 40,
-   "stepChars": 27,
-   "steps": 1
-  },
-  "arrears_past_and_future|3": {
-   "px": 529,
-   "lang": "fr",
-   "answerChars": 38,
-   "stepChars": 90,
-   "steps": 2
-  },
-  "arrears_past_and_future|4": {
-   "px": 497,
-   "lang": "es",
-   "answerChars": 24,
-   "stepChars": 59,
-   "steps": 1,
-   "includesPassedLine": true
-  },
-  "arrears_past_and_future|5": {
-   "px": 688,
-   "lang": "fr",
-   "answerChars": 76,
-   "stepChars": 45,
-   "steps": 2
-  },
-  "arrears_past_and_future|6": {
-   "px": 626,
-   "lang": "es",
-   "answerChars": 90,
-   "stepChars": 72,
-   "steps": 2
-  },
-  "school_periodic|1": {
-   "px": 702,
-   "lang": "pt",
-   "answerChars": 80,
-   "stepChars": 191,
-   "steps": 2
-  },
-  "school_periodic|2": {
-   "px": 469,
-   "lang": "pl",
-   "answerChars": 91,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "school_periodic|3": {
-   "px": 680,
-   "lang": "pl",
-   "answerChars": 74,
-   "stepChars": 126,
-   "steps": 2
-  },
-  "school_periodic|4": {
-   "px": 568,
-   "lang": "pl",
-   "answerChars": 90,
-   "stepChars": 59,
-   "steps": 1
-  },
-  "school_periodic|5": {
-   "px": 504,
-   "lang": "es",
-   "answerChars": 75,
-   "stepChars": 23,
-   "steps": 1
-  },
-  "school_periodic|6": {
-   "px": 601,
-   "lang": "pl",
-   "answerChars": 96,
-   "stepChars": 36,
-   "steps": 1
-  },
-  "ambiguous_numeric_date|1": {
-   "px": 609,
-   "lang": "fr",
-   "answerChars": 65,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "ambiguous_numeric_date|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "ambiguous_numeric_date|3": {
-   "px": 529,
-   "lang": "fr",
-   "answerChars": 38,
-   "stepChars": 90,
-   "steps": 2
-  },
-  "ambiguous_numeric_date|4": {
-   "px": 465,
-   "lang": "pl",
-   "answerChars": 18,
-   "stepChars": 89,
-   "steps": 1
-  },
-  "ambiguous_numeric_date|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 38,
-   "steps": 2
-  },
-  "ambiguous_numeric_date|6": {
-   "px": 585,
-   "lang": "pl",
-   "answerChars": 54,
-   "stepChars": 57,
-   "steps": 1
-  },
-  "short_year_date|1": {
-   "px": 641,
-   "lang": "fr",
-   "answerChars": 80,
-   "stepChars": 77,
-   "steps": 1
-  },
-  "short_year_date|2": {
-   "px": 495,
-   "lang": "pl",
-   "answerChars": 77,
-   "stepChars": 0,
-   "steps": 0
-  },
-  "short_year_date|3": {
-   "px": 624,
-   "lang": "es",
-   "answerChars": 38,
-   "stepChars": 139,
-   "steps": 3
-  },
-  "short_year_date|4": {
-   "px": 461,
-   "lang": "fr",
-   "answerChars": 17,
-   "stepChars": 72,
-   "steps": 1
-  },
-  "short_year_date|5": {
-   "px": 623,
-   "lang": "pl",
-   "answerChars": 79,
-   "stepChars": 40,
-   "steps": 2
-  },
-  "short_year_date|6": {
-   "px": 466,
-   "lang": "fr",
-   "answerChars": 39,
-   "stepChars": 36,
-   "steps": 1
+  "measuredAt": "375x812",
+  "viewport": 812,
+  "languages": [
+    "en",
+    "pl",
+    "ro",
+    "es",
+    "fr",
+    "pt",
+    "hi",
+    "pa",
+    "gu",
+    "bn"
+  ],
+  "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently. Cards marked includesPassedLine were measured WITH the client rendered passed-deadline line, whether or not their date has passed yet, so the figure is an upper bound that does not go stale as a future deadline becomes a past one. answerChars and stepChars describe engine output only and never count that line.",
+  "cards": {
+    "council_tax|1": {
+      "px": 641,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "council_tax|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "council_tax|3": {
+      "px": 624,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "council_tax|4": {
+      "px": 474,
+      "lang": "pl",
+      "answerChars": 20,
+      "stepChars": 55,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "council_tax|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 82,
+      "stepChars": 43,
+      "steps": 2
+    },
+    "council_tax|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "energy_bill|1": {
+      "px": 641,
+      "lang": "fr",
+      "answerChars": 66,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "energy_bill|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_bill|3": {
+      "px": 624,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "energy_bill|4": {
+      "px": 474,
+      "lang": "pl",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "energy_bill|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "energy_bill|6": {
+      "px": 529,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 74,
+      "steps": 2
+    },
+    "water_bill|1": {
+      "px": 641,
+      "lang": "fr",
+      "answerChars": 69,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "water_bill|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "water_bill|3": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "water_bill|4": {
+      "px": 474,
+      "lang": "pl",
+      "answerChars": 20,
+      "stepChars": 55,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "water_bill|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 80,
+      "stepChars": 41,
+      "steps": 2
+    },
+    "water_bill|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "broadband_bill|1": {
+      "px": 582,
+      "lang": "fr",
+      "answerChars": 57,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "broadband_bill|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "broadband_bill|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "broadband_bill|4": {
+      "px": 495,
+      "lang": "pt",
+      "answerChars": 92,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "broadband_bill|5": {
+      "px": 587,
+      "lang": "pl",
+      "answerChars": 65,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "broadband_bill|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "gov_hmrc|1": {
+      "px": 669,
+      "lang": "fr",
+      "answerChars": 53,
+      "stepChars": 183,
+      "steps": 2
+    },
+    "gov_hmrc|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "gov_hmrc|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "gov_hmrc|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 86,
+      "stepChars": 55,
+      "steps": 1
+    },
+    "gov_hmrc|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 80,
+      "stepChars": 41,
+      "steps": 2
+    },
+    "gov_hmrc|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "appointment_nhs|1": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 89,
+      "stepChars": 29,
+      "steps": 1
+    },
+    "appointment_nhs|2": {
+      "px": 439,
+      "lang": "pl",
+      "answerChars": 29,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "appointment_nhs|3": {
+      "px": 529,
+      "lang": "fr",
+      "answerChars": 34,
+      "stepChars": 86,
+      "steps": 2
+    },
+    "appointment_nhs|4": {
+      "px": 507,
+      "lang": "pl",
+      "answerChars": 35,
+      "stepChars": 54,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "appointment_nhs|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 18,
+      "steps": 1
+    },
+    "appointment_nhs|6": {
+      "px": 529,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 74,
+      "steps": 2
+    },
+    "bill_in_credit|1": {
+      "px": 702,
+      "lang": "fr",
+      "answerChars": 62,
+      "stepChars": 168,
+      "steps": 2
+    },
+    "bill_in_credit|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bill_in_credit|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "bill_in_credit|4": {
+      "px": 463,
+      "lang": "es",
+      "answerChars": 76,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bill_in_credit|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "bill_in_credit|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "bailiff_enforcement|1": {
+      "px": 647,
+      "lang": "fr",
+      "answerChars": 97,
+      "stepChars": 42,
+      "steps": 1
+    },
+    "bailiff_enforcement|2": {
+      "px": 493,
+      "lang": "ro",
+      "answerChars": 42,
+      "stepChars": 45,
+      "steps": 1
+    },
+    "bailiff_enforcement|3": {
+      "px": 748,
+      "lang": "pl",
+      "answerChars": 49,
+      "stepChars": 156,
+      "steps": 3
+    },
+    "bailiff_enforcement|4": {
+      "px": 497,
+      "lang": "es",
+      "answerChars": 24,
+      "stepChars": 59,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "bailiff_enforcement|5": {
+      "px": 694,
+      "lang": "fr",
+      "answerChars": 121,
+      "stepChars": 47,
+      "steps": 2
+    },
+    "bailiff_enforcement|6": {
+      "px": 648,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 95,
+      "steps": 2
+    },
+    "eviction_possession|1": {
+      "px": 796,
+      "lang": "pl",
+      "answerChars": 109,
+      "stepChars": 150,
+      "steps": 2
+    },
+    "eviction_possession|2": {
+      "px": 502,
+      "lang": "pl",
+      "answerChars": 42,
+      "stepChars": 50,
+      "steps": 2
+    },
+    "eviction_possession|3": {
+      "px": 661,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 138,
+      "steps": 3
+    },
+    "eviction_possession|4": {
+      "px": 497,
+      "lang": "es",
+      "answerChars": 25,
+      "stepChars": 60,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "eviction_possession|5": {
+      "px": 688,
+      "lang": "pl",
+      "answerChars": 93,
+      "stepChars": 48,
+      "steps": 2
+    },
+    "eviction_possession|6": {
+      "px": 648,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 92,
+      "steps": 2
+    },
+    "court_fine|1": {
+      "px": 764,
+      "lang": "pl",
+      "answerChars": 108,
+      "stepChars": 150,
+      "steps": 2
+    },
+    "court_fine|2": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 42,
+      "stepChars": 24,
+      "steps": 1
+    },
+    "court_fine|3": {
+      "px": 534,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 90,
+      "steps": 2
+    },
+    "court_fine|4": {
+      "px": 497,
+      "lang": "es",
+      "answerChars": 25,
+      "stepChars": 60,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "court_fine|5": {
+      "px": 661,
+      "lang": "pl",
+      "answerChars": 109,
+      "stepChars": 46,
+      "steps": 2
+    },
+    "court_fine|6": {
+      "px": 648,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 94,
+      "steps": 2
+    },
+    "housing_letter|1": {
+      "px": 702,
+      "lang": "fr",
+      "answerChars": 68,
+      "stepChars": 192,
+      "steps": 2
+    },
+    "housing_letter|2": {
+      "px": 463,
+      "lang": "es",
+      "answerChars": 91,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "housing_letter|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "housing_letter|4": {
+      "px": 531,
+      "lang": "es",
+      "answerChars": 71,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "housing_letter|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 73,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "housing_letter|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "legal_solicitor|1": {
+      "px": 582,
+      "lang": "pl",
+      "answerChars": 72,
+      "stepChars": 40,
+      "steps": 1
+    },
+    "legal_solicitor|2": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 40,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "legal_solicitor|3": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "legal_solicitor|4": {
+      "px": 463,
+      "lang": "es",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "legal_solicitor|5": {
+      "px": 625,
+      "lang": "pl",
+      "answerChars": 103,
+      "stepChars": 24,
+      "steps": 1
+    },
+    "legal_solicitor|6": {
+      "px": 653,
+      "lang": "pt",
+      "answerChars": 90,
+      "stepChars": 96,
+      "steps": 2
+    },
+    "medical_letter|1": {
+      "px": 702,
+      "lang": "fr",
+      "answerChars": 73,
+      "stepChars": 191,
+      "steps": 2
+    },
+    "medical_letter|2": {
+      "px": 510,
+      "lang": "pl",
+      "answerChars": 97,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "medical_letter|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "medical_letter|4": {
+      "px": 463,
+      "lang": "es",
+      "answerChars": 61,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "medical_letter|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 31,
+      "steps": 1
+    },
+    "medical_letter|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "employment_letter|1": {
+      "px": 702,
+      "lang": "fr",
+      "answerChars": 70,
+      "stepChars": 168,
+      "steps": 2
+    },
+    "employment_letter|2": {
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 94,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "employment_letter|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "employment_letter|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 86,
+      "stepChars": 55,
+      "steps": 1
+    },
+    "employment_letter|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 71,
+      "stepChars": 19,
+      "steps": 1
+    },
+    "employment_letter|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "education_letter|1": {
+      "px": 702,
+      "lang": "pt",
+      "answerChars": 79,
+      "stepChars": 191,
+      "steps": 2
+    },
+    "education_letter|2": {
+      "px": 495,
+      "lang": "bn",
+      "answerChars": 90,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "education_letter|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "education_letter|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 54,
+      "steps": 1
+    },
+    "education_letter|5": {
+      "px": 567,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 53,
+      "steps": 2
+    },
+    "education_letter|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "insurance_letter|1": {
+      "px": 696,
+      "lang": "pl",
+      "answerChars": 55,
+      "stepChars": 186,
+      "steps": 2
+    },
+    "insurance_letter|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "insurance_letter|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "insurance_letter|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 54,
+      "steps": 1
+    },
+    "insurance_letter|5": {
+      "px": 567,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 53,
+      "steps": 2
+    },
+    "insurance_letter|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "bank_loan_letter|1": {
+      "px": 576,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "bank_loan_letter|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bank_loan_letter|3": {
+      "px": 556,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 87,
+      "steps": 2
+    },
+    "bank_loan_letter|4": {
+      "px": 495,
+      "lang": "pt",
+      "answerChars": 93,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bank_loan_letter|5": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 99,
+      "stepChars": 22,
+      "steps": 1
+    },
+    "bank_loan_letter|6": {
+      "px": 466,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "benefits_dwp|1": {
+      "px": 702,
+      "lang": "fr",
+      "answerChars": 75,
+      "stepChars": 180,
+      "steps": 2
+    },
+    "benefits_dwp|2": {
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 97,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "benefits_dwp|3": {
+      "px": 621,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 104,
+      "steps": 2
+    },
+    "benefits_dwp|4": {
+      "px": 463,
+      "lang": "fr",
+      "answerChars": 70,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "benefits_dwp|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "benefits_dwp|6": {
+      "px": 720,
+      "lang": "pl",
+      "answerChars": 146,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "scam_phishing|1": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "scam_phishing|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_phishing|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "scam_phishing|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_phishing|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "scam_phishing|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "non_document_recipe|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "non_document_recipe|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "non_document_recipe|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "non_document_recipe|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "non_document_recipe|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "non_document_recipe|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "blank_template|1": {
+      "px": 664,
+      "lang": "fr",
+      "answerChars": 37,
+      "stepChars": 194,
+      "steps": 2
+    },
+    "blank_template|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "blank_template|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 94,
+      "stepChars": 94,
+      "steps": 1
+    },
+    "blank_template|4": {
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "blank_template|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 31,
+      "steps": 1
+    },
+    "blank_template|6": {
+      "px": 720,
+      "lang": "pl",
+      "answerChars": 146,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "outgoing_letter|1": {
+      "px": 498,
+      "lang": "pt",
+      "answerChars": 39,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "outgoing_letter|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "outgoing_letter|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "outgoing_letter|4": {
+      "px": 463,
+      "lang": "es",
+      "answerChars": 61,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "outgoing_letter|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 31,
+      "steps": 1
+    },
+    "outgoing_letter|6": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 37,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "multi_document|1": {
+      "px": 466,
+      "lang": "en",
+      "answerChars": 52,
+      "stepChars": 53,
+      "steps": 1
+    },
+    "multi_document|2": {
+      "px": 430,
+      "lang": "es",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "multi_document|3": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "multi_document|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "multi_document|5": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "multi_document|6": {
+      "px": 525,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "multi_document_greetings|1": {
+      "px": 466,
+      "lang": "en",
+      "answerChars": 52,
+      "stepChars": 53,
+      "steps": 1
+    },
+    "multi_document_greetings|2": {
+      "px": 430,
+      "lang": "es",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "multi_document_greetings|3": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "multi_document_greetings|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "multi_document_greetings|5": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "multi_document_greetings|6": {
+      "px": 498,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "multi_document_split|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 66,
+      "stepChars": 128,
+      "steps": 2
+    },
+    "multi_document_split|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "multi_document_split|3": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "multi_document_split|4": {
+      "px": 474,
+      "lang": "pl",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "multi_document_split|5": {
+      "px": 686,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 78,
+      "steps": 3
+    },
+    "multi_document_split|6": {
+      "px": 525,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "ocr_council_tax|1": {
+      "px": 696,
+      "lang": "fr",
+      "answerChars": 53,
+      "stepChars": 188,
+      "steps": 2
+    },
+    "ocr_council_tax|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_council_tax|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "ocr_council_tax|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 86,
+      "stepChars": 55,
+      "steps": 1
+    },
+    "ocr_council_tax|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 82,
+      "stepChars": 43,
+      "steps": 2
+    },
+    "ocr_council_tax|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "ocr_energy_bill|1": {
+      "px": 734,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 205,
+      "steps": 2
+    },
+    "ocr_energy_bill|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_energy_bill|3": {
+      "px": 556,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 87,
+      "steps": 2
+    },
+    "ocr_energy_bill|4": {
+      "px": 533,
+      "lang": "pl",
+      "answerChars": 129,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_energy_bill|5": {
+      "px": 587,
+      "lang": "pl",
+      "answerChars": 66,
+      "stepChars": 22,
+      "steps": 1
+    },
+    "ocr_energy_bill|6": {
+      "px": 466,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "ocr_enforcement|1": {
+      "px": 681,
+      "lang": "pl",
+      "answerChars": 76,
+      "stepChars": 170,
+      "steps": 2
+    },
+    "ocr_enforcement|2": {
+      "px": 493,
+      "lang": "ro",
+      "answerChars": 42,
+      "stepChars": 45,
+      "steps": 1
+    },
+    "ocr_enforcement|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "ocr_enforcement|4": {
+      "px": 533,
+      "lang": "pl",
+      "answerChars": 129,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_enforcement|5": {
+      "px": 587,
+      "lang": "pl",
+      "answerChars": 68,
+      "stepChars": 24,
+      "steps": 1
+    },
+    "ocr_enforcement|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 56,
+      "steps": 1
+    },
+    "ocr_heavy_damage|1": {
+      "px": 439,
+      "lang": "pl",
+      "answerChars": 40,
+      "stepChars": 19,
+      "steps": 1
+    },
+    "ocr_heavy_damage|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 19,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_heavy_damage|3": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 34,
+      "stepChars": 34,
+      "steps": 1
+    },
+    "ocr_heavy_damage|4": {
+      "px": 533,
+      "lang": "pl",
+      "answerChars": 129,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ocr_heavy_damage|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "ocr_heavy_damage|6": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "photo_snippet_short|1": {
+      "px": 605,
+      "lang": "pl",
+      "answerChars": 35,
+      "stepChars": 168,
+      "steps": 2
+    },
+    "photo_snippet_short|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "photo_snippet_short|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "photo_snippet_short|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 54,
+      "steps": 1
+    },
+    "photo_snippet_short|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "photo_snippet_short|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "arrears_before_clause|1": {
+      "px": 628,
+      "lang": "es",
+      "answerChars": 85,
+      "stepChars": 42,
+      "steps": 1
+    },
+    "arrears_before_clause|2": {
+      "px": 493,
+      "lang": "ro",
+      "answerChars": 42,
+      "stepChars": 45,
+      "steps": 1
+    },
+    "arrears_before_clause|3": {
+      "px": 534,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 90,
+      "steps": 2
+    },
+    "arrears_before_clause|4": {
+      "px": 497,
+      "lang": "es",
+      "answerChars": 24,
+      "stepChars": 59,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "arrears_before_clause|5": {
+      "px": 655,
+      "lang": "fr",
+      "answerChars": 65,
+      "stepChars": 45,
+      "steps": 2
+    },
+    "arrears_before_clause|6": {
+      "px": 648,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 92,
+      "steps": 2
+    },
+    "failed_direct_debit|1": {
+      "px": 609,
+      "lang": "fr",
+      "answerChars": 53,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "failed_direct_debit|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "failed_direct_debit|3": {
+      "px": 534,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 90,
+      "steps": 2
+    },
+    "failed_direct_debit|4": {
+      "px": 495,
+      "lang": "pt",
+      "answerChars": 93,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "failed_direct_debit|5": {
+      "px": 587,
+      "lang": "pl",
+      "answerChars": 66,
+      "stepChars": 22,
+      "steps": 1
+    },
+    "failed_direct_debit|6": {
+      "px": 583,
+      "lang": "pl",
+      "answerChars": 32,
+      "stepChars": 93,
+      "steps": 2
+    },
+    "arrears_past_and_future|1": {
+      "px": 764,
+      "lang": "pl",
+      "answerChars": 98,
+      "stepChars": 148,
+      "steps": 2
+    },
+    "arrears_past_and_future|2": {
+      "px": 466,
+      "lang": "pl",
+      "answerChars": 40,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "arrears_past_and_future|3": {
+      "px": 529,
+      "lang": "fr",
+      "answerChars": 38,
+      "stepChars": 90,
+      "steps": 2
+    },
+    "arrears_past_and_future|4": {
+      "px": 497,
+      "lang": "es",
+      "answerChars": 24,
+      "stepChars": 59,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "arrears_past_and_future|5": {
+      "px": 688,
+      "lang": "fr",
+      "answerChars": 76,
+      "stepChars": 45,
+      "steps": 2
+    },
+    "arrears_past_and_future|6": {
+      "px": 626,
+      "lang": "es",
+      "answerChars": 90,
+      "stepChars": 72,
+      "steps": 2
+    },
+    "school_periodic|1": {
+      "px": 702,
+      "lang": "pt",
+      "answerChars": 80,
+      "stepChars": 191,
+      "steps": 2
+    },
+    "school_periodic|2": {
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 91,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "school_periodic|3": {
+      "px": 680,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 126,
+      "steps": 2
+    },
+    "school_periodic|4": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 59,
+      "steps": 1
+    },
+    "school_periodic|5": {
+      "px": 504,
+      "lang": "es",
+      "answerChars": 75,
+      "stepChars": 23,
+      "steps": 1
+    },
+    "school_periodic|6": {
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "ambiguous_numeric_date|1": {
+      "px": 609,
+      "lang": "fr",
+      "answerChars": 65,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "ambiguous_numeric_date|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "ambiguous_numeric_date|3": {
+      "px": 529,
+      "lang": "fr",
+      "answerChars": 38,
+      "stepChars": 90,
+      "steps": 2
+    },
+    "ambiguous_numeric_date|4": {
+      "px": 465,
+      "lang": "pl",
+      "answerChars": 18,
+      "stepChars": 89,
+      "steps": 1
+    },
+    "ambiguous_numeric_date|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 38,
+      "steps": 2
+    },
+    "ambiguous_numeric_date|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "short_year_date|1": {
+      "px": 641,
+      "lang": "fr",
+      "answerChars": 80,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "short_year_date|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "short_year_date|3": {
+      "px": 624,
+      "lang": "es",
+      "answerChars": 38,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "short_year_date|4": {
+      "px": 461,
+      "lang": "fr",
+      "answerChars": 17,
+      "stepChars": 72,
+      "steps": 1
+    },
+    "short_year_date|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "short_year_date|6": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 39,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "polish_rent_arrears|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "polish_rent_arrears|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "polish_rent_arrears|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "polish_rent_arrears|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "polish_rent_arrears|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "polish_rent_arrears|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "spanish_water_final_notice|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "spanish_water_final_notice|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spanish_water_final_notice|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "spanish_water_final_notice|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spanish_water_final_notice|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "spanish_water_final_notice|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "french_hospital_appointment|1": {
+      "px": 702,
+      "lang": "pt",
+      "answerChars": 88,
+      "stepChars": 193,
+      "steps": 2
+    },
+    "french_hospital_appointment|2": {
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 99,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "french_hospital_appointment|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "french_hospital_appointment|4": {
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "french_hospital_appointment|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 31,
+      "steps": 1
+    },
+    "french_hospital_appointment|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "polish_phishing|1": {
+      "px": 498,
+      "lang": "fr",
+      "answerChars": 62,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "polish_phishing|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "polish_phishing|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "polish_phishing|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "polish_phishing|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "polish_phishing|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    }
   }
- }
 }

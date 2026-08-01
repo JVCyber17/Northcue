@@ -2,6 +2,7 @@ const {
   validateStructuredResult,
   sanitizeStructuredResultWithVerdict
 } = require("../utils/validateStructuredResult");
+const { measureFactExtraction, FACT_MEASUREMENT_BUDGET_MS } = require("./aiFactExtractionService");
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-4.1-mini";
@@ -149,6 +150,25 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
     return rulesRun;
   }
 
+  // D3 TIER 1. Measured beside the phrasing pass, served to nobody.
+  //
+  // Started HERE, below every gate, so it reaches the provider on exactly the
+  // documents the phrasing pass already reaches and not one more. Awaited in
+  // the finally below rather than here, so its 3.3s measured mean runs
+  // alongside the phrasing pass's 15.1s and adds no wall time to the reader's
+  // wait. It cannot reject, so nothing it does can reach a card.
+  //
+  // Same redaction, same outbound cap, same model. Nothing about what leaves
+  // this process changes. The one thing that is NOT the same is the timeout:
+  // a measurement gets a tighter budget than the pass a reader is waiting on,
+  // so it can never be the reason a card is slow.
+  const factsPromise = measureFactExtraction({
+    documentText: redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS),
+    model,
+    apiKey: process.env.OPENAI_API_KEY,
+    timeoutMs: Math.min(AI_TIMEOUT_MS, FACT_MEASUREMENT_BUDGET_MS)
+  });
+
   try {
     const candidate = await requestStructuredResultFromOpenAi({
       extractedText,
@@ -263,6 +283,12 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
       http_status: error.httpStatus || null
     });
     return rulesRun;
+  } finally {
+    // Every path above returns rulesRun, and rulesRun.api_output IS output, so
+    // attaching here after the return expression has been evaluated still
+    // reaches the caller. One place rather than four, so a future return cannot
+    // be added that silently drops the measurement.
+    output.debug.ai_facts = await factsPromise;
   }
 }
 
@@ -444,6 +470,17 @@ function parseJsonObject(text) {
 
 function attachAiMetadata(output, metadata) {
   output.debug.ai = metadata;
+  // D3 tier 1. The fact extractor runs behind the SAME gates as the phrasing
+  // pass, so a document that never reaches the provider never reaches it
+  // either. Mirrored here rather than repeated at each gate, so the two fields
+  // cannot drift apart and a future gate gets this for free. The run path
+  // overwrites this in the finally above.
+  if (metadata.ai_status === "skipped") {
+    output.debug.ai_facts = {
+      facts_status: "skipped",
+      facts_error_code: metadata.ai_error_code
+    };
+  }
 }
 
 function cleanAiErrorCode(value) {

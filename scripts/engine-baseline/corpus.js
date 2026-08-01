@@ -698,6 +698,125 @@ const CORPUS = [
       "If you do not pay by the date shown, you may lose the right to pay by instalments.",
       "If you think this bill is wrong, contact us on 020 8583 4242."
     ].join("\n")
+  },
+
+  // ------------------------------------------------------------- non English
+  //
+  // Added 1 August 2026 for D3 tier 1. These are NOT translations of the
+  // entries above. Each is its own letter, with its own sender, reference,
+  // amounts, dates and structure, so a shared phrasing cannot make the engine
+  // look better or worse than it is on a document it has never seen.
+  //
+  // MONEY IS DELIBERATELY IN UK FORMAT on all four. A Polish letter from a UK
+  // landlord about a UK tenancy prints £1,245.60, not £1 245,60, and writing
+  // continental separators here would change two variables at once. Dates are
+  // written in the document's own language, because that IS the variable.
+  //
+  // All four are the shapes a UK reader actually receives: UK organisations do
+  // send translated notices, and people do photograph letters written in their
+  // own language. The phishing entry is written in Polish for the same reason
+  // real phishing is: the people it targets read Polish.
+  {
+    id: "polish_rent_arrears",
+    label: "Rent arrears letter written in Polish",
+    intent: "D3 tier 1. Carries a deadline, a stated consequence (court, then eviction), " +
+      "an amount and a contact number. The engine reads none of them: no deadline, " +
+      "has_consequence false, severity low. Not a translation of arrears_past_and_future; " +
+      "different sender, tenancy rather than council tax, weekly rent figure.",
+    text: [
+      "Brightside Housing Association",
+      "Dział Czynszów",
+      "Numer konta najemcy: BH-44712",
+      "",
+      "Data pisma: 6 sierpnia 2026",
+      "",
+      "Szanowni Państwo,",
+      "",
+      "Informujemy, że na Państwa koncie czynszowym powstała zaległość.",
+      "Zaległość na dzień dzisiejszy: £1,245.60",
+      "Czynsz tygodniowy: £142.30",
+      "",
+      "Prosimy o uregulowanie zaległości do dnia 4 września 2026.",
+      "Jeżeli zaległość nie zostanie uregulowana, wystąpimy do sądu rejonowego o nakaz eksmisji.",
+      "Może to doprowadzić do utraty mieszkania oraz obciążenia Państwa kosztami sądowymi.",
+      "",
+      "W przypadku trudności finansowych prosimy o kontakt z naszym zespołem pod numerem 020 8890 4100."
+    ].join("\n")
+  },
+  {
+    id: "spanish_water_final_notice",
+    label: "Water final notice written in Spanish",
+    intent: "D3 tier 1. A final notice with a payment deadline and a stated consequence " +
+      "(supply restricted under warrant). Also carries a billing PERIOD, which is the " +
+      "shape that made the engine pick a period start as the date that matters on an " +
+      "earlier Spanish probe.",
+    text: [
+      "Thames Water",
+      "Aviso final de pago",
+      "Número de cuenta: TW-8830921",
+      "",
+      "Fecha del aviso: 18 de mayo de 2026",
+      "",
+      "Estimado cliente,",
+      "",
+      "Periodo facturado: 1 de febrero de 2026 al 30 de abril de 2026",
+      "Importe pendiente: £312.44",
+      "",
+      "El pago debe realizarse antes del 15 de junio de 2026.",
+      "Si no recibimos el pago, podremos solicitar una orden judicial para instalar un limitador de caudal en su domicilio.",
+      "",
+      "Si ya ha pagado, no tenga en cuenta este aviso.",
+      "Para hablar de un plan de pago, llame al 0800 316 9800."
+    ].join("\n")
+  },
+  {
+    id: "french_hospital_appointment",
+    label: "Hospital appointment letter written in French",
+    intent: "D3 tier 1. An appointment date, a time, a department and a number to ring if " +
+      "the reader cannot attend. No money and no consequence, so it is the calm shape: " +
+      "the failure here is a wrong topic rather than a missed threat.",
+    text: [
+      "West Middlesex University Hospital",
+      "Service de Dermatologie",
+      "Référence patient: WM-8842177",
+      "",
+      "Le 5 juin 2026",
+      "",
+      "Madame, Monsieur,",
+      "",
+      "Nous vous confirmons votre rendez-vous au service de dermatologie.",
+      "Date du rendez-vous: mardi 7 juillet 2026",
+      "Heure: 10h30",
+      "Lieu: Clinique 4, rez-de-chaussée",
+      "",
+      "Merci de vous présenter quinze minutes avant l'heure indiquée.",
+      "Veuillez apporter ce courrier et la liste de vos médicaments.",
+      "",
+      "Si vous ne pouvez pas vous présenter, veuillez téléphoner au 020 8321 5000."
+    ].join("\n")
+  },
+  {
+    id: "polish_phishing",
+    label: "Phishing message written in Polish",
+    intent: "D3 tier 1, and the sharpest of the four. Carries the same shapes " +
+      "detectScamSignals catches in English: a refund lure, a 24 hour window, a link, " +
+      "and a request for card number, PIN and password together. The English " +
+      "scam_phishing entry raises six signals. This raises none, so processing_mode is " +
+      "caution rather than verification_only and the refusal path never fires.",
+    text: [
+      "HMRC Zwrot Podatku",
+      "",
+      "Szanowny Kliencie,",
+      "",
+      "Po weryfikacji Państwa rozliczenia przysługuje zwrot podatku w wysokości £482.30.",
+      "",
+      "Aby otrzymać zwrot, prosimy potwierdzić dane w ciągu 24 godzin.",
+      "Prosimy kliknąć w poniższy link i podać numer karty oraz kod PIN.",
+      "Prosimy również potwierdzić pełne hasło do konta bankowego.",
+      "https://hmrc-zwrot-podatku.example.com/potwierdz",
+      "",
+      "Brak potwierdzenia danych w podanym terminie spowoduje zablokowanie konta."
+    ].join("\n")
   }
 ];
 

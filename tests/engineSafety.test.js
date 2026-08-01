@@ -114,13 +114,24 @@ async function runAiPass(text, { withKey, fetchImpl }) {
   const origKey = process.env.OPENAI_API_KEY;
   const origFetch = global.fetch;
   let fetchCalls = 0;
+  let factCalls = 0;
   if (withKey) process.env.OPENAI_API_KEY = "test-key";
   else delete process.env.OPENAI_API_KEY;
-  global.fetch = async (...args) => { fetchCalls++; return fetchImpl(...args); };
+  // D3 tier 1 put a second provider request on this path, the fact extractor,
+  // running beside the phrasing pass behind the same gates. Counted separately
+  // rather than lumped in, because the egress assertions below are the point of
+  // this file: "no key means no egress" has to keep meaning BOTH requests.
+  global.fetch = async (...args) => {
+    const body = args[1] && args[1].body ? JSON.parse(args[1].body) : null;
+    const system = String(body && body.input && body.input[0] && body.input[0].content || "");
+    if (system.includes("extraction layer")) factCalls++; else fetchCalls++;
+    return fetchImpl(...args);
+  };
   try {
     const run2 = await applyAiStructuredResult({ rulesRun, extractedText: text });
     const ai = run2.api_output.debug.ai;
-    return { fetchCalls, ai, cards: run2.api_output.cards, rulesCards };
+    return { fetchCalls, factCalls, ai, cards: run2.api_output.cards, rulesCards,
+      facts: run2.api_output.debug.ai_facts };
   } finally {
     global.fetch = origFetch;
     if (origKey === undefined) delete process.env.OPENAI_API_KEY;

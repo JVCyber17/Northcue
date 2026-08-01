@@ -768,6 +768,99 @@ distribution, lowering it from 25s to 20s loses 5 completions in 83 and saves
 162ms of mean wait. The levers are output size and provider tier.
 
 
+# Non English documents
+
+Added **1 August 2026** from D3 tier 1, as findings rather than fixes. Four
+documents were added to the corpus to hold them: `polish_rent_arrears`,
+`spanish_water_final_notice`, `french_hospital_appointment`, `polish_phishing`.
+They are not translations of existing entries. Each has its own sender,
+reference, amounts, dates and structure, and money is deliberately printed in UK
+format on all four so that language is the only variable.
+
+**Nothing here is caused by the AI layer.** Every figure below is the
+deterministic engine, on the path a non English interface already serves today.
+
+## The safety layer does not read the document
+
+The same phishing letter, clause for clause, in English and in Polish:
+
+```
+scam_phishing (English)   processing_mode verification_only   scam signals 6
+polish_phishing           processing_mode caution            scam signals 0
+```
+
+`detectScamSignals` is a list of English phrases. A Polish letter asking for a
+card number, a PIN and a full bank password inside 24 hours raises nothing, so
+`verification_only` never fires and the refusal path never runs. The reader is
+shown ordinary cue cards for a phishing message.
+
+The same shape on an arrears letter:
+
+```
+arrears_before_clause (English)   severity urgent   deadline 3 September 2026   consequence true
+polish_rent_arrears               severity low      deadline null               consequence false
+```
+
+The Polish letter says the association will apply to the county court for a
+possession order and that this could lead to losing the home. The engine reads
+none of it, because `SERIOUS_SIGNALS`, `RISK_PHRASES` and the deadline
+vocabulary are all English.
+
+## Two of the four are refused outright as non documents
+
+`polish_rent_arrears` and `spanish_water_final_notice` come back
+`is_probable_non_document: true`, `processing_mode: unsupported`, and the reader
+is told:
+
+```
+card 1  "This does not look like an official letter or bill."
+card 2  "Northcue could not find the things an official letter usually has,
+         like a sender, a reference, or a date."
+```
+
+Both letters have a sender on line one, a reference on line three and a date on
+line five.
+
+`detectProbableNonDocument` returns true when all four of its checks fail, and
+all four are English:
+
+| check | why it fails |
+| --- | --- |
+| `hasSender` | `guessDetailedSender` and `guessSender` both decline |
+| `hasReference` | the keyword list is `reference\|ref\|account number\|...`, and the letters say `Numer konta najemcy` and `Número de cuenta` |
+| `hasFormalDate` | matches `dd/mm/yyyy`, `date:` or an English month name, and the letters print `6 sierpnia 2026` and `18 de mayo de 2026` |
+| `hasOfficialPhrasing` | 25 English words, none of which appear |
+
+**The other two escaped this only by being misclassified.** The check is
+skipped when `documentCategory !== "unknown"`, and the French appointment letter
+was classified `education` while the Polish phishing letter was classified
+`government`. Neither was recognised. Both were let through by a different
+mistake.
+
+## What is findable and thrown away
+
+`findAmounts` is a currency symbol followed by digits, so it is already language
+independent, and `tests/valueFinding.test.js` now asserts it finds
+`£1,245.60`, `£142.30`, `£312.44` and `£482.30` in these four documents. Two of
+those documents still report `money_amounts` as **empty** from the engine,
+because the non document decision is taken first and the extraction is never
+reached. The same is true of `extractContactNumber`, whose pattern is digits
+rather than English.
+
+## Why this is recorded and not fixed
+
+Every line of it is D3's argument. Fixing `detectProbableNonDocument` by adding
+Polish, Spanish and French keyword lists would be the wrong repair: it scales as
+languages times vocabularies, and it would still leave severity, scam detection
+and deadline extraction English only. The measured answer is an extraction layer
+that reads the document in its own language and hands the engine facts, which is
+what D3 tier 1 has now built and wired to nowhere.
+
+**Tier 3 cannot ship without deciding what happens to these two documents.**
+They are gated as `unsupported`, which is one of the gates the fact extractor
+sits behind, so today they would not reach it either.
+
+
 # OCR and value-finding defects
 
 Added **31 July 2026** after an audit of every site that pattern-matches raw
