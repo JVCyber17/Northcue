@@ -213,24 +213,20 @@ test("rent arrears letter", () => {
   assert.equal(output.trust.severity_level, "high");
 });
 
-test("a smish built only from advisory phrasing is NO LONGER refused", () => {
-  // THIS RECORDS A LOSS, and it is the cost of F3.
+test("a smish built only from advisory phrasing is refused by the counterweight", () => {
+  // THIS TEST HAS RECORDED BOTH SIDES OF ONE DECISION, and the history is the
+  // point of keeping it.
   //
-  // Every phrase in this message is in the advisory tier: dear customer, final
-  // warning, act now, click this link, bank transfer today. There is no
-  // credential ask, so nothing decisive fires, and after the demotion the
-  // engine does not refuse it. It used to.
+  // Before F3 it was refused, because any single needle refused anything.
+  // F3 demoted nine needles that also occur in genuine post, and this message
+  // is built from four of them with no credential ask, so F3 lost it. It said
+  // so, in this test, rather than being deleted.
+  // The counterweight took it back: three or more advisory phrasings together
+  // are decisive, and this carries four.
   //
-  // Four advisory signals fire and one distrust signal, so the evidence is all
-  // present and nothing acts on it. The output is worse than merely unrefused:
-  // the sender guess reads the phishing instruction as the sender.
-  //
-  // Kept as a test rather than deleted because this is the shape a replacement
-  // has to catch. The corpus's link-only entries exist for the same reason. A
-  // proposed counterweight is on the table: three or more ADVISORY signals
-  // together become decisive. Measured across all 54 corpus documents, no
-  // genuine letter carries more than one, scam_phishing carries three, and this
-  // message carries four.
+  // A single needle still refuses nothing, which is what F3 was for. The six
+  // genuine letters that F3 recovered each carry exactly one and stay
+  // recovered.
   const output = runEngine([
     "Dear customer",
     "Final warning. Act now.",
@@ -239,12 +235,11 @@ test("a smish built only from advisory phrasing is NO LONGER refused", () => {
   ].join("\n"), "email");
 
   assertBaseOutput(output);
-  assert.equal(output.trust.processing_mode, "caution",
-    "records the loss: this was verification_only before F3");
-  assert.deepEqual(output.trust.scam_signals, [],
-    "nothing decisive fires, which is why it is no longer refused");
-  assert.equal(output.trust.advisory_scam_signals.length, 4,
-    "the evidence is still collected and still shown to the reader");
+  assert.equal(output.trust.processing_mode, "verification_only");
+  assert.equal(output.trust.trust_assessment, "low");
+  assert.deepEqual(output.trust.scam_signals.length, 4,
+    "refused by the four advisory phrasings, since nothing decisive fires");
+  assert.equal(output.trust.advisory_scam_signals.length, 4);
   assertNoDangerousVerificationInstructions(output);
 });
 

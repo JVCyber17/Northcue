@@ -154,8 +154,33 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
 
   const authenticSignals = detectAuthenticSignals(lower, fileMeta);
   const distrustSignals = detectDistrustSignals(lower);
-  const scamSignals = detectScamSignals(lower);
+  const decisiveScamSignals = detectScamSignals(lower);
   const advisoryScamSignals = detectAdvisoryScamSignals(lower);
+
+  // THE COUNTERWEIGHT. Three or more advisory phrasings together are decisive.
+  //
+  // F3 demoted nine needles because each one also occurs in genuine post, and
+  // that was right one needle at a time. It was wrong in aggregate: a message
+  // reading "Dear customer. Final warning. Act now. Click this link and pay by
+  // bank transfer today." carries four of them, no credential ask, and F3
+  // stopped refusing it. Worse than unrefused, the sender guess read the
+  // phishing instruction as the sender.
+  //
+  // Three, from the distribution rather than from taste. Measured across all 54
+  // corpus documents: 47 carry none, six carry exactly one and every one of
+  // those six is a genuine letter, and one carries three and is scam_phishing.
+  // NOTHING SITS AT TWO, so the boundary is empty on the evidence and the
+  // threshold could be two or three without changing any outcome. Three is
+  // chosen because it is the further of the two from the six genuine letters,
+  // and because a genuine letter picking up a second advisory phrase is far
+  // more likely than it picking up a third.
+  //
+  // A single needle still cannot refuse anything. That was the whole point of
+  // F3 and it is unchanged.
+  const advisoryReachesThreshold = advisoryScamSignals.length >= ADVISORY_DECISIVE_THRESHOLD;
+  const scamSignals = advisoryReachesThreshold
+    ? decisiveScamSignals.concat(advisoryScamSignals)
+    : decisiveScamSignals;
   const severitySignals = detectSeveritySignals(lower);
   const seriousSignals = detectSeriousDocumentSignals(lower);
 
@@ -283,8 +308,10 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     authentic_signals: authenticSignals,
     distrust_signals: distrustSignals,
     scam_signals: scamSignals,
-    // Phrasings that occur in scams AND in genuine correspondence. Visible to
-    // the reader in the trust panel, and read by no decision in this file.
+    // The advisory tier, always, whether or not it reached the threshold. On a
+    // document refused by the counterweight these also appear in scam_signals,
+    // which is the list of what actually decided; here they are the answer to
+    // "which of those were advisory".
     advisory_scam_signals: advisoryScamSignals,
     severity_signals: severitySignals,
     is_high_stakes: Boolean(seriousSignals.tier),
@@ -2182,6 +2209,11 @@ const ADVISORY_SCAM_CHECKS = [
   ["verify your identity within", "Pressures you to verify your identity within a short time."], // a DWP claim check
   ["account will be frozen", "Threatens to freeze your account."]         // a third party debt order
 ];
+
+// How many advisory phrasings together carry the weight one of them does not.
+// See the counterweight comment in evaluateTrustAndSeverityLayer for the
+// distribution this comes from.
+const ADVISORY_DECISIVE_THRESHOLD = 3;
 
 function matchChecks(lower, checks) {
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);

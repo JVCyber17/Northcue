@@ -4280,7 +4280,10 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
   "scam_signals": [
     "Asks for a full password, which real organisations never request.",
     "Asks for card number and PIN together.",
-    "Asks for PIN and password together."
+    "Asks for PIN and password together.",
+    "Uses pressure wording.",
+    "Pressures you to verify your identity within a short time.",
+    "Threatens to freeze your account."
   ],
   "advisory_scam_signals": [
     "Uses pressure wording.",
