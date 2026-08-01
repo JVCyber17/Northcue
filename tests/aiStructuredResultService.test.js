@@ -4,8 +4,6 @@ const assert = require("node:assert/strict");
 const { runClearStepsEngine } = require("../src/services/clearStepsEngine");
 const {
   applyAiStructuredResult,
-  normalizeAiErrorCode,
-  summarizeValidationErrors,
   stripAiViolations,
   rulesSentenceSet,
   sanitizeAiTextField
@@ -133,25 +131,6 @@ test("structured result sanitiser falls back when AI output is unsafe", () => {
 
   assert.equal(sanitized, fallback);
 });
-
-test("AI error normalizer maps DOM abort code 20 to timeout", () => {
-  assert.equal(normalizeAiErrorCode({ name: "AbortError", code: 20 }), "ai_timeout");
-  assert.equal(normalizeAiErrorCode({ code: "20" }), "ai_timeout");
-});
-
-test("AI validation summary is safe and compact", () => {
-  const summary = summarizeValidationErrors([
-    "missing field: structured_result.cards",
-    "card what_do_i_need_to_do contains unsafe advice"
-  ]);
-
-  assert.deepEqual(summary, [
-    "missing field: structured_result.cards",
-    "card what_do_i_need_to_do contains unsafe advice"
-  ]);
-});
-
-// ─── sanitizeAiTextField ─────────────────────────────────────────────────────
 
 test("sanitizer replaces sentence-initial imperative pay instruction with cautious framing", () => {
   const result = sanitizeAiTextField("Pay £89.20 by 25 June 2026 to avoid disconnection.");

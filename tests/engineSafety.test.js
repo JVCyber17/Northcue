@@ -268,14 +268,19 @@ test("garbled / non-topical topic is not echoed in the summary", () => {
   assert.ok(!/about latte/i.test(cardById(menu, "what_is_this").short_answer));
 });
 
-test("AI pass fails open to the rules cards when the API errors", async () => {
+test("the phrasing pass is gone, and the cards are the engine's own", async () => {
+  // What this used to assert, that a provider failure falls open to the rules
+  // cards, is now proved for the FACT path across all forty documents in
+  // factFailurePath.test.js. What is left to assert here is stronger: with a
+  // key present and English input, nothing is sent from this function at all.
   const r = await runAiPass(GOOD_BILL, {
     withKey: true,
-    fetchImpl: async () => { throw new Error("network down"); }
+    fetchImpl: async () => { throw new Error("nothing may be sent from here"); }
   });
-  assert.equal(r.fetchCalls, 1, "good-quality input with a key should attempt the AI call");
+  assert.equal(r.fetchCalls, 0, "the phrasing pass must send nothing");
+  assert.equal(r.factCalls, 0, "and the fact extractor runs in the route, not here");
   assert.equal(r.ai.ai_used, false);
-  assert.equal(r.ai.ai_status, "fallback");
-  // user-visible cards are unchanged (rules output preserved)
+  assert.equal(r.ai.ai_status, "skipped");
+  assert.equal(r.ai.ai_error_code, "phrasing_removed");
   assert.deepEqual(r.cards, r.rulesCards);
 });

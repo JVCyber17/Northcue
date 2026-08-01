@@ -1,9 +1,3 @@
-const {
-  validateStructuredResult,
-  sanitizeStructuredResultWithVerdict
-} = require("../utils/validateStructuredResult");
-
-const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-4.1-mini";
 
 // A MISCONFIGURED NUMBER MUST NOT DISABLE THE AI IN SILENCE.
@@ -100,273 +94,43 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   // AI-success path these cards are replaced by the (separately stripped) AI
   // output further down; on skip and fallback they are what the user sees.
   sanitiseRulesStructuredResult(output, rulesRun);
-
-  const fallbackStructuredResult = output.structured_result;
-  const startedAt = Date.now();
-  const model = DEFAULT_MODEL;
-
-  // Every gate is now one call. The five inline blocks this replaces read the
-  // same fields in the same order and produced the same codes; the difference
-  // is that the fact extractor asks the same question, so the two cannot drift.
-  const skipReason = providerSkipReason({ rulesRun, language });
-  if (skipReason) {
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "skipped",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: 0,
-      ai_error_code: skipReason
-    });
-    return rulesRun;
-  }
-
-  // The fact extractor no longer runs here. In tier 2 it runs BEFORE the engine
-  // composes, because the engine now reads its output, and that ordering lives
-  // in the route where the engine is called. Both still ask providerSkipReason,
-  // so the "sends nothing the phrasing pass does not" property is unchanged.
-  const inputQuality = output.trust?.input_quality || "unknown";
-  const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);
-
-  try {
-    const candidate = await requestStructuredResultFromOpenAi({
-      extractedText,
-      fallbackStructuredResult,
-      model,
-      inputQuality,
-      garbledByOcr
-    });
-
-    // The verdict, not just the object. When the sanitiser rejects the
-    // candidate it hands back the engine's own result, and that result then
-    // passes every check below, which is how a discarded model answer used to
-    // be recorded as a completed one.
-    //
-    // NOTHING BELOW THIS LINE CHANGES WHAT IS SERVED. The assignments to
-    // structured_result, display_text and tts_script stay exactly where they
-    // were and stay unconditional, so the reader receives the same bytes on
-    // both paths as before. Only the metadata branches, at the end.
-    const sanitizeVerdict = sanitizeStructuredResultWithVerdict(candidate, fallbackStructuredResult, extractedText);
-    const sanitized = sanitizeVerdict.result;
-    // The exemption is built from the FALLBACK, which is the rules output for
-    // this document. A model sentence that is byte-identical to one of those is
-    // that sentence; anything else carrying a number is stripped.
-    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult));
-    const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
-    if (!validation.valid) {
-      const validationSummary = summarizeValidationErrors(validation.errors);
-      attachAiMetadata(output, {
-        ai_used: false,
-        ai_status: "fallback",
-        ai_provider: "openai",
-        ai_model: model,
-        ai_duration_ms: Date.now() - startedAt,
-        ai_error_code: "invalid_structured_result",
-        validation_errors: validationSummary
-      });
-      logAiDebug("validation_failed", {
-        ai_status: "fallback",
-        ai_error_code: "invalid_structured_result",
-        ai_model: model,
-        ai_duration_ms: Date.now() - startedAt,
-        validation_errors: validationSummary
-      });
-      return rulesRun;
-    }
-
-    output.structured_result = stripped;
-    output.display_text = stripped.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
-    output.tts_script = stripped.cards.map((card) => card.read_aloud_text).join("\n");
-    rulesRun.structured_output.structured_result = stripped;
-    rulesRun.structured_output.display_text = output.display_text;
-    rulesRun.structured_output.tts_script = output.tts_script;
-
-    // Reported here rather than at the sanitiser call, so the served
-    // assignments above run identically on both paths and this stays a
-    // metadata-only branch.
-    //
-    // Its own error code, distinct from invalid_structured_result. The two mean
-    // different things and the difference is the useful part: this one says the
-    // MODEL's own output failed a guard, while invalid_structured_result says
-    // the output failed after the stripper had already rewritten it.
-    if (sanitizeVerdict.rejected) {
-      const sanitizerErrors = summarizeValidationErrors(sanitizeVerdict.errors);
-      attachAiMetadata(output, {
-        ai_used: false,
-        ai_status: "fallback",
-        ai_provider: "openai",
-        ai_model: model,
-        ai_duration_ms: Date.now() - startedAt,
-        ai_error_code: "sanitizer_rejected",
-        validation_errors: sanitizerErrors
-      });
-      logAiDebug("sanitizer_rejected", {
-        ai_status: "fallback",
-        ai_error_code: "sanitizer_rejected",
-        ai_model: model,
-        ai_duration_ms: output.debug.ai.ai_duration_ms,
-        validation_errors: sanitizerErrors
-      });
-      return rulesRun;
-    }
-
-    attachAiMetadata(output, {
-      ai_used: true,
-      ai_status: "completed",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: Date.now() - startedAt,
-      ai_error_code: null
-    });
-    logAiDebug("completed", {
-      ai_status: "completed",
-      ai_model: model,
-      ai_duration_ms: output.debug.ai.ai_duration_ms
-    });
-    return rulesRun;
-  } catch (error) {
-    const aiErrorCode = normalizeAiErrorCode(error);
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "fallback",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: Date.now() - startedAt,
-      ai_error_code: aiErrorCode
-    });
-    logAiDebug("fallback", {
-      ai_status: "fallback",
-      ai_error_code: aiErrorCode,
-      ai_model: model,
-      ai_duration_ms: output.debug.ai.ai_duration_ms,
-      http_status: error.httpStatus || null
-    });
-    return rulesRun;
-  }
+  // THE PHRASING PASS IS GONE.
+  //
+  // The AI no longer writes any sentence a reader sees. It returns facts, the
+  // engine composes from them, and the template bank translates what the engine
+  // wrote. That is D3, and this is where the old half of it was removed.
+  //
+  // WHAT THIS FUNCTION STILL DOES, and why it still exists:
+  //
+  //   1. sanitiseRulesStructuredResult above, which runs stripAiViolations over
+  //      the engine's own cards. UNCHANGED, and it must stay. The engine quotes
+  //      document sentences, and a quoted sentence that commands is still a
+  //      command: "You must pay immediately." lifted off a letter reaches a
+  //      card whether a model was involved or not. That is why the stripper was
+  //      extended to every path on 30 June 2026, and nothing about D3 changes
+  //      it.
+  //
+  //   2. The gate, and the metadata. providerSkipReason still decides whether a
+  //      document may reach the provider, and the FACT extractor asks it in the
+  //      route. Recording the answer keeps document_sessions.ai_status
+  //      meaningful across the change rather than going blank.
+  //
+  // The name is now wrong: it applies no AI structured result. Renaming it
+  // touches six test files and the route for no behaviour change, so it is
+  // listed as a follow-up rather than folded in here.
+  attachAiMetadata(output, {
+    ai_used: false,
+    ai_status: "skipped",
+    ai_provider: "openai",
+    ai_model: DEFAULT_MODEL,
+    ai_duration_ms: 0,
+    // phrasing_removed where the gate would otherwise have allowed a call, so a
+    // dashboard reading this field sees the change rather than silence.
+    ai_error_code: providerSkipReason({ rulesRun, language }) || "phrasing_removed"
+  });
+  return rulesRun;
 }
 
-async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr }) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
-
-  try {
-    const response = await fetch(OPENAI_RESPONSES_URL, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model,
-        input: [
-          {
-            role: "system",
-            content: buildSystemPrompt()
-          },
-          {
-            role: "user",
-            content: buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality, garbledByOcr })
-          }
-        ],
-        // Determinism: temperature 0 removes run-to-run sampling variance so the
-        // same document text yields stable card phrasing. The Responses API does
-        // not support a seed parameter, so temperature is the determinism lever.
-        temperature: 0,
-        max_output_tokens: 2600,
-        // Privacy: do not let OpenAI retain this request/response as stored
-        // application state. Document text is sent for in-memory processing only.
-        store: false
-      }),
-      signal: controller.signal
-    });
-
-    if (!response.ok) {
-      const error = new Error(`openai_http_${response.status}`);
-      error.code = response.status === 401 ? "invalid_api_key" : `openai_http_${response.status}`;
-      error.httpStatus = response.status;
-      throw error;
-    }
-
-    const data = await response.json();
-    // Drift monitor: the Responses API returns no system_fingerprint, so log the
-    // resolved model snapshot + response id. If OpenAI silently rolls the model
-    // build, data.model changes here even though our requested model string is fixed.
-    console.log(`[northcue-ai] responses model=${data.model || "unknown"} id=${data.id || "unknown"}`);
-    const text = extractResponseText(data);
-    if (!text) {
-      const error = new Error("empty_ai_response");
-      error.code = "empty_ai_response";
-      throw error;
-    }
-
-    return parseJsonObject(text);
-  } catch (error) {
-    if (error.name === "AbortError") {
-      const timeoutError = new Error("ai_timeout");
-      timeoutError.code = "ai_timeout";
-      throw timeoutError;
-    }
-    throw error;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-function buildSystemPrompt() {
-  return [
-    "You are the backend structured-output layer for Northcue.",
-    "Return strict JSON only. No Markdown. No commentary.",
-    "Use UK English, plain language, calm wording, and short lines.",
-    "Do not give legal, medical, financial, or authenticity advice.",
-    "Do not tell the user to pay, click links, call document numbers, or reply to a sender.",
-    "Do not guess missing facts. If unclear, say Not clearly stated.",
-    "If the user message shows input_quality as borderline or poor, or garbled_by_ocr as true: do not state specific amounts, dates, reference numbers, or other precise figures with confidence. The document text may contain OCR errors where characters were misread (for example a digit read as a letter, or a letter read as a digit). Do not attempt to correct these errors or present a corrected figure — that would be guessing. Instead match the same uncertainty level the fallback structured_result already expresses: say the figure could not be reliably read rather than restating or reinterpreting it.",
-    "Keep the same JSON shape as the provided fallback structured_result.",
-    "Return exactly six cards in the same order and with the same card_id values.",
-    // Headlines: short and punchy for overwhelmed/ADHD readers. Detail relocates
-    // into key_points (every card has them) rather than being lost.
-    "Write each card's simple_explanation (the headline) short and punchy: a single sentence, ideally one line and about twelve words or fewer, carrying only the core point. Move every supporting detail — extra amounts, dates, schedules, reference numbers, and specifics — into that card's key_points so nothing is lost.",
-    "Lead each headline with its card's core: card one (what_is_this) = what the document is, who it is from, and the key amount if it is a bill; card two (what_matters_most) = the single most important point about the reader's situation (describe it, e.g. 'Your £320.00 payment is overdue.', never an instruction to pay); card three (what_do_i_need_to_do) = the one core action, phrased as a SAFE step such as checking a detail or contacting the sender with trusted details (e.g. 'Check the amount and the due date.'); card four (when_does_it_matter) = just the date or deadline in one short sentence, with no second sentence or extra clause (for example 'Your appointment is on 1 July 2026.' or 'Payment is due by 24 June 2026.').",
-    "Even when shortening, NEVER turn a headline or key_point into an instruction to pay ('Pay £320', 'Pay the amount owed', 'Pay by ...'), click a link, or call a number — describe the situation or give a safe check/contact step instead. This applies even when the document is a bill or arrears letter about money.",
-    // Added after a live capture found the model writing "You must pay £726.00
-    // by 30 September 2026" on a court fine, and "You must contact X by ..." on
-    // an enforcement notice. The validator now rejects these outright; this
-    // line is here so a compliant model does not have to be rejected first.
-    "Never address an obligation to the reader in your own voice: no 'You must pay', 'You must contact', 'You must clear', 'You need to call', or any similar command. When the DOCUMENT places an obligation on the reader, attribute it: 'The document says the balance must be cleared by 12 September 2026.' Northcue reports what a letter demands; it never demands anything itself.",
-    // The engine hedges deliberately. "appears to be" and "looks like" are not
-    // padding: they are what stops a wrong classification reading as a fact.
-    "Keep the fallback's hedging. Where the fallback says 'appears to be', 'looks like', 'may' or 'could', keep that uncertainty; do not rewrite it into a flat assertion. 'This appears to be from X' must not become 'This is X'.",
-    "Never restate a fact more or less certainly than the document does. If the document says fees WILL be added, do not write that they COULD be; if it says something MAY happen, do not write that it WILL.",
-    "Never include a postal address, a postcode, or the reader's property address in any field.",
-    "Never state a date the document does not state. If the document gives a period such as 'within 14 days', report the period; do NOT calculate a calendar date from it.",
-    "Never drop a bill's money amount. If you shorten card one, keep the amount in its headline or in a key_point.",
-    "Every card's headline must be distinct and specific to that card's purpose. Never repeat the same generic line (such as 'Check the original document for the payment amount and due date') on two different cards.",
-    // Card 5 (card_id 'what_could_happen') is adaptive. Use the fallback card's
-    // title as the signal — never change which mode it is in:
-    "Card five has card_id 'what_could_happen'. Use the fallback structured_result's title for this card as the signal and keep that exact title.",
-    "If that title is 'What could happen if I ignore it?', the document states a real consequence of ignoring it. Write simple_explanation as a calm, hedged, attributed report of that consequence: begin with 'The document says' or 'According to the document', keep the words 'may' or 'could', and never assert the threat as certain or in your own voice. Frame it around what the document says could happen if it is ignored — do NOT phrase it as an instruction to pay. key_points may note the consequence and the relevant date to be aware of.",
-    "If that title is 'What should I check?', the document states no such consequence. Keep check-style content and do NOT invent, imply, or escalate any consequence, penalty, or threat the document does not state.",
-    "Set all privacy flags to false."
-  ].join("\n");
-}
-
-function buildUserPrompt({ extractedText, fallbackStructuredResult, inputQuality, garbledByOcr }) {
-  return [
-    "Improve this Northcue structured_result using only the document text below.",
-    "Keep session_id and anonymous_session_id exactly the same as the fallback.",
-    "Keep all field names exactly the same.",
-    "",
-    "Document quality (from the rules engine):",
-    `input_quality: ${inputQuality}`,
-    `garbled_by_ocr: ${garbledByOcr}`,
-    "",
-    "Fallback structured_result:",
-    JSON.stringify(fallbackStructuredResult),
-    "",
-    "Document text for in-memory analysis only. Do not store it or repeat unnecessary personal details:",
-    redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS)
-  ].join("\n");
-}
 
 // Conservative outbound redaction applied to the document text BEFORE it is sent
 // to OpenAI. It masks only clearly-sensitive identifiers: email addresses, phone
@@ -423,37 +187,6 @@ function parseJsonObject(text) {
 
 function attachAiMetadata(output, metadata) {
   output.debug.ai = metadata;
-}
-
-function cleanAiErrorCode(value) {
-  return String(value || "ai_failed")
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]/g, "_")
-    .slice(0, 80) || "ai_failed";
-}
-
-function normalizeAiErrorCode(error) {
-  if (!error) return "ai_failed";
-  if (error.name === "AbortError" || error.code === 20 || error.code === "20") {
-    return "ai_timeout";
-  }
-  return cleanAiErrorCode(error.code || error.message || "ai_failed");
-}
-
-function summarizeValidationErrors(errors) {
-  if (!Array.isArray(errors)) return [];
-  return errors
-    .map((error) => String(error || "validation_error").replace(/\s+/g, " ").trim())
-    .filter(Boolean)
-    .slice(0, 8);
-}
-
-function logAiDebug(event, metadata) {
-  if (process.env.CLEARSTEPS_AI_DEBUG !== "true") return;
-  console.warn("[clearsteps-ai]", JSON.stringify({
-    event,
-    ...metadata
-  }));
 }
 
 // ─── AI output hard-rule violation stripper ───────────────────────────────────
@@ -630,10 +363,6 @@ function sanitizeAiTextField(text, exemptSentences) {
 
 module.exports = {
   applyAiStructuredResult,
-  requestStructuredResultFromOpenAi,
-  extractResponseText,
-  normalizeAiErrorCode,
-  summarizeValidationErrors,
   stripAiViolations,
   sanitizeAiTextField,
   rulesSentenceSet,

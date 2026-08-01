@@ -128,88 +128,12 @@ test("the original sanitizeStructuredResult contract is unchanged", async (t) =>
   });
 });
 
-// ─── the metadata, through the real path ─────────────────────────────────────
-
-test("a discarded model answer is recorded as a fallback, not a completion", async (t) => {
-  const { run } = await runWithCandidate(BILL, "energy_bill", rejectedCandidate);
-  const ai = run.api_output.debug.ai;
-
-  await t.test("it does not claim success", () => {
-    assert.equal(ai.ai_status, "fallback");
-    assert.equal(ai.ai_used, false);
-  });
-
-  await t.test("it names where the rejection happened", () => {
-    // Distinct from invalid_structured_result on purpose. That one means the
-    // output failed AFTER the stripper rewrote it; this one means the model's
-    // own output failed a guard.
-    assert.equal(ai.ai_error_code, "sanitizer_rejected");
-  });
-
-  await t.test("it carries the reason", () => {
-    assert.ok(Array.isArray(ai.validation_errors));
-    assert.ok(ai.validation_errors.length > 0);
-    assert.match(ai.validation_errors.join("\n"), /unsafe advice/i);
-  });
-});
-
-test("an accepted model answer is still recorded as a completion", async () => {
-  const { run } = await runWithCandidate(BILL, "energy_bill", acceptedCandidate);
-  const ai = run.api_output.debug.ai;
-  assert.equal(ai.ai_status, "completed");
-  assert.equal(ai.ai_used, true);
-  assert.equal(ai.ai_error_code, null);
-  assert.equal(run.api_output.structured_result.cards[0].simple_explanation, CLEAN);
-});
-
-// ─── the served bytes, for every corpus document ─────────────────────────────
-
-test("telling the truth changed nothing the reader receives", async (t) => {
-  // The invariant, stated in a form that does not need a golden file: on a
-  // sanitiser rejection the reader gets the ENGINE's cards, and the derived
-  // text fields are derived from those cards rather than from the engine's own
-  // display_text. Both halves matter. Without the second, an implementation
-  // that returned early on rejection would pass while changing the served
-  // display_text on 29 of these 36 documents.
-  let eligible = 0;
-  let discriminating = 0;
-
-  for (const entry of CORPUS) {
-    const { run, fallback } = await runWithCandidate(entry.text, entry.id, rejectedCandidate);
-    const out = run.api_output;
-    if (out.debug.ai.ai_status === "skipped") continue;
-    eligible += 1;
-
-    await t.test(entry.id, () => {
-      assert.equal(out.debug.ai.ai_error_code, "sanitizer_rejected", entry.id);
-      assert.deepEqual(out.structured_result, fallback,
-        entry.id + ": the reader must get the engine's cards");
-
-      const derivedDisplay = out.structured_result.cards
-        .map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
-      const derivedTts = out.structured_result.cards.map((card) => card.read_aloud_text).join("\n");
-      assert.equal(out.display_text, derivedDisplay, entry.id + ": display_text");
-      assert.equal(out.tts_script, derivedTts, entry.id + ": tts_script");
-
-      assert.deepEqual(run.structured_output.structured_result, out.structured_result, entry.id);
-      assert.equal(run.structured_output.display_text, out.display_text, entry.id);
-      assert.equal(run.structured_output.tts_script, out.tts_script, entry.id);
-    });
-
-    // Is the display_text assertion above actually discriminating for this
-    // document, or would any implementation satisfy it?
-    const engineDisplay = engineFor(entry.text, entry.id).api_output.display_text;
-    if (engineDisplay !== out.display_text) discriminating += 1;
-  }
-
-  await t.test("the corpus is big enough for this to mean something", () => {
-    assert.ok(eligible >= 25, "expected most of the corpus to reach the AI path, got " + eligible);
-  });
-
-  await t.test("the display_text assertion is not vacuous", () => {
-    // If these two derivations ever coincide everywhere, the assertion above
-    // stops catching an early return and this says so out loud.
-    assert.ok(discriminating >= 20,
-      "expected the two display_text derivations to differ on most documents, got " + discriminating);
-  });
-});
+// The three sections that ran through applyAiStructuredResult are gone with
+// the phrasing pass: there is no candidate to sanitise because nothing asks a
+// model for one. What survives above is the unit level guard on the verdict
+// itself, which stays meaningful for as long as validateStructuredResult.js
+// stays in the tree.
+//
+// The served-bytes assertions those sections carried are not lost. The stronger
+// version now lives in factFailurePath.test.js, which compares every served
+// field across all forty documents under four failure modes.
