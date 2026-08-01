@@ -817,6 +817,307 @@ const CORPUS = [
       "",
       "Brak potwierdzenia danych w podanym terminie spowoduje zablokowanie konta."
     ].join("\n")
+  },
+
+  // ------------------------------------------------------- scam corpus (P0)
+  //
+  // Added 1 August 2026. F3, splitting detectScamSignals into a decisive tier
+  // and an advisory one, has been blocked since 31 July on a single sentence:
+  // the false-positive side was proven across thirty genuine letters and the
+  // false-negative side against ONE adversary. This is that second side.
+  //
+  // Two halves, and the second matters as much as the first:
+  //
+  //   SCAMS, in the shapes UK readers actually receive, across the languages
+  //   Northcue supports. Several carry NO credential ask at all, because a
+  //   link-only lure is currently caught by "click this link" and "act now",
+  //   which are two of the nine needles F3 demotes. If nothing else catches
+  //   them, F3 opens a hole and the corpus has to be able to say so.
+  //
+  //   NEAR-MISS GENUINE LETTERS, each written around one of the nine misfiring
+  //   needles, in the phrasing a real sender uses. These are what F3 is FOR.
+  //   Every one of them is a letter a reader would be badly served by having
+  //   replaced with a scam warning.
+  //
+  // Nothing here is a real message. The link hosts are all under example.com
+  // so nothing in the tree resolves anywhere.
+
+  // --- scams: link-only lures, the shape with no credential ask -------------
+  {
+    id: "smish_parcel_link_only",
+    label: "Parcel redelivery smish, English, no credential ask",
+    intent: "THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that " +
+      "asks for a credential. Today this is caught only by needles F3 demotes, so it " +
+      "is the document that decides whether the demotion needs a replacement.",
+    text: [
+      "Royal Mail",
+      "",
+      "Your parcel is being held at our depot.",
+      "A redelivery fee of £2.99 is outstanding.",
+      "",
+      "Please settle the fee within 48 hours or the parcel will be returned to sender.",
+      "Pay here: royalmail-redelivery-fee.example.com/pay",
+      "",
+      "Thank you for using Royal Mail."
+    ].join("\n")
+  },
+  {
+    id: "smish_parcel_link_only_pl",
+    label: "Parcel redelivery smish, Polish, no credential ask",
+    intent: "The same shape in Polish, so the gap can be measured with the language " +
+      "held constant against smish_parcel_link_only.",
+    text: [
+      "Poczta Polska",
+      "",
+      "Państwa przesyłka oczekuje w magazynie.",
+      "Do zapłaty pozostała opłata za ponowne doręczenie w wysokości £2.99.",
+      "",
+      "Prosimy uregulować opłatę w ciągu 48 godzin, w przeciwnym razie przesyłka wróci do nadawcy.",
+      "Zapłać tutaj: poczta-doreczenie-oplata.example.com/platnosc",
+      "",
+      "Dziękujemy."
+    ].join("\n")
+  },
+  {
+    id: "scam_council_refund_link_only",
+    label: "Council tax refund lure, English, no credential ask",
+    intent: "A refund lure rather than a threat, so nothing in the pressure tier fires " +
+      "either. Tests whether a scam with neither urgency wording nor a credential ask " +
+      "is visible to anything at all.",
+    text: [
+      "Hounslow Borough Council",
+      "Council Tax Refund",
+      "",
+      "Dear Resident",
+      "",
+      "Our records show you are due a council tax refund of £184.60.",
+      "",
+      "To claim your refund please complete the short form at",
+      "hounslow-counciltax-refund.example.com/claim",
+      "",
+      "Refunds are processed within five working days."
+    ].join("\n")
+  },
+
+  // --- scams: credential asks, across languages -----------------------------
+  {
+    id: "scam_dvla_vehicle_tax",
+    label: "DVLA vehicle tax lure, English, card details",
+    intent: "The commonest UK phishing shape after parcels. Carries a card ask but " +
+      "never the word PIN or password, so it tests the credential tier's reach beyond " +
+      "the three needles scam_phishing exercises.",
+    text: [
+      "DVLA",
+      "Vehicle Tax Notification",
+      "",
+      "Vehicle registration: AB12 CDE",
+      "",
+      "Your latest vehicle tax payment failed.",
+      "To avoid a penalty of £80.00 please update your payment details.",
+      "",
+      "Update at dvla-vehicletax-update.example.com/details",
+      "You will need your card number, expiry date and the three digit CVV."
+    ].join("\n")
+  },
+  {
+    id: "scam_hmrc_refund_es",
+    label: "HMRC refund lure, Spanish, card and PIN",
+    intent: "The Spanish twin of scam_phishing's shape. Credential needles are English, " +
+      "so this is expected to raise nothing and reach caution rather than " +
+      "verification_only.",
+    text: [
+      "HMRC Devolución de Impuestos",
+      "",
+      "Estimado cliente,",
+      "",
+      "Tras revisar su declaración, le corresponde una devolución de £482.30.",
+      "",
+      "Para recibir el importe, confirme sus datos en las próximas 24 horas.",
+      "Introduzca el número de su tarjeta y su PIN en el siguiente enlace:",
+      "hmrc-devolucion-impuestos.example.com/confirmar",
+      "",
+      "Si no confirma en el plazo indicado, su cuenta será bloqueada."
+    ].join("\n")
+  },
+  {
+    id: "scam_bank_security_fr",
+    label: "Bank security lure, French, CVV",
+    intent: "Uses CVV rather than PIN. CVV is borrowed unchanged into every language " +
+      "the bank supports, and no needle in the list mentions it in any language.",
+    text: [
+      "Sécurité Bancaire",
+      "",
+      "Madame, Monsieur,",
+      "",
+      "Une activité inhabituelle a été détectée sur votre compte.",
+      "",
+      "Merci de confirmer votre identité sous 24 heures.",
+      "Rendez vous sur securite-banque-verification.example.com/connexion",
+      "Munissez vous de votre carte bancaire et de votre code CVV.",
+      "",
+      "Sans confirmation, votre compte sera suspendu."
+    ].join("\n")
+  },
+  {
+    id: "scam_crypto_investment_pl",
+    label: "Crypto investment lure, Polish",
+    intent: "The one needle that already works in every language: crypto and bitcoin " +
+      "are borrowed unchanged. Expected to raise a signal even in Polish, which makes " +
+      "it the control that proves the list CAN work language independently.",
+    text: [
+      "Platforma Inwestycyjna",
+      "",
+      "Szanowny Kliencie,",
+      "",
+      "Państwa konto inwestycyjne wymaga potwierdzenia.",
+      "",
+      "Prosimy przelać 250 funtów w bitcoin na poniższy adres w ciągu 12 godzin,",
+      "aby aktywować konto i odebrać premię powitalną.",
+      "Szczegóły: krypto-inwestycje-konto.example.com/aktywacja"
+    ].join("\n")
+  },
+  {
+    id: "scam_energy_refund_pt",
+    label: "Energy refund lure, Portuguese, full password",
+    intent: "A refund lure asking for a full account password. The English needle " +
+      "'full password' is the highest precision entry in the list and it cannot see " +
+      "'senha completa'.",
+    text: [
+      "Fornecedor de Energia",
+      "",
+      "Caro cliente,",
+      "",
+      "Tem um reembolso de £96.14 disponível na sua conta.",
+      "",
+      "Para receber o reembolso, confirme os seus dados nas próximas 24 horas em",
+      "energia-reembolso-cliente.example.com/confirmar",
+      "Será necessário introduzir a sua senha completa e o PIN do cartão.",
+      "",
+      "Sem confirmação, o reembolso será cancelado."
+    ].join("\n")
+  },
+
+  // --- near-miss genuine letters, one per misfiring needle ------------------
+  {
+    id: "genuine_bank_fraud_advice",
+    label: "Bank anti-fraud advice, English",
+    intent: "THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpose is " +
+      "telling the reader never to share a password or PIN. It names every credential " +
+      "word on purpose, so it trips 'share your password' today, and a structural " +
+      "detector reading credential tokens would flag it too.",
+    text: [
+      "Barclays",
+      "Important security information",
+      "Account ending 6411",
+      "",
+      "Dear Customer",
+      "",
+      "We are writing to remind you how to keep your account safe.",
+      "We will never ask you to share your password, your PIN, or your full card number.",
+      "If anyone contacts you asking for these, it is a scam and you should stop.",
+      "",
+      "You can report a suspicious message at barclays.co.uk/security",
+      "or by calling the number on the back of your card."
+    ].join("\n")
+  },
+  {
+    id: "genuine_nhs_booking_link",
+    label: "NHS appointment with an online booking link, English",
+    intent: "Trips 'click this link' today. A genuine NHS letter carrying a link on the " +
+      "NHS's own domain, which is the shape that makes link presence useless as a " +
+      "signal on its own.",
+    text: [
+      "West Middlesex University Hospital",
+      "Dermatology Department",
+      "Reference: WM-8842177",
+      "",
+      "Dear Mr Vaidya",
+      "",
+      "You have an appointment on Tuesday 7 July 2026 at 10:30am.",
+      "Please arrive fifteen minutes early.",
+      "",
+      "Click this link to confirm or change your appointment online: nhs.uk/myappointments",
+      "If you cannot attend, please telephone 020 8321 5000."
+    ].join("\n")
+  },
+  {
+    id: "genuine_school_final_warning",
+    label: "School attendance letter using the words final warning, English",
+    intent: "Trips 'final warning'. A genuine school letter before a penalty notice, " +
+      "which is exactly the wording the documented sweep found misfiring.",
+    text: [
+      "Fairfield Community School",
+      "Attendance Team",
+      "Pupil: J Vaidya, Year 9",
+      "",
+      "Dear Parent or Carer",
+      "",
+      "This is a final warning before a penalty notice is issued for unauthorised absence.",
+      "Attendance this term is 82 per cent against a required 95 per cent.",
+      "",
+      "Please contact the attendance team on 020 8583 1188 to discuss support available.",
+      "A meeting can be arranged before 18 September 2026."
+    ].join("\n")
+  },
+  {
+    id: "genuine_dwp_identity_check",
+    label: "Benefits identity verification, English",
+    intent: "Trips 'verify your identity within'. A genuine DWP letter asking the reader " +
+      "to confirm identity within a stated window, which is ordinary process rather " +
+      "than manufactured urgency.",
+    text: [
+      "Department for Work and Pensions",
+      "Universal Credit",
+      "National Insurance number: on your award letter",
+      "",
+      "Dear Mr Vaidya",
+      "",
+      "We need to confirm your identity before we can continue with your claim.",
+      "You must verify your identity within 30 days or we cannot process your claim.",
+      "",
+      "You can do this at your local Jobcentre Plus, or by post using the enclosed form.",
+      "If you need help, call us on 0800 328 5644."
+    ].join("\n")
+  },
+  {
+    id: "genuine_court_account_freeze",
+    label: "Court third party debt order letter, English",
+    intent: "Trips 'account will be frozen'. A genuine county court letter explaining " +
+      "what a third party debt order does. The phrase describes a real legal " +
+      "consequence rather than a threat made by the sender.",
+    text: [
+      "County Court Business Centre",
+      "Claim number: F2QZ4471",
+      "",
+      "Dear Mr Vaidya",
+      "",
+      "An application has been made for a third party debt order against you.",
+      "If the order is granted your bank account will be frozen up to the amount owed of £742.19.",
+      "",
+      "A hearing is listed for 22 September 2026.",
+      "You may attend and explain your circumstances to the judge.",
+      "Free advice is available from a trusted advice service."
+    ].join("\n")
+  },
+  {
+    id: "genuine_post_office_card_payment",
+    label: "Council bill naming card payment at the Post Office, English",
+    intent: "Trips 'enter your pin'. An ordinary payment instruction, and the case that " +
+      "makes a credential-token detector unusable on its own.",
+    text: [
+      "Hounslow Borough Council",
+      "Council Tax Bill 2026/2027",
+      "Account number: 4471028866",
+      "",
+      "Dear Occupier",
+      "",
+      "Amount to pay: £486.20",
+      "Please pay by 3 September 2026.",
+      "",
+      "You can pay online at hounslow.gov.uk/counciltax, by direct debit, or at any",
+      "Post Office by debit card, where you will need to enter your PIN.",
+      "If you think this bill is wrong, contact us on 020 8583 4242."
+    ].join("\n")
   }
 ];
 

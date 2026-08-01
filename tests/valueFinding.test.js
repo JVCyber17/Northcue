@@ -336,7 +336,11 @@ test("money: every amount in the corpus is still found in full", async (t) => {
     "£287.50", "£3,410.00", "£312.40", "£3.00", "£3.20", "£324.18", "£41.99", "£418.60",
     "£45.19", "£460.50", "£486.20", "£66.00", "£660.00", "£68.40", "£726.00",
     "£74.20", "£742.19", "£75.00", "£83.86", "£96.14",
-    "£1,245.60", "£142.30", "£312.44", "£482.30"
+    "£1,245.60", "£142.30", "£312.44", "£482.30",
+    // From the scam corpus added 1 August 2026. The small ones matter: a £2.99
+    // redelivery fee is the commonest smish figure in the UK precisely because
+    // it is small enough not to be questioned.
+    "£184.60", "£2.99", "£80.00"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {

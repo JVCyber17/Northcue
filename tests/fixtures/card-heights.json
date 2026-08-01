@@ -1788,6 +1788,594 @@
       "answerChars": 42,
       "stepChars": 49,
       "steps": 2
+    },
+    "smish_parcel_link_only|1": {
+      "px": 669,
+      "lang": "fr",
+      "answerChars": 52,
+      "stepChars": 184,
+      "steps": 2
+    },
+    "smish_parcel_link_only|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "smish_parcel_link_only|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "smish_parcel_link_only|4": {
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "smish_parcel_link_only|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "smish_parcel_link_only|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "smish_parcel_link_only_pl|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "smish_parcel_link_only_pl|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "smish_parcel_link_only_pl|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "smish_parcel_link_only_pl|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "smish_parcel_link_only_pl|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "smish_parcel_link_only_pl|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "scam_council_refund_link_only|1": {
+      "px": 531,
+      "lang": "bn",
+      "answerChars": 68,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "scam_council_refund_link_only|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_council_refund_link_only|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "scam_council_refund_link_only|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_council_refund_link_only|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "scam_council_refund_link_only|6": {
+      "px": 466,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "scam_dvla_vehicle_tax|1": {
+      "px": 669,
+      "lang": "fr",
+      "answerChars": 53,
+      "stepChars": 185,
+      "steps": 2
+    },
+    "scam_dvla_vehicle_tax|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_dvla_vehicle_tax|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "scam_dvla_vehicle_tax|4": {
+      "px": 440,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_dvla_vehicle_tax|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "scam_dvla_vehicle_tax|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "scam_hmrc_refund_es|1": {
+      "px": 531,
+      "lang": "bn",
+      "answerChars": 72,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "scam_hmrc_refund_es|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_hmrc_refund_es|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "scam_hmrc_refund_es|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_hmrc_refund_es|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "scam_hmrc_refund_es|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "scam_bank_security_fr|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "scam_bank_security_fr|2": {
+      "px": 569,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 32,
+      "steps": 1
+    },
+    "scam_bank_security_fr|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "scam_bank_security_fr|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_bank_security_fr|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "scam_bank_security_fr|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "scam_crypto_investment_pl|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "scam_crypto_investment_pl|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_crypto_investment_pl|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "scam_crypto_investment_pl|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_crypto_investment_pl|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "scam_crypto_investment_pl|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "scam_energy_refund_pt|1": {
+      "px": 552,
+      "lang": "fr",
+      "answerChars": 51,
+      "stepChars": 105,
+      "steps": 1
+    },
+    "scam_energy_refund_pt|2": {
+      "px": 501,
+      "lang": "fr",
+      "answerChars": 105,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_energy_refund_pt|3": {
+      "px": 558,
+      "lang": "fr",
+      "answerChars": 71,
+      "stepChars": 71,
+      "steps": 1
+    },
+    "scam_energy_refund_pt|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "scam_energy_refund_pt|5": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "scam_energy_refund_pt|6": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 150,
+      "stepChars": 69,
+      "steps": 1
+    },
+    "genuine_bank_fraud_advice|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_bank_fraud_advice|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_bank_fraud_advice|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_bank_fraud_advice|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_bank_fraud_advice|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "genuine_bank_fraud_advice|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "genuine_nhs_booking_link|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_nhs_booking_link|2": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "genuine_nhs_booking_link|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_nhs_booking_link|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_nhs_booking_link|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "genuine_nhs_booking_link|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "genuine_school_final_warning|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_school_final_warning|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_school_final_warning|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_school_final_warning|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_school_final_warning|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "genuine_school_final_warning|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "genuine_dwp_identity_check|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_dwp_identity_check|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_dwp_identity_check|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_dwp_identity_check|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_dwp_identity_check|5": {
+      "px": 525,
+      "lang": "pl",
+      "answerChars": 43,
+      "stepChars": 43,
+      "steps": 1
+    },
+    "genuine_dwp_identity_check|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "genuine_court_account_freeze|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_court_account_freeze|2": {
+      "px": 531,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "genuine_court_account_freeze|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_court_account_freeze|4": {
+      "px": 398,
+      "lang": "es",
+      "answerChars": 27,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_court_account_freeze|5": {
+      "px": 626,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 78,
+      "steps": 2
+    },
+    "genuine_court_account_freeze|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
+    },
+    "genuine_post_office_card_payment|1": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "genuine_post_office_card_payment|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_post_office_card_payment|3": {
+      "px": 684,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 139,
+      "steps": 3
+    },
+    "genuine_post_office_card_payment|4": {
+      "px": 495,
+      "lang": "fr",
+      "answerChars": 95,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "genuine_post_office_card_payment|5": {
+      "px": 677,
+      "lang": "pl",
+      "answerChars": 66,
+      "stepChars": 65,
+      "steps": 2
+    },
+    "genuine_post_office_card_payment|6": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 58,
+      "stepChars": 68,
+      "steps": 1
     }
   }
 }
