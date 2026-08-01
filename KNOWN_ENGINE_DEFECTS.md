@@ -432,25 +432,42 @@ reader holding the letter can resolve it and Northcue cannot. The likely fix is
 to keep showing it and mark it unresolvable, which is a card-wording change and
 therefore a separate piece of work.
 
-**Two corpus documents were added on 31 July 2026 so that work has something to
-move**: `ambiguous_numeric_date` shows "Due by 03/06/2026." and
-`short_year_date` shows "Due by 28 May 26.", both with `deadline_iso` null.
-`tests/deadlineIso.test.js` pins the current wrong output deliberately, and says
-so; those assertions should be REPLACED by the new wording rather than deleted.
-
-The proposed wording, not approved and not implemented, replaces card 4's
-existing key point rather than adding one, so the card gains no line:
+**The reader-facing half CLOSED 31 July 2026.** Card 4 no longer asserts an
+unresolvable date without saying so. The answer keeps quoting the paper, because
+the person holding the letter can resolve what the engine cannot and deleting
+the date would take away the only thing they can check it against. The key point
+is REPLACED, not added to, and names the part that could not be settled:
 
 ```
-ambiguous order   "The day and month could be either way round here.
+ambiguous order   "The day and the month could be either way round.
                    Check the original document: 03/06/2026."
-incomplete year   "The year is not written in full here.
+incomplete year   "The year is not written in full.
                    Check the original document: 28 May 26."
 ```
 
-At roughly 37 characters more than the line they replace, both need
-re-measuring at 375x812 before shipping, and both need bank entries in all ten
-languages.
+`unresolvableReason` in `src/utils/deadlineIso.js` decides which, on the VALUE
+alone. It reports ambiguity only when both numbers could be the day:
+`25/06/2026` has a single reading, so claiming ambiguity there would be a false
+alarm even though `toIsoDate` still declines it. Order outranks a short year
+when a value has both. Everything else returns null and keeps the ordinary key
+point, including an unknown month word and a day that does not exist in its
+month, because no short sentence improves on those.
+
+Guarded by a generative sweep in `tests/deadlineIso.test.js`: 100 date shapes
+built from five days, five months and four years go through the whole engine,
+and any that reaches card 4 with an unresolvable value under an unqualified
+"Due by" fails. A companion test asserts the sweep actually reaches at least 20
+unresolvable dates, so it cannot pass by finding none.
+
+**The extraction is still unfixed, and that is now the whole of D-9 and D-10.**
+`extraction.deadline` and `summary.main_date` still carry `"03/06/2026"`,
+`"28 May 26"`, `"5 April 99"` and `"1 April 226"` as deadlines.
+`isPlausibleNumericDate` still accepts both readings without choosing, and
+`LONG_DATE` still ends `\d{2,4}` with no century rule. What changed is that the
+reader is now told, and that nothing computes from any of them. Tightening the
+patterns themselves means deciding what to do with a date the engine can no
+longer see at all, which is a different question from what to say about one it
+can see and cannot settle.
 
 ---
 
@@ -738,10 +755,10 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 ~~1. **D-1 and D-2**, the two rules that promote a date stating no obligation.~~
    Closed 31 July 2026, along with the competes half of the word-boundary rule.
 
-1. **The card wording for a date with no single reading.** D-9 and D-10 are
-   gated for arithmetic and still asserted on card 4. Two corpus documents now
-   exist for it. This is the only remaining deadline item with a reader-visible
-   wrong answer.
+~~1. **The card wording for a date with no single reading.**~~ Closed
+   31 July 2026. **No deadline item now has a reader-visible wrong answer.**
+   D-9 and D-10 remain open as extraction defects only: the patterns still
+   accept a date with two readings, and the reader is now told when they have.
 2. **Expand the scam corpus** to at least four documents: a link-only courier
    smish, a Gateway credential harvest, a refund scam, a council impersonation.
    This unblocks F3 and is a prerequisite for any loosening.

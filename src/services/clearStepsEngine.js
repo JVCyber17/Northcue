@@ -917,6 +917,34 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
   };
 }
 
+// Card 4's key point, which is where the engine says what it could not settle
+// about the date above it.
+//
+// The answer sentence stays "Due by X." even when X has no single reading,
+// because X is quoted from the paper and the reader holding the letter can
+// resolve what the engine cannot. Deleting the date would take away the one
+// thing they can check it against. What was wrong was saying only "check this
+// date" while knowing exactly WHICH part of it was unsettled, so the caveat
+// names the part.
+//
+// This REPLACES the ordinary key point rather than joining it. Both sentences
+// end by pointing at the original document, so keeping the old one too would
+// tell the reader to check the same thing twice, and it would cost card 4 a
+// line at phone width for nothing.
+const DEADLINE_CHECK = {
+  ambiguous_order: (date) =>
+    `The day and the month could be either way round. Check the original document: ${date}.`,
+  incomplete_year: (date) =>
+    `The year is not written in full. Check the original document: ${date}.`
+};
+
+function buildDeadlineCardKeyPoints(extraction) {
+  const date = extraction.deadline;
+  if (!date) return [];
+  const write = DEADLINE_CHECK[deadlineIso.unresolvableReason(date)];
+  return [write ? write(date) : `Check this date on the original document: ${date}.`];
+}
+
 function buildStructuredCards({ trust, extraction, displayCards }) {
   const status = statusFromTrustAndSeverity(trust);
   const actionLine = normalizeActionLine(extraction.actions);
@@ -957,7 +985,7 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       cardType: "when_does_it_matter",
       title: "When is it due?",
       explanation: deadlineDisplayText,
-      keyPoints: extraction.deadline ? [`Check this date on the original document: ${extraction.deadline}.`] : [],
+      keyPoints: buildDeadlineCardKeyPoints(extraction),
       actionNeeded: null,
       possibleDeadline: extraction.deadline || null
     },

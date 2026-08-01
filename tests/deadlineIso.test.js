@@ -17,7 +17,7 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 const test = require("node:test");
 
-const { deadlineIsoFor, toIsoDate, isRelativeTimeframe } =
+const { deadlineIsoFor, toIsoDate, isRelativeTimeframe, unresolvableReason } =
   require(path.join(__dirname, "..", "src", "utils", "deadlineIso"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 const { sanitizeStructuredResult } = require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
@@ -269,30 +269,44 @@ test("the corpus, end to end", async (t) => {
   });
 });
 
-test("a date the engine will not reason about is still asserted on the card", async (t) => {
-  // This test describes a DEFECT, deliberately, and it is the only one in this
-  // file that does. D-9 and D-10 record it: the extractor accepts a date string
-  // with more than one reading, deadline_iso correctly refuses it, and card 4
-  // goes on saying "Due by" over it as though it were settled.
-  //
-  // The two documents exist so the card wording that will fix this has
-  // something to move. When that lands, these assertions should be REPLACED by
-  // ones describing the new wording, not deleted: the point is that the gap
-  // between what the engine will assert and what it will compute is visible.
+test("a date with no single reading says which part is unsettled", async (t) => {
+  // These assertions REPLACE the ones that pinned the defect. D-9 and D-10 are
+  // now closed on the reader-facing side: the value is still shown verbatim,
+  // because the person holding the letter can resolve what the engine cannot,
+  // and the key point names the part that could not be settled instead of
+  // saying only "check this date".
   const CASES = [
-    ["ambiguous_numeric_date", "03/06/2026", "3 June or 6 March, 95 days apart"],
-    ["short_year_date", "28 May 26", "2026 or 1926"]
+    ["ambiguous_numeric_date", "03/06/2026", "3 June or 6 March, 95 days apart",
+      "The day and the month could be either way round. Check the original document: 03/06/2026."],
+    ["short_year_date", "28 May 26", "2026 or 1926",
+      "The year is not written in full. Check the original document: 28 May 26."]
   ];
 
-  for (const [id, shown, why] of CASES) {
+  for (const [id, shown, why, caveat] of CASES) {
     await t.test(id + ": " + shown + " could be " + why, () => {
       const result = analyse(byId(id)).api_output.structured_result;
-      assert.equal(result.summary.main_date, shown, "shown to the reader verbatim");
-      assert.equal(result.summary.deadline_iso, null, "and refused for arithmetic");
+      assert.equal(result.summary.main_date, shown, "still shown verbatim");
+      assert.equal(result.summary.deadline_iso, null, "still refused for arithmetic");
       assert.equal(result.cards[3].simple_explanation, "Due by " + shown + ".",
-        "card 4 still asserts it flatly, which is the open half of D-9 and D-10");
+        "the answer quotes the paper, which is what the reader checks against");
+      assert.deepEqual(result.cards[3].key_points, [caveat]);
     });
   }
+
+  await t.test("the caveat replaces the ordinary key point rather than joining it", () => {
+    // Both sentences end by pointing at the original document, so keeping both
+    // would say it twice and cost a line at phone width.
+    CASES.forEach(([id]) => {
+      const points = analyse(byId(id)).api_output.structured_result.cards[3].key_points;
+      assert.equal(points.length, 1, id);
+      assert.doesNotMatch(points[0], /Check this date on the original document/, id);
+    });
+  });
+
+  await t.test("a resolvable date keeps the ordinary key point", () => {
+    assert.deepEqual(analyse(byId("council_tax")).api_output.structured_result.cards[3].key_points,
+      ["Check this date on the original document: 1 April 2026."]);
+  });
 
   await t.test("neither is gated for a reason about the document", () => {
     // If either became garbled or verification_only the null would stop being
@@ -302,6 +316,100 @@ test("a date the engine will not reason about is still asserted on the card", as
       const trust = analyse(byId(id)).structured_output.trust_internal;
       assert.equal(trust.garbled_by_ocr, false, id);
       assert.notEqual(trust.processing_mode, "verification_only", id);
+    });
+  });
+});
+
+test("which part is unsettled, decided on the value alone", async (t) => {
+  await t.test("both numbers could be the day", () => {
+    ["03/06/2026", "06/03/2026", "12/11/26", "1/2/26", "03-06-2026"].forEach((value) => {
+      assert.equal(unresolvableReason(value), "ambiguous_order", value);
+    });
+  });
+
+  await t.test("a numeric date with only one reading claims no ambiguity", () => {
+    // 25 cannot be a month. Saying "could be either way round" here would be a
+    // false alarm, and toIsoDate still declines it for its own reason.
+    assert.equal(unresolvableReason("25/06/2026"), null);
+    assert.equal(toIsoDate("25/06/2026"), null, "premise: still not converted");
+  });
+
+  await t.test("a short year is reported as a short year", () => {
+    ["28 May 26", "5 April 99", "1 April 226", "May 28 26"].forEach((value) => {
+      assert.equal(unresolvableReason(value), "incomplete_year", value);
+    });
+  });
+
+  await t.test("order outranks year when a value has both", () => {
+    // The two readings of 12/11 are 335 days apart; a wrong century is not a
+    // date anyone acts on by mistake.
+    assert.equal(unresolvableReason("12/11/26"), "ambiguous_order");
+  });
+
+  await t.test("everything else is null, including the other ways a date declines", () => {
+    ["3 September 2026", "September 3, 2026", "1st April 2026",
+     "1 Mayor 2026", "31 February 2026", "within 14 days", "today",
+     "", "   ", null, undefined].forEach((value) => {
+      assert.equal(unresolvableReason(value), null, JSON.stringify(value));
+    });
+  });
+});
+
+test("a card may never assert a deadline it cannot resolve without saying so", async (t) => {
+  // The guard against this class reappearing on a date shape nobody has thought
+  // of yet. It is generative rather than a list: every shape below goes through
+  // the whole engine, and any that ends up with an unresolvable date under an
+  // unqualified "Due by" fails here.
+  const DAYS = ["1", "03", "12", "25", "28"];
+  const MONTHS = ["06", "11", "May", "September", "Mayor"];
+  const YEARS = ["26", "99", "226", "2026"];
+  const SHAPES = [];
+  DAYS.forEach((d) => MONTHS.forEach((m) => YEARS.forEach((y) => {
+    SHAPES.push(/^\d+$/.test(m) ? d + "/" + m + "/" + y : d + " " + m + " " + y);
+  })));
+
+  const letter = (line) => [
+    "Hounslow Borough Council", "Council Tax Recovery", "Reference: CT-90114",
+    "", "Dear Occupier", "", "Amount to pay: £486.20", line,
+    "", "Contact the recovery team on 020 8583 4242."
+  ].join("\n");
+
+  await t.test(SHAPES.length + " generated date shapes, none asserted unqualified", () => {
+    const offenders = [];
+    SHAPES.forEach((shape) => {
+      const result = analyse(letter("Please pay by " + shape + ".")).api_output.structured_result;
+      const shown = result.summary.main_date;
+      if (!shown) return;
+      const reason = unresolvableReason(shown);
+      if (!reason) return;
+      const points = (result.cards[3].key_points || []).join(" ");
+      const named = reason === "ambiguous_order"
+        ? /could be either way round/.test(points)
+        : /not written in full/.test(points);
+      if (!named) offenders.push(shape + " -> " + JSON.stringify(result.cards[3]));
+    });
+    assert.deepEqual(offenders, [],
+      "a card asserted a deadline whose value has no single reading, without naming why");
+  });
+
+  await t.test("the sweep is actually reaching unresolvable dates", () => {
+    // Without this the test above passes trivially if the engine stops finding
+    // any of these shapes at all.
+    const reached = SHAPES.filter((shape) => {
+      const shown = analyse(letter("Please pay by " + shape + ".")).api_output.structured_result.summary.main_date;
+      return shown && unresolvableReason(shown);
+    });
+    assert.ok(reached.length >= 20,
+      "only " + reached.length + " of " + SHAPES.length + " shapes reached the card");
+  });
+
+  await t.test("and across the corpus", () => {
+    CORPUS.forEach((entry) => {
+      const result = analyse(entry.text).api_output.structured_result;
+      const shown = result.summary.main_date;
+      if (!shown || !unresolvableReason(shown)) return;
+      assert.match((result.cards[3].key_points || []).join(" "),
+        /could be either way round|not written in full/, entry.id);
     });
   });
 });

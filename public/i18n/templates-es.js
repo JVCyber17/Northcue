@@ -376,6 +376,8 @@
       "tpl.check.topic": "Revise el tema: {topic}.",
       "tpl.check.dates": "Revise estas fechas visibles: {dates}.",
       "tpl.check.date_on_original": "Revise esta fecha en el documento original: {date}.",
+      "tpl.check.date_ambiguous_order": "El día y el mes podrían estar invertidos. Revise el documento original: {date}.",
+      "tpl.check.date_year_incomplete": "El año no está escrito completo. Revise el documento original: {date}.",
       "tpl.check.amount_and_date": "Revise el importe ({amount}) y la fecha ({date}) en el documento original.",
       "tpl.check.amount_any_dates": "Revise el importe ({amount}) y cualquier fecha en el documento original.",
       "tpl.check.date_any_amounts": "Revise la fecha ({date}) y cualquier importe en el documento original.",

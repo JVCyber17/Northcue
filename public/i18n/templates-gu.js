@@ -375,6 +375,8 @@
       "tpl.check.topic": "વિષય તપાસો: {topic}.",
       "tpl.check.dates": "આ દેખાતી તારીખો તપાસો: {dates}.",
       "tpl.check.date_on_original": "અસલ દસ્તાવેજ પર આ તારીખ તપાસો: {date}.",
+      "tpl.check.date_ambiguous_order": "દિવસ અને મહિનો ઊલટા હોઈ શકે છે. અસલ દસ્તાવેજ તપાસો: {date}.",
+      "tpl.check.date_year_incomplete": "વર્ષ પૂરું લખેલું નથી. અસલ દસ્તાવેજ તપાસો: {date}.",
       "tpl.check.amount_and_date": "અસલ દસ્તાવેજ પર રકમ ({amount}) અને તારીખ ({date}) તપાસો.",
       "tpl.check.amount_any_dates": "અસલ દસ્તાવેજ પર રકમ ({amount}) અને કોઈ પણ તારીખો તપાસો.",
       "tpl.check.date_any_amounts": "અસલ દસ્તાવેજ પર તારીખ ({date}) અને કોઈ પણ રકમ તપાસો.",

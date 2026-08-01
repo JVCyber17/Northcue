@@ -622,6 +622,44 @@ person took a bad picture.
 
 ---
 
+## New since your list was written: when the date itself is unclear (31 July 2026)
+
+Two more sentences, in your templates file as `tpl.check.date_ambiguous_order`
+and `tpl.check.date_year_incomplete`. Both appear under the "When is it due?"
+card, and both replace the ordinary line there rather than joining it.
+
+Some letters print a date that genuinely cannot be read one way only. "03/06/26"
+might be the 3rd of June or the 6th of March. "28 May 26" might be 2026 or 1926.
+Northcue still shows the reader exactly what the letter says, because the person
+holding the paper can usually tell, and then says which part it could not settle.
+
+English:
+
+> A. "The day and the month could be either way round. Check the original document: 03/06/2026."
+>
+> B. "The year is not written in full. Check the original document: 28 May 26."
+
+Three questions:
+
+- Does this sound like **a fact about the letter**, or like Northcue admitting a
+  mistake? It should be the first. Nothing has gone wrong; the letter is simply
+  printed that way.
+- Does it sound **calm**? The card above it may say a payment is due. This line
+  must not make that feel more urgent than it already is.
+- Is "check the original document" an **ordinary suggestion** in your language,
+  not an order? It is the same phrasing already used elsewhere in your file, so
+  if it reads as commanding here it probably does there too, and we would want
+  to know.
+
+Note for **French**: the draft keeps the space before the colon, matching
+`tpl.check.date_on_original` in your file.
+
+Note for **Hindi, Panjabi, Gujarati, Bengali**: the date itself stays in the
+Latin script exactly as the letter prints it, so the reader can match it against
+the paper. Does the sentence read naturally when it ends with a Latin date?
+
+---
+
 ## Expected, not a defect: card 5 quotes the letter in English
 
 On some documents the "What could happen if I ignore it?" card shows a sentence

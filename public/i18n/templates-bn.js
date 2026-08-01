@@ -373,6 +373,8 @@
       "tpl.check.topic": "বিষয়টি যাচাই করুন: {topic}.",
       "tpl.check.dates": "এই তারিখগুলি যাচাই করুন: {dates}.",
       "tpl.check.date_on_original": "মূল ডকুমেন্টে এই তারিখটি যাচাই করুন: {date}.",
+      "tpl.check.date_ambiguous_order": "দিন এবং মাস উল্টো হতে পারে। মূল ডকুমেন্ট যাচাই করুন: {date}.",
+      "tpl.check.date_year_incomplete": "বছরটি পুরো লেখা হয়নি। মূল ডকুমেন্ট যাচাই করুন: {date}.",
       "tpl.check.amount_and_date": "মূল ডকুমেন্টে অঙ্ক ({amount}) ও তারিখ ({date}) যাচাই করুন.",
       "tpl.check.amount_any_dates": "মূল ডকুমেন্টে অঙ্ক ({amount}) ও যেকোনো তারিখ যাচাই করুন.",
       "tpl.check.date_any_amounts": "মূল ডকুমেন্টে তারিখ ({date}) ও যেকোনো অঙ্ক যাচাই করুন.",

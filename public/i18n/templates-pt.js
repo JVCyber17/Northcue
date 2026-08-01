@@ -375,6 +375,8 @@
       "tpl.check.topic": "Verifique o tema: {topic}.",
       "tpl.check.dates": "Verifique estas datas visíveis: {dates}.",
       "tpl.check.date_on_original": "Verifique esta data no documento original: {date}.",
+      "tpl.check.date_ambiguous_order": "O dia e o mês podem estar trocados. Verifique o documento original: {date}.",
+      "tpl.check.date_year_incomplete": "O ano não está escrito por extenso. Verifique o documento original: {date}.",
       "tpl.check.amount_and_date": "Verifique o valor ({amount}) e a data ({date}) no documento original.",
       "tpl.check.amount_any_dates": "Verifique o valor ({amount}) e quaisquer datas no documento original.",
       "tpl.check.date_any_amounts": "Verifique a data ({date}) e quaisquer valores no documento original.",

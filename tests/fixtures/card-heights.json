@@ -1465,10 +1465,10 @@
    "steps": 1
   },
   "ambiguous_numeric_date|4": {
-   "px": 438,
+   "px": 465,
    "lang": "pl",
    "answerChars": 18,
-   "stepChars": 53,
+   "stepChars": 89,
    "steps": 1
   },
   "ambiguous_numeric_date|5": {
@@ -1507,10 +1507,10 @@
    "steps": 2
   },
   "short_year_date|4": {
-   "px": 434,
-   "lang": "es",
+   "px": 461,
+   "lang": "fr",
    "answerChars": 17,
-   "stepChars": 52,
+   "stepChars": 72,
    "steps": 1
   },
   "short_year_date|5": {

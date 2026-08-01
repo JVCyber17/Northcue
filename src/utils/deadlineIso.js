@@ -102,6 +102,67 @@ function toIsoDate(value) {
   return date.toISOString().slice(0, 10);
 }
 
+// The same shapes as above, loosened so a value that will NOT convert can still
+// be described. toIsoDate requires a four digit year; these do not, because the
+// short year is the thing being reported.
+const NUMERIC_SHAPE = /^(\d{1,2})[/-](\d{1,2})[/-](\d{1,4})$/;
+const DAY_FIRST_SHAPE = /^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\s+(\d{1,4})$/;
+const MONTH_FIRST_SHAPE = /^([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{1,4})$/;
+
+// WHY a date the reader is shown has no single reading, or null when it has one.
+//
+// This exists so a card can name the problem instead of asserting over it.
+// Northcue shows the date verbatim either way, because the reader holding the
+// letter can resolve what the engine cannot, and telling them WHICH part is
+// unresolved is the difference between a caveat they can act on and a hedge.
+//
+// Only two reasons, and each is reported only when it is genuinely present:
+//
+//   "ambiguous_order"   both numbers could be the day, so the value has two
+//                       readings. "03/06/2026" is 3 June or 6 March. Reported
+//                       ONLY when both are in 1..12; "25/06/2026" has a single
+//                       reading even though toIsoDate still declines it, and
+//                       claiming ambiguity there would be a false alarm.
+//   "incomplete_year"   the year is not four digits, so the century is a guess.
+//                       "28 May 26" is 2026 or 1926, "1 April 226" is neither.
+//
+// Order ambiguity outranks a short year when a value has both, because the two
+// readings of the day and month are 95 days apart at worst and a wrong century
+// is not a date anyone will act on by mistake.
+//
+// Everything else returns null, including a value that converts cleanly, a
+// relative period, an unknown month word and a day that does not exist in its
+// month. Those decline for reasons no short sentence improves on, so the card
+// keeps its ordinary wording rather than gaining a caveat it cannot explain.
+function unresolvableReason(value) {
+  const raw = String(value == null ? "" : value).trim();
+  if (!raw || isRelativeTimeframe(raw) || toIsoDate(raw)) return null;
+
+  const numeric = NUMERIC_SHAPE.exec(raw);
+  if (numeric) {
+    const day = +numeric[1];
+    const month = +numeric[2];
+    if (day >= 1 && day <= 12 && month >= 1 && month <= 12) return "ambiguous_order";
+    return numeric[3].length === 4 ? null : "incomplete_year";
+  }
+
+  const dayFirst = DAY_FIRST_SHAPE.exec(raw);
+  if (dayFirst) return shortYearOf(dayFirst[2], dayFirst[3]);
+
+  const monthFirst = MONTH_FIRST_SHAPE.exec(raw);
+  if (monthFirst) return shortYearOf(monthFirst[1], monthFirst[3]);
+
+  return null;
+}
+
+// A named-month value declines for a short year only when the month really is a
+// month. "1 Mayor 2026" and "31 February 2026" also fail to convert, and
+// neither is a year problem, so neither gets the year sentence.
+function shortYearOf(monthWord, year) {
+  if (MONTHS[monthWord.toLowerCase()] === undefined) return null;
+  return year.length === 4 ? null : "incomplete_year";
+}
+
 // The deadline as a calendar day a machine can compare against today, or null.
 //
 // Takes four named facts rather than the engine's trust and extraction objects,
@@ -146,5 +207,6 @@ module.exports = {
   deadlineIsoFor,
   isRelativeTimeframe,
   toIsoDate,
+  unresolvableReason,
   RELATIVE_TIMEFRAME_SOURCE
 };

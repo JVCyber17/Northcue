@@ -8025,14 +8025,14 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "title": "When is it due?",
     "simple_explanation": "Due by 03/06/2026.",
     "key_points": [
-      "Check this date on the original document: 03/06/2026."
+      "The day and the month could be either way round. Check the original document: 03/06/2026."
     ],
     "action_needed": null,
     "possible_deadline": "03/06/2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. Due by 03/06/2026.. Check this date on the original document: 03/06/2026.",
+    "read_aloud_text": "When is it due?. Due by 03/06/2026.. The day and the month could be either way round. Check the original document: 03/06/2026.",
     "status": "normal"
   },
   {
@@ -8250,14 +8250,14 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "title": "When is it due?",
     "simple_explanation": "Due by 28 May 26.",
     "key_points": [
-      "Check this date on the original document: 28 May 26."
+      "The year is not written in full. Check the original document: 28 May 26."
     ],
     "action_needed": null,
     "possible_deadline": "28 May 26",
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "When is it due?. Due by 28 May 26.. Check this date on the original document: 28 May 26.",
+    "read_aloud_text": "When is it due?. Due by 28 May 26.. The year is not written in full. Check the original document: 28 May 26.",
     "status": "good"
   },
   {

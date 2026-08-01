@@ -373,6 +373,8 @@
       "tpl.check.topic": "ਵਿਸ਼ਾ ਜਾਂਚੋ: {topic}.",
       "tpl.check.dates": "ਇਹ ਦਿਖਣ ਵਾਲੀਆਂ ਤਾਰੀਖ਼ਾਂ ਜਾਂਚੋ: {dates}.",
       "tpl.check.date_on_original": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਉੱਤੇ ਇਹ ਤਾਰੀਖ਼ ਜਾਂਚੋ: {date}.",
+      "tpl.check.date_ambiguous_order": "ਦਿਨ ਅਤੇ ਮਹੀਨਾ ਉਲਟ ਹੋ ਸਕਦੇ ਹਨ। ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ: {date}.",
+      "tpl.check.date_year_incomplete": "ਸਾਲ ਪੂਰਾ ਨਹੀਂ ਲਿਖਿਆ ਗਿਆ। ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ: {date}.",
       "tpl.check.amount_and_date": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਉੱਤੇ ਰਕਮ ({amount}) ਅਤੇ ਤਾਰੀਖ਼ ({date}) ਜਾਂਚੋ.",
       "tpl.check.amount_any_dates": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਉੱਤੇ ਰਕਮ ({amount}) ਅਤੇ ਸਾਰੀਆਂ ਤਾਰੀਖ਼ਾਂ ਜਾਂਚੋ.",
       "tpl.check.date_any_amounts": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਉੱਤੇ ਤਾਰੀਖ਼ ({date}) ਅਤੇ ਸਾਰੀਆਂ ਰਕਮਾਂ ਜਾਂਚੋ.",

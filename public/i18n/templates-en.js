@@ -381,6 +381,8 @@
       { id: "tpl.check.topic", template: "Check the topic: {topic}." },
       { id: "tpl.check.dates", template: "Check these visible dates: {dates}." },
       { id: "tpl.check.date_on_original", template: "Check this date on the original document: {date}." },
+      { id: "tpl.check.date_ambiguous_order", template: "The day and the month could be either way round. Check the original document: {date}." },
+      { id: "tpl.check.date_year_incomplete", template: "The year is not written in full. Check the original document: {date}." },
       { id: "tpl.check.amount_and_date", template: "Check the amount ({amount}) and the date ({date}) on the original document." },
       { id: "tpl.check.amount_any_dates", template: "Check the amount ({amount}) and any dates on the original document." },
       { id: "tpl.check.date_any_amounts", template: "Check the date ({date}) and any amounts on the original document." },

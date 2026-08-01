@@ -375,6 +375,8 @@
       "tpl.check.topic": "Prosimy sprawdzić temat: {topic}.",
       "tpl.check.dates": "Prosimy sprawdzić te widoczne daty: {dates}.",
       "tpl.check.date_on_original": "Prosimy sprawdzić tę datę w oryginalnym dokumencie: {date}.",
+      "tpl.check.date_ambiguous_order": "Dzień i miesiąc mogą być zapisane w odwrotnej kolejności. Prosimy sprawdzić oryginalny dokument: {date}.",
+      "tpl.check.date_year_incomplete": "Rok nie jest zapisany w pełnej postaci. Prosimy sprawdzić oryginalny dokument: {date}.",
       "tpl.check.amount_and_date": "Prosimy sprawdzić kwotę ({amount}) i datę ({date}) w oryginalnym dokumencie.",
       "tpl.check.amount_any_dates": "Prosimy sprawdzić kwotę ({amount}) i wszystkie daty w oryginalnym dokumencie.",
       "tpl.check.date_any_amounts": "Prosimy sprawdzić datę ({date}) i wszystkie kwoty w oryginalnym dokumencie.",

@@ -373,6 +373,8 @@
       "tpl.check.topic": "विषय जाँचें: {topic}.",
       "tpl.check.dates": "ये दिखने वाली तारीखें जाँचें: {dates}.",
       "tpl.check.date_on_original": "मूल दस्तावेज़ पर यह तारीख जाँचें: {date}.",
+      "tpl.check.date_ambiguous_order": "दिन और महीना आपस में बदले हुए हो सकते हैं। मूल दस्तावेज़ जाँचें: {date}.",
+      "tpl.check.date_year_incomplete": "साल पूरा नहीं लिखा गया है। मूल दस्तावेज़ जाँचें: {date}.",
       "tpl.check.amount_and_date": "मूल दस्तावेज़ पर रकम ({amount}) और तारीख ({date}) जाँचें.",
       "tpl.check.amount_any_dates": "मूल दस्तावेज़ पर रकम ({amount}) और सभी तारीखें जाँचें.",
       "tpl.check.date_any_amounts": "मूल दस्तावेज़ पर तारीख ({date}) और सभी रकमें जाँचें.",

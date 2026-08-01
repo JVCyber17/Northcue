@@ -374,6 +374,8 @@
       "tpl.check.topic": "Verificați subiectul: {topic}.",
       "tpl.check.dates": "Verificați aceste date vizibile: {dates}.",
       "tpl.check.date_on_original": "Verificați această dată pe documentul original: {date}.",
+      "tpl.check.date_ambiguous_order": "Ziua și luna ar putea fi inversate. Verificați documentul original: {date}.",
+      "tpl.check.date_year_incomplete": "Anul nu este scris complet. Verificați documentul original: {date}.",
       "tpl.check.amount_and_date": "Verificați suma ({amount}) și data ({date}) pe documentul original.",
       "tpl.check.amount_any_dates": "Verificați suma ({amount}) și eventualele date de pe documentul original.",
       "tpl.check.date_any_amounts": "Verificați data ({date}) și eventualele sume de pe documentul original.",
