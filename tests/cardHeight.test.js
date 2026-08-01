@@ -42,19 +42,59 @@ const TIGHT_PX = 120;
 // test can say plainly when one comes back rather than quietly tolerating it.
 const KNOWN_OVER = {};
 
+// D3 tier 2 gave the engine a second reading of the same document: the one it
+// produces on its own, and the one it produces when the fact extractor answered.
+// A reader on the English path sees the second, and this harness could only see
+// the first, so a card that grows only when facts arrive was invisible here.
+//
+// tests/fixtures/corpus-facts.json is the real captured extractor output for
+// every corpus document, so the second reading is reproducible offline. Cards
+// that differ between the two readings are measured separately, keyed
+// "<id>+facts|<n>". Cards that do not differ are not duplicated.
+const CORPUS_FACTS = require(path.join(__dirname, "fixtures", "corpus-facts.json"));
+const { providerSkipReason } = require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
+
+function cardsOf(text, facts, id) {
+  return runClearStepsEngine({
+    extractedText: text,
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "card-height-test" },
+    facts
+  }).api_output.structured_result.cards;
+}
+
+function measurementsOf(card) {
+  return {
+    answerChars: card.simple_explanation.length,
+    stepChars: (card.key_points || []).reduce((s, p) => s + p.length, 0),
+    steps: (card.key_points || []).length
+  };
+}
+
 function currentCards() {
   const out = {};
   CORPUS.forEach((entry) => {
+    const own = cardsOf(entry.text, null, entry.id);
+    own.forEach((card) => { out[entry.id + "|" + card.card_number] = measurementsOf(card); });
+
+    // Only where production would actually have facts. The fixture holds a
+    // captured extraction for all forty documents because it was captured
+    // offline, but providerSkipReason stops the extractor on a gated one, so
+    // measuring a card it can never render would be measuring nothing.
+    const facts = CORPUS_FACTS[entry.id];
+    if (!facts) return;
     const run = runClearStepsEngine({
       extractedText: entry.text,
       fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "card-height-test" }
     });
-    run.api_output.structured_result.cards.forEach((card) => {
-      out[entry.id + "|" + card.card_number] = {
-        answerChars: card.simple_explanation.length,
-        stepChars: (card.key_points || []).reduce((s, p) => s + p.length, 0),
-        steps: (card.key_points || []).length
-      };
+    if (providerSkipReason({ rulesRun: run, language: "en" })) return;
+    const withFacts = cardsOf(entry.text, facts, entry.id);
+    withFacts.forEach((card, index) => {
+      const before = own[index];
+      const same = card.title === before.title &&
+        card.simple_explanation === before.simple_explanation &&
+        JSON.stringify(card.key_points) === JSON.stringify(before.key_points);
+      if (same) return;
+      out[entry.id + "+facts|" + card.card_number] = measurementsOf(card);
     });
   });
   return out;

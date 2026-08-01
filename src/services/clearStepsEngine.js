@@ -55,10 +55,16 @@ function runClearStepsEngine({ extractedText, fileMeta, facts }) {
   const split = splitDocuments(extractedText);
   const primaryText = split.documents[0] || "";
 
+  // Adjudicated ONCE and read by both layers below, so the severity floor and
+  // the card can never disagree about what the document states. Null unless an
+  // English document's extractor answered and the fact survived every rule.
+  const factConsequence = factCandidates.consequenceCandidate({ facts, sourceText: primaryText });
+
   const trust = evaluateTrustAndSeverityLayer({
     text: primaryText,
     fileMeta,
     split,
+    factConsequence,
     prompt: trustEvaluatorPrompt
   });
 
@@ -70,6 +76,7 @@ function runClearStepsEngine({ extractedText, fileMeta, facts }) {
     // English document whose extractor answered, and null is the failure path:
     // every consumer falls through to the engine's own reading.
     facts,
+    factConsequence,
     prompt: extractorPrompt
   });
 
@@ -130,7 +137,7 @@ function runClearStepsEngine({ extractedText, fileMeta, facts }) {
   };
 }
 
-function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
+function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence }) {
   const normalizedText = String(text || "");
   const lower = normalizedText.toLowerCase();
   const selectedCategory = String(fileMeta.selectedCategory || "auto").toLowerCase();
@@ -156,10 +163,10 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
   // be rated below their tier, however calm their wording. Keyword severity is the
   // base; the floor only ever raises it, never lowers it.
   const baseSeverityLevel = pickSeverityLevel({ lower, severitySignals, selectedCategory });
-  const severityLevel = seriousSignals.tier
+  const englishFloored = seriousSignals.tier
     ? raiseSeverityTo(baseSeverityLevel, seriousSignals.tier)
     : baseSeverityLevel;
-  const urgencyLevel = pickUrgencyLevel(lower, severityLevel);
+
   const documentCategory = detectDocumentCategory({
     lower,
     selectedCategory,
@@ -179,6 +186,34 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split }) {
     inputQuality,
     documentCategory
   });
+
+  // A CONSEQUENCE A DOCUMENT STATES IS A SEVERITY SIGNAL, in any language.
+  //
+  // detectSeriousDocumentSignals reads English phrases, so a Polish letter
+  // warning of a court eviction order was rated low. This merges a fact-derived
+  // floor through the SAME helper, so it can only ever raise and never lower.
+  //
+  // PLACED HERE, below the non-document decision, rather than beside the
+  // English floor above. A test caught the reason: sitting up there it floored
+  // non_document_recipe to urgent, because isProbableNonDocument does not exist
+  // yet at that point and isUnsupported is about the file type rather than
+  // about whether this is a document at all. Every gate that can refuse a
+  // document has now had its say before a fact is allowed to raise anything.
+  //
+  // In production these documents never reach the provider, so `facts` is
+  // already null; this makes that structural rather than incidental, and keeps
+  // a test that hands facts in directly honest.
+  const factsAreAdmissible = !garbledByOcr &&
+    inputQuality === "good" &&
+    scamSignals.length === 0 &&
+    !isUnsupported &&
+    !isProbableNonDocument &&
+    !(split && split.isMultiLetterInput);
+  const consequenceFloor = factsAreAdmissible ? consequenceSeverityFloor(factConsequence) : null;
+  const severityLevel = consequenceFloor
+    ? raiseSeverityTo(englishFloored, consequenceFloor)
+    : englishFloored;
+  const urgencyLevel = pickUrgencyLevel(lower, severityLevel);
 
   const trustAssessment = pickTrustAssessment({
     inputQuality,
@@ -308,8 +343,8 @@ const HIGH_STAKES_NOTE =
 //               so every extractor ran across all of the letters and no value
 //               can be attributed. Every field a card would assert a relation
 //               from is dropped.
-function runExtractorLayer({ text, trust, split, facts }) {
-  return applyMultiLetterAttribution(withSelectedAmount(buildExtraction({ text, trust, facts }), text, facts), trust, split);
+function runExtractorLayer({ text, trust, split, facts, factConsequence }) {
+  return applyMultiLetterAttribution(withSelectedAmount(buildExtraction({ text, trust, facts, factConsequence }), text, facts), trust, split);
 }
 
 // Selects the one amount, for every extraction branch rather than only the
@@ -334,9 +369,14 @@ function withSelectedAmount(extraction, text, facts) {
     facts, sourceText: text, engineUnlabelled: true
   });
   return Object.assign({}, extraction, {
-    selected_amount: chosen ? chosen.value : (fromFacts || null),
+    // Stays a STRING. amountCandidate returns { value, role } because the role
+    // is what the key point below is labelled from, and assigning the object
+    // here put "[object Object]" a template slot away from a reader.
+    selected_amount: chosen ? chosen.value : (fromFacts ? fromFacts.value : null),
     unlabelled_amount: !chosen && !fromFacts,
-    amount_from_facts: Boolean(!chosen && fromFacts)
+    // Null on the engine's own path: selectAmount binds an amount to a label it
+    // can read, and does not name what sort of amount it is.
+    selected_amount_role: fromFacts ? fromFacts.role : null
   });
 }
 
@@ -380,7 +420,7 @@ function applyMultiLetterAttribution(extraction, trust, split) {
   return fused;
 }
 
-function buildExtraction({ text, trust, facts }) {
+function buildExtraction({ text, trust, facts, factConsequence }) {
   if (trust.processing_mode === "unsupported") {
     // A probable non-document gets a calm, honest "this is not an official letter"
     // message, never a reading-aid that pretends to understand it.
@@ -452,7 +492,7 @@ function buildExtraction({ text, trust, facts }) {
   }
 
   if (shouldUseReadableUnsupportedAid(text, trust)) {
-    return buildReadableUnsupportedExtraction(text, trust);
+    return withFactsOnReadingAid(buildReadableUnsupportedExtraction(text, trust), text, facts, factConsequence);
   }
 
   const actions = extractActions(text, trust);
@@ -553,9 +593,13 @@ function buildExtraction({ text, trust, facts }) {
   const deadline = engineDeadline || factCandidates.deadlineCandidate({
     facts, sourceText: text, engineDeadline
   });
-  const factConsequence = consequenceSentence ? null : factCandidates.consequenceCandidate({
-    facts, sourceText: text, engineHasConsequence: Boolean(consequenceSentence)
-  });
+  // The SENTENCE is the engine's when the engine found one. The KIND is the
+  // model's whenever it is valid, because the severity floor needs it either
+  // way, and the two are adjudicated once in runClearStepsEngine so this and
+  // the floor cannot disagree.
+  const factSentence = consequenceSentence
+    ? null
+    : (composedConsequenceFor(factConsequence) || (factConsequence ? factConsequence.sentence : null));
 
   return {
     summary,
@@ -568,8 +612,8 @@ function buildExtraction({ text, trust, facts }) {
     visible_dates: extractVisibleDates(text).filter((d) => d !== headerDate),
     header_date: headerDate,
     risk,
-    has_consequence: Boolean(consequenceSentence) || Boolean(factConsequence),
-    consequence_sentence: consequenceSentence || (factConsequence ? factConsequence.sentence : null),
+    has_consequence: Boolean(consequenceSentence) || Boolean(factSentence),
+    consequence_sentence: consequenceSentence || factSentence,
     // The kind, kept for the severity floor that lands with the bank entries.
     // Null on the engine's own path, because RISK_PHRASES matches a phrase and
     // does not name a kind.
@@ -754,6 +798,48 @@ function buildNonDocumentExtraction(trust) {
     review_reason: "This does not look like an official document.",
     evidence_spans: []
   };
+}
+
+// THE READING AID PATH MAY TAKE A DEADLINE AND A CONSEQUENCE. NOTHING ELSE.
+//
+// After the non-document gate learned to read structure, every non-English
+// letter lands here, because detectDocumentCategory is English and returns
+// "unknown". That is where polish_rent_arrears and spanish_water_final_notice
+// sit: each carries a deadline, an amount and a stated consequence, and this
+// path was saying "No clear date was found" and rating them low.
+//
+// Facts were originally read only on the fully supported path, which meant the
+// two documents D3 exists for got nothing. Measured: with facts here, the floor
+// fires on exactly those two and the deadlines appear.
+//
+// THIS PATH'S OWN WORDING IS UNTOUCHED. Card 6 still says Northcue is not fully
+// trained for this document type, and needs_human_review and review_reason are
+// left exactly as buildReadableUnsupportedExtraction set them. The reader is
+// told the type is not fully supported AND told the date and the consequence
+// the letter states. Those are compatible; withholding the second was not
+// caution, it was a gap.
+//
+// THE SAME THREE HARD VALIDATIONS apply, because it is the same adjudicator.
+// Every gate above still returns before this line: unsupported, probable non
+// document, verification_only, the benefits aid and garbled OCR.
+function withFactsOnReadingAid(extraction, text, facts, factConsequence) {
+  if (!facts) return extraction;
+
+  const deadline = extraction.deadline || factCandidates.deadlineCandidate({
+    facts, sourceText: text, engineDeadline: extraction.deadline || null
+  });
+  const sentence = extraction.consequence_sentence
+    ? null
+    : (composedConsequenceFor(factConsequence) || (factConsequence ? factConsequence.sentence : null));
+
+  return Object.assign({}, extraction, {
+    deadline,
+    deadline_from_facts: Boolean(!extraction.deadline && deadline),
+    has_consequence: Boolean(extraction.has_consequence) || Boolean(sentence),
+    consequence_sentence: extraction.consequence_sentence || sentence,
+    consequence_kind: factConsequence ? factConsequence.kind : null,
+    consequence_conditional: factConsequence ? factConsequence.conditional : null
+  });
 }
 
 function buildReadableUnsupportedExtraction(text, trust) {
@@ -1203,11 +1289,29 @@ function buildCheckExplanation(extraction) {
   return "Check key details on the original document.";
 }
 
+// Only the two roles amountCandidate will ever select. Every other role names
+// an amount that is not the answer to "how much": a fee is a component, an
+// instalment is a part, a credit is the opposite.
+const AMOUNT_ROLE_POINT = {
+  total_due: (value) => `Amount to pay: ${value}.`,
+  arrears: (value) => `Arrears shown: ${value}.`
+};
+
+function amountKeyPoint(extraction) {
+  const withRole = AMOUNT_ROLE_POINT[extraction.selected_amount_role];
+  return withRole ? withRole(extraction.selected_amount) : `Amount shown: ${extraction.selected_amount}.`;
+}
+
 function buildCheckKeyPoints({ trust, extraction }) {
   const points = [];
 
   if (extraction.deadline) points.push(`Date: ${extraction.deadline}.`);
-  if (extraction.selected_amount) points.push(`Amount shown: ${extraction.selected_amount}.`);
+  // "Amount shown" is what the engine says when it does not know what SORT of
+  // amount it found, which is every time on its own path: selectAmount binds a
+  // value to a label it can read without naming the kind. A fact carries the
+  // role, so the reader can be told which amount it is rather than only that
+  // one exists.
+  if (extraction.selected_amount) points.push(amountKeyPoint(extraction));
   else if (extraction.unlabelled_amount) points.push(UNLABELLED.amountPoint);
   if (trust.processing_mode === "verification_only") {
     points.push("Use official contact details before acting.");
@@ -2457,6 +2561,87 @@ function buildSecondCardKeyPoints(trust) {
 const SERIOUS_SEVERITY_RANK = { low: 0, medium: 1, high: 2, urgent: 3 };
 
 // Raise a severity level to at least `floor`, never lowering it.
+// WHAT A STATED CONSEQUENCE MEANS, in one table.
+//
+// consequence.kind is a SIGNAL the engine interprets, never a verdict the model
+// issues. The model reports what sort of thing a letter says will happen; this
+// table decides what that is worth in severity and what Northcue says about it.
+// Both live together so a kind can never floor without a sentence to show, or
+// carry a sentence without a considered floor.
+//
+// SEVEN KINDS ONLY. The model's kind is less reliable than its sentence, and
+// council_tax is the proof: it labelled "you may lose the right to pay by
+// instalments and the full balance will become due" as debt_collection, which
+// is wrong. Composing from that would have printed a sentence the letter does
+// not say. The seven below are the ones whose meaning is unambiguous; every
+// other kind keeps the document's own words and floors nothing.
+//
+// account_suspension is absent on purpose and is refused earlier, in
+// factCandidates.SCAM_SHAPED_KINDS: both corpus documents returning it are
+// scams, and a floor there would make Northcue amplify the attacker's deadline.
+// debt_collection, credit_record, penalty and other floor nothing because they
+// describe consequences a calm letter states routinely.
+//
+// The sentences are attributed and hedged in the register the engine already
+// uses, and each has a matching id in the template bank so every language gets
+// it. The reader is the subject of the warning, as the bank review asks.
+const CONSEQUENCE_KIND_POLICY = {
+  enforcement_agent: {
+    floor: "urgent",
+    may: "The document says an enforcement agent may visit.",
+    will: "The document says an enforcement agent will visit."
+  },
+  remove_goods: {
+    floor: "urgent",
+    may: "The document says goods may be taken to cover what is owed.",
+    will: "The document says goods will be taken to cover what is owed."
+  },
+  possession: {
+    floor: "high",
+    may: "The document says the sender may ask a court for possession of your home.",
+    will: "The document says the sender will ask a court for possession of your home."
+  },
+  eviction: {
+    floor: "high",
+    may: "The document says this may lead to you losing your home.",
+    will: "The document says this will lead to you losing your home."
+  },
+  court_action: {
+    floor: "high",
+    may: "The document says court action may follow.",
+    will: "The document says court action will follow."
+  },
+  disconnection: {
+    floor: "high",
+    may: "The document says your supply may be cut off.",
+    will: "The document says your supply will be cut off."
+  },
+  prosecution: {
+    floor: "high",
+    may: "The document says this may lead to prosecution.",
+    will: "The document says this will lead to prosecution."
+  }
+};
+
+// A composed sentence for a kind the table names, or null to keep the quote.
+function composedConsequenceFor(factConsequence) {
+  if (!factConsequence) return null;
+  const policy = CONSEQUENCE_KIND_POLICY[factConsequence.kind];
+  if (!policy) return null;
+  return factConsequence.conditional ? policy.may : policy.will;
+}
+
+// The severity floor a stated consequence sets, or null.
+//
+// NEVER LOWERS: the caller merges through raiseSeverityTo, which is the same
+// helper the English stakes floor uses, so a document already urgent stays
+// urgent whatever kind comes back.
+function consequenceSeverityFloor(factConsequence) {
+  if (!factConsequence) return null;
+  const policy = CONSEQUENCE_KIND_POLICY[factConsequence.kind];
+  return policy ? policy.floor : null;
+}
+
 function raiseSeverityTo(current, floor) {
   const currentRank = SERIOUS_SEVERITY_RANK[current] ?? 0;
   const floorRank = SERIOUS_SEVERITY_RANK[floor] ?? 0;

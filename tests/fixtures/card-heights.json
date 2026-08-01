@@ -13,7 +13,7 @@
     "gu",
     "bn"
   ],
-  "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently. Cards marked includesPassedLine were measured WITH the client rendered passed-deadline line, whether or not their date has passed yet, so the figure is an upper bound that does not go stale as a future deadline becomes a past one. answerChars and stepChars describe engine output only and never count that line.",
+  "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently. Cards marked includesPassedLine were measured WITH the client rendered passed-deadline line, whether or not their date has passed yet, so the figure is an upper bound that does not go stale as a future deadline becomes a past one. answerChars and stepChars describe engine output only and never count that line. Keys ending +facts|<n> are the same card as it renders when the fact extractor answered, which is a second reading of the same document that a reader on the English path sees; they exist only where that reading differs.",
   "cards": {
     "council_tax|1": {
       "px": 641,
@@ -1704,6 +1704,90 @@
       "answerChars": 54,
       "stepChars": 57,
       "steps": 1
+    },
+    "bank_loan_letter+facts|4": {
+      "px": 497,
+      "lang": "pl",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1
+    },
+    "bank_loan_letter+facts|5": {
+      "px": 720,
+      "lang": "pl",
+      "answerChars": 99,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "council_tax+facts|5": {
+      "px": 693,
+      "lang": "pl",
+      "answerChars": 132,
+      "stepChars": 43,
+      "steps": 2
+    },
+    "education_letter+facts|5": {
+      "px": 688,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 41,
+      "steps": 2
+    },
+    "gov_hmrc+facts|5": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 41,
+      "steps": 2
+    },
+    "housing_letter+facts|5": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 76,
+      "stepChars": 21,
+      "steps": 1
+    },
+    "insurance_letter+facts|5": {
+      "px": 688,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 41,
+      "steps": 2
+    },
+    "polish_rent_arrears+facts|4": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 58,
+      "steps": 1
+    },
+    "polish_rent_arrears+facts|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 56,
+      "stepChars": 47,
+      "steps": 2
+    },
+    "short_year_date+facts|5": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 82,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "spanish_water_final_notice+facts|4": {
+      "px": 558,
+      "lang": "pl",
+      "answerChars": 53,
+      "stepChars": 62,
+      "steps": 1
+    },
+    "spanish_water_final_notice+facts|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 42,
+      "stepChars": 49,
+      "steps": 2
     }
   }
 }

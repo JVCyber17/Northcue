@@ -1,0 +1,1222 @@
+{
+ "council_tax": {
+  "document_language": "en",
+  "sender": "Hounslow Borough Council",
+  "reference": "4471028866",
+  "amounts": [
+   {
+    "value": "£1,842.00",
+    "role": "total_due"
+   },
+   {
+    "value": "£460.50",
+    "role": "credit"
+   },
+   {
+    "value": "£1,381.50",
+    "role": "total_due"
+   },
+   {
+    "value": "£138.15",
+    "role": "instalment"
+   }
+  ],
+  "dates": [
+   {
+    "value": "12 March 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 April 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "First instalment due by 1 April 2026."
+  },
+  "consequence": {
+   "kind": "debt_collection",
+   "conditional": true,
+   "sentence": "If you do not pay by the date shown, you may lose the right to pay by instalments and the full balance for the year will become due."
+  },
+  "account_in_credit": false
+ },
+ "energy_bill": {
+  "document_language": "en",
+  "sender": "EDF Energy",
+  "reference": "EB-4471028",
+  "amounts": [
+   {
+    "value": "£0.00",
+    "role": "balance"
+   },
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 February 2026",
+    "role": "period_start"
+   },
+   {
+    "value": "30 April 2026",
+    "role": "period_end"
+   },
+   {
+    "value": "28 May 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28 May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "water_bill": {
+  "document_language": "en",
+  "sender": "Thames Water",
+  "reference": "8842200761",
+  "amounts": [
+   {
+    "value": "£68.40",
+    "role": "other"
+   },
+   {
+    "value": "£74.20",
+    "role": "other"
+   },
+   {
+    "value": "£142.60",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "2 June 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 March 2026",
+    "role": "period_start"
+   },
+   {
+    "value": "31 May 2026",
+    "role": "period_end"
+   },
+   {
+    "value": "30 June 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 30 June 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "broadband_bill": {
+  "document_language": "en",
+  "sender": "BT",
+  "reference": "GB44120983",
+  "amounts": [
+   {
+    "value": "£41.99",
+    "role": "other"
+   },
+   {
+    "value": "£3.20",
+    "role": "other"
+   },
+   {
+    "value": "£45.19",
+    "role": "total_due"
+   },
+   {
+    "value": "£3.00",
+    "role": "other"
+   }
+  ],
+  "dates": [
+   {
+    "value": "18 April 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "2 May 2026",
+    "role": "deadline"
+   },
+   {
+    "value": "July 2026",
+    "role": "other"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "This will be taken by Direct Debit on 2 May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "gov_hmrc": {
+  "document_language": "en",
+  "sender": "HM Revenue and Customs",
+  "reference": "[phone]",
+  "amounts": [
+   {
+    "value": "£486.20",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "21 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "31 July 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "You must pay by 31 July 2026."
+  },
+  "consequence": {
+   "kind": "penalty",
+   "conditional": true,
+   "sentence": "If you do not pay, interest will be charged on the outstanding amount."
+  },
+  "account_in_credit": false
+ },
+ "appointment_nhs": {
+  "document_language": "en",
+  "sender": "West Middlesex University Hospital",
+  "reference": "WM-8842001",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "5 June 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "Tuesday 1 July 2026",
+    "role": "appointment"
+   }
+  ],
+  "obligation": {
+   "kind": "attend",
+   "sentence": "You have an appointment in the Dermatology Department."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "bill_in_credit": {
+  "document_language": "en",
+  "sender": "British Gas",
+  "reference": "5510442288",
+  "amounts": [
+   {
+    "value": "£96.14",
+    "role": "other"
+   },
+   {
+    "value": "£180.00",
+    "role": "other"
+   },
+   {
+    "value": "£83.86",
+    "role": "credit"
+   }
+  ],
+  "dates": [
+   {
+    "value": "9 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "9 August 2026",
+    "role": "other"
+   }
+  ],
+  "obligation": null,
+  "consequence": null,
+  "account_in_credit": true
+ },
+ "bailiff_enforcement": {
+  "document_language": "en",
+  "sender": "Marston Holdings Enforcement Agents",
+  "reference": "EN-77120934",
+  "amounts": [
+   {
+    "value": "£1,047.00",
+    "role": "other"
+   },
+   {
+    "value": "£75.00",
+    "role": "fee"
+   },
+   {
+    "value": "£1,247.00",
+    "role": "total_due"
+   },
+   {
+    "value": "£235.00",
+    "role": "fee"
+   }
+  ],
+  "dates": [
+   {
+    "value": "20 August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3 July 2026",
+    "role": "other"
+   },
+   {
+    "value": "3 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "contact",
+   "sentence": "You must contact us on [phone] by 3 September 2026."
+  },
+  "consequence": {
+   "kind": "remove_goods",
+   "conditional": true,
+   "sentence": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you. Further fees of £235.00 will be added."
+  },
+  "account_in_credit": false
+ },
+ "eviction_possession": {
+  "document_language": "en",
+  "sender": "Brightside Housing Association",
+  "reference": "POS-2291",
+  "amounts": [
+   {
+    "value": "£2,480.00",
+    "role": "arrears"
+   }
+  ],
+  "dates": [
+   {
+    "value": "14 August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "12 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "You must clear the arrears by 12 September 2026."
+  },
+  "consequence": {
+   "kind": "eviction",
+   "conditional": true,
+   "sentence": "If the arrears are not cleared we will apply to the county court for possession of your home.\nThis could lead to eviction and you may be responsible for our court costs."
+  },
+  "account_in_credit": false
+ },
+ "court_fine": {
+  "document_language": "en",
+  "sender": "HM Courts and Tribunals Service",
+  "reference": "CF-8830012",
+  "amounts": [
+   {
+    "value": "£660.00",
+    "role": "other"
+   },
+   {
+    "value": "£66.00",
+    "role": "other"
+   },
+   {
+    "value": "£726.00",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "2 September 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "30 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "You must pay by 30 September 2026."
+  },
+  "consequence": {
+   "kind": "enforcement_agent",
+   "conditional": true,
+   "sentence": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement."
+  },
+  "account_in_credit": false
+ },
+ "housing_letter": {
+  "document_language": "en",
+  "sender": "London Borough of Hounslow Housing Services",
+  "reference": "HS/2026/44871",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "9 June 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "within 14 days of the date of this letter",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "respond",
+   "sentence": "Please respond within 14 days of the date of this letter."
+  },
+  "consequence": {
+   "kind": "other",
+   "conditional": true,
+   "sentence": "If we do not hear from you, we may need to review your tenancy arrangements."
+  },
+  "account_in_credit": false
+ },
+ "legal_solicitor": {
+  "document_language": "en",
+  "sender": "Hartley and Grange Solicitors",
+  "reference": "HG/DR/22981",
+  "amounts": [
+   {
+    "value": "£3,410.00",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "11 July 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "14 days",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Unless payment is received within 14 days, legal action may be commenced without further notice to you."
+  },
+  "consequence": {
+   "kind": "court_action",
+   "conditional": true,
+   "sentence": "Unless payment is received within 14 days, legal action may be commenced without further notice to you."
+  },
+  "account_in_credit": false
+ },
+ "medical_letter": {
+  "document_language": "en",
+  "sender": "Chelsea and Westminster Hospital Department of Gastroenterology",
+  "reference": null,
+  "amounts": [],
+  "dates": [
+   {
+    "value": "27 May 2026",
+    "role": "letter_date"
+   }
+  ],
+  "obligation": {
+   "kind": "contact",
+   "sentence": "If your symptoms change before then, please contact your GP."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "employment_letter": {
+  "document_language": "en",
+  "sender": "Ravenscourt Logistics Limited",
+  "reference": "HR-2026-0912",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "3 June 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "17 June 2026",
+    "role": "appointment"
+   }
+  ],
+  "obligation": {
+   "kind": "attend",
+   "sentence": "We are writing to invite you to a meeting to discuss your recent attendance record."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "education_letter": {
+  "document_language": "en",
+  "sender": "Springwell Primary School",
+  "reference": "SW/TRIP/2026",
+  "amounts": [
+   {
+    "value": "£185.00",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "12 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "5 June 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "send_documents",
+   "sentence": "Please return the signed consent form by 5 June 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "insurance_letter": {
+  "document_language": "en",
+  "sender": "Aviva Insurance",
+  "reference": "AV-77120934",
+  "amounts": [
+   {
+    "value": "£324.18",
+    "role": "total_due"
+   },
+   {
+    "value": "£287.50",
+    "role": "other"
+   }
+  ],
+  "dates": [
+   {
+    "value": "1 August 2026",
+    "role": "period_start"
+   },
+   {
+    "value": "1 July 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 August 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "respond",
+   "sentence": "Your policy will renew automatically unless you tell us otherwise before 1 August 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "bank_loan_letter": {
+  "document_language": "en",
+  "sender": "Halifax",
+  "reference": "8842-0076",
+  "amounts": [
+   {
+    "value": "£418.60",
+    "role": "arrears"
+   }
+  ],
+  "dates": [
+   {
+    "value": "16 June 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "7 July 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please bring the account up to date by 7 July 2026."
+  },
+  "consequence": {
+   "kind": "credit_record",
+   "conditional": true,
+   "sentence": "Continued arrears may be reported to credit reference agencies and could affect your credit rating."
+  },
+  "account_in_credit": false
+ },
+ "benefits_dwp": {
+  "document_language": "en",
+  "sender": "Department for Work and Pensions",
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£742.19",
+    "role": "other"
+   }
+  ],
+  "dates": [
+   {
+    "value": "8 July 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 August 2026",
+    "role": "other"
+   }
+  ],
+  "obligation": {
+   "kind": "respond",
+   "sentence": "If you disagree with this decision you can ask for a mandatory reconsideration within one month of the date of this letter."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "scam_phishing": {
+  "document_language": "en",
+  "sender": "Barcllays Security Team",
+  "reference": "SEC-99120",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "within 24 hours",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "respond",
+   "sentence": "You must verify your identity within 24 hours or your account will be frozen."
+  },
+  "consequence": {
+   "kind": "account_suspension",
+   "conditional": true,
+   "sentence": "Failure to respond will result in permanent suspension of your account."
+  },
+  "account_in_credit": false
+ },
+ "non_document_recipe": {
+  "document_language": "en",
+  "sender": null,
+  "reference": null,
+  "amounts": [],
+  "dates": [],
+  "obligation": null,
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "blank_template": {
+  "document_language": "en",
+  "sender": null,
+  "reference": null,
+  "amounts": [],
+  "dates": [],
+  "obligation": null,
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "outgoing_letter": {
+  "document_language": "en",
+  "sender": "Priya Sharma, 14 Sutton Court Road, Hounslow, TW3 8SG",
+  "reference": null,
+  "amounts": [],
+  "dates": [
+   {
+    "value": "4 June 2026",
+    "role": "letter_date"
+   }
+  ],
+  "obligation": {
+   "kind": "respond",
+   "sentence": "I would be grateful if you could review the account and reply to me in writing."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "multi_document": {
+  "document_language": "en",
+  "sender": null,
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   },
+   {
+    "value": "£1,381.50",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "28 May 2026",
+    "role": "deadline"
+   },
+   {
+    "value": "12 March 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 April 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28 May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "multi_document_greetings": {
+  "document_language": "en",
+  "sender": null,
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   },
+   {
+    "value": "£1,381.50",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "28 May 2026",
+    "role": "deadline"
+   },
+   {
+    "value": "12 March 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 April 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28 May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "multi_document_split": {
+  "document_language": "en",
+  "sender": "EDF Energy",
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4 May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "28 May 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28 May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "ocr_council_tax": {
+  "document_language": "en",
+  "sender": "H0unslow B0rough C0uncil",
+  "reference": "4471028866",
+  "amounts": [
+   {
+    "value": "£1,842.00",
+    "role": "total_due"
+   },
+   {
+    "value": "£1,381.50",
+    "role": "balance"
+   },
+   {
+    "value": "£138.15",
+    "role": "instalment"
+   }
+  ],
+  "dates": [
+   {
+    "value": "12March 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1April 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "If you do not pay by the date shown you may lose the right to pay by instalments and the full balance for the year will bec0me due."
+  },
+  "consequence": {
+   "kind": "other",
+   "conditional": true,
+   "sentence": "If you do not pay by the date shown you may lose the right to pay by instalments and the full balance for the year will bec0me due."
+  },
+  "account_in_credit": false
+ },
+ "ocr_energy_bill": {
+  "document_language": "en",
+  "sender": "EDF Ener9y",
+  "reference": "EB-4471028",
+  "amounts": [
+   {
+    "value": "£0.00",
+    "role": "balance"
+   },
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4May 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 February 2026",
+    "role": "period_start"
+   },
+   {
+    "value": "30 April 2026",
+    "role": "period_end"
+   },
+   {
+    "value": "28May 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28May 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "ocr_enforcement": {
+  "document_language": "en",
+  "sender": "Marst0n Holdings Enf0rcement Agents",
+  "reference": "EN-77120934",
+  "amounts": [
+   {
+    "value": "£1,047.00",
+    "role": "other"
+   },
+   {
+    "value": "£1,247.00",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "20August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "contact",
+   "sentence": "You must c0ntact us on [phone] by 3September 2026."
+  },
+  "consequence": {
+   "kind": "remove_goods",
+   "conditional": true,
+   "sentence": "If paym3nt is not received by this date an enforcement agent may attend your pr0perty and rem0ve goods belonging to you."
+  },
+  "account_in_credit": false
+ },
+ "ocr_heavy_damage": {
+  "document_language": "en",
+  "sender": "H0unsl0w B0r0ugh C0unc1l",
+  "reference": "447l028866",
+  "amounts": [
+   {
+    "value": "£l,842.OO",
+    "role": "total_due"
+   },
+   {
+    "value": "£l,381.5O",
+    "role": "instalment"
+   }
+  ],
+  "dates": [
+   {
+    "value": "l2March 2O26",
+    "role": "letter_date"
+   },
+   {
+    "value": "lApril 2O26",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "F1rst 1nst4lm3nt du3 by lApril 2O26"
+  },
+  "consequence": {
+   "kind": "other",
+   "conditional": true,
+   "sentence": "1f y0u d0 n0t p4y by th3 d4t3 sh0wn y0u m4y l0s3 th3 r1ght t0 p4y by 1nst4lm3nts"
+  },
+  "account_in_credit": false
+ },
+ "photo_snippet_short": {
+  "document_language": "en",
+  "sender": null,
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£214.63",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "28 May 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": null,
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "arrears_before_clause": {
+  "document_language": "en",
+  "sender": "Hounslow Borough Council",
+  "reference": "CT-90114",
+  "amounts": [
+   {
+    "value": "£486.20",
+    "role": "arrears"
+   }
+  ],
+  "dates": [
+   {
+    "value": "4 August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3 July 2026",
+    "role": "other"
+   },
+   {
+    "value": "3 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "You must pay the balance before 3 September 2026."
+  },
+  "consequence": {
+   "kind": "enforcement_agent",
+   "conditional": true,
+   "sentence": "If you do not, the account may be passed to an enforcement agent."
+  },
+  "account_in_credit": false
+ },
+ "failed_direct_debit": {
+  "document_language": "en",
+  "sender": "Thames Water",
+  "reference": "TW-33827",
+  "amounts": [
+   {
+    "value": "£164.90",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "20 July 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3 July 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Your payment was due by direct debit on 3 July 2026 and was returned unpaid by your bank."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "arrears_past_and_future": {
+  "document_language": "en",
+  "sender": "Sheffield City Council Housing Rent Team",
+  "reference": "HR-77420",
+  "amounts": [
+   {
+    "value": "£312.40",
+    "role": "arrears"
+   }
+  ],
+  "dates": [
+   {
+    "value": "6 August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3 July 2026",
+    "role": "other"
+   },
+   {
+    "value": "3 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "You must pay by 3 September 2026."
+  },
+  "consequence": {
+   "kind": "possession",
+   "conditional": true,
+   "sentence": "If you do not, we may apply to the county court for possession of your home."
+  },
+  "account_in_credit": false
+ },
+ "school_periodic": {
+  "document_language": "en",
+  "sender": "Fairfield Community School",
+  "reference": "SW-TRIP-2026",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "12 August 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "3 September 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "send_documents",
+   "sentence": "Please return the signed consent form by 3 September 2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "ambiguous_numeric_date": {
+  "document_language": "en",
+  "sender": "Vodafone UK",
+  "reference": "5518042",
+  "amounts": [
+   {
+    "value": "£41.99",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "06/05/2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "03/06/2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 03/06/2026."
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "short_year_date": {
+  "document_language": "en",
+  "sender": "Hounslow Borough Council",
+  "reference": "4471028866",
+  "amounts": [
+   {
+    "value": "£1,381.50",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "12 Mar 26",
+    "role": "letter_date"
+   },
+   {
+    "value": "28 May 26",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Please pay by 28 May 26."
+  },
+  "consequence": {
+   "kind": "other",
+   "conditional": true,
+   "sentence": "If you do not pay by the date shown, you may lose the right to pay by instalments."
+  },
+  "account_in_credit": false
+ },
+ "polish_rent_arrears": {
+  "document_language": "pl",
+  "sender": "Brightside Housing Association",
+  "reference": "BH-44712",
+  "amounts": [
+   {
+    "value": "£1,245.60",
+    "role": "arrears"
+   },
+   {
+    "value": "£142.30",
+    "role": "other"
+   }
+  ],
+  "dates": [
+   {
+    "value": "6 sierpnia 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "4 września 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "Prosimy o uregulowanie zaległości do dnia 4 września 2026."
+  },
+  "consequence": {
+   "kind": "eviction",
+   "conditional": true,
+   "sentence": "Jeżeli zaległość nie zostanie uregulowana, wystąpimy do sądu rejonowego o nakaz eksmisji."
+  },
+  "account_in_credit": false
+ },
+ "spanish_water_final_notice": {
+  "document_language": "es",
+  "sender": "Thames Water",
+  "reference": "TW-8830921",
+  "amounts": [
+   {
+    "value": "£312.44",
+    "role": "total_due"
+   }
+  ],
+  "dates": [
+   {
+    "value": "18 de mayo de 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "1 de febrero de 2026",
+    "role": "period_start"
+   },
+   {
+    "value": "30 de abril de 2026",
+    "role": "period_end"
+   },
+   {
+    "value": "15 de junio de 2026",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "pay",
+   "sentence": "El pago debe realizarse antes del 15 de junio de 2026."
+  },
+  "consequence": {
+   "kind": "court_action",
+   "conditional": true,
+   "sentence": "Si no recibimos el pago, podremos solicitar una orden judicial para instalar un limitador de caudal en su domicilio."
+  },
+  "account_in_credit": false
+ },
+ "french_hospital_appointment": {
+  "document_language": "fr",
+  "sender": "West Middlesex University Hospital",
+  "reference": "WM-8842177",
+  "amounts": [],
+  "dates": [
+   {
+    "value": "5 juin 2026",
+    "role": "letter_date"
+   },
+   {
+    "value": "mardi 7 juillet 2026",
+    "role": "appointment"
+   }
+  ],
+  "obligation": {
+   "kind": "attend",
+   "sentence": "Nous vous confirmons votre rendez-vous au service de dermatologie.\nDate du rendez-vous: mardi 7 juillet 2026\nHeure: 10h30\nLieu: Clinique 4, rez-de-chaussée"
+  },
+  "consequence": null,
+  "account_in_credit": false
+ },
+ "polish_phishing": {
+  "document_language": "pl",
+  "sender": "HMRC Zwrot Podatku",
+  "reference": null,
+  "amounts": [
+   {
+    "value": "£482.30",
+    "role": "other"
+   }
+  ],
+  "dates": [
+   {
+    "value": "24 godzin",
+    "role": "deadline"
+   }
+  ],
+  "obligation": {
+   "kind": "send_documents",
+   "sentence": "Aby otrzymać zwrot, prosimy potwierdzić dane w ciągu 24 godzin."
+  },
+  "consequence": {
+   "kind": "account_suspension",
+   "conditional": true,
+   "sentence": "Brak potwierdzenia danych w podanym terminie spowoduje zablokowanie konta."
+  },
+  "account_in_credit": false
+ }
+}

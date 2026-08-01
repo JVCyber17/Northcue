@@ -94,7 +94,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "evidence_spans": [],
   "selected_amount": "£1,381.50",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -331,7 +331,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   "evidence_spans": [],
   "selected_amount": "£214.63",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -563,7 +563,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   "evidence_spans": [],
   "selected_amount": "£142.60",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -790,7 +790,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   "evidence_spans": [],
   "selected_amount": "£45.19",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -1024,7 +1024,7 @@ INTENT:   document_category government. Official notice with a reference and a r
   },
   "selected_amount": "£486.20",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -1494,7 +1494,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -1731,7 +1731,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "evidence_spans": [],
   "selected_amount": "£1,247.00",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -1972,7 +1972,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "evidence_spans": [],
   "selected_amount": "£2,480.00",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -2216,7 +2216,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   "evidence_spans": [],
   "selected_amount": "£726.00",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -2684,7 +2684,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   "evidence_spans": [],
   "selected_amount": "£3,410.00",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -3386,7 +3386,7 @@ INTENT:   education category through the aid path. Consent deadline.
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -3621,7 +3621,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -3849,7 +3849,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "evidence_spans": [],
   "selected_amount": "£418.60",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -4083,7 +4083,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -5190,7 +5190,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false,
-  "amount_from_facts": false,
+  "selected_amount_role": null,
   "multi_letter_state": "fused"
 }
 
@@ -5415,7 +5415,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false,
-  "amount_from_facts": false,
+  "selected_amount_role": null,
   "multi_letter_state": "fused"
 }
 
@@ -5641,7 +5641,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   "evidence_spans": [],
   "selected_amount": "£214.63",
   "unlabelled_amount": false,
-  "amount_from_facts": false,
+  "selected_amount_role": null,
   "multi_letter_state": "first_only"
 }
 
@@ -5884,7 +5884,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   },
   "selected_amount": "£1,381.50",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -6110,7 +6110,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "evidence_spans": [],
   "selected_amount": "£214.63",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -6334,7 +6334,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "evidence_spans": [],
   "selected_amount": "£1,247.00",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -6774,7 +6774,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
   },
   "selected_amount": "£214.63",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -7010,7 +7010,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   "evidence_spans": [],
   "selected_amount": "£486.20",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -7249,7 +7249,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   "evidence_spans": [],
   "selected_amount": "£164.90",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -7483,7 +7483,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   "evidence_spans": [],
   "selected_amount": "£312.40",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -7956,7 +7956,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   "evidence_spans": [],
   "selected_amount": "£41.99",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -8186,7 +8186,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   "evidence_spans": [],
   "selected_amount": "£1,381.50",
   "unlabelled_amount": false,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -8428,7 +8428,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -8664,7 +8664,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
   },
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]
@@ -9121,7 +9121,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": true,
-  "amount_from_facts": false
+  "selected_amount_role": null
 }
 
 [banner]

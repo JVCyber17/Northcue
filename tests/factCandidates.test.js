@@ -142,15 +142,20 @@ test("facts never override the engine", async (t) => {
     }), null);
   });
 
-  await t.test("an engine consequence stands", () => {
+  await t.test("an engine consequence SENTENCE stands, and the kind is still read", () => {
+    // The two are separate questions. The engine's own reading wins the
+    // sentence; the kind is reported anyway, because the severity floor needs
+    // it on exactly these documents. Fusing them was why the floor fired on
+    // nothing: the eight documents the floor most wants to read are the eight
+    // where RISK_PHRASES already matched.
     const text = byId("bailiff_enforcement");
     const own = analyse(text, null).structured_output.extractor_internal.consequence_sentence;
     assert.ok(own);
     const withFacts = analyse(text, {
-      consequence: { kind: "eviction", conditional: true, sentence: "Marston Holdings Enforcement Agents" }
+      consequence: { kind: "remove_goods", conditional: true, sentence: "an enforcement agent may attend your property and remove goods belonging to you" }
     }).structured_output.extractor_internal;
-    assert.equal(withFacts.consequence_sentence, own);
-    assert.equal(withFacts.consequence_kind, null);
+    assert.equal(withFacts.consequence_sentence, own, "the engine keeps its own words");
+    assert.equal(withFacts.consequence_kind, "remove_goods", "and the kind is still available to the floor");
   });
 });
 

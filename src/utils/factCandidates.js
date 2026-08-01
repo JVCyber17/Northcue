@@ -118,15 +118,23 @@ function deadlineCandidate({ facts, sourceText, engineDeadline }) {
 //
 // bestMoneyAmount picks the largest, and unlabelled_amount exists because the
 // engine knows that is a guess. A role beats a guess, and only a guess.
+// total_due and arrears are both "what is owed". Every other role names an
+// amount that is NOT the one a card should lead with: a fee is a component, an
+// instalment is a part, a credit is the opposite, and balance and other are too
+// vague to be the answer to "how much".
+const OWED_ROLES = ["total_due", "arrears"];
+
 function amountCandidate({ facts, sourceText, engineUnlabelled }) {
   if (!engineUnlabelled) return null;
   if (!facts || !Array.isArray(facts.amounts)) return null;
 
   const sourceNormalised = normalise(String(sourceText || ""));
   const owed = facts.amounts.filter((entry) =>
-    entry && entry.role === "total_due" && appearsVerbatim(sourceNormalised, entry.value));
+    entry && OWED_ROLES.includes(entry.role) && appearsVerbatim(sourceNormalised, entry.value));
 
-  return owed.length === 1 ? String(owed[0].value) : null;
+  // Two amounts both claiming to be what is owed is not an answer, for the same
+  // reason two deadlines are not.
+  return owed.length === 1 ? { value: String(owed[0].value), role: owed[0].role } : null;
 }
 
 // A consequence the document states, where the engine's English phrase list
@@ -151,8 +159,18 @@ function amountCandidate({ facts, sourceText, engineUnlabelled }) {
 // recoverable where an amplified scam threat is not.
 const SCAM_SHAPED_KINDS = ["account_suspension"];
 
-function consequenceCandidate({ facts, sourceText, engineHasConsequence }) {
-  if (engineHasConsequence) return null;
+// THE KIND AND THE SENTENCE ARE TWO QUESTIONS, and answering them together was
+// wrong. The first version returned null whenever the engine had found its own
+// consequence, which is right for the SENTENCE (the engine's own reading wins)
+// and wrong for the KIND: the severity floor needs to know what sort of
+// consequence a document states even when the engine wrote the sentence itself.
+//
+// Measured: with them fused, a kind reached the engine on two of forty
+// documents and floored on none, because the eight documents whose consequence
+// the floor most wants to read are exactly the eight where RISK_PHRASES already
+// matched. The caller decides whether to use `sentence`; `kind` is always
+// reported when it is valid.
+function consequenceCandidate({ facts, sourceText }) {
   if (!facts || !facts.consequence) return null;
 
   const consequence = facts.consequence;

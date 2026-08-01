@@ -730,6 +730,65 @@ work even though the sentence does not.
 
 ---
 
+## New since your list was written: what a letter says will happen (1 August 2026)
+
+**These are the most serious sentences in the file, and they are the ones we
+most need a person to read.** Please give them a few minutes even if you skip
+everything else on this page.
+
+Until now, when a letter warned what would happen if it was ignored, Northcue
+quoted the letter's own sentence. That works when the letter is in English and
+the reader is reading English. It does not work for someone holding a Polish
+rent arrears letter, because the warning stayed in Polish inside an otherwise
+translated card, or for someone reading English who was sent a letter in
+another language.
+
+So Northcue now recognises **seven kinds** of stated consequence and writes its
+own sentence about each, which is why they need translating. Each has two
+versions: one for when the letter says something MAY happen, and one for when
+it says it WILL. Find them in `public/i18n/templates-<your language>.js` as
+`tpl.consequence.kind.*`.
+
+**Q. For each pair, is the second clearly more certain than the first?**
+
+> `tpl.consequence.kind.enforcement_agent.may` / `.will`
+> `tpl.consequence.kind.remove_goods.may` / `.will`
+> `tpl.consequence.kind.possession.may` / `.will`
+> `tpl.consequence.kind.eviction.may` / `.will`
+> `tpl.consequence.kind.court_action.may` / `.will`
+> `tpl.consequence.kind.disconnection.may` / `.will`
+> `tpl.consequence.kind.prosecution.may` / `.will`
+
+A letter that says bailiffs *may* visit and a letter that says they *will* are
+different letters, and a reader has to hear the difference. If any pair sounds
+the same in your language, that is the most useful thing you can tell us.
+
+**Q. Does each one sound like a report, or like a threat?**
+
+Every one begins with the equivalent of "The document says". That is deliberate:
+Northcue is telling the reader what the letter states, never warning them
+itself. **If any of these sounds like Northcue making the threat, say so.** That
+is a safety problem, not a wording preference.
+
+**Q. Are these the words a person would actually use?**
+
+Some of them name things with an official name and a plain name. In English we
+chose the plain one: "goods may be taken to cover what is owed" rather than
+"controlled goods procedure", and "you losing your home" rather than "eviction
+proceedings". Please do the same in your language. If the draft has reached for
+the legal term, tell us the ordinary one.
+
+**Two more, much smaller.** Northcue can now tell the difference between money
+that is owed and money that is in arrears, where before it just said "amount
+shown".
+
+> `tpl.check.kp_amount_due` and `tpl.check.kp_amount_arrears`
+
+**Q. Would a reader understand which is which?** These appear next to a figure
+copied from the letter, so the label is doing all the work.
+
+---
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to
