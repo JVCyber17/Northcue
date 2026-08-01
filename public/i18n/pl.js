@@ -349,6 +349,8 @@
     "journey.finish": "Zakończ",
     "journey.explainWhatIsThis": "Można go wyraźnie odczytać, więc możemy wyodrębnić najważniejsze punkty.",
     "journey.explainWhatIsThisHardToRead": "Część tekstu była trudna do odczytania, więc prosimy sprawdzić oryginalny dokument.",
+    "journey.deadlinePassed": "Ta data już minęła.",
+    "journey.appointmentDatePassed": "Data tej wizyty już minęła.",
     "journey.explainWhatMattersMost": "To pomaga zrozumieć, co wymaga uwagi w pierwszej kolejności.",
     "journey.explainWhatToDo": "Prosimy traktować to jako małe kroki, jeden po drugim.",
     "journey.explainDueWithDate": "Prosimy sprawdzić tę datę przed ustawieniem przypomnienia.",

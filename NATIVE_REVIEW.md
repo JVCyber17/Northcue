@@ -660,6 +660,53 @@ the paper. Does the sentence read naturally when it ends with a Latin date?
 
 ---
 
+## New since your list was written: when the date has gone (1 August 2026)
+
+Two more sentences, in `public/i18n/<your language>.js` rather than the
+templates file, as `journey.deadlinePassed` and `journey.appointmentDatePassed`.
+They appear under the "When is it due?" card when the date the letter gives is
+behind today.
+
+English:
+
+> A. "This date has already passed."
+>
+> B. "This appointment date has already passed."
+
+This is the most delicate line added so far, because it appears exactly when the
+reader may already be worried. Someone may be looking at a bill they have not
+paid, on a card that has just told them the amount.
+
+Four questions:
+
+- **Does it read as a fact about the letter, or as an accusation?** This matters
+  more than anything else here. It must say something about the date, not about
+  the reader. If your language's most natural phrasing implies *you missed it*
+  or *you are late*, that is the wrong phrasing, and we would rather have a
+  stiffer sentence that stays neutral.
+- Does it stay **calm**? It must not sound like an alarm. Northcue already says
+  elsewhere on the same screen how serious the letter is, and this line must not
+  add to that. On an ordinary council tax bill it sits inside a deliberately
+  calm card.
+- Does it avoid suggesting **what happens next**? It should say only that the
+  day has gone. Not that a penalty follows, not that the reader should hurry,
+  not what to do.
+- **Is B clearly about an appointment rather than a payment?** A missed
+  appointment and a missed bill are different things to have missed, which is
+  why there are two sentences rather than one.
+
+Note on the drafts: none of them contains a number, on purpose. Saying "this was
+due 12 days ago" would need a different form for each plural category, and
+Romanian would need "de" above nineteen, so the sentence deliberately says only
+that the date has gone.
+
+Note for **Polish and Romanian**: the appointment draft uses the noun for a
+medical or official appointment (`wizyty`, `programări`). If a letter about a
+school meeting or a benefits interview would use a different word, tell us,
+because this line has to cover all of them.
+
+---
+
 ## Expected, not a defect: card 5 quotes the letter in English
 
 On some documents the "What could happen if I ignore it?" card shows a sentence

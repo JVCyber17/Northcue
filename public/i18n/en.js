@@ -350,6 +350,8 @@
     "journey.finish": "Finish",
     "journey.explainWhatIsThis": "It can be read clearly, so we can pull out the key points.",
     "journey.explainWhatIsThisHardToRead": "Some of the text was hard to read, so check the original document.",
+    "journey.deadlinePassed": "This date has already passed.",
+    "journey.appointmentDatePassed": "This appointment date has already passed.",
     "journey.explainWhatMattersMost": "This helps you know what needs attention first.",
     "journey.explainWhatToDo": "Use these as small steps, one at a time.",
     "journey.explainDueWithDate": "Use this date before making a reminder.",

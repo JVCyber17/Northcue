@@ -349,6 +349,8 @@
     "journey.finish": "समाप्त",
     "journey.explainWhatIsThis": "यह साफ पढ़ा जा सकता है, इसलिए हम मुख्य बातें निकाल सकते हैं.",
     "journey.explainWhatIsThisHardToRead": "कुछ हिस्सा पढ़ने में मुश्किल था, इसलिए मूल दस्तावेज़ जाँचें.",
+    "journey.deadlinePassed": "यह तारीख बीत चुकी है.",
+    "journey.appointmentDatePassed": "इस अपॉइंटमेंट की तारीख बीत चुकी है.",
     "journey.explainWhatMattersMost": "इससे आपको पता चलता है कि सबसे पहले किस चीज़ पर ध्यान देना है.",
     "journey.explainWhatToDo": "इन्हें छोटे कदमों की तरह लें, एक बार में एक.",
     "journey.explainDueWithDate": "रिमाइंडर बनाने से पहले यह तारीख जाँच लें.",

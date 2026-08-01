@@ -60,6 +60,49 @@ function currentCards() {
   return out;
 }
 
+test("card height: the cards carrying a client rendered line", async (t) => {
+  // Card 4 can gain a line the ENGINE never emits: the passed-deadline sentence
+  // is computed in the browser from deadline_iso against the device clock, so
+  // currentCards() below cannot see it and answerChars and stepChars never
+  // count it.
+  //
+  // Those cards were measured WITH the line whether or not their date has
+  // passed yet, so the recorded px is an upper bound that does not go stale
+  // when a future deadline becomes a past one. Without that, court_fine would
+  // silently gain 36px on 1 October 2026 and no test would notice.
+  const marked = Object.entries(FIXTURE.cards).filter(([, m]) => m.includesPassedLine);
+
+  await t.test("every card that can gain the line is marked", () => {
+    // A card can gain it when the engine gives it a deadline_iso AND its card 4
+    // sentence is one of the two the fully supported path writes.
+    const { deadlineIsoFor } = require(path.join(__dirname, "..", "src", "utils", "deadlineIso"));
+    require(path.join(__dirname, "..", "public", "i18n", "templates-en"));
+    const bank = require(path.join(__dirname, "..", "public", "i18n", "templateBank"));
+    const CAN_CARRY = new Set(["tpl.deadline.due", "tpl.deadline.appointment"]);
+
+    const expected = [];
+    CORPUS.forEach((entry) => {
+      const run = runClearStepsEngine({
+        extractedText: entry.text,
+        fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "height-passed" }
+      });
+      const result = run.api_output.structured_result;
+      if (!result.summary.deadline_iso) return;
+      if (!CAN_CARRY.has(bank.templateIdFor(result.cards[3].simple_explanation))) return;
+      expected.push(entry.id + "|4");
+    });
+
+    assert.deepEqual(marked.map(([key]) => key).sort(), expected.sort(),
+      "a card gained or lost the ability to show the passed line without being re-measured");
+  });
+
+  await t.test("none of them is over the viewport with the line", () => {
+    marked.forEach(([key, m]) => {
+      assert.ok(m.px <= FIXTURE.viewport, key + " is " + m.px + "px in " + m.lang);
+    });
+  });
+});
+
 test("card height: the fixture still describes the engine", async (t) => {
   const now = currentCards();
 

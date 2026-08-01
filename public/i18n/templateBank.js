@@ -171,6 +171,30 @@
     return { text: source, translated: false, templateId: null };
   }
 
+  // Which English sentence this is, or null, independent of the active
+  // language. translateEngineSentence cannot answer this: it returns early for
+  // English with templateId null, so a caller that needs to know WHICH sentence
+  // the engine wrote would get an answer that changed with the language switch.
+  //
+  // The caller is the card 4 passed-deadline line, which may appear under
+  // "Due by {date}." and "Your appointment is on {date}." and must not appear
+  // under the reading-aid path's "The document shows {date} as the date that
+  // matters." Those three ids ARE that distinction, so asking the bank is both
+  // more precise and more durable than matching the sentences as strings.
+  function templateIdFor(text) {
+    var source = String(text == null ? "" : text);
+    if (!source) return null;
+
+    var exactId = exactIdFor(source);
+    if (exactId) return exactId;
+
+    var patterns = compilePatterns();
+    for (var i = 0; i < patterns.length; i++) {
+      if (patterns[i].regex.test(source)) return patterns[i].id;
+    }
+    return null;
+  }
+
   // Used by tests and by the language file loader to clear caches when a new
   // bank arrives.
   function resetCaches() {
@@ -181,6 +205,7 @@
 
   var api = {
     translateEngineSentence: translateEngineSentence,
+    templateIdFor: templateIdFor,
     resetCaches: resetCaches
   };
 

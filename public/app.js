@@ -2444,6 +2444,47 @@ function translatedEngineText(text) {
   return NorthcueTemplateBank.translateEngineSentence(text, NorthcueI18n.getLanguage());
 }
 
+// The two card 4 sentences the passed-deadline line may appear under, and the
+// dictionary key each one takes.
+//
+// KEYED ON THE BANK ID, not on the card number and not on the sentence text.
+// Only the fully supported path writes these two, so this is also what keeps
+// the line off the reading-aid path, where the date comes from
+// unclaimedDates[0] and is the first-date-in-document-order guess D-8 records
+// and D-5 shows getting insurance_letter wrong. A line saying a date has passed
+// is only worth as much as the date under it.
+//
+// The appointment form is separate because "This date has already passed."
+// under "Your appointment is on 1 July 2026." reads as a missed appointment,
+// which is a different thing to have missed than a payment.
+const DEADLINE_PASSED_KEYS = {
+  "tpl.deadline.due": "journey.deadlinePassed",
+  "tpl.deadline.appointment": "journey.appointmentDatePassed"
+};
+
+// The extra key point for a deadline that has gone, or null.
+//
+// Gated ONLY on deadline_iso being present, so every rule that decides whether
+// a date may be reasoned about is inherited from the engine rather than
+// restated here. Garbled, verification_only, fused, a relative period and a
+// date with no single reading are all already null by the time this runs.
+function passedDeadlineLine(card) {
+  if (typeof NorthcueDeadlineStatus === "undefined" || typeof NorthcueTemplateBank === "undefined") {
+    return null;
+  }
+  const deadlineIso = latestResult
+    && latestResult.structured_result
+    && latestResult.structured_result.summary
+    && latestResult.structured_result.summary.deadline_iso;
+  if (!deadlineIso) return null;
+
+  const key = DEADLINE_PASSED_KEYS[NorthcueTemplateBank.templateIdFor(card.short_answer)];
+  if (!key) return null;
+
+  // No argument, so the device clock is read HERE, on every render.
+  return NorthcueDeadlineStatus.hasPassed(deadlineIso) ? t(key) : null;
+}
+
 function renderCard() {
   const card = latestResult.cards[cardIndex];
 
@@ -2482,12 +2523,20 @@ function renderCard() {
     ? card.steps.map((step) => translatedEngineText(step))
     : [];
 
-  if (translatedSteps.length > 0) {
+  const stepItems = translatedSteps.map((translatedStep) => {
+    if (!translatedStep.translated) anyUntranslated = true;
+    return `<li>${escapeHtml(translatedStep.text)}</li>`;
+  });
+
+  // Appended last, under the engine's own key points. It comes from the Tier 1
+  // dictionary rather than the sentence bank, so it is always translated and
+  // never sets anyUntranslated.
+  const passedLine = passedDeadlineLine(card);
+  if (passedLine) stepItems.push(`<li>${escapeHtml(passedLine)}</li>`);
+
+  if (stepItems.length > 0) {
     cardSteps.classList.remove("hidden");
-    cardSteps.innerHTML = translatedSteps.map((translatedStep) => {
-      if (!translatedStep.translated) anyUntranslated = true;
-      return `<li>${escapeHtml(translatedStep.text)}</li>`;
-    }).join("");
+    cardSteps.innerHTML = stepItems.join("");
   } else {
     cardSteps.classList.add("hidden");
     cardSteps.innerHTML = "";

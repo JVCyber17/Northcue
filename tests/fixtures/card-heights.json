@@ -13,7 +13,7 @@
   "gu",
   "bn"
  ],
- "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently.",
+ "note": "px is the tallest this card rendered across all ten languages, and lang is the language that produced it. answerChars and stepChars are the English source lengths at the time of measurement, re-derived from the engine so they cannot drift silently. Cards marked includesPassedLine were measured WITH the client rendered passed-deadline line, whether or not their date has passed yet, so the figure is an upper bound that does not go stale as a future deadline becomes a past one. answerChars and stepChars describe engine output only and never count that line.",
  "cards": {
   "council_tax|1": {
    "px": 641,
@@ -37,11 +37,12 @@
    "steps": 2
   },
   "council_tax|4": {
-   "px": 438,
+   "px": 474,
    "lang": "pl",
    "answerChars": 20,
    "stepChars": 55,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "council_tax|5": {
    "px": 623,
@@ -79,11 +80,12 @@
    "steps": 2
   },
   "energy_bill|4": {
-   "px": 438,
+   "px": 474,
    "lang": "pl",
    "answerChars": 19,
    "stepChars": 54,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "energy_bill|5": {
    "px": 623,
@@ -121,11 +123,12 @@
    "steps": 1
   },
   "water_bill|4": {
-   "px": 438,
+   "px": 474,
    "lang": "pl",
    "answerChars": 20,
    "stepChars": 55,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "water_bill|5": {
    "px": 623,
@@ -247,11 +250,12 @@
    "steps": 1
   },
   "appointment_nhs|4": {
-   "px": 471,
+   "px": 507,
    "lang": "pl",
    "answerChars": 35,
    "stepChars": 54,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "appointment_nhs|5": {
    "px": 504,
@@ -331,11 +335,12 @@
    "steps": 2
   },
   "bailiff_enforcement|4": {
-   "px": 461,
+   "px": 497,
    "lang": "es",
    "answerChars": 24,
    "stepChars": 59,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "bailiff_enforcement|5": {
    "px": 623,
@@ -373,11 +378,12 @@
    "steps": 2
   },
   "eviction_possession|4": {
-   "px": 461,
+   "px": 497,
    "lang": "es",
    "answerChars": 25,
    "stepChars": 60,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "eviction_possession|5": {
    "px": 688,
@@ -415,11 +421,12 @@
    "steps": 1
   },
   "court_fine|4": {
-   "px": 461,
+   "px": 497,
    "lang": "es",
    "answerChars": 25,
    "stepChars": 60,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "court_fine|5": {
    "px": 661,
@@ -1045,11 +1052,12 @@
    "steps": 1
   },
   "multi_document_split|4": {
-   "px": 438,
+   "px": 474,
    "lang": "pl",
    "answerChars": 19,
    "stepChars": 54,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "multi_document_split|5": {
    "px": 686,
@@ -1297,11 +1305,12 @@
    "steps": 1
   },
   "arrears_before_clause|4": {
-   "px": 461,
+   "px": 497,
    "lang": "es",
    "answerChars": 24,
    "stepChars": 59,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "arrears_before_clause|5": {
    "px": 623,
@@ -1381,11 +1390,12 @@
    "steps": 1
   },
   "arrears_past_and_future|4": {
-   "px": 461,
+   "px": 497,
    "lang": "es",
    "answerChars": 24,
    "stepChars": 59,
-   "steps": 1
+   "steps": 1,
+   "includesPassedLine": true
   },
   "arrears_past_and_future|5": {
    "px": 688,

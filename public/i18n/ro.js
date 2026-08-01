@@ -349,6 +349,8 @@
     "journey.finish": "Finalizați",
     "journey.explainWhatIsThis": "Poate fi citit clar, așa că putem extrage punctele cheie.",
     "journey.explainWhatIsThisHardToRead": "O parte din text a fost greu de citit, așa că verificați documentul original.",
+    "journey.deadlinePassed": "Această dată a trecut deja.",
+    "journey.appointmentDatePassed": "Data acestei programări a trecut deja.",
     "journey.explainWhatMattersMost": "Asta vă ajută să știți ce are nevoie de atenție mai întâi.",
     "journey.explainWhatToDo": "Folosiți-le ca pași mici, unul pe rând.",
     "journey.explainDueWithDate": "Folosiți această dată înainte de a crea un memento.",

@@ -350,6 +350,8 @@
     "journey.finish": "Terminar",
     "journey.explainWhatIsThis": "O texto lê-se com clareza, por isso conseguimos retirar os pontos principais.",
     "journey.explainWhatIsThisHardToRead": "Parte do texto foi difícil de ler, por isso verifique o documento original.",
+    "journey.deadlinePassed": "Esta data já passou.",
+    "journey.appointmentDatePassed": "A data desta consulta já passou.",
     "journey.explainWhatMattersMost": "Isto ajuda a saber o que precisa de atenção primeiro.",
     "journey.explainWhatToDo": "Use estes passos pequenos, um de cada vez.",
     "journey.explainDueWithDate": "Confirme esta data antes de criar um lembrete.",
