@@ -675,6 +675,99 @@ has. Whether a model may add such a sentence belongs to the prompt and to
 regression in the exemption.
 
 
+# AI validator and reliability
+
+Added **1 August 2026**, from D2. Both entries were invisible until
+`sanitizeStructuredResultWithVerdict` (`9fe4c66`) made the AI metadata report
+rejections instead of recording them as completions. Before that commit every
+run below read `ai_status: "completed"`, `ai_used: true`, `ai_error_code: null`.
+
+## OPEN: the command family rejects a safe check sentence
+
+`UNSAFE_ADVICE_PATTERNS`' command family fires on a sentence that is not a
+command:
+
+```
+blank_template, 1 of 3 rounds
+  "Check if you need to complete and return the form."
+```
+
+That is a check, which is the exact form the prompt asks the model to write
+instead of a command. The pattern matches `you need to complete` inside it.
+
+**Why the lookbehind misses it.** The exception was built for ATTRIBUTION, and
+only for attribution:
+
+```
+(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})
+```
+
+It allows an obligation when the sentence assigns it to the document, so "The
+notice states that you must contact them" passes and a bare "You must contact
+them" does not. `Check if` is neither. It is a different kind of exemption: the
+obligation is not asserted at all, it is made CONDITIONAL and handed to the
+reader as something to verify. No part of the pattern models that, so a sentence
+doing the right thing is rejected alongside the ones doing the wrong thing.
+
+Four of the five rejections measured across three rounds are correct. This is
+the fifth. The cost is a whole AI result discarded on a document where nothing
+was wrong with it.
+
+**Not fixed here**, because widening a safety lookbehind needs its own approval
+and its own mutation test. The obvious widening, allowing a leading `check
+if / check whether`, is narrow enough to be safe but broad enough to want
+evidence: any exemption anchored to sentence-initial words can be reached by a
+model that learns to open every sentence with them.
+
+## The wait is spent where the answer is least likely to be used
+
+Measured over 108 live calls on 1 August 2026, three rounds, round robin over
+the 36 document corpus. 84 reached the provider, 24 were gated first.
+
+**The AI reaches readers in inverse proportion to what is at stake.**
+
+| severity | eligible calls | reached the reader | sanitiser rejected |
+| --- | --- | --- | --- |
+| urgent | 12 | **7, 58%** | 5, 42% |
+| high | 6 | 4, 67% | 2, 33% |
+| medium | 6 | 6, 100% | 0 |
+| low | 60 | 56, 93% | 3, 5% |
+
+**58% on urgent against 93% on calm.** The four documents rejected on the
+command family are `eviction_possession` (3 of 3 rounds), `bailiff_enforcement`
+(2 of 3), `housing_letter` (2 of 3) and `blank_template` (1 of 3, the false
+positive above). `legal_solicitor` is rejected by the date rule on 2 of 3, for
+"25 july 2026", which is 11 July plus fourteen days and the arithmetic twin of
+the anchor defect recorded above.
+
+**The same asymmetry in the reader's time.**
+
+```
+total wait across the 84 eligible calls   1295s
+spent on answers nobody received           191s   14.7%
+        on urgent and high documents       125s of 305s   41.1%
+
+mean duration, accepted   15,132ms
+mean duration, rejected   16,578ms
+```
+
+**Two fifths of the waiting time on a high-stakes document is spent on an
+answer that is thrown away**, and the discarded runs are slightly slower than
+the accepted ones, so the reader who gets nothing waits longest.
+
+Nothing about the document predicts the wait. Across 84 calls the correlation
+between latency and document length is r = 0.089, and between latency and input
+tokens r = 0.055. The same document varies by up to 9.5 seconds between rounds
+at temperature 0, because roughly two thirds of the variance is provider
+throughput, which ranged 50.7 to 114.8 output tokens per second. Padding a real
+bill from 439 to 8000 characters, the outbound cap, changed the latency not at
+all.
+
+Recorded rather than acted on. The timeout is not the lever: at the measured
+distribution, lowering it from 25s to 20s loses 5 completions in 83 and saves
+162ms of mean wait. The levers are output size and provider tier.
+
+
 # OCR and value-finding defects
 
 Added **31 July 2026** after an audit of every site that pattern-matches raw
