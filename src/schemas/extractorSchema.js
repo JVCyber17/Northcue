@@ -8,6 +8,7 @@ const extractorSchema = {
   money_amounts: "array",
   reference_numbers: "array",
   contact_details: "array",
+  contact_number: ["string", "null"],
   appeal_rights: "array",
   support_options: "array",
   confidence: ["high", "medium", "low"],

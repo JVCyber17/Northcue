@@ -347,6 +347,9 @@ function applyMultiLetterAttribution(extraction, trust, split) {
     // The selected amount is an attribution too, so it goes with the rest. A
     // fused upload must not name a number, whatever labelled it.
     selected_amount: null,
+    // Same rule for the phone number. "Contact us on" on a fused upload does
+    // not say WHICH sender, so the number cannot be attributed to a letter.
+    contact_number: null,
     unlabelled_amount: false,
     helpful_note: MULTI_LETTER.helpfulNote,
     multi_letter_state: "fused"
@@ -378,6 +381,7 @@ function buildExtraction({ text, trust }) {
       money_amounts: [],
       reference_numbers: [],
       contact_details: [],
+      contact_number: null,
       appeal_rights: [],
       support_options: [],
       confidence: "low",
@@ -409,6 +413,7 @@ function buildExtraction({ text, trust }) {
       money_amounts: extractMoneyAmounts(text),
       reference_numbers: extractReferenceNumbers(text),
       contact_details: [],
+      contact_number: null,
       appeal_rights: [],
       support_options: [],
       confidence: "low",
@@ -477,6 +482,7 @@ function buildExtraction({ text, trust }) {
       money_amounts: extractMoneyAmounts(text),
       reference_numbers: extractReferenceNumbers(text),
       contact_details: extractContactDetails(text, trust),
+      contact_number: extractContactNumber(text, trust),
       appeal_rights: [],
       support_options: [],
       confidence: "low",
@@ -508,6 +514,7 @@ function buildExtraction({ text, trust }) {
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: extractReferenceNumbers(text),
     contact_details: extractContactDetails(text, trust),
+    contact_number: extractContactNumber(text, trust),
     appeal_rights: [],
     support_options: [],
     confidence: trust.confidence,
@@ -674,6 +681,7 @@ function buildNonDocumentExtraction(trust) {
     money_amounts: [],
     reference_numbers: [],
     contact_details: [],
+    contact_number: null,
     appeal_rights: [],
     support_options: [],
     confidence: "low",
@@ -706,6 +714,7 @@ function buildReadableUnsupportedExtraction(text, trust) {
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: [],
     contact_details: [],
+    contact_number: extractContactNumber(text, trust),
     appeal_rights: [],
     support_options: [],
     confidence: trust.input_quality === "good" ? "medium" : "low",
@@ -775,6 +784,7 @@ function buildBenefitsReadingAidExtraction(text, trust) {
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: [],
     contact_details: [],
+    contact_number: extractContactNumber(text, trust),
     appeal_rights: [],
     support_options: [],
     confidence: "low",
@@ -2958,6 +2968,55 @@ function extractContactDetails(text, trust) {
   if (trust.processing_mode === "verification_only") return [];
   const emailMatches = String(text || "").match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi) || [];
   return unique(emailMatches);
+}
+
+// The one phone number the document says to ring, or null.
+//
+// NOTHING RENDERS THIS. It is a field only, in the same shape as deadline_iso:
+// the decision about which number, and whether there is one at all, is made
+// once here rather than by whatever later reads the text and pattern matches.
+//
+// It renders nowhere because a phone number reaching a card is ALREADY a
+// settled question, answered no. aiStructuredResultService's stripper replaces
+// any card sentence carrying a phone-shaped number and a call-context word with
+// "Use contact details from the original document.", and applyStripperToRulesOutput
+// runs that over rules output too, on every path. It fires on the shipped
+// product today: bailiff_enforcement's card 3 key point "You must contact us on
+// 0333 320 122 by 3 September 2026." never reaches the reader. Surfacing this
+// field would need that rule changed deliberately, which is its own decision
+// and its own commit.
+//
+// PHONE NUMBERS ONLY, and that is a rule about what may ever reach a reader
+// rather than about what is easy to match. An email or web address on a letter
+// is a place to send credentials, and scam_phishing carries
+// "barclays-secure-verify.com" three lines above an instruction to confirm a
+// card number, PIN and full password. A contact field that grew to cover
+// addresses would be one render away from handing over the phishing domain.
+//
+// THE GATES, all of which suppress rather than qualify:
+//
+//   GARBLED. A damaged number is worse than none: "O333 32O 122" is something a
+//   reader dials, reaches a stranger or nothing, and believes they have done
+//   the right thing. Written against trust.garbled_by_ocr directly, because the
+//   reading-aid path claims a document before the garble branch runs. This gate
+//   is load bearing rather than belt and braces: co-location DOES bind
+//   "c0ntact us on" through its label tolerance, so without it ocr_enforcement
+//   would carry a number read off text the engine has called unreliable.
+//
+//   VERIFICATION ONLY. Never help a reader ring a number printed by a document
+//   Northcue has decided may be impersonating someone.
+//
+//   FUSED is applied in applyMultiLetterAttribution alongside every other
+//   attributed value, because that is where the decision that nothing may be
+//   attributed is made.
+//
+//   TWO CANDIDATES is applied by selectPhoneNumber, which declines rather than
+//   choosing between a payments line and a complaints line.
+function extractContactNumber(text, trust) {
+  if (trust.garbled_by_ocr) return null;
+  if (trust.processing_mode === "verification_only") return null;
+  const found = coLocation.selectPhoneNumber(text);
+  return found ? found.value : null;
 }
 
 function guessSender(text) {

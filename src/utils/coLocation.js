@@ -153,6 +153,60 @@ const DATE_GOVERNS_SPANNING = [
 // wrong date asserted confidently. The asymmetry says pick the smaller.
 const MAX_LABEL_GAP = 44;
 
+// PHONE NUMBERS. What the number is FOR, in the letter's own words.
+//
+// A number with no purpose beside it is not surfaced at all. "0333 320 122"
+// alone tells a reader nothing about whether to ring it, and a letter's footer
+// carries switchboards, fax lines and registered-office numbers that have
+// nothing to do with why the letter was sent. Requiring a purpose is what
+// separates the number the reader needs from the ones the page happens to
+// carry.
+//
+// Two shapes, because letters write it both ways:
+//   direct     "telephone 020 8321 5000", "by calling 0333 200 5100"
+//   spanning   "contact us on ...", "contact the Fines Team on ...",
+//              "talk to us about your account on ..."
+// The spanning gap is where the letter names WHO, which is exactly the part
+// that varies, so it reuses the discontiguous-label machinery with "on" as the
+// tail instead of "by".
+const PHONE_GOVERNS = ["telephone", "call", "calling", "phone", "ring"];
+const PHONE_GOVERNS_SPANNING = [
+  "contact", "call", "telephone", "phone", "speak to", "talk to", "answer questions"
+];
+
+// Phrases that say this number is NOT the one to use. Each ends where its
+// governing counterpart ends, so governingLabel's rival rule sees a competing
+// label binding exactly as closely and declines, which is the behaviour wanted:
+// "Do not call 0906 111 2222" must yield nothing rather than yield the number.
+const PHONE_COMPETES = [
+  "do not call", "do not use", "do not telephone", "do not contact",
+  "never call", "never give", "fax"
+];
+
+// A UK number, matched whole or not at all.
+//
+// LEADING ZERO, which is the entire false-positive defence. Verified against
+// every reference shape in the corpus: account numbers (4471028866), the HMRC
+// UTR (4471 028866), National Insurance numbers (QQ 12 34 56 C) and hyphenated
+// bank accounts (8842-0076) all fail it, because none begins with a zero
+// followed by a digit.
+//
+// THE DIGIT COUNT IS VALIDATED, NOT TRIMMED. [\d\s] is greedy, so
+// "on 0800 980 8800 8 August 2026" matches "0800 980 8800 8", one digit too
+// many. Trimming back to eleven would be guessing where the number ends, which
+// is the mistake MONEY made when it returned the longest well formed prefix of
+// a malformed amount and told a reader a bailiff wanted £124 instead of
+// £1,247.00. So a candidate outside ten to eleven digits is declined whole. A
+// number not found costs nothing; a wrong number is a call to a stranger.
+const PHONE = /\b0\d[\d\s]{7,12}\d\b/g;
+const PHONE_DIGITS_MIN = 10;
+const PHONE_DIGITS_MAX = 11;
+
+function hasUsableDigitCount(raw) {
+  const digits = String(raw).replace(/\D/g, "").length;
+  return digits >= PHONE_DIGITS_MIN && digits <= PHONE_DIGITS_MAX;
+}
+
 // ---------------------------------------------------------------------------
 // OCR tolerance, for LABELS ONLY.
 //
@@ -257,16 +311,21 @@ function labelPattern(phrase) {
 // Both ends are word bounded. Without them "contact us" matches inside
 // "contact usage" and "notify us" inside "notify usual contacts", which is the
 // same substring hazard the tier 2 literals hit.
+// The tail is a parameter because two different kinds of label have this shape.
+// A deadline is "<obligation> ... by <date>"; a phone number is "<contact verb>
+// ... on <number>", where the gap names who to contact. Same structure, same
+// three tests, different preposition.
 const spanningPatterns = new Map();
-function spanningPattern(head) {
-  let pattern = spanningPatterns.get(head);
+function spanningPattern(head, tail) {
+  const key = head + " ... " + tail;
+  let pattern = spanningPatterns.get(key);
   if (!pattern) {
     const body = head.length >= MIN_TOLERANT_LENGTH
       ? tolerantLabelSource(head)
       : head.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     pattern = new RegExp(
-      "\\b" + body + "\\b[^\\n]{0," + MAX_LABEL_GAP + "}?\\bby\\b", "gi");
-    spanningPatterns.set(head, pattern);
+      "\\b" + body + "\\b[^\\n]{0," + MAX_LABEL_GAP + "}?\\b" + tail + "\\b", "gi");
+    spanningPatterns.set(key, pattern);
   }
   return pattern;
 }
@@ -476,19 +535,20 @@ function locateLabels(text, phrases) {
 //
 // phrase reads "contact us ... by" rather than the raw source, because it is
 // reported back through selectDeadline and a regex is not an explanation.
-function locateSpanningLabels(text, heads) {
+function locateSpanningLabels(text, heads, tail) {
   const source = String(text || "");
+  const preposition = tail || "by";
   const starts = lineStarts(source);
   const blocks = blockIndexes(source.split("\n"));
   const hits = [];
   heads.forEach((head) => {
-    const pattern = spanningPattern(head);
+    const pattern = spanningPattern(head, preposition);
     pattern.lastIndex = 0;
     let match;
     while ((match = pattern.exec(source)) !== null) {
       const lineIndex = lineIndexAt(starts, match.index);
       hits.push({
-        phrase: head + " ... by",
+        phrase: head + " ... " + preposition,
         index: match.index,
         end: match.index + match[0].length,
         lineIndex,
@@ -683,6 +743,36 @@ function selectDeadline(text, isPlausibleNumericDate) {
   return null;
 }
 
+function findPhoneNumbers(text) {
+  return locate(String(text || ""), PHONE, hasUsableDigitCount);
+}
+
+// The one number the document says to ring, or null.
+//
+// DECLINES WHEN TWO SURVIVE. A letter carrying a payments line and a complaints
+// line states two purposes and names neither as the one. Choosing between them
+// would be Northcue ranking the reader's options, which is the line this class
+// of work does not cross. One number or none.
+function selectPhoneNumber(text) {
+  const source = String(text || "");
+  const values = findPhoneNumbers(source);
+  if (!values.length) return null;
+
+  const governs = locateLabels(source, PHONE_GOVERNS)
+    .concat(locateSpanningLabels(source, PHONE_GOVERNS_SPANNING, "on"))
+    .sort((a, b) => a.index - b.index);
+  const competes = locateLabels(source, PHONE_COMPETES);
+
+  const bound = [];
+  for (const value of values) {
+    // Forward only and adjacent, as dates are: a purpose phrase points at the
+    // number that follows it, and words in between mean it points elsewhere.
+    const label = governingLabel(value, governs, competes, { forwardOnly: true, source });
+    if (label) bound.push({ value: value.value, label: label.phrase, index: value.index });
+  }
+  return bound.length === 1 ? bound[0] : null;
+}
+
 // The letter's own date: a date in the header zone, above the greeting. The
 // zone rule is what separates a letter date from an appointment date when both
 // carry the same "Date:" label.
@@ -727,6 +817,8 @@ module.exports = {
   isClaimedByCompetingDateLabel,
   findAmounts,
   findDates,
+  findPhoneNumbers,
+  selectPhoneNumber,
   locateLabels,
   locateSpanningLabels,
   passesProximity,
@@ -743,5 +835,8 @@ module.exports = {
   DATE_GOVERNS,
   DATE_GOVERNS_SPANNING,
   DATE_COMPETES,
+  PHONE_GOVERNS,
+  PHONE_GOVERNS_SPANNING,
+  PHONE_COMPETES,
   MAX_LABEL_GAP
 };
