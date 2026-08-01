@@ -601,6 +601,29 @@ const CORPUS = [
       "Please check with your bank that the mandate is still in place.",
       "You can talk to us about your account on 0800 980 8800."
     ].join("\n")
+  },
+  {
+    id: "arrears_past_and_future",
+    label: "Rent arrears stating the missed payment first and the obligation second",
+    intent: "D-2 through co-location. The shape an arrears letter is actually " +
+      "written in: the receipt that has already been missed, then the date the " +
+      "reader must act by. Co-location bound the first via 'due on' regardless " +
+      "of tense, so before the backward-looking guard this reported 3 July 2026.",
+    text: [
+      "Sheffield City Council",
+      "Housing Rent Team",
+      "Reference: HR-77420",
+      "Date: 6 August 2026",
+      "",
+      "Dear Tenant",
+      "",
+      "Your rent account is in arrears.",
+      "Your payment was due on 3 July 2026 and has not been received.",
+      "Amount outstanding: £312.40",
+      "You must pay by 3 September 2026.",
+      "If you do not, we may apply to the county court for possession of your home.",
+      "If you are struggling to pay, contact the rent team on 0114 273 4567."
+    ].join("\n")
   }
 ];
 

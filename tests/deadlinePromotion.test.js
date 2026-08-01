@@ -196,6 +196,74 @@ test("failed_direct_debit: a letter whose only dated clause is a receipt", async
   });
 });
 
+// --------------------------------------------------------------------- C
+
+test("co-location does not bind a label that is in the past tense", async (t) => {
+  // The guard existed in the keyword fallback from the day it was written, and
+  // co-location ran first and returned before reaching it. So it protected only
+  // the shapes co-location could not bind, which is the smaller half.
+  const colocated = (text) => {
+    const found = co.selectDeadline(text, isPlausibleNumericDate);
+    return found ? found.value : null;
+  };
+
+  await t.test("was due on, which co-location bound via 'due on'", () => {
+    assert.equal(colocated("Your last payment was due on 3 July 2026 and has not been received."), null);
+  });
+
+  await t.test("were due on, and became due on", () => {
+    assert.equal(colocated("Two instalments were due on 3 July 2026."), null);
+    assert.equal(colocated("The balance became due on 3 July 2026."), null);
+  });
+
+  await t.test("the present tense binds exactly as before", () => {
+    // The counterweight. Without this the guard could pass by rejecting
+    // everything.
+    assert.equal(colocated("The balance is due on 3 September 2026."), "3 September 2026");
+    assert.equal(colocated("Payment is due by 3 September 2026."), "3 September 2026");
+    assert.equal(colocated("You must pay by 3 September 2026."), "3 September 2026");
+  });
+
+  await t.test("a rejected value does not stop a later one being found", () => {
+    // The guard skips the value rather than abandoning the search, which is
+    // what an arrears letter needs: receipt first, obligation second.
+    assert.equal(colocated("Your payment was due on 3 July 2026. You must pay by 3 September 2026."),
+      "3 September 2026");
+  });
+
+  await t.test("the reach does not span a previous sentence", () => {
+    // 24 characters back from the start of the label. A tense marker further
+    // away than that belongs to a different clause.
+    assert.equal(colocated("The last cheque was returned unpaid some time ago. Payment is due by 3 September 2026."),
+      "3 September 2026");
+  });
+});
+
+test("arrears_past_and_future: the receipt first, the obligation second", async (t) => {
+  const run = runClearStepsEngine({
+    extractedText: byId("arrears_past_and_future"),
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "corpus-c" }
+  });
+  const result = run.api_output.structured_result;
+
+  await t.test("the deadline is the obligation, not the missed payment", () => {
+    assert.equal(run.structured_output.extractor_internal.deadline, "3 September 2026");
+    assert.equal(result.summary.main_date, "3 September 2026");
+    assert.equal(result.summary.deadline_iso, "2026-09-03");
+    assert.equal(result.cards[3].simple_explanation, "Due by 3 September 2026.");
+  });
+
+  await t.test("the missed payment is still a visible date", () => {
+    assert.ok(run.structured_output.extractor_internal.visible_dates.includes("3 July 2026"),
+      "got " + JSON.stringify(run.structured_output.extractor_internal.visible_dates));
+  });
+
+  await t.test("co-location is what decides it, so the guard is what is tested", () => {
+    assert.equal(co.selectDeadline(byId("arrears_past_and_future"), isPlausibleNumericDate).value,
+      "3 September 2026");
+  });
+});
+
 test("the anchor does not disturb the rest of the context vocabulary", async (t) => {
   await t.test("cleared before keeps its own literal", () => {
     assert.equal(deadline(["The balance must be cleared before 24 June 2026."]), "24 June 2026");

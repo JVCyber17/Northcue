@@ -1358,6 +1358,48 @@
    "answerChars": 32,
    "stepChars": 93,
    "steps": 2
+  },
+  "arrears_past_and_future|1": {
+   "px": 764,
+   "lang": "pl",
+   "answerChars": 98,
+   "stepChars": 148,
+   "steps": 2
+  },
+  "arrears_past_and_future|2": {
+   "px": 466,
+   "lang": "pl",
+   "answerChars": 40,
+   "stepChars": 27,
+   "steps": 1
+  },
+  "arrears_past_and_future|3": {
+   "px": 466,
+   "lang": "fr",
+   "answerChars": 38,
+   "stepChars": 38,
+   "steps": 1
+  },
+  "arrears_past_and_future|4": {
+   "px": 461,
+   "lang": "es",
+   "answerChars": 24,
+   "stepChars": 59,
+   "steps": 1
+  },
+  "arrears_past_and_future|5": {
+   "px": 688,
+   "lang": "fr",
+   "answerChars": 76,
+   "stepChars": 45,
+   "steps": 2
+  },
+  "arrears_past_and_future|6": {
+   "px": 626,
+   "lang": "es",
+   "answerChars": 90,
+   "stepChars": 72,
+   "steps": 2
   }
  }
 }

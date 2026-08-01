@@ -625,6 +625,26 @@ function selectAmount(text) {
   return null;
 }
 
+// Language that puts a label in the past. "due on" and "due by" state a
+// relationship between a label and a date whichever tense they are in, so
+// co-location binds them identically, and an arrears letter opens with the
+// instalment that has already been missed:
+//
+//   "Your last payment was due on 3 July 2026 and has not been received."
+//     -> bound 3 JULY, the receipt, on a letter whose obligation is later
+//
+// The engine's keyword fallback has carried a guard against exactly this since
+// it was written. Co-location runs first and returned before reaching it, so
+// the guard protected only the shapes co-location could not bind, which is the
+// smaller half and the less important one.
+//
+// The reach is 24 characters back from the START of the label, which covers
+// "your last payment was " and "both instalments were " while stopping well
+// short of the previous sentence. Measured from the longest subject phrase that
+// realistically separates the tense marker from the label, not chosen.
+const BACKWARD_LOOKING = /\b(?:was\s+due|were\s+due|became\s+due|overdue\s+since)\b/i;
+const BACKWARD_LOOKING_REACH = 24;
+
 // The one date the document says is a deadline, or null.
 //
 // Contiguous and discontiguous labels are one pool. A spanning hit is not a
@@ -648,6 +668,11 @@ function selectDeadline(text, isPlausibleNumericDate) {
   for (const value of values) {
     // Dates bind forwards only, and adjacently. Money does neither.
     const label = governingLabel(value, governs, competes, { forwardOnly: true, source });
+    // A label in the past tense states what happened, not what is required.
+    // Skipping the value rather than returning null lets a later date on the
+    // same letter still be found, which is what an arrears letter needs: the
+    // receipt is stated first and the obligation second.
+    if (label && BACKWARD_LOOKING.test(source.slice(Math.max(0, label.index - BACKWARD_LOOKING_REACH), label.end))) continue;
     if (label) return { value: value.value, label: label.phrase, index: value.index };
   }
   return null;
