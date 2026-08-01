@@ -118,12 +118,12 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
       garbledByOcr
     });
 
-    const sanitized = sanitizeStructuredResult(candidate, fallbackStructuredResult);
+    const sanitized = sanitizeStructuredResult(candidate, fallbackStructuredResult, extractedText);
     // The exemption is built from the FALLBACK, which is the rules output for
     // this document. A model sentence that is byte-identical to one of those is
     // that sentence; anything else carrying a number is stripped.
     const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult));
-    const validation = validateStructuredResult(stripped, fallbackStructuredResult);
+    const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
       attachAiMetadata(output, {
@@ -270,6 +270,17 @@ function buildSystemPrompt() {
     "Write each card's simple_explanation (the headline) short and punchy: a single sentence, ideally one line and about twelve words or fewer, carrying only the core point. Move every supporting detail — extra amounts, dates, schedules, reference numbers, and specifics — into that card's key_points so nothing is lost.",
     "Lead each headline with its card's core: card one (what_is_this) = what the document is, who it is from, and the key amount if it is a bill; card two (what_matters_most) = the single most important point about the reader's situation (describe it, e.g. 'Your £320.00 payment is overdue.', never an instruction to pay); card three (what_do_i_need_to_do) = the one core action, phrased as a SAFE step such as checking a detail or contacting the sender with trusted details (e.g. 'Check the amount and the due date.'); card four (when_does_it_matter) = just the date or deadline in one short sentence, with no second sentence or extra clause (for example 'Your appointment is on 1 July 2026.' or 'Payment is due by 24 June 2026.').",
     "Even when shortening, NEVER turn a headline or key_point into an instruction to pay ('Pay £320', 'Pay the amount owed', 'Pay by ...'), click a link, or call a number — describe the situation or give a safe check/contact step instead. This applies even when the document is a bill or arrears letter about money.",
+    // Added after a live capture found the model writing "You must pay £726.00
+    // by 30 September 2026" on a court fine, and "You must contact X by ..." on
+    // an enforcement notice. The validator now rejects these outright; this
+    // line is here so a compliant model does not have to be rejected first.
+    "Never address an obligation to the reader in your own voice: no 'You must pay', 'You must contact', 'You must clear', 'You need to call', or any similar command. When the DOCUMENT places an obligation on the reader, attribute it: 'The document says the balance must be cleared by 12 September 2026.' Northcue reports what a letter demands; it never demands anything itself.",
+    // The engine hedges deliberately. "appears to be" and "looks like" are not
+    // padding: they are what stops a wrong classification reading as a fact.
+    "Keep the fallback's hedging. Where the fallback says 'appears to be', 'looks like', 'may' or 'could', keep that uncertainty; do not rewrite it into a flat assertion. 'This appears to be from X' must not become 'This is X'.",
+    "Never restate a fact more or less certainly than the document does. If the document says fees WILL be added, do not write that they COULD be; if it says something MAY happen, do not write that it WILL.",
+    "Never include a postal address, a postcode, or the reader's property address in any field.",
+    "Never state a date the document does not state. If the document gives a period such as 'within 14 days', report the period; do NOT calculate a calendar date from it.",
     "Never drop a bill's money amount. If you shorten card one, keep the amount in its headline or in a key_point.",
     "Every card's headline must be distinct and specific to that card's purpose. Never repeat the same generic line (such as 'Check the original document for the payment amount and due date') on two different cards.",
     // Card 5 (card_id 'what_could_happen') is adaptive. Use the fallback card's

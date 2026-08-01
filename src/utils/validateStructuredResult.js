@@ -44,10 +44,157 @@ const UNSAFE_ADVICE_PATTERNS = [
   // but NOT the conditional "...if I/you ignore it" used by the adaptive Card 5
   // title "What could happen if I ignore it?" — that warns against ignoring, the
   // opposite of unsafe advice.
-  /(?<!if i )(?<!if you )\bignore it\b/i
+  /(?<!if i )(?<!if you )\bignore it\b/i,
+
+  // THE COMMAND FAMILY. An obligation addressed to the reader, in Northcue's own
+  // voice rather than attributed to the document.
+  //
+  // Added after a live capture on 1 August 2026, when the AI wrote "You must pay
+  // £726.00 by 30 September 2026 to avoid further action." on a court fine.
+  // Nothing above matched it: "you should pay", "pay now" and "make a payment"
+  // all miss "you must pay". Only the stripper's own pay patterns caught it, and
+  // the stripper is a different layer with different scope. One wall is not a
+  // defence.
+  //
+  // The engine says these things too, quoted from the document ("You must
+  // contact us on 0333 320 122 by 3 September 2026."), and those are exempt
+  // because validateNoUnsafeAdvice skips a string byte-identical to the
+  // fallback at the same path. So this pattern and the provenance rule only
+  // work together: without provenance it would reject every enforcement letter,
+  // and without the pattern the AI may command whatever it likes.
+  //
+  // ATTRIBUTION IS THE EXCEPTION, and it has to be, because attributing is
+  // exactly what the prompt asks for and what the engine itself does. "The
+  // document says you must contact them by 3 September 2026." is a report;
+  // "You must clear £2,480.00 by 12 September 2026." is a command. The first
+  // version of this pattern rejected both, which would have rejected a model
+  // doing the right thing. The lookbehind allows says/states/said/according to
+  // within twenty-four characters, so "the notice states that you must ..."
+  // passes and a bare imperative does not.
+  /(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to|are\s+obliged\s+to)\s+(?:pay|contact|clear|call|ring|phone|reply|respond|send|provide|confirm|settle|attend|complete|return|submit|act|vacate|remove|arrange|apply)\b/i,
+
+  // A postal address the reader lives at. The AI put "Property involved:
+  // 22 Alder House, Feltham." on card one of a possession notice; the engine
+  // never surfaces an address on any card. This is the minimum durable form of
+  // "do not introduce document text the engine did not surface": the general
+  // rule is not expressible as a pattern, but this shape is, and it is the one
+  // that carries the reader's home into the output.
+  /\b[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}\b/,
+  /\b\d+[A-Za-z]?\s+(?:[A-Z][A-Za-z]*\s+){0,3}(?:Road|Street|Lane|Avenue|Close|Drive|Court|House|Way|Place|Gardens|Terrace|Crescent|Grove|Hill|Park|Square)\b/
 ];
 
-function validateStructuredResult(candidate, fallback) {
+// Facts the ENGINE owns. The AI may rephrase around them; it may not author one.
+//
+// Added after the same capture, when the AI wrote possible_deadline
+// "2026-07-25" on a solicitor's letter whose engine value was null. It had
+// added fourteen days to the letter date, which is exactly the arithmetic the
+// deadline work refuses to do, because "within 14 days" is anchored to service
+// rather than to the letter date. It also wrote an ISO string into main_date, a
+// field meant to quote the paper.
+//
+// All four are now FORCED from the fallback in the sanitiser, so this check can
+// only fail if that forcing is removed. It is kept deliberately as a tripwire on
+// the mechanism rather than on the model: edit sanitizeCards to take the
+// candidate's value again and every AI result starts failing here, loudly,
+// instead of a wrong figure reaching a card quietly.
+//
+// Forcing rather than rejecting, because the alternative was rejection on every
+// document. The model filled these on cards the engine had deliberately left
+// null, mostly with correct values, and throwing away an entire result over
+// redundant metadata would make the AI pass pointless. What forcing does NOT
+// fix is an invented value in the PROSE, and that is what
+// validateDatesComeFromTheEngine below is for.
+const ENGINE_OWNED_FACTS = [
+  ["summary.main_date", (result) => result.summary && result.summary.main_date],
+  ["summary.main_amount", (result) => result.summary && result.summary.main_amount]
+];
+
+// A date the AI states that the engine never stated.
+//
+// Forcing possible_deadline did not stop "Payment is due by 25 July 2026."
+// appearing in a card's own sentence, computed by adding fourteen days to a
+// letter date on a document whose engine deadline is null. The engine is the
+// only layer allowed to decide what date a letter states: it has the
+// co-location rules, the backward-looking guard, the relative-period gate and
+// the one-reading test behind it. So any date shape in AI text must already
+// appear somewhere in the engine's own output for the same document.
+//
+// This also catches a reformatting the model is fond of: "2026-09-03" where the
+// engine wrote "3 September 2026". That string is not in the fallback, so it is
+// rejected, which is correct twice over, because these fields quote the paper.
+const DATE_SHAPES = [
+  /\b\d{4}-\d{2}-\d{2}\b/g,
+  /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g,
+  /\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi,
+  /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi
+];
+
+function datesIn(text) {
+  const found = new Set();
+  DATE_SHAPES.forEach((pattern) => {
+    pattern.lastIndex = 0;
+    let match;
+    while ((match = pattern.exec(text)) !== null) found.add(match[0].toLowerCase());
+  });
+  return found;
+}
+
+// THE PAGE IS THE GROUND TRUTH, not the engine's cards.
+//
+// The first version compared against the fallback alone and rejected five of
+// six documents for citing dates that are printed on the letter but that the
+// engine does not surface: a notice date, a letter date, a payment-received
+// date. Those are legitimate citations, and rejecting them would have made the
+// AI pass useless while catching nothing real.
+//
+// So the allowed set is the document text plus the engine's own output, the
+// second because deadline_iso is an ISO string that appears nowhere on paper.
+// What that leaves rejected is the case this exists for: a date on neither, ie.
+// one the model calculated. "Payment is due by 25 July 2026." on a letter that
+// says only "within 14 days" is precisely that.
+//
+// sourceText is optional and, when absent, the rule falls back to the engine
+// output alone. That is stricter rather than looser, so a caller that forgets
+// it fails closed.
+function validateDatesComeFromTheEngine(candidate, fallback, errors, sourceText) {
+  if (!fallback) return;
+  const allowed = datesIn(JSON.stringify(fallback));
+  if (typeof sourceText === "string") datesIn(sourceText).forEach((date) => allowed.add(date));
+
+  const seen = new Set();
+  datesIn(JSON.stringify(candidate)).forEach((date) => {
+    if (!allowed.has(date) && !seen.has(date)) {
+      seen.add(date);
+      errors.push(`date ${date} appears in neither the document nor the engine output`);
+    }
+  });
+}
+
+function validateEngineOwnedFacts(candidate, fallback, errors) {
+  if (!fallback) return;
+
+  ENGINE_OWNED_FACTS.forEach(([label, read]) => {
+    const mine = read(candidate);
+    const theirs = read(fallback);
+    if ((mine ?? null) !== (theirs ?? null)) {
+      errors.push(`${label} must match the engine value`);
+    }
+  });
+
+  const candidateCards = Array.isArray(candidate.cards) ? candidate.cards : [];
+  const fallbackCards = Array.isArray(fallback.cards) ? fallback.cards : [];
+  candidateCards.forEach((card, index) => {
+    const source = fallbackCards[index];
+    if (!source) return;
+    ["possible_deadline", "possible_payment"].forEach((field) => {
+      if ((card[field] ?? null) !== (source[field] ?? null)) {
+        errors.push(`cards[${index}].${field} must match the engine value`);
+      }
+    });
+  });
+}
+
+function validateStructuredResult(candidate, fallback, sourceText) {
   const errors = [];
 
   if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
@@ -71,7 +218,9 @@ function validateStructuredResult(candidate, fallback) {
   validateCards(candidate.cards, errors);
   validateWarnings(candidate.warnings, errors);
   validatePrivacy(candidate.privacy, errors);
-  validateNoUnsafeAdvice(candidate, errors);
+  validateNoUnsafeAdvice(candidate, errors, fallback);
+  validateEngineOwnedFacts(candidate, fallback, errors);
+  validateDatesComeFromTheEngine(candidate, fallback, errors, sourceText);
   validateKeepsSession(candidate, fallback, errors);
 
   return {
@@ -80,7 +229,7 @@ function validateStructuredResult(candidate, fallback) {
   };
 }
 
-function sanitizeStructuredResult(candidate, fallback) {
+function sanitizeStructuredResult(candidate, fallback, sourceText) {
   const output = {
     schema_version: "clearsteps_structured_v1",
     session_id: fallback.session_id,
@@ -105,7 +254,7 @@ function sanitizeStructuredResult(candidate, fallback) {
     }
   };
 
-  const validation = validateStructuredResult(output, fallback);
+  const validation = validateStructuredResult(output, fallback, sourceText);
   if (!validation.valid) {
     return fallback;
   }
@@ -180,10 +329,74 @@ function validatePrivacy(privacy, errors) {
   });
 }
 
-function validateNoUnsafeAdvice(candidate, errors) {
-  const text = JSON.stringify(candidate);
+// Every string in an object, keyed by the exact path it sits at.
+function stringsByPath(value, path, out) {
+  if (typeof value === "string") {
+    out.set(path, value);
+    return out;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => stringsByPath(item, `${path}[${index}]`, out));
+    return out;
+  }
+  if (value && typeof value === "object") {
+    Object.keys(value).forEach((key) => stringsByPath(value[key], path ? `${path}.${key}` : key, out));
+  }
+  return out;
+}
+
+// Unsafe advice, scanned by PROVENANCE rather than by field name.
+//
+// THE DEFECT THIS FIXES. buildStructuredCardWarning attaches "This looks
+// important. Do not ignore it." to every card on an urgent document.
+// sanitizeCards copies that string into the AI candidate, because the AI is
+// never asked for `warning` and the ?? falls back to the engine's own value.
+// This function then rejected the candidate for containing "ignore it", so on
+// every urgent document the AI result was discarded deterministically. Verified
+// across the whole corpus: five documents fail their own validator, all five
+// are urgent, every urgent document is one of them, cards[n].warning is the ONLY
+// field implicated, and the one offending string is that warning.
+//
+// Worse than losing the AI: sanitizeStructuredResult validates its own output
+// and returns the fallback when invalid, so the AI's content was discarded
+// BEFORE it was ever judged. The error reported came from the engine's warning.
+// Whether the AI's own output was safe was never established, on precisely the
+// documents where it matters most.
+//
+// THE RULE. A string is skipped only when the fallback holds a byte-identical
+// string at the SAME PATH. Those are engine constants that already ship to
+// readers on every non-AI path, so scanning them protects nobody. Everything
+// else is scanned by every pattern, exactly as before.
+//
+// BY PATH, NOT BY VALUE. Matching on value alone would let the model move an
+// engine string into a field where it means something else. Matching on field
+// NAME, the alternative considered and rejected in the plan, hard-codes the
+// assumption that `warning` and `warnings` are always engine-owned, and becomes
+// a silent hole the moment a prompt starts requesting them. Under this rule a
+// model-authored warning differs from the fallback and is scanned, and if a
+// future prompt requests `warnings` they are scanned automatically.
+//
+// With no fallback the map is empty and everything is scanned, which is the
+// safe way round for a default.
+//
+// One narrowing worth naming: the old version stringified the whole object, so
+// object KEYS were in scope too. This scans values only. No pattern has ever
+// matched a key, and keys are engine-defined structure rather than anything a
+// model writes.
+function validateNoUnsafeAdvice(candidate, errors, fallback) {
+  const engineStrings = fallback ? stringsByPath(fallback, "", new Map()) : new Map();
+  const authored = [];
+  stringsByPath(candidate, "", new Map()).forEach((value, path) => {
+    if (engineStrings.get(path) === value) return;
+    authored.push(value);
+  });
+
+  // Patterns in declaration order, one error each, so the reported errors are
+  // identical in text and order to what this produced before.
   UNSAFE_ADVICE_PATTERNS.forEach((pattern) => {
-    if (pattern.test(text)) errors.push(`unsafe advice matched ${pattern}`);
+    if (authored.some((value) => pattern.test(value))) {
+      errors.push(`unsafe advice matched ${pattern}`);
+    }
   });
 }
 
@@ -199,7 +412,12 @@ function sanitizeSummary(candidate, fallback) {
   return {
     one_line_summary: cleanNullableText(candidate.one_line_summary ?? fallback.one_line_summary, 180),
     main_action: cleanNullableText(candidate.main_action ?? fallback.main_action, 180),
-    main_date: cleanNullableText(candidate.main_date ?? fallback.main_date, 80),
+    // FROM THE FALLBACK ALWAYS, like deadline_iso beside it. A live capture
+    // found the model writing "2026-07-25" here on a letter whose engine value
+    // was null, having added fourteen days to the letter date. This field is
+    // meant to quote the paper, and the engine is what decides whether the
+    // paper states a date at all.
+    main_date: cleanNullableText(fallback.main_date, 80),
     // From the fallback ALWAYS, never from the candidate. Two reasons, and both
     // matter.
     //
@@ -215,7 +433,7 @@ function sanitizeSummary(candidate, fallback) {
     // able to assert it, so the ?? fallback pattern used above would be wrong
     // here even though it reads consistently.
     deadline_iso: cleanNullableText(fallback.deadline_iso, 10),
-    main_amount: cleanNullableText(candidate.main_amount ?? fallback.main_amount, 80)
+    main_amount: cleanNullableText(fallback.main_amount, 80)
   };
 }
 
@@ -224,7 +442,16 @@ function sanitizeCards(cards, fallbackCards) {
     const candidate = cards[index] || {};
     const fallback = fallbackCards[index] || {};
     const keyPoints = Array.isArray(candidate.key_points) ? candidate.key_points : fallback.key_points;
-    const title = cleanText(candidate.title || fallback.title, 80);
+    // Card five's title is the ENGINE's signal for which mode the card is in:
+    // "What could happen if I ignore it?" when the document states a
+    // consequence, "What should I check?" when it does not. The prompt tells
+    // the model to keep that exact title and it changed it anyway, on two of
+    // six documents in a live capture, in both cases escalating a check card
+    // into a consequence card. Pinned rather than asked for, because a title
+    // that says which mode a card is in is not the model's to choose.
+    const title = cardId === "what_could_happen"
+      ? cleanText(fallback.title, 80)
+      : cleanText(candidate.title || fallback.title, 80);
     const simpleExplanation = cleanText(candidate.simple_explanation || fallback.simple_explanation, 220);
     const safeKeyPoints = Array.isArray(keyPoints)
       ? keyPoints.map((point) => cleanText(point, 140)).filter(Boolean).slice(0, 4)
@@ -238,8 +465,11 @@ function sanitizeCards(cards, fallbackCards) {
       simple_explanation: simpleExplanation,
       key_points: safeKeyPoints,
       action_needed: cleanNullableText(candidate.action_needed ?? fallback.action_needed, 180),
-      possible_deadline: cleanNullableText(candidate.possible_deadline ?? fallback.possible_deadline, 80),
-      possible_payment: cleanNullableText(candidate.possible_payment ?? fallback.possible_payment, 80),
+      // Engine-owned, for the same reason. The model filled these on cards the
+      // engine deliberately left null, and on one enforcement notice it
+      // replaced the £1,247.00 owed with the £235.00 fee.
+      possible_deadline: cleanNullableText(fallback.possible_deadline, 80),
+      possible_payment: cleanNullableText(fallback.possible_payment, 80),
       confidence_level: pickAllowed(candidate.confidence_level, ALLOWED_CONFIDENCE, fallback.confidence_level),
       warning: cleanNullableText(candidate.warning ?? fallback.warning, 180),
       read_aloud_text: cleanText(candidate.read_aloud_text || fallback.read_aloud_text || `${title}. ${simpleExplanation}`, 320),
