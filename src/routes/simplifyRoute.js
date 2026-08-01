@@ -28,7 +28,7 @@ const {
   AI_OUTBOUND_TEXT_MAX_CHARS,
   DEFAULT_MODEL
 } = require("../services/aiStructuredResultService");
-const { extractFacts, FACT_MEASUREMENT_BUDGET_MS } = require("../services/aiFactExtractionService");
+const { extractFacts, FACT_EXTRACTION_BUDGET_MS } = require("../services/aiFactExtractionService");
 const {
   ocrSessionStore,
   rememberOcrText,
@@ -402,12 +402,13 @@ async function withFactCandidates({ rulesRun, extractedText, fileMeta, language 
   }
 
   const { facts, debug } = await extractFacts({
-    // The same redaction and the same outbound cap as the phrasing pass. The
-    // timeout is tighter, because a reader is waiting on this one.
+    // The same redaction and the same outbound cap the phrasing pass used.
+    // CLEARSTEPS_AI_TIMEOUT_MS stays as an operator ceiling over the top, so a
+    // deployment can still cap this lower without a code change.
     documentText: redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS),
     model: DEFAULT_MODEL,
     apiKey: process.env.OPENAI_API_KEY,
-    timeoutMs: Math.min(AI_TIMEOUT_MS, FACT_MEASUREMENT_BUDGET_MS)
+    timeoutMs: Math.min(AI_TIMEOUT_MS, FACT_EXTRACTION_BUDGET_MS)
   });
 
   if (!facts) return { run: rulesRun, factsDebug: debug };

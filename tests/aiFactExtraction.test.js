@@ -14,7 +14,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const {
-  FACT_SCHEMA_VERSION, FACT_MEASUREMENT_BUDGET_MS,
+  FACT_SCHEMA_VERSION,
   AMOUNT_ROLES, DATE_ROLES, OBLIGATION_KINDS, CONSEQUENCE_KINDS,
   buildFactSystemPrompt, validateFacts, extractFacts
 } = require(path.join(__dirname, "..", "src", "services", "aiFactExtractionService"));
@@ -412,10 +412,8 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
       /obligation\.sentence does not appear/);
   });
 
-  await t.test("the measurement budget is tighter than the phrasing timeout", () => {
-    // So the extractor can never be the reason a card is slow. The fastest
-    // phrasing call in 84 measurements was 10,592ms.
-    assert.ok(FACT_MEASUREMENT_BUDGET_MS < 10592,
-      "the budget must sit below the fastest phrasing call ever measured");
-  });
+  // The budget assertion that used to live here required it to sit below the
+  // fastest phrasing call, because its only job was to finish before that pass.
+  // The pass is gone and the budget was re-measured against its own evidence.
+  // See factExtractionBudget.test.js, which carries the distribution.
 });

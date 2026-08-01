@@ -46,15 +46,49 @@ const {
 // factCandidates rejects a period with. One definition of "this is a date".
 const { LOOKS_LIKE_A_DATE } = require("../utils/documentSignals");
 
-// A MEASUREMENT MAY NEVER COST THE READER TIME, so this is not the phrasing
-// pass's 25s. The caller awaits both, so the wait becomes the slower of the
-// two, and "it finishes first" must be true by construction rather than by
-// luck. Measured fact calls took 2,240 to 4,156ms; the fastest phrasing call in
-// 84 measurements was 10,592ms. At 8,000ms this can only extend a request that
-// the phrasing pass would have finished in under eight seconds, which has never
-// once happened. If it ever does, the reader loses nothing and the metadata
-// records facts_timeout.
-const FACT_MEASUREMENT_BUDGET_MS = 8000;
+// HOW LONG A READER WAITS FOR FACTS, and why it is this number.
+//
+// 8,000ms was chosen in tier 1, when this call ran BESIDE a phrasing pass that
+// took a mean of 15.1 seconds. Its whole job then was to finish first, so that
+// measuring facts could never be the reason a card was slow. That pass is gone.
+// This call IS the wait now, and the old justification went with the thing it
+// was justified against.
+//
+// So it was measured again, with nothing aborting: 192 calls, six rounds, round
+// robin over the 32 documents that reach the extractor, requestFactsFromOpenAi
+// called with a 60 second timeout so every call ran to completion. A cap cannot
+// be chosen from measurements taken under the cap, because the tail it exists
+// to cover is exactly the part that was never seen.
+//
+//   p50 2,957   p90 4,005   p95 4,684   p99 6,888   max 8,999 ms
+//
+// WHAT THE READER PAYS FOR A LARGER BUDGET IS ALMOST NOTHING. The distribution
+// is concentrated, so the cap only touches the handful of calls in the tail:
+//
+//   budget    aborts        mean wait    p90 wait
+//   4s        20 of 192     2,933ms      4,005ms
+//   8s         1 of 192     3,024ms      4,005ms
+//   12s        0 of 192     3,030ms      4,005ms
+//   25s        0 of 192     3,030ms      4,005ms
+//
+// Six milliseconds of mean wait separates 8 seconds from 25. The p90 wait is
+// 4,005ms at every value from 4 seconds upward, because nine calls in ten
+// finish inside four seconds whatever the cap says.
+//
+// WHAT AN ABORT COSTS IS NOT SMALL. A document that aborts loses every fact:
+// its deadline, its labelled amount, its consequence, and any severity floor
+// that consequence sets. At 8,000ms that happened to spanish_water_final_notice
+// in production measurement, which cost it a low to high severity move on a
+// letter warning of a court order.
+//
+// 12,000ms is a third again above the largest of 192 calls, produces no aborts
+// in any of them, and costs the average reader six milliseconds. Its worst case,
+// a hung call the reader waits out for nothing, is still shorter than the MEAN
+// wait the phrasing pass imposed on every reader last week.
+//
+// If production shows aborts at 12 seconds, that is evidence to raise it, and
+// it will be real evidence rather than anticipated evidence.
+const FACT_EXTRACTION_BUDGET_MS = 12000;
 
 
 function buildFactSystemPrompt() {
@@ -353,7 +387,7 @@ function cleanCode(value) {
 
 module.exports = {
   FACT_SCHEMA_VERSION,
-  FACT_MEASUREMENT_BUDGET_MS,
+  FACT_EXTRACTION_BUDGET_MS,
   AMOUNT_ROLES,
   DATE_ROLES,
   OBLIGATION_KINDS,
