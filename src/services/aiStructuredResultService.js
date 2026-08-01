@@ -119,7 +119,10 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
     });
 
     const sanitized = sanitizeStructuredResult(candidate, fallbackStructuredResult);
-    const stripped = stripAiViolations(sanitized);
+    // The exemption is built from the FALLBACK, which is the rules output for
+    // this document. A model sentence that is byte-identical to one of those is
+    // that sentence; anything else carrying a number is stripped.
+    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult));
     const validation = validateStructuredResult(stripped, fallbackStructuredResult);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
@@ -427,7 +430,11 @@ const _AI_DETAIL_PATTERNS = [
 function sanitiseRulesStructuredResult(output, rulesRun) {
   const sr = output && output.structured_result;
   if (!sr || !Array.isArray(sr.cards)) return;
-  const stripped = stripAiViolations(sr);
+  // Every sentence here was written by the rules engine, so the phone rules are
+  // exempt throughout and rules 1, 2 and 4 still run. That is the whole change:
+  // this pass exists to catch payment commands the engine lifted verbatim from
+  // a document, and it keeps doing exactly that.
+  const stripped = stripAiViolations(sr, rulesSentenceSet(sr));
   // No-op when the rules cards are already clean: keep the original object so
   // callers that rely on the untouched rules output are not disturbed. Only
   // replace when the stripper actually neutralised a command.
@@ -442,24 +449,93 @@ function sanitiseRulesStructuredResult(output, rulesRun) {
   }
 }
 
-function stripAiViolations(result) {
+// exemptSentences is optional and defaults to exempting nothing, so a caller
+// that omits it gets the strictest behaviour rather than the loosest.
+function stripAiViolations(result, exemptSentences) {
   if (!result || !Array.isArray(result.cards)) return result;
   const out = JSON.parse(JSON.stringify(result));
   for (const card of out.cards) {
     for (const field of ["simple_explanation", "action_needed", "read_aloud_text"]) {
-      if (typeof card[field] === "string") card[field] = sanitizeAiTextField(card[field]);
+      if (typeof card[field] === "string") card[field] = sanitizeAiTextField(card[field], exemptSentences);
     }
     if (Array.isArray(card.key_points)) {
-      card.key_points = card.key_points.map(s => typeof s === "string" ? sanitizeAiTextField(s) : s);
+      card.key_points = card.key_points.map(s => typeof s === "string" ? sanitizeAiTextField(s, exemptSentences) : s);
     }
   }
   return out;
 }
 
-function sanitizeAiTextField(text) {
+// The splitter the stripper works in. Shared with rulesSentenceSet so the
+// exemption is built in exactly the units it will be compared in.
+const _AI_SENTENCE_SPLIT = /(?<=[.!?])\s+/;
+
+// Nothing is exempt unless a caller says so. A caller that forgets the argument
+// gets the old behaviour, which strips everything, and that is the safe way
+// round for a default.
+const _AI_EXEMPT_NOTHING = new Set();
+
+// Every sentence the RULES ENGINE wrote for this document, tokenised the same
+// way the stripper tokenises.
+//
+// Tokenising rather than collecting whole fields is what handles read_aloud_text,
+// which is a concatenation of a title, an explanation and the key points and so
+// matches no single rules sentence as a whole. Split it and each piece is a
+// sentence that IS in the set:
+//
+//   "What do I need to do?. Contact the sender... . Contact the sender...
+//    You must contact us on 0333 320 122 by 3 September 2026."
+//                            ^ this token is byte-identical to the key point
+//
+// It also covers the doubled full stop that buildReadAloudText produces when an
+// explanation already ends in one, because that token is taken from the
+// read_aloud_text field itself rather than reconstructed.
+function rulesSentenceSet(result) {
+  const out = new Set();
+  if (!result || !Array.isArray(result.cards)) return out;
+  const add = (value) => {
+    if (typeof value !== "string") return;
+    value.split(_AI_SENTENCE_SPLIT).forEach((piece) => {
+      const trimmed = piece.trim();
+      if (trimmed) out.add(trimmed);
+    });
+  };
+  result.cards.forEach((card) => {
+    add(card.simple_explanation);
+    add(card.action_needed);
+    add(card.read_aloud_text);
+    if (Array.isArray(card.key_points)) card.key_points.forEach(add);
+  });
+  return out;
+}
+
+// THE EXEMPTION IS FOR PHONE NUMBERS ONLY, and only for sentences the rules
+// engine itself composed.
+//
+// Why it exists. The phone rules were written on 18 June 2026 for AI output,
+// because gpt-4.1-mini does not reliably honour prompt-level "do not"
+// instructions. They began applying to rules output on 30 June, when the
+// stripper was extended to every path to catch a payment command the rules
+// engine had lifted verbatim from a document. That extension was about pay and
+// credential commands; the phone rules came with it because stripAiViolations
+// applies all five and offered no way to take a subset. Nobody decided that a
+// number the engine read off the page should be withheld.
+//
+// Why it is by SENTENCE and not by number. The model is shown the rules output
+// in its own prompt, so it can see the genuine number. An allowlist of numbers
+// would pass "Call 020 8583 4242 immediately or bailiffs will attend", where
+// every word except the number is invented. Comparing whole sentences means any
+// edit to the wording, any change of number, and any appended sentence all fail
+// the check, because sentences are compared after the same split.
+//
+// Rules 1, 2 and 4 are NOT exempted, on either path. The pay and credential
+// rules are the reason the stripper runs on rules output at all, and the debt
+// charity substitution is about naming a service rather than about a value read
+// off the page.
+function sanitizeAiTextField(text, exemptSentences) {
   if (typeof text !== "string") return text;
+  const exempt = exemptSentences instanceof Set ? exemptSentences : _AI_EXEMPT_NOTHING;
   return text
-    .split(/(?<=[.!?])\s+/)
+    .split(_AI_SENTENCE_SPLIT)
     .map(sentence => {
       const trimmed = sentence.trim();
       if (!trimmed) return trimmed;
@@ -469,12 +545,16 @@ function sanitizeAiTextField(text) {
       if (_AI_DETAIL_PATTERNS.some(re => re.test(trimmed))) {
         return "Check the original document. Do not share personal or banking details.";
       }
-      if (_AI_PHONE_RE.test(trimmed) && _AI_CALL_CONTEXT_RE.test(trimmed)) {
+      // Short-circuits rule 3 below AND the in-place rule 5 in the fallthrough,
+      // which is why it is read once here rather than tested twice.
+      const keepNumbers = exempt.has(trimmed);
+      if (!keepNumbers && _AI_PHONE_RE.test(trimmed) && _AI_CALL_CONTEXT_RE.test(trimmed)) {
         return "Use contact details from the original document.";
       }
-      return trimmed
-        .replace(_AI_DEBT_ORG_RE, "a trusted advice service")
-        .replace(_AI_PHONE_G_RE, "the number in the original document");
+      const withoutOrgNames = trimmed.replace(_AI_DEBT_ORG_RE, "a trusted advice service");
+      return keepNumbers
+        ? withoutOrgNames
+        : withoutOrgNames.replace(_AI_PHONE_G_RE, "the number in the original document");
     })
     .join(" ");
 }
@@ -487,5 +567,6 @@ module.exports = {
   summarizeValidationErrors,
   stripAiViolations,
   sanitizeAiTextField,
+  rulesSentenceSet,
   redactForAi
 };
