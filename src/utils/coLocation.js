@@ -98,7 +98,15 @@ const DATE_GOVERNS = [
 const DATE_COMPETES = [
   "year ending", "year ended", "period", "bill date", "statement date",
   "invoice date", "letter date", "date of issue", "issued on", "next statement",
-  "reading taken", "read on", "covering", "from", "printed"
+  "reading taken", "read on", "covering", "from", "printed",
+  // A collection date is not a deadline. "This will be taken by Direct Debit on
+  // 2 May 2026" states when the sender will move the money, and the reader owes
+  // nothing on that day. This list is exactly the home for "the document has
+  // already labelled this date as something else", and the entry earns its
+  // place on the English path too: the keyword fallback could reach the same
+  // date. Added 1 August 2026 when the fact extractor labelled it a deadline
+  // and card 4 would have said "Due by" for an automatic payment.
+  "taken by direct debit on", "direct debit on", "collected on"
 ];
 
 // DISCONTIGUOUS LABELS. An obligation to make contact almost never puts its
@@ -815,6 +823,10 @@ function isClaimedByCompetingDateLabel(text, value, isPlausibleNumericDate) {
 
 module.exports = {
   isClaimedByCompetingDateLabel,
+  // Exported for factCandidates, which applies the same tense rule to a date
+  // the engine's English label vocabulary never reached. One definition, so a
+  // change to what counts as past tense reaches both readers.
+  BACKWARD_LOOKING,
   findAmounts,
   findDates,
   findPhoneNumbers,

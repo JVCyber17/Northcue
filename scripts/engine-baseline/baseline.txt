@@ -66,6 +66,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "Contact the sender using trusted contact details."
   ],
   "deadline": "1 April 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "1 April 2026"
   ],
@@ -73,6 +74,8 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£1,842.00",
@@ -90,7 +93,8 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£1,381.50",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -297,6 +301,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "Contact the sender using trusted contact details."
   ],
   "deadline": "28 May 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "1 February 2026",
     "30 April 2026",
@@ -306,6 +311,8 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£0.00",
@@ -323,7 +330,8 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£214.63",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -526,6 +534,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "Check the payment amount and due date."
   ],
   "deadline": "30 June 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "1 March 2026",
     "31 May 2026",
@@ -535,6 +544,8 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£68.40",
@@ -551,7 +562,8 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£142.60",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -750,6 +762,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "No action needed right now."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [
     "2 May 2026"
   ],
@@ -757,6 +770,8 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£41.99",
@@ -774,7 +789,8 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£45.19",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -1007,7 +1023,8 @@ INTENT:   document_category government. Official notice with a reference and a r
     ]
   },
   "selected_amount": "£486.20",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -1215,6 +1232,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "Attend the appointment or meeting."
   ],
   "deadline": "1 July 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "1 July 2026"
   ],
@@ -1222,6 +1240,8 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   "risk": "Ignoring this may create delays or follow-up action.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [],
   "reference_numbers": [
@@ -1473,7 +1493,8 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -1678,6 +1699,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "You must contact us on 0333 320 122 by 3 September 2026."
   ],
   "deadline": "3 September 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "20 August 2026",
     "3 July 2026",
@@ -1687,6 +1709,8 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "risk": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.",
   "has_consequence": true,
   "consequence_sentence": "If payment is not received by this date, an enforcement agent may attend your property and remove goods belonging to you.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£1,047.00",
@@ -1706,7 +1730,8 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£1,247.00",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -1920,6 +1945,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "You must clear the arrears by 12 September 2026."
   ],
   "deadline": "12 September 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "12 September 2026"
   ],
@@ -1927,6 +1953,8 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "risk": "If the arrears are not cleared we will apply to the county court for possession of your home.",
   "has_consequence": true,
   "consequence_sentence": "If the arrears are not cleared we will apply to the county court for possession of your home.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£2,480.00"
@@ -1943,7 +1971,8 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
   "selected_amount": "£2,480.00",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -2158,6 +2187,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "Check the payment amount and due date."
   ],
   "deadline": "30 September 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "30 September 2026"
   ],
@@ -2165,6 +2195,8 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   "risk": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
   "has_consequence": true,
   "consequence_sentence": "Failure to pay may result in further legal action, and the account may be passed to bailiffs for enforcement.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£660.00",
@@ -2183,7 +2215,8 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
   "selected_amount": "£726.00",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -2626,11 +2659,14 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "Check the payment amount and due date."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [],
   "header_date": "11 July 2026",
   "risk": "Unless payment is received within 14 days, legal action may be commenced without further notice to you.",
   "has_consequence": true,
   "consequence_sentence": "Unless payment is received within 14 days, legal action may be commenced without further notice to you.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£3,410.00"
@@ -2647,7 +2683,8 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£3,410.00",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -3348,7 +3385,8 @@ INTENT:   education category through the aid path. Consent deadline.
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -3582,7 +3620,8 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -3785,6 +3824,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "Contact the sender using trusted contact details."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [
     "7 July 2026"
   ],
@@ -3792,6 +3832,8 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "risk": "Continued arrears may be reported to credit reference agencies and could affect your credit rating.",
   "has_consequence": true,
   "consequence_sentence": "Continued arrears may be reported to credit reference agencies and could affect your credit rating.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£418.60"
@@ -3806,7 +3848,8 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£418.60",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -4039,7 +4082,8 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -4905,11 +4949,14 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "No action needed right now."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [],
   "header_date": "4 June 2026",
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "This may be a copy sent by you.",
   "money_amounts": [],
   "reference_numbers": [],
@@ -5122,11 +5169,14 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "Check each letter on the original documents."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Uploading one letter at a time gives a clearer result.",
   "money_amounts": [],
   "reference_numbers": [],
@@ -5140,6 +5190,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false,
+  "amount_from_facts": false,
   "multi_letter_state": "fused"
 }
 
@@ -5343,11 +5394,14 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "Check each letter on the original documents."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Uploading one letter at a time gives a clearer result.",
   "money_amounts": [],
   "reference_numbers": [],
@@ -5361,6 +5415,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false,
+  "amount_from_facts": false,
   "multi_letter_state": "fused"
 }
 
@@ -5561,6 +5616,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "Check the payment amount and due date."
   ],
   "deadline": "28 May 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "28 May 2026"
   ],
@@ -5568,6 +5624,8 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£214.63"
@@ -5583,6 +5641,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   "evidence_spans": [],
   "selected_amount": "£214.63",
   "unlabelled_amount": false,
+  "amount_from_facts": false,
   "multi_letter_state": "first_only"
 }
 
@@ -5824,7 +5883,8 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     ]
   },
   "selected_amount": "£1,381.50",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -6049,7 +6109,8 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
   "evidence_spans": [],
   "selected_amount": "£214.63",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -6272,7 +6333,8 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "review_reason": "OCR garbling detected. Amounts and dates may be unreliable.",
   "evidence_spans": [],
   "selected_amount": "£1,247.00",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -6711,7 +6773,8 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     ]
   },
   "selected_amount": "£214.63",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -6919,6 +6982,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "Check the payment amount and due date."
   ],
   "deadline": "3 September 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "3 July 2026",
     "3 September 2026"
@@ -6927,6 +6991,8 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   "risk": "If you do not, the account may be passed to an enforcement agent.",
   "has_consequence": true,
   "consequence_sentence": "If you do not, the account may be passed to an enforcement agent.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£486.20"
@@ -6943,7 +7009,8 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£486.20",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -7155,6 +7222,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "Check the payment amount and due date."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [
     "3 July 2026"
   ],
@@ -7162,6 +7230,8 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£164.90"
@@ -7178,7 +7248,8 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£164.90",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -7384,6 +7455,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
     "Check the payment amount and due date."
   ],
   "deadline": "3 September 2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "3 July 2026",
     "3 September 2026"
@@ -7392,6 +7464,8 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   "risk": "If you do not, we may apply to the county court for possession of your home.",
   "has_consequence": true,
   "consequence_sentence": "If you do not, we may apply to the county court for possession of your home.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep the reference number ready.",
   "money_amounts": [
     "£312.40"
@@ -7408,7 +7482,8 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
   "selected_amount": "£312.40",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -7856,6 +7931,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "Check the payment amount and due date."
   ],
   "deadline": "03/06/2026",
+  "deadline_from_facts": false,
   "visible_dates": [
     "03/06/2026"
   ],
@@ -7863,6 +7939,8 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£41.99"
@@ -7877,7 +7955,8 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": "£41.99",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -8082,6 +8161,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "Contact the sender using trusted contact details."
   ],
   "deadline": "28 May 26",
+  "deadline_from_facts": false,
   "visible_dates": [
     "28 May 26"
   ],
@@ -8089,6 +8169,8 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£1,381.50"
@@ -8103,7 +8185,8 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£1,381.50",
-  "unlabelled_amount": false
+  "unlabelled_amount": false,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -8344,7 +8427,8 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -8579,7 +8663,8 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     ]
   },
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]
@@ -9013,11 +9098,14 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "No action needed right now."
   ],
   "deadline": null,
+  "deadline_from_facts": false,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£482.30"
@@ -9032,7 +9120,8 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
   "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": null,
-  "unlabelled_amount": true
+  "unlabelled_amount": true,
+  "amount_from_facts": false
 }
 
 [banner]

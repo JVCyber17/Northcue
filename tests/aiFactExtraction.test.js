@@ -16,10 +16,13 @@ const test = require("node:test");
 const {
   FACT_SCHEMA_VERSION, FACT_MEASUREMENT_BUDGET_MS,
   AMOUNT_ROLES, DATE_ROLES, OBLIGATION_KINDS, CONSEQUENCE_KINDS,
-  buildFactSystemPrompt, validateFacts, measureFactExtraction
+  buildFactSystemPrompt, validateFacts, extractFacts
 } = require(path.join(__dirname, "..", "src", "services", "aiFactExtractionService"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
-const { applyAiStructuredResult } = require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
+const { providerSkipReason } = require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
+// The ORDER is the thing under test in this section, so it runs through the
+// route's orchestration rather than through either service alone.
+const { analyseDocumentText } = require(path.join(__dirname, "..", "src", "routes", "simplifyRoute"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 const byId = (id) => CORPUS.find((entry) => entry.id === id).text;
@@ -192,10 +195,12 @@ const withStubbedFetch = async (impl, body) => {
   try { return await body(); } finally { global.fetch = original; }
 };
 
-test("measureFactExtraction never throws", async (t) => {
-  const call = () => measureFactExtraction({
+test("extractFacts never throws", async (t) => {
+  // Tier 2 returns { facts, debug }. `facts` is null on every failure, which IS
+  // the failure path: the engine keeps its own reading.
+  const call = async () => (await extractFacts({
     documentText: BAILIFF, model: "gpt-4.1-mini", apiKey: "test-key", timeoutMs: 500
-  });
+  })).debug;
 
   await t.test("a network failure", async () => {
     const out = await withStubbedFetch(async () => { throw new Error("network down"); }, call);
@@ -233,7 +238,7 @@ test("measureFactExtraction never throws", async (t) => {
   await t.test("no API key, with no request attempted", async () => {
     let called = false;
     const out = await withStubbedFetch(async () => { called = true; return new Response("{}"); }, () =>
-      measureFactExtraction({ documentText: BAILIFF, model: "m", apiKey: "", timeoutMs: 500 }));
+      extractFacts({ documentText: BAILIFF, model: "m", apiKey: "", timeoutMs: 500 }).then((r) => r.debug));
     assert.equal(called, false);
     assert.equal(out.facts_status, "skipped");
     assert.equal(out.facts_error_code, "missing_api_key");
@@ -246,7 +251,7 @@ test("the measurement carries no document content", async () => {
   // not, and the corpus harness reads those in process instead.
   const out = await withStubbedFetch(
     async () => new Response(JSON.stringify({ output_text: JSON.stringify(cleanFacts()) }), { status: 200 }),
-    () => measureFactExtraction({ documentText: BAILIFF, model: "m", apiKey: "k", timeoutMs: 2000 }));
+    () => extractFacts({ documentText: BAILIFF, model: "m", apiKey: "k", timeoutMs: 2000 }).then((r) => r.debug));
 
   assert.equal(out.facts_status, "completed");
   const serialised = JSON.stringify(out);
@@ -308,7 +313,7 @@ async function runPath(text, { language = "en", factImpl } = {}) {
         factImpl: factImpl || (async () => new Response(JSON.stringify({ output_text: JSON.stringify(cleanFactsAsSeenThroughRedaction()) }), { status: 200 })),
         phrasingImpl: okPhrasing(fallback)
       }),
-      () => applyAiStructuredResult({ rulesRun: engineFor(text), extractedText: text, language })
+      () => analyseDocumentText(text, { mimeType: "application/pdf", selectedCategory: "auto", jobId: "fact-test", interfaceLanguage: language })
     );
   } finally {
     if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
@@ -336,7 +341,7 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
       process.env.OPENAI_API_KEY = "test-key";
       try {
         const run = await withStubbedFetch(async () => { requests += 1; return new Response("{}", { status: 200 }); },
-          () => applyAiStructuredResult({ rulesRun: engineFor(byId(id)), extractedText: byId(id), language: "en" }));
+          () => analyseDocumentText(byId(id), { mimeType: "application/pdf", selectedCategory: "auto", jobId: "gate", interfaceLanguage: "en" }));
         assert.equal(requests, 0, id + " sent a request");
         assert.equal(run.api_output.debug.ai.ai_error_code, code, id);
         assert.equal(run.api_output.debug.ai_facts.facts_status, "skipped", id);
@@ -354,7 +359,7 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
     process.env.OPENAI_API_KEY = "test-key";
     try {
       const run = await withStubbedFetch(async () => { requests += 1; return new Response("{}", { status: 200 }); },
-        () => applyAiStructuredResult({ rulesRun: engineFor(BAILIFF), extractedText: BAILIFF, language: "pl" }));
+        () => analyseDocumentText(BAILIFF, { mimeType: "application/pdf", selectedCategory: "auto", jobId: "lang", interfaceLanguage: "pl" }));
       assert.equal(requests, 0, "a non English interface must send nothing");
       assert.equal(run.api_output.debug.ai_facts.facts_error_code, "non_english_language");
     } finally {
@@ -399,8 +404,11 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
     const withRealNumber = await runPath(BAILIFF, {
       factImpl: async () => new Response(JSON.stringify({ output_text: JSON.stringify(cleanFacts()) }), { status: 200 })
     });
-    assert.equal(withRealNumber.api_output.debug.ai_facts.facts_status, "invalid");
-    assert.match(withRealNumber.api_output.debug.ai_facts.facts_errors.join("\n"),
+    // Tier 2 validates FIELD BY FIELD, so the object is still "completed" and
+    // the one bad field is named. Under tier 1's all-or-nothing rule this
+    // discarded the sender, the amounts, the dates and the consequence too.
+    assert.equal(withRealNumber.api_output.debug.ai_facts.facts_status, "completed");
+    assert.match(withRealNumber.api_output.debug.ai_facts.facts_field_errors.join("\n"),
       /obligation\.sentence does not appear/);
   });
 

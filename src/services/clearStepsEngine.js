@@ -10,6 +10,7 @@ const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
 const { countDocumentSignals } = require("../utils/documentSignals");
+const factCandidates = require("../utils/factCandidates");
 
 // How many language-independent document signals stand in for the four English
 // checks in detectProbableNonDocument when all four have failed. See that
@@ -49,7 +50,7 @@ const SUPPORTED_MIME_TYPES = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ];
 
-function runClearStepsEngine({ extractedText, fileMeta }) {
+function runClearStepsEngine({ extractedText, fileMeta, facts }) {
   const jobId = fileMeta.jobId || crypto.randomUUID();
   const split = splitDocuments(extractedText);
   const primaryText = split.documents[0] || "";
@@ -65,6 +66,10 @@ function runClearStepsEngine({ extractedText, fileMeta }) {
     text: primaryText,
     trust,
     split,
+    // Validated fact candidates, or null. Null on every path today except an
+    // English document whose extractor answered, and null is the failure path:
+    // every consumer falls through to the engine's own reading.
+    facts,
     prompt: extractorPrompt
   });
 
@@ -303,8 +308,8 @@ const HIGH_STAKES_NOTE =
 //               so every extractor ran across all of the letters and no value
 //               can be attributed. Every field a card would assert a relation
 //               from is dropped.
-function runExtractorLayer({ text, trust, split }) {
-  return applyMultiLetterAttribution(withSelectedAmount(buildExtraction({ text, trust }), text), trust, split);
+function runExtractorLayer({ text, trust, split, facts }) {
+  return applyMultiLetterAttribution(withSelectedAmount(buildExtraction({ text, trust, facts }), text, facts), trust, split);
 }
 
 // Selects the one amount, for every extraction branch rather than only the
@@ -314,15 +319,24 @@ function runExtractorLayer({ text, trust, split }) {
 // Branches that deliberately force money_amounts to [] keep money suppressed:
 // the verification-only path and the poor-quality path do that on purpose, and
 // co-location must not reintroduce an amount they chose not to show.
-function withSelectedAmount(extraction, text) {
+function withSelectedAmount(extraction, text, facts) {
   const amounts = Array.isArray(extraction.money_amounts) ? extraction.money_amounts : [];
   if (!amounts.length) {
     return Object.assign({}, extraction, { selected_amount: null, unlabelled_amount: false });
   }
   const chosen = coLocation.selectAmount(text);
+  // A ROLE BEATS A GUESS, AND ONLY A GUESS. selectAmount binds an amount to a
+  // label it can see; where it cannot, bestMoneyAmount downstream picks the
+  // largest and unlabelled_amount records that the engine knows it is guessing.
+  // A fact carrying role total_due answers the question the guess was standing
+  // in for, so it is taken only when the guess was going to be used.
+  const fromFacts = chosen ? null : factCandidates.amountCandidate({
+    facts, sourceText: text, engineUnlabelled: true
+  });
   return Object.assign({}, extraction, {
-    selected_amount: chosen ? chosen.value : null,
-    unlabelled_amount: !chosen
+    selected_amount: chosen ? chosen.value : (fromFacts || null),
+    unlabelled_amount: !chosen && !fromFacts,
+    amount_from_facts: Boolean(!chosen && fromFacts)
   });
 }
 
@@ -366,7 +380,7 @@ function applyMultiLetterAttribution(extraction, trust, split) {
   return fused;
 }
 
-function buildExtraction({ text, trust }) {
+function buildExtraction({ text, trust, facts }) {
   if (trust.processing_mode === "unsupported") {
     // A probable non-document gets a calm, honest "this is not an official letter"
     // message, never a reading-aid that pretends to understand it.
@@ -510,7 +524,7 @@ function buildExtraction({ text, trust }) {
     };
   }
 
-  const deadline = isInCreditOrNoPayment(text)
+  const engineDeadline = isInCreditOrNoPayment(text)
     ? null
     : trust.document_category === "appointment"
       ? (extractAppointmentDate(text) || extractDeadline(text))
@@ -518,16 +532,49 @@ function buildExtraction({ text, trust }) {
   const summary = inferSummary(text, trust);
   const headerDate = extractHeaderDate(text);
 
+  // FACTS ARE CANDIDATES, AND ONLY HERE.
+  //
+  // The engine has already done its own reading above, in full, and every
+  // value below is its own unless a candidate survives adjudication. That
+  // ordering is the failure path: an extractor that errors, times out or
+  // returns nothing leaves `facts` null and every line here falls through to
+  // the engine's answer, so there is no separate fallback to get wrong.
+  //
+  // This is also the ONLY place facts are read. Every earlier return in this
+  // function is a gate the engine owns: unsupported, probable non-document,
+  // verification_only, the benefits reading aid, the readable-unsupported aid,
+  // and garbled OCR. A document that took one of those never reaches this line,
+  // so those gates dominate facts absolutely rather than by a check anyone has
+  // to remember. applyMultiLetterAttribution runs AFTER this and nulls the
+  // deadline, the amounts and the consequence on a fused upload, so it
+  // dominates too.
+  //
+  // A candidate never overrides an engine answer. It fills a null.
+  const deadline = engineDeadline || factCandidates.deadlineCandidate({
+    facts, sourceText: text, engineDeadline
+  });
+  const factConsequence = consequenceSentence ? null : factCandidates.consequenceCandidate({
+    facts, sourceText: text, engineHasConsequence: Boolean(consequenceSentence)
+  });
+
   return {
     summary,
     most_important_point: inferMostImportantPoint(trust, actions),
     actions,
     deadline,
+    // Recorded so a card built from a candidate is distinguishable downstream
+    // from one the engine read for itself, without changing what is shown.
+    deadline_from_facts: Boolean(!engineDeadline && deadline),
     visible_dates: extractVisibleDates(text).filter((d) => d !== headerDate),
     header_date: headerDate,
     risk,
-    has_consequence: Boolean(consequenceSentence),
-    consequence_sentence: consequenceSentence,
+    has_consequence: Boolean(consequenceSentence) || Boolean(factConsequence),
+    consequence_sentence: consequenceSentence || (factConsequence ? factConsequence.sentence : null),
+    // The kind, kept for the severity floor that lands with the bank entries.
+    // Null on the engine's own path, because RISK_PHRASES matches a phrase and
+    // does not name a kind.
+    consequence_kind: factConsequence ? factConsequence.kind : null,
+    consequence_conditional: factConsequence ? factConsequence.conditional : null,
     helpful_note: note,
     money_amounts: extractMoneyAmounts(text),
     reference_numbers: extractReferenceNumbers(text),

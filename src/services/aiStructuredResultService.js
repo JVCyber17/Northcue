@@ -2,7 +2,6 @@ const {
   validateStructuredResult,
   sanitizeStructuredResultWithVerdict
 } = require("../utils/validateStructuredResult");
-const { measureFactExtraction, FACT_MEASUREMENT_BUDGET_MS } = require("./aiFactExtractionService");
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 const DEFAULT_MODEL = "gpt-4.1-mini";
@@ -52,6 +51,47 @@ const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 25000);
 // ever cut off mid-content.
 const AI_OUTBOUND_TEXT_MAX_CHARS = positiveNumberSetting("CLEARSTEPS_AI_TEXT_MAX_CHARS", 8000, 1000);
 
+// THE ONE PLACE THAT DECIDES WHETHER A DOCUMENT MAY REACH THE PROVIDER.
+//
+// The phrasing pass and the fact extractor must run behind identical gates, or
+// "the extractor sends nothing the phrasing pass does not already send" is a
+// comment rather than a property. It was a comment in tier 1. This makes it
+// structural: both callers ask this function, so a gate added here reaches both
+// for free and neither can drift.
+//
+// Returns null when the provider may be called, or the skip code otherwise.
+// Every branch reads a decision the ENGINE has already made. Nothing here
+// classifies, scores or judges anything itself.
+function providerSkipReason({ rulesRun, language }) {
+  const trust = rulesRun.api_output.trust || {};
+
+  // AI phrasing is English only in the multilingual MVP. Non-English interface
+  // languages serve the deterministic rules cards, which the frontend
+  // translates through the reviewed template bank.
+  if (language && language !== "en") return "non_english_language";
+
+  // Low-quality input. Prompt-based suppression was tested and confirmed
+  // unreliable with gpt-4.1-mini: the model restated suppressed values and
+  // upgraded its own confidence. The engine already expresses the right
+  // uncertainty in these cases.
+  const inputQuality = trust.input_quality || "unknown";
+  const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);
+  if (inputQuality === "borderline" || inputQuality === "poor" || garbledByOcr) return "low_quality_input";
+
+  // Suspected scam. Letting the model rewrite one has been shown to
+  // re-introduce the scam's own ask.
+  const scamSignals = Array.isArray(trust.scam_signals) ? trust.scam_signals : [];
+  if (trust.processing_mode === "verification_only" || scamSignals.length > 0) return "verification_only_state";
+
+  // Unsupported or probable non-document. The engine already emits a calm,
+  // honest "this is not an official letter" message.
+  if (trust.processing_mode === "unsupported" || trust.is_probable_non_document) return "unsupported_or_non_document";
+
+  if (!process.env.OPENAI_API_KEY) return "missing_api_key";
+
+  return null;
+}
+
 async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   const output = rulesRun.api_output;
 
@@ -65,109 +105,28 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   const startedAt = Date.now();
   const model = DEFAULT_MODEL;
 
-  // Hard gate: AI phrasing is English only in the multilingual MVP. When the
-  // interface language is anything else, skip the AI pass entirely and serve
-  // the deterministic rules cards, which the frontend translates through the
-  // reviewed template bank. This mirrors the other hard gates below and sits
-  // after the stripper so safety filtering still applies to what is served.
-  if (language && language !== "en") {
+  // Every gate is now one call. The five inline blocks this replaces read the
+  // same fields in the same order and produced the same codes; the difference
+  // is that the fact extractor asks the same question, so the two cannot drift.
+  const skipReason = providerSkipReason({ rulesRun, language });
+  if (skipReason) {
     attachAiMetadata(output, {
       ai_used: false,
       ai_status: "skipped",
       ai_provider: "openai",
       ai_model: model,
       ai_duration_ms: 0,
-      ai_error_code: "non_english_language"
+      ai_error_code: skipReason
     });
     return rulesRun;
   }
 
+  // The fact extractor no longer runs here. In tier 2 it runs BEFORE the engine
+  // composes, because the engine now reads its output, and that ordering lives
+  // in the route where the engine is called. Both still ask providerSkipReason,
+  // so the "sends nothing the phrasing pass does not" property is unchanged.
   const inputQuality = output.trust?.input_quality || "unknown";
   const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);
-
-  // Hard gate: skip the AI pass entirely on low-quality input. Prompt-based
-  // suppression was tested and confirmed unreliable with gpt-4.1-mini — the
-  // model still restated suppressed values and upgraded its own confidence.
-  // The rules engine already expresses the right uncertainty in these cases.
-  if (inputQuality === "borderline" || inputQuality === "poor" || garbledByOcr) {
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "skipped",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: 0,
-      ai_error_code: "low_quality_input"
-    });
-    return rulesRun;
-  }
-
-  // Hard gate: never let the AI rephrase a suspected-scam / verification_only
-  // document. The rules engine already emits a safe, fixed card set (verify via
-  // official channels, do not share details). Letting the AI rewrite it has been
-  // shown to re-introduce the scam's own ask (e.g. "confirm your account details,
-  // you will need your National Insurance number and bank details"). Skip the AI
-  // entirely and return the safe rules cards unchanged.
-  const scamSignals = output.trust && Array.isArray(output.trust.scam_signals)
-    ? output.trust.scam_signals
-    : [];
-  if (output.trust?.processing_mode === "verification_only" || scamSignals.length > 0) {
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "skipped",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: 0,
-      ai_error_code: "verification_only_state"
-    });
-    return rulesRun;
-  }
-
-  // Hard gate: never let the AI rephrase an unsupported / probable non-document
-  // upload (e.g. a menu). The rules engine already emits a calm, honest "this is
-  // not an official letter" message; letting the AI rewrite it would re-introduce
-  // confident cue cards for something that is not an official document.
-  if (output.trust?.processing_mode === "unsupported" || output.trust?.is_probable_non_document) {
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "skipped",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: 0,
-      ai_error_code: "unsupported_or_non_document"
-    });
-    return rulesRun;
-  }
-
-  if (!process.env.OPENAI_API_KEY) {
-    attachAiMetadata(output, {
-      ai_used: false,
-      ai_status: "skipped",
-      ai_provider: "openai",
-      ai_model: model,
-      ai_duration_ms: 0,
-      ai_error_code: "missing_api_key"
-    });
-    return rulesRun;
-  }
-
-  // D3 TIER 1. Measured beside the phrasing pass, served to nobody.
-  //
-  // Started HERE, below every gate, so it reaches the provider on exactly the
-  // documents the phrasing pass already reaches and not one more. Awaited in
-  // the finally below rather than here, so its 3.3s measured mean runs
-  // alongside the phrasing pass's 15.1s and adds no wall time to the reader's
-  // wait. It cannot reject, so nothing it does can reach a card.
-  //
-  // Same redaction, same outbound cap, same model. Nothing about what leaves
-  // this process changes. The one thing that is NOT the same is the timeout:
-  // a measurement gets a tighter budget than the pass a reader is waiting on,
-  // so it can never be the reason a card is slow.
-  const factsPromise = measureFactExtraction({
-    documentText: redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS),
-    model,
-    apiKey: process.env.OPENAI_API_KEY,
-    timeoutMs: Math.min(AI_TIMEOUT_MS, FACT_MEASUREMENT_BUDGET_MS)
-  });
 
   try {
     const candidate = await requestStructuredResultFromOpenAi({
@@ -283,12 +242,6 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
       http_status: error.httpStatus || null
     });
     return rulesRun;
-  } finally {
-    // Every path above returns rulesRun, and rulesRun.api_output IS output, so
-    // attaching here after the return expression has been evaluated still
-    // reaches the caller. One place rather than four, so a future return cannot
-    // be added that silently drops the measurement.
-    output.debug.ai_facts = await factsPromise;
   }
 }
 
@@ -470,17 +423,6 @@ function parseJsonObject(text) {
 
 function attachAiMetadata(output, metadata) {
   output.debug.ai = metadata;
-  // D3 tier 1. The fact extractor runs behind the SAME gates as the phrasing
-  // pass, so a document that never reaches the provider never reaches it
-  // either. Mirrored here rather than repeated at each gate, so the two fields
-  // cannot drift apart and a future gate gets this for free. The run path
-  // overwrites this in the finally above.
-  if (metadata.ai_status === "skipped") {
-    output.debug.ai_facts = {
-      facts_status: "skipped",
-      facts_error_code: metadata.ai_error_code
-    };
-  }
 }
 
 function cleanAiErrorCode(value) {
@@ -696,5 +638,9 @@ module.exports = {
   sanitizeAiTextField,
   rulesSentenceSet,
   redactForAi,
-  positiveNumberSetting
+  positiveNumberSetting,
+  providerSkipReason,
+  AI_TIMEOUT_MS,
+  AI_OUTBOUND_TEXT_MAX_CHARS,
+  DEFAULT_MODEL
 };

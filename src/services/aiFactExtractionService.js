@@ -39,7 +39,12 @@
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
 
-const FACT_SCHEMA_VERSION = "facts_v1";
+const {
+  FACT_SCHEMA_VERSION, AMOUNT_ROLES, DATE_ROLES, OBLIGATION_KINDS, CONSEQUENCE_KINDS
+} = require("../utils/factSchema");
+// The same rule the non-document gate reads a date with, and the same rule
+// factCandidates rejects a period with. One definition of "this is a date".
+const { LOOKS_LIKE_A_DATE } = require("../utils/documentSignals");
 
 // A MEASUREMENT MAY NEVER COST THE READER TIME, so this is not the phrasing
 // pass's 25s. The caller awaits both, so the wait becomes the slower of the
@@ -51,14 +56,6 @@ const FACT_SCHEMA_VERSION = "facts_v1";
 // records facts_timeout.
 const FACT_MEASUREMENT_BUDGET_MS = 8000;
 
-const AMOUNT_ROLES = ["total_due", "arrears", "fee", "instalment", "credit", "balance", "other"];
-const DATE_ROLES = ["deadline", "appointment", "letter_date", "period_start", "period_end", "other"];
-const OBLIGATION_KINDS = ["pay", "contact", "attend", "send_documents", "respond", "none"];
-const CONSEQUENCE_KINDS = [
-  "enforcement_agent", "remove_goods", "court_action", "possession", "eviction",
-  "disconnection", "debt_collection", "credit_record", "penalty", "prosecution",
-  "account_suspension", "other"
-];
 
 function buildFactSystemPrompt() {
   return [
@@ -181,34 +178,6 @@ function normaliseForComparison(value) {
   return String(value == null ? "" : value).replace(/\s+/g, " ").trim().toLowerCase();
 }
 
-// A date the composer may put in "Due by {date}." It must be a date, not a
-// period. This is the field-level catch for the anchor invention recorded in
-// KNOWN_ENGINE_DEFECTS: the model returned {"value": "14 days", "role":
-// "deadline"} on a letter that states a period and no anchor, which in prose is
-// invisible because both halves are on the page and only the relation is
-// invented. Here the relation IS the field.
-//
-// LANGUAGE NEUTRAL, and the first version was not. It required the month name
-// to sit directly beside the day, which is true of "3 September 2026" and
-// "4 września 2026" and false of "15 de junio de 2026", where Spanish puts a
-// two letter word in between. Run over the corpus it rejected a perfectly
-// correct Spanish deadline, which is precisely the English-shaped failure D3
-// exists to remove, committed inside D3's own guard.
-//
-// So: any decimal digits rather than ASCII ones, any script's letters plus
-// their combining marks for the month, and a bounded gap either side that
-// absorbs whatever connector a language uses. What it still refuses is the
-// thing it is for, a period with no year in it.
-const LOOKS_LIKE_A_DATE = new RegExp([
-  // numeric, any separator
-  "\\p{Nd}{1,2}\\s*[/-]\\s*\\p{Nd}{1,2}\\s*[/-]\\s*\\p{Nd}{2,4}",
-  // ISO
-  "\\p{Nd}{4}-\\p{Nd}{2}-\\p{Nd}{2}",
-  // day, month name in any script, year
-  "(?<!\\p{Nd})\\p{Nd}{1,2}[^\\p{Nd}\\n]{0,12}[\\p{L}\\p{M}]{3,}[^\\p{Nd}\\n]{0,12}\\p{Nd}{2,4}(?!\\p{Nd})",
-  // month first
-  "[\\p{L}\\p{M}]{3,}[^\\p{Nd}\\n]{0,4}\\p{Nd}{1,2},?\\s*\\p{Nd}{4}(?!\\p{Nd})"
-].join("|"), "u");
 
 function validateFacts(candidate, sourceText) {
   const errors = [];
@@ -323,32 +292,57 @@ function emptyMetrics() {
 // API response, so this returns counts, roles and kinds and never a sender, an
 // amount, a date or a sentence. Those are measured in process by the corpus
 // harness, which is where the schema fit question actually gets answered.
-async function measureFactExtraction({ documentText, model, apiKey, timeoutMs }) {
+// Returns { facts, debug }.
+//
+// `facts` is the raw object the provider returned, or null. It is NOT validated
+// here beyond being parseable, because tier 2 validates FIELD BY FIELD at the
+// point of use: one bad date must not discard a correct sender, amount and
+// consequence. Tier 1 validated the whole object and that threw away five of
+// forty documents, all five for the same date rule.
+//
+// `debug` carries metrics only and never document content, because debug
+// travels to the browser in the API response.
+//
+// NEVER THROWS, NEVER REJECTS. A failure here must be incapable of reaching a
+// reader, and the engine's own reading stands whenever `facts` is null.
+async function extractFacts({ documentText, model, apiKey, timeoutMs }) {
   const startedAt = Date.now();
 
   if (!apiKey) {
-    return { facts_schema: FACT_SCHEMA_VERSION, facts_status: "skipped", facts_error_code: "missing_api_key" };
+    return {
+      facts: null,
+      debug: { facts_schema: FACT_SCHEMA_VERSION, facts_status: "skipped", facts_error_code: "missing_api_key" }
+    };
   }
 
   try {
     const { facts, usage } = await requestFactsFromOpenAi({ documentText, model, apiKey, timeoutMs });
     const validation = validateFacts(facts, documentText);
     return {
-      facts_schema: FACT_SCHEMA_VERSION,
-      facts_status: validation.valid ? "completed" : "invalid",
-      facts_error_code: validation.valid ? null : "facts_failed_validation",
-      facts_duration_ms: Date.now() - startedAt,
-      facts_input_tokens: usage ? (usage.input_tokens ?? usage.prompt_tokens ?? null) : null,
-      facts_output_tokens: usage ? (usage.output_tokens ?? usage.completion_tokens ?? null) : null,
-      facts_errors: validation.errors.slice(0, 8),
-      facts_metrics: validation.metrics
+      facts,
+      debug: {
+        facts_schema: FACT_SCHEMA_VERSION,
+        // "completed" means the object came back and parsed. Whether any given
+        // field was USED is a per-field question the engine answers, and
+        // facts_errors names the fields that failed.
+        facts_status: "completed",
+        facts_error_code: null,
+        facts_duration_ms: Date.now() - startedAt,
+        facts_input_tokens: usage ? (usage.input_tokens ?? usage.prompt_tokens ?? null) : null,
+        facts_output_tokens: usage ? (usage.output_tokens ?? usage.completion_tokens ?? null) : null,
+        facts_field_errors: validation.errors.slice(0, 8),
+        facts_metrics: validation.metrics
+      }
     };
   } catch (error) {
     return {
-      facts_schema: FACT_SCHEMA_VERSION,
-      facts_status: "failed",
-      facts_error_code: cleanCode(error && (error.code || error.message)),
-      facts_duration_ms: Date.now() - startedAt
+      facts: null,
+      debug: {
+        facts_schema: FACT_SCHEMA_VERSION,
+        facts_status: "failed",
+        facts_error_code: cleanCode(error && (error.code || error.message)),
+        facts_duration_ms: Date.now() - startedAt
+      }
     };
   }
 }
@@ -367,5 +361,5 @@ module.exports = {
   buildFactSystemPrompt,
   requestFactsFromOpenAi,
   validateFacts,
-  measureFactExtraction
+  extractFacts
 };

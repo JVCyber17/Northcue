@@ -20,7 +20,15 @@ const {
   markOcrCompleted,
   markOcrFailed
 } = require("../services/documentSessionService");
-const { applyAiStructuredResult } = require("../services/aiStructuredResultService");
+const {
+  applyAiStructuredResult,
+  providerSkipReason,
+  redactForAi,
+  AI_TIMEOUT_MS,
+  AI_OUTBOUND_TEXT_MAX_CHARS,
+  DEFAULT_MODEL
+} = require("../services/aiStructuredResultService");
+const { extractFacts, FACT_MEASUREMENT_BUDGET_MS } = require("../services/aiFactExtractionService");
 const {
   ocrSessionStore,
   rememberOcrText,
@@ -346,22 +354,65 @@ async function analyseStoredDocument({ jobId, selectedCategory, anonymousSession
   return output;
 }
 
+// The order matters, and it is the only reason this lives here rather than in a
+// service: the engine decides the gates, the gates decide whether the extractor
+// may run, and the extractor's answer is an input to the engine's second run.
+//
+//   1. engine, with no facts        -> trust, severity, category, the gates
+//   2. gates                        -> may this document reach the provider?
+//   3. extractor                    -> fact candidates, or null
+//   4. engine, with the facts       -> the reading a reader gets
+//   5. phrasing pass                -> unchanged, and removed in the next commit
+//
+// Step 4 costs 0.36ms measured across all forty corpus documents, which is why
+// the engine is simply run again rather than patched in place. Step 3 returning
+// null is the failure path, and step 4 with null facts is byte-identical to
+// step 1, so there is no separate fallback that could be got wrong.
 async function analyseDocumentText(extractedText, fileMeta = {}) {
-  const rulesRun = runClearStepsEngine({
-    extractedText,
-    fileMeta
-  });
+  const language = fileMeta.interfaceLanguage;
+  const rulesRun = runClearStepsEngine({ extractedText, fileMeta });
+
+  const { run, factsDebug } = await withFactCandidates({ rulesRun, extractedText, fileMeta, language });
 
   // Optional backend-only AI pass. If it is unavailable, slow, invalid, or unsafe,
   // the existing rules-based result is returned unchanged. When the interface
   // language is not English the pass is skipped entirely inside the service:
   // AI phrasing is English only in the multilingual MVP, and non English cards
   // are the deterministic rules cards translated by the template bank.
-  return await applyAiStructuredResult({
-    rulesRun,
+  const applied = await applyAiStructuredResult({
+    rulesRun: run,
     extractedText,
-    language: fileMeta.interfaceLanguage
+    language
   });
+
+  applied.api_output.debug.ai_facts = factsDebug;
+  return applied;
+}
+
+// Runs the fact extractor behind the SAME gate the phrasing pass uses, and
+// re-runs the engine with whatever came back.
+//
+// Returns the original run untouched whenever the gate declines or the
+// extractor fails, so a gated document is not merely unchanged in content but
+// is the same object it always was.
+async function withFactCandidates({ rulesRun, extractedText, fileMeta, language }) {
+  const skipReason = providerSkipReason({ rulesRun, language });
+  if (skipReason) {
+    return { run: rulesRun, factsDebug: { facts_status: "skipped", facts_error_code: skipReason } };
+  }
+
+  const { facts, debug } = await extractFacts({
+    // The same redaction and the same outbound cap as the phrasing pass. The
+    // timeout is tighter, because a reader is waiting on this one.
+    documentText: redactForAi(extractedText).slice(0, AI_OUTBOUND_TEXT_MAX_CHARS),
+    model: DEFAULT_MODEL,
+    apiKey: process.env.OPENAI_API_KEY,
+    timeoutMs: Math.min(AI_TIMEOUT_MS, FACT_MEASUREMENT_BUDGET_MS)
+  });
+
+  if (!facts) return { run: rulesRun, factsDebug: debug };
+
+  return { run: runClearStepsEngine({ extractedText, fileMeta, facts }), factsDebug: debug };
 }
 
 // Interface language sent by the frontend with the analyse request. Validated
@@ -459,4 +510,8 @@ function deleteTemporaryUpload({ filePath, uploadsDir }) {
   });
 }
 
-module.exports = { simplifyRoute, ocrSessionStore };
+// analyseDocumentText is exported for tests. It is the orchestration point
+// where the engine, the gates, the fact extractor and the phrasing pass meet,
+// and the failure path is a property of that ORDER rather than of any one of
+// them, so it has to be exercised here to be exercised at all.
+module.exports = { simplifyRoute, ocrSessionStore, analyseDocumentText };
