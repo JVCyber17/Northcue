@@ -56,10 +56,13 @@ test("W1: a document we may not trust keeps its date visible", async (t) => {
   // silently deleted the one fact the reader most needs. A person warned that
   // a letter might be fake needs to know how long they have to check it.
   await t.test("the stated date reaches card 4 instead of being deleted", () => {
-    // "FINAL WARNING" is standard on genuine enforcement correspondence and
-    // still forces verification_only. Until that is fixed, the date must at
-    // least survive the misclassification.
-    const run = classify(withLine("court_fine", "FINAL WARNING"));
+    // This used to inject "FINAL WARNING", with a comment saying that phrase is
+    // standard on genuine enforcement correspondence and forces
+    // verification_only "until that is fixed". F3 fixed it on 1 August 2026:
+    // final warning is now advisory and decides nothing. The guarantee itself
+    // is unchanged and still needs a document that IS refused, so the injection
+    // moved to a decisive needle.
+    const run = classify(withLine("court_fine", "Please confirm your password to proceed."));
     assert.equal(run.trust.processing_mode, "verification_only", "premise of this test has changed");
     assert.match(run.cards[3].simple_explanation, /30 September 2026/,
       "the parsed date must still be shown to the reader");
@@ -69,7 +72,7 @@ test("W1: a document we may not trust keeps its date visible", async (t) => {
   await t.test("it is shown as stated, never as owed", () => {
     // The date is on screen, but nothing downstream may treat it as an
     // obligation: a scam's deadline is not a deadline.
-    const run = classify(withLine("court_fine", "FINAL WARNING"));
+    const run = classify(withLine("court_fine", "Please confirm your password to proceed."));
     assert.equal(run.extraction.deadline, null, "deadline must stay null");
     assert.equal(run.structured.summary.main_date, null, "main_date must stay null");
     assert.equal(run.cards[3].possible_deadline, null, "possible_deadline must stay null");

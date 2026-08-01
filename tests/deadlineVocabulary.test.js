@@ -292,7 +292,10 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       ocr_council_tax: "1April 2026", photo_snippet_short: "28 May 2026",
       arrears_before_clause: "3 September 2026",
       arrears_past_and_future: "3 September 2026", school_periodic: "3 September 2026",
-      ambiguous_numeric_date: "03/06/2026", short_year_date: "28 May 26"
+      ambiguous_numeric_date: "03/06/2026", short_year_date: "28 May 26",
+      // Recovered by F3.
+      genuine_school_final_warning: "18 September 2026",
+      genuine_post_office_card_payment: "3 September 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

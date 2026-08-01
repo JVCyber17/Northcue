@@ -215,7 +215,11 @@ test("the corpus, end to end", async (t) => {
       education_letter: "2026-06-05", insurance_letter: "2026-07-01",
       multi_document_split: "2026-05-28", photo_snippet_short: "2026-05-28",
       arrears_before_clause: "2026-09-03", arrears_past_and_future: "2026-09-03",
-      school_periodic: "2026-09-03"
+      school_periodic: "2026-09-03",
+      // Recovered by F3: refused as scams, so their dates were nulled with the
+      // rest of the reading.
+      genuine_school_final_warning: "2026-09-18",
+      genuine_post_office_card_payment: "2026-09-03"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

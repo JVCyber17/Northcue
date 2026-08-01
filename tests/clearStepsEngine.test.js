@@ -213,7 +213,24 @@ test("rent arrears letter", () => {
   assert.equal(output.trust.severity_level, "high");
 });
 
-test("possible scam payment email uses verification_only", () => {
+test("a smish built only from advisory phrasing is NO LONGER refused", () => {
+  // THIS RECORDS A LOSS, and it is the cost of F3.
+  //
+  // Every phrase in this message is in the advisory tier: dear customer, final
+  // warning, act now, click this link, bank transfer today. There is no
+  // credential ask, so nothing decisive fires, and after the demotion the
+  // engine does not refuse it. It used to.
+  //
+  // Four advisory signals fire and one distrust signal, so the evidence is all
+  // present and nothing acts on it. The output is worse than merely unrefused:
+  // the sender guess reads the phishing instruction as the sender.
+  //
+  // Kept as a test rather than deleted because this is the shape a replacement
+  // has to catch. The corpus's link-only entries exist for the same reason. A
+  // proposed counterweight is on the table: three or more ADVISORY signals
+  // together become decisive. Measured across all 54 corpus documents, no
+  // genuine letter carries more than one, scam_phishing carries three, and this
+  // message carries four.
   const output = runEngine([
     "Dear customer",
     "Final warning. Act now.",
@@ -222,8 +239,12 @@ test("possible scam payment email uses verification_only", () => {
   ].join("\n"), "email");
 
   assertBaseOutput(output);
-  assert.equal(output.trust.processing_mode, "verification_only");
-  assert.equal(output.trust.trust_assessment, "low");
+  assert.equal(output.trust.processing_mode, "caution",
+    "records the loss: this was verification_only before F3");
+  assert.deepEqual(output.trust.scam_signals, [],
+    "nothing decisive fires, which is why it is no longer refused");
+  assert.equal(output.trust.advisory_scam_signals.length, 4,
+    "the evidence is still collected and still shown to the reader");
   assertNoDangerousVerificationInstructions(output);
 });
 

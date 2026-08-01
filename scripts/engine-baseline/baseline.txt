@@ -44,6 +44,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -279,6 +280,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -513,6 +515,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -741,6 +744,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -966,6 +970,7 @@ INTENT:   document_category government. Official notice with a reference and a r
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -1209,6 +1214,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [
     "Mentions appointment."
   ],
@@ -1436,6 +1442,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -1674,6 +1681,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": true,
   "high_stakes_tier": "urgent",
@@ -1918,6 +1926,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [
     "Mentions eviction risk."
   ],
@@ -2162,6 +2171,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [
     "Mentions bailiff action."
   ],
@@ -2404,6 +2414,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -2636,6 +2647,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": true,
   "high_stakes_tier": "high",
@@ -2864,6 +2876,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [
     "Mentions appointment."
   ],
@@ -3097,6 +3110,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -3329,6 +3343,7 @@ INTENT:   education category through the aid path. Consent deadline.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -3564,6 +3579,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -3802,6 +3818,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -4026,6 +4043,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -4260,10 +4278,12 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
   ],
   "distrust_signals": [],
   "scam_signals": [
-    "Uses pressure wording.",
     "Asks for a full password, which real organisations never request.",
     "Asks for card number and PIN together.",
-    "Asks for PIN and password together.",
+    "Asks for PIN and password together."
+  ],
+  "advisory_scam_signals": [
+    "Uses pressure wording.",
     "Pressures you to verify your identity within a short time.",
     "Threatens to freeze your account."
   ],
@@ -4489,6 +4509,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -4700,6 +4721,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -4928,6 +4950,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -5148,6 +5171,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -5373,6 +5397,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -5595,6 +5620,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -5826,6 +5852,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -6066,6 +6093,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -6289,6 +6317,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": true,
   "high_stakes_tier": "urgent",
@@ -6513,6 +6542,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -6718,6 +6748,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -6959,6 +6990,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": true,
   "high_stakes_tier": "urgent",
@@ -7201,6 +7233,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "Generic greeting used."
   ],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -7432,6 +7465,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": true,
   "high_stakes_tier": "high",
@@ -7670,6 +7704,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -7910,6 +7945,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "Generic greeting used."
   ],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -8139,6 +8175,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -8374,6 +8411,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -8611,6 +8649,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -8848,6 +8887,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -9077,6 +9117,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -9296,6 +9337,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -9525,6 +9567,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -9740,6 +9783,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -9960,6 +10004,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -10191,6 +10236,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -10412,6 +10458,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [
     "Looks like confirmation content."
   ],
@@ -10628,6 +10675,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -10842,6 +10890,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
   ],
   "distrust_signals": [],
   "scam_signals": [],
+  "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,
@@ -11042,16 +11091,16 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "medium",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "unknown",
+  "document_type": "official_incoming",
+  "processing_mode": "caution",
   "is_probable_non_document": false,
   "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "needs_human_review": false,
+  "review_reason": "Some details need checking before action.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
@@ -11059,7 +11108,8 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
   "distrust_signals": [
     "Generic greeting used."
   ],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Requests secret details."
   ],
   "severity_signals": [],
@@ -11072,32 +11122,45 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "This appears to be a formal letter about barclays.",
+  "most_important_point": "The clearest topic appears to be barclays. Check the original for details.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
-  "unverified_date": null,
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "risk": "Not clearly stated. Check the original document.",
+  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
+  "confidence": "medium",
   "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": null,
+    "topic": "barclays",
+    "dateParts": [],
+    "primaryDate": null,
+    "hasResponseRequest": false,
+    "hasDeadlineLanguage": false,
+    "mostImportantPoint": "The clearest topic appears to be barclays. Check the original for details.",
+    "dateMessage": "No clear date was found. Check the original document.",
+    "risk": "Not clearly stated. Check the original document.",
+    "keyChecks": [
+      "Check who sent the document.",
+      "Check the topic: barclays.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
   "unlabelled_amount": false
 }
@@ -11105,8 +11168,8 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "caution",
+  "text": "Some details need checking before you act."
 }
 
 [structured_result: meta]
@@ -11114,21 +11177,18 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
   "document_type": "unknown",
   "document_type_label": "Unknown document",
   "document_type_confidence": "unknown",
-  "overall_confidence": "low",
+  "overall_confidence": "medium",
   "risk_level": "low",
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
+    "one_line_summary": "This appears to be a formal letter about barclays.",
+    "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -11138,66 +11198,65 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "This appears to be a formal letter about barclays.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "The clearest topic appears to be barclays. Check the original for details.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be a formal letter about barclays.. The clearest topic appears to be barclays. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "status": "normal"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action..",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What matters most?. The sender is not clearly stated. Check the original document..",
+    "status": "normal"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "Check the original document to see whether a response or action is needed."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
+    "status": "normal"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
+    "simple_explanation": "No clear date was found. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "status": "normal"
   },
   {
     "card_id": "what_could_happen",
@@ -11206,32 +11265,32 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "title": "What should I check?",
     "simple_explanation": "Check key details on the original document.",
     "key_points": [
-      "Use official contact details before acting."
+      "No extra checks clearly stated."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Use official contact details before acting.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
+    "status": "normal"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Check key details on the original document before acting."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check key details on the original document before acting.",
+    "status": "normal"
   }
 ]
 
@@ -11266,23 +11325,24 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "high",
   "severity_level": "medium",
   "urgency_level": "soon",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "appointment",
+  "document_type": "official_incoming",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains reference details.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Requests link-based response."
   ],
   "severity_signals": [
@@ -11297,33 +11357,39 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "This appears to be an appointment from West Middlesex University Hospital.",
+  "most_important_point": "Action is likely needed soon.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "Attend the appointment or meeting."
   ],
   "deadline": null,
-  "unverified_date": null,
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "deadline_from_facts": false,
+  "visible_dates": [
+    "7 July 2026"
+  ],
+  "header_date": null,
+  "risk": "Ignoring this may create delays or follow-up action.",
+  "has_consequence": false,
+  "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
+  "helpful_note": "Keep the reference number ready.",
   "money_amounts": [],
   "reference_numbers": [
     "WM-8842177"
   ],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "020 8321 5000",
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false
@@ -11332,30 +11398,27 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "caution",
+  "text": "Read the next step card before you act."
 }
 
 [structured_result: meta]
 {
-  "document_type": "unknown",
-  "document_type_label": "Unknown document",
-  "document_type_confidence": "unknown",
-  "overall_confidence": "low",
+  "document_type": "appointment_letter",
+  "document_type_label": "Appointment letter",
+  "document_type_confidence": "high",
+  "overall_confidence": "high",
   "risk_level": "medium",
-  "processing_mode": "caution",
-  "needs_user_check": true,
+  "processing_mode": "normal",
+  "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
+    "one_line_summary": "This appears to be an appointment from West Middlesex University Hospital.",
+    "main_action": "Attend the appointment or meeting.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -11365,68 +11428,67 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "This appears to be an appointment from West Middlesex University Hospital.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "Action is likely needed soon."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be an appointment from West Middlesex University Hospital.. Action is likely needed soon.",
+    "status": "normal"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "Action is likely needed soon.",
     "key_points": [
       "Mentions appointment."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action.. Mentions appointment.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What matters most?. Action is likely needed soon.. Mentions appointment.",
+    "status": "normal"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "Attend the appointment or meeting.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "Attend the appointment or meeting.",
+      "The document gives this phone number: 020 8321 5000."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "Attend the appointment or meeting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Attend the appointment or meeting.. Attend the appointment or meeting. The document gives this phone number: 020 8321 5000.",
+    "status": "normal"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
+    "simple_explanation": "No clear due date. These dates appear in the document: 7 July 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 7 July 2026. Check what they refer to..",
+    "status": "normal"
   },
   {
     "card_id": "what_could_happen",
@@ -11435,32 +11497,33 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "title": "What should I check?",
     "simple_explanation": "Check key details on the original document.",
     "key_points": [
-      "Use official contact details before acting."
+      "No extra checks clearly stated."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Use official contact details before acting.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
+    "status": "normal"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "This looks like a normal formal letter.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Follow the action card step by step.",
+      "Keep this reference ready: WM-8842177."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step. Keep this reference ready: WM-8842177.",
+    "status": "normal"
   }
 ]
 
@@ -11495,22 +11558,23 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "high",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "education",
+  "document_type": "official_incoming",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Uses pressure warning wording."
   ],
   "severity_signals": [],
@@ -11523,32 +11587,49 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "This appears to be a school or education letter from Fairfield Community School.",
+  "most_important_point": "This is a final warning before a penalty notice is issued for unauthorised absence.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
-  "unverified_date": null,
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "deadline": "18 September 2026",
+  "risk": "You may miss a response request or important date.",
+  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "020 8583 1188",
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
+  "confidence": "medium",
   "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": "Fairfield Community School",
+    "topic": "school or education",
+    "dateParts": [
+      "18 September 2026"
+    ],
+    "primaryDate": "18 September 2026",
+    "hasResponseRequest": true,
+    "hasDeadlineLanguage": true,
+    "mostImportantPoint": "This is a final warning before a penalty notice is issued for unauthorised absence.",
+    "dateMessage": "The document shows 18 September 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss a response request or important date.",
+    "keyChecks": [
+      "Check the sender: Fairfield Community School.",
+      "Check the topic: school or education.",
+      "Check these visible dates: 18 September 2026.",
+      "Check whether a response is requested.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
   "unlabelled_amount": false
 }
@@ -11556,30 +11637,27 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "safe",
+  "text": "This looks like a normal document. Check the original if anything is unclear."
 }
 
 [structured_result: meta]
 {
   "document_type": "unknown",
-  "document_type_label": "Unknown document",
+  "document_type_label": "School or education letter",
   "document_type_confidence": "unknown",
-  "overall_confidence": "low",
+  "overall_confidence": "medium",
   "risk_level": "low",
-  "processing_mode": "caution",
-  "needs_user_check": true,
+  "processing_mode": "normal",
+  "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
-    "main_date": null,
-    "deadline_iso": null,
+    "one_line_summary": "This appears to be a school or education letter from Fairfield Community School.",
+    "main_action": "Check the original document to see whether a response or action is needed.",
+    "main_date": "18 September 2026",
+    "deadline_iso": "2026-09-18",
     "main_amount": null
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -11589,100 +11667,102 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "This appears to be a school or education letter from Fairfield Community School.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "This is a final warning before a penalty notice is issued for unauthorised absence.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be a school or education letter from Fairfield Community School.. This is a final warning before a penalty notice is issued for unauthorised absence. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "status": "good"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "This appears to be from Fairfield Community School. Check the original document to confirm.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action..",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What matters most?. This appears to be from Fairfield Community School. Check the original document to confirm..",
+    "status": "good"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "Check the original document to see whether a response or action is needed.",
+      "The document gives this phone number: 020 8583 1188."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed. The document gives this phone number: 020 8583 1188.",
+    "status": "good"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
-    "key_points": [],
+    "simple_explanation": "The document shows 18 September 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 18 September 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "18 September 2026",
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "When is it due?. The document shows 18 September 2026 as the date that matters. Check the original document.. Check this date on the original document: 18 September 2026.",
+    "status": "good"
   },
   {
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check key details on the original document.",
+    "simple_explanation": "Check the date (18 September 2026) and any amounts on the original document.",
     "key_points": [
-      "Use official contact details before acting."
+      "Date: 18 September 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Use official contact details before acting.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check the date (18 September 2026) and any amounts on the original document.. Date: 18 September 2026.",
+    "status": "good"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Follow the action card step by step."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
-    "status": "caution"
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Follow the action card step by step.",
+    "status": "good"
   }
 ]
 
@@ -11717,22 +11797,23 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "high",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "bank_or_loan",
+  "document_type": "official_incoming",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Pressures you to verify your identity within a short time."
   ],
   "severity_signals": [],
@@ -11745,32 +11826,49 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "This appears to be a benefits letter from Department for Work and Pensions.",
+  "most_important_point": "This may ask you to do something. Check the original document carefully.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "Contact the sender using trusted contact details.",
+    "You must verify your identity within 30 days or we cannot process your claim."
   ],
   "deadline": null,
-  "unverified_date": null,
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "risk": "You may miss a response request or important date.",
+  "helpful_note": "Northcue is not fully trained for benefits letters yet. Use this as a reading aid, not advice, and check the original document or with the sender.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "0800 328 5644",
   "appeal_rights": [],
   "support_options": [],
   "confidence": "low",
   "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "review_reason": "Benefits or welfare letters are handled as a reading aid only.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": "Department for Work and Pensions",
+    "topic": "insurance",
+    "dateParts": [
+      "within 30 days"
+    ],
+    "primaryDate": null,
+    "hasResponseRequest": false,
+    "hasDeadlineLanguage": true,
+    "mostImportantPoint": "This may ask you to do something. Check the original document carefully.",
+    "dateMessage": "These may be important dates: within 30 days. Check what they refer to.",
+    "risk": "You may miss a response request or important date.",
+    "keyChecks": [
+      "Check the sender: Department for Work and Pensions.",
+      "Check the topic: insurance.",
+      "Check these visible dates: within 30 days.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
   "unlabelled_amount": false
 }
@@ -11778,8 +11876,8 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "safe",
+  "text": "This looks like a normal document. Check the original if anything is unclear."
 }
 
 [structured_result: meta]
@@ -11789,19 +11887,16 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
   "document_type_confidence": "unknown",
   "overall_confidence": "low",
   "risk_level": "low",
-  "processing_mode": "caution",
-  "needs_user_check": true,
+  "processing_mode": "normal",
+  "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
+    "one_line_summary": "This appears to be a benefits letter from Department for Work and Pensions.",
+    "main_action": "Contact the sender using trusted contact details.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -11811,66 +11906,67 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "This appears to be a benefits letter from Department for Work and Pensions.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "This may ask you to do something. Check the original document carefully.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be a benefits letter from Department for Work and Pensions.. This may ask you to do something. Check the original document carefully. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "status": "good"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "This appears to be from Department for Work and Pensions. Check the original document to confirm.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action..",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "What matters most?. This appears to be from Department for Work and Pensions. Check the original document to confirm..",
+    "status": "good"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "Contact the sender using trusted contact details.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "Contact the sender using trusted contact details.",
+      "You must verify your identity within 30 days or we cannot process your claim.",
+      "The document gives this phone number: 0800 328 5644."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "Contact the sender using trusted contact details.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. You must verify your identity within 30 days or we cannot process your claim. The document gives this phone number: 0800 328 5644.",
+    "status": "good"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
+    "simple_explanation": "These may be important dates: within 30 days. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "When is it due?. These may be important dates: within 30 days. Check what they refer to..",
+    "status": "good"
   },
   {
     "card_id": "what_could_happen",
@@ -11879,32 +11975,32 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "title": "What should I check?",
     "simple_explanation": "Check key details on the original document.",
     "key_points": [
-      "Use official contact details before acting."
+      "No extra checks clearly stated."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Use official contact details before acting.",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
+    "status": "good"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "Northcue is not fully trained for benefits letters yet. Use this as a reading aid, not advice, and check the original document or with the sender.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Follow the action card step by step."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
-    "status": "caution"
+    "warning": null,
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for benefits letters yet. Use this as a reading aid, not advice, and check the original document or with the sender.. Follow the action card step by step.",
+    "status": "good"
   }
 ]
 
@@ -11939,22 +12035,23 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "high",
   "severity_level": "high",
   "urgency_level": "urgent",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "legal_or_court",
+  "document_type": "official_incoming",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Threatens to freeze your account."
   ],
   "severity_signals": [],
@@ -11969,22 +12066,28 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "This appears to be from County Court Business Centre.",
+  "most_important_point": "This is important, but not an emergency.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "No action needed right now."
   ],
   "deadline": null,
-  "unverified_date": null,
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "deadline_from_facts": false,
+  "visible_dates": [
+    "22 September 2026"
+  ],
+  "header_date": null,
+  "risk": "County Court Business Centre Claim number: F2QZ4471 Dear Mr Vaidya An application has been made for a third party debt order against you.",
+  "has_consequence": true,
+  "consequence_sentence": "County Court Business Centre Claim number: F2QZ4471 Dear Mr Vaidya An application has been made for a third party debt order against you.",
+  "consequence_kind": null,
+  "consequence_conditional": null,
+  "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£742.19"
   ],
@@ -11993,9 +12096,9 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
+  "confidence": "high",
   "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": true,
@@ -12005,30 +12108,27 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "caution",
+  "text": "This looks like an important letter. Please read it carefully and check the original document."
 }
 
 [structured_result: meta]
 {
   "document_type": "unknown",
-  "document_type_label": "Unknown document",
+  "document_type_label": "Legal or court letter",
   "document_type_confidence": "unknown",
-  "overall_confidence": "low",
+  "overall_confidence": "high",
   "risk_level": "high",
-  "processing_mode": "caution",
+  "processing_mode": "normal",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
+    "one_line_summary": "This appears to be from County Court Business Centre.",
+    "main_action": "No action needed right now.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -12038,16 +12138,17 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "This appears to be from County Court Business Centre.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "This is important, but not an emergency.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be from County Court Business Centre.. This is important, but not an emergency. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "caution"
   },
   {
@@ -12055,16 +12156,16 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "This is important, but not an emergency.",
     "key_points": [
       "This mentions court action."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action.. This mentions court action.",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What matters most?. This is important, but not an emergency.. This mentions court action.",
     "status": "caution"
   },
   {
@@ -12072,18 +12173,16 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "No action needed right now.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "No action needed right now."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. No action needed right now.. No action needed right now.",
     "status": "caution"
   },
   {
@@ -12091,32 +12190,31 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
+    "simple_explanation": "No clear due date. These dates appear in the document: 22 September 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 22 September 2026. Check what they refer to..",
     "status": "caution"
   },
   {
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
+    "title": "What could happen if I ignore it?",
+    "simple_explanation": "County Court Business Centre Claim number: F2QZ4471 Dear Mr Vaidya An application has been made for a third party debt order against you.",
     "key_points": [
-      "An amount is shown without a label.",
-      "Use official contact details before acting."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label. Use official contact details before acting.",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What could happen if I ignore it?. County Court Business Centre Claim number: F2QZ4471 Dear Mr Vaidya An application has been made for a third party debt order against you.. An amount is shown without a label.",
     "status": "caution"
   },
   {
@@ -12124,16 +12222,16 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "This looks like an important letter. Ask someone you trust if you are not sure what to do.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Follow the action card step by step."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "Helpful note. This looks like an important letter. Ask someone you trust if you are not sure what to do.. Follow the action card step by step.",
     "status": "caution"
   }
 ]
@@ -12170,22 +12268,23 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
 
 [trust_internal]
 {
-  "trust_assessment": "low",
+  "trust_assessment": "high",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "possible_scam",
-  "document_type": "possible_scam",
-  "processing_mode": "verification_only",
+  "document_category": "bill_or_payment",
+  "document_type": "official_incoming",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
-  "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
-  "scam_signals": [
+  "scam_signals": [],
+  "advisory_scam_signals": [
     "Asks you to enter a PIN."
   ],
   "severity_signals": [],
@@ -12198,33 +12297,40 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Verify using official contact details from the organisation website."
+  "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This may be a suspicious message about money or details.",
-  "most_important_point": "Check authenticity before taking any action.",
+  "summary": "Hounslow Borough Council appears to be asking you to pay £486.20 by 3 September 2026.",
+  "most_important_point": "This document appears to require an action from you. See what you need to do.",
   "actions": [
-    "Verify the organisation on its official website.",
-    "Use contact details from an official source.",
-    "Keep your money and personal details protected."
+    "Check the payment amount and due date.",
+    "Contact the sender using trusted contact details."
   ],
-  "deadline": null,
-  "unverified_date": "3 September 2026",
-  "risk": "You could lose money or share private data.",
-  "helpful_note": "Do not use links or numbers from this document until checked.",
+  "deadline": "3 September 2026",
+  "deadline_from_facts": false,
+  "visible_dates": [
+    "3 September 2026"
+  ],
+  "header_date": null,
+  "risk": "No risk clearly stated.",
+  "has_consequence": false,
+  "consequence_sentence": null,
+  "consequence_kind": null,
+  "consequence_conditional": null,
+  "helpful_note": "Keep this with your records in case you need it later.",
   "money_amounts": [
     "£486.20"
   ],
   "reference_numbers": [],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "020 8583 4242",
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Suspicious patterns were detected.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "evidence_spans": [],
   "selected_amount": "£486.20",
   "unlabelled_amount": false,
@@ -12234,8 +12340,8 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
 [banner]
 {
   "show": true,
-  "type": "warning",
-  "text": "This may be suspicious. Check before responding."
+  "type": "safe",
+  "text": "This looks like a normal document. Check the original if anything is unclear."
 }
 
 [structured_result: meta]
@@ -12243,21 +12349,18 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
   "document_type": "council_tax_notice",
   "document_type_label": "Council tax notice",
   "document_type_confidence": "high",
-  "overall_confidence": "low",
+  "overall_confidence": "high",
   "risk_level": "low",
-  "processing_mode": "caution",
-  "needs_user_check": true,
+  "processing_mode": "normal",
+  "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This may be a suspicious message about money or details.",
-    "main_action": "Verify the organisation on its official website.",
-    "main_date": null,
-    "deadline_iso": null,
+    "one_line_summary": "Hounslow Borough Council appears to be asking you to pay £486.20 by 3 September 2026.",
+    "main_action": "Check the payment amount and due date.",
+    "main_date": "3 September 2026",
+    "deadline_iso": "2026-09-03",
     "main_amount": "£486.20"
   },
-  "warnings": [
-    "This may be suspicious. Verify using official contact details before acting.",
-    "Suspicious patterns were detected."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -12267,101 +12370,103 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This may be a suspicious message about money or details.",
+    "simple_explanation": "Hounslow Borough Council appears to be asking you to pay £486.20 by 3 September 2026.",
     "key_points": [
-      "Check authenticity before taking any action."
+      "This document appears to require an action from you. See what you need to do."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What is this?. Hounslow Borough Council appears to be asking you to pay £486.20 by 3 September 2026.. This document appears to require an action from you. See what you need to do.",
+    "status": "good"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Check authenticity before taking any action.",
+    "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What matters most?. Check authenticity before taking any action..",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What matters most?. This document appears to require an action from you. See what you need to do..",
+    "status": "good"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Verify the organisation on its official website.",
+    "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Verify the organisation on its official website.",
-      "Use contact details from an official source.",
-      "Keep your money and personal details protected."
+      "Check the payment amount and due date.",
+      "Contact the sender using trusted contact details.",
+      "The document gives this phone number: 020 8583 4242."
     ],
-    "action_needed": "Verify the organisation on its official website.",
+    "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details. The document gives this phone number: 020 8583 4242.",
+    "status": "good"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "The document states a date of 3 September 2026. Check this with the organisation before acting.",
-    "key_points": [],
+    "simple_explanation": "Due by 3 September 2026.",
+    "key_points": [
+      "Check this date on the original document: 3 September 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "3 September 2026",
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "When is it due?. The document states a date of 3 September 2026. Check this with the organisation before acting..",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "When is it due?. Due by 3 September 2026.. Check this date on the original document: 3 September 2026.",
+    "status": "good"
   },
   {
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the amount (£486.20) and any dates on the original document.",
+    "simple_explanation": "Check the amount (£486.20) and the date (3 September 2026) on the original document.",
     "key_points": [
-      "Amount shown: £486.20.",
-      "Use official contact details before acting."
+      "Date: 3 September 2026.",
+      "Amount shown: £486.20."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£486.20",
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "What should I check?. Check the amount (£486.20) and any dates on the original document.. Amount shown: £486.20. Use official contact details before acting.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check the amount (£486.20) and the date (3 September 2026) on the original document.. Date: 3 September 2026. Amount shown: £486.20.",
+    "status": "good"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Do not use links or numbers in the document until checked.",
+    "simple_explanation": "This looks like a normal formal letter.",
     "key_points": [
-      "Verify using official contact details from the organisation website."
+      "Follow the action card step by step."
     ],
-    "action_needed": "Verify using official contact details from the organisation website.",
+    "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This may be suspicious. Verify before acting.",
-    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
-    "status": "caution"
+    "confidence_level": "high",
+    "warning": null,
+    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step.",
+    "status": "good"
   }
 ]
 

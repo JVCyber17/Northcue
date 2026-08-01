@@ -233,14 +233,20 @@ test("the gates, through the engine", async (t) => {
     });
   });
 
-  await t.test("every corpus document, and the twelve that bind", () => {
+  await t.test("every corpus document, and the sixteen that bind", () => {
     const EXPECTED = {
       council_tax: "020 8583 4242", energy_bill: "0333 200 5100",
       appointment_nhs: "020 8321 5000", bailiff_enforcement: "0333 320 122",
       eviction_possession: "020 8890 4100", court_fine: "0300 790 9901",
       arrears_before_clause: "020 8583 4242", failed_direct_debit: "0800 980 8800",
       arrears_past_and_future: "0114 273 4567", school_periodic: "0114 273 8890",
-      ambiguous_numeric_date: "0333 304 0191", short_year_date: "020 8583 4242"
+      ambiguous_numeric_date: "0333 304 0191", short_year_date: "020 8583 4242",
+      // Recovered by F3 on 1 August 2026. Each was refused as a scam, which
+      // suppressed its contact number along with everything else.
+      genuine_nhs_booking_link: "020 8321 5000",
+      genuine_school_final_warning: "020 8583 1188",
+      genuine_dwp_identity_check: "0800 328 5644",
+      genuine_post_office_card_payment: "020 8583 4242"
     };
     const found = {};
     CORPUS.forEach((entry) => {
@@ -286,7 +292,7 @@ test("only a phone number, never an address of any kind", async (t) => {
 });
 
 test("card 3 reports the number, and reports it rather than recommending it", async (t) => {
-  await t.test("the twelve documents that bind show it as the last key point", () => {
+  await t.test("the sixteen documents that bind show it as the last key point", () => {
     const shown = {};
     CORPUS.forEach((entry) => {
       const cards = analyse(entry.text).api_output.structured_result.cards;
@@ -294,7 +300,9 @@ test("card 3 reports the number, and reports it rather than recommending it", as
       const line = points.find((p) => /gives this phone number/.test(p));
       if (line) shown[entry.id] = { line, last: points[points.length - 1] === line };
     });
-    assert.equal(Object.keys(shown).length, 12, Object.keys(shown).join(", "));
+    // Twelve until F3 recovered four genuine letters that had been refused as
+    // scams, which suppressed their contact number with everything else.
+    assert.equal(Object.keys(shown).length, 16, Object.keys(shown).join(", "));
     Object.entries(shown).forEach(([id, s]) => {
       assert.ok(s.last, id + ": the number must come after the actions, not among them");
     });

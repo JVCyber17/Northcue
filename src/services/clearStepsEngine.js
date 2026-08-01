@@ -155,6 +155,7 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
   const authenticSignals = detectAuthenticSignals(lower, fileMeta);
   const distrustSignals = detectDistrustSignals(lower);
   const scamSignals = detectScamSignals(lower);
+  const advisoryScamSignals = detectAdvisoryScamSignals(lower);
   const severitySignals = detectSeveritySignals(lower);
   const seriousSignals = detectSeriousDocumentSignals(lower);
 
@@ -282,6 +283,9 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     authentic_signals: authenticSignals,
     distrust_signals: distrustSignals,
     scam_signals: scamSignals,
+    // Phrasings that occur in scams AND in genuine correspondence. Visible to
+    // the reader in the trust panel, and read by no decision in this file.
+    advisory_scam_signals: advisoryScamSignals,
     severity_signals: severitySignals,
     is_high_stakes: Boolean(seriousSignals.tier),
     high_stakes_tier: seriousSignals.tier,
@@ -1009,6 +1013,11 @@ function toPublicTrustShape(trust) {
     authentic_signals: trust.authentic_signals,
     distrust_signals: trust.distrust_signals,
     scam_signals: trust.scam_signals,
+    // Advisory phrasings, shown beside the decisive ones in the trust panel.
+    // Published deliberately: a phrase that occurs in both a scam and a genuine
+    // letter is still information for a reader who already doubts the letter.
+    // Nothing in this file reads it.
+    advisory_scam_signals: trust.advisory_scam_signals,
     severity_signals: trust.severity_signals,
     input_quality: trust.input_quality,
     sender_guess: trust.sender_guess,
@@ -2118,34 +2127,77 @@ function buildBanner(trust) {
   };
 }
 
-function detectScamSignals(lower) {
-  const checks = [
-    ["gift card", "Mentions gift card payment."],
-    ["crypto", "Mentions crypto payment."],
-    ["bank transfer today", "Requests immediate bank transfer."],
-    ["act now", "Uses pressure wording."],
-    ["final warning", "Uses pressure warning wording."],
-    ["click this link", "Requests link-based response."],
-    ["confirm your account", "Requests account verification details."],
-    ["share your password", "Requests secret details."],
-    // Credential phishing: real organisations never ask for a full password, PIN,
-    // or full card number, and do not threaten to freeze an account via a link.
-    // These are high-precision signals that legitimate bills/letters do not use.
-    ["full password", "Asks for a full password, which real organisations never request."],
-    ["confirm your password", "Asks you to confirm a password."],
-    ["enter your password", "Asks you to enter a password."],
-    ["confirm your pin", "Asks you to confirm a PIN."],
-    ["enter your pin", "Asks you to enter a PIN."],
-    ["card number, pin", "Asks for card number and PIN together."],
-    ["card number and pin", "Asks for card number and PIN together."],
-    ["pin and full password", "Asks for PIN and password together."],
-    ["verify your identity within", "Pressures you to verify your identity within a short time."],
-    ["account will be frozen", "Threatens to freeze your account."],
-    ["account will be suspended within", "Threatens to suspend your account within a short time."]
-  ];
+// TWO TIERS, because one hit currently forces three decisions with no
+// counterweight: document_category to possible_scam, trust_assessment to low,
+// processing_mode to verification_only.
+//
+// DECISIVE. Things a real organisation never asks for in writing. A letter
+// asking for a full password, a PIN alongside a card number, a gift card or a
+// crypto transfer is asking for something no genuine sender asks for, and no
+// amount of surrounding context makes it innocent. These keep the power they
+// have.
+//
+// ADVISORY. Nine phrasings that also occur in genuine correspondence, verified
+// twice: across thirty genuine letters on 31 July and again on 1 August against
+// six letters written around them one at a time. They still raise a signal a
+// reader can see in the trust panel; they no longer decide anything.
+//
+// WHAT THE DEMOTION COSTS, measured against the expanded scam corpus rather
+// than argued: nothing. Of the ten scams, ONE is refused today, and it is
+// refused on decisive needles alone. The nine that are invisible stay
+// invisible, which is a real gap and a separate piece of work.
+//
+// WHAT IT RECOVERS: all six near-miss genuine letters. A bank's own anti-fraud
+// advice, an NHS booking link, a school attendance warning, a DWP identity
+// check, a county court debt order and a council bill naming card payment at
+// the Post Office are each refused today with trust low and all six cards
+// replaced by "This may be a suspicious message about money or details."
+//
+// The advisory tier is NOT deleted. A phrase that appears in both a scam and a
+// genuine letter is still information, and a reader looking at the trust panel
+// on a letter they already doubt is better served seeing it than not.
+const DECISIVE_SCAM_CHECKS = [
+  ["gift card", "Mentions gift card payment."],
+  ["crypto", "Mentions crypto payment."],
+  ["full password", "Asks for a full password, which real organisations never request."],
+  ["confirm your password", "Asks you to confirm a password."],
+  ["enter your password", "Asks you to enter a password."],
+  ["confirm your pin", "Asks you to confirm a PIN."],
+  ["card number, pin", "Asks for card number and PIN together."],
+  ["card number and pin", "Asks for card number and PIN together."],
+  ["pin and full password", "Asks for PIN and password together."],
+  ["account will be suspended within", "Threatens to suspend your account within a short time."]
+];
 
+// Each entry carries the genuine phrasing that trips it, so the reason it is
+// advisory is readable here rather than only in KNOWN_ENGINE_DEFECTS.
+const ADVISORY_SCAM_CHECKS = [
+  ["bank transfer today", "Requests immediate bank transfer."],           // "If you pay by bank transfer today, please quote your account number."
+  ["act now", "Uses pressure wording."],                                  // "Failure to act now will result in further fees being added."
+  ["final warning", "Uses pressure warning wording."],                    // a school letter before a penalty notice
+  ["click this link", "Requests link-based response."],                   // an NHS appointment booking link
+  ["confirm your account", "Requests account verification details."],     // "Please confirm your account number when you contact us."
+  ["share your password", "Requests secret details."],                    // a bank's own anti-fraud advice
+  ["enter your pin", "Asks you to enter a PIN."],                         // paying by card at the Post Office
+  ["verify your identity within", "Pressures you to verify your identity within a short time."], // a DWP claim check
+  ["account will be frozen", "Threatens to freeze your account."]         // a third party debt order
+];
+
+function matchChecks(lower, checks) {
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);
 }
+
+// The decisive tier. This is what drives category, trust and processing mode,
+// and it is the only thing that does.
+function detectScamSignals(lower) {
+  return matchChecks(lower, DECISIVE_SCAM_CHECKS);
+}
+
+// The advisory tier. Shown to the reader, and consulted by nothing.
+function detectAdvisoryScamSignals(lower) {
+  return matchChecks(lower, ADVISORY_SCAM_CHECKS);
+}
+
 
 function detectDistrustSignals(lower) {
   const checks = [

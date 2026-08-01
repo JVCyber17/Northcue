@@ -137,7 +137,11 @@ test("the corpus, after the sweep", async (t) => {
     });
     assert.deepEqual(Object.keys(found).sort(), [
       "arrears_before_clause", "arrears_past_and_future", "bailiff_enforcement",
-      "bank_loan_letter", "court_fine", "eviction_possession", "legal_solicitor"
+      "bank_loan_letter", "court_fine", "eviction_possession",
+      // Recovered by F3. A county court letter explaining what a third party
+      // debt order does states a real consequence, and it was refused as a
+      // scam for saying so.
+      "genuine_court_account_freeze", "legal_solicitor"
     ]);
   });
 

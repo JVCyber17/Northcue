@@ -2357,11 +2357,12 @@
       "steps": 3
     },
     "genuine_post_office_card_payment|4": {
-      "px": 495,
-      "lang": "fr",
+      "px": 497,
+      "lang": "pl",
       "answerChars": 95,
       "stepChars": 0,
-      "steps": 0
+      "steps": 0,
+      "includesPassedLine": true
     },
     "genuine_post_office_card_payment|5": {
       "px": 677,
