@@ -269,6 +269,43 @@ test("the corpus, end to end", async (t) => {
   });
 });
 
+test("a date the engine will not reason about is still asserted on the card", async (t) => {
+  // This test describes a DEFECT, deliberately, and it is the only one in this
+  // file that does. D-9 and D-10 record it: the extractor accepts a date string
+  // with more than one reading, deadline_iso correctly refuses it, and card 4
+  // goes on saying "Due by" over it as though it were settled.
+  //
+  // The two documents exist so the card wording that will fix this has
+  // something to move. When that lands, these assertions should be REPLACED by
+  // ones describing the new wording, not deleted: the point is that the gap
+  // between what the engine will assert and what it will compute is visible.
+  const CASES = [
+    ["ambiguous_numeric_date", "03/06/2026", "3 June or 6 March, 95 days apart"],
+    ["short_year_date", "28 May 26", "2026 or 1926"]
+  ];
+
+  for (const [id, shown, why] of CASES) {
+    await t.test(id + ": " + shown + " could be " + why, () => {
+      const result = analyse(byId(id)).api_output.structured_result;
+      assert.equal(result.summary.main_date, shown, "shown to the reader verbatim");
+      assert.equal(result.summary.deadline_iso, null, "and refused for arithmetic");
+      assert.equal(result.cards[3].simple_explanation, "Due by " + shown + ".",
+        "card 4 still asserts it flatly, which is the open half of D-9 and D-10");
+    });
+  }
+
+  await t.test("neither is gated for a reason about the document", () => {
+    // If either became garbled or verification_only the null would stop being
+    // evidence about the VALUE, and these documents would stop testing D-9 and
+    // D-10 at all.
+    CASES.forEach(([id]) => {
+      const trust = analyse(byId(id)).structured_output.trust_internal;
+      assert.equal(trust.garbled_by_ocr, false, id);
+      assert.notEqual(trust.processing_mode, "verification_only", id);
+    });
+  });
+});
+
 test("nothing renders it", async (t) => {
   await t.test("no card text carries an ISO date on any corpus document", () => {
     CORPUS.forEach((entry) => {

@@ -325,6 +325,61 @@ co-location was built to remove. It supplies `main_date` for `education_letter`,
 `employment_letter`, `insurance_letter` and others. Those answers are correct
 only while each of those letters contains exactly one body date.
 
+**D-1 and D-2. CLOSED 31 July 2026**, together with a third defect found while
+fixing them. Recorded here rather than deleted, because all three were invisible
+to the rendered baseline and the reason matters more than the fix.
+
+*D-1, the bare `before`.* It was NOT an unbounded-substring defect: the token
+was already word bounded and `beforehand` never matched it. It was a defect of
+meaning. `before X` marks a boundary in either direction and states no
+obligation, so the pattern matched correctly and meant the wrong thing. Deleting
+it was simulated and rejected, because four genuine obligations reach the engine
+through that token and co-location binds none of them. It is now anchored to an
+obligation verb within a bounded gap, which separates the two sets 13 of 13.
+
+*D-2, the unreachable guard.* Two defects, not one. The guard sat in
+`extractDeadline` after co-location had already returned, AND a second keyword
+pass immediately below it repeated the same loop with the guard omitted, so even
+where it fired it was overruled three lines later. The second pass is deleted
+and the guard now also runs inside `selectDeadline`, skipping the value rather
+than abandoning the search so a later date on the same letter is still found.
+
+*The competes half of the word-boundary rule, found while fixing the above.*
+`WORD_BOUNDED` held only the five entries Tier 2 added, so every older entry was
+still a bare substring. **`less` matched inside `unless` on `legal_solicitor`
+and `insurance_letter` in the shipped corpus.** The two kinds fail in opposite
+directions, which is why they were separated:
+
+- a **governs** over-match ASSERTS a wrong answer, the D-1 shape
+- a **competes** over-match makes co-location DECLINE, losing a right answer
+
+A decline is the safe direction, which is why the competes entries were left
+alone at first. That judgement was incomplete.
+`isClaimedByCompetingDateLabel` reads the same label hits and tests proximity
+rather than adjacency, so it counts a label on the line ABOVE a date. A false
+competes match there **suppresses a genuine deadline on the reading-aid path**:
+
+```
+"A periodic charge applies to the trip account."
+"Please return the signed consent form by 3 September 2026."
+  isClaimedByCompetingDateLabel("3 September 2026")  ->  true   via "period"
+  card 4  "These dates appear in the document: 3 September 2026."
+```
+
+That is a school trip consent deadline reported as a date of unknown meaning,
+caused by the word "periodic" on the line above it. Every entry is now matched
+as a whole word. `school_periodic` in the corpus is that document.
+
+Note for a future session: the same proximity-not-adjacency asymmetry means the
+between-case cannot arise for dates at all, because Tier 1b already rejects
+anything with letters between a date label and its date. All date-side harm from
+this class runs through `isClaimedByCompetingDateLabel`.
+
+**Four corpus documents were added with these fixes**, because the keyword
+fallback supplied the shipped deadline for no corpus document at all and the
+rules were therefore invisible to `--check`: `arrears_before_clause`,
+`failed_direct_debit`, `arrears_past_and_future`, `school_periodic`.
+
 **D-9. Both readings of a numeric date are accepted as a deadline, and neither
 is chosen.** `isPlausibleNumericDate` in `src/services/clearStepsEngine.js`
 returns true when EITHER a day-first or a month-first reading is in range:
@@ -376,6 +431,26 @@ declining to show one at all is a worse answer than showing it, because the
 reader holding the letter can resolve it and Northcue cannot. The likely fix is
 to keep showing it and mark it unresolvable, which is a card-wording change and
 therefore a separate piece of work.
+
+**Two corpus documents were added on 31 July 2026 so that work has something to
+move**: `ambiguous_numeric_date` shows "Due by 03/06/2026." and
+`short_year_date` shows "Due by 28 May 26.", both with `deadline_iso` null.
+`tests/deadlineIso.test.js` pins the current wrong output deliberately, and says
+so; those assertions should be REPLACED by the new wording rather than deleted.
+
+The proposed wording, not approved and not implemented, replaces card 4's
+existing key point rather than adding one, so the card gains no line:
+
+```
+ambiguous order   "The day and month could be either way round here.
+                   Check the original document: 03/06/2026."
+incomplete year   "The year is not written in full here.
+                   Check the original document: 28 May 26."
+```
+
+At roughly 37 characters more than the line they replace, both need
+re-measuring at 375x812 before shipping, and both need bank entries in all ten
+languages.
 
 ---
 
@@ -660,11 +735,13 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by
    Tier 3 of the deadline vocabulary, 31 July 2026.
 
-1. **D-1 and D-2**, the two rules that promote a date stating no obligation.
-   These moved to the top when B-1 closed, and they matter more now than they
-   did: `deadline_iso` means a wrong deadline can become wrong arithmetic, and
-   D-1's "Your tenancy began before 1 April 2024" already parses cleanly under
-   every P1 gate.
+~~1. **D-1 and D-2**, the two rules that promote a date stating no obligation.~~
+   Closed 31 July 2026, along with the competes half of the word-boundary rule.
+
+1. **The card wording for a date with no single reading.** D-9 and D-10 are
+   gated for arithmetic and still asserted on card 4. Two corpus documents now
+   exist for it. This is the only remaining deadline item with a reader-visible
+   wrong answer.
 2. **Expand the scam corpus** to at least four documents: a link-only courier
    smish, a Gateway credential harvest, a refund scam, a council impersonation.
    This unblocks F3 and is a prerequisite for any loosening.

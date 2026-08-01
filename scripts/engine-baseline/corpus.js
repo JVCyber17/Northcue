@@ -646,6 +646,58 @@ const CORPUS = [
       "Please return the signed consent form by 3 September 2026.",
       "The school office can answer questions on 0114 273 8890."
     ].join("\n")
+  },
+
+  // --------------------------------------------- dates with no single reading
+  //
+  // These two carry a date the engine shows the reader and refuses to reason
+  // about, and they exist BEFORE the card wording that will explain that, so
+  // the wording change has something to move. Both are recorded as D-9 and
+  // D-10: the extractor accepts a date string with more than one reading, and
+  // deadline_iso refuses it, but card 4 still asserts "Due by" over it.
+  //
+  // Nothing about their current output is correct. They are here so it is
+  // visible.
+  {
+    id: "ambiguous_numeric_date",
+    label: "Phone bill printing its due date in numerals",
+    intent: "D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and " +
+      "chooses neither, so main_date shows a date that is 3 June or 6 March, 95 " +
+      "days apart. deadline_iso is null, correctly. Card 4 still says 'Due by'.",
+    text: [
+      "Vodafone UK",
+      "Your phone bill",
+      "Account number: 5518042",
+      "Bill date: 06/05/2026",
+      "",
+      "Dear Customer",
+      "",
+      "Thank you for being a Vodafone customer.",
+      "Amount to pay: £41.99",
+      "Please pay by 03/06/2026.",
+      "You can pay online or by calling 0333 304 0191.",
+      "If you have already paid, please ignore this bill."
+    ].join("\n")
+  },
+  {
+    id: "short_year_date",
+    label: "Council tax bill printing a two digit year",
+    intent: "D-10. LONG_DATE ends in \\d{2,4}, so '28 May 26' is accepted with no " +
+      "century rule. deadline_iso is null, correctly. Card 4 still says 'Due by'.",
+    text: [
+      "Hounslow Borough Council",
+      "Council Tax Bill 2026/2027",
+      "Account number: 4471028866",
+      "Bill date: 12 Mar 26",
+      "Council Tax band: D",
+      "",
+      "Dear Occupier",
+      "",
+      "Amount to pay: £1,381.50",
+      "Please pay by 28 May 26.",
+      "If you do not pay by the date shown, you may lose the right to pay by instalments.",
+      "If you think this bill is wrong, contact us on 020 8583 4242."
+    ].join("\n")
   }
 ];
 
