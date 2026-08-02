@@ -170,6 +170,57 @@ const SCAM_SHAPED_KINDS = ["account_suspension"];
 // the floor most wants to read are exactly the eight where RISK_PHRASES already
 // matched. The caller decides whether to use `sentence`; `kind` is always
 // reported when it is valid.
+// A KIND IS A CLAIM, AND A CLAIM NEEDS CORROBORATION.
+//
+// The verbatim check proves the model quoted the document. It proves nothing
+// about the LABEL the model put on that quote, and the engine composes its
+// sentence and its severity floor from the label, not the quote.
+//
+// WHAT THAT COST. A Gujarati NHS appointment letter says "જો તમે જાણ કર્યા વિના
+// ન આવો, તો તમને યાદીમાંથી દૂર કરવામાં આવી શકે છે": if you do not attend without
+// telling us, you may be removed from the LIST. The extractor labelled it
+// remove_goods, and the engine rendered the label:
+//
+//     "The document says goods may be taken to cover what is owed."
+//
+// on a hospital appointment letter, taking severity from low to urgent and
+// urgency from none to immediate. A fabricated bailiff threat, stated calmly,
+// on a health document. The sentence was quoted correctly. Only the label was
+// wrong, and only the label was used.
+//
+// THE CORROBORATION IS STRUCTURAL, NOT LEXICAL, and that choice was measured.
+// Requiring English vocabulary in the sentence drops the Gujarati
+// misclassification and also drops three GENUINE non-English enforcement
+// letters, taking a Polish eviction warning, a Spanish final notice and a
+// Portuguese disconnection notice from high to low. Under-alarming three real
+// letters to fix one wrong one is not a trade this makes.
+//
+// The two kinds that set an URGENT floor are debt enforcement by definition:
+// "an enforcement agent may visit" and "goods may be taken TO COVER WHAT IS
+// OWED". Both assert a debt. A document stating no money at all cannot support
+// either, in any language, and findAmounts reads money in all ten. Measured
+// across the corpus: this drops exactly one document, the defect, and costs
+// nothing.
+//
+// NARROW ON PURPOSE. It guards the two urgent-floor kinds and not the five
+// high-floor ones, so a misclassification into court_action or disconnection on
+// a document that does state money still composes from its label. That residual
+// is recorded in KNOWN_ENGINE_DEFECTS.md rather than closed with a lexical rule
+// that would cost more than it saves.
+//
+// THE QUOTE SURVIVES. An uncorroborated candidate is returned with
+// corroborated:false rather than dropped, so the reader still gets the
+// document's own sentence. It is the LABEL that is refused, which is what was
+// wrong. The Gujarati letter keeps "you may be removed from the list", which is
+// a true consequence, and loses the bailiff sentence that was never in it.
+const DEBT_ENFORCEMENT_KINDS = ["enforcement_agent", "remove_goods"];
+const STATES_AN_AMOUNT = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?/i;
+
+function corroboratesKind(kind, sourceText) {
+  if (!DEBT_ENFORCEMENT_KINDS.includes(kind)) return true;
+  return STATES_AN_AMOUNT.test(String(sourceText || ""));
+}
+
 function consequenceCandidate({ facts, sourceText }) {
   if (!facts || !facts.consequence) return null;
 
@@ -183,6 +234,9 @@ function consequenceCandidate({ facts, sourceText }) {
 
   return {
     kind: consequence.kind,
+    // False when the document cannot support the kind. The caller may quote the
+    // sentence and may not compose from the label or floor severity by it.
+    corroborated: corroboratesKind(consequence.kind, sourceText),
     conditional: consequence.conditional,
     // Normalised to one line. A quoted sentence that spans a line break in the
     // source renders with the break intact otherwise, which reads as two cards

@@ -2952,8 +2952,16 @@ const CONSEQUENCE_KIND_POLICY = {
 };
 
 // A composed sentence for a kind the table names, or null to keep the quote.
+//
+// AN UNCORROBORATED KIND COMPOSES NOTHING. The adjudicator marks a kind the
+// document cannot support, and both readers of the kind honour that: this one
+// falls through to the quote, and consequenceSeverityFloor below returns no
+// floor. See the note on consequenceCandidate for the Gujarati NHS letter that
+// was rendered as a bailiff threat because the label was used and the sentence
+// was not.
 function composedConsequenceFor(factConsequence) {
   if (!factConsequence) return null;
+  if (factConsequence.corroborated === false) return null;
   const policy = CONSEQUENCE_KIND_POLICY[factConsequence.kind];
   if (!policy) return null;
   return factConsequence.conditional ? policy.may : policy.will;
@@ -2966,6 +2974,10 @@ function composedConsequenceFor(factConsequence) {
 // urgent whatever kind comes back.
 function consequenceSeverityFloor(factConsequence) {
   if (!factConsequence) return null;
+  // The floor is the more dangerous of the two readers: a wrong composed
+  // sentence is visible on a card, a wrong floor silently reorders how alarming
+  // the whole document looks.
+  if (factConsequence.corroborated === false) return null;
   const policy = CONSEQUENCE_KIND_POLICY[factConsequence.kind];
   return policy ? policy.floor : null;
 }
