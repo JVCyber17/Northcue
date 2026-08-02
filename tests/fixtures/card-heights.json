@@ -1846,10 +1846,10 @@
       "steps": 0
     },
     "smish_parcel_link_only_pl|3": {
-      "px": 558,
-      "lang": "fr",
-      "answerChars": 71,
-      "stepChars": 71,
+      "px": 650,
+      "lang": "pl",
+      "answerChars": 112,
+      "stepChars": 112,
       "steps": 1
     },
     "smish_parcel_link_only_pl|4": {
@@ -1867,10 +1867,10 @@
       "steps": 1
     },
     "smish_parcel_link_only_pl|6": {
-      "px": 693,
+      "px": 655,
       "lang": "pl",
-      "answerChars": 150,
-      "stepChars": 69,
+      "answerChars": 159,
+      "stepChars": 75,
       "steps": 1
     },
     "scam_council_refund_link_only|1": {
@@ -2056,10 +2056,10 @@
       "steps": 0
     },
     "scam_crypto_investment_pl|3": {
-      "px": 558,
-      "lang": "fr",
-      "answerChars": 71,
-      "stepChars": 71,
+      "px": 650,
+      "lang": "pl",
+      "answerChars": 112,
+      "stepChars": 112,
       "steps": 1
     },
     "scam_crypto_investment_pl|4": {
@@ -2077,10 +2077,10 @@
       "steps": 1
     },
     "scam_crypto_investment_pl|6": {
-      "px": 693,
+      "px": 655,
       "lang": "pl",
-      "answerChars": 150,
-      "stepChars": 69,
+      "answerChars": 159,
+      "stepChars": 75,
       "steps": 1
     },
     "scam_energy_refund_pt|1": {
@@ -2098,10 +2098,10 @@
       "steps": 0
     },
     "scam_energy_refund_pt|3": {
-      "px": 558,
-      "lang": "fr",
-      "answerChars": 71,
-      "stepChars": 71,
+      "px": 650,
+      "lang": "pl",
+      "answerChars": 112,
+      "stepChars": 112,
       "steps": 1
     },
     "scam_energy_refund_pt|4": {
@@ -2119,10 +2119,10 @@
       "steps": 1
     },
     "scam_energy_refund_pt|6": {
-      "px": 693,
+      "px": 655,
       "lang": "pl",
-      "answerChars": 150,
-      "stepChars": 69,
+      "answerChars": 159,
+      "stepChars": 75,
       "steps": 1
     },
     "genuine_bank_fraud_advice|1": {

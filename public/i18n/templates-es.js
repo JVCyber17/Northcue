@@ -9,6 +9,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "Esto no parece una carta oficial ni una factura. Si lo es, pruebe con una foto más nítida o con otra página.",
+      "tpl.banner.non_document_link": "Esto no parece una carta oficial ni una factura, y contiene un enlace. Compruébelo con los datos de contacto que ya tenga.",
       "tpl.banner.suspicious_urgent": "Esto puede ser sospechoso y grave. Compruébelo antes de actuar.",
       "tpl.banner.high_stakes_urgent": "Esto parece una carta importante que quizá haya que atender pronto. Léala con atención y revise el documento original, por favor.",
       "tpl.banner.high_stakes": "Esto parece una carta importante. Léala con atención y revise el documento original, por favor.",
@@ -42,6 +43,10 @@
       "tpl.nondoc.helpful_note": "Northcue está pensado para cartas y facturas oficiales, así que no ha convertido esto en tarjetas de apoyo. Si lo es, quizá ayude una foto más nítida o probar con otra página.",
       "tpl.nondoc.review_reason": "Esto no parece un documento oficial.",
       "tpl.nondoc.next_step": "Si esto es una carta o una factura, pruebe con una foto más nítida o con otra página.",
+
+      "tpl.nondoc.action_link": "Póngase en contacto con la organización de la que parece proceder, usando los datos de contacto que ya tenga, y no el enlace.",
+      "tpl.nondoc.helpful_note_link": "Northcue está pensado para cartas y facturas oficiales, así que no ha convertido esto en tarjetas de apoyo. No ha comprobado el enlace y no puede decirle si es seguro.",
+      "tpl.nondoc.next_step_link": "Compruébelo con los datos de contacto que ya tenga, no con el enlace de este mensaje.",
 
       "tpl.lowQuality.summary": "El texto legible es limitado en este archivo.",
       "tpl.lowQuality.action": "Suba una copia más nítida si es posible.",

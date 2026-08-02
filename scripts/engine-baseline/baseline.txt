@@ -36,6 +36,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -271,6 +272,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -507,6 +509,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -736,6 +739,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -961,6 +965,7 @@ INTENT:   document_category government. Official notice with a reference and a r
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -1204,6 +1209,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -1434,6 +1440,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -1672,6 +1679,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -1917,6 +1925,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -2162,6 +2171,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -2405,6 +2415,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -2639,6 +2650,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -2867,6 +2879,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -3100,6 +3113,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -3333,6 +3347,7 @@ INTENT:   education category through the aid path. Consent deadline.
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -3571,6 +3586,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -3809,6 +3825,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -4035,6 +4052,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -4269,6 +4287,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
   "document_type": "possible_scam",
   "processing_mode": "verification_only",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "Suspicious patterns were detected.",
@@ -4504,6 +4523,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
   "document_type": "official_incoming",
   "processing_mode": "unsupported",
   "is_probable_non_document": true,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "This does not look like an official document.",
@@ -4716,6 +4736,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
   "document_type": "template",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Template markers were found.",
@@ -4944,6 +4965,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
   "document_type": "outgoing",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "Looks like an outgoing document.",
@@ -5166,6 +5188,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
@@ -5391,6 +5414,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
@@ -5615,6 +5639,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Multiple documents may be mixed in one upload.",
@@ -5847,6 +5872,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details are readable but need checking.",
@@ -6087,6 +6113,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details are readable but need checking.",
@@ -6311,6 +6338,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details are readable but need checking.",
@@ -6537,6 +6565,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
   "document_type": "official_incoming",
   "processing_mode": "unsupported",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "low",
   "needs_human_review": true,
   "review_reason": "Some parts are unclear or unsupported.",
@@ -6743,6 +6772,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details are readable but need checking.",
@@ -6983,6 +7013,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -7224,6 +7255,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -7458,6 +7490,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -7697,6 +7730,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -7936,6 +7970,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -8169,6 +8204,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -8406,6 +8442,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -8644,6 +8681,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -8882,6 +8920,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -9112,6 +9151,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -9332,6 +9372,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -9562,6 +9603,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
   "document_type": "official_incoming",
   "processing_mode": "unsupported",
   "is_probable_non_document": true,
+  "non_document_carries_link": true,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "This does not look like an official document.",
@@ -9581,7 +9623,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "If this is a letter or bill, try a clearer photo or a different page."
+  "safe_next_step": "Check using contact details you already have, not the link in this message."
 }
 
 [extractor_internal]
@@ -9589,11 +9631,11 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
   "summary": "This does not look like an official letter or bill.",
   "most_important_point": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
   "actions": [
-    "Upload a clearer photo or a different page if this is a letter or bill."
+    "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
   ],
   "deadline": null,
   "risk": "No official document details were found.",
-  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
@@ -9612,7 +9654,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
 {
   "show": true,
   "type": "caution",
-  "text": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+  "text": "This does not look like an official letter or bill, and it carries a link. Check using contact details you already have."
 }
 
 [structured_result: meta]
@@ -9626,7 +9668,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
   "needs_user_check": true,
   "summary": {
     "one_line_summary": "This does not look like an official letter or bill.",
-    "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "main_action": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
@@ -9676,16 +9718,16 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "simple_explanation": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "key_points": [
-      "Upload a clearer photo or a different page if this is a letter or bill."
+      "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
-    "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What do I need to do?. Upload a clearer photo or a different page if this is a letter or bill.. Upload a clearer photo or a different page if this is a letter or bill.",
+    "read_aloud_text": "What do I need to do?. Check with the organisation it appears to be from, using contact details you already have, rather than the link.. Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "status": "normal"
   },
   {
@@ -9725,16 +9767,16 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
     "key_points": [
-      "If this is a letter or bill, try a clearer photo or a different page."
+      "Check using contact details you already have, not the link in this message."
     ],
-    "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
+    "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.. If this is a letter or bill, try a clearer photo or a different page.",
+    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.. Check using contact details you already have, not the link in this message.",
     "status": "normal"
   }
 ]
@@ -9777,6 +9819,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -9999,6 +10042,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
   "document_type": "possible_scam",
   "processing_mode": "verification_only",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "Suspicious patterns were detected.",
@@ -10225,6 +10269,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -10447,6 +10492,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
   "document_type": "possible_scam",
   "processing_mode": "verification_only",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "Suspicious patterns were detected.",
@@ -10671,6 +10717,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
   "document_type": "official_incoming",
   "processing_mode": "unsupported",
   "is_probable_non_document": true,
+  "non_document_carries_link": true,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "This does not look like an official document.",
@@ -10690,7 +10737,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "If this is a letter or bill, try a clearer photo or a different page."
+  "safe_next_step": "Check using contact details you already have, not the link in this message."
 }
 
 [extractor_internal]
@@ -10698,11 +10745,11 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
   "summary": "This does not look like an official letter or bill.",
   "most_important_point": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
   "actions": [
-    "Upload a clearer photo or a different page if this is a letter or bill."
+    "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
   ],
   "deadline": null,
   "risk": "No official document details were found.",
-  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
@@ -10721,7 +10768,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
 {
   "show": true,
   "type": "caution",
-  "text": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+  "text": "This does not look like an official letter or bill, and it carries a link. Check using contact details you already have."
 }
 
 [structured_result: meta]
@@ -10735,7 +10782,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
   "needs_user_check": true,
   "summary": {
     "one_line_summary": "This does not look like an official letter or bill.",
-    "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "main_action": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
@@ -10785,16 +10832,16 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "simple_explanation": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "key_points": [
-      "Upload a clearer photo or a different page if this is a letter or bill."
+      "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
-    "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What do I need to do?. Upload a clearer photo or a different page if this is a letter or bill.. Upload a clearer photo or a different page if this is a letter or bill.",
+    "read_aloud_text": "What do I need to do?. Check with the organisation it appears to be from, using contact details you already have, rather than the link.. Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "status": "normal"
   },
   {
@@ -10834,16 +10881,16 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
     "key_points": [
-      "If this is a letter or bill, try a clearer photo or a different page."
+      "Check using contact details you already have, not the link in this message."
     ],
-    "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
+    "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.. If this is a letter or bill, try a clearer photo or a different page.",
+    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.. Check using contact details you already have, not the link in this message.",
     "status": "normal"
   }
 ]
@@ -10886,6 +10933,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
   "document_type": "official_incoming",
   "processing_mode": "unsupported",
   "is_probable_non_document": true,
+  "non_document_carries_link": true,
   "confidence": "medium",
   "needs_human_review": true,
   "review_reason": "This does not look like an official document.",
@@ -10905,7 +10953,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "If this is a letter or bill, try a clearer photo or a different page."
+  "safe_next_step": "Check using contact details you already have, not the link in this message."
 }
 
 [extractor_internal]
@@ -10913,11 +10961,11 @@ INTENT:   A refund lure asking for a full account password. The English needle '
   "summary": "This does not look like an official letter or bill.",
   "most_important_point": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
   "actions": [
-    "Upload a clearer photo or a different page if this is a letter or bill."
+    "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
   ],
   "deadline": null,
   "risk": "No official document details were found.",
-  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
@@ -10936,7 +10984,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
 {
   "show": true,
   "type": "caution",
-  "text": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+  "text": "This does not look like an official letter or bill, and it carries a link. Check using contact details you already have."
 }
 
 [structured_result: meta]
@@ -10950,7 +10998,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
   "needs_user_check": true,
   "summary": {
     "one_line_summary": "This does not look like an official letter or bill.",
-    "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "main_action": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
@@ -11000,16 +11048,16 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "simple_explanation": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "key_points": [
-      "Upload a clearer photo or a different page if this is a letter or bill."
+      "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
-    "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What do I need to do?. Upload a clearer photo or a different page if this is a letter or bill.. Upload a clearer photo or a different page if this is a letter or bill.",
+    "read_aloud_text": "What do I need to do?. Check with the organisation it appears to be from, using contact details you already have, rather than the link.. Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "status": "normal"
   },
   {
@@ -11049,16 +11097,16 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
     "key_points": [
-      "If this is a letter or bill, try a clearer photo or a different page."
+      "Check using contact details you already have, not the link in this message."
     ],
-    "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
+    "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": "This upload may be hard to read.",
-    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.. If this is a letter or bill, try a clearer photo or a different page.",
+    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.. Check using contact details you already have, not the link in this message.",
     "status": "normal"
   }
 ]
@@ -11102,6 +11150,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
   "document_type": "official_incoming",
   "processing_mode": "caution",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "medium",
   "needs_human_review": false,
   "review_reason": "Some details need checking before action.",
@@ -11336,6 +11385,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -11569,6 +11619,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -11808,6 +11859,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -12046,6 +12098,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",
@@ -12279,6 +12332,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
   "document_type": "official_incoming",
   "processing_mode": "normal",
   "is_probable_non_document": false,
+  "non_document_carries_link": false,
   "confidence": "high",
   "needs_human_review": false,
   "review_reason": "No major trust issue found.",

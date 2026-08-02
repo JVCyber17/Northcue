@@ -9,6 +9,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "Cela ne ressemble pas à une lettre officielle ni à une facture. Si c'en est une, essayez une photo plus nette ou une autre page.",
+      "tpl.banner.non_document_link": "Cela ne ressemble pas à une lettre officielle ni à une facture, et contient un lien. Vérifiez avec les coordonnées que vous avez déjà.",
       "tpl.banner.suspicious_urgent": "Cela peut être suspect et grave. Vérifiez avant d'agir.",
       "tpl.banner.high_stakes_urgent": "Cela semble être un courrier important qui pourrait demander une action bientôt. Veuillez le lire attentivement et vérifier le document original.",
       "tpl.banner.high_stakes": "Cela semble être un courrier important. Veuillez le lire attentivement et vérifier le document original.",
@@ -42,6 +43,10 @@
       "tpl.nondoc.helpful_note": "Northcue est fait pour les lettres officielles et les factures, il n'a donc pas transformé ceci en fiches d'aide. Si c'en est une, une photo plus nette ou une autre page peut aider.",
       "tpl.nondoc.review_reason": "Cela ne ressemble pas à un document officiel.",
       "tpl.nondoc.next_step": "S'il s'agit d'une lettre ou d'une facture, essayez une photo plus nette ou une autre page.",
+
+      "tpl.nondoc.action_link": "Contactez l'organisme dont cela semble provenir, avec les coordonnées que vous avez déjà, et non avec le lien.",
+      "tpl.nondoc.helpful_note_link": "Northcue est fait pour les lettres officielles et les factures, il n'a donc pas transformé ceci en fiches d'aide. Il n'a pas vérifié le lien et ne peut pas vous dire s'il est sûr.",
+      "tpl.nondoc.next_step_link": "Vérifiez avec les coordonnées que vous avez déjà, et non avec le lien de ce message.",
 
       "tpl.lowQuality.summary": "Le texte lisible est limité dans cet envoi.",
       "tpl.lowQuality.action": "Envoyez une copie plus nette si possible.",

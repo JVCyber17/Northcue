@@ -1137,6 +1137,77 @@ deadline** (`bailiff_enforcement` 3 September 2026, `bank_loan_letter`
 
 ---
 
+## OPEN: no scam rule can reach a document the non-document gate refuses
+
+This is the defect Q2 did not fix, and Q2 should be read as treating a symptom
+of it.
+
+Three corpus documents are scams that Northcue refuses as non-documents:
+`smish_parcel_link_only_pl`, `scam_crypto_investment_pl` and
+`scam_energy_refund_pt`. Each is a short message with a link and none of the
+structure a letter has, so the gate is not wrong about what they are not. The
+problem is the order.
+
+**The mechanism is the reverse of the obvious one, and the difference decides
+what a fix may look like.** Detection is not skipped. `detectScamSignals` runs
+on the raw text before anything else, and finds nothing, because its needles are
+English and these three are Polish and Portuguese. Finding nothing is precisely
+what routes them into the gate:
+
+```
+detectScamSignals            -> []            English needles, non-English text
+detectDocumentCategory       -> "unknown"     because scamSignals is empty
+detectProbableNonDocument    -> true          because the category is "unknown"
+pickProcessingMode           -> "unsupported"
+buildExtraction              -> buildNonDocumentExtraction, cards replaced
+```
+
+Two consequences, and they point in opposite directions.
+
+**A raised scam signal is not discarded, it is impossible to hold at the same
+time.** `detectDocumentCategory` returns `possible_scam` the moment
+`scamSignals` is non-empty, and `detectProbableNonDocument` returns false unless
+the category is `unknown`. The two states are mutually exclusive by
+construction, not merely ordered. Verified by appending the two words "gift
+card" to `smish_parcel_link_only_pl`: `is_probable_non_document` flips to false,
+`processing_mode` to `verification_only`, and card 1 becomes "This may be a
+suspicious message about money or details." So a needle that matched these
+documents WOULD reach the reader. The reason none does is language, not
+ordering.
+
+**But everything computed from the extraction is gone.** Amounts, references,
+contact numbers and all six cards are replaced by the fixed refusal, and the
+fact extractor never runs because it is gated on `processing_mode`. Any rule
+that reads what was extracted rather than the raw text cannot see these three,
+and the non-English reading that D3 exists to provide is exactly what is
+withheld from the documents that need it most.
+
+**What this means for Q3.** Q3's structural rule reads raw text and raises a
+distrust signal, so it does reach them, and it will move `trust_assessment` on
+a refused document while leaving the cards and the mode untouched. That is a
+protected field moving on a document whose reader-visible output does not
+change, which is worth stating plainly rather than discovering in a diff.
+
+**What Q2 did instead.** It changed four sentences so a refused upload carrying
+a link is no longer invited to send the message again. That is worth having on
+its own, and it is not detection: `is_probable_non_document`, `scam_signals`,
+`severity_level` and `processing_mode` are byte-identical across all 54
+documents. It makes the wording correct while the ordering stays wrong.
+
+**What an actual fix would have to decide.** Whether a document can be both
+refused and suspicious at once. Today `unsupported` and `verification_only` are
+alternatives in `pickProcessingMode`, and a probable non-document takes
+`unsupported` unconditionally. Letting a scam signal win over the non-document
+gate would move `processing_mode` on documents that are correctly refused, and
+letting both be true needs a card layer that can say "this is not an official
+letter AND it looks like a lure", which does not exist. Neither is a wording
+change, and neither should be attempted as one.
+
+**Not closed by Q3.** Q3 raises a distrust signal on these three, which is more
+than nothing, but a distrust signal cannot restore an extraction that was never
+performed. The reader still sees the fixed refusal. Q3 is worth having on its
+own terms; it does not close this item.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by

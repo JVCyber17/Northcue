@@ -8,6 +8,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "To nie wygląda na urzędowy list ani rachunek. Jeśli nim jest, prosimy spróbować wyraźniejszego zdjęcia lub innej strony.",
+      "tpl.banner.non_document_link": "To nie wygląda na urzędowy list ani rachunek, a zawiera link. Prosimy sprawdzić, korzystając z danych kontaktowych, które już Państwo mają.",
       "tpl.banner.suspicious_urgent": "To może być podejrzane i poważne. Prosimy to zweryfikować przed podjęciem działania.",
       "tpl.banner.high_stakes_urgent": "To wygląda na ważny list, który może wkrótce wymagać działania. Prosimy przeczytać go uważnie i sprawdzić oryginalny dokument.",
       "tpl.banner.high_stakes": "To wygląda na ważny list. Prosimy przeczytać go uważnie i sprawdzić oryginalny dokument.",
@@ -41,6 +42,10 @@
       "tpl.nondoc.helpful_note": "Northcue jest stworzony do urzędowych listów i rachunków, więc nie zamienił tego w karty podpowiedzi. Jeśli to jednak list lub rachunek, może pomóc wyraźniejsze zdjęcie lub inna strona.",
       "tpl.nondoc.review_reason": "To nie wygląda na urzędowy dokument.",
       "tpl.nondoc.next_step": "Jeśli to list lub rachunek, prosimy spróbować wyraźniejszego zdjęcia lub innej strony.",
+
+      "tpl.nondoc.action_link": "Prosimy skontaktować się z instytucją, od której to rzekomo pochodzi, korzystając z danych kontaktowych, które już Państwo mają, a nie z linku.",
+      "tpl.nondoc.helpful_note_link": "Northcue jest stworzony do urzędowych listów i rachunków, więc nie zamienił tego w karty podpowiedzi. Nie sprawdził linku i nie może powiedzieć, czy jest bezpieczny.",
+      "tpl.nondoc.next_step_link": "Prosimy sprawdzić, korzystając z danych kontaktowych, które już Państwo mają, a nie z linku w tej wiadomości.",
 
       "tpl.lowQuality.summary": "Czytelny tekst w tym pliku jest ograniczony.",
       "tpl.lowQuality.action": "Jeśli to możliwe, prosimy przesłać wyraźniejszą kopię.",

@@ -71,6 +71,20 @@ const LABEL_LINE = /^[^\n:]{2,32}:\s*(?!\/)\S/;
 const LABEL_HAS_LETTER = /[\p{L}\p{M}]/u;
 const MIN_LABEL_LINES = 2;
 
+// A link, including the bare-domain form. A phishing message often writes
+// "royalmail-redelivery-fee.example.com" with no scheme, so a scheme-only rule
+// misses the shape it exists for.
+//
+// NOT a document signal, and deliberately not in DOCUMENT_SIGNALS below: 13 of
+// 54 corpus documents carry a link and three of them are genuine, so a link
+// says nothing about whether something is a document. It is here because it is
+// structural, language independent and read by the same kind of caller.
+const LINK = /(?:https?:\/\/)?(?<![\p{L}\p{Nd}@.])[\p{L}\p{Nd}][\p{L}\p{Nd}-]*(?:\.[\p{L}\p{Nd}-]+)*\.(?:com|net|org|info|xyz|top|online|site|link|uk|eu|pl|es|fr|pt|ro)(?![\p{L}\p{Nd}])/iu;
+
+function hasLink(text) {
+  return LINK.test(String(text || ""));
+}
+
 function hasCurrencyAmount(text) {
   return findAmounts(String(text || "")).length > 0;
 }
@@ -127,6 +141,7 @@ function countDocumentSignals(text) {
 
 module.exports = {
   DOCUMENT_SIGNALS,
+  hasLink,
   LOOKS_LIKE_A_DATE,
   REFERENCE_CODE,
   MIN_LABEL_LINES,

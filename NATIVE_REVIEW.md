@@ -789,6 +789,56 @@ copied from the letter, so the label is doing all the work.
 
 ---
 
+## New since your list was written: a refused upload that carries a link (2 August 2026)
+
+Northcue refuses uploads that do not look like an official letter or bill, and
+it tells the reader so. Until now it always finished by inviting them to try
+again with a clearer photo or a different page, which is right for a photo of a
+menu and wrong for a text message with a link in it. Three of our test
+documents are exactly that: a Polish parcel delivery message, a Polish crypto
+investment message and a Portuguese energy refund message. Each is a few lines
+and a link, so Northcue correctly says it is not an official letter, and then
+asked the person to send it again.
+
+Four sentences, used only when the refused upload contains a link:
+
+> `tpl.banner.non_document_link`
+> `tpl.nondoc.action_link`
+> `tpl.nondoc.helpful_note_link`
+> `tpl.nondoc.next_step_link`
+
+**Q. Does any of these sound like Northcue calling the message a scam?**
+
+It must not, and this is the most important question on this page. Northcue
+does not know. It knows two things: this does not look like an official letter,
+and there is a link in it. The English is careful to say only what Northcue did
+not do ("It has not checked the link, and cannot tell you whether it is safe")
+rather than what the link is. **If your language's draft has drifted into
+warning, accusing, or implying danger, tell us.** A drafted translation can
+easily reach for a stronger word than the English, and here that would be
+Northcue making a claim it cannot support.
+
+**Q. Is "contact details you already have" clear?**
+
+The whole point of these sentences is the contrast between the link in front of
+the reader and a number or address they already trust, such as one on a
+previous bill, a bank card, or the back of a letter. If your language needs
+that spelled out to land, say so and suggest the phrasing. If the draft says
+something closer to "official contact details", that is a different and weaker
+idea, because a phishing message also claims to be official.
+
+**Q. Does the last one work as an instruction on its own?**
+
+`tpl.nondoc.next_step_link` appears by itself as the next step, with no
+surrounding sentence to lean on. In English it is "Check using contact details
+you already have, not the link in this message." If that shape is awkward
+standing alone in your language, tell us what a person would actually say.
+
+**Not a safety claim, so not blocking.** These four sit on a refusal, not on a
+scam warning: no severity, no trust rating and no scam signal changes because
+of them. They are here for wording, and specifically for the drift described in
+the first question.
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to

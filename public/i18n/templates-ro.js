@@ -7,6 +7,7 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "Acest fișier nu pare a fi o scrisoare oficială sau o factură. Dacă este, încercați o fotografie mai clară sau o altă pagină.",
+      "tpl.banner.non_document_link": "Acest fișier nu pare a fi o scrisoare oficială sau o factură și conține un link. Verificați folosind datele de contact pe care le aveți deja.",
       "tpl.banner.suspicious_urgent": "Acesta poate fi suspect și grav. Verificați înainte de a acționa.",
       "tpl.banner.high_stakes_urgent": "Aceasta pare o scrisoare importantă care poate avea nevoie de acțiune curând. Vă rugăm să o citiți cu atenție și să verificați documentul original.",
       "tpl.banner.high_stakes": "Aceasta pare o scrisoare importantă. Vă rugăm să o citiți cu atenție și să verificați documentul original.",
@@ -40,6 +41,10 @@
       "tpl.nondoc.helpful_note": "Northcue este făcut pentru scrisori oficiale și facturi, așa că nu a transformat acest fișier în carduri cu indicii. Dacă este o scrisoare sau o factură, o fotografie mai clară sau o altă pagină poate ajuta.",
       "tpl.nondoc.review_reason": "Acesta nu pare a fi un document oficial.",
       "tpl.nondoc.next_step": "Dacă acest fișier este o scrisoare sau o factură, încercați o fotografie mai clară sau o altă pagină.",
+
+      "tpl.nondoc.action_link": "Contactați organizația de la care pare să provină, folosind datele de contact pe care le aveți deja, nu linkul.",
+      "tpl.nondoc.helpful_note_link": "Northcue este făcut pentru scrisori oficiale și facturi, așa că nu a transformat acest fișier în carduri cu indicii. Nu a verificat linkul și nu vă poate spune dacă este sigur.",
+      "tpl.nondoc.next_step_link": "Verificați folosind datele de contact pe care le aveți deja, nu linkul din acest mesaj.",
 
       "tpl.lowQuality.summary": "Textul lizibil este limitat în această încărcare.",
       "tpl.lowQuality.action": "Încărcați o copie mai clară dacă se poate.",

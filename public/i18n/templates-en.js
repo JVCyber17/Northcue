@@ -7,6 +7,10 @@
   var bank = {
     exact: {
       "tpl.banner.non_document": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page.",
+      // The same refusal, for an upload that carries a link. Northcue makes no
+      // claim about the link; it declines to ask for a re-upload of something
+      // the reader may be better off leaving alone. See tpl.nondoc.*_link.
+      "tpl.banner.non_document_link": "This does not look like an official letter or bill, and it carries a link. Check using contact details you already have.",
       "tpl.banner.suspicious_urgent": "This may be suspicious and serious. Verify before acting.",
       "tpl.banner.high_stakes_urgent": "This looks like an important letter that may need action soon. Please read it carefully and check the original document.",
       "tpl.banner.high_stakes": "This looks like an important letter. Please read it carefully and check the original document.",
@@ -40,6 +44,13 @@
       "tpl.nondoc.helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
       "tpl.nondoc.review_reason": "This does not look like an official document.",
       "tpl.nondoc.next_step": "If this is a letter or bill, try a clearer photo or a different page.",
+
+      // Refused, and carrying a link. Only these three sentences differ from
+      // the plain refusal above; summary, most_important, risk and
+      // review_reason are shared, because what Northcue found is the same.
+      "tpl.nondoc.action_link": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
+      "tpl.nondoc.helpful_note_link": "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe.",
+      "tpl.nondoc.next_step_link": "Check using contact details you already have, not the link in this message.",
 
       "tpl.lowQuality.summary": "Readable text is limited in this upload.",
       "tpl.lowQuality.action": "Upload a clearer copy if possible.",

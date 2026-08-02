@@ -9,7 +9,7 @@ const { cardSchema, allowedCardIds } = require("../schemas/cardSchema");
 const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
-const { countDocumentSignals } = require("../utils/documentSignals");
+const { countDocumentSignals, hasLink } = require("../utils/documentSignals");
 const factCandidates = require("../utils/factCandidates");
 
 // How many language-independent document signals stand in for the four English
@@ -213,6 +213,27 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     documentCategory
   });
 
+  // A REFUSED UPLOAD THAT CARRIES A LINK MUST NOT BE ASKED TO UPLOAD AGAIN.
+  //
+  // Three corpus documents sit here: a Polish parcel smish, a Polish crypto
+  // lure and a Portuguese energy refund lure. Each is a few lines with a link
+  // and nothing a letter has, so the non-document gate refuses all three, and
+  // every refusal sentence Northcue owns then invites a clearer photo. The
+  // reader is being told to try again with the message the reader should be
+  // walking away from.
+  //
+  // THIS IS NOT A JUDGEMENT ABOUT THE DOCUMENT. It changes four sentences and
+  // nothing else. is_probable_non_document is unmoved, no scam signal is
+  // raised, no severity is floored and no processing mode changes. The engine
+  // is not saying "this is a scam", which it cannot know here; it is declining
+  // to give re-upload advice to something it can see carries a link.
+  //
+  // Narrow by construction: false unless the upload was ALREADY refused as a
+  // non-document, so it can never reach a document Northcue actually read. 51
+  // of the 54 corpus documents are false, including the 10 link-carrying ones
+  // that were not refused and the recipe that was refused without a link.
+  const nonDocumentCarriesLink = isProbableNonDocument && hasLink(normalizedText);
+
   // A CONSEQUENCE A DOCUMENT STATES IS A SEVERITY SIGNAL, in any language.
   //
   // detectSeriousDocumentSignals reads English phrases, so a Polish letter
@@ -302,6 +323,7 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     document_type: documentType,
     processing_mode: processingMode,
     is_probable_non_document: isProbableNonDocument,
+    non_document_carries_link: nonDocumentCarriesLink,
     confidence,
     needs_human_review: needsHumanReview,
     review_reason: reviewReason,
@@ -323,7 +345,13 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     is_template: isTemplate,
     is_outgoing: isOutgoing,
     is_multi_document: split.isMultiLetterInput,
-    safe_next_step: buildSafeNextStep({ processingMode, severityLevel, trustAssessment, isProbableNonDocument })
+    safe_next_step: buildSafeNextStep({
+      processingMode,
+      severityLevel,
+      trustAssessment,
+      isProbableNonDocument,
+      nonDocumentCarriesLink
+    })
   };
 }
 
@@ -811,13 +839,18 @@ function friendlyTypeForCategory(category) {
 // Calm, non-blaming response for an upload that does not look like an official
 // document. Never invents a summary, amount, date, or action from the content.
 function buildNonDocumentExtraction(trust) {
+  const carriesLink = Boolean(trust.non_document_carries_link);
   return {
     summary: "This does not look like an official letter or bill.",
     most_important_point: "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
-    actions: ["Upload a clearer photo or a different page if this is a letter or bill."],
+    actions: [carriesLink
+      ? "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
+      : "Upload a clearer photo or a different page if this is a letter or bill."],
     deadline: null,
     risk: "No official document details were found.",
-    helpful_note: "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    helpful_note: carriesLink
+      ? "Northcue is made for official letters and bills, so it has not turned this into cue cards. It has not checked the link, and cannot tell you whether it is safe."
+      : "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
     money_amounts: [],
     reference_numbers: [],
     contact_details: [],
@@ -2081,6 +2114,13 @@ function normalizeRiskSentence(sentence) {
 function buildBanner(trust) {
   // A probable non-document gets a calm, honest banner rather than any wording
   // that implies Northcue understood it as an official letter.
+  if (trust.non_document_carries_link) {
+    return {
+      show: true,
+      type: "caution",
+      text: "This does not look like an official letter or bill, and it carries a link. Check using contact details you already have."
+    };
+  }
   if (trust.is_probable_non_document) {
     return {
       show: true,
@@ -2517,7 +2557,10 @@ function pickReviewReason({ processingMode, trustAssessment, inputQuality, isTem
   return "Some details need checking before action.";
 }
 
-function buildSafeNextStep({ processingMode, severityLevel, trustAssessment, isProbableNonDocument }) {
+function buildSafeNextStep({ processingMode, severityLevel, trustAssessment, isProbableNonDocument, nonDocumentCarriesLink }) {
+  if (nonDocumentCarriesLink) {
+    return "Check using contact details you already have, not the link in this message.";
+  }
   if (isProbableNonDocument) {
     return "If this is a letter or bill, try a clearer photo or a different page.";
   }
