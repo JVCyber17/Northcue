@@ -93,19 +93,55 @@ function hasPaginationWithNewLetter(text) {
   return false;
 }
 
-// The same letterhead standing on its own line more than once. Two letters
-// from one sender, or a letterhead repeated at the top of each letter. The
-// standalone requirement is what keeps the NHS letter safe, where the hospital
-// name also appears inside a Location field but never again on its own line.
+// The same letterhead standing on its own line more than once, AND a letter
+// actually opening where it repeats.
+//
+// A REPEATED LINE IS A RUNNING HEADER FAR MORE OFTEN THAN IT IS A SECOND
+// LETTER. On 2 August 2026 a real British Gas bill was uploaded to the live
+// product and all six cards declined, because "British Gas" stands alone at the
+// top of page one and again at the top of page two. That is what a running
+// header IS. extractTextFromPdf joins pages with "\n\n" and emits no page
+// marker, so nothing else in this file could see the boundary, and the one rule
+// with no boundary test was the one that fired.
+//
+// The repeat alone was never evidence of a second letter. It is evidence of a
+// repeated line, and the reasons a genuine single document repeats a line are
+// ordinary: a running header, a footer on every page, a Welsh council writing
+// bilingually, a dual fuel bill listing "Standing charge" for gas and again for
+// electricity. Every one of those was refused outright.
+//
+// SO IT NOW ASKS THE SAME QUESTION PAGINATION ALREADY ASKS. Pagination has
+// always required opensNewLetter on the far side of the boundary, and this rule
+// required nothing. That inconsistency was the bug. A repeat counts only when a
+// letter opens there: a greeting, or a letterhead standing above a letter date.
+//
+// MEASURED, across all 63 corpus documents plus six constructed cases. It stops
+// fusing four genuine single documents and NEWLY FUSES NOTHING, so it cannot
+// reopen the fabrication class A1 closed. All three genuinely multi letter
+// corpus documents stay flagged, and two of them never depended on this rule
+// anyway: multi_document is caught by pagination and multi_document_split by an
+// explicit separator.
+//
+// WHAT IT STILL GETS WRONG, stated rather than hidden: a continuation page
+// carrying a running "Bill date:" header opens what looks like a letter, and
+// still fuses. That is a real shape and it needs its own evidence.
 function hasRepeatedLetterhead(text) {
+  const lines = nonEmptyLines(text);
   const seen = new Map();
-  nonEmptyLines(text).forEach((line) => {
+  lines.forEach((line, index) => {
     if (!looksLikeLetterhead(line)) return;
     const key = line.toLowerCase();
-    seen.set(key, (seen.get(key) || 0) + 1);
+    if (!seen.has(key)) seen.set(key, []);
+    seen.get(key).push(index);
   });
-  for (const count of seen.values()) {
-    if (count > 1) return true;
+  for (const positions of seen.values()) {
+    if (positions.length < 2) continue;
+    // Every occurrence after the first is a candidate boundary. The rule fires
+    // only if a letter opens at one of them.
+    const opensAtARepeat = positions
+      .slice(1)
+      .some((index) => opensNewLetter(lines.slice(index)));
+    if (opensAtARepeat) return true;
   }
   return false;
 }

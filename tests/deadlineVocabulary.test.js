@@ -302,7 +302,10 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       // English month list already matches. "15 listopada 2026" in the same
       // sentence would find nothing. Pinned so that coincidence is on the
       // record rather than mistaken for multilingual date support.
-      intl_romanian_school_meeting: "15 septembrie 2026"
+      intl_romanian_school_meeting: "15 septembrie 2026",
+      // Recovered by P1, which stopped the repeated-letterhead rule fusing a
+      // genuine two-page insurance renewal.
+      letter_with_terms_on_back: "30 June 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

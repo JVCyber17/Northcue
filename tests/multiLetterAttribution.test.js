@@ -16,6 +16,7 @@ const test = require("node:test");
 
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 const { splitDocuments } = require(path.join(__dirname, "..", "src", "utils", "splitDocuments"));
+const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 // Every sentence shape in inferSummary that relates two or more extracted facts.
 // If a new composed shape is added to the engine it belongs in this list.
@@ -288,5 +289,101 @@ test("separator vocabulary", async (t) => {
       "the first letter's own amount is attributable and is kept");
     assert.doesNotMatch(allCardText(run).join(" "), /£1,381\.50/,
       "the second letter's amount must not appear");
+  });
+});
+
+// ------------------------------------------------- one letter on several pages
+
+test("a repeated line is a running header until a letter opens at it", async (t) => {
+  // P1, 2 August 2026. A real British Gas bill was uploaded to the live product
+  // and all six cards declined, because "British Gas" stands alone at the top of
+  // page one and again at the top of page two. hasRepeatedLetterhead had no
+  // boundary test, while the pagination rule beside it had always demanded one.
+  //
+  // These tests are the ceiling on the loosening. The rule must still fire where
+  // a letter genuinely opens, because that is the fabrication case: an amount
+  // from one letter and a date from another composed into one sentence.
+  const byId = (id) => CORPUS.find((entry) => entry.id === id).text;
+
+  await t.test("the genuine single documents are read, not refused", () => {
+    ["bill_with_contacts_page", "letter_with_terms_on_back",
+      "statement_with_transactions_page"].forEach((id) => {
+      assert.equal(splitDocuments(byId(id)).isMultiLetterInput, false,
+        id + " is one letter on two pages and must not be fused");
+    });
+  });
+
+  await t.test("a dual fuel bill on ONE page is read", () => {
+    // Not a multi-page case at all. "Standing charge" appears once for
+    // electricity and once for gas, and the old rule fused on that alone.
+    const dualFuel = [
+      "Octopus Energy", "", "Your energy bill", "", "Ms A Idowu",
+      "Account number: 4471 0288", "Bill date: 3 June 2026", "",
+      "Electricity", "Standing charge", "Charges: £64.20", "",
+      "Gas", "Standing charge", "Charges: £38.90", "",
+      "Total to pay: £103.10", "Please pay by 24 June 2026."
+    ].join("\n");
+    assert.equal(splitDocuments(dualFuel).isMultiLetterInput, false);
+  });
+
+  await t.test("a footer repeated on every page is read", () => {
+    // The trigger was the council's own footer address line, which is exactly
+    // seven words and so passes looksLikeLetterhead.
+    const footer = ["", "Meadowbank Council, Civic Centre, Meadowbank MB1 4RT",
+      "Telephone 0114 273 4567   www.meadowbank.gov.uk", ""];
+    const letter = ["Meadowbank Council", "", "Council Tax reminder", "",
+      "Mr A Whitfield", "Account: 8110 0244", "Bill date: 8 June 2026", "",
+      "Dear Mr Whitfield", "", "Your instalment due on 1 June 2026 has not been paid."]
+      .concat(footer).concat(["Amount overdue: £138.15", "Please pay by 22 June 2026."])
+      .concat(footer).concat(["How to pay", "Online at www.meadowbank.gov.uk/counciltax"])
+      .concat(footer).join("\n");
+    assert.equal(splitDocuments(letter).isMultiLetterInput, false);
+  });
+
+  await t.test("a bilingual Welsh and English letter is read", () => {
+    // Welsh public bodies are statutorily required to write bilingually, so the
+    // sender's name appearing twice is the norm for a whole class of UK post.
+    const bilingual = [
+      "Cyngor Caerdydd / Cardiff Council", "",
+      "Hysbysiad Treth Gyngor / Council Tax Notice", "", "Mr G Pritchard",
+      "Cyfeirnod / Reference: CT-4471028", "Dyddiad / Date: 11 June 2026", "",
+      "Mae eich taliad o £142.60 yn ddyledus ar 1 Gorffennaf 2026.",
+      "Your instalment of £142.60 is due on 1 July 2026.", "",
+      "Cyngor Caerdydd / Cardiff Council", "", "Ffoniwch ni / Call us: 029 2087 2087"
+    ].join("\n");
+    assert.equal(splitDocuments(bilingual).isMultiLetterInput, false);
+  });
+
+  await t.test("two real letters from the SAME sender still fuse", () => {
+    // THE CEILING. No separator, no greeting, one sender, two letters. Only the
+    // second letterhead standing above its own date says a letter opens there,
+    // and it must keep saying so or P1 has reopened the fabrication class.
+    const twoLetters = [
+      "EDF Energy", "Your electricity bill", "Bill date: 4 May 2026",
+      "Amount due: £214.63", "Please pay by 28 May 2026.", "",
+      "EDF Energy", "Your gas bill", "Bill date: 4 May 2026",
+      "Amount due: £98.20", "Please pay by 28 May 2026."
+    ].join("\n");
+    assert.equal(splitDocuments(twoLetters).isMultiLetterInput, true);
+  });
+
+  await t.test("the three genuinely multi letter corpus documents still fuse", () => {
+    ["multi_document", "multi_document_greetings", "multi_document_split"].forEach((id) => {
+      assert.equal(splitDocuments(byId(id)).isMultiLetterInput, true, id);
+    });
+  });
+
+  await t.test("KNOWN AND UNFIXED: a running date header still fuses", () => {
+    // Recorded rather than hidden. A continuation page that repeats both the
+    // sender and "Bill date:" opens what looks like a letter, so P1 cannot tell
+    // it from a second one. A real shape, and it needs its own evidence before
+    // the rule is loosened further.
+    const runningDateHeader = [
+      "Thames Water", "", "Your bill", "Mr S Ali", "Bill date: 9 June 2026",
+      "Amount due: £88.40", "", "Thames Water", "Bill date: 9 June 2026",
+      "Helpful contacts", "Billing: 0800 316 9800"
+    ].join("\n");
+    assert.equal(splitDocuments(runningDateHeader).isMultiLetterInput, true,
+      "if this now reads false, the known false positive is fixed and this test should say so");
   });
 });

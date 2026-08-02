@@ -2633,128 +2633,128 @@
       "steps": 1
     },
     "bill_with_contacts_page|1": {
-      "px": 466,
-      "lang": "en",
+      "px": 576,
+      "lang": "pl",
       "answerChars": 52,
-      "stepChars": 53,
+      "stepChars": 77,
       "steps": 1
     },
     "bill_with_contacts_page|2": {
-      "px": 430,
-      "lang": "es",
-      "answerChars": 53,
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
       "stepChars": 0,
       "steps": 0
     },
     "bill_with_contacts_page|3": {
-      "px": 498,
+      "px": 466,
       "lang": "pl",
-      "answerChars": 44,
-      "stepChars": 44,
+      "answerChars": 38,
+      "stepChars": 38,
       "steps": 1
     },
     "bill_with_contacts_page|4": {
-      "px": 473,
+      "px": 501,
       "lang": "pl",
-      "answerChars": 83,
+      "answerChars": 118,
       "stepChars": 0,
       "steps": 0
     },
     "bill_with_contacts_page|5": {
-      "px": 563,
+      "px": 587,
       "lang": "pl",
-      "answerChars": 85,
-      "stepChars": 38,
+      "answerChars": 66,
+      "stepChars": 22,
       "steps": 1
     },
     "bill_with_contacts_page|6": {
-      "px": 525,
-      "lang": "ro",
+      "px": 585,
+      "lang": "pl",
       "answerChars": 54,
       "stepChars": 57,
       "steps": 1
     },
     "letter_with_terms_on_back|1": {
-      "px": 466,
-      "lang": "en",
-      "answerChars": 52,
-      "stepChars": 53,
-      "steps": 1
+      "px": 696,
+      "lang": "pl",
+      "answerChars": 55,
+      "stepChars": 186,
+      "steps": 2
     },
     "letter_with_terms_on_back|2": {
-      "px": 430,
-      "lang": "es",
-      "answerChars": 53,
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 62,
       "stepChars": 0,
       "steps": 0
     },
     "letter_with_terms_on_back|3": {
-      "px": 498,
-      "lang": "pl",
-      "answerChars": 44,
-      "stepChars": 44,
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
       "steps": 1
     },
     "letter_with_terms_on_back|4": {
-      "px": 473,
+      "px": 590,
       "lang": "pl",
-      "answerChars": 83,
-      "stepChars": 0,
-      "steps": 0
-    },
-    "letter_with_terms_on_back|5": {
-      "px": 563,
-      "lang": "pl",
-      "answerChars": 85,
-      "stepChars": 38,
+      "answerChars": 86,
+      "stepChars": 55,
       "steps": 1
     },
+    "letter_with_terms_on_back|5": {
+      "px": 567,
+      "lang": "pl",
+      "answerChars": 71,
+      "stepChars": 54,
+      "steps": 2
+    },
     "letter_with_terms_on_back|6": {
-      "px": 498,
-      "lang": "ro",
-      "answerChars": 54,
+      "px": 601,
+      "lang": "pl",
+      "answerChars": 96,
       "stepChars": 36,
       "steps": 1
     },
     "statement_with_transactions_page|1": {
-      "px": 610,
-      "lang": "pl",
-      "answerChars": 52,
-      "stepChars": 161,
+      "px": 669,
+      "lang": "fr",
+      "answerChars": 49,
+      "stepChars": 168,
       "steps": 2
     },
     "statement_with_transactions_page|2": {
-      "px": 430,
-      "lang": "es",
-      "answerChars": 53,
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 72,
       "stepChars": 0,
       "steps": 0
     },
     "statement_with_transactions_page|3": {
-      "px": 498,
+      "px": 617,
       "lang": "pl",
-      "answerChars": 44,
-      "stepChars": 44,
+      "answerChars": 74,
+      "stepChars": 74,
       "steps": 1
     },
     "statement_with_transactions_page|4": {
-      "px": 473,
-      "lang": "pl",
-      "answerChars": 83,
+      "px": 495,
+      "lang": "pt",
+      "answerChars": 90,
       "stepChars": 0,
       "steps": 0
     },
     "statement_with_transactions_page|5": {
       "px": 563,
-      "lang": "pl",
-      "answerChars": 85,
-      "stepChars": 38,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
       "steps": 1
     },
     "statement_with_transactions_page|6": {
-      "px": 525,
-      "lang": "ro",
-      "answerChars": 54,
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
       "stepChars": 57,
       "steps": 1
     }

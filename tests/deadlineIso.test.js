@@ -223,7 +223,13 @@ test("the corpus, end to end", async (t) => {
       // sentence. Both read correctly: the phone defect costs them their
       // contact number, not their date, and pinning that here is what says so.
       intl_energy_bill_plus44: "2026-08-06",
-      intl_water_arrears_00_prefix: "2026-08-28"
+      intl_water_arrears_00_prefix: "2026-08-28",
+      // NEW WITH P1, 2 August 2026, and the point of P1. This letter was fused
+      // by the repeated-letterhead rule and every fact was thrown away. It now
+      // yields its renewal date. Card 4 hedges it as "the date that matters"
+      // rather than "Due by", which is right: the letter says "You do not need
+      // to do anything", and card 3 says exactly that.
+      letter_with_terms_on_back: "2026-06-30"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

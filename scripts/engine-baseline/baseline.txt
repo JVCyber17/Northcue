@@ -14092,9 +14092,9 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
   "processing_mode": "caution",
   "is_probable_non_document": false,
   "non_document_carries_link": false,
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Multiple documents may be mixed in one upload.",
+  "confidence": "medium",
+  "needs_human_review": false,
+  "review_reason": "Some details need checking before action.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
@@ -14111,41 +14111,50 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
   "sender_guess": null,
   "is_template": false,
   "is_outgoing": false,
-  "is_multi_document": true,
+  "is_multi_document": false,
   "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
 {
-  "summary": "This upload appears to contain more than one letter.",
-  "most_important_point": "The details have not been matched to a single letter.",
+  "summary": "British Gas appears to be asking you to pay £187.82.",
+  "most_important_point": "This document appears to require an action from you. See what you need to do.",
   "actions": [
-    "Check each letter on the original documents."
+    "Check the payment amount and due date."
   ],
   "deadline": null,
   "deadline_from_facts": false,
-  "visible_dates": [],
-  "header_date": null,
+  "visible_dates": [
+    "22 Jan 2026",
+    "04 Feb 2026",
+    "6 May 2026"
+  ],
+  "header_date": "22 Apr 2026",
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
   "consequence_kind": null,
   "consequence_conditional": null,
-  "helpful_note": "Uploading one letter at a time gives a clearer result.",
-  "money_amounts": [],
+  "helpful_note": "Keep this with your records in case you need it later.",
+  "money_amounts": [
+    "£142.60",
+    "£142.60",
+    "£187.82",
+    "£187.82",
+    "£187.82"
+  ],
   "reference_numbers": [],
   "contact_details": [],
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Multiple documents may be mixed in one upload.",
+  "confidence": "medium",
+  "needs_human_review": false,
+  "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
-  "selected_amount": null,
+  "selected_amount": "£187.82",
   "unlabelled_amount": false,
-  "selected_amount_role": null,
-  "multi_letter_state": "fused"
+  "selected_amount_role": null
 }
 
 [banner]
@@ -14160,20 +14169,18 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
   "document_type": "energy_bill",
   "document_type_label": "Energy bill",
   "document_type_confidence": "high",
-  "overall_confidence": "low",
+  "overall_confidence": "medium",
   "risk_level": "low",
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This upload appears to contain more than one letter.",
-    "main_action": "Check each letter on the original documents.",
+    "one_line_summary": "British Gas appears to be asking you to pay £187.82.",
+    "main_action": "Check the payment amount and due date.",
     "main_date": null,
     "deadline_iso": null,
-    "main_amount": null
+    "main_amount": "£187.82"
   },
-  "warnings": [
-    "Multiple documents may be mixed in one upload."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -14183,16 +14190,16 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This upload appears to contain more than one letter.",
+    "simple_explanation": "British Gas appears to be asking you to pay £187.82.",
     "key_points": [
-      "The details have not been matched to a single letter."
+      "This document appears to require an action from you. See what you need to do."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This upload appears to contain more than one letter.. The details have not been matched to a single letter.",
+    "read_aloud_text": "What is this?. British Gas appears to be asking you to pay £187.82.. This document appears to require an action from you. See what you need to do.",
     "status": "normal"
   },
   {
@@ -14200,14 +14207,14 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "The details have not been matched to a single letter.",
+    "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What matters most?. The details have not been matched to a single letter..",
+    "read_aloud_text": "What matters most?. This document appears to require an action from you. See what you need to do..",
     "status": "normal"
   },
   {
@@ -14215,16 +14222,16 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check each letter on the original documents.",
+    "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check each letter on the original documents."
+      "Check the payment amount and due date."
     ],
-    "action_needed": "Check each letter on the original documents.",
+    "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check each letter on the original documents.. Check each letter on the original documents.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
     "status": "normal"
   },
   {
@@ -14232,14 +14239,14 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
+    "simple_explanation": "No clear due date. These dates appear in the document: 22 Jan 2026, 04 Feb 2026, 6 May 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. Dates cannot be matched to one letter in this upload. Check the original documents..",
+    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 22 Jan 2026, 04 Feb 2026, 6 May 2026. Check what they refer to..",
     "status": "normal"
   },
   {
@@ -14247,16 +14254,16 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Amounts cannot be matched to one letter in this upload. Check the original documents.",
+    "simple_explanation": "Check the amount (£187.82) and any dates on the original document.",
     "key_points": [
-      "Check unclear details on the original."
+      "Amount shown: £187.82."
     ],
     "action_needed": null,
     "possible_deadline": null,
-    "possible_payment": null,
-    "confidence_level": "low",
+    "possible_payment": "£187.82",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Amounts cannot be matched to one letter in this upload. Check the original documents.. Check unclear details on the original.",
+    "read_aloud_text": "What should I check?. Check the amount (£187.82) and any dates on the original document.. Amount shown: £187.82.",
     "status": "normal"
   },
   {
@@ -14264,16 +14271,16 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Uploading one letter at a time gives a clearer result.",
+    "simple_explanation": "Keep this with your records in case you need it later.",
     "key_points": [
       "Check key details on the original document before acting."
     ],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. Uploading one letter at a time gives a clearer result.. Check key details on the original document before acting.",
+    "read_aloud_text": "Helpful note. Keep this with your records in case you need it later.. Check key details on the original document before acting.",
     "status": "normal"
   }
 ]
@@ -14337,12 +14344,12 @@ INTENT:   The same failure by a different route, and the one where the reader is
   "urgency_level": "none",
   "document_category": "insurance",
   "document_type": "official_incoming",
-  "processing_mode": "caution",
+  "processing_mode": "normal",
   "is_probable_non_document": false,
   "non_document_carries_link": false,
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Multiple documents may be mixed in one upload.",
+  "confidence": "high",
+  "needs_human_review": false,
+  "review_reason": "No major trust issue found.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
@@ -14360,21 +14367,24 @@ INTENT:   The same failure by a different route, and the one where the reader is
   "sender_guess": null,
   "is_template": false,
   "is_outgoing": false,
-  "is_multi_document": true,
+  "is_multi_document": false,
   "safe_next_step": "Follow the action card step by step."
 }
 
 [extractor_internal]
 {
-  "summary": "This upload appears to contain more than one letter.",
-  "most_important_point": "The details have not been matched to a single letter.",
+  "summary": "This appears to be an insurance letter about insurance.",
+  "most_important_point": "This may include a deadline about insurance. Check the original before acting.",
   "actions": [
-    "Check each letter on the original documents."
+    "No action needed right now."
   ],
-  "deadline": null,
+  "deadline": "30 June 2026",
   "risk": "You may miss a response request or important date.",
-  "helpful_note": "Uploading one letter at a time gives a clearer result.",
-  "money_amounts": [],
+  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+  "money_amounts": [
+    "£342.80",
+    "£311.40"
+  ],
   "reference_numbers": [],
   "contact_details": [],
   "contact_number": null,
@@ -14384,14 +14394,29 @@ INTENT:   The same failure by a different route, and the one where the reader is
   "needs_human_review": true,
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": null,
+    "topic": "insurance",
+    "dateParts": [
+      "30 June 2026",
+      "within 14 days"
+    ],
+    "primaryDate": "30 June 2026",
+    "hasResponseRequest": false,
+    "hasDeadlineLanguage": true,
+    "mostImportantPoint": "This may include a deadline about insurance. Check the original before acting.",
+    "dateMessage": "The document shows 30 June 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss a response request or important date.",
+    "keyChecks": [
+      "Check who sent the document.",
+      "Check the topic: insurance.",
+      "Check these visible dates: 30 June 2026, within 14 days.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
-  "unlabelled_amount": false,
-  "selected_amount_role": null,
-  "visible_dates": [],
-  "header_date": null,
-  "has_consequence": false,
-  "consequence_sentence": null,
-  "multi_letter_state": "fused"
+  "unlabelled_amount": true,
+  "selected_amount_role": null
 }
 
 [banner]
@@ -14408,18 +14433,16 @@ INTENT:   The same failure by a different route, and the one where the reader is
   "document_type_confidence": "unknown",
   "overall_confidence": "medium",
   "risk_level": "low",
-  "processing_mode": "caution",
-  "needs_user_check": true,
+  "processing_mode": "normal",
+  "needs_user_check": false,
   "summary": {
-    "one_line_summary": "This upload appears to contain more than one letter.",
-    "main_action": "Check each letter on the original documents.",
-    "main_date": null,
-    "deadline_iso": null,
+    "one_line_summary": "This appears to be an insurance letter about insurance.",
+    "main_action": "No action needed right now.",
+    "main_date": "30 June 2026",
+    "deadline_iso": "2026-06-30",
     "main_amount": null
   },
-  "warnings": [
-    "Multiple documents may be mixed in one upload."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -14429,16 +14452,17 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This upload appears to contain more than one letter.",
+    "simple_explanation": "This appears to be an insurance letter about insurance.",
     "key_points": [
-      "The details have not been matched to a single letter."
+      "This may include a deadline about insurance. Check the original before acting.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This upload appears to contain more than one letter.. The details have not been matched to a single letter.",
+    "read_aloud_text": "What is this?. This appears to be an insurance letter about insurance.. This may include a deadline about insurance. Check the original before acting. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "good"
   },
   {
@@ -14446,14 +14470,14 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "The details have not been matched to a single letter.",
+    "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What matters most?. The details have not been matched to a single letter..",
+    "read_aloud_text": "What matters most?. The sender is not clearly stated. Check the original document..",
     "status": "good"
   },
   {
@@ -14461,16 +14485,16 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check each letter on the original documents.",
+    "simple_explanation": "No action needed right now.",
     "key_points": [
-      "Check each letter on the original documents."
+      "No action needed right now."
     ],
-    "action_needed": "Check each letter on the original documents.",
+    "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check each letter on the original documents.. Check each letter on the original documents.",
+    "read_aloud_text": "What do I need to do?. No action needed right now.. No action needed right now.",
     "status": "good"
   },
   {
@@ -14478,14 +14502,16 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
-    "key_points": [],
+    "simple_explanation": "The document shows 30 June 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 30 June 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "30 June 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. Dates cannot be matched to one letter in this upload. Check the original documents..",
+    "read_aloud_text": "When is it due?. The document shows 30 June 2026 as the date that matters. Check the original document.. Check this date on the original document: 30 June 2026.",
     "status": "good"
   },
   {
@@ -14493,16 +14519,17 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Amounts cannot be matched to one letter in this upload. Check the original documents.",
+    "simple_explanation": "Check the date (30 June 2026) and any amounts on the original document.",
     "key_points": [
-      "Check unclear details on the original."
+      "Date: 30 June 2026.",
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Amounts cannot be matched to one letter in this upload. Check the original documents.. Check unclear details on the original.",
+    "read_aloud_text": "What should I check?. Check the date (30 June 2026) and any amounts on the original document.. Date: 30 June 2026. An amount is shown without a label.",
     "status": "good"
   },
   {
@@ -14510,7 +14537,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Uploading one letter at a time gives a clearer result.",
+    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     "key_points": [
       "Follow the action card step by step."
     ],
@@ -14519,7 +14546,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. Uploading one letter at a time gives a clearer result.. Follow the action card step by step.",
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Follow the action card step by step.",
     "status": "good"
   }
 ]
@@ -14581,9 +14608,9 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
   "processing_mode": "caution",
   "is_probable_non_document": false,
   "non_document_carries_link": false,
-  "confidence": "low",
-  "needs_human_review": true,
-  "review_reason": "Multiple documents may be mixed in one upload.",
+  "confidence": "medium",
+  "needs_human_review": false,
+  "review_reason": "Some details need checking before action.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
@@ -14600,21 +14627,32 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
   "sender_guess": "Council",
   "is_template": false,
   "is_outgoing": false,
-  "is_multi_document": true,
+  "is_multi_document": false,
   "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
 {
-  "summary": "This upload appears to contain more than one letter.",
-  "most_important_point": "The details have not been matched to a single letter.",
+  "summary": "This appears to be a housing letter from Council.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
-    "Check each letter on the original documents."
+    "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
   "risk": "You may miss what the visible dates mean.",
-  "helpful_note": "Uploading one letter at a time gives a clearer result.",
-  "money_amounts": [],
+  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+  "money_amounts": [
+    "£1,204.18",
+    "£1,860.00",
+    "£2,651.52",
+    "£412.66",
+    "£48.20",
+    "£62.14",
+    "£1,860.00",
+    "£187.82",
+    "£925.00",
+    "£28.36"
+  ],
   "reference_numbers": [],
   "contact_details": [],
   "contact_number": null,
@@ -14624,14 +14662,29 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
   "needs_human_review": true,
   "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": "Council",
+    "topic": "housing or rent",
+    "dateParts": [
+      "1 April 2026",
+      "30 April 2026"
+    ],
+    "primaryDate": null,
+    "hasResponseRequest": false,
+    "hasDeadlineLanguage": false,
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "These dates appear in the document: 1 April 2026, 30 April 2026. Check what they refer to.",
+    "risk": "You may miss what the visible dates mean.",
+    "keyChecks": [
+      "Check the sender: Council.",
+      "Check the topic: housing or rent.",
+      "Check these visible dates: 1 April 2026, 30 April 2026.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
-  "unlabelled_amount": false,
-  "selected_amount_role": null,
-  "visible_dates": [],
-  "header_date": null,
-  "has_consequence": false,
-  "consequence_sentence": null,
-  "multi_letter_state": "fused"
+  "unlabelled_amount": true,
+  "selected_amount_role": null
 }
 
 [banner]
@@ -14651,15 +14704,13 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This upload appears to contain more than one letter.",
-    "main_action": "Check each letter on the original documents.",
+    "one_line_summary": "This appears to be a housing letter from Council.",
+    "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "Multiple documents may be mixed in one upload."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -14669,9 +14720,9 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This upload appears to contain more than one letter.",
+    "simple_explanation": "This appears to be a housing letter from Council.",
     "key_points": [
-      "The details have not been matched to a single letter.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -14679,7 +14730,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This upload appears to contain more than one letter.. The details have not been matched to a single letter. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a housing letter from Council.. Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -14687,14 +14738,14 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "The details have not been matched to a single letter.",
+    "simple_explanation": "This appears to be from Council. Check the original document to confirm.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What matters most?. The details have not been matched to a single letter..",
+    "read_aloud_text": "What matters most?. This appears to be from Council. Check the original document to confirm..",
     "status": "normal"
   },
   {
@@ -14702,16 +14753,16 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check each letter on the original documents.",
+    "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Check each letter on the original documents."
+      "Check the original document to see whether a response or action is needed."
     ],
-    "action_needed": "Check each letter on the original documents.",
+    "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check each letter on the original documents.. Check each letter on the original documents.",
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
     "status": "normal"
   },
   {
@@ -14719,14 +14770,14 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
+    "simple_explanation": "These dates appear in the document: 1 April 2026, 30 April 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. Dates cannot be matched to one letter in this upload. Check the original documents..",
+    "read_aloud_text": "When is it due?. These dates appear in the document: 1 April 2026, 30 April 2026. Check what they refer to..",
     "status": "normal"
   },
   {
@@ -14734,16 +14785,16 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Amounts cannot be matched to one letter in this upload. Check the original documents.",
+    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "Check unclear details on the original."
+      "An amount is shown without a label."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Amounts cannot be matched to one letter in this upload. Check the original documents.. Check unclear details on the original.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -14751,7 +14802,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Uploading one letter at a time gives a clearer result.",
+    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     "key_points": [
       "Check key details on the original document before acting."
     ],
@@ -14760,7 +14811,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. Uploading one letter at a time gives a clearer result.. Check key details on the original document before acting.",
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check key details on the original document before acting.",
     "status": "normal"
   }
 ]
