@@ -25,15 +25,9 @@
 //
 // EVERY SIGNAL HERE IS DIGITS, PUNCTUATION OR STRUCTURE. No word list, in any
 // language, appears below. Two of the five are already in the engine and were
-// already language independent; they are reused rather than re-expressed.
+// already language independent; they are imported rather than re-expressed.
 
-const { findAmounts } = require("./coLocation");
-
-// A UK telephone number. The same shape extractContactNumber already reads, and
-// the same digit bounds, because a number is a number in every language.
-const PHONE = /\b0\d[\d\s]{7,12}\d\b/g;
-const PHONE_DIGITS_MIN = 10;
-const PHONE_DIGITS_MAX = 11;
+const { findAmounts, findPhoneNumbers } = require("./coLocation");
 
 // A date in any script. Decimal digits are \p{Nd}, month names are just letters,
 // and the separators between them vary by language ("15 de junio de 2026",
@@ -75,8 +69,8 @@ const MIN_LABEL_LINES = 2;
 // "royalmail-redelivery-fee.example.com" with no scheme, so a scheme-only rule
 // misses the shape it exists for.
 //
-// NOT a document signal, and deliberately not in DOCUMENT_SIGNALS below: 13 of
-// 54 corpus documents carry a link and three of them are genuine, so a link
+// NOT a document signal, and deliberately not in DOCUMENT_SIGNALS below: 14 of
+// 60 corpus documents carry a link and four of them are genuine, so a link
 // says nothing about whether something is a document. It is here because it is
 // structural, language independent and read by the same kind of caller.
 const LINK = /(?:https?:\/\/)?(?<![\p{L}\p{Nd}@.])[\p{L}\p{Nd}][\p{L}\p{Nd}-]*(?:\.[\p{L}\p{Nd}-]+)*\.(?:com|net|org|info|xyz|top|online|site|link|uk|eu|pl|es|fr|pt|ro)(?![\p{L}\p{Nd}])/iu;
@@ -89,15 +83,14 @@ function hasCurrencyAmount(text) {
   return findAmounts(String(text || "")).length > 0;
 }
 
+// Delegated, not restated. This file used to carry a byte-identical copy of
+// coLocation's PHONE and its digit bounds, with a comment saying it was the same
+// shape on purpose. It was the same shape until it was not: the international
+// fix would have had to be made in two places, or a Polish letter would keep
+// losing the structural signal here while the contact field found the number.
+// One pattern, one file.
 function hasTelephoneNumber(text) {
-  const source = String(text || "");
-  PHONE.lastIndex = 0;
-  let match;
-  while ((match = PHONE.exec(source)) !== null) {
-    const digits = match[0].replace(/\D/g, "").length;
-    if (digits >= PHONE_DIGITS_MIN && digits <= PHONE_DIGITS_MAX) return true;
-  }
-  return false;
+  return findPhoneNumbers(String(text || "")).length > 0;
 }
 
 function hasDateInAnyScript(text) {

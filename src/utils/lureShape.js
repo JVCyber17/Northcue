@@ -20,8 +20,8 @@
 // and pickTrustAssessment enforces that by taking this list separately from the
 // phrase-based one rather than by trusting a caller to be careful.
 //
-// MEASURED, 2 August 2026, across all 54 corpus documents. Fires on 7, all 7
-// scams, none of the 44 genuine documents:
+// MEASURED, 2 August 2026, across all 60 corpus documents. Fires on 7, all 7
+// scams, none of the 50 genuine documents:
 //
 //   polish_phishing                smish_parcel_link_only
 //   smish_parcel_link_only_pl      scam_council_refund_link_only
@@ -34,15 +34,19 @@
 // already refused by the decisive tier.
 //
 // HOW THIN THE EVIDENCE IS, said plainly because the number 7-for-0 reads much
-// stronger than it is. Of 44 genuine documents only THREE carry a link, and of
-// those three only ONE also carries an amount. So the separation is
-// demonstrated against a single genuine example, genuine_post_office_card
-// _payment, which is excluded by carrying both a reference and a phone number.
-// The other two never reach the discriminating half of the rule. This is
-// recorded in KNOWN_ENGINE_DEFECTS.md together with the false positive shape it
-// predicts: a sole trader emailing an invoice, which has a link to a payment
-// page and a total, and may well have neither a reference code nor a landline.
-// Promoting this rule beyond advisory needs production evidence, not more
+// stronger than it is. Of 50 genuine documents only FOUR carry a link, and of
+// those four only TWO also carry an amount. So the separation rests on two
+// genuine examples: genuine_post_office_card_payment, excluded by carrying both
+// a reference and a phone number, and intl_sole_trader_invoice, excluded only
+// by its phone number.
+//
+// THE SECOND ONE IS THERE BECAUSE THIS RULE GOT IT WRONG. The sole trader
+// invoice was the false positive KNOWN_ENGINE_DEFECTS.md predicted before the
+// document existed: a plumber with a payment link, a total and no reference
+// code. It fired, because +44 113 496 2200 was invisible to hasTelephoneNumber
+// until the phone pattern was fixed on 2 August 2026. It no longer fires, and
+// the whole margin between this rule and a genuine invoice is now one working
+// regex. Promoting it beyond advisory needs production evidence, not more
 // corpus documents written by the same hand that wrote the rule.
 
 const {

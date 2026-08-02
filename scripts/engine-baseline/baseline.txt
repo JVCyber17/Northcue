@@ -12698,7 +12698,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
   ],
   "reference_numbers": [],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "+44 113 496 2200",
   "appeal_rights": [],
   "support_options": [],
   "confidence": "high",
@@ -12778,14 +12778,15 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
-      "Contact the sender using trusted contact details."
+      "Contact the sender using trusted contact details.",
+      "The document gives this phone number: +44 113 496 2200."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. Contact the sender using trusted contact details. The document gives this phone number: +44 113 496 2200.",
     "status": "good"
   },
   {
@@ -12935,7 +12936,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
   ],
   "reference_numbers": [],
   "contact_details": [],
-  "contact_number": "0044 118 273",
+  "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
   "confidence": "high",
@@ -13014,15 +13015,14 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date.",
-      "The document gives this phone number: 0044 118 273."
+      "Check the payment amount and due date."
     ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0044 118 273.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
     "status": "good"
   },
   {
@@ -13118,14 +13118,14 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
   "trust_assessment": "medium",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "unsupported",
+  "document_category": "unknown",
   "document_type": "official_incoming",
-  "processing_mode": "unsupported",
-  "is_probable_non_document": true,
+  "processing_mode": "caution",
+  "is_probable_non_document": false,
   "non_document_carries_link": false,
   "confidence": "medium",
-  "needs_human_review": true,
-  "review_reason": "This does not look like an official document.",
+  "needs_human_review": false,
+  "review_reason": "Some details need checking before action.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
@@ -13143,29 +13143,45 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "If this is a letter or bill, try a clearer photo or a different page."
+  "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
 {
-  "summary": "This does not look like an official letter or bill.",
-  "most_important_point": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+  "summary": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
+  "most_important_point": "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
   "actions": [
-    "Upload a clearer photo or a different page if this is a letter or bill."
+    "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
-  "risk": "No official document details were found.",
-  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+  "risk": "Not clearly stated. Check the original document.",
+  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "low",
+  "confidence": "medium",
   "needs_human_review": true,
-  "review_reason": "This does not look like an official document.",
+  "review_reason": "This readable document type is not fully supported yet.",
   "evidence_spans": [],
+  "readable_unsupported_signals": {
+    "sender": null,
+    "topic": "przychodnia zdrowia rodzinnego",
+    "dateParts": [],
+    "primaryDate": null,
+    "hasResponseRequest": false,
+    "hasDeadlineLanguage": false,
+    "mostImportantPoint": "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
+    "dateMessage": "No clear date was found. Check the original document.",
+    "risk": "Not clearly stated. Check the original document.",
+    "keyChecks": [
+      "Check who sent the document.",
+      "Check the topic: przychodnia zdrowia rodzinnego.",
+      "Use official contact details before acting."
+    ]
+  },
   "selected_amount": null,
   "unlabelled_amount": false
 }
@@ -13174,29 +13190,26 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
 {
   "show": true,
   "type": "caution",
-  "text": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+  "text": "Some details need checking before you act."
 }
 
 [structured_result: meta]
 {
-  "document_type": "unsupported",
-  "document_type_label": "Not an official document",
-  "document_type_confidence": "low",
-  "overall_confidence": "low",
+  "document_type": "unknown",
+  "document_type_label": "Unknown document",
+  "document_type_confidence": "unknown",
+  "overall_confidence": "medium",
   "risk_level": "low",
-  "processing_mode": "failed",
+  "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This does not look like an official letter or bill.",
-    "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "one_line_summary": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
+    "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": [
-    "This document may be hard to read. Upload a clearer copy if possible.",
-    "This does not look like an official document."
-  ]
+  "warnings": []
 }
 
 [structured_result: cards, engine output]
@@ -13206,16 +13219,17 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This does not look like an official letter or bill.",
+    "simple_explanation": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
     "key_points": [
-      "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
+      "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What is this?. This does not look like an official letter or bill.. Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What is this?. This appears to be a formal letter about przychodnia zdrowia rodzinnego.. The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -13223,14 +13237,14 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+    "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What matters most?. Northcue could not find the things an official letter usually has, like a sender, a reference, or a date..",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What matters most?. The sender is not clearly stated. Check the original document..",
     "status": "normal"
   },
   {
@@ -13238,16 +13252,16 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
-      "Upload a clearer photo or a different page if this is a letter or bill."
+      "Check the original document to see whether a response or action is needed."
     ],
-    "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What do I need to do?. Upload a clearer photo or a different page if this is a letter or bill.. Upload a clearer photo or a different page if this is a letter or bill.",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
     "status": "normal"
   },
   {
@@ -13255,14 +13269,14 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No deadline clearly stated.",
+    "simple_explanation": "No clear date was found. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "When is it due?. No deadline clearly stated..",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
     "status": "normal"
   },
   {
@@ -13272,14 +13286,14 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "title": "What should I check?",
     "simple_explanation": "Check key details on the original document.",
     "key_points": [
-      "Check unclear details on the original."
+      "No extra checks clearly stated."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Check unclear details on the original.",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
     "status": "normal"
   },
   {
@@ -13287,16 +13301,16 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
     "key_points": [
-      "If this is a letter or bill, try a clearer photo or a different page."
+      "Check key details on the original document before acting."
     ],
-    "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
+    "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.. If this is a letter or bill, try a clearer photo or a different page.",
+    "confidence_level": "medium",
+    "warning": null,
+    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check key details on the original document before acting.",
     "status": "normal"
   }
 ]
@@ -13589,9 +13603,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
-  "lure_shape_signals": [
-    "Asks for money through a link, with no reference or contact number."
-  ],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],

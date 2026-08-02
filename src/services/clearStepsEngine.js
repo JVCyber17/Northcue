@@ -3477,19 +3477,21 @@ function extractContactDetails(text, trust) {
 
 // The one phone number the document says to ring, or null.
 //
-// NOTHING RENDERS THIS. It is a field only, in the same shape as deadline_iso:
-// the decision about which number, and whether there is one at all, is made
-// once here rather than by whatever later reads the text and pattern matches.
+// THIS REACHES THE READER. buildActionCardKeyPoints appends it to card 3 as the
+// last key point, through tpl.contact.phone_number, and 17 of the 60 corpus
+// documents surface one. The decision about which number, and whether there is
+// one at all, is made once here rather than by whatever later reads the text
+// and pattern matches.
 //
-// It renders nowhere because a phone number reaching a card is ALREADY a
-// settled question, answered no. aiStructuredResultService's stripper replaces
-// any card sentence carrying a phone-shaped number and a call-context word with
-// "Use contact details from the original document.", and applyStripperToRulesOutput
-// runs that over rules output too, on every path. It fires on the shipped
-// product today: bailiff_enforcement's card 3 key point "You must contact us on
-// 0333 320 122 by 3 September 2026." never reaches the reader. Surfacing this
-// field would need that rule changed deliberately, which is its own decision
-// and its own commit.
+// THE COMMENT THAT USED TO BE HERE SAID "NOTHING RENDERS THIS", and it was
+// right when it was written: the stripper replaced any card sentence carrying a
+// phone-shaped number and a call-context word with "Use contact details from
+// the original document.", so bailiff_enforcement's "You must contact us on
+// 0333 320 122 by 3 September 2026." never reached the reader. The commit that
+// added the card also added the stripper exemption for sentences byte-identical
+// to rules output, and this comment was not updated with it. Corrected 2 August
+// 2026. tests/stripperExemption.test.js is what holds that exemption in place;
+// if it is narrowed, this field goes back to rendering nowhere.
 //
 // PHONE NUMBERS ONLY, and that is a rule about what may ever reach a reader
 // rather than about what is easy to match. An email or web address on a letter

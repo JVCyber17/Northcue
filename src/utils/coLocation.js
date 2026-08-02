@@ -191,28 +191,69 @@ const PHONE_COMPETES = [
   "never call", "never give", "fax"
 ];
 
-// A UK number, matched whole or not at all.
+// A phone number, matched whole or not at all. THE ONE COPY: documentSignals.js
+// imports findPhoneNumbers from here rather than restating the pattern, because
+// it used to hold a byte-identical duplicate and a fix had to be made twice or
+// it was not made.
 //
-// LEADING ZERO, which is the entire false-positive defence. Verified against
-// every reference shape in the corpus: account numbers (4471028866), the HMRC
-// UTR (4471 028866), National Insurance numbers (QQ 12 34 56 C) and hyphenated
-// bank accounts (8842-0076) all fail it, because none begins with a zero
-// followed by a digit.
+// TWO BRANCHES, TWO DIFFERENT ANCHORS.
+//
+// THE PLUS, for a number written the international way. Every one of the 54
+// documents in the corpus before 2 August 2026 printed a UK national number, so
+// nothing had ever asked what happened to +44, +48, +351 or +40, which is how
+// the people this product is for write a number down. A genuine Polish clinic
+// letter was refused outright as a non document for want of the structural
+// signal its own phone number should have given it.
+//
+// The plus is a STRONGER anchor than the leading zero, not a weaker one, so no
+// country code list is needed and none is used: any code matches. Measured
+// against 28 shapes that must never match, including account numbers, the UTR,
+// NI numbers, sort codes, an IBAN, meter readings, "+44.20 in part payment" and
+// "rose by +12.5 per cent": 28 of 28 clean. No reference, account number, UTR,
+// NI number, sort code, IBAN or meter reading contains a plus.
+//
+// THE 00 FORM IS DELIBERATELY NOT MATCHED, and 0(?!0) makes that explicit
+// rather than incidental. "00" is two more digits, so it inherits the leading
+// zero's whole weakness and adds surface: measured, it wrongly matched a meter
+// serial "00 4471 028866", a claim reference "00 8842 0076 1234", an order
+// number "0044-1182-7345" and a contract "004471028866112". Restricting to
+// known country codes does not save it, because 0044 IS a known country code.
+//
+// That costs recall on a form real European post uses, and buys back something
+// worse than a miss. Before 0(?!0), "0044 118 273 4567" was FOURTEEN digits, so
+// the cap below should have declined it whole; instead the global pattern found
+// the ten digit prefix "0044 118 273", the cap accepted that, and card 3 told
+// the reader to ring a number that was not on the letter. A number not found
+// costs nothing. A wrong number is a call to a stranger.
+//
+// LEADING ZERO, still the false-positive defence for the national branch.
+// Account numbers (4471028866), the HMRC UTR (4471 028866), National Insurance
+// numbers (QQ 12 34 56 C) and hyphenated bank accounts (8842-0076) all fail it,
+// because none begins with a zero followed by a non-zero digit.
 //
 // THE DIGIT COUNT IS VALIDATED, NOT TRIMMED. [\d\s] is greedy, so
 // "on 0800 980 8800 8 August 2026" matches "0800 980 8800 8", one digit too
 // many. Trimming back to eleven would be guessing where the number ends, which
 // is the mistake MONEY made when it returned the longest well formed prefix of
 // a malformed amount and told a reader a bailiff wanted £124 instead of
-// £1,247.00. So a candidate outside ten to eleven digits is declined whole. A
-// number not found costs nothing; a wrong number is a call to a stranger.
-const PHONE = /\b0\d[\d\s]{7,12}\d\b/g;
+// £1,247.00. So a candidate outside the range is declined whole.
+//
+// The international range is wider because a country code is part of the count:
+// +48 22 123 45 67 is eleven digits, +44 20 8583 4242 is twelve, and
+// +880 2 1234 5678 is thirteen.
+const PHONE = /\+\d{1,3}[\s.-]?(?:\(0\)[\s.-]?)?\d[\d\s.-]{5,13}\d|(?<![\d+])0(?!0)\d[\d\s]{7,12}\d\b/g;
 const PHONE_DIGITS_MIN = 10;
 const PHONE_DIGITS_MAX = 11;
+const PHONE_INTL_DIGITS_MAX = 15;
+
+function isInternationalForm(raw) {
+  return String(raw).trim().startsWith("+");
+}
 
 function hasUsableDigitCount(raw) {
   const digits = String(raw).replace(/\D/g, "").length;
-  return digits >= PHONE_DIGITS_MIN && digits <= PHONE_DIGITS_MAX;
+  const max = isInternationalForm(raw) ? PHONE_INTL_DIGITS_MAX : PHONE_DIGITS_MAX;
+  return digits >= PHONE_DIGITS_MIN && digits <= max;
 }
 
 // ---------------------------------------------------------------------------

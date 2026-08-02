@@ -101,6 +101,115 @@ test("a UK number is matched whole, or not at all", async (t) => {
   });
 });
 
+test("a number written the international way", async (t) => {
+  // Added 2 August 2026. Every corpus document before that printed a UK
+  // national number, so nothing had ever asked what happened to +44 or +48,
+  // and a genuine Polish clinic letter was refused as a non document for want
+  // of the structural signal its own phone number should have given it.
+  await t.test("the plus form, for every language Northcue ships and beyond", () => {
+    const FORMS = [
+      ["UK", "+44 20 8583 4242"],
+      ["UK mobile", "+44 7700 900412"],
+      ["UK with (0)", "+44 (0)20 8583 4242"],
+      ["UK unspaced", "+442085834242"],
+      ["Polish", "+48 22 512 44 90"],
+      ["Polish mobile", "+48 601 234 567"],
+      ["Spanish", "+34 912 345 678"],
+      ["French", "+33 1 42 68 53 00"],
+      ["Portuguese", "+351 21 447 8802"],
+      ["Romanian", "+40 264 591 220"],
+      ["Irish", "+353 85 123 4567"],
+      ["Indian", "+91 22 1234 5678"],
+      ["Bangladeshi", "+880 2 1234 5678"],
+      // No country code list, so a code Northcue ships no language for still
+      // works. Deliberate: the plus is the anchor, not the code.
+      ["German", "+49 30 12345678"],
+      ["US", "+1 212 555 0142"]
+    ];
+    FORMS.forEach(([why, number]) => {
+      assert.deepEqual(co.findPhoneNumbers("Please call " + number + " for help.")
+        .map((h) => h.value.trim()), [number], why + ": must match WHOLE, or not at all");
+    });
+  });
+
+  await t.test("the 00 form is declined whole, not truncated", () => {
+    // THE REGRESSION THIS EXISTS FOR. 0044 118 273 4567 is fourteen digits, so
+    // the cap should decline it. Before 0(?!0) the global pattern found the ten
+    // digit prefix "0044 118 273", the cap accepted THAT, and card 3 told the
+    // reader to ring a number that was not on the letter.
+    assert.deepEqual(co.findPhoneNumbers("Please call 0044 118 273 4567 for help.")
+      .map((h) => h.value), []);
+    assert.equal(selected(letter(["If you are struggling, please call 0044 118 273 4567."])), null);
+    // And the same number written the plus way IS found, so the decline above
+    // is about the 00 prefix and not about the number.
+    assert.equal(selected(letter(["If you are struggling, please call +44 118 273 4567."])),
+      "+44 118 273 4567");
+  });
+
+  await t.test("00 is not matched, and these are why", () => {
+    // Measured shapes that a 00 branch wrongly matched. Each begins with two
+    // zeros and is not a phone number. Restricting to known country codes does
+    // not save it: 0044 IS a country code.
+    [
+      "Meter serial 00 4471 028866 was replaced",
+      "Your claim reference is 00 8842 0076 1234",
+      "Order 0044-1182-7345 was dispatched",
+      "Contract 004471028866112 runs to 2027"
+    ].forEach((line) => {
+      assert.deepEqual(co.findPhoneNumbers(line).map((h) => h.value), [], line);
+    });
+  });
+
+  await t.test("a plus in front of something that is not a number", () => {
+    // The plus is only an anchor if it does not fire on arithmetic and money.
+    [
+      "We received +44.20 in part payment",
+      "The charge rose by +12.5 per cent this year",
+      "Balance change +1,204.50 this quarter",
+      "+44 is the UK dialling code"
+    ].forEach((line) => {
+      assert.deepEqual(co.findPhoneNumbers(line).map((h) => h.value), [], line);
+    });
+  });
+
+  await t.test("the digit range is wider for international, because the code counts", () => {
+    // +48 22 512 44 90 is eleven, +44 20 8583 4242 is twelve, +880 2 1234 5678
+    // is thirteen, so the international cap is fifteen where the national one
+    // is eleven.
+    assert.deepEqual(co.findPhoneNumbers("Call +880 2 1234 5678.").map((h) => h.value),
+      ["+880 2 1234 5678"], "thirteen digits is inside the international range");
+    assert.deepEqual(co.findPhoneNumbers("Call +44 20 85.").map((h) => h.value), [],
+      "eight digits is still too few");
+    // A national number is unchanged, and still held to ten or eleven.
+    assert.deepEqual(co.findPhoneNumbers("Call 020 858 342.").map((h) => h.value), [],
+      "nine national digits is still refused");
+  });
+
+  await t.test("backtracking is wider here than nationally, and that is recorded", () => {
+    // The existing behaviour, not new: a run too long to accept backtracks to
+    // the longest acceptable prefix rather than declining, and the test above
+    // named "a longer run backtracks to a valid number rather than declining"
+    // pins that for the national branch on purpose.
+    //
+    // The international cap is fifteen, so the prefix it can fall back to is
+    // longer. "+44 20 8583 4242 44 44 4444" is eighteen digits and yields the
+    // fourteen digit "+44 20 8583 4242 44", which is a fragment rather than a
+    // number. Asserted rather than hidden, because it is the one place the
+    // wider range costs something.
+    //
+    // Not treated as a defect to fix here: a plus followed by an eighteen digit
+    // run is not a shape any letter prints, and the purpose-label rule below is
+    // a second gate before anything reaches a reader. If a real document ever
+    // shows this, it belongs in the corpus first.
+    assert.deepEqual(co.findPhoneNumbers("Call +44 20 8583 4242 44 44 4444.").map((h) => h.value),
+      ["+44 20 8583 4242 44"]);
+    // A word after the number ends the run, exactly as nationally, so the
+    // ordinary case keeps the whole number.
+    assert.deepEqual(co.findPhoneNumbers("Call +44 20 8583 4242 extra 99.").map((h) => h.value),
+      ["+44 20 8583 4242"]);
+  });
+});
+
 test("a reference number is never a phone number", async (t) => {
   // The leading zero is the whole false-positive defence. Every shape below is
   // on a corpus letter today.
@@ -247,17 +356,24 @@ test("the gates, through the engine", async (t) => {
       genuine_school_final_warning: "020 8583 1188",
       genuine_dwp_identity_check: "0800 328 5644",
       genuine_post_office_card_payment: "020 8583 4242",
-      // A DEFECT, PINNED AS A FINDING RATHER THAN FIXED. The letter prints
-      // "0044 118 273 4567". PHONE is global and its digit cap validates each
-      // match rather than the candidate as a whole, so it finds the ten digit
-      // PREFIX, the cap accepts it, and the reader is shown a number that is
-      // not the one on the paper. The comment on PHONE says a candidate outside
-      // ten to eleven digits is declined whole, because "a wrong number is a
-      // call to a stranger"; here it is not declined, it is truncated.
+      // FIXED 2 August 2026. This used to read "0044 118 273", the ten digit
+      // prefix of the fourteen digit number the letter prints, because the
+      // digit cap validated each match rather than the candidate. 0(?!0) now
+      // stops the national branch entering a 00 prefix at all, so the whole
+      // candidate is declined and the document is ABSENT from this set. A
+      // number not found costs nothing; a wrong number is a call to a stranger.
       //
-      // Left wrong on purpose so the fix has something to move. Change this
-      // line to null, or to the full number, only alongside the fix.
-      intl_water_arrears_00_prefix: "0044 118 273"
+      // The 00 form is not recognised, deliberately. See the comment on PHONE:
+      // matching it wrongly caught a meter serial, a claim reference, an order
+      // number and a contract number.
+      //
+      // THE INTERNATIONAL RECOVERY. Only this one, and only because its letter
+      // says "you can call us on". The Polish, Portuguese and Romanian letters
+      // all carry a number the pattern now finds, and all three still return
+      // null, because PHONE_GOVERNS is ["telephone","call","calling","phone",
+      // "ring"] and none of them asks in English. Recorded in
+      // KNOWN_ENGINE_DEFECTS.md.
+      intl_energy_bill_plus44: "+44 113 496 2200"
     };
     const found = {};
     CORPUS.forEach((entry) => {
@@ -292,12 +408,21 @@ test("only a phone number, never an address of any kind", async (t) => {
 
   await t.test("no corpus document's contact_number contains a letter or an at sign", () => {
     // The class-level guard. If this field ever grows to cover addresses, the
-    // value stops being digits and spaces and this fails.
+    // value stops being a number and this fails.
+    //
+    // Widened on 2 August 2026 from digits-and-spaces to allow the punctuation
+    // an international number is written with: "+44 113 496 2200" and
+    // "+44 (0)20 8583 4242". The guard that matters is unchanged and is now
+    // stated directly rather than implied by the character class: a letter, an
+    // at sign or a slash means an email or a web address has reached the field,
+    // and that is the thing this test exists to catch.
     CORPUS.forEach((entry) => {
       const value = analyse(entry.text).structured_output.extractor_internal.contact_number;
       if (value === null) return;
-      assert.match(value, /^[0-9 ]+$/,
-        entry.id + ": contact_number must be digits and spaces only, got " + JSON.stringify(value));
+      assert.doesNotMatch(value, /[A-Za-z@/]/,
+        entry.id + ": contact_number must not be an address, got " + JSON.stringify(value));
+      assert.match(value, /^[0-9 +().-]+$/,
+        entry.id + ": contact_number must be a number, got " + JSON.stringify(value));
     });
   });
 });

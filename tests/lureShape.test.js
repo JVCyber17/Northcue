@@ -17,6 +17,8 @@ const test = require("node:test");
 
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 const { hasLureShape, LURE_SHAPE_SIGNAL } = require(path.join(__dirname, "..", "src", "utils", "lureShape"));
+const { hasLink, hasCurrencyAmount, hasTelephoneNumber } =
+  require(path.join(__dirname, "..", "src", "utils", "documentSignals"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 const META = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "lure-shape-test" };
@@ -30,19 +32,17 @@ const FIRES_ON = [
   "scam_council_refund_link_only",
   "scam_dvla_vehicle_tax",
   "scam_hmrc_refund_es",
-  "scam_energy_refund_pt",
-  // THE FALSE POSITIVE, and it is genuine. Predicted in KNOWN_ENGINE_DEFECTS.md
-  // when this rule shipped, then written into the corpus and confirmed. A
-  // plumber's invoice: a payment link, a total, no reference code, and a phone
-  // number the engine cannot see because it is written +44. Nothing here is
-  // wrong with the invoice; the rule is reading an absence that is not there.
-  "intl_sole_trader_invoice"
+  "scam_energy_refund_pt"
 ];
 
-// The one document in FIRES_ON that is not a scam. Named separately so the
-// assertions below can say "seven scams and one known false positive" instead
-// of quietly loosening to "whatever fires".
-const KNOWN_FALSE_POSITIVES = ["intl_sole_trader_invoice"];
+// EMPTY, AND IT WAS NOT. intl_sole_trader_invoice was here: a plumber's
+// invoice with a payment link, a total, no reference code and a +44 number the
+// engine could not see, so the rule read an absence that was not there. The
+// phone fix on 2 August 2026 made the number visible and the invoice stopped
+// firing. Kept as a named empty list rather than deleted, because the next
+// false positive should land here and be argued about, not absorbed into
+// FIRES_ON.
+const KNOWN_FALSE_POSITIVES = [];
 
 // The ten scams in the corpus. The three not in FIRES_ON are missed, and each
 // is missed by a part of the rule working correctly.
@@ -58,7 +58,7 @@ function trustOf(text) {
 }
 
 test("the rule fires where it was measured to fire", async (t) => {
-  await t.test("exactly eight documents: seven scams and one known false positive", () => {
+  await t.test("exactly seven documents, and no genuine one among them", () => {
     const fired = CORPUS.filter((e) => hasLureShape(e.text)).map((e) => e.id);
     assert.deepEqual(fired.sort(), FIRES_ON.slice().sort());
     fired.forEach((id) => {
@@ -67,11 +67,12 @@ test("the rule fires where it was measured to fire", async (t) => {
     });
   });
 
-  await t.test("the false positive rate is one in fifty, and stays visible", () => {
-    // Written as a rate rather than a list, because the number is the argument
-    // for keeping this rule advisory. When the phone fix lands, this document
-    // should stop firing and this count should go to zero; if it does not, the
-    // fix did not reach this consumer.
+  await t.test("the false positive rate is zero in fifty, and stays visible", () => {
+    // Written as a set rather than a count, because the membership is the
+    // argument for how far this rule may be trusted. It was one in fifty until
+    // the phone fix; the invoice that made it one is still in the corpus and
+    // still has a link, a total and no reference code, so if this ever returns
+    // to one the fix has been undone rather than the corpus changed.
     const genuine = CORPUS.filter((e) => !SCAMS.includes(e.id));
     assert.equal(genuine.length, 50, "the genuine/scam split has changed");
     const firedOnGenuine = genuine
@@ -81,7 +82,7 @@ test("the rule fires where it was measured to fire", async (t) => {
       "the set of genuine documents this rule fires on has changed");
   });
 
-  await t.test("the engine publishes the signal on exactly those eight", () => {
+  await t.test("the engine publishes the signal on exactly those seven", () => {
     const published = CORPUS
       .filter((e) => trustOf(e.text).lure_shape_signals.length > 0)
       .map((e) => e.id);
@@ -107,15 +108,16 @@ test("the rule fires where it was measured to fire", async (t) => {
 });
 
 test("advisory means advisory", async (t) => {
-  await t.test("the false positive is not refused, which is the point of advisory", () => {
-    // The invoice fires the rule and still keeps its cards, its amount and its
-    // mode. That is the difference between a rule that is wrong about a
-    // plumber and a rule that refuses a plumber.
-    const trust = trustOf(CORPUS.find((e) => e.id === "intl_sole_trader_invoice").text);
-    assert.deepEqual(trust.lure_shape_signals, [LURE_SHAPE_SIGNAL]);
-    assert.notEqual(trust.processing_mode, "verification_only");
-    assert.notEqual(trust.processing_mode, "unsupported");
-    assert.notEqual(trust.trust_assessment, "low");
+  await t.test("the invoice that used to trip this rule no longer does", () => {
+    // The regression guard for the phone fix, from this rule's side. The
+    // invoice still has every other ingredient, so the only thing keeping it
+    // out is that +44 113 496 2200 is now a phone number.
+    const invoice = CORPUS.find((e) => e.id === "intl_sole_trader_invoice");
+    assert.ok(hasLink(invoice.text) && hasCurrencyAmount(invoice.text),
+      "the invoice lost its link or its total, so this no longer tests the fix");
+    assert.equal(hasTelephoneNumber(invoice.text), true,
+      "the +44 number is invisible again, which is the defect this fixed");
+    assert.deepEqual(trustOf(invoice.text).lure_shape_signals, []);
   });
 
   await t.test("the structural rule is never the reason anything is refused", () => {

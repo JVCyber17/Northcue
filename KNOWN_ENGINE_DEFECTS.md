@@ -1281,7 +1281,32 @@ this rule refuse a document is a change made without knowing its false positive
 rate. Writing ten more corpus scams it catches would not move that number at
 all.
 
-## OPEN: a phone number written the international way is not a phone number
+## FIXED 2 August 2026: a phone number written the international way
+
+The section below is kept as written, because it is the evidence the fix was
+made against and the corpus documents it names are still there. What changed:
+
+`PHONE` now carries a plus branch for any country code, and the two byte-
+identical copies collapsed into one, with `documentSignals.js` importing
+`findPhoneNumbers` from `coLocation.js`. `0(?!0)` stops the national branch
+entering a `00` prefix, so `0044 118 273 4567` is declined whole instead of
+being shown to the reader as `0044 118 273`.
+
+**The `00` form is deliberately still not recognised.** Measured, a `00` branch
+wrongly matched a meter serial, a claim reference, an order number and a
+contract number, and restricting it to known country codes does not help
+because `0044` is one. That is a recall gap on a form real European post uses,
+accepted because a number not found costs nothing and a wrong number is a call
+to a stranger.
+
+Measured effect: `intl_polish_clinic_appointment` stops being refused (four
+protected fields), `intl_sole_trader_invoice` stops firing Q3, and
+`intl_energy_bill_plus44` gains its number on card 3. Nothing else on any of the
+60 documents moved.
+
+**Still open, and now the limiting factor: see "PHONE_GOVERNS is English" below.**
+
+## The evidence that fix was made against
 
 `hasTelephoneNumber` and co-location's `PHONE` are the same regex,
 `/\b0\d[\d\s]{7,12}\d\b/`, written in two files. It is a UK number in national
@@ -1361,6 +1386,113 @@ that true.
 
 Not a privacy gap: `redactForAi` uses a different and wider pattern, and every
 one of the twenty formats above is masked before text leaves the server.
+
+## OPEN: PHONE_GOVERNS is English, so only English letters get their number back
+
+The phone fix restored the structural signal and corrected Q3 **in every
+language**, because both read the pattern directly. `contact_number` did not
+follow, because it has a second gate the others do not: a number is only
+surfaced when a phrase beside it says what the number is FOR, and those phrases
+are English.
+
+```
+PHONE_GOVERNS          telephone, call, calling, phone, ring
+PHONE_GOVERNS_SPANNING contact, call, telephone, phone, speak to, talk to,
+                       answer questions          (with "on" as the tail)
+```
+
+Measured on the four corpus letters that now carry a findable number:
+
+| letter | how it asks | binds |
+| --- | --- | --- |
+| `intl_energy_bill_plus44` | "you can call us on +44 113 496 2200" | **yes** |
+| `intl_polish_clinic_appointment` | "prosimy o kontakt pod numerem +48 22 512 44 90" | no |
+| `intl_portuguese_energy_final_notice` | "contacte-nos através do +351 21 447 8802" | no |
+| `intl_romanian_school_meeting` | "confirmați prezența la +40 264 591 220" | no |
+
+Portuguese is the near miss worth noting: `contacte` contains `contact`, so the
+head matches, and the binding still fails because the spanning form requires
+`on` as its tail and Portuguese says `através do`. So one of the three is
+already half-recognised by accident, in the same way the month list is.
+
+**The gate is right to exist.** A letter's footer carries switchboards, fax
+lines and registered-office numbers, and requiring a stated purpose is what
+separates the number the reader needs from the ones the page happens to carry.
+Widening it is not a matter of translating five words: each language needs its
+own head phrases AND its own tail for the spanning form, and a wrong binding
+here puts a wrong number on card 3.
+
+**So this is the shape of the remaining defect:** a non-English letter is no
+longer refused and no longer mistaken for a lure, and still cannot tell its
+reader which number to ring. That is a much smaller harm than the refusal was,
+and it is the next thing in this area worth doing.
+
+## OPEN: a mobile number scores two structural signals out of one artefact
+
+`REFERENCE_CODE` has a six-or-more-digit branch, for account numbers like
+`4471028866`. It also matches the tail of a mobile number:
+
+| written as | telephone_number | reference_code |
+| --- | --- | --- |
+| `07700 900412` | yes | **yes** (`900412`) |
+| `07700900412` | yes | **yes** |
+| `020 8583 4242` | yes | no |
+| `+44 7700 900412` | yes | **yes** |
+
+Two consequences, both real:
+
+**The non-document gate over-counts.** A document whose only structural evidence
+is a mobile number scores two of the three signals it needs, from one artefact.
+The gate is meant to be counting independent evidence.
+
+**Q3's lure rule is cleared for the wrong reason.** `hasLureShape` requires
+`!hasReferenceCode`, and the whole point of that guard is that a genuine sender
+gives you a way to identify your account. A mobile number is not that. Found
+while writing `intl_sole_trader_invoice`: the first draft carried a mobile and
+did not fire the rule, and the reason was `900412`, not the phone guard. The
+document now uses a landline so its behaviour is genuine, and the collision it
+exposed is still there.
+
+A landline does not collide, because `020 8583 4242` has no run of six digits.
+So whether a document scores one signal or two depends on which kind of number
+the sender happens to print.
+
+Not fixed here. A fix has to decide what a six-digit run means when it sits
+inside something already recognised as a phone number, and that is a change to
+`REFERENCE_CODE`, which every structural consumer reads.
+
+## OPEN: the non-document gate's month list is accidentally multilingual
+
+`detectProbableNonDocument`'s `hasFormalDate` includes
+`\b\d{1,2}\s+(?:jan|feb|...|sep|sept|...)[a-z]*\s+\d{4}\b`. The `[a-z]*` after
+each stem was there to catch `September` from `sep`. It also catches every
+Romance month that shares the Latin stem:
+
+| written as | matches the English list |
+| --- | --- |
+| `15 September 2026` | yes |
+| `15 septembrie 2026` (Romanian) | **yes** |
+| `15 septiembre 2026` (Spanish) | **yes** |
+| `15 septembre 2026` (French) | **yes** |
+| `15 setembro 2026` (Portuguese) | no |
+| `15 września 2026` (Polish) | no |
+| `15 listopada 2026` (Polish) | no |
+| `15 सितंबर 2026` (Hindi) | no |
+
+This is why `intl_romanian_school_meeting` is NOT refused while
+`intl_polish_clinic_appointment`, the same shape in a different language, was.
+The Romanian letter is rescued by a coincidence.
+
+**The danger is that it reads as multilingual date support and is not.** It
+covers some months of some Romance languages: `noiembrie` does not match, and
+`septembrie` does, in the same language. Nothing about which letters are rescued
+was chosen, and no test asserts it, so nothing stops it changing.
+
+Recorded rather than fixed for the same reason the structural signals exist at
+all: the answer is not to add Polish and Gujarati month names to an English
+list, it is that `LOOKS_LIKE_A_DATE` in `documentSignals.js` already reads a
+date in any script and the gate could ask it instead. That is a change to the
+gate's four English checks, which is its own decision.
 
 ## Recommended order for future work
 
