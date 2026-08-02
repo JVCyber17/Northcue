@@ -9,3 +9,4 @@ private_storage/uploads/*
 private_storage/results/*
 !private_storage/uploads/.gitkeep
 !private_storage/results/.gitkeep
+scripts/corpus-pdf/generated/
