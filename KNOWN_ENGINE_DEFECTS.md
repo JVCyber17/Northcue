@@ -1663,6 +1663,106 @@ phone number is surfaced from a nine-number contacts panel, which is the right
 outcome by the existing rule, though a reader looking at a page headed "Helpful
 contacts" is arguably owed the billing number.
 
+## OPEN: what the corpus systematically does not contain
+
+Measured 2 August 2026 across all 63 documents, after the British Gas failure.
+The strategy that follows from it is `CORPUS_STRATEGY.md`; this section is the
+evidence.
+
+**Size.** Median document 62 words, 11 lines. Longest 171 words. A real UK
+energy bill is 1,800 to 4,000 words across 2 to 6 pages. **Documents at 300+
+words: zero.** The three longest were added the day before this was written.
+
+**Absent from all 63:** a running header repeated on every page; a tabular row of
+three or more columns; a QR code or scan instruction; an email address;
+multi-column text run together by extraction; a logo rendered as stray text;
+hyphenation across a line break; a currency amount split by a line break; a
+barcode or payment-slip line.
+
+**Present in one or two documents only, all added in the last two days:** tariff
+and usage tables, transactions lists, contacts panels, reference blocks, legal
+small print, company registration footers, covering periods.
+
+**No corpus document has ever been through the extractor.** All 62 entries are
+hand-written `text:` strings passed straight to `runClearStepsEngine`. The
+production bug lives in `extractTextFromPdf` joining pages with `"\n\n"` and
+emitting no page marker. **A hand-written fixture cannot contain that fact**, so
+the corpus could not have caught it at any size.
+
+**And the clearest single measurement.** 20 documents yield a deadline. The
+carrying sentence is "Please pay by DATE" six times, "You must pay by DATE"
+three times, "due by DATE" twice. **In 0 of 20 does an amount sit between the
+verb and the date.** Six ordinary demand phrasings written fresh:
+
+| phrasing | deadline read |
+| --- | --- |
+| `You must pay by 3 July 2026.` | yes |
+| `The sum of £482.30 is due by 3 July 2026.` | yes |
+| `Please pay £482.30 by 3 July 2026.` | **no** |
+| `You must pay £482.30 in full by 3 July 2026.` | **no** |
+| `You must pay the balance by 3 July 2026.` | **no** |
+| `Payment of £482.30 must be received by 3 July 2026.` | **no** |
+
+The corpus was written in the phrasings the rules already handle.
+
+## OPEN: nine languages, six genuine documents, four at zero
+
+| language | documents | genuine | scam |
+| --- | --- | --- | --- |
+| English | 51 | 48 | 3 |
+| Polish | 5 | 2 | 3 |
+| Spanish | 2 | 1 | 1 |
+| French | 2 | 1 | 1 |
+| Portuguese | 2 | 1 | 1 |
+| Romanian | 1 | 1 | 0 |
+| **Gujarati** | **0** | | |
+| **Hindi** | **0** | | |
+| **Bengali** | **0** | | |
+| **Panjabi** | **0** | | |
+
+**All 12 non-English documents produce `selected_amount: null`,
+`deadline_iso: null` and no consequence. Zero for twelve on all three.**
+
+The four languages at zero serve the largest UK South Asian communities, which
+is the stated user base, and the template bank carries 371 translated sentences
+for each of them written without ever having seen a document in that language.
+
+What we do not know is basic and per-language: how a sender is stated in a
+Polish council letter, whether a Spanish utility labels its reference
+`Referencia` or `Nº de contrato`, where a Bengali NHS letter puts the
+obligation, whether a Romanian bill quotes RON or GBP.
+
+## OPEN: the classes eight realistic documents broke
+
+Built 2 August 2026 to be hard the way real post is hard rather than to target
+known weaknesses. **No fabrication in any of the eight**: the A1 protections hold
+under pressure. What failed:
+
+| document | result |
+| --- | --- |
+| bill with a page of tariff tables | **passes.** £106.20 chosen over the £1,284.60 annual total, deadline read |
+| letter with a dense terms page | all six cards decline. The letter says "You do not need to do anything" |
+| statement with fifty transaction lines | not fused, but category `unknown`, no amount, no date. Card 5 says an amount is unlabelled; the closing balance IS labelled |
+| letter with a footer on every page | all six decline. The council's own footer address line, exactly 7 words, passes `looksLikeLetterhead` |
+| **bilingual English and Welsh letter** | all six decline. Welsh public bodies are statutorily required to write bilingually |
+| amount repeated eight times | mostly right, but **no deadline** on a county-court demand |
+| letter with no amount at all (GP address change) | all six decline |
+| scanned photo at an angle | correctly garbled, but card 1 reads "a formal letter about sever n trent wat er" |
+
+**Ranked by harm.** Refusing a genuine document dominates by volume: six of
+eight, plus three corpus documents and a single-page dual-fuel bill. Declining
+where the answer was available is second and hides the most value: the deadline
+on a court demand, the closing balance on a statement, and every amount and date
+in every non-English document. A wrong fact stated calmly is third and mild:
+garbled text presented as a topic, a statement categorised `housing` because one
+transaction line says Rent, and a direct debit collection framed as a demand.
+**No under-alarming and no over-alarming was found.**
+
+**One rule, or a whole class.** Every refusal above comes from one five-line
+function, `hasRepeatedLetterhead`, and is fixable. What it revealed is not:
+extraction, document length, nine languages, tabular layout and bilingual
+documents are each a whole class the engine has never been tested against.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by
