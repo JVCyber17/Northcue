@@ -12,6 +12,68 @@ obligation).
 
 ---
 
+# OPEN, AND FIRST: co-location cannot bind a label in four of the ten languages
+
+**Devanagari, Gujarati, Bengali and Gurmukhi have never had working
+co-location.** Not partially, not unreliably: `locateLabels` compiles
+
+```js
+new RegExp("\\b" + label + "\\b", "gi")
+```
+
+and JavaScript's `\b` is a transition between `[A-Za-z0-9_]` and anything else.
+Every letter outside that ASCII range is a **non-word** character, so between a
+space and a Devanagari letter there is no boundary at all and the pattern can
+never match. Hindi, Gujarati, Bengali and Panjabi labels are unmatchable by
+construction, whatever vocabulary is added.
+
+Measured 2 August 2026, with the pattern built exactly as `locateLabels` builds
+it:
+
+| label | with the boundary | as a plain substring |
+| --- | --- | --- |
+| Polish `do`, Spanish `hasta` | matches | matches |
+| Polish `sprawdź`, `życzenie` | **no** | matches |
+| Romanian `până`, Portuguese `até`, French `réglé` | **no** | matches |
+| Hindi `तक`, Gujarati `સુધીમાં`, Bengali `মধ্যে`, Panjabi `ਤੱਕ` | **no** | matches |
+
+**It is wider than the four scripts.** A Latin-script label works only if it
+begins and ends with an ASCII letter. `até` and `până` are the ordinary
+deadline prepositions in Portuguese and Romanian, and both fail. An earlier
+version of this note said the Latin languages needed only vocabulary; that was
+wrong, and this table is why.
+
+**Gujarati and Bengali currently produce correct dates by luck.** The greeting
+fix of 2 August gave them a header zone, so the letter date is excluded and the
+first remaining body date wins. Each of those two documents happens to carry
+**exactly one** body date, so the fallback cannot be wrong. Add the second date a
+real NHS letter carries, the "if you cannot attend, tell us by" line, and both
+fail exactly as the Hindi DWP letter does today: it names 18 June, its next
+payment date, where the obligation is to send information by 24 June.
+
+**And there is a second blocker underneath.** Co-location binds forward only,
+because a label points at the value that follows it. All four of these languages
+are postpositional: `24 June 2026 तक` puts the marker **after** the date.
+Verified with an ASCII stand-in so the boundary bug was not the cause: a label
+before the date binds, the same label after it returns null.
+
+So closing this needs three things, not one: boundary handling that is not
+ASCII-bound, direction-aware labels, and then per-language vocabulary. That is
+work inside the most safety-critical file in the engine and it should be scoped
+as its own piece.
+
+**THIS IS THE SAME DEFECT THAT ALREADY SHIPPED TWICE IN THE TRANSLATION
+SCANNER.** `scripts/scan-translations.js` carries a header explaining why it
+never uses `\b`, and `docs/i18n/engineering-standards.md` records the decision
+made on 29 July 2026 after the ASCII boundary bug hid diacritic-final terms and
+silently under-reported every scan against Polish, Romanian, Portuguese, Hindi,
+Bengali and Panjabi. The tooling was fixed and the lesson was written down. **The
+engine has the identical bug in its most important matcher and nobody looked.**
+That is the finding worth keeping: a defect fixed in one place and documented as
+a principle was never searched for anywhere else.
+
+---
+
 # Classification defects
 
 Northcue's classification layer decides what a document *is*: its category, its
