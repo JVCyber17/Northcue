@@ -86,7 +86,7 @@ function providerSkipReason({ rulesRun, language }) {
   return null;
 }
 
-async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
+async function applySafetyPassAndRecordAiStatus({ rulesRun, extractedText, language }) {
   const output = rulesRun.api_output;
 
   // Backstop: run the proven pay/credential stripper over the rules-engine cards
@@ -115,9 +115,11 @@ async function applyAiStructuredResult({ rulesRun, extractedText, language }) {
   //      route. Recording the answer keeps document_sessions.ai_status
   //      meaningful across the change rather than going blank.
   //
-  // The name is now wrong: it applies no AI structured result. Renaming it
-  // touches six test files and the route for no behaviour change, so it is
-  // listed as a follow-up rather than folded in here.
+  // RENAMED 2 August 2026, from applyAiStructuredResult. That name described
+  // what this used to do and had described it wrongly since the phrasing pass
+  // went: it applies no AI structured result, because nothing asks a model for
+  // one. The two things it does are in the name now. Zero behaviour change; the
+  // baseline is byte-identical across all 60 documents.
   attachAiMetadata(output, {
     ai_used: false,
     ai_status: "skipped",
@@ -362,7 +364,7 @@ function sanitizeAiTextField(text, exemptSentences) {
 }
 
 module.exports = {
-  applyAiStructuredResult,
+  applySafetyPassAndRecordAiStatus,
   stripAiViolations,
   sanitizeAiTextField,
   rulesSentenceSet,

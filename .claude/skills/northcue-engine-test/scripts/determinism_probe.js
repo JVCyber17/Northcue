@@ -17,7 +17,7 @@
 //
 // SCOPE
 //   This probe exercises the RULES ENGINE only (runClearStepsEngine). It does NOT
-//   call the OpenAI phrasing layer (applyAiStructuredResult). That layer rewrites
+//   call the OpenAI phrasing layer (applySafetyPassAndRecordAiStatus). That layer rewrites
 //   only card WORDING and is pinned to temperature 0 for near-determinism; the
 //   facts shown here never depend on it.
 //
@@ -245,5 +245,5 @@ console.log(anyContentVaried
   ? "VERDICT: at least one CONTENT field varied across runs (see VARIED rows above)."
   : "VERDICT: every CONTENT field was IDENTICAL across all runs for all 3 fixtures.");
 console.log("Note: this probe runs the RULES ENGINE only (runClearStepsEngine); the");
-console.log("OpenAI phrasing layer (applyAiStructuredResult) is NOT invoked here.");
+console.log("OpenAI phrasing layer (applySafetyPassAndRecordAiStatus) is NOT invoked here.");
 console.log("#".repeat(78));

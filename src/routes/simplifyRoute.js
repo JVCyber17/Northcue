@@ -21,7 +21,7 @@ const {
   markOcrFailed
 } = require("../services/documentSessionService");
 const {
-  applyAiStructuredResult,
+  applySafetyPassAndRecordAiStatus,
   providerSkipReason,
   redactForAi,
   AI_TIMEOUT_MS,
@@ -379,7 +379,7 @@ async function analyseDocumentText(extractedText, fileMeta = {}) {
   // language is not English the pass is skipped entirely inside the service:
   // AI phrasing is English only in the multilingual MVP, and non English cards
   // are the deterministic rules cards translated by the template bank.
-  const applied = await applyAiStructuredResult({
+  const applied = await applySafetyPassAndRecordAiStatus({
     rulesRun: run,
     extractedText,
     language

@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 
 const { runClearStepsEngine } = require("../src/services/clearStepsEngine");
-const { applyAiStructuredResult } = require("../src/services/aiStructuredResultService");
+const { applySafetyPassAndRecordAiStatus } = require("../src/services/aiStructuredResultService");
 
 function run(text) {
   return runClearStepsEngine({
@@ -128,7 +128,7 @@ async function runAiPass(text, { withKey, fetchImpl }) {
     return fetchImpl(...args);
   };
   try {
-    const run2 = await applyAiStructuredResult({ rulesRun, extractedText: text });
+    const run2 = await applySafetyPassAndRecordAiStatus({ rulesRun, extractedText: text });
     const ai = run2.api_output.debug.ai;
     return { fetchCalls, factCalls, ai, cards: run2.api_output.cards, rulesCards,
       facts: run2.api_output.debug.ai_facts };

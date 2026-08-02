@@ -20,7 +20,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const {
-  sanitizeAiTextField, stripAiViolations, rulesSentenceSet, applyAiStructuredResult
+  sanitizeAiTextField, stripAiViolations, rulesSentenceSet, applySafetyPassAndRecordAiStatus
 } = require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
@@ -213,7 +213,7 @@ test("through the whole pipeline", async (t) => {
   await t.test("bailiff_enforcement keeps its own sentence, number and all", async () => {
     const text = byId("bailiff_enforcement");
     const fileMeta = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "e2e", anonymousSessionId: null };
-    const applied = await applyAiStructuredResult({
+    const applied = await applySafetyPassAndRecordAiStatus({
       rulesRun: runClearStepsEngine({ extractedText: text, fileMeta }),
       extractedText: text,
       language: "pl"
@@ -234,7 +234,7 @@ test("through the whole pipeline", async (t) => {
     for (const entry of CORPUS) {
       const fileMeta = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "eq-" + entry.id, anonymousSessionId: null };
       const engine = runClearStepsEngine({ extractedText: entry.text, fileMeta }).api_output.structured_result.cards;
-      const applied = await applyAiStructuredResult({
+      const applied = await applySafetyPassAndRecordAiStatus({
         rulesRun: runClearStepsEngine({ extractedText: entry.text, fileMeta }),
         extractedText: entry.text,
         language: "pl"

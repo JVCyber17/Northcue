@@ -488,7 +488,9 @@ Slot names and their sources:
 
 ### Fields the AI step may rewrite (when it runs)
 
-The AI step (applyAiStructuredResult, ai:14-168) replaces exactly three things in the output (ai:128-133):
+The AI step (applySafetyPassAndRecordAiStatus, renamed from applyAiStructuredResult on 2 August 2026) replaces exactly three things in the output (ai:128-133):
+
+> **STALE, and left rather than quietly rewritten.** The phrasing pass was removed on 1 August 2026, so this step now replaces nothing: the AI returns facts, the engine composes every sentence, and the bank translates them. The three replacements described below are the shape of a pipeline that no longer exists. Re-derive this section against the current code before relying on it.
 
 - `structured_result` (the whole object, after sanitizing and validation). Within it the model may rewrite: `document_type`, `document_type_label`, `document_type_confidence`, `overall_confidence`, `risk_level`, `processing_mode`, `needs_user_check`, `summary.one_line_summary`, `summary.main_action`, `summary.main_date`, `summary.main_amount`, `warnings`, and per card: `card_type`, `title`, `simple_explanation`, `key_points`, `action_needed`, `possible_deadline`, `possible_payment`, `confidence_level`, `warning`, `read_aloud_text`, `status` (sanitizeStructuredResult, validateSR:83-114, sanitizeCards validateSR:203-230). `session_id`, `anonymous_session_id`, `schema_version`, card order, `card_id`, `card_number` and the `privacy` flags are pinned to the fallback.
 - `display_text` (rebuilt from AI cards, ai:129).
@@ -513,6 +515,6 @@ Also note: the AI safety stripper runs on every path, including pure rules outpu
 ## Where the result is assembled
 
 - Engine output object (job_id, trust, cards, structured_result, banner, display_text, tts_script, debug): src/services/clearStepsEngine.js:56-88 (`runClearStepsEngine`), with `structured_result` built by `buildStructuredResult` at src/services/clearStepsEngine.js:626-672 and structured cards at src/services/clearStepsEngine.js:674-767.
-- Orchestration point, rules engine then optional AI pass: src/routes/simplifyRoute.js:345-357 (`analyseDocumentText`). This is the natural place to gate the AI step on a language parameter: `applyAiStructuredResult` is called here after `runClearStepsEngine` has fully finished classification, severity, trust and scam logic, so skipping or swapping the AI call there cannot affect any of that logic.
+- Orchestration point, rules engine then optional AI pass: src/routes/simplifyRoute.js:345-357 (`analyseDocumentText`). This is the natural place to gate the AI step on a language parameter: `applySafetyPassAndRecordAiStatus` is called here after `runClearStepsEngine` has fully finished classification, severity, trust and scam logic, so skipping or swapping the AI call there cannot affect any of that logic.
 - AI replacement of structured_result / display_text / tts_script: src/services/aiStructuredResultService.js:128-133.
 - Final HTTP response: server.js:260-275 (`handleSimplify` sends `simplifyRoute`'s return value via `sendJson` at server.js:275).

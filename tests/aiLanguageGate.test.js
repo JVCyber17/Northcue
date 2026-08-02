@@ -8,7 +8,7 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 const { runClearStepsEngine } = require("../src/services/clearStepsEngine");
-const { applyAiStructuredResult, providerSkipReason } = require("../src/services/aiStructuredResultService");
+const { applySafetyPassAndRecordAiStatus, providerSkipReason } = require("../src/services/aiStructuredResultService");
 
 const GOOD_BILL = [
   "Thames Energy Limited",
@@ -27,7 +27,7 @@ async function runWithLanguage(language, fetchImpl) {
   process.env.OPENAI_API_KEY = "test-key";
   global.fetch = async (...args) => { fetchCalls++; return fetchImpl(...args); };
   try {
-    const run = await applyAiStructuredResult({ rulesRun, extractedText: GOOD_BILL, language });
+    const run = await applySafetyPassAndRecordAiStatus({ rulesRun, extractedText: GOOD_BILL, language });
     return { fetchCalls, ai: run.api_output.debug.ai, cards: run.api_output.cards, rulesCards };
   } finally {
     global.fetch = origFetch;

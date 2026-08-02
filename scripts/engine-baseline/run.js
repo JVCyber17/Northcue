@@ -17,7 +17,7 @@
 // --check exits 1 when anything moved, so it can gate a commit.
 //
 // The AI pass is disabled by construction, not by configuration: the capture
-// calls applyAiStructuredResult with a non English language, and the language
+// calls applySafetyPassAndRecordAiStatus with a non English language, and the language
 // gate is the FIRST gate in that function, so no request can reach the
 // provider. The recorded ai_error_code in each block proves it for every
 // document. Running the rules cards through that function is deliberate: the
@@ -35,7 +35,7 @@ const path = require("node:path");
 
 const { CORPUS } = require("./corpus");
 const { runClearStepsEngine } = require("../../src/services/clearStepsEngine");
-const { applyAiStructuredResult } = require("../../src/services/aiStructuredResultService");
+const { applySafetyPassAndRecordAiStatus } = require("../../src/services/aiStructuredResultService");
 
 const BASELINE_PATH = path.join(__dirname, "baseline.txt");
 const NON_ENGLISH_LANGUAGE = "pl";
@@ -103,7 +103,7 @@ async function captureDocument(entry) {
 
   // The reader visible pass. The safety stripper runs on every non AI path, so
   // the engine cards above are not necessarily what reaches the screen.
-  const applied = await applyAiStructuredResult({
+  const applied = await applySafetyPassAndRecordAiStatus({
     rulesRun: runClearStepsEngine({ extractedText: entry.text, fileMeta }),
     extractedText: entry.text,
     language: NON_ENGLISH_LANGUAGE

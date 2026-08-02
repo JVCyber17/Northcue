@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 
 const { runClearStepsEngine } = require("../src/services/clearStepsEngine");
 const {
-  applyAiStructuredResult,
+  applySafetyPassAndRecordAiStatus,
   stripAiViolations,
   rulesSentenceSet,
   sanitizeAiTextField
@@ -71,7 +71,7 @@ test("AI layer keeps rules output when OPENAI_API_KEY is missing", async () => {
     const rulesRun = buildRulesRun();
     const fallbackStructuredResult = rulesRun.api_output.structured_result;
 
-    const result = await applyAiStructuredResult({
+    const result = await applySafetyPassAndRecordAiStatus({
       rulesRun,
       extractedText: "NHS appointment letter with a clear appointment date."
     });
