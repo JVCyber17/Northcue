@@ -8,16 +8,10 @@ const {
   rulesSentenceSet,
   sanitizeAiTextField
 } = require("../src/services/aiStructuredResultService");
-// Three tests that lived here are gone with src/utils/validateStructuredResult
-// .js, deleted 2 August 2026. They exercised a validator and sanitiser for an
-// AI-written structured result, and nothing asks a model for one any more.
-//
-// Neither guarantee they carried was lost. The privacy flags are asserted on
-// the engine's own output in clearStepsEngine.test.js, which is where they are
-// actually set. The "unsafe advice is rejected" claim is now carried by
-// stripAiViolations below, which still runs on every path, and by
-// factFailurePath.test.js, which compares every served field across all 60
-// documents under four failure modes.
+const {
+  sanitizeStructuredResult,
+  validateStructuredResult
+} = require("../src/utils/validateStructuredResult");
 
 function buildRulesRun() {
   return runClearStepsEngine({
@@ -88,6 +82,54 @@ test("AI layer keeps rules output when OPENAI_API_KEY is missing", async () => {
       process.env.OPENAI_API_KEY = originalApiKey;
     }
   }
+});
+
+test("structured result validation rejects unsafe action advice", () => {
+  const fallback = buildRulesRun().api_output.structured_result;
+  const unsafeCandidate = clone(fallback);
+
+  unsafeCandidate.cards[2].simple_explanation = "You should pay now.";
+
+  const validation = validateStructuredResult(unsafeCandidate, fallback);
+
+  assert.equal(validation.valid, false);
+  assert.match(validation.errors.join("\n"), /unsafe advice/i);
+});
+
+test("structured result sanitiser preserves anonymous session and privacy flags", () => {
+  const fallback = buildRulesRun().api_output.structured_result;
+  const candidate = clone(fallback);
+
+  candidate.session_id = "changed-session-id";
+  candidate.anonymous_session_id = "changed-anonymous-id";
+  candidate.privacy.original_file_stored = true;
+  candidate.privacy.ocr_text_stored = true;
+  candidate.privacy.document_text_stored = true;
+  candidate.privacy.personal_details_stored = true;
+
+  const sanitized = sanitizeStructuredResult(candidate, fallback);
+  const validation = validateStructuredResult(sanitized, fallback);
+
+  assert.equal(validation.valid, true);
+  assert.equal(sanitized.session_id, fallback.session_id);
+  assert.equal(sanitized.anonymous_session_id, fallback.anonymous_session_id);
+  assert.deepEqual(sanitized.privacy, {
+    original_file_stored: false,
+    ocr_text_stored: false,
+    document_text_stored: false,
+    personal_details_stored: false
+  });
+});
+
+test("structured result sanitiser falls back when AI output is unsafe", () => {
+  const fallback = buildRulesRun().api_output.structured_result;
+  const unsafeCandidate = clone(fallback);
+
+  unsafeCandidate.cards[2].simple_explanation = "Click this link and make a payment.";
+
+  const sanitized = sanitizeStructuredResult(unsafeCandidate, fallback);
+
+  assert.equal(sanitized, fallback);
 });
 
 test("sanitizer replaces sentence-initial imperative pay instruction with cautious framing", () => {

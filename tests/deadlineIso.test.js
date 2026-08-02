@@ -20,6 +20,7 @@ const test = require("node:test");
 const { deadlineIsoFor, toIsoDate, isRelativeTimeframe, unresolvableReason } =
   require(path.join(__dirname, "..", "src", "utils", "deadlineIso"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
+const { sanitizeStructuredResult } = require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 function byId(id) {
@@ -462,14 +463,40 @@ test("nothing renders it", async (t) => {
   });
 });
 
-// A BLOCK THAT USED TO SIT HERE IS GONE, with src/utils/validateStructuredResult
-// .js, deleted 2 August 2026. It asserted that the AI pass could neither drop
-// deadline_iso nor set one of its own, by calling sanitizeStructuredResult
-// directly. No model returns a structured result any more, so there is no
-// candidate for that function to sanitise and the function itself is gone.
-//
-// The claim is not lost, and is now made more strongly on the live path:
-// factFailurePath.test.js compares the WHOLE structured_result, deadline_iso
-// included, against the no-facts baseline for every corpus document under four
-// extractor failure modes. That is an end-to-end assertion where this was a
-// unit-level one against a function nothing called.
+test("the AI pass cannot drop it or set it", async (t) => {
+  // sanitizeStructuredResult rebuilds the summary from a fixed key list, so a
+  // field not named there does not survive the AI pass at all: present on every
+  // non-English document, where the language gate skips the provider, and
+  // silently absent on English ones. That is the silent-drop shape
+  // jsonFieldParity.test.js guards on the request side.
+  const fallback = analyse(byId("council_tax")).api_output.structured_result;
+
+  await t.test("premise: the rules output carries one", () => {
+    assert.equal(fallback.summary.deadline_iso, "2026-04-01");
+  });
+
+  await t.test("it survives a candidate that omits it", () => {
+    const candidate = JSON.parse(JSON.stringify(fallback));
+    delete candidate.summary.deadline_iso;
+    const out = sanitizeStructuredResult(candidate, fallback);
+    assert.equal(out.summary.deadline_iso, "2026-04-01");
+  });
+
+  await t.test("a candidate cannot set it to a date of its own", () => {
+    // It is a rules judgement made behind five gates that read trust and
+    // extraction state the model never sees. The model cannot re-derive it and
+    // must not be able to assert it.
+    const candidate = JSON.parse(JSON.stringify(fallback));
+    candidate.summary.deadline_iso = "2026-12-25";
+    const out = sanitizeStructuredResult(candidate, fallback);
+    assert.equal(out.summary.deadline_iso, "2026-04-01");
+  });
+
+  await t.test("a candidate cannot invent one where the gates refused", () => {
+    const garbled = analyse(byId("ocr_council_tax")).api_output.structured_result;
+    assert.equal(garbled.summary.deadline_iso, null, "premise");
+    const candidate = JSON.parse(JSON.stringify(garbled));
+    candidate.summary.deadline_iso = "2026-04-01";
+    assert.equal(sanitizeStructuredResult(candidate, garbled).summary.deadline_iso, null);
+  });
+});
