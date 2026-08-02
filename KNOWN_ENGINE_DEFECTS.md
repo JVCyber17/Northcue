@@ -12,65 +12,236 @@ obligation).
 
 ---
 
-# OPEN, AND FIRST: co-location cannot bind a label in four of the ten languages
+# READ THIS FIRST: what the engine can and cannot do per language
 
-**Devanagari, Gujarati, Bengali and Gurmukhi have never had working
-co-location.** Not partially, not unreliably: `locateLabels` compiles
+**This changed twice in the week of 2 August 2026.** Anything written below that
+predates that is likely to describe an older engine. Measured against the
+corpus, not asserted:
 
-```js
-new RegExp("\\b" + label + "\\b", "gi")
+| layer | English | the other nine |
+| --- | --- | --- |
+| **finding a date** (`findDates`) | yes | **yes**, all nine |
+| **finding an amount** (`findAmounts`) | yes | **yes**, `£` is universal |
+| **finding a phone number** (`findPhoneNumbers`) | yes | **yes**, all nine |
+| **binding a value to a label** (`selectDeadline`, `selectAmount`) | yes | **no** |
+| **showing a phone number** (`PHONE_GOVERNS`) | yes | **no** |
+| **reading a stated consequence** | yes | **no** |
+
+**The one-line summary: the engine can now FIND a value in every language and
+cannot ATTRIBUTE one in any language but English.**
+
+Every date that reaches a card on a non-English letter comes from the reading
+aid's guess ("the first date no competing label has claimed"), never from
+co-location. On 2 August 2026, of the eleven genuine non-English or bilingual
+corpus documents, exactly one binds a label, and it is the bilingual council
+letter binding through its **English** half.
+
+Two things were fixed on 2 August and are no longer defects: the value finder
+now carries the month names, native digits, the dotted separator and the
+Spanish and Portuguese `de` connector; and the label matcher's word boundary is
+Unicode rather than ASCII. What is left is listed immediately below.
+
+---
+
+# OPEN: co-location has no vocabulary and no direction outside English
+
+**The machinery is ready and the vocabulary is not.** This item used to say the
+label matcher used ASCII word boundaries. That is fixed. Two of the four
+blockers are closed and two are open, and it matters which:
+
+| blocker | state |
+| --- | --- |
+| the value finder could not see a non-English date | **fixed**, 2 Aug 2026 |
+| `locateLabels` used an ASCII word boundary | **fixed**, 2 Aug 2026 |
+| there is no non-English label vocabulary | **open** |
+| co-location binds forward only, four languages are postpositional | **open** |
+
+**All 119 label entries are still ASCII.** `AMOUNT_GOVERNS`, `AMOUNT_COMPETES`,
+`DATE_GOVERNS`, `DATE_COMPETES`, `DATE_GOVERNS_SPANNING`, `PHONE_GOVERNS`,
+`PHONE_GOVERNS_SPANNING` and `PHONE_COMPETES` contain not one non-ASCII
+character. Nothing in any language but English can bind, because there is
+nothing to bind with.
+
+**Direction is a property of the CONSTRUCTION, not of the language**, which is
+the thing the earlier version of this note got wrong. Every one of the four
+Indic corpus documents labels its FIELDS forward, exactly like English, because
+a colon field is typography rather than grammar:
+
+```
+તારીખ: 14 July 2026          ਪੱਤਰ ਦੀ ਮਿਤੀ: 2 June 2026
 ```
 
-and JavaScript's `\b` is a transition between `[A-Za-z0-9_]` and anything else.
-Every letter outside that ASCII range is a **non-word** character, so between a
-space and a Devanagari letter there is no boundary at all and the pattern can
-never match. Hindi, Gujarati, Bengali and Panjabi labels are unmatchable by
-construction, whatever vocabulary is added.
+Postposition only bites in running prose, and there it is unmissable:
 
-Measured 2 August 2026, with the pattern built exactly as `locateLabels` builds
-it:
+```
+कृपया 24 June 2026 तक अपने खाते में जानकारी भेजें।
+```
 
-| label | with the boundary | as a plain substring |
+So a direction flag belongs on the vocabulary ENTRY, not on the document, and
+forward-only survives untouched with no language detection anywhere.
+
+**But direction is not ready, and this is the reason it is unscheduled.** A
+prototype that allows backward binding for postpositional markers, gated on
+adjacency, was measured against four realistic Hindi shapes and **got two of
+four wrong**:
+
+| shape | prototype binds | should |
 | --- | --- | --- |
-| Polish `do`, Spanish `hasta` | matches | matches |
-| Polish `sprawdź`, `życzenie` | **no** | matches |
-| Romanian `până`, Portuguese `até`, French `réglé` | **no** | matches |
-| Hindi `तक`, Gujarati `સુધીમાં`, Bengali `মধ্যে`, Panjabi `ਤੱਕ` | **no** | matches |
+| the reader's obligation, `भेजें` | 24 June 2026 | 24 June 2026 |
+| a **sender promise**, `जमा हो जाएगा` | **18 June 2026** | null |
+| a period start, `से` | null | null |
+| a **past obligation**, `देय था` | **3 June 2026** | null |
 
-**It is wider than the four scripts.** A Latin-script label works only if it
-begins and ends with an ASCII letter. `até` and `până` are the ordinary
-deadline prepositions in Portuguese and Romanian, and both fail. An earlier
-version of this note said the Latin languages needed only vocabulary; that was
-wrong, and this table is why.
+Both failures are guards that exist in English and are English-only:
 
-**Gujarati and Bengali currently produce correct dates by luck.** The greeting
-fix of 2 August gave them a header zone, so the letter date is excluded and the
-first remaining body date wins. Each of those two documents happens to carry
-**exactly one** body date, so the fallback cannot be wrong. Add the second date a
-real NHS letter carries, the "if you cannot attend, tell us by" line, and both
-fail exactly as the Hindi DWP letter does today: it names 18 June, its next
-payment date, where the obligation is to send information by 24 June.
+- **The sender-subject guard is not code.** English enforces it by *choosing*
+  the vocabulary: every spanning head names the reader (`you must pay`,
+  `contact us`). That discipline is unavailable here, because **तक is the only
+  way Hindi writes "by"**, for the sender and the reader alike. There is no
+  reader-subject variant to pick instead.
+- **`BACKWARD_LOOKING` is English.** `was due|were due|became due|overdue since`
+  matches none of Hindi, Polish or Portuguese.
 
-**And there is a second blocker underneath.** Co-location binds forward only,
-because a label points at the value that follows it. All four of these languages
-are postpositional: `24 June 2026 तक` puts the marker **after** the date.
-Verified with an ASCII stand-in so the boundary bug was not the cause: a label
-before the date binds, the same label after it returns null.
+**Gujarati and Bengali still produce correct dates by luck.** The greeting fix
+gave them a header zone, so the letter date is excluded and the first remaining
+body date wins, and each of those two documents happens to carry **exactly one**
+body date. Add the second date a real NHS letter carries, the "if you cannot
+attend, tell us by" line, and both fail exactly as the Hindi DWP letter does.
 
-So closing this needs three things, not one: boundary handling that is not
-ASCII-bound, direction-aware labels, and then per-language vocabulary. That is
-work inside the most safety-critical file in the engine and it should be scoped
-as its own piece.
+**THE BOUNDARY HALF OF THIS WAS THE SAME DEFECT THAT ALREADY SHIPPED TWICE IN
+THE TRANSLATION SCANNER**, and that is worth keeping even though it is fixed.
+`scripts/scan-translations.js` carries a header explaining why it never uses
+`\b`, and `docs/i18n/engineering-standards.md` records the decision made on
+29 July 2026. The engine was not searched, because
+`tests/wordBoundarySafety.test.js` excluded `src/` with the reason "the rules
+engine runs over English document text". That was true when written and expired
+when the corpus gained nine languages. **An exclusion with an expired reason
+reads exactly like one with a live reason.** The guard now covers `src/` and the
+note stays in that file.
 
-**THIS IS THE SAME DEFECT THAT ALREADY SHIPPED TWICE IN THE TRANSLATION
-SCANNER.** `scripts/scan-translations.js` carries a header explaining why it
-never uses `\b`, and `docs/i18n/engineering-standards.md` records the decision
-made on 29 July 2026 after the ASCII boundary bug hid diacritic-final terms and
-silently under-reported every scan against Polish, Romanian, Portuguese, Hindi,
-Bengali and Panjabi. The tooling was fixed and the lesson was written down. **The
-engine has the identical bug in its most important matcher and nobody looked.**
-That is the finding worth keeping: a defect fixed in one place and documented as
-a principle was never searched for anywhere else.
+---
+
+# OPEN: a dotted reference is indistinguishable from a dotted date
+
+Added 2 August 2026 with the dot separator, which Poland and Romania use for the
+ordinary date form. Measured against 64 hostile strings, **three false matches
+survive both the pattern and the numeric validator, and all three are one
+shape**:
+
+```
+"version 1.2.2026"      "Version 1.2.26"      "Schedule 2.1.2026"
+```
+
+**Nothing in the string separates a dotted reference from a dotted date.** Both
+are one or two digits, a dot, one or two digits, a dot, a two or four digit
+number, and both pass a day-and-month range check. The discriminator is the word
+in FRONT of it, and that word is English.
+
+**That is why it stays unfixed.** `findDates` is the finder every other rule
+sits on, and it is the one part of the engine that must work identically in ten
+languages. Putting `version|schedule|clause|paragraph` in it would make the
+value finder language-dependent, and the first Polish document carrying
+`wersja 1.2.2026` would prove the fix was never a fix.
+
+The other 61 hostile strings are clean: references, account numbers, sort codes,
+the UTR, NI numbers, IBANs, meter serials, money in both UK and European format,
+times, percentages, phone numbers, postcodes and IP addresses all fail either
+the pattern or the validator.
+
+**Where it would be closed, when there is evidence:** a competing label, not a
+narrower pattern. That is the mechanism the engine already has for "the document
+has labelled this as something else", and it is allowed to be per-language
+because `DATE_COMPETES` already is. No corpus document carries the dotted form
+at all, so there is no evidence either way today, and
+`tests/localisedDates.test.js` asserts that absence so the gap cannot quietly
+become evidence-backed without anyone noticing.
+
+---
+
+# OPEN: the range rule declines rather than choosing, on purpose
+
+Also 2 August 2026. The reading aid promotes the first date no competing label
+has claimed. `DATE_COMPETES` carries `period`, `covering` and `from`, and those
+are **English**. That was harmless while the date finder was English too,
+because a Spanish billing period could not produce a date. Widening the finder
+removed that accidental protection and the Spanish water notice began saying:
+
+> The document shows **1 de febrero de 2026** as the date that matters.
+
+on a letter whose deadline is 15 June. 1 February is the start of the billing
+period. A wrong fact stated calmly, and worse than the honest "No clear date was
+found." it replaced.
+
+The fix is structural rather than vocabulary: two dates on one line with a short
+connector and nothing else between them are a **range**, and a range end is not a
+candidate. That shape is the same in all ten languages. It identifies nine
+corpus documents and every one is a genuine billing or covering period, with no
+false identifications.
+
+**IT DISQUALIFIES AND NEVER RE-SELECTS, and this is the deliberate gap.**
+Skipping to the next candidate would name 15 June on the Spanish letter, which is
+**exactly the right answer**, and the same rule would name
+`Payment received 04 Feb 2026` on `bill_with_contacts_page`, which is a receipt.
+
+One right answer bought with one new wrong assertion is not a trade this engine
+makes. The first unclaimed date is the only candidate the ordering supports; if
+it is part of a period there is no candidate, and card 4 lists the dates
+instead, which is a supported state. So today the Spanish letter **lists** its
+deadline among three dates and asserts none of them.
+
+**Where it would be closed:** per-language competing labels, which is the same
+unscheduled work as the item above. `Periodo facturado` in `DATE_COMPETES`
+would claim 1 February honestly, and then re-selecting would be safe because the
+ordering would mean something again.
+
+---
+
+# OPEN, AND THE HIGHEST HARM OF THE THREE: a benefits letter names a date the field says does not exist
+
+Found 2 August 2026 while checking the claims in this file. **Pre-existing, not
+introduced by any change that week**, and present at least as far back as
+`HEAD~2`.
+
+`buildBenefitsReadingAidExtraction` deliberately suppresses the single-date
+answer, and says so:
+
+```js
+// Do not attach a single calendar date: benefits letters often list several
+// dates and we cannot reliably tell which (if any) is the real deadline.
+signals.primaryDate = null;
+```
+
+**The suppression sets the field and not the sentence, and the sentence is what
+the reader sees.** `extractReadableDocumentSignals` has already built
+`signals.dateMessage` from the non-null `primaryDate` by the time this line
+runs. Nulling the field does not rebuild the message. Measured across the four
+corpus documents that take this path:
+
+| document | `deadline` field | card 4 |
+| --- | --- | --- |
+| `benefits_dwp` | null | lists dates, correct |
+| `blank_template` | null | no date, correct |
+| `genuine_dwp_identity_check` | null | lists a timeframe, correct |
+| `spec_hindi_dwp_universal_credit` | null | **"The document shows 18 June 2026 as the date that matters."** |
+
+Only the Hindi letter is wrong, because it is the only one of the four whose
+`primaryDate` was non-null before the suppression. The other three fell through
+to the list form for unrelated reasons and hide the defect.
+
+**18 June is its next payment date. The obligation is to send information by
+24 June.** So the card names the wrong date, in a language the reviewer reads,
+on a benefits letter, while the field beside it says no date was found.
+
+This is the same drift the display layer already fixed and documented at
+`clearStepsEngine.js` around line 778: *"The date sentence is rebuilt from the
+normalised values rather than patched afterwards, so it cannot drift from the
+fields beside it."* The lesson was written down in one place and the same shape
+survives one function away.
+
+**Not fixed here.** The fix is one line, rebuilding `dateMessage` after the
+suppression rather than before, but it changes what a reader sees on a benefits
+letter and belongs in an engine commit with its own `--check` and its own test,
+not in a documentation pass.
 
 ---
 
