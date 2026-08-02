@@ -44,6 +44,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -281,6 +282,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -517,6 +519,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -747,6 +750,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -974,6 +978,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -1219,6 +1224,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [
@@ -1448,6 +1454,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -1688,6 +1695,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -1934,6 +1942,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [
@@ -2180,6 +2189,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [
@@ -2424,6 +2434,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -2658,6 +2669,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -2888,6 +2900,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [
@@ -3123,6 +3136,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -3357,6 +3371,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -3594,6 +3609,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -3834,6 +3850,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -4060,6 +4077,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -4296,6 +4314,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [
     "Asks for a full password, which real organisations never request.",
     "Asks for card number and PIN together.",
@@ -4531,6 +4550,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -4744,6 +4764,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -4974,6 +4995,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -5196,6 +5218,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -5423,6 +5446,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -5647,6 +5671,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -5880,6 +5905,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -6122,6 +6148,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -6347,6 +6374,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "Contains reference details."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -6573,6 +6601,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -6780,6 +6809,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -7023,6 +7053,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -7267,6 +7298,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   "distrust_signals": [
     "Generic greeting used."
   ],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -7500,6 +7532,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -7740,6 +7773,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -7982,6 +8016,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   "distrust_signals": [
     "Generic greeting used."
   ],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -8213,6 +8248,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -8450,6 +8486,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -8689,6 +8726,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -8928,6 +8966,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -9159,6 +9198,9 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -9380,6 +9422,9 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -9611,6 +9656,9 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -9812,22 +9860,25 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
 
 [trust_internal]
 {
-  "trust_assessment": "high",
+  "trust_assessment": "medium",
   "severity_level": "low",
   "urgency_level": "none",
   "document_category": "government",
   "document_type": "official_incoming",
-  "processing_mode": "normal",
+  "processing_mode": "caution",
   "is_probable_non_document": false,
   "non_document_carries_link": false,
-  "confidence": "high",
+  "confidence": "medium",
   "needs_human_review": false,
-  "review_reason": "No major trust issue found.",
+  "review_reason": "Some details need checking before action.",
   "authentic_signals": [
     "Uploaded as PDF format.",
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -9840,7 +9891,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Follow the action card step by step."
+  "safe_next_step": "Check key details on the original document before acting."
 }
 
 [extractor_internal]
@@ -9868,9 +9919,9 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "high",
+  "confidence": "medium",
   "needs_human_review": false,
-  "review_reason": "No major trust issue found.",
+  "review_reason": "Some details need checking before action.",
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": true,
@@ -9880,8 +9931,8 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
 [banner]
 {
   "show": true,
-  "type": "safe",
-  "text": "This looks like a normal document. Check the original if anything is unclear."
+  "type": "caution",
+  "text": "Some details need checking before you act."
 }
 
 [structured_result: meta]
@@ -9889,10 +9940,10 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   "document_type": "council_tax_notice",
   "document_type_label": "Council tax notice",
   "document_type_confidence": "high",
-  "overall_confidence": "high",
+  "overall_confidence": "medium",
   "risk_level": "low",
-  "processing_mode": "normal",
-  "needs_user_check": false,
+  "processing_mode": "caution",
+  "needs_user_check": true,
   "summary": {
     "one_line_summary": "This appears to be an official notice from Hounslow Borough Council.",
     "main_action": "No action needed right now.",
@@ -9917,10 +9968,10 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
     "read_aloud_text": "What is this?. This appears to be an official notice from Hounslow Borough Council.. This looks like information only.",
-    "status": "good"
+    "status": "normal"
   },
   {
     "card_id": "what_matters_most",
@@ -9932,10 +9983,10 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
     "read_aloud_text": "What matters most?. This looks like information only..",
-    "status": "good"
+    "status": "normal"
   },
   {
     "card_id": "what_do_i_need_to_do",
@@ -9949,10 +10000,10 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
     "read_aloud_text": "What do I need to do?. No action needed right now.. No action needed right now.",
-    "status": "good"
+    "status": "normal"
   },
   {
     "card_id": "when_is_it_due",
@@ -9964,10 +10015,10 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
     "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "good"
+    "status": "normal"
   },
   {
     "card_id": "what_could_happen",
@@ -9981,27 +10032,27 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
     "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
-    "status": "good"
+    "status": "normal"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "This looks like a normal formal letter.",
+    "simple_explanation": "Keep this with your records in case you need it later.",
     "key_points": [
-      "Follow the action card step by step."
+      "Check key details on the original document before acting."
     ],
-    "action_needed": "Follow the action card step by step.",
+    "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "high",
+    "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "Helpful note. This looks like a normal formal letter.. Follow the action card step by step.",
-    "status": "good"
+    "read_aloud_text": "Helpful note. Keep this with your records in case you need it later.. Check key details on the original document before acting.",
+    "status": "normal"
   }
 ]
 
@@ -10050,6 +10101,9 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [
     "Asks for a card security code, which real organisations never request."
   ],
@@ -10277,6 +10331,9 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -10500,6 +10557,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [
     "Asks for a card security code, which real organisations never request."
   ],
@@ -10725,6 +10783,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -10941,6 +11000,9 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [
+    "Asks for money through a link, with no reference or contact number."
+  ],
   "scam_signals": [],
   "advisory_scam_signals": [],
   "severity_signals": [],
@@ -11161,6 +11223,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
   "distrust_signals": [
     "Generic greeting used."
   ],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Requests secret details."
@@ -11395,6 +11458,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Requests link-based response."
@@ -11628,6 +11692,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Uses pressure warning wording."
@@ -11868,6 +11933,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Pressures you to verify your identity within a short time."
@@ -12107,6 +12173,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Threatens to freeze your account."
@@ -12341,6 +12408,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "Contains formal letter structure."
   ],
   "distrust_signals": [],
+  "lure_shape_signals": [],
   "scam_signals": [],
   "advisory_scam_signals": [
     "Asks you to enter a PIN."

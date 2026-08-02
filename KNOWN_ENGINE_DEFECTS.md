@@ -1208,6 +1208,79 @@ than nothing, but a distrust signal cannot restore an extraction that was never
 performed. The reader still sees the fixed refusal. Q3 is worth having on its
 own terms; it does not close this item.
 
+## OPEN: what the structural lure rule is actually supported by
+
+`src/utils/lureShape.js` fires on a link, an amount, no reference and no
+telephone number. Measured on 2 August 2026 it catches seven of the ten corpus
+scams and none of the 44 genuine documents. **That number is much weaker
+evidence than it appears, and this section exists so nobody promotes the rule on
+the strength of it.**
+
+**Only one genuine document exercises the rule at all.** Of the 44 genuine
+documents, three carry a link:
+
+| document | link | amount | what excludes it |
+| --- | --- | --- | --- |
+| `genuine_bank_fraud_advice` | yes | **no** | never reaches the discriminating half |
+| `genuine_nhs_booking_link` | yes | **no** | never reaches the discriminating half |
+| `genuine_post_office_card_payment` | yes | yes | carries both a reference and a phone number |
+
+So the separation between lure and letter is demonstrated against a single
+example. Two of the three are excluded by not mentioning money, which is not the
+rule discriminating, it is the rule not being asked. **The shape most likely to
+produce a false positive is the least represented shape in the corpus**, and
+the corpus was written by the same hand that wrote the rule, so adding more of
+them proves nothing about the world.
+
+**The known false positive shape: a sole trader emailing an invoice.** A
+plumber, a tutor, a childminder. It has a link to a payment page and it has a
+total, and it carries no reference code because the sender has no account
+system. Built and run rather than asserted: an invoice for £486.00 with a
+payment link fires the rule when the sender signs off with only an email
+address, and does NOT fire when they give a mobile as `07700 900412`. That
+document is genuine, is asking for real money, and Northcue's users include
+people under financial stress being invoiced by small traders, so it is not
+hypothetical.
+
+**And the phone guard is narrower than it looks, which widens this a long way.**
+`hasTelephoneNumber` is `\b0\d[\d\s]{7,12}\d\b`: a UK number in national format.
+Measured:
+
+| written as | recognised |
+| --- | --- |
+| `020 8583 4242`, `07700 900412`, `07700900412` | yes |
+| `+44 7700 900412`, `+447700900412` | **no** |
+| `+48 601 234 567`, `+353 85 123 4567` | **no** |
+
+So a genuine document that prints its contact number in international format
+has no telephone number as far as this rule is concerned. That is the format
+used by exactly the people Northcue is built for: the letter from abroad, the
+bank that writes `+44`, the tradesperson who saved their number from a foreign
+handset. The corpus contains no document in that shape either, so the 7-for-0
+result never tested it. **This is the single biggest reason the rule must stay
+advisory**, and it is worth fixing on its own: the same function is one of the
+five structural signals the non-document gate counts, so an internationally
+formatted letter is also one signal short of being recognised as a document.
+
+**Which is why it is advisory, and why advisory is enforced rather than
+intended.** `pickTrustAssessment` takes `lureShapeSignals` as a separate
+argument from `distrustSignals`. Every route to `"low"` sits above the line that
+reads it, so the rule cannot reach low trust, cannot produce
+`verification_only`, cannot null a deadline and cannot replace a card. It can
+withhold `"high"`. Merging the two lists is the obvious tidy-up and it is the
+one thing that must not happen; `tests/lureShape.test.js` fails if it does.
+
+Measured effect on the corpus: one document moves, `scam_council_refund_link
+_only`, from `high`/`normal` to `medium`/`caution`. It is a scam, and it had
+been getting "This looks like a normal document."
+
+**Promoting this beyond advisory requires production evidence, not more
+corpus.** Specifically: how often the rule fires on real uploads, and what
+proportion of those are genuine. Until that number exists, any change that lets
+this rule refuse a document is a change made without knowing its false positive
+rate. Writing ten more corpus scams it catches would not move that number at
+all.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by

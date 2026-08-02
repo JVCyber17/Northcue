@@ -10,6 +10,7 @@ const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
 const { countDocumentSignals, hasLink } = require("../utils/documentSignals");
+const { detectLureShapeSignals } = require("../utils/lureShape");
 const factCandidates = require("../utils/factCandidates");
 
 // How many language-independent document signals stand in for the four English
@@ -154,6 +155,10 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
 
   const authenticSignals = detectAuthenticSignals(lower, fileMeta);
   const distrustSignals = detectDistrustSignals(lower);
+  // ADVISORY ONLY. Kept in its own list rather than merged into the one above,
+  // because that list reaching two means "low" trust and verification_only, and
+  // this must never be able to cause either. See src/utils/lureShape.js.
+  const lureShapeSignals = detectLureShapeSignals(normalizedText);
   const decisiveScamSignals = detectScamSignals(lower);
   const advisoryScamSignals = detectAdvisoryScamSignals(lower);
 
@@ -267,6 +272,7 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     isUnsupported,
     scamSignals,
     distrustSignals,
+    lureShapeSignals,
     authenticSignals
   });
 
@@ -329,6 +335,10 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
     review_reason: reviewReason,
     authentic_signals: authenticSignals,
     distrust_signals: distrustSignals,
+    // The structural tier. Advisory by construction: pickTrustAssessment reads
+    // it only to withhold "high", never to reach "low", so it cannot produce
+    // verification_only, null a deadline or replace a card.
+    lure_shape_signals: lureShapeSignals,
     scam_signals: scamSignals,
     // The advisory tier, always, whether or not it reached the threshold. On a
     // document refused by the counterweight these also appear in scam_signals,
@@ -1078,6 +1088,9 @@ function toPublicTrustShape(trust) {
     // letter is still information for a reader who already doubts the letter.
     // Nothing in this file reads it.
     advisory_scam_signals: trust.advisory_scam_signals,
+    // The structural tier, same reasoning. Nothing in this file reads it
+    // either; its only effect is upstream, where it withholds "high" trust.
+    lure_shape_signals: trust.lure_shape_signals,
     severity_signals: trust.severity_signals,
     input_quality: trust.input_quality,
     sender_guess: trust.sender_guess,
@@ -2519,11 +2532,18 @@ function detectProbableNonDocument({ normalizedText, lower, inputQuality, docume
   return countDocumentSignals(normalizedText) < MIN_DOCUMENT_SIGNALS;
 }
 
-function pickTrustAssessment({ inputQuality, isUnsupported, scamSignals, distrustSignals, authenticSignals }) {
+function pickTrustAssessment({ inputQuality, isUnsupported, scamSignals, distrustSignals, lureShapeSignals, authenticSignals }) {
   if (isUnsupported || inputQuality === "poor") return "unknown";
   if (scamSignals.length > 0) return "low";
   if (distrustSignals.length > 1) return "low";
-  if (authenticSignals.length >= 2 && distrustSignals.length === 0) return "high";
+  // THE ADVISORY TIER STOPS HERE. Every route to "low" is above this line and
+  // none of them reads lureShapeSignals, so the structural rule cannot produce
+  // "low", and therefore cannot produce verification_only. Below, it can only
+  // withhold "high", which is the whole of its power: a document that looks
+  // like a lure does not get a clean bill of health, but is never condemned by
+  // shape alone.
+  const advisory = lureShapeSignals || [];
+  if (authenticSignals.length >= 2 && distrustSignals.length === 0 && advisory.length === 0) return "high";
   return "medium";
 }
 
