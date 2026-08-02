@@ -1006,7 +1006,13 @@ function isWelfareBenefitsLetter(text) {
 // obligations found in the text, but never emits "no action needed" /
 // "information only", and always frames the output as a reading aid.
 function buildBenefitsReadingAidExtraction(text, trust) {
-  const signals = extractReadableDocumentSignals(text, trust);
+  // Do not attach a single calendar date: benefits letters often list several
+  // dates and we cannot reliably tell which (if any) is the real deadline.
+  //
+  // ASKED FOR, NOT UNDONE AFTERWARDS. This used to set signals.primaryDate =
+  // null after the fact, which suppressed the field and left the sentence that
+  // had already been built from it. See the note on extractReadableDocumentSignals.
+  const signals = extractReadableDocumentSignals(text, trust, { namesASingleDate: false });
   const obligations = extractActions(text, trust).filter(
     (action) => action && action !== "No action needed right now."
   );
@@ -1019,10 +1025,11 @@ function buildBenefitsReadingAidExtraction(text, trust) {
     ? "This may ask you to do something. Check the original document carefully."
     : "This may need a response. Check the original document, or with the sender, to be sure.";
   // Override so this path can never read as "information only" / "no action needed".
+  //
+  // SAFE TO SET AFTERWARDS, unlike the date, because nothing else is derived
+  // from it: mostImportantPoint is a leaf, written straight onto card 1 and
+  // read by nothing. The date was not a leaf, and that is the difference.
   signals.mostImportantPoint = mostImportant;
-  // Do not attach a single calendar date: benefits letters often list several
-  // dates and we cannot reliably tell which (if any) is the real deadline.
-  signals.primaryDate = null;
 
   const summary = signals.sender
     ? `This appears to be a benefits letter from ${signals.sender}.`
@@ -1548,7 +1555,25 @@ function isFullySupportedDocument(text, trust) {
   return false;
 }
 
-function extractReadableDocumentSignals(text, trust) {
+// namesASingleDate: false means this document may never have ONE date called the
+// date that matters, whatever the text supports.
+//
+// IT IS A PARAMETER RATHER THAN A FIELD SET AFTERWARDS, and that is the whole
+// point of this change. The benefits path used to call this function, get a
+// primaryDate and a dateMessage built from it, and then write
+// signals.primaryDate = null. That suppressed the FIELD and left the SENTENCE,
+// and the sentence is what the reader sees: a Hindi DWP letter said "The
+// document shows 18 June 2026 as the date that matters" while deadline was
+// null. 18 June is its next payment date; the obligation is 24 June.
+//
+// Suppressing before the sentence is built means no derived value can survive
+// its own suppression, including one added later by someone who has never read
+// this comment. That is the same rule the display layer states at the
+// rewriteDatesForDisplay caller: rebuild from the normalised values rather than
+// patch afterwards, so a sentence cannot drift from the fields beside it. The
+// lesson was written down there and this function was one call away.
+function extractReadableDocumentSignals(text, trust, options) {
+  const namesASingleDate = !options || options.namesASingleDate !== false;
   const value = String(text || "");
   const lower = value.toLowerCase();
   const sender = guessDetailedSender(value) || trust.sender_guess || null;
@@ -1592,7 +1617,9 @@ function extractReadableDocumentSignals(text, trust) {
   const readableCandidate = unclaimedDates[0] && !inARange.has(unclaimedDates[0])
     ? unclaimedDates[0]
     : null;
-  const primaryDate = colocatedDeadline ? colocatedDeadline.value : readableCandidate;
+  const primaryDate = namesASingleDate
+    ? (colocatedDeadline ? colocatedDeadline.value : readableCandidate)
+    : null;
 
   const mostImportantPoint = buildReadableMostImportantPoint({
     text: value,
