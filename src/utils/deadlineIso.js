@@ -56,8 +56,14 @@ const MONTH_FIRST = /^([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})$/;
 // They already did once: coLocation and the engine each carried their own copy
 // of the date patterns and disagreed on four shapes after one was corrected,
 // which is what put "No clear date was found." on the same card as a date.
+// ascii-boundary-ok: every alternative here is an English word, so the boundary
+// can only ever sit against English text. Swapping it for a Unicode one would
+// change nothing, because "w ciągu 14 dni", "dentro de 14 dias" and
+// "14 दिनों के भीतर" are not in this list at all. The limitation is the
+// VOCABULARY, not the boundary, and it is recorded as such in
+// KNOWN_ENGINE_DEFECTS.md. Widening it is per-language work, not this.
 const RELATIVE_TIMEFRAME_SOURCE =
-  "\\bwithin\\s+\\d+\\s+(?:days?|weeks?|months?)|\\b(?:today|tomorrow|next week|next month)\\b";
+  "\\bwithin\\s+\\d+\\s+(?:days?|weeks?|months?)|\\b(?:today|tomorrow|next week|next month)\\b";  // ascii-boundary-ok: English vocabulary, see above
 
 const WHOLE_RELATIVE_TIMEFRAME = new RegExp("^(?:" + RELATIVE_TIMEFRAME_SOURCE + ")$", "i");
 

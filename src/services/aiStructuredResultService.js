@@ -218,11 +218,19 @@ const _AI_PAY_PATTERNS = [
 // sentence is an INSTRUCTION to confirm / enter / provide / share (etc.) account,
 // bank, card, National Insurance, password or PIN details — not when a sentence
 // merely mentions those terms (e.g. "check your account number is correct").
+// ascii-boundary-ok: this reads AI OUTPUT, and the AI pass is English only. A
+// non-English interface language skips it entirely with no network egress, so
+// there is no path by which a non-ASCII sentence reaches these patterns.
+// tests/aiLanguageGate.test.js is what holds that. If the AI layer is ever
+// opened to another language, this list and both patterns below have to be
+// rewritten as Unicode-bounded BEFORE that happens, not after.
 const _AI_SENSITIVE_TERM = "(?:account\\s+details?|account\\s+information|bank\\s+(?:account|details?)|banking\\s+details?|card\\s+(?:details?|number)|national\\s+insurance(?:\\s+number)?|\\bni\\s+number\\b|sort\\s+code|pass(?:word|code)|\\bpin\\b|security\\s+(?:details?|code)|personal\\s+details?|your\\s+details?)";
 const _AI_DETAIL_PATTERNS = [
   // Imperative instruction at the start of the sentence + a sensitive term anywhere in it.
+  // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
   new RegExp("^(?:please\\s+)?(?:confirm|enter|provide|share|give|send|submit|supply|update|re-?enter|input)\\b[^.!?]*\\b" + _AI_SENSITIVE_TERM, "i"),
   // "you (will/may/would/must) need your ... <sensitive term>".
+  // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
   new RegExp("\\byou\\s+(?:will\\s+|may\\s+|would\\s+|must\\s+)?need\\s+your\\b[^.!?]*\\b" + _AI_SENSITIVE_TERM, "i"),
   // Bare "confirm your account / identity / card / bank / payment" phishing imperative.
   /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i

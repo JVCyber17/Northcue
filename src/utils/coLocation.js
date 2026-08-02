@@ -358,6 +358,46 @@ function tolerantLabelSource(phrase) {
 // isClaimedByCompetingDateLabel reads the same hits, and there a false competes
 // match on the line above a date SUPPRESSES a genuine deadline on the
 // reading-aid path. school_periodic in the corpus is that case.
+// A WORD BOUNDARY THAT IS NOT ASCII.
+//
+// JavaScript's \b is a transition between [A-Za-z0-9_] and anything else, so
+// every letter outside that range is a NON word character. Between a space and
+// a Devanagari letter there is no boundary at all, which made every label in
+// Hindi, Gujarati, Bengali and Panjabi unmatchable BY CONSTRUCTION, whatever
+// vocabulary anyone added. It is wider than the four scripts: a Latin label
+// works only if it begins and ends with an ASCII letter, so Polish "do" and
+// Spanish "hasta" match while Portuguese "até" and Romanian "până" do not, and
+// those two are the ordinary deadline prepositions in those languages.
+//
+// THE SAME DEFECT SHIPPED TWICE IN THE TRANSLATION SCANNER and was fixed there
+// on 29 July 2026. docs/i18n/engineering-standards.md records the decision and
+// scripts/scan-translations.js carries the boundary helper. The engine was not
+// searched, because tests/wordBoundarySafety.test.js excluded src/ with the
+// reason "the rules engine runs over English document text". That was true when
+// it was written and stopped being true when the corpus gained nine languages.
+// The guard now covers src/ and the comment there says why the exclusion
+// expired.
+//
+// \p{L} ALONE IS NOT ENOUGH, which is the second-order version of the same bug.
+// Indic vowel signs are category M, a combining mark, not L, so a lookbehind
+// that excludes only \p{L} finds a boundary before a matra and matches a term
+// inside an ordinary word. The tooling learned that the hard way, on five false
+// positives in Gujarati.
+//
+// AND \p{Cf} IS IN THE CLASS, which the tooling does not need and this does.
+// Devanagari, Bengali and Gurmukhi use a zero-width non-joiner to block a
+// conjunct ligature, and ZWNJ is category Cf: not a letter, not a mark, not a
+// digit. Without it in the class a single written word carrying one is two
+// words to the matcher. Our own translation files contain none, which is why
+// the scanner never met this; a reader's document is not our file.
+//
+// Cf also covers the byte-order mark and the soft hyphen, and treating those as
+// word characters would hide a label sitting against one. normaliseForMatching
+// in the engine strips both before any of this runs, which is why that is safe.
+const WORD_CHAR = "[\\p{L}\\p{M}\\p{N}\\p{Cf}]";
+const LABEL_OPEN = "(?<!" + WORD_CHAR + ")";
+const LABEL_CLOSE = "(?!" + WORD_CHAR + ")";
+
 const labelPatterns = new Map();
 function labelPattern(phrase) {
   let pattern = labelPatterns.get(phrase);
@@ -365,7 +405,7 @@ function labelPattern(phrase) {
     const body = phrase.length >= MIN_TOLERANT_LENGTH
       ? tolerantLabelSource(phrase)
       : phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    pattern = new RegExp("\\b" + body + "\\b", "gi");
+    pattern = new RegExp(LABEL_OPEN + body + LABEL_CLOSE, "giu");
     labelPatterns.set(phrase, pattern);
   }
   return pattern;
@@ -408,7 +448,8 @@ function spanningPattern(head, tail) {
       ? tolerantLabelSource(head)
       : head.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     pattern = new RegExp(
-      "\\b" + body + "\\b[^\\n]{0," + MAX_LABEL_GAP + "}?\\b" + tail + "\\b", "gi");
+      LABEL_OPEN + body + LABEL_CLOSE + "[^\\n]{0," + MAX_LABEL_GAP + "}?" +
+      LABEL_OPEN + tail + LABEL_CLOSE, "giu");
     spanningPatterns.set(key, pattern);
   }
   return pattern;
@@ -417,8 +458,8 @@ function spanningPattern(head, tail) {
 // A greeting marks the end of the header zone. Tolerant for the same reason as
 // the labels: "D3ar Patient" moved the NHS appointment date back to the letter
 // date, re-opening the greeting-zone rule with one damaged character.
-const GREETING = new RegExp("^\\s*(?:" + tolerantLabelSource("dear") + "\\b|" +
-  tolerantLabelSource("to whom it may concern") + ")", "i");
+const GREETING = new RegExp("^\\s*(?:" + tolerantLabelSource("dear") + LABEL_CLOSE + "|" +
+  tolerantLabelSource("to whom it may concern") + ")", "iu");
 
 // AND A GREETING IN ANY SCRIPT, because the rule above is English and the zone
 // it draws is what separates a letter date from an appointment date.
@@ -875,9 +916,26 @@ function passesProximity(label, value, forwardOnly) {
 //
 // Money is exempt: its label may follow its value, and "still to pay" is
 // separated from "£486.20" by a word.
+//
+// AND THE TEST WAS ASCII TOO, which is a worse defect than the boundary above
+// because it produces a wrong answer rather than a missed one. [A-Za-z0-9] does
+// not contain a single Devanagari, Gujarati, Bengali or Gurmukhi letter, so a
+// whole clause in one of those scripts reads to this test as nothing but
+// whitespace, and an English label binds a date on the other side of it:
+//
+//   "भुगतान की तारीख due by आपके खाते में जमा राशि 3 September 2026"
+//     ASCII    3 September 2026, bound by "due by" across nine words
+//     Unicode  null
+//
+// A mixed-script document is not exotic. Every translated letter in the corpus
+// carries English amounts, English month names and an English sender name, and
+// a translated NHS or council letter routinely leaves the department name in
+// English. This is the shape that produces one.
+const WORD_OR_DIGIT = /[\p{L}\p{M}\p{N}]/u;
+
 function passesAdjacency(label, value, source) {
   if (label.end > value.index) return true;
-  return !/[A-Za-z0-9]/.test(source.slice(label.end, value.index));
+  return !WORD_OR_DIGIT.test(source.slice(label.end, value.index));
 }
 
 // TEST 2. Same blank-line-delimited block.

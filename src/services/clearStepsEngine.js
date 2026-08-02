@@ -51,9 +51,38 @@ const SUPPORTED_MIME_TYPES = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 ];
 
+// ONE NORMALISATION, AT THE ONE PLACE TEXT ENTERS THE ENGINE.
+//
+// NFC, because a label and the text it is matched against have to be in the
+// same form or nothing matches at all. "até" written as a-t-é and "até" written
+// as a-t-e-plus-combining-acute are different strings to every rule in this
+// file, and a PDF may carry either: the two forms are visually identical, so
+// nothing downstream could ever detect the difference. Unicode boundaries make
+// the boundary correct around a decomposed accent; they do not make the LABEL
+// match one. Only this does.
+//
+// AND THE INVISIBLES GO. A byte-order mark and a soft hyphen are category Cf,
+// and Cf is deliberately inside co-location's word-character class so that a
+// zero-width non-joiner inside a Devanagari conjunct is not read as a word
+// boundary. That is right for ZWNJ and wrong for a BOM: a label sitting against
+// a leading BOM would be invisible. Stripping the two that never belong in a
+// word is what makes keeping Cf in the class safe.
+//
+// HERE AND NOWHERE ELSE. Every offset co-location computes, every span the
+// extractor slices and every value a card quotes is measured against this one
+// string, so normalising once at the boundary keeps them all consistent.
+// Normalising anywhere further in would mean two strings and two coordinate
+// systems, which is the defect that put "No clear date was found." on the same
+// card as a date.
+const INVISIBLE = /[﻿­]/g;
+
+function normaliseForMatching(text) {
+  return String(text == null ? "" : text).normalize("NFC").replace(INVISIBLE, "");
+}
+
 function runClearStepsEngine({ extractedText, fileMeta, facts }) {
   const jobId = fileMeta.jobId || crypto.randomUUID();
-  const split = splitDocuments(extractedText);
+  const split = splitDocuments(normaliseForMatching(extractedText));
   const primaryText = split.documents[0] || "";
 
   // Adjudicated ONCE and read by both layers below, so the severity floor and
