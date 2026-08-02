@@ -141,7 +141,16 @@ test("the corpus, after the sweep", async (t) => {
       // Recovered by F3. A county court letter explaining what a third party
       // debt order does states a real consequence, and it was refused as a
       // scam for saying so.
-      "genuine_court_account_freeze", "legal_solicitor"
+      "genuine_court_account_freeze", "legal_solicitor",
+      // Spec-anchored, Track 2, and BOTH ARE ROUTINE BILLS. The energy bill
+      // states a consequence because Ofgem requires it to carry a debt and
+      // disconnection safeguard, and the council tax demand because the
+      // prescribed explanatory notes must describe liability orders and
+      // enforcement agents. Neither letter is threatening the reader; both are
+      // complying with a regulation. Recorded in KNOWN_ENGINE_DEFECTS.md as the
+      // clearest thing Track 2 found: the more compliant the letter, the more
+      // alarming Northcue makes it.
+      "spec_council_tax_demand_full", "spec_energy_bill_full"
     ]);
   });
 

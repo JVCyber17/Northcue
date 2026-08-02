@@ -22,6 +22,7 @@ const os = require("node:os");
 const path = require("node:path");
 
 const { CORPUS } = require("../engine-baseline/corpus");
+const { SPEC_ANCHORED, PAGE_BREAK } = require("../engine-baseline/corpus-spec-anchored");
 const { writePdf } = require("./writePdf");
 const { extractTextFromPdf } = require("../../src/services/textExtraction");
 const { runClearStepsEngine } = require("../../src/services/clearStepsEngine");
@@ -45,7 +46,17 @@ const PAGE_BREAK_AFTER = {
     lines.findIndex((l, i) => i > 10 && l.trim() === "Northbridge Building Society")
 };
 
+// The spec-anchored documents declare their own page breaks with a form feed,
+// which corpus.js strips before the engine ever sees them. Reading the original
+// here is what lets a three page bill be laid out as three pages rather than
+// one very long one.
+const SPEC_BY_ID = new Map(SPEC_ANCHORED.map((entry) => [entry.id, entry]));
+
 function pagesFor(entry) {
+  const declared = SPEC_BY_ID.get(entry.id);
+  if (declared) {
+    return declared.text.split(PAGE_BREAK).map((page) => page.split("\n"));
+  }
   const lines = entry.text.split("\n");
   const finder = PAGE_BREAK_AFTER[entry.id];
   if (!finder) return [lines];

@@ -2757,6 +2757,303 @@
       "answerChars": 96,
       "stepChars": 57,
       "steps": 1
+    },
+    "spec_bengali_nhs_screening|1": {
+      "px": 702,
+      "lang": "pl",
+      "answerChars": 82,
+      "stepChars": 168,
+      "steps": 2
+    },
+    "spec_bengali_nhs_screening|2": {
+      "px": 501,
+      "lang": "pl",
+      "answerChars": 106,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_bengali_nhs_screening|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "spec_bengali_nhs_screening|4": {
+      "px": 590,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 54,
+      "steps": 1
+    },
+    "spec_bengali_nhs_screening|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 18,
+      "steps": 1
+    },
+    "spec_bengali_nhs_screening|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "spec_bilingual_en_pl_council|1": {
+      "px": 655,
+      "lang": "ro",
+      "answerChars": 86,
+      "stepChars": 77,
+      "steps": 1
+    },
+    "spec_bilingual_en_pl_council|2": {
+      "px": 495,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_bilingual_en_pl_council|3": {
+      "px": 621,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 114,
+      "steps": 2
+    },
+    "spec_bilingual_en_pl_council|4": {
+      "px": 497,
+      "lang": "pl",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "spec_bilingual_en_pl_council|5": {
+      "px": 623,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "spec_bilingual_en_pl_council|6": {
+      "px": 466,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "spec_council_tax_demand_full|1": {
+      "px": 772,
+      "lang": "pt",
+      "answerChars": 100,
+      "stepChars": 150,
+      "steps": 2
+    },
+    "spec_council_tax_demand_full|2": {
+      "px": 493,
+      "lang": "ro",
+      "answerChars": 42,
+      "stepChars": 45,
+      "steps": 1
+    },
+    "spec_council_tax_demand_full|3": {
+      "px": 882,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 378,
+      "steps": 4
+    },
+    "spec_council_tax_demand_full|4": {
+      "px": 497,
+      "lang": "pl",
+      "answerChars": 20,
+      "stepChars": 55,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "spec_council_tax_demand_full|5": {
+      "px": 921,
+      "lang": "pl",
+      "answerChars": 313,
+      "stepChars": 43,
+      "steps": 2
+    },
+    "spec_council_tax_demand_full|6": {
+      "px": 675,
+      "lang": "pl",
+      "answerChars": 90,
+      "stepChars": 97,
+      "steps": 2
+    },
+    "spec_energy_bill_full|1": {
+      "px": 614,
+      "lang": "pl",
+      "answerChars": 81,
+      "stepChars": 42,
+      "steps": 1
+    },
+    "spec_energy_bill_full|2": {
+      "px": 502,
+      "lang": "pl",
+      "answerChars": 42,
+      "stepChars": 49,
+      "steps": 2
+    },
+    "spec_energy_bill_full|3": {
+      "px": 556,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 87,
+      "steps": 2
+    },
+    "spec_energy_bill_full|4": {
+      "px": 497,
+      "lang": "pl",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1,
+      "includesPassedLine": true
+    },
+    "spec_energy_bill_full|5": {
+      "px": 888,
+      "lang": "pl",
+      "answerChars": 221,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "spec_energy_bill_full|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 56,
+      "steps": 1
+    },
+    "spec_gujarati_nhs_appointment|1": {
+      "px": 702,
+      "lang": "pl",
+      "answerChars": 82,
+      "stepChars": 168,
+      "steps": 2
+    },
+    "spec_gujarati_nhs_appointment|2": {
+      "px": 501,
+      "lang": "pl",
+      "answerChars": 106,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_gujarati_nhs_appointment|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 74,
+      "steps": 1
+    },
+    "spec_gujarati_nhs_appointment|4": {
+      "px": 590,
+      "lang": "pl",
+      "answerChars": 86,
+      "stepChars": 55,
+      "steps": 1
+    },
+    "spec_gujarati_nhs_appointment|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 71,
+      "stepChars": 19,
+      "steps": 1
+    },
+    "spec_gujarati_nhs_appointment|6": {
+      "px": 655,
+      "lang": "pl",
+      "answerChars": 96,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "spec_hindi_dwp_universal_credit|1": {
+      "px": 729,
+      "lang": "fr",
+      "answerChars": 75,
+      "stepChars": 194,
+      "steps": 2
+    },
+    "spec_hindi_dwp_universal_credit|2": {
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 97,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_hindi_dwp_universal_credit|3": {
+      "px": 617,
+      "lang": "pl",
+      "answerChars": 94,
+      "stepChars": 94,
+      "steps": 1
+    },
+    "spec_hindi_dwp_universal_credit|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_hindi_dwp_universal_credit|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "spec_hindi_dwp_universal_credit|6": {
+      "px": 720,
+      "lang": "pl",
+      "answerChars": 146,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "spec_panjabi_council_rent|1": {
+      "px": 531,
+      "lang": "bn",
+      "answerChars": 70,
+      "stepChars": 33,
+      "steps": 1
+    },
+    "spec_panjabi_council_rent|2": {
+      "px": 380,
+      "lang": "en",
+      "answerChars": 33,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_panjabi_council_rent|3": {
+      "px": 466,
+      "lang": "fr",
+      "answerChars": 27,
+      "stepChars": 27,
+      "steps": 1
+    },
+    "spec_panjabi_council_rent|4": {
+      "px": 501,
+      "lang": "pl",
+      "answerChars": 108,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "spec_panjabi_council_rent|5": {
+      "px": 563,
+      "lang": "es",
+      "answerChars": 95,
+      "stepChars": 35,
+      "steps": 1
+    },
+    "spec_panjabi_council_rent|6": {
+      "px": 585,
+      "lang": "pl",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
     }
   }
 }

@@ -40,7 +40,26 @@ const TIGHT_PX = 120;
 // No card exceeds the viewport. It was two, both card 1 on a garbled document,
 // until that answer was split into answer plus key point. The list stays so the
 // test can say plainly when one comes back rather than quietly tolerating it.
-const KNOWN_OVER = {};
+// THREE CARDS ARE OVER THE VIEWPORT, and all three arrived with the first
+// full-length documents on 2 August 2026. Every one is a long sentence lifted
+// verbatim out of a statutory notes block:
+//
+//   the Ofgem debt and disconnection safeguard, on card 5 of the energy bill
+//   the prescribed "making an appeal does not allow you to stop paying" note,
+//     on card 3 of the council tax demand
+//   the prescribed liability order and enforcement agent note, on card 5
+//
+// All three are measured in Polish, which is the longest of the ten languages.
+// A reader on a 375x812 phone cannot see the whole card.
+//
+// NAMED, NOT ACCEPTED. Recorded in KNOWN_ENGINE_DEFECTS.md. The cause is the
+// same one behind two other findings from the same documents: the engine lifts
+// whole sentences from prescribed notes that are not about this reader.
+const KNOWN_OVER = {
+  "spec_energy_bill_full|5": 888,
+  "spec_council_tax_demand_full|3": 882,
+  "spec_council_tax_demand_full|5": 921
+};
 
 // D3 tier 2 gave the engine a second reading of the same document: the one it
 // produces on its own, and the one it produces when the fact extractor answered.

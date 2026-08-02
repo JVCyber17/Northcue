@@ -839,6 +839,45 @@ scam warning: no severity, no trust rating and no scam signal changes because
 of them. They are here for wording, and specifically for the drift described in
 the first question.
 
+## URGENT, and different from everything else here (2 August 2026)
+
+Until this week the engine had **never been handed a document in Gujarati,
+Hindi, Bengali or Panjabi**. Not one. The sentence bank has carried 371
+translated sentences for each of those languages, written without a single
+document in that language to test them against.
+
+Four documents have now been added to the test corpus so the engine is
+exercised against these scripts at all:
+
+> `spec_gujarati_nhs_appointment`, an NHS outpatient appointment letter
+> `spec_hindi_dwp_universal_credit`, a DWP Universal Credit letter
+> `spec_bengali_nhs_screening`, an NHS breast screening invitation
+> `spec_panjabi_council_rent`, a council rent increase notice
+
+**THEIR STRUCTURE IS ANCHORED TO A REAL TEMPLATE. THEIR WORDING IS NOT
+NATIVE-REVIEWED.** The fields are the fields an NHS or DWP letter actually
+carries. The sentences were drafted, not written by a speaker.
+
+**Q. Is this what an official letter in your language actually sounds like?**
+
+Not whether it is grammatical, though tell us if it is not. Whether a hospital
+or a council writing to someone would write it this way. If it reads like a
+translation of an English letter rather than a letter, say so, because that is
+exactly what it is and we need to know how far off it lands.
+
+**Q. Are the labels the labels a real letter uses?**
+
+Especially the ones the engine keys on: the reference number, the letter date,
+the appointment date, the amount. If a real letter would label the appointment
+date differently, that matters more than anything else on this page, because
+the engine is currently reading the LETTER date on both NHS letters and telling
+the reader that is the date that matters.
+
+**What we are asking for is a replacement, not a correction.** If these are
+wrong, the useful thing is a letter you would actually expect to receive, with
+invented names and numbers. That is worth more to this product than any
+amount of proofreading.
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to

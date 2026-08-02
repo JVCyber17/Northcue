@@ -29,6 +29,9 @@
 
 "use strict";
 
+const { SPEC_ANCHORED, PAGE_BREAK } = require("./corpus-spec-anchored");
+const { SPEC_LANGUAGES } = require("./corpus-spec-languages");
+
 const CORPUS = [
   // ---------------------------------------------------------------- supported
   {
@@ -1458,5 +1461,20 @@ const CORPUS = [
     ].join("\n")
   }
 ];
+
+// Documents built from published specifications rather than from our idea of a
+// letter, kept in their own file because they are long and because each field
+// is present for a citable reason. CORPUS_STRATEGY.md, Track 2.
+//
+// The page-break marker is stripped here: the engine only ever sees text, and
+// scripts/corpus-pdf/generate.js reads the marker off the same source to lay
+// each one out as a real multi-page PDF.
+SPEC_ANCHORED.forEach((entry) => {
+  CORPUS.push(Object.assign({}, entry, {
+    text: entry.text.split(PAGE_BREAK).join("\n")
+  }));
+});
+
+SPEC_LANGUAGES.forEach((entry) => CORPUS.push(entry));
 
 module.exports = { CORPUS };

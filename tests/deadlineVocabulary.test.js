@@ -305,7 +305,13 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       intl_romanian_school_meeting: "15 septembrie 2026",
       // Recovered by P1, which stopped the repeated-letterhead rule fusing a
       // genuine two-page insurance renewal.
-      letter_with_terms_on_back: "30 June 2026"
+      letter_with_terms_on_back: "30 June 2026",
+      spec_energy_bill_full: "4 June 2026",
+      spec_council_tax_demand_full: "1 April 2026",
+      spec_bilingual_en_pl_council: "1 July 2026",
+      // The letter date, not the appointment date. See KNOWN_ENGINE_DEFECTS.md.
+      spec_gujarati_nhs_appointment: "12 June 2026",
+      spec_bengali_nhs_screening: "5 June 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

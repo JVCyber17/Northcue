@@ -229,7 +229,16 @@ test("the corpus, end to end", async (t) => {
       // yields its renewal date. Card 4 hedges it as "the date that matters"
       // rather than "Due by", which is right: the letter says "You do not need
       // to do anything", and card 3 says exactly that.
-      letter_with_terms_on_back: "2026-06-30"
+      letter_with_terms_on_back: "2026-06-30",
+      // Spec-anchored, Track 2. The first three are correct. The last two are
+      // NOT: on both NHS letters the engine took the LETTER date and presented
+      // it as the date that matters, and never surfaced the appointment date.
+      // Recorded in KNOWN_ENGINE_DEFECTS.md, not accepted.
+      spec_energy_bill_full: "2026-06-04",
+      spec_council_tax_demand_full: "2026-04-01",
+      spec_bilingual_en_pl_council: "2026-07-01",
+      spec_gujarati_nhs_appointment: "2026-06-12",
+      spec_bengali_nhs_screening: "2026-06-05"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

@@ -7,7 +7,7 @@
 // MOST OF THIS FILE IS THE CEILING, NOT THE RULE. The rule is four calls to
 // functions that already existed. What needs pinning is that it is advisory:
 // it may withhold "high" trust and it may do nothing else. The tests below
-// assert that against the real engine on all 63 corpus documents AND against a
+// assert that against the real engine on all 70 corpus documents AND against a
 // constructed worst case, because the corpus not containing a counterexample is
 // not the same as one being impossible.
 
@@ -67,14 +67,14 @@ test("the rule fires where it was measured to fire", async (t) => {
     });
   });
 
-  await t.test("the false positive rate is zero in fifty three, and stays visible", () => {
+  await t.test("the false positive rate is zero in sixty, and stays visible", () => {
     // Written as a set rather than a count, because the membership is the
     // argument for how far this rule may be trusted. It was one in fifty until
     // the phone fix; the invoice that made it one is still in the corpus and
     // still has a link, a total and no reference code, so if this ever returns
     // to one the fix has been undone rather than the corpus changed.
     const genuine = CORPUS.filter((e) => !SCAMS.includes(e.id));
-    assert.equal(genuine.length, 53, "the genuine/scam split has changed");
+    assert.equal(genuine.length, 60, "the genuine/scam split has changed");
     const firedOnGenuine = genuine
       .filter((e) => trustOf(e.text).lure_shape_signals.length > 0)
       .map((e) => e.id);

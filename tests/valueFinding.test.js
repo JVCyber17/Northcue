@@ -352,7 +352,17 @@ test("money: every amount in the corpus is still found in full", async (t) => {
     // multi-letter rule fuses all three. Pinned here so the finding is visible
     // from the money side too: the amounts were never the problem.
     "£1,204.18", "£1,860.00", "£187.82", "£2,651.52", "£28.36", "£311.40",
-    "£342.80", "£412.66", "£48.20", "£62.14", "£925.00"
+    "£342.80", "£412.66", "£48.20", "£62.14", "£925.00",
+    // From the spec-anchored documents added 2 August 2026. A real energy bill
+    // and a real council tax demand carry dozens of amounts, of which exactly one
+    // is what the reader owes. 37 new amounts across two documents, which is the
+    // scale of the problem those documents exist to expose.
+    "£1", "£1,088.40", "£1,194.12", "£1,286.44", "£1,403.24", "£1,578.64",
+    "£1,637.11", "£1,870.99", "£105.72", "£13.00", "£14.22", "£149.80",
+    "£157.86", "£157.90", "£18.40", "£188.12", "£2,104.86", "£2,572.61",
+    "£2.14", "£2.85", "£253.14", "£265.60", "£268.40", "£280", "£284.31",
+    "£298.53", "£3,040.35", "£3,508.10", "£3.86", "£31.17", "£4,209.72",
+    "£41.20", "£526.22", "£70", "£74.22", "£96.30", "£99.51"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {

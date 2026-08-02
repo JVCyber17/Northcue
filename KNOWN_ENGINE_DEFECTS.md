@@ -1851,6 +1851,105 @@ than measurement:
   shape, in languages Northcue already claims to support, and there is no corpus
   document of it.
 
+## OPEN: what Track 2 found, and it is the mandated content that breaks it
+
+Seven documents built from published specifications, 2 August 2026. Two at real
+length (1,545 and 1,539 words, where the previous longest was 171), one
+bilingual, and one each for the four languages at zero. All seven go through the
+PDF extraction path. `CORPUS_STRATEGY.md`, Track 2.
+
+**THE PATTERN, and it is the opposite of what you would expect: the more
+compliant the letter, the worse Northcue treats it.** Every finding below is
+caused by content a regulation REQUIRES the sender to include.
+
+### Over-alarming a routine letter
+
+Both full-length documents are rated `severity: urgent`.
+
+- The **energy bill** is a routine quarterly bill due in three weeks. It is
+  urgent because the Ofgem-mandated debt and disconnection safeguard says the
+  words "disconnect" and "debt". That paragraph exists to REASSURE: it says the
+  supplier will never disconnect without first offering a payment plan.
+- The **council tax demand** was sent on 8 March for a first instalment due 1
+  April. It is urgent because the prescribed explanatory notes must describe
+  liability orders and enforcement agents. Every council tax demand in England
+  carries those notes by law.
+
+Card 5 of the energy bill reads *"Debt and disconnection We will never
+disconnect a domestic supply for debt without first offering a payment plan..."*
+— the reassurance lifted verbatim and presented as the consequence.
+
+`tests/severityContradiction.test.js` names the energy bill as a known
+contradiction: the engine rates it serious and card 6 tells the reader to keep
+it with their records. Both halves are defensible; together they are incoherent.
+
+### A wrong fact stated calmly, on medical appointments
+
+**The Gujarati and Bengali NHS letters state the LETTER date as the date that
+matters, and never mention the appointment.**
+
+| document | letter date | appointment | card 4 says |
+| --- | --- | --- | --- |
+| `spec_gujarati_nhs_appointment` | 12 June 2026 | **14 July 2026** | "12 June 2026 as the date that matters" |
+| `spec_bengali_nhs_screening` | 5 June 2026 | **9 July 2026** | "5 June 2026 as the date that matters" |
+
+The date labels are in the local script, so the engine cannot tell a letter date
+from an appointment date and takes the first plausible one. A reader could miss
+a screening. **This is the highest-harm finding of the week.**
+
+The Hindi DWP letter does the same with its letter date and misses the 24 June
+information deadline entirely.
+
+### A wrong fact stated calmly, and only through the real path
+
+`spec_council_tax_demand_full`: the authored text picks **£1,578.64**, which is
+what the reader owes after the single person discount. The **extracted** text
+picks **£2,104.86**, the gross band D figure before the discount.
+
+**The real extraction path names a number 33 per cent higher than the reader
+owes.** Nothing but Track 1 would have found this, because the difference only
+exists once the document has been through a PDF.
+
+`spec_bilingual_en_pl_council` has the same shape more mildly: it names the
+annual £742.19 where the reader must pay £74.22 by 1 July.
+
+### Cards that do not fit the screen
+
+Three cards exceed the 375x812 viewport, the first since the height fixture was
+built, all measured in Polish, all long sentences lifted from statutory notes:
+
+| card | px |
+| --- | --- |
+| `spec_energy_bill_full` card 5, the Ofgem debt safeguard | 888 |
+| `spec_council_tax_demand_full` card 3, the "appeal does not stop payment" note | 882 |
+| `spec_council_tax_demand_full` card 5, the liability order note | 921 |
+
+Named in `KNOWN_OVER` in `tests/cardHeight.test.js`.
+
+### Lifting sentences that are not about this reader
+
+`tests/actionCard.test.js` names the council tax demand: it lifts *"Making an
+appeal does not allow you to stop paying. You must carry on paying the
+instalments shown overleaf..."* into the action card. That is prescribed
+boilerplate on every demand notice, not advice to this person.
+
+**All four findings above have one cause**: the engine lifts whole sentences
+from prescribed notes blocks. Short corpus documents had no notes blocks, so
+nothing exercised it.
+
+### Declining where the answer was available
+
+All four non-Latin documents produce `selected_amount: null` while carrying a
+clearly labelled amount, and the Panjabi and Hindi letters produce no date. This
+is the same `PHONE_GOVERNS`-shaped problem one level up: the labels are in the
+local script and the vocabulary is English.
+
+**What Track 2 got right, and it is worth saying.** The energy bill picks
+£298.53 correctly out of eighteen amounts including an annual estimate, a
+cheapest-tariff comparison and a VAT line, and reads its deadline correctly. At
+1,545 words with three pages, nine phone numbers, two tables and a payment slip,
+that is the engine working. The problem is not length. It is mandated content.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by
