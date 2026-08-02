@@ -50,32 +50,21 @@ test("the language skip serves the rules cards unchanged", async () => {
 });
 
 test("English language does not trigger the language gate", async () => {
-  // The phrasing pass is gone, so "did a request happen" is no longer the way
-  // to tell. providerSkipReason is the gate itself, and it is what both the
-  // removed phrasing pass and the surviving fact extractor asked.
-  const rulesRun = runClearStepsEngine({ extractedText: GOOD_BILL, fileMeta: { mimeType: "application/pdf" } });
-  const originalKey = process.env.OPENAI_API_KEY;
-  process.env.OPENAI_API_KEY = "test-key";
-  try {
-    assert.equal(providerSkipReason({ rulesRun, language: "en" }), null,
-      "English must reach the provider");
-    assert.equal(providerSkipReason({ rulesRun, language: "pl" }), "non_english_language");
-  } finally {
-    if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
-    else process.env.OPENAI_API_KEY = originalKey;
-  }
+  const result = await runWithLanguage("en", async () => {
+    throw new Error("forced provider failure");
+  });
+  // The AI pass ran (fetch attempted) and fell back, proving the language
+  // gate did not fire for English.
+  assert.equal(result.fetchCalls > 0, true);
+  assert.notEqual(result.ai.ai_error_code, "non_english_language");
 });
 
 test("an absent language behaves exactly like English", async () => {
-  const rulesRun = runClearStepsEngine({ extractedText: GOOD_BILL, fileMeta: { mimeType: "application/pdf" } });
-  const originalKey = process.env.OPENAI_API_KEY;
-  process.env.OPENAI_API_KEY = "test-key";
-  try {
-    assert.equal(providerSkipReason({ rulesRun, language: undefined }), null);
-  } finally {
-    if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
-    else process.env.OPENAI_API_KEY = originalKey;
-  }
+  const result = await runWithLanguage(undefined, async () => {
+    throw new Error("forced provider failure");
+  });
+  assert.equal(result.fetchCalls > 0, true);
+  assert.notEqual(result.ai.ai_error_code, "non_english_language");
 });
 
 test("the route language normaliser only accepts configured languages", () => {

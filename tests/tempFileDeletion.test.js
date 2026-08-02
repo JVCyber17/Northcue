@@ -6,7 +6,7 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 
 const { simplifyRoute } = require("../src/routes/simplifyRoute");
-const { requestFactsFromOpenAi } = require("../src/services/aiFactExtractionService");
+const { requestStructuredResultFromOpenAi } = require("../src/services/aiStructuredResultService");
 
 // These tests require the route module directly (not server.js), so no .env is
 // loaded and Supabase is unconfigured — the session-tracking calls no-op safely.
@@ -67,29 +67,30 @@ test("temp upload file is deleted after an unreadable (failure) read", async () 
 });
 
 test("OpenAI request body sets store:false", async () => {
-  // The privacy guarantee moved with the request. The phrasing pass is gone, so
-  // the FACT extractor is now the only thing that sends document text, and it
-  // is the one that must not let OpenAI retain it as stored application state.
   const originalFetch = global.fetch;
+  const originalKey = process.env.OPENAI_API_KEY;
+  process.env.OPENAI_API_KEY = "test-key";
   let capturedBody = null;
 
   global.fetch = async (url, opts) => {
     capturedBody = JSON.parse(opts.body);
-    return new Response(JSON.stringify({ output_text: "{}" }), { status: 200 });
+    return { ok: true, json: async () => ({ output_text: "{}" }) };
   };
 
   try {
-    await requestFactsFromOpenAi({
-      documentText: "some document text",
+    await requestStructuredResultFromOpenAi({
+      extractedText: "some document text",
+      fallbackStructuredResult: {},
       model: "gpt-4.1-mini",
-      apiKey: "test-key",
-      timeoutMs: 2000
+      inputQuality: "good",
+      garbledByOcr: false
     });
   } finally {
     global.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
+    else process.env.OPENAI_API_KEY = originalKey;
   }
 
   assert.ok(capturedBody, "request body should have been captured");
   assert.equal(capturedBody.store, false, "request body must include store:false");
-  assert.equal(capturedBody.temperature, 0, "and temperature 0, which the phrasing pass used to guard");
 });

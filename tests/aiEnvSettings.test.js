@@ -15,7 +15,6 @@ const path = require("node:path");
 const test = require("node:test");
 
 const SERVICE = path.join(__dirname, "..", "src", "services", "aiStructuredResultService");
-const ROUTE = path.join(__dirname, "..", "src", "routes", "simplifyRoute");
 const { positiveNumberSetting } = require(SERVICE);
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 
@@ -151,13 +150,13 @@ function loadServiceWith(env) {
 // Honours the abort signal, the way a real fetch does. Without this the timeout
 // cannot be observed at all, because the service only sees a timeout when fetch
 // rejects with an AbortError.
-// Both settings now belong to the FACT extractor. The phrasing pass they used
-// to configure is gone, and it was the only other thing that read them, so
-// these tests follow them to their surviving reader rather than being deleted
-// with the pass. The request is identified by its own prompt.
-const FACT_MARKER = "extraction layer";
+// D3 tier 1 added a SECOND provider request on this path: the fact extractor
+// runs beside the phrasing pass. Both are counted here unless told apart, and
+// the char cap belongs to the phrasing prompt, so these helpers look at which
+// request arrived rather than at how many.
+const PHRASING_MARKER = "backend structured-output layer";
 const isPhrasingRequest = (body) =>
-  String(body && body.input && body.input[0] && body.input[0].content || "").includes(FACT_MARKER);
+  String(body && body.input && body.input[0] && body.input[0].content || "").includes(PHRASING_MARKER);
 
 function abortAwareFetch(delayMs, onBody, calls) {
   return (url, init) => new Promise((resolve, reject) => {
@@ -183,14 +182,9 @@ async function runWith(env, fetchImpl) {
   process.env.OPENAI_API_KEY = "test-key";
   global.fetch = fetchImpl;
   try {
-    // Through the route, because that is where the fact extractor is called and
-    // where the settings under test are read.
-    delete require.cache[require.resolve(ROUTE)];
-    const { analyseDocumentText } = require(ROUTE);
-    const run = await analyseDocumentText(BILL, {
-      mimeType: "application/pdf", selectedCategory: "auto", jobId: "env", interfaceLanguage: "en"
-    });
-    return run.api_output.debug.ai_facts;
+    const rulesRun = runClearStepsEngine({ extractedText: BILL, fileMeta: { mimeType: "application/pdf" } });
+    const run = await service.applySafetyPassAndRecordAiStatus({ rulesRun, extractedText: BILL, language: "en" });
+    return run.api_output.debug.ai;
   } finally {
     global.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
@@ -205,8 +199,8 @@ test("a malformed timeout does not abort every call", async () => {
   const calls = { count: 0 };
   const ai = await runWith({ CLEARSTEPS_AI_TIMEOUT_MS: "25s" }, abortAwareFetch(40, null, calls));
   assert.equal(calls.count, 1, "the request must actually have been made");
-  assert.notEqual(ai.facts_error_code, "facts_timeout",
-    "a typo in the timeout must not silently disable the extractor");
+  assert.notEqual(ai.ai_error_code, "ai_timeout",
+    "a typo in the timeout must not silently disable the AI");
 });
 
 test("a real timeout still fires", async () => {
@@ -215,8 +209,8 @@ test("a real timeout still fires", async () => {
   const calls = { count: 0 };
   const ai = await runWith({ CLEARSTEPS_AI_TIMEOUT_MS: "5" }, abortAwareFetch(40, null, calls));
   assert.equal(calls.count, 1);
-  assert.equal(ai.facts_error_code, "facts_timeout");
-  assert.equal(ai.facts_status, "failed");
+  assert.equal(ai.ai_error_code, "ai_timeout");
+  assert.equal(ai.ai_status, "fallback");
 });
 
 // THE DOCUMENT SECTION ONLY, not the whole prompt.
@@ -226,9 +220,7 @@ test("a real timeout still fires", async () => {
 // fallback structured_result, whose cards name the sender and the amount. So
 // an empty document section was invisible to a test written to detect exactly
 // that. Slice at the marker line and assert on what follows it.
-// The fact prompt's own marker. The phrasing prompt used a longer one and is
-// gone with it.
-const DOCUMENT_MARKER = "Document text:";
+const DOCUMENT_MARKER = "Document text for in-memory analysis only.";
 function documentSectionOf(prompt) {
   const index = prompt.indexOf(DOCUMENT_MARKER);
   assert.notEqual(index, -1, "the prompt must still carry a document section");
