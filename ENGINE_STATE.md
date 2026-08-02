@@ -158,6 +158,45 @@ npm test && node scripts/engine-baseline/run.js --check
 It exits 1 when anything moved. If the movement is intended, run `--update` and
 read the whole diff before committing it.
 
+**`--check` MEASURES THE FLOOR. THE READER SEES THE CEILING.** It runs
+`runClearStepsEngine` and stops there. The AI phrasing pass applies afterwards,
+in the route, so the baseline has never contained one word of model prose. It is
+the right guard for the engine and it is not evidence about a reader.
+
+So: **any change to the AI path or to the card builders reports reader-visible
+output, not baseline movement.**
+
+```bash
+node scripts/reader-output/run.js --english
+node scripts/reader-output/run.js --only <id>     # all six cards, verbatim
+```
+
+Two conditions, one variable: the floor, which is what a reader falls back to
+whenever the model is refused, and the prose, live. Facts are held constant from
+`tests/fixtures/corpus-facts.json` so only the phrasing pass differs.
+
+**Three decisions in this programme were made on the wrong measurement**, which
+is why this is a rule rather than a suggestion:
+
+1. `9607c98` switched the phrasing pass off and reported "no change across 40".
+   True of the baseline. True of nothing a reader ever saw.
+2. Its cost was then stated as "23 readers lose the model's phrasing and gain
+   nothing", derived from how often FACTS moved the engine's own output, which
+   is a fact about the floor and not about what was lost from the ceiling.
+3. `c140289` deleted the validator because nothing called it, which was true
+   only because the caller had been switched off, and made the switch unsafe to
+   reverse.
+
+`tests/fixtures/corpus-facts.json` must cover every corpus document. Regenerate
+it whenever the corpus grows:
+
+```bash
+node scripts/corpus-facts/capture.js
+```
+
+It went from 40 documents to 70 with nobody noticing, and every consumer ran the
+uncovered 30 factless while reporting a number as if it had not.
+
 **Nine protected fields.** `trust_assessment`, `severity_level`,
 `urgency_level`, `processing_mode`, `document_category`, `is_high_stakes`,
 `scam_signals`, `is_probable_non_document`, `needs_human_review`. Any change to

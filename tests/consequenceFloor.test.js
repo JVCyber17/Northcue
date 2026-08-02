@@ -151,7 +151,21 @@ test("exactly these documents change severity", async (t) => {
   });
 
   await t.test("the moved set", () => {
+    // THREE, since tests/fixtures/corpus-facts.json was regenerated on 2 August
+    // 2026 and went from 40 documents to 69. The Portuguese final notice was in
+    // the uncovered 30, so nothing here had ever seen it with facts. Its
+    // consequence is "o fornecimento será interrompido", the supply will be
+    // cut off, correctly classified disconnection, correctly floored to high.
+    //
+    // A FOURTH BELONGED HERE AND WAS A DEFECT, not an addition:
+    // spec_gujarati_nhs_appointment went low -> URGENT because the extractor
+    // labelled "you may be removed from the list" as remove_goods and the
+    // engine composed a bailiff threat from the label. Fixed in 4a2d8a4, where
+    // a debt-enforcement kind now needs the document to state a debt. It is
+    // absent from this list because the fix works, and
+    // tests/consequenceCorroboration.test.js is what holds it there.
     assert.deepEqual(moved.sort(), [
+      "intl_portuguese_energy_final_notice: low -> high",
       "polish_rent_arrears: low -> high",
       "spanish_water_final_notice: low -> high"
     ]);
@@ -169,7 +183,11 @@ test("exactly these documents change severity", async (t) => {
       return analyse(entry.text, null).api_output.trust.urgency_level !==
         analyse(entry.text, facts).api_output.trust.urgency_level;
     }).map((e) => e.id);
-    assert.deepEqual(urgencyMoved.sort(), ["polish_rent_arrears", "spanish_water_final_notice"]);
+    assert.deepEqual(urgencyMoved.sort(), [
+      "intl_portuguese_energy_final_notice",
+      "polish_rent_arrears",
+      "spanish_water_final_notice"
+    ]);
   });
 });
 

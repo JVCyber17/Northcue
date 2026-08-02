@@ -3047,6 +3047,90 @@
       "answerChars": 54,
       "stepChars": 57,
       "steps": 1
+    },
+    "genuine_school_final_warning+facts|5": {
+      "px": 536,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 24,
+      "steps": 1
+    },
+    "genuine_court_account_freeze+facts|5": {
+      "px": 639,
+      "lang": "pl",
+      "answerChars": 137,
+      "stepChars": 23,
+      "steps": 1
+    },
+    "intl_energy_bill_plus44+facts|5": {
+      "px": 636,
+      "lang": "pl",
+      "answerChars": 69,
+      "stepChars": 42,
+      "steps": 2
+    },
+    "intl_water_arrears_00_prefix+facts|5": {
+      "px": 636,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 43,
+      "steps": 2
+    },
+    "intl_polish_clinic_appointment+facts|5": {
+      "px": 536,
+      "lang": "pl",
+      "answerChars": 67,
+      "stepChars": 23,
+      "steps": 1
+    },
+    "intl_portuguese_energy_final_notice+facts|5": {
+      "px": 540,
+      "lang": "pl",
+      "answerChars": 45,
+      "stepChars": 50,
+      "steps": 2
+    },
+    "intl_sole_trader_invoice+facts|5": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 66,
+      "stepChars": 23,
+      "steps": 1
+    },
+    "bill_with_contacts_page+facts|4": {
+      "px": 434,
+      "lang": "ro",
+      "answerChars": 18,
+      "stepChars": 53,
+      "steps": 1
+    },
+    "bill_with_contacts_page+facts|5": {
+      "px": 604,
+      "lang": "pl",
+      "answerChars": 78,
+      "stepChars": 39,
+      "steps": 2
+    },
+    "letter_with_terms_on_back+facts|5": {
+      "px": 604,
+      "lang": "pl",
+      "answerChars": 80,
+      "stepChars": 42,
+      "steps": 2
+    },
+    "spec_gujarati_nhs_appointment+facts|5": {
+      "px": 504,
+      "lang": "pl",
+      "answerChars": 70,
+      "stepChars": 19,
+      "steps": 1
+    },
+    "spec_bengali_nhs_screening+facts|5": {
+      "px": 536,
+      "lang": "pl",
+      "answerChars": 73,
+      "stepChars": 18,
+      "steps": 1
     }
   }
 }
