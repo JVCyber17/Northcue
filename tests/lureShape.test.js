@@ -215,3 +215,89 @@ test("advisory means advisory", async (t) => {
       "the rule firing changed the deadline");
   });
 });
+
+// ---------------------------------------------------------------------------
+// ADVISORY EVERYWHERE, DECISIVE AT THE GATE.
+//
+// The rule may not condemn a document. It may decline to hand one to a model,
+// and those are different questions.
+//
+// WHY IT HAD TO BECOME DECISIVE SOMEWHERE. When the prose path was restored on
+// 2 August 2026 the reader-output harness measured what a reader actually got,
+// and two corpus lures carry no English scam phrase, so scam_signals is empty,
+// processing_mode is "caution", and every branch of providerSkipReason
+// correctly returned null. The model was asked, and it answered:
+//
+//   scam_council_refund_link_only
+//     floor, card 3   "No action needed right now."
+//     prose, card 3   "Complete the online form to claim your council tax refund."
+//
+// Northcue telling a reader to complete a phishing form on a lookalike domain.
+// No output guard catches it: stripAiViolations covers pay and credential
+// commands, and UNSAFE_ADVICE_PATTERNS needs "you must / should / need to".
+// ---------------------------------------------------------------------------
+
+const aiService = require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
+
+test("a lure is never handed to the model", async (t) => {
+  const skipFor = (text) => {
+    const saved = process.env.OPENAI_API_KEY;
+    process.env.OPENAI_API_KEY = "sk-test-not-a-real-key";
+    try {
+      return aiService.providerSkipReason({
+        rulesRun: runClearStepsEngine({ extractedText: text, fileMeta: META }),
+        language: "en"
+      });
+    } finally {
+      if (saved === undefined) delete process.env.OPENAI_API_KEY;
+      else process.env.OPENAI_API_KEY = saved;
+    }
+  };
+
+  await t.test("every lure-shaped corpus document is refused the model", () => {
+    const reaching = CORPUS.filter((entry) => {
+      const run = runClearStepsEngine({ extractedText: entry.text, fileMeta: META });
+      const signals = run.structured_output.trust_internal.lure_shape_signals || [];
+      return signals.length > 0 && skipFor(entry.text) === null;
+    }).map((entry) => entry.id);
+    assert.deepEqual(reaching, [],
+      "a lure-shaped document reached the model: " + JSON.stringify(reaching));
+  });
+
+  await t.test("the two that used to reach it are refused for THIS reason", () => {
+    // Named, because they were refused by nothing before and their more
+    // specific siblings are refused by an earlier branch. If these two start
+    // returning verification_only_state the scam detector has learned to read
+    // them and this branch is no longer what protects them.
+    ["scam_council_refund_link_only", "smish_parcel_link_only"].forEach((id) => {
+      const entry = CORPUS.find((e) => e.id === id);
+      assert.equal(skipFor(entry.text), "lure_shape", id);
+    });
+  });
+
+  await t.test("no genuine document is refused for being lure shaped", () => {
+    // The counterweight, and the one that matters: this rule's whole margin
+    // over a genuine invoice is one working regex wide.
+    const genuine = CORPUS.filter((entry) => !/scam|smish|phish/i.test(entry.id));
+    const caught = genuine.filter((entry) => skipFor(entry.text) === "lure_shape")
+      .map((entry) => entry.id);
+    assert.deepEqual(caught, [],
+      "a genuine document is being refused the model as a lure: " + JSON.stringify(caught));
+  });
+
+  await t.test("and the rule is still only advisory for trust and severity", () => {
+    // Unchanged by this commit, asserted here so a future change that promotes
+    // the rule at the gate cannot quietly promote it everywhere else too.
+    const lure = CORPUS.find((entry) => {
+      const run = runClearStepsEngine({ extractedText: entry.text, fileMeta: META });
+      return (run.structured_output.trust_internal.lure_shape_signals || []).length > 0
+        && run.api_output.trust.processing_mode !== "verification_only";
+    });
+    assert.ok(lure, "premise: a lure that is not already refused outright");
+    const run = runClearStepsEngine({ extractedText: lure.text, fileMeta: META });
+    assert.notEqual(run.api_output.trust.processing_mode, "verification_only",
+      "the lure rule must not have produced a refusal");
+    assert.notEqual(run.api_output.trust.trust_assessment, "low",
+      "nor low trust");
+  });
+});

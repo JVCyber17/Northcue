@@ -83,6 +83,39 @@ function providerSkipReason({ rulesRun, language }) {
   const scamSignals = Array.isArray(trust.scam_signals) ? trust.scam_signals : [];
   if (trust.processing_mode === "verification_only" || scamSignals.length > 0) return "verification_only_state";
 
+  // THE LURE SHAPE IS ADVISORY FOR SEVERITY AND TRUST. IT IS DECISIVE HERE.
+  //
+  // Measured on the restored prose path, 2 August 2026. Two corpus lures carry
+  // no English scam phrase, so the engine leaves scam_signals empty and
+  // processing_mode "caution", and every branch above correctly returns null.
+  // The model was then asked to rewrite them, and it did:
+  //
+  //   scam_council_refund_link_only
+  //     floor, card 3   "No action needed right now."
+  //     prose, card 3   "Complete the online form to claim your council tax
+  //                      refund."
+  //
+  // That is Northcue, in its own voice, telling a reader to complete a phishing
+  // form on a lookalike domain. The engine refused to act and the model
+  // instructed. smish_parcel_link_only is the same shape softer: it restates
+  // the lure's own 48-hour deadline as fact.
+  //
+  // NO OUTPUT GUARD CATCHES THIS. stripAiViolations covers pay and credential
+  // commands; "complete the online form" is neither. UNSAFE_ADVICE_PATTERNS
+  // needs "you must / should / need to" and this is a bare imperative. The
+  // guards are not weakened to fix it and they are not enough to fix it.
+  //
+  // WHY THE GATE AND NOT THE GUARD. The lure rule stays advisory everywhere it
+  // can only withhold a clean bill of health, which is what src/utils/
+  // lureShape.js argues for at length: seven of sixty documents, and a margin
+  // over the genuine invoice that is one working regex wide. Asking the model
+  // is a different question from judging the reader's document. Declining to
+  // ask costs a lure its phrasing and costs a false positive nothing but the
+  // engine's own cards, which is the output it would have received before the
+  // phrasing pass came back.
+  const lureSignals = Array.isArray(trust.lure_shape_signals) ? trust.lure_shape_signals : [];
+  if (lureSignals.length > 0) return "lure_shape";
+
   // Unsupported or probable non-document. The engine already emits a calm,
   // honest "this is not an official letter" message.
   if (trust.processing_mode === "unsupported" || trust.is_probable_non_document) return "unsupported_or_non_document";
