@@ -12,3 +12,11 @@
 *.gif  binary
 *.webp binary
 *.ico  binary
+
+# scripts/engine-baseline/run.js --check compares baseline.txt byte for byte
+# against what it regenerates, and it writes LF. With autocrlf on, a Windows
+# checkout rewrites the file to CRLF and every one of its 12,000 lines reads as
+# changed, so --check reports the whole corpus moved and says nothing about
+# what actually did. Found the hard way: a few git checkouts during a bisect
+# were enough to break the one gate that guards engine changes.
+scripts/engine-baseline/baseline.txt text eol=lf

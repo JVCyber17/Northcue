@@ -80,13 +80,25 @@ function currentCards() {
     // captured extraction for all forty documents because it was captured
     // offline, but providerSkipReason stops the extractor on a gated one, so
     // measuring a card it can never render would be measuring nothing.
+    //
+    // EXCEPT missing_api_key, which is not a property of the document.
+    //
+    // That one reason made this test depend on whether a secret happened to be
+    // exported in the shell: with a key the twelve "+facts" cards were built
+    // and matched the fixture, without one they vanished and the fixture
+    // looked stale. It passed on the machine that wrote it and failed
+    // everywhere else, which is worse than not existing, because it was
+    // reported as green. A test may not read a credential to decide what to
+    // assert. Every other skip reason is the engine judging the document and
+    // is still honoured.
     const facts = CORPUS_FACTS[entry.id];
     if (!facts) return;
     const run = runClearStepsEngine({
       extractedText: entry.text,
       fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "card-height-test" }
     });
-    if (providerSkipReason({ rulesRun: run, language: "en" })) return;
+    const skip = providerSkipReason({ rulesRun: run, language: "en" });
+    if (skip && skip !== "missing_api_key") return;
     const withFacts = cardsOf(entry.text, facts, entry.id);
     withFacts.forEach((card, index) => {
       const before = own[index];
@@ -156,6 +168,26 @@ test("card height: the fixture still describes the engine", async (t) => {
   await t.test("the fixture describes no card the engine no longer produces", () => {
     const stale = Object.keys(FIXTURE.cards).filter((key) => !now[key]);
     assert.deepEqual(stale, []);
+  });
+
+  await t.test("what this harness measures does not depend on a key being set", () => {
+    // The bug this pins: currentCards() asked providerSkipReason, which asks
+    // whether OPENAI_API_KEY is set, so the twelve "+facts" cards existed on a
+    // machine with a key and did not on a machine without one. Both readings
+    // must be the same set, because a document's cards are a property of the
+    // document.
+    const original = process.env.OPENAI_API_KEY;
+    try {
+      process.env.OPENAI_API_KEY = "test-key";
+      const withKey = Object.keys(currentCards()).sort();
+      delete process.env.OPENAI_API_KEY;
+      const withoutKey = Object.keys(currentCards()).sort();
+      assert.deepEqual(withoutKey, withKey,
+        "this harness reads a credential to decide what to assert");
+    } finally {
+      if (original === undefined) delete process.env.OPENAI_API_KEY;
+      else process.env.OPENAI_API_KEY = original;
+    }
   });
 });
 
