@@ -1118,6 +1118,182 @@ const CORPUS = [
       "Post Office by debit card, where you will need to enter your PIN.",
       "If you think this bill is wrong, contact us on 020 8583 4242."
     ].join("\n")
+  },
+
+  // ------------------------------------------- numbers written the other way
+  //
+  // Every one of the 54 documents above prints its phone number in UK national
+  // format, starting with a zero. hasTelephoneNumber and coLocation's PHONE are
+  // both /\b0\d[\d\s]{7,12}\d\b/, so the corpus had never once asked what
+  // happens to +44, +48, +351 or +40, which is how the people this product is
+  // for actually write a number down.
+  //
+  // ALL SIX ARE GENUINE. None is a scam. They are here as findings, not as a
+  // fix: each one records something the engine gets wrong TODAY, so the fix has
+  // something to be measured against. See KNOWN_ENGINE_DEFECTS.md.
+  {
+    id: "intl_energy_bill_plus44",
+    label: "Energy bill, English, number written as +44",
+    intent: "Fully supported type, nothing else unusual. Records that a bill Northcue " +
+      "reads perfectly loses its contact_number, so card 3 drops 'The document gives " +
+      "this phone number' for no reason the reader can see. 4 structural signals, so " +
+      "the non-document gate is not involved: this is the contact field alone.",
+    text: [
+      "Northfield Energy Ltd",
+      "Registered office: 4 Cranmer Way, Leeds",
+      "",
+      "Account number: NE-77410",
+      "Bill date: 9 July 2026",
+      "",
+      "Dear Mr Adeyemi",
+      "",
+      "Electricity and gas statement for 1 April to 30 June 2026",
+      "",
+      "Previous balance: £84.10",
+      "Payments received: -£84.10",
+      "Charges this period: £246.85",
+      "Amount due: £246.85",
+      "",
+      "Please pay by 6 August 2026.",
+      "",
+      "If you have a question about this bill you can call us on +44 113 496 2200.",
+      "Our lines are open Monday to Friday, 8am to 6pm.",
+      "",
+      "If you do not pay by the date shown we may add a late payment charge."
+    ].join("\n")
+  },
+  {
+    id: "intl_water_arrears_00_prefix",
+    label: "Water arrears letter, English, number written with the 00 international prefix",
+    intent: "THE WORST OF THE SIX, and the only one where the reader is actively " +
+      "misled rather than merely underserved. 0044 118 273 4567 has 14 digits, above " +
+      "the 10-11 cap, but the pattern is global so it matches the 10-digit PREFIX " +
+      "'0044 118 273' and the cap never sees the whole number. That value reaches " +
+      "contact_number and is printed on card 3. The comment on PHONE says a candidate " +
+      "outside the range is declined whole because 'a wrong number is a call to a " +
+      "stranger'; this is the case where that does not happen.",
+    text: [
+      "Thames Valley Water",
+      "Customer Services, PO Box 442, Reading",
+      "",
+      "Account number: 8842-0076",
+      "Date: 14 July 2026",
+      "",
+      "Dear Ms Kowalska",
+      "",
+      "Your water account is in arrears and we have not been able to reach you.",
+      "",
+      "Amount outstanding: £312.44",
+      "Payment due by 28 August 2026.",
+      "",
+      "If you are having difficulty paying, please call 0044 118 273 4567 and ask for",
+      "the affordability team. We can agree a payment plan with you.",
+      "",
+      "If we do not hear from you we may pass the account to a collection agency."
+    ].join("\n")
+  },
+  {
+    id: "intl_polish_clinic_appointment",
+    label: "Clinic appointment reminder written in Polish, number written as +48",
+    intent: "THE REFUSAL. A real appointment reminder carries a date, a room, a time " +
+      "and a number to ring, and no patient reference, because the letter is the " +
+      "reference. It scores date_any_script and labelled_fields and nothing else, so " +
+      "it sits at 2 of the 3 structural signals and is refused outright as a non " +
+      "document. The phone number is the third signal it should have. Polish is " +
+      "deliberate: the gate's English month list accidentally matches septembrie, " +
+      "septiembre and septembre, so a Romance-language letter is rescued by a " +
+      "coincidence that Polish does not get.",
+    text: [
+      "Przychodnia Zdrowia Rodzinnego",
+      "ul. Marszałkowska 18, Warszawa",
+      "",
+      "Data pisma: 20 lipca 2026",
+      "",
+      "Szanowna Pani Nowak,",
+      "",
+      "Potwierdzamy termin wizyty w naszej poradni.",
+      "",
+      "Termin wizyty: 11 sierpnia 2026, godzina 14:30",
+      "Gabinet: 4, pierwsze piętro",
+      "",
+      "Prosimy o przybycie 10 minut wcześniej.",
+      "W razie potrzeby zmiany terminu prosimy o kontakt pod numerem +48 22 512 44 90.",
+      "",
+      "Nieodwołana wizyta może skutkować skreśleniem z listy oczekujących."
+    ].join("\n")
+  },
+  {
+    id: "intl_portuguese_energy_final_notice",
+    label: "Energy disconnection notice written in Portuguese, number written as +351",
+    intent: "Not refused, because it carries a client number, so it records the milder " +
+      "half: a final notice with a deadline and a stated consequence that keeps its " +
+      "cards and loses only the number a worried reader would want most.",
+    text: [
+      "Energia Atlântico, S.A.",
+      "Apartado 118, Lisboa",
+      "",
+      "Número de cliente: PT-90244",
+      "Data: 3 de julho de 2026",
+      "",
+      "Exmo. Senhor Ferreira,",
+      "",
+      "Aviso de corte por falta de pagamento.",
+      "",
+      "Valor em dívida: £188.60",
+      "Data limite de pagamento: 21 de agosto de 2026.",
+      "",
+      "Para regularizar a situação contacte-nos através do +351 21 447 8802.",
+      "",
+      "Se o pagamento não for efetuado até à data indicada o fornecimento será interrompido."
+    ].join("\n")
+  },
+  {
+    id: "intl_sole_trader_invoice",
+    label: "Sole trader invoice, English, payment link and a +44 number",
+    intent: "THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it existed " +
+      "and now written down. A link, a total, no reference code and a phone number the " +
+      "engine cannot see, so lureShape fires on a genuine invoice from a plumber. It " +
+      "was drafted with a mobile first and cleared the rule for the wrong reason: the " +
+      "six-digit run in 07700 900412 matched REFERENCE_CODE, so the number counted as " +
+      "a reference. The landline avoids that artefact and shows the real behaviour.",
+    text: [
+      "J. Whelan Plumbing and Heating",
+      "",
+      "Invoice for work completed at 14 Sutton Court Road",
+      "Date: 22 July 2026",
+      "",
+      "Replace hot water cylinder and fit new thermostatic valve",
+      "Labour and parts",
+      "",
+      "Total: £486.00",
+      "",
+      "Payment due within 14 days. You can pay online at jwhelanplumbing.example.com",
+      "or by bank transfer. Thank you very much for your business.",
+      "",
+      "Jim Whelan, +44 113 496 2200"
+    ].join("\n")
+  },
+  {
+    id: "intl_romanian_school_meeting",
+    label: "Parents' evening notice written in Romanian, number written as +40",
+    intent: "The counterexample to the Polish one, and the reason that entry says " +
+      "Polish is deliberate. Two structural signals, same as the clinic letter, but " +
+      "NOT refused, because '15 septembrie 2026' matches the gate's English month " +
+      "list through the shared 'sep' stem. It is rescued by an accident, and 'setembro' " +
+      "or 'listopada' in the same letter would not be.",
+    text: [
+      "Școala Gimnazială Nr. 7",
+      "Strada Zorilor 12, Cluj-Napoca",
+      "",
+      "Elev: Andrei Popescu",
+      "Clasa: 6B",
+      "",
+      "Ședința cu părinții va avea loc pe 15 septembrie 2026, ora 18:00.",
+      "",
+      "Vă rugăm să confirmați prezența la +40 264 591 220.",
+      "",
+      "Vă așteptăm cu drag."
+    ].join("\n")
   }
 ];
 

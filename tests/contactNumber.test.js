@@ -246,7 +246,18 @@ test("the gates, through the engine", async (t) => {
       genuine_nhs_booking_link: "020 8321 5000",
       genuine_school_final_warning: "020 8583 1188",
       genuine_dwp_identity_check: "0800 328 5644",
-      genuine_post_office_card_payment: "020 8583 4242"
+      genuine_post_office_card_payment: "020 8583 4242",
+      // A DEFECT, PINNED AS A FINDING RATHER THAN FIXED. The letter prints
+      // "0044 118 273 4567". PHONE is global and its digit cap validates each
+      // match rather than the candidate as a whole, so it finds the ten digit
+      // PREFIX, the cap accepts it, and the reader is shown a number that is
+      // not the one on the paper. The comment on PHONE says a candidate outside
+      // ten to eleven digits is declined whole, because "a wrong number is a
+      // call to a stranger"; here it is not declined, it is truncated.
+      //
+      // Left wrong on purpose so the fix has something to move. Change this
+      // line to null, or to the full number, only alongside the fix.
+      intl_water_arrears_00_prefix: "0044 118 273"
     };
     const found = {};
     CORPUS.forEach((entry) => {
@@ -292,7 +303,7 @@ test("only a phone number, never an address of any kind", async (t) => {
 });
 
 test("card 3 reports the number, and reports it rather than recommending it", async (t) => {
-  await t.test("the sixteen documents that bind show it as the last key point", () => {
+  await t.test("the seventeen documents that bind show it as the last key point", () => {
     const shown = {};
     CORPUS.forEach((entry) => {
       const cards = analyse(entry.text).api_output.structured_result.cards;
@@ -301,8 +312,10 @@ test("card 3 reports the number, and reports it rather than recommending it", as
       if (line) shown[entry.id] = { line, last: points[points.length - 1] === line };
     });
     // Twelve until F3 recovered four genuine letters that had been refused as
-    // scams, which suppressed their contact number with everything else.
-    assert.equal(Object.keys(shown).length, 16, Object.keys(shown).join(", "));
+    // scams, which suppressed their contact number with everything else. The
+    // seventeenth is intl_water_arrears_00_prefix, and it is on this card with
+    // the WRONG number: see the pin in the block above.
+    assert.equal(Object.keys(shown).length, 17, Object.keys(shown).join(", "));
     Object.entries(shown).forEach(([id, s]) => {
       assert.ok(s.last, id + ": the number must come after the actions, not among them");
     });

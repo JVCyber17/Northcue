@@ -1281,6 +1281,87 @@ this rule refuse a document is a change made without knowing its false positive
 rate. Writing ten more corpus scams it catches would not move that number at
 all.
 
+## OPEN: a phone number written the international way is not a phone number
+
+`hasTelephoneNumber` and co-location's `PHONE` are the same regex,
+`/\b0\d[\d\s]{7,12}\d\b/`, written in two files. It is a UK number in national
+format and nothing else. Measured:
+
+| written as | recognised |
+| --- | --- |
+| `020 8583 4242`, `0333 320 122`, `07700 900412`, `02085834242` | yes |
+| `+44 20 8583 4242`, `+44 (0)20 8583 4242`, `+442085834242` | **no** |
+| `+48 22 123 45 67`, `+34 912 345 678`, `+33 1 42 68 53 00` | **no** |
+| `+351 21 123 4567`, `+40 21 123 4567`, `+353 85 123 4567` | **no** |
+| `0044 20 8583 4242` | **matched, but truncated. See below.** |
+
+Six genuine corpus documents were added on 2 August 2026 carrying numbers
+written the other way, because none existed and the fix cannot be verified
+without them. **All six are genuine. None is a scam.**
+
+### Three consumers, three different failures
+
+**1. The contact field, and one case where the reader is actively misled.**
+`intl_energy_bill_plus44` is a bill Northcue reads perfectly, and its
+`contact_number` is null, so card 3 silently drops "The document gives this
+phone number". That is a loss, not a lie.
+
+`intl_water_arrears_00_prefix` is the lie. It prints `0044 118 273 4567`. That
+is fourteen digits, above the ten-to-eleven cap, so the candidate should be
+declined whole. It is not: `PHONE` is global and the cap validates each match
+rather than the candidate, so the pattern finds the ten-digit prefix
+`0044 118 273`, the cap accepts it, and **card 3 tells the reader to ring a
+number that is not on the letter.** The comment above `PHONE` says a candidate
+outside the range is declined because "a wrong number is a call to a stranger".
+This is the case where that does not happen, and it is pinned in
+`tests/contactNumber.test.js` with the wrong value on purpose so the fix has
+something to move.
+
+Note the difference from the already-pinned `0800 980 8800 12` case, which
+backtracks to a valid eleven-digit number that IS the number on the letter.
+There the shorter match is right; here it is a fragment.
+
+**2. The non-document gate.** `hasTelephoneNumber` is one of five structural
+signals and three are needed. `intl_polish_clinic_appointment` is a real
+appointment reminder with a date, a room, a time and a number to ring, and no
+patient reference, because the letter is the reference. It scores two, and is
+**refused outright as a non-document**: "This does not look like an official
+letter or bill." The phone number is the third signal it should have.
+
+`intl_romanian_school_meeting` is the same shape and is NOT refused, which is
+worth more than the pass suggests: it survives because `15 septembrie 2026`
+matches the gate's English month list through the shared `sep` stem. The same
+accident rescues `septiembre` and `septembre`, and does not rescue `setembro`,
+`listopada`, `wrzesień` or any non-Latin script. The gate is uneven in a way
+nobody chose.
+
+**3. Q3's lure rule.** `intl_sole_trader_invoice` is the false positive this
+file predicted before the document existed: a plumber's invoice with a payment
+link, a total, no reference code, and a `+44` number the engine cannot see. The
+rule fires on it. It is not refused, because the rule is advisory, which is the
+whole argument for having kept it advisory.
+
+### A second collision, found while writing that document
+
+The invoice was drafted with a mobile, `+44 7700 900412`, and cleared the lure
+rule for the wrong reason: `REFERENCE_CODE`'s six-or-more-digit branch matched
+`900412`, the tail of the phone number, so the number counted as a reference
+code. **A mobile scores two structural signals out of one artefact**, and clears
+a rule whose whole point is that a reference is present. A landline does not,
+because it has no six-digit run. Not fixed here, and not the same defect, but it
+sits in the same two functions.
+
+### What a fix has to preserve
+
+The comment on `PHONE` names the false-positive defence: the leading zero.
+Verified again on 2 August against fourteen shapes (account numbers, UTR, NI
+number, hyphenated accounts, sort code, policy, invoice, case, meter reading,
+NHS number, amounts, dates): **none matches today.** Any widening has to leave
+that true.
+
+Not a privacy gap: `redactForAi` uses a different and wider pattern, and every
+one of the twenty formats above is masked before text leaves the server.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by

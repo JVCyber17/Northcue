@@ -7,7 +7,7 @@
 // MOST OF THIS FILE IS THE CEILING, NOT THE RULE. The rule is four calls to
 // functions that already existed. What needs pinning is that it is advisory:
 // it may withhold "high" trust and it may do nothing else. The tests below
-// assert that against the real engine on all 54 corpus documents AND against a
+// assert that against the real engine on all 60 corpus documents AND against a
 // constructed worst case, because the corpus not containing a counterexample is
 // not the same as one being impossible.
 
@@ -30,8 +30,19 @@ const FIRES_ON = [
   "scam_council_refund_link_only",
   "scam_dvla_vehicle_tax",
   "scam_hmrc_refund_es",
-  "scam_energy_refund_pt"
+  "scam_energy_refund_pt",
+  // THE FALSE POSITIVE, and it is genuine. Predicted in KNOWN_ENGINE_DEFECTS.md
+  // when this rule shipped, then written into the corpus and confirmed. A
+  // plumber's invoice: a payment link, a total, no reference code, and a phone
+  // number the engine cannot see because it is written +44. Nothing here is
+  // wrong with the invoice; the rule is reading an absence that is not there.
+  "intl_sole_trader_invoice"
 ];
+
+// The one document in FIRES_ON that is not a scam. Named separately so the
+// assertions below can say "seven scams and one known false positive" instead
+// of quietly loosening to "whatever fires".
+const KNOWN_FALSE_POSITIVES = ["intl_sole_trader_invoice"];
 
 // The ten scams in the corpus. The three not in FIRES_ON are missed, and each
 // is missed by a part of the rule working correctly.
@@ -47,24 +58,30 @@ function trustOf(text) {
 }
 
 test("the rule fires where it was measured to fire", async (t) => {
-  await t.test("exactly seven documents, all of them scams", () => {
+  await t.test("exactly eight documents: seven scams and one known false positive", () => {
     const fired = CORPUS.filter((e) => hasLureShape(e.text)).map((e) => e.id);
     assert.deepEqual(fired.sort(), FIRES_ON.slice().sort());
     fired.forEach((id) => {
-      assert.ok(SCAMS.includes(id), id + " is not a scam and the rule fired on it");
+      assert.ok(SCAMS.includes(id) || KNOWN_FALSE_POSITIVES.includes(id),
+        id + " is neither a scam nor a recorded false positive, and the rule fired on it");
     });
   });
 
-  await t.test("no genuine document is touched", () => {
+  await t.test("the false positive rate is one in fifty, and stays visible", () => {
+    // Written as a rate rather than a list, because the number is the argument
+    // for keeping this rule advisory. When the phone fix lands, this document
+    // should stop firing and this count should go to zero; if it does not, the
+    // fix did not reach this consumer.
     const genuine = CORPUS.filter((e) => !SCAMS.includes(e.id));
-    assert.equal(genuine.length, 44, "the genuine/scam split has changed");
-    genuine.forEach((entry) => {
-      assert.deepEqual(trustOf(entry.text).lure_shape_signals, [],
-        entry.id + " is a genuine document and the rule fired on it");
-    });
+    assert.equal(genuine.length, 50, "the genuine/scam split has changed");
+    const firedOnGenuine = genuine
+      .filter((e) => trustOf(e.text).lure_shape_signals.length > 0)
+      .map((e) => e.id);
+    assert.deepEqual(firedOnGenuine.sort(), KNOWN_FALSE_POSITIVES.slice().sort(),
+      "the set of genuine documents this rule fires on has changed");
   });
 
-  await t.test("the engine publishes the signal on exactly those seven", () => {
+  await t.test("the engine publishes the signal on exactly those eight", () => {
     const published = CORPUS
       .filter((e) => trustOf(e.text).lure_shape_signals.length > 0)
       .map((e) => e.id);
@@ -90,6 +107,17 @@ test("the rule fires where it was measured to fire", async (t) => {
 });
 
 test("advisory means advisory", async (t) => {
+  await t.test("the false positive is not refused, which is the point of advisory", () => {
+    // The invoice fires the rule and still keeps its cards, its amount and its
+    // mode. That is the difference between a rule that is wrong about a
+    // plumber and a rule that refuses a plumber.
+    const trust = trustOf(CORPUS.find((e) => e.id === "intl_sole_trader_invoice").text);
+    assert.deepEqual(trust.lure_shape_signals, [LURE_SHAPE_SIGNAL]);
+    assert.notEqual(trust.processing_mode, "verification_only");
+    assert.notEqual(trust.processing_mode, "unsupported");
+    assert.notEqual(trust.trust_assessment, "low");
+  });
+
   await t.test("the structural rule is never the reason anything is refused", () => {
     // Stated as cause rather than as outcome. scam_dvla_vehicle_tax IS
     // verification_only, and was before this rule existed, because Q1 gave the

@@ -219,7 +219,12 @@ test("the corpus, end to end", async (t) => {
       // Recovered by F3: refused as scams, so their dates were nulled with the
       // rest of the reading.
       genuine_school_final_warning: "2026-09-18",
-      genuine_post_office_card_payment: "2026-09-03"
+      genuine_post_office_card_payment: "2026-09-03",
+      // The two international-number letters that carry an English deadline
+      // sentence. Both read correctly: the phone defect costs them their
+      // contact number, not their date, and pinning that here is what says so.
+      intl_energy_bill_plus44: "2026-08-06",
+      intl_water_arrears_00_prefix: "2026-08-28"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

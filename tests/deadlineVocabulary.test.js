@@ -295,7 +295,14 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       ambiguous_numeric_date: "03/06/2026", short_year_date: "28 May 26",
       // Recovered by F3.
       genuine_school_final_warning: "18 September 2026",
-      genuine_post_office_card_payment: "3 September 2026"
+      genuine_post_office_card_payment: "3 September 2026",
+      intl_energy_bill_plus44: "6 August 2026",
+      intl_water_arrears_00_prefix: "28 August 2026",
+      // Romanian, and read only because "septembrie" shares the "sep" stem the
+      // English month list already matches. "15 listopada 2026" in the same
+      // sentence would find nothing. Pinned so that coincidence is on the
+      // record rather than mistaken for multilingual date support.
+      intl_romanian_school_meeting: "15 septembrie 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

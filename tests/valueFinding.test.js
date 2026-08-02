@@ -340,7 +340,13 @@ test("money: every amount in the corpus is still found in full", async (t) => {
     // From the scam corpus added 1 August 2026. The small ones matter: a £2.99
     // redelivery fee is the commonest smish figure in the UK precisely because
     // it is small enough not to be questioned.
-    "£184.60", "£2.99", "£80.00"
+    "£184.60", "£2.99", "£80.00",
+    // From the six international-number documents added 2 August 2026. Money
+    // finding is unaffected by the phone defect, and this set says so: every
+    // amount on those six letters is still found in full.
+    // £312.44 is not repeated here: the water arrears letter happens to print
+    // the same figure as spanish_water_final_notice, which is already above.
+    "£84.10", "£246.85", "£188.60", "£486.00"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {
