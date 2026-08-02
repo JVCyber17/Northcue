@@ -65,7 +65,7 @@ corpus documents, exactly one binds a label, through its English half.
 Before 2 August, five of the six genuine non-English Latin-script letters
 produced **no date at all** and card 4 read "No clear date was found." while the
 letter plainly gave one. That is the improvement. It is still a long way from
-good, and items 1 and 2 below are why.
+good, and item 1 below is why.
 
 ## What it deliberately refuses to do
 
@@ -85,64 +85,59 @@ good, and items 1 and 2 below are why.
 
 ## Open items, most worth doing first
 
-1. **A benefits letter names a date the field beside it says does not exist.**
-   `buildBenefitsReadingAidExtraction` nulls the single-date answer on purpose
-   and does not rebuild the sentence already written from it, so the Hindi DWP
-   letter's card 4 reads "The document shows 18 June 2026 as the date that
-   matters" while `deadline` is null. 18 June is its next payment date; the
-   obligation is 24 June. One of the four documents on that path; the other three
-   hide it. Pre-existing, one line to fix, highest harm here.
-2. **Co-location has no vocabulary and no direction outside English.** The
+1. **Co-location has no vocabulary and no direction outside English.** The
    boundary and the adjacency test were fixed on 2 August, so the machinery is
    ready and all 119 label entries are still ASCII, so nothing uses it. Direction
    belongs to the construction rather than the language, and a prototype got two
    of four realistic Hindi shapes wrong: the sender-subject and past-tense guards
    are both English. Needs native review it does not have.
-3. **No scam rule can reach a document the non-document gate refuses.** Three
+2. **No scam rule can reach a document the non-document gate refuses.** Three
    corpus scams are refused as "not an official letter", which zeroes their
    extraction before any detection sees them. Their wording was fixed; the
    ordering was not. Needs a decision on whether a document can be both refused
    and suspicious at once.
-4. **Four of ten languages have one corpus document each**, and one document
+3. **Four of ten languages have one corpus document each**, and one document
    cannot test a rule. Gujarati, Hindi, Bengali and Panjabi, against 371
    translated sentences apiece. Every non-English document now produces dates;
    none produces a LABELLED amount and none produces a consequence. This is why
    the direction work above is unscheduled rather than merely unfinished. See
    `CORPUS_STRATEGY.md`.
-5. **`PHONE_GOVERNS` is English.** A number is only shown when a phrase beside
+4. **`PHONE_GOVERNS` is English.** A number is only shown when a phrase beside
    it says what it is for, and those phrases are English only, so all nine
    languages now have their number found and still cannot show it.
-6. **A dotted reference reads as a date.** `version 1.2.2026` and two siblings.
+5. **A dotted reference reads as a date.** `version 1.2.2026` and two siblings.
    Nothing in the string separates it from `24.06.2026`; the discriminator is an
    English word and the value finder must not carry one. Closed by a competing
    label when a real document shows the shape, not by a narrower pattern.
-7. **The range rule declines instead of choosing.** The Spanish water notice
+6. **The range rule declines instead of choosing.** The Spanish water notice
    lists its deadline among three dates rather than naming it, because
    re-selecting would also name a payment receipt on an English bill. Closed by
-   per-language competing labels, which is item 2.
-8. **A mobile number scores two structural signals out of one artefact**, because
+   per-language competing labels, which is item 1.
+7. **A mobile number scores two structural signals out of one artefact**, because
    `REFERENCE_CODE`'s six-digit branch matches the tail of `07700 900412`. It
    inflates the non-document gate and wrongly clears the lure rule.
-9. **The non-document gate's month list is accidentally multilingual**, matching
+8. **The non-document gate's month list is accidentally multilingual**, matching
    `septembrie`, `septiembre` and `septembre` through a shared stem while missing
    `setembro`, `listopada` and every non-Latin script. This is the gate's OWN
    list, not `findDates`, which now carries all nine languages properly.
-10. **The structural lure rule rests on very thin evidence.** Seven of ten corpus
+9. **The structural lure rule rests on very thin evidence.** Seven of ten corpus
    scams and no genuine document, but only two genuine documents exercise it.
    Advisory only. Promoting it needs production evidence, not more corpus.
-11. **The AI stripper's rule 4 doubles its replacement**, so a sentence naming two
+10. **The AI stripper's rule 4 doubles its replacement**, so a sentence naming two
    advice services reads "a trusted advice service or a trusted advice service".
-12. **`detectDocumentCategory` returns early four times**, so template, outgoing
+11. **`detectDocumentCategory` returns early four times**, so template, outgoing
    and scam suppress the real category instead of sitting beside it.
-13. **Some vocabulary literals are not word-bounded** and can match inside longer
+12. **Some vocabulary literals are not word-bounded** and can match inside longer
    words. The engine's classification vocabulary, not co-location's labels,
    which are bounded.
 
 Recently closed: the multi-page refusal that started this (one letter on two
 pages read as two), the extraction gap (`scripts/corpus-pdf/` now lays documents
 out and reads them back), the demand phrasings a bill actually uses, the value
-finder that could only see an English date, and the ASCII word boundary in the
-label matcher and the adjacency test.
+finder that could only see an English date, the ASCII word boundary in the label
+matcher and the adjacency test, and a value suppressed after its own sentence
+had been composed from it, which bit twice: a benefits letter naming a date its
+own field denied, and a fused upload naming one letter's reference number.
 
 Not built, deliberately: the **lookalike-domain rule**. Written up in
 `KNOWN_ENGINE_DEFECTS.md` with its evidence and the reason it must not ship

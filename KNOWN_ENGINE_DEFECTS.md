@@ -196,52 +196,56 @@ ordering would mean something again.
 
 ---
 
-# OPEN, AND THE HIGHEST HARM OF THE THREE: a benefits letter names a date the field says does not exist
+# CLOSED 2 August 2026: a value suppressed after its own sentence was written
 
-Found 2 August 2026 while checking the claims in this file. **Pre-existing, not
-introduced by any change that week**, and present at least as far back as
-`HEAD~2`.
+Two of these were found and fixed on 2 August. They are kept here as a SHAPE
+rather than as defects, because the shape is what recurs.
 
-`buildBenefitsReadingAidExtraction` deliberately suppresses the single-date
-answer, and says so:
+**A builder computes a value, writes a sentence from it, and returns both. A
+caller then decides this document may not carry that value and sets the FIELD
+to null. The sentence is not rebuilt.** The field says one thing, the card says
+another, and the card is what the reader sees.
 
-```js
-// Do not attach a single calendar date: benefits letters often list several
-// dates and we cannot reliably tell which (if any) is the real deadline.
-signals.primaryDate = null;
-```
+- `buildBenefitsReadingAidExtraction` suppressed the single-date answer and left
+  the sentence, so the Hindi DWP letter named 18 June, its next payment date,
+  where the obligation is 24 June. Three of the four documents on that path had
+  a null date already and hid it.
+- `buildFusedExtraction` nulls seven fields so a multi-letter upload attributes
+  nothing, and missed `reference_numbers`, the one value whose whole purpose is
+  to say which letter this is. Card 6 read "Keep this reference ready:
+  MB-44712." while card 1 read "The details have not been matched to a single
+  letter." Neither corpus fused document carries a reference, so nothing could
+  exercise it.
 
-**The suppression sets the field and not the sentence, and the sentence is what
-the reader sees.** `extractReadableDocumentSignals` has already built
-`signals.dateMessage` from the non-null `primaryDate` by the time this line
-runs. Nulling the field does not rebuild the message. Measured across the four
-corpus documents that take this path:
+**The display layer had already fixed this shape once and written down why**, at
+the `rewriteDatesForDisplay` caller: rebuild from the normalised values rather
+than patch afterwards, so a sentence cannot drift from the fields beside it. It
+survived one function away, twice.
 
-| document | `deadline` field | card 4 |
-| --- | --- | --- |
-| `benefits_dwp` | null | lists dates, correct |
-| `blank_template` | null | no date, correct |
-| `genuine_dwp_identity_check` | null | lists a timeframe, correct |
-| `spec_hindi_dwp_universal_credit` | null | **"The document shows 18 June 2026 as the date that matters."** |
+The fix in both cases is to suppress BEFORE composing rather than after. The
+benefits path passes `namesASingleDate: false` into the builder, so nothing
+derived from the date can survive its own suppression, including a field added
+later by someone who has never read the comment. The fused path nulls the
+reference in the same literal as everything else it refuses to attribute.
+`tests/suppressedValues.test.js` holds both, plus a sweep over all 70 documents
+asserting that no card names a date, an amount or a phone number that the field
+beside it denies.
 
-Only the Hindi letter is wrong, because it is the only one of the four whose
-`primaryDate` was non-null before the suppression. The other three fell through
-to the list form for unrelated reasons and hide the defect.
+**How the sweep was scoped**, since "look for others" is not a method: every
+post-construction property write or delete in `src/`, 25 of them. Eighteen are
+error codes, status codes and request plumbing and compose nothing a reader
+sees. Of the remaining seven, `display_text` and `tts_script` are recomputed
+from the stripped cards so they cannot drift; `key_points` is sanitised in the
+same loop as `read_aloud_text` so the spoken text cannot keep wording the shown
+text lost; two are the display layer that already got this right; and
+`signals.mostImportantPoint` is a leaf, written onto card 1 and read by nothing,
+which is now stated in the code. That left one, and it leaked.
 
-**18 June is its next payment date. The obligation is to send information by
-24 June.** So the card names the wrong date, in a language the reviewer reads,
-on a benefits letter, while the field beside it says no date was found.
-
-This is the same drift the display layer already fixed and documented at
-`clearStepsEngine.js` around line 778: *"The date sentence is rebuilt from the
-normalised values rather than patched afterwards, so it cannot drift from the
-fields beside it."* The lesson was written down in one place and the same shape
-survives one function away.
-
-**Not fixed here.** The fix is one line, rebuilding `dateMessage` after the
-suppression rather than before, but it changes what a reader sees on a benefits
-letter and belongs in an engine commit with its own `--check` and its own test,
-not in a documentation pass.
+**Still surviving the fusion, and recorded rather than fixed:** `appeal_rights`
+and `support_options` are hard-coded `[]` at every construction site in the
+engine, so they cannot carry anything to leak; `contact_details` is populated by
+`extractContactDetails` but nothing renders it. The test asserts both, so if
+either becomes renderable it fails and names the fused path as where it belongs.
 
 ---
 
