@@ -36,7 +36,7 @@ hard validations, and the engine writes the sentence. This is the single most
 important thing about the architecture: if the model fails, times out, returns
 nonsense or returns nothing, the reader sees exactly what the rules engine
 would have shown on its own. `tests/factFailurePath.test.js` proves that byte
-for byte across all 60 corpus documents under four failure modes.
+for byte across all 63 corpus documents under four failure modes.
 
 **Ten languages**, English plus Polish, Romanian, Gujarati, Hindi, Bengali,
 Portuguese, Spanish, French and Panjabi. Translation is lookup, not generation:
@@ -62,32 +62,37 @@ English with a visible notice rather than being guessed at.
 
 ## Open items, most worth doing first
 
-1. **No scam rule can reach a document the non-document gate refuses.** Three
+1. **One letter on two pages is refused outright.** A real energy bill was
+   uploaded to the live product and all six cards declined, because the sender's
+   name at the top of each page reads as two letterheads. It is wider than
+   multi-page: a single-page dual-fuel bill fires it on the words "Standing
+   charge" appearing twice. This is the most serious open item.
+2. **No scam rule can reach a document the non-document gate refuses.** Three
    corpus scams are refused as "not an official letter", which zeroes their
    extraction before any detection sees them. Their wording was fixed; the
    ordering was not. Needs a decision on whether a document can be both refused
    and suspicious at once.
-2. **`PHONE_GOVERNS` is English.** A number is only shown when a phrase beside
+3. **`PHONE_GOVERNS` is English.** A number is only shown when a phrase beside
    it says what it is for, and those phrases are English only, so a Polish or
    Romanian letter now has its number found and still cannot show it.
-3. **A mobile number scores two structural signals out of one artefact**, because
+4. **A mobile number scores two structural signals out of one artefact**, because
    `REFERENCE_CODE`'s six-digit branch matches the tail of `07700 900412`. It
    inflates the non-document gate and wrongly clears the lure rule. A landline
    does not.
-4. **The non-document gate's month list is accidentally multilingual**, matching
+5. **The non-document gate's month list is accidentally multilingual**, matching
    `septembrie`, `septiembre` and `septembre` through a shared stem while missing
    `setembro`, `listopada` and every non-Latin script. Which letters it rescues
    was never chosen and no test holds it.
-5. **The structural lure rule rests on very thin evidence.** It catches seven of
+6. **The structural lure rule rests on very thin evidence.** It catches seven of
    ten corpus scams and no genuine document, but only two genuine documents
    exercise it at all. Advisory only. Promoting it needs production evidence,
    not more corpus.
-6. **The AI stripper's rule 4 doubles its replacement**, so a sentence naming two
+7. **The AI stripper's rule 4 doubles its replacement**, so a sentence naming two
    advice services reads "a trusted advice service or a trusted advice service".
    Reader-visible, and the smallest item here.
-7. **`detectDocumentCategory` returns early four times**, so template, outgoing
+8. **`detectDocumentCategory` returns early four times**, so template, outgoing
    and scam suppress the real category instead of sitting beside it.
-8. **Some vocabulary literals are not word-bounded** and can match inside longer
+9. **Some vocabulary literals are not word-bounded** and can match inside longer
    words.
 
 Not built, deliberately: the **lookalike-domain rule**. Written up in
@@ -105,7 +110,7 @@ against the corpus. If you are about to write a number, run it first.
 npm test && node scripts/engine-baseline/run.js --check
 ```
 
-`--check` diffs the full render of all 60 documents against a frozen baseline.
+`--check` diffs the full render of all 63 documents against a frozen baseline.
 It exits 1 when anything moved. If the movement is intended, run `--update` and
 read the whole diff before committing it.
 

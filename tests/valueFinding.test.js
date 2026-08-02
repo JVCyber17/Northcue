@@ -346,7 +346,13 @@ test("money: every amount in the corpus is still found in full", async (t) => {
     // amount on those six letters is still found in full.
     // £312.44 is not repeated here: the water arrears letter happens to print
     // the same figure as spanish_water_final_notice, which is already above.
-    "£84.10", "£246.85", "£188.60", "£486.00"
+    "£84.10", "£246.85", "£188.60", "£486.00",
+    // From the three multi-page single documents added 2 August 2026. Every one
+    // of these is found by co-location and then thrown away, because the
+    // multi-letter rule fuses all three. Pinned here so the finding is visible
+    // from the money side too: the amounts were never the problem.
+    "£1,204.18", "£1,860.00", "£187.82", "£2,651.52", "£28.36", "£311.40",
+    "£342.80", "£412.66", "£48.20", "£62.14", "£925.00"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {

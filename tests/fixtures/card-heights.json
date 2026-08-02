@@ -2631,6 +2631,132 @@
       "answerChars": 96,
       "stepChars": 57,
       "steps": 1
+    },
+    "bill_with_contacts_page|1": {
+      "px": 466,
+      "lang": "en",
+      "answerChars": 52,
+      "stepChars": 53,
+      "steps": 1
+    },
+    "bill_with_contacts_page|2": {
+      "px": 430,
+      "lang": "es",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bill_with_contacts_page|3": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "bill_with_contacts_page|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "bill_with_contacts_page|5": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "bill_with_contacts_page|6": {
+      "px": 525,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
+    },
+    "letter_with_terms_on_back|1": {
+      "px": 466,
+      "lang": "en",
+      "answerChars": 52,
+      "stepChars": 53,
+      "steps": 1
+    },
+    "letter_with_terms_on_back|2": {
+      "px": 430,
+      "lang": "es",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "letter_with_terms_on_back|3": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "letter_with_terms_on_back|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "letter_with_terms_on_back|5": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "letter_with_terms_on_back|6": {
+      "px": 498,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 36,
+      "steps": 1
+    },
+    "statement_with_transactions_page|1": {
+      "px": 610,
+      "lang": "pl",
+      "answerChars": 52,
+      "stepChars": 161,
+      "steps": 2
+    },
+    "statement_with_transactions_page|2": {
+      "px": 430,
+      "lang": "es",
+      "answerChars": 53,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "statement_with_transactions_page|3": {
+      "px": 498,
+      "lang": "pl",
+      "answerChars": 44,
+      "stepChars": 44,
+      "steps": 1
+    },
+    "statement_with_transactions_page|4": {
+      "px": 473,
+      "lang": "pl",
+      "answerChars": 83,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "statement_with_transactions_page|5": {
+      "px": 563,
+      "lang": "pl",
+      "answerChars": 85,
+      "stepChars": 38,
+      "steps": 1
+    },
+    "statement_with_transactions_page|6": {
+      "px": 525,
+      "lang": "ro",
+      "answerChars": 54,
+      "stepChars": 57,
+      "steps": 1
     }
   }
 }

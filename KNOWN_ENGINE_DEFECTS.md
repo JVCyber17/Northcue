@@ -1574,6 +1574,95 @@ Someone whose job is to break it needs to try, specifically on:
 lure rule is: it is a guess about intent read off a string, and the cost of
 being wrong is telling someone their real council tax letter is a fraud.
 
+## OPEN, AND THE MOST SERIOUS THING IN THIS FILE: one letter on two pages is refused
+
+A real British Gas bill was uploaded to the live product on 2 August 2026 and
+**all six cards declined.** The reader was told "This upload appears to contain
+more than one letter" and given no sender, no amount, no date and no action, on
+an ordinary two-page energy bill. This is the document type Northcue exists for.
+
+### The cause, confirmed rather than assumed
+
+`hasRepeatedLetterhead` in `src/utils/splitDocuments.js`, firing on the line
+`British Gas` appearing standalone twice: once as the page 1 letterhead, once as
+the page 2 running header. Neither other multiplicity signal fires.
+
+`extractTextFromPdf` joins pages with `parts.join("\n\n")` and emits **no page
+marker and no form feed**, so `EXPLICIT_SEPARATORS` and the pagination rule
+cannot see a page boundary at all. Verified: even when the bill prints its own
+"Page 1 of 2", pagination still does not fire, because `opensNewLetter`
+correctly requires a letterhead followed by a date label and a contacts panel has
+no date. **The one rule with no boundary test is the one that fires.**
+
+Because nothing splits, `split.documents.length === 1`, so the upload takes the
+**fused** path: every amount, date, contact number and composed sentence is
+discarded.
+
+### It is wider than two-page documents
+
+`looksLikeLetterhead` is documented as "an organisation name standing on its own"
+and its guard rejects a line *ending* in punctuation, not one containing a colon.
+On this bill it accepts **30 lines**, including `Previous balance: £142.60` and
+`Billing enquiries: 0333 202 9802`. So the rule is really "any short capitalised
+line repeated".
+
+Measured consequence: **a single-page dual-fuel bill fires it**, with no second
+page anywhere, because `Standing charge` appears once for electricity and once
+for gas. Dual fuel is among the commonest UK energy bills.
+
+### What the rule buys, measured
+
+Across all 63 corpus documents, **`hasRepeatedLetterhead` uniquely catches
+nothing.** The only multi-letter document it flags is
+`multi_document_greetings`, which `hasMultipleGreetings` already flags. Its value
+is asserted; its cost is demonstrated.
+
+### Three shapes added to the corpus, all genuine, all refused today
+
+`bill_with_contacts_page`, `letter_with_terms_on_back`,
+`statement_with_transactions_page`. All three come back fused. Before this,
+**not one of the 60 documents was a multi-page single document**, which is why
+six months of engine work never caught it. Also absent from the corpus and still
+absent: tariff and usage tables, contacts panels, terms and conditions text, and
+transactions lists.
+
+### The continuation hypothesis, tested
+
+A continuation page carries no addressee, no letterhead of its own and no date
+of its own; a second letter carries all three. **Half right.** The absence test
+works: all three real continuation pages are correctly identified. The presence
+test does not: `multi_document` and `multi_document_split` are genuinely two
+letters and carry no addressee either, so "has an addressee" cannot separate
+them.
+
+The discriminator that does separate every case tested is narrower: **does a
+letter open at the repeat?** Applying the existing `opensNewLetter` at the second
+occurrence of the repeated line gets 4 of 5 cases right, including all three
+continuations and the greetings document. It fails one adversarial case: a
+continuation page carrying a running `Bill date:` header, which is a real shape.
+
+### Two defects the split is hiding, both pre-existing
+
+Neither is caused by the multi-letter rule, and both are already visible on
+`broadband_bill`, which has been in the corpus all along:
+
+- **A collection is framed as a demand.** "We're collecting £187.82 on or just
+  after 6 May 2026" produces card 1 "British Gas appears to be asking you to pay
+  £187.82". `broadband_bill` does the same with "This will be taken by Direct
+  Debit on 2 May 2026". The reader is told to act on money that will move by
+  itself.
+- **The collection date is not read, and irrelevant dates are offered instead.**
+  Card 4 says "No clear due date. These dates appear in the document: 22 Jan
+  2026, 04 Feb 2026, 6 May 2026." Two of those three are a meter-reading date and
+  a past payment. `DATE_COMPETES` has "collected on" but not "collecting", and
+  `DATE_GOVERNS` has no collection phrasing at all.
+
+What the split is NOT hiding: the amount is read correctly. The credit-then-debit
+summary does not confuse `selectAmount`, which binds £187.82 to "now due". And no
+phone number is surfaced from a nine-number contacts panel, which is the right
+outcome by the existing rule, though a reader looking at a page headed "Helpful
+contacts" is arguably owed the billing number.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by

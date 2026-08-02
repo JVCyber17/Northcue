@@ -1294,6 +1294,168 @@ const CORPUS = [
       "",
       "Vă așteptăm cu drag."
     ].join("\n")
+  },
+
+  // ------------------------------------------ one document, more than one page
+  //
+  // Added 2 August 2026 after a real British Gas bill was uploaded to the live
+  // product and ALL SIX CARDS DECLINED. Until now every one of the 60 documents
+  // was a single page, so the corpus had never asked what happens when a letter
+  // continues onto a second one, which is the ordinary shape of most of the
+  // post Northcue exists for.
+  //
+  // ALL THREE ARE GENUINE, ORDINARY, SINGLE DOCUMENTS. All three currently come
+  // back "This upload appears to contain more than one letter." with every
+  // amount, date and sentence withheld. They are here as findings, not fixes.
+  //
+  // THE CAUSE, confirmed rather than assumed: hasRepeatedLetterhead in
+  // src/utils/splitDocuments.js. extractTextFromPdf joins pages with "\n\n" and
+  // emits no page marker, so no separator and no pagination signal exists. What
+  // fires is the sender's name standing alone at the top of each page, which is
+  // what a running header IS.
+  {
+    id: "bill_with_contacts_page",
+    label: "Energy bill whose second page is a standalone contacts panel",
+    intent: "THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, " +
+      "addressee, account number, bill date, covering period, a credit-then-debit " +
+      "account summary, a stated collection, tariff and usage. Page two is a contacts " +
+      "panel with its own heading, eight phone numbers, no addressee and no date. " +
+      "Fires on the line 'British Gas' appearing standalone twice. Should read: " +
+      "British Gas, £187.82, collected on or just after 6 May 2026.",
+    text: [
+      "British Gas",
+      "",
+      "Your electricity bill",
+      "",
+      "Mr J Harding",
+      "42 Ashgrove Terrace",
+      "Leeds LS8 3PQ",
+      "",
+      "Supply address: 42 Ashgrove Terrace, Leeds LS8 3PQ",
+      "Customer account number: 8842 0076 1194",
+      "Bill date: 22 Apr 2026",
+      "Covering: 22 Jan 2026 to 22 Apr 2026",
+      "",
+      "Account summary",
+      "Previous balance: £142.60",
+      "Payment received 04 Feb 2026: -£142.60",
+      "Charges this period: £187.82",
+      "Balance now due: £187.82",
+      "",
+      "We're collecting £187.82 on or just after 6 May 2026.",
+      "",
+      "Your tariff",
+      "Tariff name: Standard Variable",
+      "Unit rate: 24.50p per kWh",
+      "Standing charge: 60.10p per day",
+      "",
+      "Your usage",
+      "Meter reading 22 Jan 2026: 41882",
+      "Meter reading 22 Apr 2026: 42611",
+      "Electricity used: 729 kWh",
+      "",
+      "British Gas Trading Limited is registered in England and Wales.",
+      "",
+      "British Gas",
+      "",
+      "Helpful contacts",
+      "",
+      "Billing enquiries: 0333 202 9802",
+      "Meter readings: 0333 202 9532",
+      "Moving home: 0333 202 9532",
+      "Smell gas: 0800 111 999",
+      "Energy Ombudsman: 0330 440 1624",
+      "Citizens Advice consumer helpline: 0808 223 1133",
+      "Priority Services Register: 0800 072 8625",
+      "Supply network operator: 0800 375 675",
+      "",
+      "Lines are open Monday to Friday, 8am to 6pm."
+    ].join("\n")
+  },
+  {
+    id: "letter_with_terms_on_back",
+    label: "Insurance renewal with terms and conditions on the back",
+    intent: "The same failure by a different route, and the one where the reader is " +
+      "worst served: the letter says 'You do not need to do anything', which is exactly " +
+      "the reassurance a worried reader needs, and the decline withholds it. The back " +
+      "page is terms, a cancellation right and a complaints route, with no addressee " +
+      "and no date. Fires on 'Shelter Mutual Insurance' standing alone twice.",
+    text: [
+      "Shelter Mutual Insurance",
+      "",
+      "Home insurance renewal",
+      "",
+      "Mrs P Okonkwo",
+      "8 Fernbank Avenue",
+      "Nottingham NG5 2LT",
+      "",
+      "Policy number: SM-4471028",
+      "Letter date: 12 May 2026",
+      "",
+      "Dear Mrs Okonkwo",
+      "",
+      "Your home insurance is due for renewal on 30 June 2026.",
+      "",
+      "Your premium for the coming year: £342.80",
+      "Last year you paid: £311.40",
+      "",
+      "You do not need to do anything. Your policy will renew automatically",
+      "and the premium will be taken from the card we hold on file.",
+      "",
+      "Shelter Mutual Insurance",
+      "",
+      "Terms and conditions",
+      "",
+      "Your right to cancel",
+      "You may cancel this policy within 14 days of the renewal date shown above.",
+      "If you cancel we will refund the premium less a charge for cover provided.",
+      "",
+      "How to complain",
+      "Write to the address shown on the front of this letter.",
+      "If you are not satisfied you may refer the matter to the Financial Ombudsman Service.",
+      "",
+      "Shelter Mutual Insurance is authorised and regulated by the Financial Conduct Authority."
+    ].join("\n")
+  },
+  {
+    id: "statement_with_transactions_page",
+    label: "Account statement with a transactions page",
+    intent: "The third shape, and the one carrying the most numbers to get wrong: six " +
+      "dated transactions, four amounts that are not owed, and a closing balance that " +
+      "is not a demand. Fires on 'Northbridge Building Society' standing alone twice. " +
+      "Also records a SEPARATE defect not caused by the split: detectDocumentCategory " +
+      "returns 'housing', because one transaction line says Rent.",
+    text: [
+      "Northbridge Building Society",
+      "",
+      "Statement of account",
+      "",
+      "Mr R Patel",
+      "31 Halton Road",
+      "Coventry CV6 4NS",
+      "",
+      "Account number: 4471 0288",
+      "Statement date: 1 May 2026",
+      "Covering: 1 April 2026 to 30 April 2026",
+      "",
+      "Opening balance: £1,204.18",
+      "Money in: £1,860.00",
+      "Money out: £2,651.52",
+      "Closing balance: £412.66",
+      "",
+      "Northbridge Building Society",
+      "",
+      "Your transactions",
+      "",
+      "03 Apr  Direct debit  Severn Trent Water  £48.20",
+      "07 Apr  Card payment  Sainsburys  £62.14",
+      "11 Apr  Salary  Coventry City Council  £1,860.00",
+      "18 Apr  Direct debit  British Gas  £187.82",
+      "24 Apr  Standing order  Rent  £925.00",
+      "29 Apr  Card payment  Trainline  £28.36",
+      "",
+      "Northbridge Building Society is a member of the Financial Services Compensation Scheme."
+    ].join("\n")
   }
 ];
 
