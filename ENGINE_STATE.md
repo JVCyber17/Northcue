@@ -187,6 +187,30 @@ is why this is a rule rather than a suggestion:
    only because the caller had been switched off, and made the switch unsafe to
    reverse.
 
+**AND THE PROSE PATH IS NON-DETERMINISTIC, so one run measures a RATE and never
+a document.** Two runs of the same 53 English documents on identical code, an
+hour apart:
+
+- **eight documents changed outcome.** `bailiff_enforcement`,
+  `genuine_bank_fraud_advice` and `intl_energy_bill_plus44` went from refused to
+  served; `multi_document_greetings`, `genuine_court_account_freeze` and
+  `spec_council_tax_demand_full` went the other way. Two more were the lure gate
+  landing, which was the only intended change.
+- **one document was refused twice for different reasons.**
+  `intl_sole_trader_invoice` failed on an invented date in the first run and on
+  the postal-address pattern in the second.
+- the timeouts moved entirely: the two that hit the ceiling in the first run
+  both completed in the second, and three different documents timed out instead.
+
+So: **any finding about a NAMED document on the prose path needs repeat runs
+before it is treated as a property of that document.** The rate is stable at
+roughly six refusals in fifty-three; which six is not. A report that names
+documents from a single run, as an earlier one in this programme did, is
+describing that run and not the engine.
+
+The floor is deterministic and `--check` still guards it. Everything above the
+floor is a distribution.
+
 `tests/fixtures/corpus-facts.json` must cover every corpus document. Regenerate
 it whenever the corpus grows:
 
