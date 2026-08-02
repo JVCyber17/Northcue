@@ -42,6 +42,8 @@
 
 "use strict";
 
+const monthNames = require("./monthNames");
+
 // ---------------------------------------------------------------------------
 // Vocabulary. Labels that say "this is the amount owed" or "this is the
 // deadline", and competing labels that say the value means something else.
@@ -478,6 +480,71 @@ function looksLikeStructuralGreeting(line) {
 // a prefix is not.
 const MONEY = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|[.,]\d|[A-Za-z])/gi;
 
+// A DIGIT IN ANY SCRIPT. \d is ASCII, so a date written "२४ जून २०२६" was not a
+// date. \p{Nd} is every decimal digit, which is what a reader means by one.
+//
+// Nothing downstream can read a native digit, so a value carrying one is shown
+// verbatim and never resolved: toIsoDate declines, deadline_iso stays null, and
+// card 4 says "Check this date on the original document" with the date quoted
+// from the paper. That is the honest outcome and it is strictly better than not
+// seeing the date at all. toAsciiDigits below is what the numeric validator
+// uses so a native-digit date can at least be range checked.
+const DIGIT = "\\p{Nd}";
+
+// The zero of every decimal digit block Northcue serves. Decimal digits are
+// always ten contiguous code points, so the value is the offset from the zero.
+const DIGIT_ZEROS = [
+  0x0030,  // ASCII
+  0x0966,  // Devanagari
+  0x09E6,  // Bengali
+  0x0A66,  // Gurmukhi
+  0x0AE6   // Gujarati
+];
+
+function toAsciiDigits(value) {
+  let out = "";
+  for (const ch of String(value == null ? "" : value)) {
+    const code = ch.codePointAt(0);
+    const zero = DIGIT_ZEROS.find((start) => code >= start && code <= start + 9);
+    out += zero === undefined ? ch : String(code - zero);
+  }
+  return out;
+}
+
+// A year is two digits or four, never three. The old bound was {2,4}, which
+// let "1.2.345" read as a date once the dot separator was added below.
+const YEAR = "(?:" + DIGIT + "{4}|" + DIGIT + "{2})(?!" + DIGIT + ")";
+
+// The Unicode equivalent of the \b these patterns used to open with, plus the
+// decimal-separator guard. \b is ASCII, so it would find a boundary between a
+// Devanagari letter and a digit that is not one.
+const DATE_LEFT = "(?<![\\p{L}\\p{M}\\p{Nd}.,])";
+
+// "15 de junio de 2026". Spanish and Portuguese put a connector between the day
+// and the month and again before the year, and it is not optional in those
+// languages: it is how every date is written. Without it, 0 of 12 Spanish and
+// 0 of 12 Portuguese month names could ever be reached, however complete the
+// month list was.
+const CONNECTOR = "(?:de\\s+)?";
+
+// "1.º de março de 2026" is ordinary Portuguese. The English ordinals are here
+// for the same reason they always were.
+const ORDINAL = "(?:st|nd|rd|th|\\.?\\u00BA|\\.?\\u00AA)?";
+
+// A month name in any of the ten languages.
+//
+// ENGLISH KEEPS ITS PREFIX RULE, BYTE FOR BYTE. That looseness is why "1 Mayor
+// 2026" matches, which is a known and old defect, but changing it would move
+// English documents and this change must not. The localised names are a second
+// alternative beside it, so no English document can reach them and none moves.
+//
+// The trailing lookahead is what makes a full name safe as an alternative: it
+// stops "maio" matching inside "maiores". The English branch is unaffected
+// because [a-z]* has already eaten every letter before the lookahead is
+// reached.
+const MONTH = "(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*|" +
+  monthNames.LOCALISED_MONTH_SOURCE + ")(?![\\p{L}\\p{M}])";
+
 // A long form date, with the separators optional.
 //
 // OCR loses the space between a day and a month routinely, and the two OCR
@@ -493,7 +560,9 @@ const MONEY = /(?:£|GBP)\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|[.,]\d|[
 // lookbehind requires that whatever precedes the day is not a digit and not a
 // decimal separator carrying digits, so a date can never be carved out of a
 // longer number.
-const LONG_DATE = /(?<![\d.,])\b\d{1,2}(?:st|nd|rd|th)?\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s*\d{2,4}\b/gi;
+const LONG_DATE = new RegExp(
+  DATE_LEFT + DIGIT + "{1,2}" + ORDINAL + "\\s*" + CONNECTOR + MONTH +
+  "\\s*" + CONNECTOR + YEAR, "giu");
 
 // Month-first order, "April 1, 2026". Kept separate because its separators must
 // stay mandatory. With \s* it reads "May 2026" as day 20 of May in year 26, and
@@ -501,8 +570,36 @@ const LONG_DATE = /(?<![\d.,])\b\d{1,2}(?:st|nd|rd|th)?\s*(?:jan|feb|mar|apr|may
 // covered May 2026 to June 2026" would yield two dates that are not dates.
 // Day-first has no such collision, because a day-first match must begin with a
 // digit and a bare month cannot.
+//
+// STAYS ENGLISH, deliberately. All nine other languages write day first, so a
+// localised month here would buy nothing, and widening a pattern whose
+// separators are load bearing to gain nothing is how the "May 2026" collision
+// comes back.
 const MONTH_FIRST_DATE = /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi;
-const NUMERIC_DATE = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
+
+// THE DOT IS A DATE SEPARATOR IN POLAND AND ROMANIA, where "24.06.2026" is the
+// ordinary form, and it was not matched at all.
+//
+// IT IS ALSO THE ONE ADDITION HERE THAT COSTS SOMETHING. Measured against 64
+// hostile strings, three false matches survive both the pattern and the
+// validator, and all three are the same shape:
+//
+//   "version 1.2.2026"   "Version 1.2.26"   "Schedule 2.1.2026"
+//
+// A dotted reference and a dotted date are structurally identical. Nothing in
+// the string separates them; the discriminator is the word in front, and that
+// word is English, so putting it here would make the value finder
+// language-dependent, which is the one thing this file must not be. The other
+// 61 are clean: references, account numbers, sort codes, the UTR, NI numbers,
+// IBANs, meter serials, money in UK and European format, times, percentages,
+// phone numbers, postcodes and IP addresses all fail either the pattern or the
+// validator.
+//
+// Recorded rather than fixed. If a real document ever shows the shape, the
+// place to close it is a competing label, not a narrower pattern.
+const NUMERIC_DATE = new RegExp(
+  "(?<![\\p{L}\\p{M}\\p{Nd}.,/-])" + DIGIT + "{1,2}[./-]" + DIGIT + "{1,2}[./-]" +
+  YEAR + "(?![./-]" + DIGIT + ")", "gu");
 
 // ---------------------------------------------------------------------------
 // Offsets. The five helpers the engine used all returned bare strings; these
@@ -617,6 +714,55 @@ function findDates(text, isPlausibleNumericDate) {
   const numeric = locate(value, NUMERIC_DATE,
     (raw) => (isPlausibleNumericDate ? isPlausibleNumericDate(raw) : true));
   return long.concat(monthFirst, numeric).sort((a, b) => a.index - b.index);
+}
+
+// A date written as one end of a RANGE describes a period, and a period is not
+// a deadline.
+//
+// WHY THIS IS HERE NOW. DATE_COMPETES already carries "period", "covering" and
+// "from", and those are English. While the date finder was English too, that
+// did not matter: a Spanish billing period could not produce a date, so nothing
+// could promote one. Widening the finder removed that accidental protection,
+// and the Spanish water notice began stating
+//
+//   "The document shows 1 de febrero de 2026 as the date that matters."
+//
+// on a letter whose deadline is 15 June. 1 February is the start of the billing
+// period. That is a wrong fact stated calmly, and it is worse than the honest
+// "No clear date was found." it replaced.
+//
+// STRUCTURE, NOT VOCABULARY. "1 de febrero de 2026 al 30 de abril de 2026",
+// "1 April 2026 to 31 March 2027" and "22 Jan 2026 to 22 Apr 2026" are the same
+// shape: two dates on one line with a short connector and nothing else between
+// them. That shape is the same in all ten languages, so no word list is needed
+// and none is used. Measured across the corpus it identifies nine documents and
+// every one of the nine is a genuine billing or covering period. No false
+// identifications.
+//
+// The gap bound is the longest realistic connector plus its spaces: " to ",
+// " al ", " do ", " until ", " jusqu'au ". A digit between two dates means
+// something else sits there, and a full stop means they are in different
+// sentences, so neither is a range.
+const RANGE_GAP = 12;
+const NOT_A_RANGE_CONNECTOR = /[\p{Nd}.!?]/u;
+
+function datesInARange(text, isPlausibleNumericDate) {
+  const source = String(text || "");
+  const dates = findDates(source, isPlausibleNumericDate);
+  const inRange = new Set();
+  for (let i = 0; i + 1 < dates.length; i++) {
+    const left = dates[i];
+    const right = dates[i + 1];
+    if (left.lineIndex !== right.lineIndex) continue;
+    const from = left.index + left.value.length;
+    if (right.index <= from) continue;
+    const between = source.slice(from, right.index);
+    if (between.length > RANGE_GAP) continue;
+    if (NOT_A_RANGE_CONNECTOR.test(between)) continue;
+    inRange.add(left.value);
+    inRange.add(right.value);
+  }
+  return inRange;
 }
 
 // ---------------------------------------------------------------------------
@@ -968,12 +1114,26 @@ function isClaimedByCompetingDateLabel(text, value, isPlausibleNumericDate) {
 
 module.exports = {
   isClaimedByCompetingDateLabel,
+  // The date patterns themselves, so the engine's keyword fallback scans stop
+  // carrying their own copies. That duplication is not hypothetical: the two
+  // sets drifted the moment one was corrected, and the disagreement is what put
+  // "No clear date was found." on the same card as a date. Exported as sources
+  // rather than as compiled objects because each caller needs its own lastIndex.
+  DATE_PATTERN_SOURCES: {
+    long: { source: LONG_DATE.source, flags: LONG_DATE.flags },
+    monthFirst: { source: MONTH_FIRST_DATE.source, flags: MONTH_FIRST_DATE.flags },
+    numeric: { source: NUMERIC_DATE.source, flags: NUMERIC_DATE.flags }
+  },
+  // Used by the engine's numeric-date validator, which parses the day and the
+  // month to check they are in range and cannot do that on a native digit.
+  toAsciiDigits,
   // Exported for factCandidates, which applies the same tense rule to a date
   // the engine's English label vocabulary never reached. One definition, so a
   // change to what counts as past tense reaches both readers.
   BACKWARD_LOOKING,
   findAmounts,
   findDates,
+  datesInARange,
   findPhoneNumbers,
   selectPhoneNumber,
   locateLabels,

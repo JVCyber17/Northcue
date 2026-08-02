@@ -1539,11 +1539,31 @@ function extractReadableDocumentSignals(text, trust) {
   //
   // dateParts itself is left alone: listing the dates that appear in a letter
   // is honest, because that list claims nothing about what they mean.
+  //
+  // AND THE CANDIDATE MAY NOT BE PART OF A PERIOD. The "unclaimed" filter is
+  // only as good as DATE_COMPETES, which is English, and that stopped being
+  // harmless the moment findDates learned to read nine more languages: the
+  // Spanish water notice promoted the start of its billing period as the date
+  // that matters, on a letter whose deadline is four months later. The range
+  // test is structural, so it reaches every language the competing labels
+  // cannot.
+  //
+  // DISQUALIFIES, NEVER RE-SELECTS. Skipping to the next candidate would name
+  // 15 June on the Spanish letter, which is exactly right, and would also name
+  // "Payment received 04 Feb 2026" on an English bill, which is a receipt. One
+  // right answer bought with one new wrong assertion is not a trade this makes.
+  // The first unclaimed date is the only candidate the ordering supports; if it
+  // is part of a period there is no candidate, and card 4 lists the dates
+  // instead, which is a supported state.
   const colocatedDeadline = coLocation.selectDeadline(value, isPlausibleNumericDate);
   const unclaimedDates = dateParts.filter(
     (candidate) => !coLocation.isClaimedByCompetingDateLabel(value, candidate, isPlausibleNumericDate)
   );
-  const primaryDate = colocatedDeadline ? colocatedDeadline.value : (unclaimedDates[0] || null);
+  const inARange = coLocation.datesInARange(value, isPlausibleNumericDate);
+  const readableCandidate = unclaimedDates[0] && !inARange.has(unclaimedDates[0])
+    ? unclaimedDates[0]
+    : null;
+  const primaryDate = colocatedDeadline ? colocatedDeadline.value : readableCandidate;
 
   const mostImportantPoint = buildReadableMostImportantPoint({
     text: value,
@@ -3249,8 +3269,27 @@ function inferHelpfulNote(trust, extractorNote, multiLetterState) {
 
 // Returns false for sort codes (e.g. 40-22-99) and other NN-NN-NN sequences
 // where neither segment pair can represent a valid day/month combination.
+// Is a numeric date a date at all? "12-34-56" is a sort code and "20.0.1" is
+// not a day and a month, so the two leading groups have to be in range under at
+// least one reading.
+//
+// THE DOT IS NOW A SEPARATOR, because Poland and Romania write 24.06.2026, and
+// this guard is what keeps that from admitting sort codes and version strings.
+// Splitting on [-/] only meant every dotted candidate returned three parts of
+// one, failed the length check, and was rejected whole.
+//
+// AND THE DIGITS MAY NOT BE ASCII. parseInt returns NaN on a Devanagari digit,
+// so "२४/०६/२०२६" was found by the pattern and then thrown away here.
+// A fresh compile of one of co-location's date patterns. Fresh because these
+// scans are stateful: a shared global regex carries lastIndex between calls and
+// two callers would silently skip each other's matches.
+function datePattern(kind) {
+  const spec = coLocation.DATE_PATTERN_SOURCES[kind];
+  return new RegExp(spec.source, spec.flags);
+}
+
 function isPlausibleNumericDate(dateStr) {
-  const parts = dateStr.split(/[-\/]/);
+  const parts = coLocation.toAsciiDigits(dateStr).split(/[-./]/);
   if (parts.length !== 3) return false;
   const a = parseInt(parts[0], 10);
   const b = parseInt(parts[1], 10);
@@ -3300,8 +3339,14 @@ function extractDeadline(text) {
   // clause as the "before".
   const deadlineContext = /\b(?:pay(?:ment)?\s+(?:due|by)|due\s+(?:by|date)|due\b[^\n]{0,22}\bby|no\s+later\s+than|please\s+pay\s+by?|must\s+(?:be\s+)?paid\s+by|deadline|pay\s+by|to\s+pay|payable\s+by|cleared\s+by|received\s+by|remove[d]?\s+by|comply\s+by|complete[d]?\s+by|cleared\s+before|(?:pay|paid|respond|reply|contact\s+us|tell\s+us|notify\s+us|clear|cleared|settle|settled|return|submit|comply|complete|completed|act|vacate|remove|removed)\b[^\n]{0,30}?\bbefore)\b/i;
 
-  const numericPattern = /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g;
-  const longPattern = /\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi;
+  // ONE DEFINITION, shared with co-location. These two were independent copies
+  // and they were already behind: the long one had no ordinals and no optional
+  // separator, so this scan could not see a date the rest of the engine could.
+  // Now that findDates reads nine more languages, an independent copy here
+  // would mean the keyword fallback stayed English while co-location did not,
+  // and card 4 would list a date the deadline scan had never heard of.
+  const numericPattern = datePattern("numeric");
+  const longPattern = datePattern("long");
 
   // Skip dates preceded by past-tense language ("was due by", "became due").
   // Those describe an already-overdue amount, not the future compliance date.
@@ -3366,10 +3411,12 @@ function extractAppointmentDate(text) {
     const nearby = lines.slice(Math.max(0, i - 3), Math.min(lines.length, i + 4)).join(" ");
     if (!appointmentFieldRe.test(nearby)) continue;
 
-    const longMatch = lines[i].match(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/i);
+    // The same one definition. This scan carried a third copy, older than both
+    // the others: no ordinals, no optional separator, no localised months.
+    const longMatch = lines[i].match(datePattern("long"));
     if (longMatch) return longMatch[0];
 
-    const numMatch = lines[i].match(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/);
+    const numMatch = lines[i].match(datePattern("numeric"));
     if (numMatch && isPlausibleNumericDate(numMatch[0])) return numMatch[0];
   }
   return null;

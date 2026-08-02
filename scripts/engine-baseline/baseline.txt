@@ -8505,12 +8505,12 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
 [extractor_internal]
 {
   "summary": "This appears to be a formal letter about brightside housing association.",
-  "most_important_point": "The clearest topic appears to be brightside housing association. Check the original for details.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
+  "deadline": "4 września 2026",
+  "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
     "£1,245.60",
@@ -8528,16 +8528,19 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
   "readable_unsupported_signals": {
     "sender": null,
     "topic": "brightside housing association",
-    "dateParts": [],
-    "primaryDate": null,
+    "dateParts": [
+      "4 września 2026"
+    ],
+    "primaryDate": "4 września 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be brightside housing association. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "The document shows 4 września 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check who sent the document.",
       "Check the topic: brightside housing association.",
+      "Check these visible dates: 4 września 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -8565,7 +8568,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
   "summary": {
     "one_line_summary": "This appears to be a formal letter about brightside housing association.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": null,
+    "main_date": "4 września 2026",
     "deadline_iso": null,
     "main_amount": null
   },
@@ -8581,7 +8584,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "title": "What is this?",
     "simple_explanation": "This appears to be a formal letter about brightside housing association.",
     "key_points": [
-      "The clearest topic appears to be brightside housing association. Check the original for details.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -8589,7 +8592,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about brightside housing association.. The clearest topic appears to be brightside housing association. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a formal letter about brightside housing association.. Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -8629,14 +8632,16 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
-    "key_points": [],
+    "simple_explanation": "The document shows 4 września 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 4 września 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "4 września 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. The document shows 4 września 2026 as the date that matters. Check the original document.. Check this date on the original document: 4 września 2026.",
     "status": "normal"
   },
   {
@@ -8644,8 +8649,9 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
+    "simple_explanation": "Check the date (4 września 2026) and any amounts on the original document.",
     "key_points": [
+      "Date: 4 września 2026.",
       "An amount is shown without a label."
     ],
     "action_needed": null,
@@ -8653,7 +8659,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
+    "read_aloud_text": "What should I check?. Check the date (4 września 2026) and any amounts on the original document.. Date: 4 września 2026. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -8745,12 +8751,12 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
 [extractor_internal]
 {
   "summary": "This appears to be a formal letter about thames water.",
-  "most_important_point": "The clearest topic appears to be thames water. Check the original for details.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
   "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
+  "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
     "£312.44"
@@ -8767,16 +8773,21 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
   "readable_unsupported_signals": {
     "sender": null,
     "topic": "thames water",
-    "dateParts": [],
+    "dateParts": [
+      "1 de febrero de 2026",
+      "30 de abril de 2026",
+      "15 de junio de 2026"
+    ],
     "primaryDate": null,
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be thames water. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "These dates appear in the document: 1 de febrero de 2026, 30 de abril de 2026, 15 de junio de 2026. Check what they refer to.",
+    "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check who sent the document.",
       "Check the topic: thames water.",
+      "Check these visible dates: 1 de febrero de 2026, 30 de abril de 2026, 15 de junio de 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -8820,7 +8831,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "title": "What is this?",
     "simple_explanation": "This appears to be a formal letter about thames water.",
     "key_points": [
-      "The clearest topic appears to be thames water. Check the original for details.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -8828,7 +8839,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about thames water.. The clearest topic appears to be thames water. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a formal letter about thames water.. Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -8868,14 +8879,14 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
+    "simple_explanation": "These dates appear in the document: 1 de febrero de 2026, 30 de abril de 2026, 15 de junio de 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. These dates appear in the document: 1 de febrero de 2026, 30 de abril de 2026, 15 de junio de 2026. Check what they refer to..",
     "status": "normal"
   },
   {
@@ -8985,12 +8996,12 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
 [extractor_internal]
 {
   "summary": "This appears to be a school or education letter from West Middlesex University Hospital.",
-  "most_important_point": "The clearest topic appears to be medical information. Check the original for details.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
+  "deadline": "7 juillet 2026",
+  "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
   "reference_numbers": [],
@@ -9005,16 +9016,19 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
   "readable_unsupported_signals": {
     "sender": "West Middlesex University Hospital",
     "topic": "medical information",
-    "dateParts": [],
-    "primaryDate": null,
+    "dateParts": [
+      "7 juillet 2026"
+    ],
+    "primaryDate": "7 juillet 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be medical information. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "The document shows 7 juillet 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check the sender: West Middlesex University Hospital.",
       "Check the topic: medical information.",
+      "Check these visible dates: 7 juillet 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -9041,7 +9055,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
   "summary": {
     "one_line_summary": "This appears to be a school or education letter from West Middlesex University Hospital.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": null,
+    "main_date": "7 juillet 2026",
     "deadline_iso": null,
     "main_amount": null
   },
@@ -9057,7 +9071,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "title": "What is this?",
     "simple_explanation": "This appears to be a school or education letter from West Middlesex University Hospital.",
     "key_points": [
-      "The clearest topic appears to be medical information. Check the original for details.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -9065,7 +9079,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a school or education letter from West Middlesex University Hospital.. The clearest topic appears to be medical information. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a school or education letter from West Middlesex University Hospital.. Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -9105,14 +9119,16 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
-    "key_points": [],
+    "simple_explanation": "The document shows 7 juillet 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 7 juillet 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "7 juillet 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. The document shows 7 juillet 2026 as the date that matters. Check the original document.. Check this date on the original document: 7 juillet 2026.",
     "status": "normal"
   },
   {
@@ -9120,16 +9136,16 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check key details on the original document.",
+    "simple_explanation": "Check the date (7 juillet 2026) and any amounts on the original document.",
     "key_points": [
-      "No extra checks clearly stated."
+      "Date: 7 juillet 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
+    "read_aloud_text": "What should I check?. Check the date (7 juillet 2026) and any amounts on the original document.. Date: 7 juillet 2026.",
     "status": "normal"
   },
   {
@@ -13149,12 +13165,12 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
 [extractor_internal]
 {
   "summary": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
-  "most_important_point": "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
+  "deadline": "11 sierpnia 2026",
+  "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
   "reference_numbers": [],
@@ -13169,16 +13185,19 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
   "readable_unsupported_signals": {
     "sender": null,
     "topic": "przychodnia zdrowia rodzinnego",
-    "dateParts": [],
-    "primaryDate": null,
+    "dateParts": [
+      "11 sierpnia 2026"
+    ],
+    "primaryDate": "11 sierpnia 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "The document shows 11 sierpnia 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check who sent the document.",
       "Check the topic: przychodnia zdrowia rodzinnego.",
+      "Check these visible dates: 11 sierpnia 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -13205,7 +13224,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
   "summary": {
     "one_line_summary": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": null,
+    "main_date": "11 sierpnia 2026",
     "deadline_iso": null,
     "main_amount": null
   },
@@ -13221,7 +13240,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "title": "What is this?",
     "simple_explanation": "This appears to be a formal letter about przychodnia zdrowia rodzinnego.",
     "key_points": [
-      "The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -13229,7 +13248,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about przychodnia zdrowia rodzinnego.. The clearest topic appears to be przychodnia zdrowia rodzinnego. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a formal letter about przychodnia zdrowia rodzinnego.. Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -13269,14 +13288,16 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
-    "key_points": [],
+    "simple_explanation": "The document shows 11 sierpnia 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 11 sierpnia 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "11 sierpnia 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. The document shows 11 sierpnia 2026 as the date that matters. Check the original document.. Check this date on the original document: 11 sierpnia 2026.",
     "status": "normal"
   },
   {
@@ -13284,16 +13305,16 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check key details on the original document.",
+    "simple_explanation": "Check the date (11 sierpnia 2026) and any amounts on the original document.",
     "key_points": [
-      "No extra checks clearly stated."
+      "Date: 11 sierpnia 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check key details on the original document.. No extra checks clearly stated.",
+    "read_aloud_text": "What should I check?. Check the date (11 sierpnia 2026) and any amounts on the original document.. Date: 11 sierpnia 2026.",
     "status": "normal"
   },
   {
@@ -13385,12 +13406,12 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
 [extractor_internal]
 {
   "summary": "This appears to be a formal letter about energia atlântico, s.a..",
-  "most_important_point": "The clearest topic appears to be energia atlântico, s.a.. Check the original for details.",
+  "most_important_point": "Important dates are visible. Check what each date refers to.",
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
+  "deadline": "21 de agosto de 2026",
+  "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [
     "£188.60"
@@ -13407,16 +13428,19 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
   "readable_unsupported_signals": {
     "sender": null,
     "topic": "energia atlântico, s.a.",
-    "dateParts": [],
-    "primaryDate": null,
+    "dateParts": [
+      "21 de agosto de 2026"
+    ],
+    "primaryDate": "21 de agosto de 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be energia atlântico, s.a.. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
+    "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
+    "dateMessage": "The document shows 21 de agosto de 2026 as the date that matters. Check the original document.",
+    "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check who sent the document.",
       "Check the topic: energia atlântico, s.a..",
+      "Check these visible dates: 21 de agosto de 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -13444,7 +13468,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
   "summary": {
     "one_line_summary": "This appears to be a formal letter about energia atlântico, s.a..",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": null,
+    "main_date": "21 de agosto de 2026",
     "deadline_iso": null,
     "main_amount": null
   },
@@ -13460,7 +13484,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "title": "What is this?",
     "simple_explanation": "This appears to be a formal letter about energia atlântico, s.a..",
     "key_points": [
-      "The clearest topic appears to be energia atlântico, s.a.. Check the original for details.",
+      "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
     "action_needed": null,
@@ -13468,7 +13492,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about energia atlântico, s.a... The clearest topic appears to be energia atlântico, s.a.. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
+    "read_aloud_text": "What is this?. This appears to be a formal letter about energia atlântico, s.a... Important dates are visible. Check what each date refers to. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
     "status": "normal"
   },
   {
@@ -13508,14 +13532,16 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
-    "key_points": [],
+    "simple_explanation": "The document shows 21 de agosto de 2026 as the date that matters. Check the original document.",
+    "key_points": [
+      "Check this date on the original document: 21 de agosto de 2026."
+    ],
     "action_needed": null,
-    "possible_deadline": null,
+    "possible_deadline": "21 de agosto de 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
+    "read_aloud_text": "When is it due?. The document shows 21 de agosto de 2026 as the date that matters. Check the original document.. Check this date on the original document: 21 de agosto de 2026.",
     "status": "normal"
   },
   {
@@ -13523,8 +13549,9 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
+    "simple_explanation": "Check the date (21 de agosto de 2026) and any amounts on the original document.",
     "key_points": [
+      "Date: 21 de agosto de 2026.",
       "An amount is shown without a label."
     ],
     "action_needed": null,
@@ -13532,7 +13559,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
+    "read_aloud_text": "What should I check?. Check the date (21 de agosto de 2026) and any amounts on the original document.. Date: 21 de agosto de 2026. An amount is shown without a label.",
     "status": "normal"
   },
   {
@@ -15933,7 +15960,8 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
   "deadline_from_facts": false,
   "visible_dates": [
     "1 July 2026",
-    "31 March 2027"
+    "31 March 2027",
+    "1 lipca 2026"
   ],
   "header_date": "12 June 2026",
   "risk": "No risk clearly stated.",

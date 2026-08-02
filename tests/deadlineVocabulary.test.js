@@ -298,11 +298,30 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       genuine_post_office_card_payment: "3 September 2026",
       intl_energy_bill_plus44: "6 August 2026",
       intl_water_arrears_00_prefix: "28 August 2026",
-      // Romanian, and read only because "septembrie" shares the "sep" stem the
-      // English month list already matches. "15 listopada 2026" in the same
-      // sentence would find nothing. Pinned so that coincidence is on the
-      // record rather than mistaken for multilingual date support.
+      // Romanian. This used to be read only because "septembrie" shares the
+      // "sep" stem the English month list matches, and the note here said
+      // "15 listopada 2026 in the same sentence would find nothing", pinned so
+      // the coincidence was on the record. That is no longer true: findDates
+      // now carries the month names of all nine languages, so this is read for
+      // the reason it looks like it is read.
       intl_romanian_school_meeting: "15 septembrie 2026",
+      // The four the localised month names recovered. Every one of these
+      // documents produced NO date at all before, because its month name was
+      // invisible: five of the six genuine non-English letters in the corpus
+      // were in that state and card 4 read "No clear date was found."
+      //
+      // Each value was checked by hand against the letter:
+      //   polish_rent_arrears          "uregulowanie zaległości do dnia ..."
+      //   french_hospital_appointment  "Date du rendez-vous: mardi ..."
+      //   intl_polish_clinic           "Termin wizyty: ..."
+      //   intl_portuguese_energy       "Data limite de pagamento: ..."
+      // and in all four the letter DATE is correctly excluded instead, which
+      // only works because the structural greeting gave these letters a header
+      // zone. Two changes that had to land in that order.
+      polish_rent_arrears: "4 września 2026",
+      french_hospital_appointment: "7 juillet 2026",
+      intl_polish_clinic_appointment: "11 sierpnia 2026",
+      intl_portuguese_energy_final_notice: "21 de agosto de 2026",
       // Recovered by P1, which stopped the repeated-letterhead rule fusing a
       // genuine two-page insurance renewal.
       letter_with_terms_on_back: "30 June 2026",

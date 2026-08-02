@@ -240,13 +240,39 @@ test("the two letters the gate used to refuse", async (t) => {
   });
 
   t.test("they are still only a thin reading aid, which is tier 2's problem", () => {
-    // Accepting them does not make the cards good. The engine still cannot read
-    // Polish or Spanish, so the deadline and the consequence are still missed.
-    // Recorded so this commit is not mistaken for having fixed that.
+    // Accepting them did not make the cards good, and this test recorded how
+    // little it changed: no deadline, no consequence, severity low.
+    //
+    // THE DEADLINE HALF IS NOW CLOSED. findDates carries the month names of all
+    // nine languages, so "4 września 2026" is a date, the letter date above the
+    // greeting is excluded, and card 4 names the day the arrears must be
+    // cleared by. Updated rather than deleted, because what it pins is the
+    // DISTANCE still left, and the rest of that distance is real.
     const run = analyse(byId("polish_rent_arrears"));
-    assert.equal(run.structured_output.extractor_internal.deadline, null);
-    assert.equal(Boolean(run.structured_output.extractor_internal.has_consequence), false);
+    assert.equal(run.structured_output.extractor_internal.deadline, "4 września 2026",
+      "the localised month names should have recovered this");
+    // Still missed, and both are vocabulary, not structure. The letter says the
+    // association will apply to the district court for an eviction order and
+    // that this may cost the reader their home. Nothing in the engine reads
+    // Polish, so it is neither a consequence nor a reason to raise severity.
+    assert.equal(Boolean(run.structured_output.extractor_internal.has_consequence), false,
+      "if this is now true, a Polish consequence is being read and the note above is stale");
     assert.equal(run.api_output.trust.severity_level, "low");
+  });
+
+  t.test("the Spanish letter declines rather than naming the wrong date", () => {
+    // The counterweight to the line above, and the reason the range rule
+    // exists. This letter states its billing period, "1 de febrero de 2026 al
+    // 30 de abril de 2026", before it states its deadline, so the first visible
+    // date is the period start. Promoting it would say "The document shows
+    // 1 de febrero de 2026 as the date that matters" on a letter due 15 June.
+    const run = analyse(byId("spanish_water_final_notice"));
+    const signals = run.structured_output.extractor_internal.readable_unsupported_signals;
+    assert.equal(signals.primaryDate, null,
+      "a date written as one end of a period is not the date that matters");
+    assert.deepEqual(signals.dateParts,
+      ["1 de febrero de 2026", "30 de abril de 2026", "15 de junio de 2026"],
+      "all three are still LISTED, which claims nothing about what they mean");
   });
 });
 

@@ -1538,10 +1538,10 @@
       "steps": 1
     },
     "polish_rent_arrears|1": {
-      "px": 702,
+      "px": 675,
       "lang": "fr",
       "answerChars": 72,
-      "stepChars": 204,
+      "stepChars": 168,
       "steps": 2
     },
     "polish_rent_arrears|2": {
@@ -1559,18 +1559,18 @@
       "steps": 1
     },
     "polish_rent_arrears|4": {
-      "px": 440,
+      "px": 568,
       "lang": "pl",
-      "answerChars": 53,
-      "stepChars": 0,
-      "steps": 0
+      "answerChars": 89,
+      "stepChars": 58,
+      "steps": 1
     },
     "polish_rent_arrears|5": {
-      "px": 563,
-      "lang": "es",
-      "answerChars": 95,
-      "stepChars": 35,
-      "steps": 1
+      "px": 572,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 57,
+      "steps": 2
     },
     "polish_rent_arrears|6": {
       "px": 655,
@@ -1583,7 +1583,7 @@
       "px": 669,
       "lang": "fr",
       "answerChars": 54,
-      "stepChars": 186,
+      "stepChars": 168,
       "steps": 2
     },
     "spanish_water_final_notice|2": {
@@ -1601,9 +1601,9 @@
       "steps": 1
     },
     "spanish_water_final_notice|4": {
-      "px": 440,
+      "px": 479,
       "lang": "pl",
-      "answerChars": 53,
+      "answerChars": 125,
       "stepChars": 0,
       "steps": 0
     },
@@ -1622,10 +1622,10 @@
       "steps": 1
     },
     "french_hospital_appointment|1": {
-      "px": 702,
-      "lang": "pt",
+      "px": 681,
+      "lang": "fr",
       "answerChars": 88,
-      "stepChars": 193,
+      "stepChars": 168,
       "steps": 2
     },
     "french_hospital_appointment|2": {
@@ -1643,17 +1643,17 @@
       "steps": 1
     },
     "french_hospital_appointment|4": {
-      "px": 440,
+      "px": 568,
       "lang": "pl",
-      "answerChars": 53,
-      "stepChars": 0,
-      "steps": 0
+      "answerChars": 88,
+      "stepChars": 57,
+      "steps": 1
     },
     "french_hospital_appointment|5": {
-      "px": 525,
+      "px": 531,
       "lang": "pl",
-      "answerChars": 43,
-      "stepChars": 31,
+      "answerChars": 73,
+      "stepChars": 21,
       "steps": 1
     },
     "french_hospital_appointment|6": {
@@ -1754,13 +1754,6 @@
       "stepChars": 41,
       "steps": 2
     },
-    "polish_rent_arrears+facts|4": {
-      "px": 558,
-      "lang": "pl",
-      "answerChars": 53,
-      "stepChars": 58,
-      "steps": 1
-    },
     "polish_rent_arrears+facts|5": {
       "px": 623,
       "lang": "pl",
@@ -1776,9 +1769,9 @@
       "steps": 2
     },
     "spanish_water_final_notice+facts|4": {
-      "px": 558,
+      "px": 597,
       "lang": "pl",
-      "answerChars": 53,
+      "answerChars": 125,
       "stepChars": 62,
       "steps": 1
     },
@@ -2466,9 +2459,9 @@
     },
     "intl_polish_clinic_appointment|1": {
       "px": 723,
-      "lang": "pl",
+      "lang": "fr",
       "answerChars": 72,
-      "stepChars": 204,
+      "stepChars": 168,
       "steps": 2
     },
     "intl_polish_clinic_appointment|2": {
@@ -2486,17 +2479,17 @@
       "steps": 1
     },
     "intl_polish_clinic_appointment|4": {
-      "px": 440,
+      "px": 568,
       "lang": "pl",
-      "answerChars": 53,
-      "stepChars": 0,
-      "steps": 0
+      "answerChars": 90,
+      "stepChars": 59,
+      "steps": 1
     },
     "intl_polish_clinic_appointment|5": {
-      "px": 525,
+      "px": 531,
       "lang": "pl",
-      "answerChars": 43,
-      "stepChars": 31,
+      "answerChars": 75,
+      "stepChars": 23,
       "steps": 1
     },
     "intl_polish_clinic_appointment|6": {
@@ -2508,9 +2501,9 @@
     },
     "intl_portuguese_energy_final_notice|1": {
       "px": 696,
-      "lang": "pl",
+      "lang": "fr",
       "answerChars": 65,
-      "stepChars": 197,
+      "stepChars": 168,
       "steps": 2
     },
     "intl_portuguese_energy_final_notice|2": {
@@ -2528,18 +2521,18 @@
       "steps": 1
     },
     "intl_portuguese_energy_final_notice|4": {
-      "px": 440,
-      "lang": "pl",
-      "answerChars": 53,
-      "stepChars": 0,
-      "steps": 0
+      "px": 568,
+      "lang": "ro",
+      "answerChars": 94,
+      "stepChars": 63,
+      "steps": 1
     },
     "intl_portuguese_energy_final_notice|5": {
-      "px": 563,
-      "lang": "es",
-      "answerChars": 95,
-      "stepChars": 35,
-      "steps": 1
+      "px": 572,
+      "lang": "pl",
+      "answerChars": 79,
+      "stepChars": 62,
+      "steps": 2
     },
     "intl_portuguese_energy_final_notice|6": {
       "px": 655,

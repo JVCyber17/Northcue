@@ -878,6 +878,42 @@ wrong, the useful thing is a letter you would actually expect to receive, with
 invented names and numbers. That is worth more to this product than any
 amount of proofreading.
 
+## New since your list was written: the twelve month names (2 August 2026)
+
+**This one is not a translation question, and it is the shortest on the page.**
+
+Northcue reads dates off the letter itself. Until now it only recognised
+English month names, which meant that in your language it found no dates at
+all: on five of the six real non-English letters we test against, the card that
+says when something is due read "No clear date was found." while the letter in
+the reader's hand plainly gave a date.
+
+The list is in `src/utils/monthNames.js`. There is no interface text to read.
+
+**Q1. Are these the twelve months, spelled the way a letter writes them?**
+
+Not the way a calendar heading writes them, the way a DATE writes them. Polish
+is the example that made us ask: a Polish letter writes "6 sierpnia 2026", not
+"6 sierpień 2026", so both forms are in the list. If your language changes the
+month's ending inside a date, tell us the form the date uses.
+
+**Q2. Is any common spelling missing?**
+
+We have included the ones we know about, for instance both "सितंबर" and
+"सितम्बर", and the accent-stripped forms some systems print. A missing spelling
+costs the whole date, so an extra one is cheap and a gap is not.
+
+**Q3. Would a letter in your language write the date some other way entirely?**
+
+Native-script digits, for example, or a different order, or a different word
+between the day and the month. We handle Devanagari, Bengali, Gurmukhi and
+Gujarati digits, day-first order, and the Spanish and Portuguese "de". If your
+language does something we have not named, that is the useful answer.
+
+**Nothing here can make Northcue say something wrong.** A month name we get
+wrong means a date is not found, and the cards already word that honestly. It
+is a question of what the reader is shown, not of what they are told.
+
 ## What we are not asking you to do
 
 You do not need to check spelling across 800 strings, and you do not need to
