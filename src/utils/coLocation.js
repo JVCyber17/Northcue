@@ -134,14 +134,47 @@ const DATE_COMPETES = [
 // deadline. With "us" as the object the reader is the only possible actor.
 // Verified: the four sender-subject forms above match nothing here.
 //
-// "pay" was tried as a head and rejected. It matches inside "payment" and
-// "payments", so it fired on four corpus documents, and it is the one verb
-// Tier 1b exists to defend against ("You agreed to pay by direct debit on
-// 3 July 2026"). Giving the most overloaded verb in the vocabulary a 44
-// character reach is the change most likely to reintroduce D-1's failure
-// shape. Left out on purpose; do not add it without new evidence.
+// "pay" was tried as a head and rejected, with the reason recorded as: it
+// matches inside "payment" and "payments", so it fired on four corpus
+// documents. THAT REASON IS WRONG. spanningPattern wraps every head in \b, and
+// /\bpay\b/ does not match inside "payment"; "pay" is three characters, below
+// MIN_TOLERANT_LENGTH, so it is escaped literally rather than made tolerant.
+// Adding bare "pay" today moves ZERO of the 63 corpus documents.
+//
+// THE CONCLUSION WAS RIGHT ANYWAY, for the other reason the same comment gives:
+// a head must not let the SENDER be the subject. Measured on 2 August 2026,
+// bare "pay" reads a deadline out of "We will pay your refund of £83.86 by
+// 3 September 2026", which is money moving TO the reader.
+//
+// So the heads below are the reader-subject forms only. Each one names the
+// reader as the actor, so no sender-subject sentence can match, and each was
+// checked against "We must pay...", "We should pay...", "The council must
+// pay..." and "Your supplier will need to pay you...", none of which match.
+//
+// WHY THEY WERE NEEDED. The fully supported path is STRICTER than the reading
+// aid, so the better supported the document, the more likely its deadline was
+// dropped. On a bill, none of these read before this change:
+//
+//   "Please pay £482.30 by 3 September 2026."
+//   "You must pay £482.30 in full by 3 September 2026."
+//   "You must pay the balance by 3 September 2026."
+//   "Please pay the outstanding balance of £482.30 by 3 September 2026."
+//   "You must pay the arrears of £482.30 by 3 September 2026."
+//
+// Every one is ordinary UK demand wording, and the reason all five failed is
+// that "pay ... by" is discontiguous the moment an amount or a noun phrase sits
+// between the verb and the date. The corpus never caught it because in all 20
+// of its deadline sentences the label is adjacent to the date. See
+// CORPUS_STRATEGY.md.
+//
+// STILL NOT READ, and left alone deliberately: "If we do not hear from you by
+// 3 September 2026 we will escalate." A conditional clause is not a demand, and
+// a head reaching into one would promote the date in every "if you do not..."
+// sentence in UK post.
 const DATE_GOVERNS_SPANNING = [
-  "contact us", "reply to us", "write to us", "respond to us", "notify us"
+  "contact us", "reply to us", "write to us", "respond to us", "notify us",
+  "please pay", "you must pay", "you should pay", "you need to pay",
+  "you are required to pay"
 ];
 
 // The gap bound, measured rather than chosen. Across fifteen realistic UK
@@ -753,11 +786,41 @@ function selectAmount(text) {
 // smaller half and the less important one.
 //
 // The reach is 24 characters back from the START of the label, which covers
-// "your last payment was " and "both instalments were " while stopping well
-// short of the previous sentence. Measured from the longest subject phrase that
-// realistically separates the tense marker from the label, not chosen.
+// "your last payment was " and "both instalments were ". Measured from the
+// longest subject phrase that realistically separates the tense marker from the
+// label, not chosen.
+//
+// AND IT STOPS AT A SENTENCE BOUNDARY, which is what it always claimed to do.
+// The comment said 24 characters "stops well short of the previous sentence"
+// and a test asserts the reach does not span one. Neither was enforced: the
+// window was a fixed character count, and it held only because every label it
+// had been tried with happened to be short enough.
+//
+// It stopped holding on 2 August 2026, when the spanning heads below were
+// added. "you must pay ... by" starts four characters earlier than "must pay",
+// and on "Your payment was due on 3 July 2026. You must pay by 3 September
+// 2026." those four characters are the difference between the window ending
+// inside the previous sentence and ending after it. The deadline vanished from
+// an arrears letter, which is the exact shape the skip-and-continue rule below
+// exists to serve. A guard that depends on the character length of the label it
+// is protecting is not a guard.
 const BACKWARD_LOOKING = /\b(?:was\s+due|were\s+due|became\s+due|overdue\s+since)\b/i;
 const BACKWARD_LOOKING_REACH = 24;
+const SENTENCE_END = /[.!?\n]/g;
+
+// The text a past-tense marker may be found in: the label itself, plus up to
+// BACKWARD_LOOKING_REACH characters before it, cut at the last sentence end.
+function backwardLookingWindow(source, label) {
+  const from = Math.max(0, label.index - BACKWARD_LOOKING_REACH);
+  const before = source.slice(from, label.index);
+  let start = from;
+  SENTENCE_END.lastIndex = 0;
+  let match;
+  while ((match = SENTENCE_END.exec(before)) !== null) {
+    start = from + match.index + 1;
+  }
+  return source.slice(start, label.end);
+}
 
 // The one date the document says is a deadline, or null.
 //
@@ -786,7 +849,7 @@ function selectDeadline(text, isPlausibleNumericDate) {
     // Skipping the value rather than returning null lets a later date on the
     // same letter still be found, which is what an arrears letter needs: the
     // receipt is stated first and the obligation second.
-    if (label && BACKWARD_LOOKING.test(source.slice(Math.max(0, label.index - BACKWARD_LOOKING_REACH), label.end))) continue;
+    if (label && BACKWARD_LOOKING.test(backwardLookingWindow(source, label))) continue;
     if (label) return { value: value.value, label: label.phrase, index: value.index };
   }
   return null;

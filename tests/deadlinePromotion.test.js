@@ -304,3 +304,109 @@ test("the anchor does not disturb the rest of the context vocabulary", async (t)
     assert.deepEqual(fallbackOnly, ["arrears_before_clause"]);
   });
 });
+
+// ------------------------------- the demand phrasings a real bill actually uses
+
+test("pay ... by, when something sits between the verb and the date", async (t) => {
+  // Added 2 August 2026. The corpus has 20 documents that yield a deadline and
+  // in EVERY one the label is adjacent to the date: "Please pay by DATE",
+  // "You must pay by DATE", "due by DATE". Not one interposes an amount. So the
+  // vocabulary was written against the corpus, and the corpus was written
+  // against the vocabulary. See CORPUS_STRATEGY.md.
+  //
+  // The fully supported path is the STRICTER one, so the better supported the
+  // document type, the more likely its deadline was dropped.
+  const bill = (line) => [
+    "Northfield Energy", "Your electricity bill", "Account number: NE-77410",
+    "Bill date: 19 June 2026", "", "Dear Mr Sowande", "", line
+  ].join("\n");
+  const deadlineOf = (line) => runClearStepsEngine({
+    extractedText: bill(line),
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "spanning-pay" }
+  }).api_output.structured_result.summary.deadline_iso;
+
+  await t.test("ordinary UK demand wording is read", () => {
+    [
+      "Please pay £482.30 by 3 September 2026.",
+      "You must pay £482.30 in full by 3 September 2026.",
+      "You must pay the balance by 3 September 2026.",
+      "Please pay the outstanding balance of £482.30 by 3 September 2026.",
+      "Please pay the amount shown by 3 September 2026.",
+      "You must pay the arrears of £482.30 by 3 September 2026."
+    ].forEach((line) => assert.equal(deadlineOf(line), "2026-09-03", line));
+  });
+
+  await t.test("the sender as subject is never the reader's deadline", () => {
+    // THE RULE THAT MAKES THE CLASS SAFE. Bare "pay" reads a deadline out of
+    // "We will pay your refund", which is money moving TO the reader. Every
+    // head names the reader as the actor, so no sender-subject sentence can
+    // match one.
+    [
+      "We will pay your refund of £83.86 by 3 September 2026.",
+      "We must pay your compensation of £83.86 by 3 September 2026.",
+      "We should pay this refund by 3 September 2026.",
+      "The council must pay the grant by 3 September 2026."
+    ].forEach((line) => assert.equal(deadlineOf(line), null, line));
+  });
+
+  await t.test("a date that states no obligation is still refused", () => {
+    [
+      "You can pay online or at any Post Office. Your meter will be read by 3 September 2026.",
+      "You do not need to pay. Your credit will be carried forward by 3 September 2026.",
+      "Thank you for your payment. Your next bill will be issued by 3 September 2026.",
+      "You can pay by card, cash or cheque. We will write to you again by 3 September 2026.",
+      "If you pay by instalments the first is taken on 1 April 2026 and the last by 3 September 2026."
+    ].forEach((line) => assert.equal(deadlineOf(line), null, line));
+  });
+
+  await t.test("a conditional clause is not a demand, and is left alone", () => {
+    // Deliberately not read. A head reaching into a conditional would promote
+    // the date in every "if you do not..." sentence in UK post.
+    assert.equal(deadlineOf("If we do not hear from you by 3 September 2026 we will escalate."), null);
+  });
+
+  await t.test("KNOWN AND PRE-EXISTING: two shapes that read and should not", () => {
+    // Neither is caused by the spanning heads: both read the same before them.
+    // Recorded here because this is where someone will look.
+    assert.equal(deadlineOf("You agreed to pay by direct debit on 3 September 2026."), "2026-09-03",
+      "a collection date read as a demand, the Tier 1b shape, despite DATE_COMPETES " +
+      "carrying 'direct debit on'");
+    assert.equal(deadlineOf("Your supplier will need to pay you by 3 September 2026."), "2026-09-03",
+      "a sender-subject sentence read as the reader's deadline");
+  });
+});
+
+test("the past-tense guard stops at a sentence boundary", async (t) => {
+  // The guard reads 24 characters back from the START of the label. Its comment
+  // said that "stops well short of the previous sentence" and a test above
+  // asserts the reach does not span one. Neither was enforced: it was a fixed
+  // character count that happened to be short enough for every label it had
+  // been tried with.
+  //
+  // Adding "you must pay ... by" broke it, because that head starts four
+  // characters earlier than "must pay" and those four characters put the window
+  // inside the previous sentence. The window is now cut at the last sentence
+  // end before the label.
+  const colocated = (text) => {
+    const found = co.selectDeadline(text, isPlausibleNumericDate);
+    return found ? found.value : null;
+  };
+
+  await t.test("an arrears letter still finds the obligation after the receipt", () => {
+    assert.equal(colocated("Your payment was due on 3 July 2026. You must pay by 3 September 2026."),
+      "3 September 2026");
+    assert.equal(colocated("Your payment was due on 3 July 2026. You must pay £482.30 by 3 September 2026."),
+      "3 September 2026");
+  });
+
+  await t.test("a past-tense marker in the SAME clause still rejects", () => {
+    // The counterweight. Without it the fix could pass by never rejecting.
+    assert.equal(colocated("Your payment was due by 3 September 2026."), null);
+    assert.equal(colocated("The balance became due by 3 September 2026."), null);
+  });
+
+  await t.test("a newline counts as a boundary, because letters break lines", () => {
+    assert.equal(colocated("Your payment was due on 3 July 2026.\nYou must pay by 3 September 2026."),
+      "3 September 2026");
+  });
+});
