@@ -128,6 +128,86 @@ test("a benefits letter never names one date as the date that matters", async (t
   });
 });
 
+// Two letters in one upload, each carrying its own reference. The fused path
+// exists to refuse every attribution on exactly this input.
+const TWO_LETTERS = [
+  "Northbridge Insurance Services",
+  "Policy number: NI-88421",
+  "",
+  "Dear Ms Adeyemi,",
+  "",
+  "Your policy renews on 14 September 2026.",
+  "Amount to pay: £312.44",
+  "",
+  "Meadowbank Borough Council",
+  "Reference: MB-44712",
+  "",
+  "Dear Ms Adeyemi,",
+  "",
+  "Your council tax changes on 1 October 2026.",
+  "Amount to pay: £742.19"
+].join("\n");
+
+test("a fused upload attributes nothing, including the reference", async (t) => {
+  // FOUND BY THE SWEEP, not by a failing test. buildFusedExtraction nulls the
+  // deadline, the dates, the header date, the consequence, the amounts, the
+  // selected amount and the phone number, and its comments say why: "A fused
+  // upload must not name a number, whatever labelled it" and "the number cannot
+  // be attributed to a letter."
+  //
+  // It missed reference_numbers, which is the value whose whole purpose is to
+  // say WHICH letter this is. Neither corpus fused document carries one, so the
+  // corpus could never show it.
+  await t.test("premise: this really is fused, and each letter has a reference", () => {
+    const x = analyse(TWO_LETTERS).structured_output.extractor_internal;
+    assert.equal(x.multi_letter_state, "fused");
+    assert.match(TWO_LETTERS, /NI-88421/);
+    assert.match(TWO_LETTERS, /MB-44712/);
+  });
+
+  await t.test("no card names either reference", () => {
+    const out = analyse(TWO_LETTERS);
+    assert.deepEqual(out.structured_output.extractor_internal.reference_numbers, []);
+    cardSentences(out).forEach(([n, field, sentence]) => {
+      assert.ok(!/NI-88421|MB-44712|Keep this reference ready/.test(sentence),
+        "card " + n + " " + field + " attributes a reference on a fused upload: " +
+        JSON.stringify(sentence.slice(0, 90)));
+    });
+  });
+
+  await t.test("a single letter still keeps its reference", () => {
+    // The counterweight. Without it this passes by suppressing the line
+    // everywhere, which would cost every ordinary letter a useful key point.
+    const one = TWO_LETTERS.split("\n").slice(8).join("\n");
+    const out = analyse(one);
+    assert.notEqual(out.structured_output.extractor_internal.multi_letter_state, "fused",
+      "premise: one letter, not fused");
+    assert.ok(cardSentences(out).some(([, , s]) => /Keep this reference ready: MB-44712/.test(s)),
+      "a single letter must still be told its own reference");
+  });
+
+  await t.test("the other fields that survive the fusion, and why they are left", () => {
+    // Recorded rather than fixed, because neither can reach a card.
+    //
+    //   appeal_rights, support_options   hard-coded [] at every construction
+    //                                    site in the engine, so they can never
+    //                                    carry anything to leak.
+    //   contact_details                  populated, but nothing renders it. It
+    //                                    is an internal field.
+    //
+    // If either becomes renderable, it belongs in the null list above with the
+    // reference. This test is what says so.
+    const x = analyse(TWO_LETTERS).structured_output.extractor_internal;
+    assert.deepEqual(x.appeal_rights, []);
+    assert.deepEqual(x.support_options, []);
+    const rendered = cardSentences(analyse(TWO_LETTERS)).map(([, , s]) => s).join(" ");
+    (x.contact_details || []).forEach((detail) => {
+      assert.ok(!rendered.includes(detail),
+        "contact_details reached a card, so it now needs nulling on the fused path too: " + detail);
+    });
+  });
+});
+
 test("no card asserts something the field beside it denies", async (t) => {
   // The sweep, kept as a test so the next suppression is caught by machine
   // rather than by someone reading for it. Run over all 70 documents.

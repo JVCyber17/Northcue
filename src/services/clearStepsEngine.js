@@ -508,6 +508,19 @@ function applyMultiLetterAttribution(extraction, trust, split) {
     // Same rule for the phone number. "Contact us on" on a fused upload does
     // not say WHICH sender, so the number cannot be attributed to a letter.
     contact_number: null,
+    // AND THE REFERENCE, which is the most attribution-like value of all: its
+    // entire purpose is to say which letter this is. It was the one field the
+    // fusion missed, so card 6 read "Keep this reference ready: MB-44712." on
+    // an upload whose card 1 says "The details have not been matched to a
+    // single letter." Two sentences from the same six cards contradicting each
+    // other, and the reference belonged to whichever of the two letters
+    // happened to carry one.
+    //
+    // Found by sweeping for this shape after the benefits date defect rather
+    // than by a failing test: neither corpus fused document carries a reference
+    // number, so nothing exercised it. buildHelpfulNoteKeyPoints gates that
+    // line on garble and on verification_only, and never on the fused state.
+    reference_numbers: [],
     unlabelled_amount: false,
     helpful_note: MULTI_LETTER.helpfulNote,
     multi_letter_state: "fused"
