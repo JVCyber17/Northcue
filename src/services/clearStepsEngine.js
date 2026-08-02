@@ -2193,7 +2193,26 @@ const DECISIVE_SCAM_CHECKS = [
   ["card number, pin", "Asks for card number and PIN together."],
   ["card number and pin", "Asks for card number and PIN together."],
   ["pin and full password", "Asks for PIN and password together."],
-  ["account will be suspended within", "Threatens to suspend your account within a short time."]
+  ["account will be suspended within", "Threatens to suspend your account within a short time."],
+  // THE CARD SECURITY CODE, added 1 August 2026.
+  //
+  // The list was missing this in its own language. scam_dvla_vehicle_tax asks
+  // for a card number, an expiry date and a three digit CVV and raised nothing
+  // at all; scam_bank_security_fr asks for a CVV in French and raised nothing
+  // for the same reason twice over.
+  //
+  // It belongs in the decisive tier on the tier's own test: a real organisation
+  // never asks for a card security code in writing. And it needs no
+  // cross-language work, because CVV and CVC are borrowed unchanged into all
+  // nine languages Northcue supports.
+  //
+  // "card number" is deliberately NOT here, and the pairings above are why. The
+  // bare phrase appears in genuine_bank_fraud_advice, which is a bank telling
+  // its customers never to share one. That is the same trap as "share your
+  // password", and it is why the existing entries pair the card number with a
+  // PIN rather than standing alone.
+  ["cvv", "Asks for a card security code, which real organisations never request."],
+  ["cvc", "Asks for a card security code, which real organisations never request."]
 ];
 
 // Each entry carries the genuine phrasing that trips it, so the reason it is

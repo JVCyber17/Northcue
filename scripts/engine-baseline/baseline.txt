@@ -9992,21 +9992,23 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
 
 [trust_internal]
 {
-  "trust_assessment": "medium",
+  "trust_assessment": "low",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "unknown",
-  "document_type": "official_incoming",
-  "processing_mode": "caution",
+  "document_category": "possible_scam",
+  "document_type": "possible_scam",
+  "processing_mode": "verification_only",
   "is_probable_non_document": false,
   "confidence": "medium",
-  "needs_human_review": false,
-  "review_reason": "Some details need checking before action.",
+  "needs_human_review": true,
+  "review_reason": "Suspicious patterns were detected.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
-  "scam_signals": [],
+  "scam_signals": [
+    "Asks for a card security code, which real organisations never request."
+  ],
   "advisory_scam_signals": [],
   "severity_signals": [],
   "is_high_stakes": false,
@@ -10018,19 +10020,22 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "Check key details on the original document before acting."
+  "safe_next_step": "Verify using official contact details from the organisation website."
 }
 
 [extractor_internal]
 {
-  "summary": "This appears to be a formal letter about tax or HMRC.",
-  "most_important_point": "The clearest topic appears to be tax or HMRC. Check the original for details.",
+  "summary": "This may be a suspicious message about money or details.",
+  "most_important_point": "Check authenticity before taking any action.",
   "actions": [
-    "Check the original document to see whether a response or action is needed."
+    "Verify the organisation on its official website.",
+    "Use contact details from an official source.",
+    "Keep your money and personal details protected."
   ],
   "deadline": null,
-  "risk": "Not clearly stated. Check the original document.",
-  "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+  "unverified_date": null,
+  "risk": "You could lose money or share private data.",
+  "helpful_note": "Do not use links or numbers from this document until checked.",
   "money_amounts": [
     "£80.00"
   ],
@@ -10039,26 +10044,10 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
   "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
-  "confidence": "medium",
+  "confidence": "low",
   "needs_human_review": true,
-  "review_reason": "This readable document type is not fully supported yet.",
+  "review_reason": "Suspicious patterns were detected.",
   "evidence_spans": [],
-  "readable_unsupported_signals": {
-    "sender": null,
-    "topic": "tax or HMRC",
-    "dateParts": [],
-    "primaryDate": null,
-    "hasResponseRequest": false,
-    "hasDeadlineLanguage": false,
-    "mostImportantPoint": "The clearest topic appears to be tax or HMRC. Check the original for details.",
-    "dateMessage": "No clear date was found. Check the original document.",
-    "risk": "Not clearly stated. Check the original document.",
-    "keyChecks": [
-      "Check who sent the document.",
-      "Check the topic: tax or HMRC.",
-      "Use official contact details before acting."
-    ]
-  },
   "selected_amount": null,
   "unlabelled_amount": true,
   "selected_amount_role": null
@@ -10067,8 +10056,8 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
 [banner]
 {
   "show": true,
-  "type": "caution",
-  "text": "Some details need checking before you act."
+  "type": "warning",
+  "text": "This may be suspicious. Check before responding."
 }
 
 [structured_result: meta]
@@ -10076,18 +10065,21 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
   "document_type": "unknown",
   "document_type_label": "Unknown document",
   "document_type_confidence": "unknown",
-  "overall_confidence": "medium",
+  "overall_confidence": "low",
   "risk_level": "low",
   "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
-    "main_action": "Check the original document to see whether a response or action is needed.",
+    "one_line_summary": "This may be a suspicious message about money or details.",
+    "main_action": "Verify the organisation on its official website.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
-  "warnings": []
+  "warnings": [
+    "This may be suspicious. Verify using official contact details before acting.",
+    "Suspicious patterns were detected."
+  ]
 }
 
 [structured_result: cards, engine output]
@@ -10097,65 +10089,66 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This appears to be a formal letter about tax or HMRC.",
+    "simple_explanation": "This may be a suspicious message about money or details.",
     "key_points": [
-      "The clearest topic appears to be tax or HMRC. Check the original for details.",
-      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+      "Check authenticity before taking any action."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "What is this?. This appears to be a formal letter about tax or HMRC.. The clearest topic appears to be tax or HMRC. Check the original for details. Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document.",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
+    "status": "caution"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "The sender is not clearly stated. Check the original document.",
+    "simple_explanation": "Check authenticity before taking any action.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "What matters most?. The sender is not clearly stated. Check the original document..",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What matters most?. Check authenticity before taking any action..",
+    "status": "caution"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Check the original document to see whether a response or action is needed.",
+    "simple_explanation": "Verify the organisation on its official website.",
     "key_points": [
-      "Check the original document to see whether a response or action is needed."
+      "Verify the organisation on its official website.",
+      "Use contact details from an official source.",
+      "Keep your money and personal details protected."
     ],
-    "action_needed": "Check the original document to see whether a response or action is needed.",
+    "action_needed": "Verify the organisation on its official website.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the original document to see whether a response or action is needed.. Check the original document to see whether a response or action is needed.",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
+    "status": "caution"
   },
   {
     "card_id": "when_is_it_due",
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear date was found. Check the original document.",
+    "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "When is it due?. No clear date was found. Check the original document..",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "When is it due?. No deadline clearly stated..",
+    "status": "caution"
   },
   {
     "card_id": "what_could_happen",
@@ -10164,32 +10157,33 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "title": "What should I check?",
     "simple_explanation": "An amount is shown but the document does not label what it is for. Check the original document.",
     "key_points": [
-      "An amount is shown without a label."
+      "An amount is shown without a label.",
+      "Use official contact details before acting."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label.",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What should I check?. An amount is shown but the document does not label what it is for. Check the original document.. An amount is shown without a label. Use official contact details before acting.",
+    "status": "caution"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
+    "simple_explanation": "Do not use links or numbers in the document until checked.",
     "key_points": [
-      "Check key details on the original document before acting."
+      "Verify using official contact details from the organisation website."
     ],
-    "action_needed": "Check key details on the original document before acting.",
+    "action_needed": "Verify using official contact details from the organisation website.",
     "possible_deadline": null,
     "possible_payment": null,
-    "confidence_level": "medium",
-    "warning": null,
-    "read_aloud_text": "Helpful note. Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.. Check key details on the original document before acting.",
-    "status": "normal"
+    "confidence_level": "low",
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
+    "status": "caution"
   }
 ]
 
@@ -10446,21 +10440,23 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
 
 [trust_internal]
 {
-  "trust_assessment": "medium",
+  "trust_assessment": "low",
   "severity_level": "low",
   "urgency_level": "none",
-  "document_category": "unsupported",
-  "document_type": "official_incoming",
-  "processing_mode": "unsupported",
-  "is_probable_non_document": true,
+  "document_category": "possible_scam",
+  "document_type": "possible_scam",
+  "processing_mode": "verification_only",
+  "is_probable_non_document": false,
   "confidence": "medium",
   "needs_human_review": true,
-  "review_reason": "This does not look like an official document.",
+  "review_reason": "Suspicious patterns were detected.",
   "authentic_signals": [
     "Uploaded as PDF format."
   ],
   "distrust_signals": [],
-  "scam_signals": [],
+  "scam_signals": [
+    "Asks for a card security code, which real organisations never request."
+  ],
   "advisory_scam_signals": [],
   "severity_signals": [
     "Looks like confirmation content."
@@ -10474,19 +10470,22 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
   "is_template": false,
   "is_outgoing": false,
   "is_multi_document": false,
-  "safe_next_step": "If this is a letter or bill, try a clearer photo or a different page."
+  "safe_next_step": "Verify using official contact details from the organisation website."
 }
 
 [extractor_internal]
 {
-  "summary": "This does not look like an official letter or bill.",
-  "most_important_point": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+  "summary": "This may be a suspicious message about money or details.",
+  "most_important_point": "Check authenticity before taking any action.",
   "actions": [
-    "Upload a clearer photo or a different page if this is a letter or bill."
+    "Verify the organisation on its official website.",
+    "Use contact details from an official source.",
+    "Keep your money and personal details protected."
   ],
   "deadline": null,
-  "risk": "No official document details were found.",
-  "helpful_note": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+  "unverified_date": null,
+  "risk": "You could lose money or share private data.",
+  "helpful_note": "Do not use links or numbers from this document until checked.",
   "money_amounts": [],
   "reference_numbers": [],
   "contact_details": [],
@@ -10495,7 +10494,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
   "support_options": [],
   "confidence": "low",
   "needs_human_review": true,
-  "review_reason": "This does not look like an official document.",
+  "review_reason": "Suspicious patterns were detected.",
   "evidence_spans": [],
   "selected_amount": null,
   "unlabelled_amount": false
@@ -10504,29 +10503,29 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
 [banner]
 {
   "show": true,
-  "type": "caution",
-  "text": "This does not look like an official letter or bill. If it is one, try a clearer photo or a different page."
+  "type": "warning",
+  "text": "This may be suspicious. Check before responding."
 }
 
 [structured_result: meta]
 {
-  "document_type": "unsupported",
-  "document_type_label": "Not an official document",
-  "document_type_confidence": "low",
+  "document_type": "unknown",
+  "document_type_label": "Unknown document",
+  "document_type_confidence": "unknown",
   "overall_confidence": "low",
   "risk_level": "low",
-  "processing_mode": "failed",
+  "processing_mode": "caution",
   "needs_user_check": true,
   "summary": {
-    "one_line_summary": "This does not look like an official letter or bill.",
-    "main_action": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "one_line_summary": "This may be a suspicious message about money or details.",
+    "main_action": "Verify the organisation on its official website.",
     "main_date": null,
     "deadline_iso": null,
     "main_amount": null
   },
   "warnings": [
-    "This document may be hard to read. Upload a clearer copy if possible.",
-    "This does not look like an official document."
+    "This may be suspicious. Verify using official contact details before acting.",
+    "Suspicious patterns were detected."
   ]
 }
 
@@ -10537,24 +10536,24 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "card_number": 1,
     "card_type": "what_is_this",
     "title": "What is this?",
-    "simple_explanation": "This does not look like an official letter or bill.",
+    "simple_explanation": "This may be a suspicious message about money or details.",
     "key_points": [
-      "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
+      "Check authenticity before taking any action."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What is this?. This does not look like an official letter or bill.. Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
-    "status": "normal"
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What is this?. This may be a suspicious message about money or details.. Check authenticity before taking any action.",
+    "status": "caution"
   },
   {
     "card_id": "what_matters_most",
     "card_number": 2,
     "card_type": "what_matters_most",
     "title": "What matters most?",
-    "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
+    "simple_explanation": "Check authenticity before taking any action.",
     "key_points": [
       "Looks like confirmation content."
     ],
@@ -10562,26 +10561,28 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What matters most?. Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.. Looks like confirmation content.",
-    "status": "normal"
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What matters most?. Check authenticity before taking any action.. Looks like confirmation content.",
+    "status": "caution"
   },
   {
     "card_id": "what_do_i_need_to_do",
     "card_number": 3,
     "card_type": "what_do_i_need_to_do",
     "title": "What do I need to do?",
-    "simple_explanation": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "simple_explanation": "Verify the organisation on its official website.",
     "key_points": [
-      "Upload a clearer photo or a different page if this is a letter or bill."
+      "Verify the organisation on its official website.",
+      "Use contact details from an official source.",
+      "Keep your money and personal details protected."
     ],
-    "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
+    "action_needed": "Verify the organisation on its official website.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What do I need to do?. Upload a clearer photo or a different page if this is a letter or bill.. Upload a clearer photo or a different page if this is a letter or bill.",
-    "status": "normal"
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What do I need to do?. Verify the organisation on its official website.. Verify the organisation on its official website. Use contact details from an official source. Keep your money and personal details protected.",
+    "status": "caution"
   },
   {
     "card_id": "when_is_it_due",
@@ -10594,9 +10595,9 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
+    "warning": "This may be suspicious. Verify before acting.",
     "read_aloud_text": "When is it due?. No deadline clearly stated..",
-    "status": "normal"
+    "status": "caution"
   },
   {
     "card_id": "what_could_happen",
@@ -10605,32 +10606,32 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "title": "What should I check?",
     "simple_explanation": "Check key details on the original document.",
     "key_points": [
-      "Check unclear details on the original."
+      "Use official contact details before acting."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "What should I check?. Check key details on the original document.. Check unclear details on the original.",
-    "status": "normal"
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "What should I check?. Check key details on the original document.. Use official contact details before acting.",
+    "status": "caution"
   },
   {
     "card_id": "helpful_note",
     "card_number": 6,
     "card_type": "what_if_i_feel_stuck",
     "title": "Helpful note",
-    "simple_explanation": "Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.",
+    "simple_explanation": "Do not use links or numbers in the document until checked.",
     "key_points": [
-      "If this is a letter or bill, try a clearer photo or a different page."
+      "Verify using official contact details from the organisation website."
     ],
-    "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
+    "action_needed": "Verify using official contact details from the organisation website.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
-    "warning": "This upload may be hard to read.",
-    "read_aloud_text": "Helpful note. Northcue is made for official letters and bills, so it has not turned this into cue cards. If it is one, a clearer photo or a different page may help.. If this is a letter or bill, try a clearer photo or a different page.",
-    "status": "normal"
+    "warning": "This may be suspicious. Verify before acting.",
+    "read_aloud_text": "Helpful note. Do not use links or numbers in the document until checked.. Verify using official contact details from the organisation website.",
+    "status": "caution"
   }
 ]
 
