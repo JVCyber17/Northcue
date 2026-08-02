@@ -1705,6 +1705,34 @@ verb and the date.** Six ordinary demand phrasings written fresh:
 
 The corpus was written in the phrasings the rules already handle.
 
+**FIXED 2 August 2026, and the table above is under-specified in a way worth
+correcting.** Those results were measured in one body. Re-measured across four
+surrounding contexts, only two phrasings failed everywhere; the other four
+failed **only when the letter also carried a consequence sentence or read as a
+bill**. The real rule was not about the phrasing at all:
+
+| the letter's category | `Please pay £482.30 by DATE` |
+| --- | --- |
+| `unknown`, `housing`, `appointment` | read |
+| `legal_or_court`, **`bill_or_payment`** | **null** |
+
+**The fully supported path is the stricter one**, so the better supported the
+document type, the more likely its deadline was dropped, and a bill is both the
+commonest document and the worst affected. One added sentence about court
+proceedings was enough to move a letter from `unknown` to `legal_or_court` and
+silently take its deadline away.
+
+All six now read. `DATE_GOVERNS_SPANNING` gained the reader-subject forms of
+"pay", and the past-tense guard beside it was made to stop at a sentence
+boundary, which its own comment and its own test had always claimed it did.
+
+**Two shapes still read that should not, both pre-existing and both verified
+unchanged by that fix:** `You agreed to pay by direct debit on DATE` reads a
+collection date as a demand despite `DATE_COMPETES` carrying "direct debit on",
+and `Your supplier will need to pay you by DATE` reads a sender-subject sentence
+as the reader's deadline. Both are asserted by name in
+`tests/deadlinePromotion.test.js`.
+
 ## OPEN: nine languages, six genuine documents, four at zero
 
 | language | documents | genuine | scam |
@@ -1762,6 +1790,66 @@ transaction line says Rent, and a direct debit collection framed as a demand.
 function, `hasRepeatedLetterhead`, and is fixable. What it revealed is not:
 extraction, document length, nine languages, tabular layout and bilingual
 documents are each a whole class the engine has never been tested against.
+
+## The bilingual class, measured. Smaller than feared, and mostly already fixed
+
+A Welsh council letter is statutory, not an edge case: the Welsh Language
+(Wales) Measure 2011 requires Welsh public bodies to treat Welsh no less
+favourably than English, so councils, NHS Wales bodies and the Welsh Government
+send bilingual post as standard.
+
+**Before P1 every layout was refused outright**, because the sender's name
+appears twice and `hasRepeatedLetterhead` read that as two letters. That was the
+whole blocker and it is gone.
+
+**After P1, measured across the three layouts Welsh bodies actually use:**
+
+| layout | fused | category | deadline | cards |
+| --- | --- | --- | --- | --- |
+| interleaved line by line | no | government | 2026-07-01 | correct |
+| Welsh block then the whole English letter | no | government | 2026-07-01 | correct |
+| two columns run together by extraction | no | government | 2026-07-01 | correct |
+
+**It works because one of the two languages is English.** The engine reads the
+English half and ignores the Welsh half: `visible_dates` contains only the
+English date forms, and the Welsh "1 Gorffennaf 2026" is seen by the
+language-independent structural signal but never by the date extractor. So a
+bilingual letter is, to this engine, an English letter with unreadable
+decoration.
+
+**What is left, in order of size:**
+
+1. **A Welsh-only letter gets nothing.** Welsh is not one of the ten supported
+   languages. Measured: not refused, five structural signals, but no amount, no
+   date, and the generic reading-aid wording. Identical to every other
+   non-English document. Welsh bodies send Welsh-only post on request.
+2. **Duplicated facts are listed twice.** `money_amounts` returns
+   `["£142.60","£142.60"]` for one amount stated in two languages. Cosmetic
+   today, and wrong for anything that counts amounts.
+3. **The sender guess mixes the two names.** The column layout yields "Cyngor
+   Caerdydd Cardiff Council" as one string, because extraction runs the columns
+   together.
+
+**What it would take**, if the decision is to support it properly: Welsh in the
+language config, a dictionary and a template bank, plus Welsh date and label
+vocabulary in co-location. That is the same work as any other language, and it
+is the same work Gujarati, Hindi, Bengali and Panjabi need with a stronger claim,
+because those four have translated banks and no corpus document at all while
+Welsh has neither.
+
+**Where else the shape appears in the UK.** Recorded as domain knowledge rather
+than measurement:
+
+- **Scotland**, Gaelic Language (Scotland) Act 2005. Highland Council, NHS
+  Highland, Bòrd na Gàidhlig. Rare in transactional post, common on notices.
+- **Northern Ireland**, Irish and Ulster Scots on some public documents.
+- **Cornwall**, Cornish, voluntary and rare.
+- **HMRC and DWP** publish Welsh versions of forms and letters.
+- **And the one that matters most for this product:** councils and NHS trusts in
+  England routinely issue bilingual English plus Polish, Urdu, Bengali or
+  Gujarati public-health and benefits material. That is the same structural
+  shape, in languages Northcue already claims to support, and there is no corpus
+  document of it.
 
 ## Recommended order for future work
 

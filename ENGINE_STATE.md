@@ -62,16 +62,15 @@ English with a visible notice rather than being guessed at.
 
 ## Open items, most worth doing first
 
-1. **One letter on two pages is refused outright.** A real energy bill was
-   uploaded to the live product and all six cards declined, because the sender's
-   name at the top of each page reads as two letterheads. It is wider than
-   multi-page: a single-page dual-fuel bill fires it on the words "Standing
-   charge" appearing twice. This is the most serious open item.
-2. **No scam rule can reach a document the non-document gate refuses.** Three
+1. **No scam rule can reach a document the non-document gate refuses.** Three
    corpus scams are refused as "not an official letter", which zeroes their
    extraction before any detection sees them. Their wording was fixed; the
    ordering was not. Needs a decision on whether a document can be both refused
    and suspicious at once.
+2. **Four of ten languages have no corpus document at all.** Gujarati, Hindi,
+   Bengali and Panjabi, while the template bank carries 371 translated sentences
+   for each. All twelve non-English corpus documents produce no amount, no date
+   and no consequence. See `CORPUS_STRATEGY.md`.
 3. **`PHONE_GOVERNS` is English.** A number is only shown when a phrase beside
    it says what it is for, and those phrases are English only, so a Polish or
    Romanian letter now has its number found and still cannot show it.
@@ -94,6 +93,10 @@ English with a visible notice rather than being guessed at.
    and scam suppress the real category instead of sitting beside it.
 9. **Some vocabulary literals are not word-bounded** and can match inside longer
    words.
+
+Recently closed: the multi-page refusal that started this (one letter on two
+pages read as two), the extraction gap (`scripts/corpus-pdf/` now lays documents
+out and reads them back), and the demand phrasings a bill actually uses.
 
 Not built, deliberately: the **lookalike-domain rule**. Written up in
 `KNOWN_ENGINE_DEFECTS.md` with its evidence and the reason it must not ship
