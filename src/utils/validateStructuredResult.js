@@ -1,3 +1,5 @@
+const deadlineIso = require("./deadlineIso");
+
 const ALLOWED_DOCUMENT_TYPES = new Set([
   "council_tax_notice",
   "energy_bill",
@@ -129,12 +131,34 @@ const DATE_SHAPES = [
   /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi
 ];
 
+// COMPARED AS CALENDAR DAYS WHERE THAT IS POSSIBLE, not as strings.
+//
+// The literal comparison rejected the model for expanding the document's own
+// abbreviation. bill_with_contacts_page prints "Bill date: 22 Apr 2026" and
+// "Covering: 22 Jan 2026 to 22 Apr 2026"; the model wrote "22 April 2026" and
+// "22 January 2026", which is the same day spelled the way a person reads it.
+// The guard called both invented and threw the whole response away, so a reader
+// lost all six cards over an abbreviation. Measured on the restored prose path,
+// this was the single most common non-guard reason a reader saw the floor.
+//
+// canonicalNamedDate collapses ONLY the month spelling. An ISO or numeric form
+// returns null from it and is still compared literally, so the deliberate
+// rejection of "2026-09-03" where the engine wrote "3 September 2026" is
+// unchanged: those fields quote the paper, and an ISO string is not what the
+// paper says.
+//
+// Both sides go through the same function, which is the whole point. Doing it
+// to one side would move the mismatch rather than remove it.
+function canonicalise(raw) {
+  return deadlineIso.canonicalNamedDate(raw) || String(raw).toLowerCase();
+}
+
 function datesIn(text) {
   const found = new Set();
   DATE_SHAPES.forEach((pattern) => {
     pattern.lastIndex = 0;
     let match;
-    while ((match = pattern.exec(text)) !== null) found.add(match[0].toLowerCase());
+    while ((match = pattern.exec(text)) !== null) found.add(canonicalise(match[0]));
   });
   return found;
 }

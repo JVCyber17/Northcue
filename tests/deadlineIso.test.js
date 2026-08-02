@@ -500,3 +500,84 @@ test("the AI pass cannot drop it or set it", async (t) => {
     assert.equal(sanitizeStructuredResult(candidate, garbled).summary.deadline_iso, null);
   });
 });
+
+// ---------------------------------------------------------------------------
+// The same calendar day, written two ways.
+//
+// validateDatesComeFromTheEngine compared date strings literally, so a document
+// printing "Bill date: 22 Apr 2026" and a model writing "22 April 2026" looked
+// like an invention and the whole response was thrown away. Measured on the
+// restored prose path, that abbreviation mismatch was the single most common
+// non-guard reason a reader saw the floor instead of the prose, and it cost
+// them all six cards over a month name.
+//
+// canonicalNamedDate collapses the month spelling and NOTHING else, because the
+// caller deliberately rejects an ISO reformat: those fields quote the paper.
+// ---------------------------------------------------------------------------
+
+test("canonicalNamedDate collapses a month spelling and nothing else", async (t) => {
+  const { canonicalNamedDate } = require(path.join(__dirname, "..", "src", "utils", "deadlineIso"));
+
+  await t.test("an abbreviation and its full form are the same day", () => {
+    assert.equal(canonicalNamedDate("22 Apr 2026"), canonicalNamedDate("22 April 2026"));
+    assert.equal(canonicalNamedDate("22 Jan 2026"), canonicalNamedDate("22 January 2026"));
+    assert.equal(canonicalNamedDate("3 Sept 2026"), canonicalNamedDate("3 September 2026"));
+  });
+
+  await t.test("month-first and day-first agree", () => {
+    assert.equal(canonicalNamedDate("Sept 3, 2026"), canonicalNamedDate("3 September 2026"));
+  });
+
+  await t.test("an ISO or numeric form returns null, so it is still compared literally", () => {
+    // This is what keeps the deliberate ISO rejection alive. If these ever
+    // return a value, "2026-09-03" starts matching "3 September 2026" and a
+    // guard is lost silently.
+    assert.equal(canonicalNamedDate("2026-09-03"), null);
+    assert.equal(canonicalNamedDate("03/06/2026"), null);
+  });
+
+  await t.test("a two digit year returns null, and a non-month returns null", () => {
+    assert.equal(canonicalNamedDate("28 May 26"), null, "two readings a century apart");
+    assert.equal(canonicalNamedDate("1 Mayor 2026"), null, "parses shape-wise, is not a month");
+  });
+});
+
+test("the invented-date guard, after the abbreviation fix", async (t) => {
+  const { validateStructuredResult } =
+    require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
+  const { runClearStepsEngine } =
+    require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
+  const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
+
+  const source = CORPUS.find((entry) => entry.id === "bill_with_contacts_page").text;
+  const fallback = runClearStepsEngine({
+    extractedText: source,
+    fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "dates" }
+  }).api_output.structured_result;
+
+  const withSentence = (sentence) => {
+    const candidate = JSON.parse(JSON.stringify(fallback));
+    candidate.cards[0].simple_explanation = sentence;
+    return validateStructuredResult(candidate, fallback, source);
+  };
+
+  await t.test("expanding the document's own abbreviation is not an invention", () => {
+    assert.equal(withSentence("This is an electricity bill dated 22 April 2026.").valid, true);
+    assert.equal(
+      withSentence("The bill covers usage from 22 January 2026 to 22 April 2026.").valid, true,
+      "both dates are printed on the letter in abbreviated form");
+  });
+
+  await t.test("an ISO reformat is still refused", () => {
+    const result = withSentence("The bill is dated 2026-04-22.");
+    assert.equal(result.valid, false, "these fields quote the paper, and the paper says 22 Apr 2026");
+  });
+
+  await t.test("a calculated date is still refused", () => {
+    // The case the guard exists for: a date on neither the paper nor the
+    // engine's output, arrived at by adding days to something.
+    const result = withSentence("Payment is due by 25 July 2026.");
+    assert.equal(result.valid, false);
+    assert.match(String((result.errors || [])[0]), /25 july 2026 appears in neither/);
+  });
+});

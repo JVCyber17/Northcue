@@ -209,10 +209,40 @@ function deadlineIsoFor({ garbledByOcr, processingMode, multiLetterState, deadli
   return toIsoDate(deadline);
 }
 
+// The same calendar day written the same way, for comparing two spellings of
+// one date. Returns null for anything that is not a named-month date.
+//
+// WHY NOT toIsoDate, which already canonicalises. Because the caller that needs
+// this, validateDatesComeFromTheEngine, DELIBERATELY rejects a model that
+// rewrites "3 September 2026" as "2026-09-03": those fields quote the paper, and
+// an ISO string is not what the paper says. Canonicalising through ISO would
+// collapse that distinction and silently drop a guard.
+//
+// A named-month canonical form collapses exactly one thing, the spelling of the
+// month, which is the defect it is for: a document printing "22 Apr 2026" and a
+// model writing "22 April 2026" are the same day, and the guard was calling the
+// second one invented. ISO and numeric forms return null here and keep being
+// compared literally, so their behaviour is unchanged.
+const MONTH_NAMES_IN_ORDER = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december"
+];
+
+function canonicalNamedDate(value) {
+  const parts = toParts(String(value == null ? "" : value).trim());
+  if (!parts) return null;
+  const monthIndex = MONTHS[String(parts.month).toLowerCase()];
+  // "1 Mayor 2026" parses shape-wise and is not a month.
+  if (monthIndex === undefined) return null;
+  if (!(parts.day >= 1 && parts.day <= 31)) return null;
+  return parts.day + " " + MONTH_NAMES_IN_ORDER[monthIndex] + " " + parts.year;
+}
+
 module.exports = {
   deadlineIsoFor,
   isRelativeTimeframe,
   toIsoDate,
+  canonicalNamedDate,
   unresolvableReason,
   RELATIVE_TIMEFRAME_SOURCE
 };
