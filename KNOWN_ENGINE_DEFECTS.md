@@ -1494,6 +1494,86 @@ list, it is that `LOOKS_LIKE_A_DATE` in `documentSignals.js` already reads a
 date in any script and the gate could ask it instead. That is a change to the
 gate's four English checks, which is its own decision.
 
+## NOT BUILT: the lookalike-domain rule, and why it is not in the tree
+
+Proposed as P2 in the non-English scam inspection and again as Q4. **Declined
+both times, and it should stay declined until someone other than its author has
+tried to break it.** Written down because the idea keeps recurring and the
+reasons not to ship it are not obvious from the outside.
+
+### The idea
+
+A phishing message impersonates an organisation and links to a domain that is
+not that organisation's. So: read the host, look for a brand name, and if the
+brand is present but the domain is not the official one, raise a signal.
+
+### The evidence, re-measured against all 60 documents on 2 August 2026
+
+Fourteen hosts appear in the corpus: ten on scams, four on genuine letters.
+
+| reading | catches | fires on genuine |
+| --- | --- | --- |
+| the **registrable label** only (`example` in `hmrc-refund.example.com`) | **1 of 10** | 0 of 4 |
+| the brand **anywhere in the host** | **6 of 10** | 0 of 4 |
+
+### The subdomain trap, which is the whole point
+
+My first probe read the registrable label, because that is the "correct" way to
+identify a domain, and it caught **one of ten**. Phishers do not put the brand
+where a parser looks for the domain. They put it in the subdomain or the label
+prefix, where it is what the reader's eye lands on first:
+
+```
+hmrc-zwrot-podatku.example.com        registrable label: example
+royalmail-redelivery-fee.example.com  registrable label: example
+hounslow-counciltax-refund.example.com registrable label: example
+dvla-vehicletax-update.example.com    registrable label: example
+hmrc-devolucion-impuestos.example.com registrable label: example
+```
+
+Five of the nine scams the naive reading missed carry the brand in plain sight
+and score nothing. **A rule written the correct way would have shipped catching
+one in ten and been believed, because its author would have tested it on the
+documents it was written from.** That is the mistake this section exists to
+record.
+
+### Three reasons the 6-of-10 number is not good enough to ship on
+
+**The corpus over-states the trap.** These documents use `example.com` by
+convention, because they are hand-written and must not name a real domain. A
+real phisher registers `hmrc-refunds.com`, where the brand IS the registrable
+label. So the corpus makes the naive reading look worse than it is in the wild,
+and makes the fix look better. Neither number transfers.
+
+**The false-positive rate is measured against nothing.** Four genuine hosts, and
+three of them (`barclays.co.uk`, `nhs.uk`, `hounslow.gov.uk`) are on the
+allowlist the rule would carry, so they cannot fire by construction. The fourth
+contains no brand. Zero false positives out of four, where three were excluded
+by definition, is not evidence.
+
+**The allowlist is the actual product, and it is unbounded.** The rule is only
+as good as its list of official domains, and the UK public sector alone has
+thousands: every council, every NHS trust, every housing association. A missing
+entry means a genuine letter from a real council is flagged for linking to its
+own website. Northcue's users are the people least able to dismiss that.
+
+### What it would need before it decides anything
+
+**Adversarial review by someone who did not write it.** Every measurement above
+was made by the same person who proposed the rule, against documents written by
+that same person. The failure mode is not a bug, it is a blind spot: the
+registrable-label version passed its author's own review and caught one in ten.
+Someone whose job is to break it needs to try, specifically on:
+
+- homograph and punycode hosts (`xn--brclays-...`), which none of this reads
+- a brand in the path rather than the host (`example.com/hmrc/refund`)
+- genuine letters from small organisations whose domains nobody allowlists
+- a scam that names no brand at all, which four of the ten already are
+
+**And it must be advisory when it arrives**, for the same reason the structural
+lure rule is: it is a guess about intent read off a string, and the cost of
+being wrong is telling someone their real council tax letter is a fraud.
+
 ## Recommended order for future work
 
 ~~1. **B-1**, the missing deadline on the enforcement notice.~~ Closed by
