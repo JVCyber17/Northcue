@@ -15932,11 +15932,10 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
   "deadline": "1 July 2026",
   "deadline_from_facts": false,
   "visible_dates": [
-    "12 June 2026",
     "1 July 2026",
     "31 March 2027"
   ],
-  "header_date": null,
+  "header_date": "12 June 2026",
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
@@ -16178,7 +16177,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": "12 June 2026",
+  "deadline": "14 July 2026",
   "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
@@ -16195,19 +16194,18 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "sender": "Northbridge Hospital NHS Foundation Trust",
     "topic": "healthcare services",
     "dateParts": [
-      "12 June 2026",
       "14 July 2026"
     ],
-    "primaryDate": "12 June 2026",
+    "primaryDate": "14 July 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
-    "dateMessage": "The document shows 12 June 2026 as the date that matters. Check the original document.",
+    "dateMessage": "The document shows 14 July 2026 as the date that matters. Check the original document.",
     "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check the sender: Northbridge Hospital NHS Foundation Trust.",
       "Check the topic: healthcare services.",
-      "Check these visible dates: 12 June 2026, 14 July 2026.",
+      "Check these visible dates: 14 July 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -16234,8 +16232,8 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
   "summary": {
     "one_line_summary": "This appears to be a health letter from Northbridge Hospital NHS Foundation Trust.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": "12 June 2026",
-    "deadline_iso": "2026-06-12",
+    "main_date": "14 July 2026",
+    "deadline_iso": "2026-07-14",
     "main_amount": null
   },
   "warnings": []
@@ -16298,16 +16296,16 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "The document shows 12 June 2026 as the date that matters. Check the original document.",
+    "simple_explanation": "The document shows 14 July 2026 as the date that matters. Check the original document.",
     "key_points": [
-      "Check this date on the original document: 12 June 2026."
+      "Check this date on the original document: 14 July 2026."
     ],
     "action_needed": null,
-    "possible_deadline": "12 June 2026",
+    "possible_deadline": "14 July 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. The document shows 12 June 2026 as the date that matters. Check the original document.. Check this date on the original document: 12 June 2026.",
+    "read_aloud_text": "When is it due?. The document shows 14 July 2026 as the date that matters. Check the original document.. Check this date on the original document: 14 July 2026.",
     "status": "normal"
   },
   {
@@ -16315,16 +16313,16 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the date (12 June 2026) and any amounts on the original document.",
+    "simple_explanation": "Check the date (14 July 2026) and any amounts on the original document.",
     "key_points": [
-      "Date: 12 June 2026."
+      "Date: 14 July 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the date (12 June 2026) and any amounts on the original document.. Date: 12 June 2026.",
+    "read_aloud_text": "What should I check?. Check the date (14 July 2026) and any amounts on the original document.. Date: 14 July 2026.",
     "status": "normal"
   },
   {
@@ -16448,7 +16446,6 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "sender": "Department for Work and Pensions",
     "topic": "department for work and pensions",
     "dateParts": [
-      "3 June 2026",
       "18 June 2026",
       "24 June 2026"
     ],
@@ -16456,12 +16453,12 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "This may need a response. Check the original document, or with the sender, to be sure.",
-    "dateMessage": "The document shows 3 June 2026 as the date that matters. Check the original document.",
+    "dateMessage": "The document shows 18 June 2026 as the date that matters. Check the original document.",
     "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check the sender: Department for Work and Pensions.",
       "Check the topic: department for work and pensions.",
-      "Check these visible dates: 3 June 2026, 18 June 2026, 24 June 2026.",
+      "Check these visible dates: 18 June 2026, 24 June 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -16553,14 +16550,14 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "The document shows 3 June 2026 as the date that matters. Check the original document.",
+    "simple_explanation": "The document shows 18 June 2026 as the date that matters. Check the original document.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "low",
     "warning": null,
-    "read_aloud_text": "When is it due?. The document shows 3 June 2026 as the date that matters. Check the original document..",
+    "read_aloud_text": "When is it due?. The document shows 18 June 2026 as the date that matters. Check the original document..",
     "status": "normal"
   },
   {
@@ -16681,7 +16678,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
   "actions": [
     "Check the original document to see whether a response or action is needed."
   ],
-  "deadline": "5 June 2026",
+  "deadline": "9 July 2026",
   "risk": "You may miss what the visible dates mean.",
   "helpful_note": "Northcue is not fully trained for this document type yet. Use this as a reading aid, not advice.",
   "money_amounts": [],
@@ -16698,19 +16695,18 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "sender": "Northbridge Hospital NHS Foundation Trust",
     "topic": "healthcare services",
     "dateParts": [
-      "5 June 2026",
       "9 July 2026"
     ],
-    "primaryDate": "5 June 2026",
+    "primaryDate": "9 July 2026",
     "hasResponseRequest": false,
     "hasDeadlineLanguage": false,
     "mostImportantPoint": "Important dates are visible. Check what each date refers to.",
-    "dateMessage": "The document shows 5 June 2026 as the date that matters. Check the original document.",
+    "dateMessage": "The document shows 9 July 2026 as the date that matters. Check the original document.",
     "risk": "You may miss what the visible dates mean.",
     "keyChecks": [
       "Check the sender: Northbridge Hospital NHS Foundation Trust.",
       "Check the topic: healthcare services.",
-      "Check these visible dates: 5 June 2026, 9 July 2026.",
+      "Check these visible dates: 9 July 2026.",
       "Use official contact details before acting."
     ]
   },
@@ -16737,8 +16733,8 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
   "summary": {
     "one_line_summary": "This appears to be a health letter from Northbridge Hospital NHS Foundation Trust.",
     "main_action": "Check the original document to see whether a response or action is needed.",
-    "main_date": "5 June 2026",
-    "deadline_iso": "2026-06-05",
+    "main_date": "9 July 2026",
+    "deadline_iso": "2026-07-09",
     "main_amount": null
   },
   "warnings": []
@@ -16801,16 +16797,16 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "The document shows 5 June 2026 as the date that matters. Check the original document.",
+    "simple_explanation": "The document shows 9 July 2026 as the date that matters. Check the original document.",
     "key_points": [
-      "Check this date on the original document: 5 June 2026."
+      "Check this date on the original document: 9 July 2026."
     ],
     "action_needed": null,
-    "possible_deadline": "5 June 2026",
+    "possible_deadline": "9 July 2026",
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. The document shows 5 June 2026 as the date that matters. Check the original document.. Check this date on the original document: 5 June 2026.",
+    "read_aloud_text": "When is it due?. The document shows 9 July 2026 as the date that matters. Check the original document.. Check this date on the original document: 9 July 2026.",
     "status": "normal"
   },
   {
@@ -16818,16 +16814,16 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "card_number": 5,
     "card_type": "what_should_i_check",
     "title": "What should I check?",
-    "simple_explanation": "Check the date (5 June 2026) and any amounts on the original document.",
+    "simple_explanation": "Check the date (9 July 2026) and any amounts on the original document.",
     "key_points": [
-      "Date: 5 June 2026."
+      "Date: 9 July 2026."
     ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "What should I check?. Check the date (5 June 2026) and any amounts on the original document.. Date: 5 June 2026.",
+    "read_aloud_text": "What should I check?. Check the date (9 July 2026) and any amounts on the original document.. Date: 9 July 2026.",
     "status": "normal"
   },
   {
@@ -16933,10 +16929,9 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
   "deadline": null,
   "deadline_from_facts": false,
   "visible_dates": [
-    "2 June 2026",
     "1 August 2026"
   ],
-  "header_date": null,
+  "header_date": "2 June 2026",
   "risk": "No risk clearly stated.",
   "has_consequence": false,
   "consequence_sentence": null,
@@ -17043,14 +17038,14 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "card_number": 4,
     "card_type": "when_does_it_matter",
     "title": "When is it due?",
-    "simple_explanation": "No clear due date. These dates appear in the document: 2 June 2026, 1 August 2026. Check what they refer to.",
+    "simple_explanation": "No clear due date. These dates appear in the document: 1 August 2026. Check what they refer to.",
     "key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "medium",
     "warning": null,
-    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 2 June 2026, 1 August 2026. Check what they refer to..",
+    "read_aloud_text": "When is it due?. No clear due date. These dates appear in the document: 1 August 2026. Check what they refer to..",
     "status": "normal"
   },
   {

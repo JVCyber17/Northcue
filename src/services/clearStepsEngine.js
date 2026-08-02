@@ -1793,15 +1793,35 @@ function extractVisibleTimeframes(text) {
 // The document's own header date ("Date: 03 June 2026") is almost never the
 // deadline. Identify it so it can be excluded from "dates appear" lists and
 // instead reported plainly ("the letter is dated ...").
+// The letter's own date, which the reading-aid path removes from the list of
+// dates a reader is asked to check, and therefore from the one it may pick as
+// primaryDate.
+//
+// TWO ROUTES, BECAUSE THE FIRST IS ENGLISH. The label scan below wants the
+// literal word "date" followed by a colon. A Gujarati letter writes
+// "પત્રની તારીખ:" and a Bengali one "চিঠির তারিখ:", so it found nothing, the
+// letter date stayed in visible_dates, and being first it became the date the
+// reader was told mattered. On the Gujarati NHS letter that meant card 4 named
+// 12 June when the appointment was 14 July.
+//
+// The fallback asks co-location for the date in the header zone instead. That
+// is a position, not a word, so it works in any script, and it only reaches
+// documents where the label scan already failed.
+//
+// BOTH LAYERS ARE NEEDED AND NEITHER IS SUFFICIENT. The zone only exists if a
+// greeting was found, which is why coLocation gained a structural greeting at
+// the same time. Prototyping either alone moved nothing.
 function extractHeaderDate(text) {
-  const lines = String(text || "").split(/\r?\n/).slice(0, 12);
+  const value = String(text || "");
+  const lines = value.split(/\r?\n/).slice(0, 12);
   for (const line of lines) {
     if (/\bdate\s*:/i.test(line)) {
       const dates = extractVisibleDates(line);
       if (dates.length > 0) return dates[0];
     }
   }
-  return null;
+  const zoned = coLocation.selectLetterDate(value, isPlausibleNumericDate);
+  return zoned ? zoned.value : null;
 }
 
 // Card "When is it due?" message when no genuine deadline was found. Lists any

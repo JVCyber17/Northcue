@@ -1883,10 +1883,11 @@ disconnect a domestic supply for debt without first offering a payment plan..."*
 contradiction: the engine rates it serious and card 6 tells the reader to keep
 it with their records. Both halves are defensible; together they are incoherent.
 
-### A wrong fact stated calmly, on medical appointments
+### FIXED 2 August 2026: a wrong fact stated calmly, on medical appointments
 
-**The Gujarati and Bengali NHS letters state the LETTER date as the date that
-matters, and never mention the appointment.**
+**The Gujarati and Bengali NHS letters STATED the LETTER date as the date that
+matters, and never mentioned the appointment.** Kept in the past tense below
+because the evidence is what the fix was made against.
 
 | document | letter date | appointment | card 4 says |
 | --- | --- | --- | --- |
@@ -1897,8 +1898,30 @@ The date labels are in the local script, so the engine cannot tell a letter date
 from an appointment date and takes the first plausible one. A reader could miss
 a screening. **This is the highest-harm finding of the week.**
 
-The Hindi DWP letter does the same with its letter date and misses the 24 June
-information deadline entirely.
+The Hindi DWP letter did the same with its letter date.
+
+**THE FIX, and it is two English dependencies rather than one.** `GREETING` was
+`/dear|to whom it may concern/i`, so no header zone existed and every date was
+`body`. `extractHeaderDate` separately required the literal English `date:`, so
+the letter date was never removed from the list the reading-aid path picks
+from. **Prototyping either half alone moved nothing at all.**
+
+Co-location gained a **structural greeting**: a short line ending in a comma
+that is not a labelled field. No word list, in any language. Measured across all
+70 documents the shape appears 14 times and every one is a genuine greeting, in
+seven languages, and no English document carries it, because English writes
+"Dear Mr Vaidya" with no trailing comma. `extractHeaderDate` now falls back to
+`selectLetterDate`, which reads the zone rather than a word.
+
+Measured result: Gujarati names 14 July, Bengali names 9 July, the Panjabi and
+bilingual letters drop the letter date from the list of dates to check, and
+**zero of the 63 English documents move**. `tests/greetingZone.test.js` pins all
+fourteen greeting shapes and asserts that no English document acquires one.
+
+**STILL NOT RIGHT, and recorded rather than claimed fixed:** the Hindi DWP
+letter now names 18 June, its next payment date, where the obligation is to send
+information by 24 June. Better than the letter date and still not the deadline.
+The information request is phrased in Hindi and no vocabulary reaches it.
 
 ### A wrong fact stated calmly, and only through the real path
 

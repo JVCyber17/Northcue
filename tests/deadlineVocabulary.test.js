@@ -309,9 +309,10 @@ test("tier 3 stops where the other layers say stop", async (t) => {
       spec_energy_bill_full: "4 June 2026",
       spec_council_tax_demand_full: "1 April 2026",
       spec_bilingual_en_pl_council: "1 July 2026",
-      // The letter date, not the appointment date. See KNOWN_ENGINE_DEFECTS.md.
-      spec_gujarati_nhs_appointment: "12 June 2026",
-      spec_bengali_nhs_screening: "5 June 2026"
+      // The appointment date. These read the LETTER date until the structural
+      // greeting and the extractHeaderDate zone fallback landed together.
+      spec_gujarati_nhs_appointment: "14 July 2026",
+      spec_bengali_nhs_screening: "9 July 2026"
     };
     const found = {};
     CORPUS.forEach((entry) => {

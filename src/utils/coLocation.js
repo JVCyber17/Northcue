@@ -418,6 +418,42 @@ function spanningPattern(head, tail) {
 const GREETING = new RegExp("^\\s*(?:" + tolerantLabelSource("dear") + "\\b|" +
   tolerantLabelSource("to whom it may concern") + ")", "i");
 
+// AND A GREETING IN ANY SCRIPT, because the rule above is English and the zone
+// it draws is what separates a letter date from an appointment date.
+//
+// THE DEFECT THIS CLOSES. A Gujarati NHS letter labels its letter date
+// "પત્રની તારીખ:" and its appointment date "તારીખ:". Neither label is English,
+// GREETING never matched "પ્રિય શ્રીમતી Patel,", so no header zone existed, every
+// date was "body", and the first one won. Card 4 read "The document shows 12
+// June 2026 as the date that matters" on a letter about an appointment on 14
+// July. The Bengali screening invitation did the same. A reader could miss a
+// screening.
+//
+// A GREETING IS SHORT, ENDS IN A COMMA, AND IS NOT A LABELLED FIELD. No word
+// list, in any language, which is the same discipline documentSignals.js keeps.
+// Measured across all 70 corpus documents: the shape appears 14 times and every
+// one of the 14 is a genuine greeting, in seven languages:
+//
+//   Szanowni Państwo,        Estimado cliente,      Madame, Monsieur,
+//   Exmo. Senhor Ferreira,   પ્રિય શ્રીમતી Patel,        प्रिय श्री Sharma,
+//   প্রিয় মিসেস Begum,          ਸਤਿਕਾਰਯੋਗ ਸ. Singh,
+//
+// Zero false positives, and NO ENGLISH DOCUMENT CARRIES IT, because English
+// writes "Dear Mr Vaidya" with no trailing comma. So this only ever adds a zone
+// where there was none; it cannot move an English letter.
+//
+// The colon test is what keeps it off a labelled field, and the length bound is
+// what keeps it off a sentence that happens to end in a comma before a line
+// break. Tried second, after the English rule, so a letter carrying both is
+// still cut at the English greeting.
+const STRUCTURAL_GREETING_MAX = 45;
+function looksLikeStructuralGreeting(line) {
+  const value = String(line || "").trim();
+  if (!/,$/.test(value)) return false;
+  if (value.length >= STRUCTURAL_GREETING_MAX) return false;
+  return value.indexOf(":") === -1;
+}
+
 // An amount, matched whole or not at all.
 //
 // The previous pattern was /(?:£|GBP)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/ and both
@@ -506,6 +542,11 @@ function blockIndexes(lines) {
 function greetingLineIndex(lines) {
   for (let i = 0; i < lines.length; i++) {
     if (GREETING.test(lines[i])) return i;
+  }
+  // Only when the English rule found nothing, so an English letter can never be
+  // cut anywhere but at its own "Dear".
+  for (let i = 0; i < lines.length; i++) {
+    if (looksLikeStructuralGreeting(lines[i])) return i;
   }
   return -1;
 }
