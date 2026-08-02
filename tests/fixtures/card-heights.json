@@ -2916,9 +2916,9 @@
       "includesPassedLine": true
     },
     "spec_energy_bill_full|5": {
-      "px": 888,
+      "px": 623,
       "lang": "pl",
-      "answerChars": 221,
+      "answerChars": 79,
       "stepChars": 40,
       "steps": 2
     },

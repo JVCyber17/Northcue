@@ -142,15 +142,20 @@ test("the corpus, after the sweep", async (t) => {
       // debt order does states a real consequence, and it was refused as a
       // scam for saying so.
       "genuine_court_account_freeze", "legal_solicitor",
-      // Spec-anchored, Track 2, and BOTH ARE ROUTINE BILLS. The energy bill
-      // states a consequence because Ofgem requires it to carry a debt and
-      // disconnection safeguard, and the council tax demand because the
-      // prescribed explanatory notes must describe liability orders and
-      // enforcement agents. Neither letter is threatening the reader; both are
-      // complying with a regulation. Recorded in KNOWN_ENGINE_DEFECTS.md as the
-      // clearest thing Track 2 found: the more compliant the letter, the more
-      // alarming Northcue makes it.
-      "spec_council_tax_demand_full", "spec_energy_bill_full"
+      // Spec-anchored, Track 2, and it is a ROUTINE ANNUAL BILL. It states a
+      // consequence because the prescribed explanatory notes on every English
+      // council tax demand must describe liability orders and enforcement
+      // agents. The letter is not threatening the reader; it is complying with a
+      // regulation.
+      //
+      // spec_energy_bill_full WAS here too, for the same reason, and left on
+      // 2 August 2026 when negated commitments stopped counting: its Ofgem
+      // safeguard is a promise NOT to disconnect, which was being read back as
+      // a threat to disconnect. The council tax one cannot go the same way,
+      // because its sentence is structurally identical to eviction_possession
+      // and there is genuinely nothing to separate them. See
+      // KNOWN_ENGINE_DEFECTS.md.
+      "spec_council_tax_demand_full"
     ]);
   });
 

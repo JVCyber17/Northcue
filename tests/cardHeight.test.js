@@ -44,7 +44,6 @@ const TIGHT_PX = 120;
 // full-length documents on 2 August 2026. Every one is a long sentence lifted
 // verbatim out of a statutory notes block:
 //
-//   the Ofgem debt and disconnection safeguard, on card 5 of the energy bill
 //   the prescribed "making an appeal does not allow you to stop paying" note,
 //     on card 3 of the council tax demand
 //   the prescribed liability order and enforcement agent note, on card 5
@@ -55,8 +54,11 @@ const TIGHT_PX = 120;
 // NAMED, NOT ACCEPTED. Recorded in KNOWN_ENGINE_DEFECTS.md. The cause is the
 // same one behind two other findings from the same documents: the engine lifts
 // whole sentences from prescribed notes that are not about this reader.
+// spec_energy_bill_full card 5 was here at 888px and left on 2 August 2026,
+// when negated commitments stopped counting as consequences. Its card 5 no
+// longer lifts the Ofgem safeguard, so it is 623px and fits. Two remain, both
+// on the council tax demand, both still lifting prescribed notes.
 const KNOWN_OVER = {
-  "spec_energy_bill_full|5": 888,
   "spec_council_tax_demand_full|3": 882,
   "spec_council_tax_demand_full|5": 921
 };

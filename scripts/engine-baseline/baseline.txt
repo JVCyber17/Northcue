@@ -15130,9 +15130,9 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "14 May 2025"
   ],
   "header_date": null,
-  "risk": "Debt and disconnection We will never disconnect a domestic supply for debt without first offering a payment plan based on your ability to pay, and offering a prepayment meter where it is safe and practical to install one.",
-  "has_consequence": true,
-  "consequence_sentence": "Debt and disconnection We will never disconnect a domestic supply for debt without first offering a payment plan based on your ability to pay, and offering a prepayment meter where it is safe and practical to install one.",
+  "risk": "Ignoring this could cause serious problems quickly.",
+  "has_consequence": false,
+  "consequence_sentence": null,
   "consequence_kind": null,
   "consequence_conditional": null,
   "helpful_note": "Keep this with your records in case you need it later.",
@@ -15274,8 +15274,8 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "card_id": "what_could_happen",
     "card_number": 5,
     "card_type": "what_should_i_check",
-    "title": "What could happen if I ignore it?",
-    "simple_explanation": "Debt and disconnection We will never disconnect a domestic supply for debt without first offering a payment plan based on your ability to pay, and offering a prepayment meter where it is safe and practical to install one.",
+    "title": "What should I check?",
+    "simple_explanation": "Check the amount (£298.53) and the date (4 June 2026) on the original document.",
     "key_points": [
       "Date: 4 June 2026.",
       "Amount shown: £298.53."
@@ -15285,7 +15285,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "possible_payment": "£298.53",
     "confidence_level": "medium",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What could happen if I ignore it?. Debt and disconnection We will never disconnect a domestic supply for debt without first offering a payment plan based on your ability to pay, and offering a prepayment meter where it is safe and practical to install one.. Date: 4 June 2026. Amount shown: £298.53.",
+    "read_aloud_text": "What should I check?. Check the amount (£298.53) and the date (4 June 2026) on the original document.. Date: 4 June 2026. Amount shown: £298.53.",
     "status": "urgent"
   },
   {

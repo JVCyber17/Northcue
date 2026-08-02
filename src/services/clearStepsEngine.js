@@ -2089,13 +2089,66 @@ const RISK_PHRASES = [
   /\bsummons(?:ed|es)?\b/i
 ];
 
+// A PROMISE NOT TO DO SOMETHING IS NOT A THREAT TO DO IT.
+//
+// Ofgem requires a domestic energy bill to carry a debt and disconnection
+// safeguard, and the safeguard is a reassurance: "We will never disconnect a
+// domestic supply for debt without first offering a payment plan based on your
+// ability to pay." RISK_PHRASES sees "disconnect" and "debt", and card 5 of a
+// routine quarterly bill read that sentence back as what happens if the reader
+// ignores it. The more compliant the bill, the more alarming Northcue made it.
+//
+// THE SHAPE, and it is narrow on purpose: the sender promises, in its own
+// voice, NOT to do something, and attaches no condition to the reader.
+//
+// EVIDENCE, measured across all 70 corpus documents. The shape appears in
+// exactly THREE sentences and every one of the three is a reassurance:
+//
+//   genuine_bank_fraud_advice   "We will never ask you to share your password,
+//                                your PIN, or your full card number."
+//   spec_energy_bill_full       "We will never disconnect a domestic supply for
+//                                debt without first offering a payment plan..."
+//   spec_energy_bill_full       "We will not disconnect a household during the
+//                                winter months where anyone living there is..."
+//
+// It suppresses ONE of the ten consequences the corpus states, the energy bill,
+// and leaves the other nine untouched. Every genuine enforcement consequence is
+// conditional: "If payment is not received", "Unless payment is received",
+// "Failure to pay may result", "Continued arrears may be reported". None of
+// them is a negated commitment.
+//
+// THE SHAPE IT WOULD GET WRONG, named because no corpus document carries it:
+//
+//   "We will not accept further instalments and the full balance becomes due."
+//
+// That is a genuine warning phrased as a refusal, it is realistic council tax
+// and utility wording, and this rule would suppress it. The three reassurances
+// above all continue with a mitigation ("without first offering...", "where
+// anyone living there...") where that one continues with a consequence, but
+// that is a second discriminator resting on three examples and it is not built.
+//
+// So this rests on very little, exactly like the structural lure rule, and is
+// recorded the same way rather than presented as settled.
+const NEGATED_COMMITMENT = /\b(?:we|the council|the authority)\s+(?:will|shall)\s+(?:never|not)\b/i;
+const READER_CONDITION = /\b(?:if|unless|failure to|should you|continued|where you)\b/i;
+
+function isNegatedCommitment(sentence) {
+  const value = String(sentence || "");
+  if (!NEGATED_COMMITMENT.test(value)) return false;
+  // A condition on the reader turns it back into a warning: "If you do not pay,
+  // we will not be able to offer a payment plan" is about what the reader risks.
+  return !READER_CONDITION.test(value);
+}
+
 function extractRiskSentence(text) {
   const raw = String(text || "");
   for (const pattern of RISK_PHRASES) {
     const match = pattern.exec(raw);
     if (match) {
       const sentence = extractSentenceAround(raw, match.index);
-      if (sentence.length > 5) return normalizeRiskSentence(sentence);
+      if (sentence.length <= 5) continue;
+      if (isNegatedCommitment(sentence)) continue;
+      return normalizeRiskSentence(sentence);
     }
   }
   return null;
