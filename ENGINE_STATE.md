@@ -143,7 +143,7 @@ Not built, deliberately: the **lookalike-domain rule**. Written up in
 `KNOWN_ENGINE_DEFECTS.md` with its evidence and the reason it must not ship
 until someone other than its author has tried to break it.
 
-## Planned, not scheduled: facts plus templates
+## MEASURED AND REJECTED: facts plus templates
 
 **The AI returns structured facts and the engine composes every sentence from
 templates the bank translates.** No model-authored words reach any reader.
@@ -171,19 +171,91 @@ prose names the covering period, the collection method and the amount including
 VAT. **So the templates come first and the switch comes second**, and there is no
 version of this where they land together.
 
-Blocked on, in order:
+### It was counted on 3 August 2026, and the count kills it
 
-1. **The founder approving the current English card quality.** The prose is the
-   benchmark the templates have to reach, and nobody has yet said what "as good
-   as" means. Without that this is unfalsifiable.
-2. **Measuring how many templates it would actually need.** Not estimated,
-   counted: run `scripts/reader-output/run.js --english`, take every prose
-   sentence a reader currently receives, and classify it into the smallest set
-   of templates that covers it. That number decides whether this is a fortnight
-   or a quarter, and it is cheap to obtain now that the harness exists.
+Blocker 2 was "measure how many templates it would actually need, not
+estimated, counted". That was done: every sentence the reader-output harness
+shows a reader RECEIVING in the prose condition, across the English corpus,
+reduced to a covering set of slot patterns. Two independent runs, because the
+prose path is non-deterministic and a set fitted to one run says nothing about
+whether it converges.
 
-Every new template is a bank sentence in all ten languages and a
-`NATIVE_REVIEW.md` entry, so the template count is also the translation cost.
+**The number that ends it:**
+
+    33 of 56 English documents served prose, per run
+    1,389 sentences across the two runs
+
+    distinct patterns, run A            583
+    distinct patterns, run B            569
+    pooled                              931
+    NEW patterns the second run added   348
+
+**61 percent of the second run's patterns had never been seen in the first, on
+IDENTICAL DOCUMENTS.** Not a corpus-coverage problem that more documents would
+close. The model's output is not a finite set, so there is no covering set to
+finish, and a third run would add more.
+
+**The covering set, and what it buys:**
+
+    patterns seen more than once        236
+    one-off patterns                    695   (75% of all patterns)
+    sentences those 236 reproduce       694 of 1,389   (50%)
+    sentences left uncoverable          695   (50%)
+
+**The cost, in the units that matter, because every template is a bank sentence
+in ten languages and a `NATIVE_REVIEW.md` entry:**
+
+    covering set,  236 x 10 languages   2,360 strings
+    every pattern, 931 x 10 languages   9,310 strings
+    the ENTIRE existing bank today        371 entries, 3,710 strings
+
+So the covering set alone is 64 percent of the whole translation effort built so
+far, and buys HALF the prose sentences on 33 documents. The full set is 2.5
+times the entire bank, to chase a target that moves every run.
+
+**THE TAIL IS CONTENT, NOT PHRASING, and this is the part that cannot be
+engineered around.** Collapsing the model's synonyms was tried: six patterns say
+one thing ("Payment is due by {date}", "The payment deadline is {date}",
+"Payment is requested by {date}", "Confirm the payment deadline is {date}", and
+two more). Deduplicating every such family across the corpus moves coverage from
+50 percent to 57 percent. **Seven points.** What remains is document-specific
+fact:
+
+    Total charge is {amount} before a 25% single person discount of {amount}.
+    You may pay in 10 monthly instalments of {amount} each.
+    The bill covers water and wastewater charges from {date} to {date}.
+    If struggling to pay, the document suggests contacting {name} about a plan.
+
+These are the sentences that make the prose worth having, and each is specific
+to one document's structure. A template for "you may pay in 10 monthly
+instalments" is a template for council tax and nothing else.
+
+**And it does not amortise.** Adding documents one at a time and reading the
+tail of the curve: the last ten documents each added a mean of 20 new patterns,
+so **roughly 200 strings across ten languages per new document type, with no
+sign of flattening** after 33 documents.
+
+### What is still true, and what to do instead
+
+The three reasons the split was attractive have not gone away: roughly 3 seconds
+against 14, no model-authored words reaching a reader, and a safety argument
+that stops being a vocabulary problem. What the count shows is that templates
+cannot BUY those things at an acceptable price, because reaching prose parity is
+open-ended.
+
+So the language gate has to be opened the other way: **by making the output
+guards work in nine more languages**, which is a bounded vocabulary problem
+against an unbounded one. That is the live decision. Blocker 1, the founder
+approving current English card quality, is now moot for this purpose.
+
+**Caveat on the instrument, recorded so the number is not over-read.** The
+slotter is a heuristic: it slots proper nouns by shape, so it over-slots some
+ordinary capitalised words, which merges sentences and DEFLATES the count, and
+under-slots lowercase names, which inflates it. Two real errors in it were found
+and fixed mid-measurement, sentence-initial verbs being slotted as names and
+two-digit-year dates being missed, and the headline moved by about one percent.
+The 61 percent figure does not depend on any of that, because it is the same
+instrument applied to both runs.
 
 ## Standing rules a future session must not break
 
