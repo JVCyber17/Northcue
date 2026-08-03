@@ -45,7 +45,45 @@ function positiveNumberSetting(name, defaultValue, minimum) {
   return typeof minimum === "number" ? Math.max(minimum, parsed) : parsed;
 }
 
-const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 25000);
+// 30 SECONDS, CHOSEN FROM THE DISTRIBUTION AND THEN LOWERED FOR A FRONTEND
+// REASON. scripts/reader-output/latency.js, 126 calls over three rounds with a
+// 90s ceiling so the tail is uncensored:
+//
+//   min 10,054   p50 14,330   p90 18,424   p95 20,163   p99 30,403   max 31,174
+//
+//   ceiling   times out     reader wait p50 / p90   worst ACTUAL wait
+//   15s       53 (42.1%)    14,330 / 15,000         15,000
+//   20s        7 ( 5.6%)    14,330 / 18,424         20,000
+//   25s        2 ( 1.6%)    14,330 / 18,424         25,000
+//   30s        2 ( 1.6%)    14,330 / 18,424         30,000
+//   35s        0 ( 0.0%)    14,330 / 18,424         31,174
+//   40s        0 ( 0.0%)    14,330 / 18,424         31,174
+//
+// p50 and p90 are identical at every value from 20s up. The ceiling changes
+// nothing for the typical reader; it only decides what happens to the tail.
+//
+// 40 IS THE BETTER NUMBER ON LATENCY ALONE and the data supports it: the
+// timeout rate goes to zero, the worst ACTUAL wait stays 31,174ms because
+// nobody waits a ceiling nothing reaches, and the two readers who lose the
+// prose at 25s would instead wait about six seconds longer and get it. 35 was
+// rejected as over-fitting, being four seconds above the largest value in 126
+// samples.
+//
+// IT IS REFUSED FOR A FRONTEND REASON, not a latency one. The upload screen has
+// no progress indication: no spinner, no elapsed time, and two aria-live regions
+// that announce once and then go silent. A 31 second silent wait is not
+// something to ship to an anxious person holding a letter about money. When the
+// screen can tell a reader honestly that their letter is being read and roughly
+// where it is, 40 becomes the right number and this comment is the argument for
+// making that change.
+//
+// 30 costs nothing against 25 on the measured distribution, the same two calls
+// exceed both, and it leaves headroom for provider drift. It is the value that
+// buys time without buying silence.
+//
+// The fact extractor is unaffected: it takes Math.min(AI_TIMEOUT_MS,
+// FACT_EXTRACTION_BUDGET_MS) and its own budget is 8,000ms.
+const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 30000);
 // Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
 // privacy; env-configurable so it can be raised if a genuinely long document is
 // ever cut off mid-content.
