@@ -3258,6 +3258,20 @@
       "answerChars": 39,
       "stepChars": 77,
       "steps": 2
+    },
+    "spec_energy_bill_full+facts|5": {
+      "px": 540,
+      "lang": "pl",
+      "answerChars": 45,
+      "stepChars": 40,
+      "steps": 2
+    },
+    "communal_bill_debt_help_block+facts|5": {
+      "px": 610,
+      "lang": "pl",
+      "answerChars": 102,
+      "stepChars": 41,
+      "steps": 2
     }
   }
 }
