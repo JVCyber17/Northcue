@@ -49,22 +49,40 @@ function parsedKeyMap() {
   const block = /const DEADLINE_PASSED_KEYS = \{([\s\S]*?)\};/.exec(APP_JS);
   assert.ok(block, "DEADLINE_PASSED_KEYS not found in app.js");
   const map = {};
-  const entry = /"([^"]+)":\s*"([^"]+)"/g;
+  const entry = /(\w+):\s*"([^"]+)"/g;
   let match;
   while ((match = entry.exec(block[1])) !== null) map[match[1]] = match[2];
   return map;
 }
 
+function parsedDefaultKey() {
+  const found = /const DEADLINE_PASSED_DEFAULT = "([^"]+)";/.exec(APP_JS);
+  assert.ok(found, "DEADLINE_PASSED_DEFAULT not found in app.js");
+  return found[1];
+}
+
 const KEY_MAP = parsedKeyMap();
+const DEFAULT_KEY = parsedDefaultKey();
 
 // What the client will decide for a corpus document at a given moment, built
 // from exactly the inputs renderCard uses.
+//
+// KEYED ON document_category, NOT ON THE RENDERED SENTENCE. The lookup this
+// mirrors used NorthcueTemplateBank.templateIdFor(card.short_answer), which
+// matches a sentence the ENGINE wrote and never one the MODEL wrote, so the
+// warning silently vanished whenever the model rewrote card 4. Not a wrong
+// warning, an absent one, which is why nothing noticed.
+//
+// That lookup was also doing a second, invisible job: only card 4's engine
+// answers matched those two template ids, so it confined the line to card 4.
+// The client now states that, and so does this.
 function lineKeyFor(id, now) {
-  const result = analyse(byId(id)).api_output.structured_result;
+  const run = analyse(byId(id));
+  const result = run.api_output.structured_result;
   const iso = result.summary.deadline_iso;
   if (!iso) return null;
-  const key = KEY_MAP[bank.templateIdFor(result.cards[3].simple_explanation)];
-  if (!key) return null;
+  if (result.cards[3].card_id !== "when_is_it_due") return null;
+  const key = KEY_MAP[run.api_output.trust.document_category] || DEFAULT_KEY;
   return hasPassed(iso, now) ? key : null;
 }
 
@@ -258,13 +276,69 @@ test("the line never reaches the reading-aid path", async (t) => {
     assert.equal(bank.templateIdFor("Your appointment is on 1 July 2026."), "tpl.deadline.appointment");
   });
 
-  await t.test("app.js maps exactly the two supported-path sentences and no others", () => {
-    // Read from app.js, so widening it there fails here. The aid path's
-    // sentence is the one that must never appear, and D-5 and D-8 are why.
-    assert.deepEqual(KEY_MAP, {
-      "tpl.deadline.due": "journey.deadlinePassed",
-      "tpl.deadline.appointment": "journey.appointmentDatePassed"
-    });
+  await t.test("app.js keys the wording on the engine's category and nothing else", () => {
+    // Read from app.js, so widening it there fails here.
+    //
+    // ONE ENTRY AND A DEFAULT, where there used to be two template ids. The
+    // appointment wording is the exception; every other category takes the
+    // deadline wording. Keying on the sentence meant the model's rewording
+    // silently disabled the line, and it meant this map was ALSO, invisibly,
+    // the rule confining the line to card 4. That job is stated in the client
+    // now and mirrored in lineKeyFor above.
+    assert.deepEqual(KEY_MAP, { appointment: "journey.appointmentDatePassed" });
+    assert.equal(DEFAULT_KEY, "journey.deadlinePassed");
+  });
+
+  await t.test("the line appears on card 4 and on no other card", () => {
+    // ADDED AFTER A MUTATION SURVIVED. Deleting the card gate from
+    // passedDeadlineLine broke nothing, because lineKeyFor above only ever
+    // looks at cards[3] and so could never see the line appear elsewhere.
+    //
+    // The gate matters because it used to be implicit: only card 4's engine
+    // answers matched the two template ids, so the old lookup confined the line
+    // without anyone writing that down. Removing the lookup removed the
+    // confinement too, and nothing would have said so.
+    const run = analyse(byId("council_tax"));
+    const result = run.api_output.structured_result;
+    assert.ok(result.summary.deadline_iso, "premise: this document has an iso date");
+
+    // The client rule, applied to every card rather than to card 4 alone.
+    const lineFor = (card) => {
+      if (!result.summary.deadline_iso) return null;
+      if (card.card_id !== "when_is_it_due") return null;
+      return KEY_MAP[run.api_output.trust.document_category] || DEFAULT_KEY;
+    };
+    const carrying = result.cards.filter((card) => lineFor(card)).map((c) => c.card_id);
+    assert.deepEqual(carrying, ["when_is_it_due"],
+      "the passed-deadline line reached a card it does not belong on: " +
+      JSON.stringify(carrying));
+
+    // AND THE GATE IS ASSERTED IN THE SOURCE, because the check above mirrors
+    // the client rule rather than executing it, so deleting the gate from
+    // app.js would not fail it. Structural, like the "reads the clock" test
+    // further up this file, and weaker than behaviour for the same reason:
+    // there is no browser in this stack. It is here because the mutation that
+    // deletes the gate otherwise passes the entire suite.
+    const start = APP_JS.indexOf("function passedDeadlineLine");
+    const body = APP_JS.slice(start, APP_JS.indexOf("function renderCard", start));
+    assert.match(body, /card\.id !== "when_is_it_due"/,
+      "passedDeadlineLine no longer confines the line to card 4");
+  });
+
+  await t.test("the model rewriting card 4 no longer disables the warning", () => {
+    // The defect this change exists for, asserted on the mechanism rather than
+    // on a live model answer, which is not reproducible.
+    assert.equal(bank.templateIdFor("Due by 4 June 2026."), "tpl.deadline.due",
+      "premise: the engine's own wording matched a template");
+    assert.equal(
+      bank.templateIdFor("The VAT records visit is on 12 and 13 June 2026 at 09:30."), null,
+      "premise: a model sentence matches nothing, which is what silenced the line");
+    // And the wording no longer depends on that lookup at all.
+    const start = APP_JS.indexOf("function passedDeadlineLine");
+    const body = APP_JS.slice(start, APP_JS.indexOf("function renderCard", start));
+    assert.ok(start !== -1 && body.length > 0, "passedDeadlineLine not found in app.js");
+    assert.ok(!/templateIdFor/.test(body),
+      "passedDeadlineLine still reads the rendered sentence");
   });
 });
 

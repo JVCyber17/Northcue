@@ -2457,10 +2457,27 @@ function translatedEngineText(text) {
 // The appointment form is separate because "This date has already passed."
 // under "Your appointment is on 1 July 2026." reads as a missed appointment,
 // which is a different thing to have missed than a payment.
+// KEYED ON THE ENGINE'S CATEGORY, NOT ON HOW THE CARD READS.
+//
+// This used to key on NorthcueTemplateBank.templateIdFor(card.short_answer),
+// matching the rendered sentence against the bank. That works for a sentence
+// the engine wrote and never for one the model wrote:
+//
+//   templateIdFor("Due by 4 June 2026.")                    -> "tpl.deadline.due"
+//   templateIdFor("The VAT records visit is on 12 and 13
+//                  June 2026 at 09:30.")                    -> null
+//
+// So whenever the model rewrote card 4, the passed-deadline warning silently
+// never appeared. Not a wrong warning, an ABSENT one, which is why nothing
+// noticed: a reader past their deadline was simply not told.
+//
+// document_category is what the ENGINE branches on when it chooses between
+// these two wordings, it is one of the nine protected fields, and the model
+// cannot touch it. Same discriminator, read from where it is decided.
 const DEADLINE_PASSED_KEYS = {
-  "tpl.deadline.due": "journey.deadlinePassed",
-  "tpl.deadline.appointment": "journey.appointmentDatePassed"
+  appointment: "journey.appointmentDatePassed"
 };
+const DEADLINE_PASSED_DEFAULT = "journey.deadlinePassed";
 
 // The extra key point for a deadline that has gone, or null.
 //
@@ -2478,17 +2495,23 @@ const DEADLINE_PASSED_KEYS = {
 // deadlineIsoFor now refuses that path, so the claim is true and this function
 // inherits it instead of a lookup accidentally standing in for it.
 function passedDeadlineLine(card) {
-  if (typeof NorthcueDeadlineStatus === "undefined" || typeof NorthcueTemplateBank === "undefined") {
-    return null;
-  }
+  if (typeof NorthcueDeadlineStatus === "undefined") return null;
+
   const deadlineIso = latestResult
     && latestResult.structured_result
     && latestResult.structured_result.summary
     && latestResult.structured_result.summary.deadline_iso;
   if (!deadlineIso) return null;
 
-  const key = DEADLINE_PASSED_KEYS[NorthcueTemplateBank.templateIdFor(card.short_answer)];
-  if (!key) return null;
+  // WHICH CARD, STATED RATHER THAN INFERRED. The template lookup this replaces
+  // did two jobs and only one was visible: it chose the wording, and because
+  // only card 4's engine answers matched those two template ids it also
+  // confined the line to card 4. That second job has to be written down now it
+  // is not being done by accident.
+  if (card.id !== "when_is_it_due") return null;
+
+  const category = latestResult && latestResult.trust && latestResult.trust.document_category;
+  const key = DEADLINE_PASSED_KEYS[category] || DEADLINE_PASSED_DEFAULT;
 
   // No argument, so the device clock is read HERE, on every render.
   return NorthcueDeadlineStatus.hasPassed(deadlineIso) ? t(key) : null;
