@@ -143,6 +143,48 @@ Not built, deliberately: the **lookalike-domain rule**. Written up in
 `KNOWN_ENGINE_DEFECTS.md` with its evidence and the reason it must not ship
 until someone other than its author has tried to break it.
 
+## Planned, not scheduled: facts plus templates
+
+**The AI returns structured facts and the engine composes every sentence from
+templates the bank translates.** No model-authored words reach any reader.
+
+Why it is worth doing, and it is the largest single win left:
+
+- **Roughly 3 seconds against 14.** The fact call is measured at about 2 to 3
+  seconds; the prose call is p50 14,330ms and p90 18,424ms.
+- **It unlocks all ten languages.** Facts are language-independent, so the
+  language gate can open. Today the gate is shut because the output guards are
+  English word lists that catch 2 of 11 languages on the command family and 1 of
+  10 on the credential ask, and no model-authored sentence can be checked in a
+  language the guards cannot read. Templates remove the thing that needed
+  guarding.
+- **The safety argument stops being a vocabulary problem.** A sentence the
+  engine composed from an adjudicated fact is safe by construction, in every
+  language, without a guard per language.
+
+**IT WAS TRIED AND IT FAILED, and the reason is the whole plan.** `9607c98`
+switched the model's writing off before the engine's templates existed, so
+readers lost the prose and gained nothing in its place: content the engine could
+find and had no sentence for simply vanished. On a 1,545 word energy bill the
+floor's card 3 says "Check the payment amount and due date." twice, where the
+prose names the covering period, the collection method and the amount including
+VAT. **So the templates come first and the switch comes second**, and there is no
+version of this where they land together.
+
+Blocked on, in order:
+
+1. **The founder approving the current English card quality.** The prose is the
+   benchmark the templates have to reach, and nobody has yet said what "as good
+   as" means. Without that this is unfalsifiable.
+2. **Measuring how many templates it would actually need.** Not estimated,
+   counted: run `scripts/reader-output/run.js --english`, take every prose
+   sentence a reader currently receives, and classify it into the smallest set
+   of templates that covers it. That number decides whether this is a fortnight
+   or a quarter, and it is cheap to obtain now that the harness exists.
+
+Every new template is a bank sentence in all ten languages and a
+`NATIVE_REVIEW.md` entry, so the template count is also the translation cost.
+
 ## Standing rules a future session must not break
 
 **Prove it, do not assume it.** Every claim in the docs above was measured
