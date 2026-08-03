@@ -37,8 +37,8 @@
       "steps": 3
     },
     "council_tax|4": {
-      "px": 474,
-      "lang": "pl",
+      "px": 470,
+      "lang": "ro",
       "answerChars": 20,
       "stepChars": 55,
       "steps": 1,
@@ -80,7 +80,7 @@
       "steps": 3
     },
     "energy_bill|4": {
-      "px": 474,
+      "px": 497,
       "lang": "pl",
       "answerChars": 19,
       "stepChars": 54,
@@ -123,7 +123,7 @@
       "steps": 1
     },
     "water_bill|4": {
-      "px": 474,
+      "px": 497,
       "lang": "pl",
       "answerChars": 20,
       "stepChars": 55,
@@ -166,8 +166,8 @@
       "steps": 1
     },
     "broadband_bill|4": {
-      "px": 495,
-      "lang": "pt",
+      "px": 440,
+      "lang": "en",
       "answerChars": 92,
       "stepChars": 0,
       "steps": 0
@@ -208,7 +208,7 @@
       "steps": 1
     },
     "gov_hmrc|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 86,
       "stepChars": 55,
@@ -250,8 +250,8 @@
       "steps": 2
     },
     "appointment_nhs|4": {
-      "px": 507,
-      "lang": "pl",
+      "px": 529,
+      "lang": "ro",
       "answerChars": 35,
       "stepChars": 54,
       "steps": 1,
@@ -293,8 +293,8 @@
       "steps": 1
     },
     "bill_in_credit|4": {
-      "px": 463,
-      "lang": "es",
+      "px": 440,
+      "lang": "pl",
       "answerChars": 76,
       "stepChars": 0,
       "steps": 0
@@ -328,15 +328,15 @@
       "steps": 1
     },
     "bailiff_enforcement|3": {
-      "px": 748,
+      "px": 588,
       "lang": "pl",
       "answerChars": 49,
-      "stepChars": 156,
-      "steps": 3
+      "stepChars": 100,
+      "steps": 2
     },
     "bailiff_enforcement|4": {
       "px": 497,
-      "lang": "es",
+      "lang": "pl",
       "answerChars": 24,
       "stepChars": 59,
       "steps": 1,
@@ -379,7 +379,7 @@
     },
     "eviction_possession|4": {
       "px": 497,
-      "lang": "es",
+      "lang": "pl",
       "answerChars": 25,
       "stepChars": 60,
       "steps": 1,
@@ -422,7 +422,7 @@
     },
     "court_fine|4": {
       "px": 497,
-      "lang": "es",
+      "lang": "pl",
       "answerChars": 25,
       "stepChars": 60,
       "steps": 1,
@@ -464,8 +464,8 @@
       "steps": 1
     },
     "housing_letter|4": {
-      "px": 531,
-      "lang": "es",
+      "px": 525,
+      "lang": "pl",
       "answerChars": 71,
       "stepChars": 57,
       "steps": 1
@@ -507,7 +507,7 @@
     },
     "legal_solicitor|4": {
       "px": 463,
-      "lang": "es",
+      "lang": "fr",
       "answerChars": 62,
       "stepChars": 0,
       "steps": 0
@@ -549,7 +549,7 @@
     },
     "medical_letter|4": {
       "px": 463,
-      "lang": "es",
+      "lang": "fr",
       "answerChars": 61,
       "stepChars": 0,
       "steps": 0
@@ -590,7 +590,7 @@
       "steps": 1
     },
     "employment_letter|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 86,
       "stepChars": 55,
@@ -632,7 +632,7 @@
       "steps": 1
     },
     "education_letter|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 85,
       "stepChars": 54,
@@ -674,7 +674,7 @@
       "steps": 1
     },
     "insurance_letter|4": {
-      "px": 568,
+      "px": 531,
       "lang": "pl",
       "answerChars": 85,
       "stepChars": 54,
@@ -716,11 +716,11 @@
       "steps": 2
     },
     "bank_loan_letter|4": {
-      "px": 495,
-      "lang": "pt",
-      "answerChars": 93,
-      "stepChars": 0,
-      "steps": 0
+      "px": 434,
+      "lang": "ro",
+      "answerChars": 19,
+      "stepChars": 54,
+      "steps": 1
     },
     "bank_loan_letter|5": {
       "px": 684,
@@ -758,7 +758,7 @@
       "steps": 2
     },
     "benefits_dwp|4": {
-      "px": 463,
+      "px": 430,
       "lang": "fr",
       "answerChars": 70,
       "stepChars": 0,
@@ -800,8 +800,8 @@
       "steps": 3
     },
     "scam_phishing|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -842,8 +842,8 @@
       "steps": 1
     },
     "non_document_recipe|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -884,7 +884,7 @@
       "steps": 1
     },
     "blank_template|4": {
-      "px": 440,
+      "px": 408,
       "lang": "pl",
       "answerChars": 53,
       "stepChars": 0,
@@ -927,7 +927,7 @@
     },
     "outgoing_letter|4": {
       "px": 463,
-      "lang": "es",
+      "lang": "fr",
       "answerChars": 61,
       "stepChars": 0,
       "steps": 0
@@ -968,8 +968,8 @@
       "steps": 1
     },
     "multi_document|4": {
-      "px": 473,
-      "lang": "pl",
+      "px": 440,
+      "lang": "en",
       "answerChars": 83,
       "stepChars": 0,
       "steps": 0
@@ -1010,8 +1010,8 @@
       "steps": 1
     },
     "multi_document_greetings|4": {
-      "px": 473,
-      "lang": "pl",
+      "px": 440,
+      "lang": "en",
       "answerChars": 83,
       "stepChars": 0,
       "steps": 0
@@ -1052,7 +1052,7 @@
       "steps": 1
     },
     "multi_document_split|4": {
-      "px": 474,
+      "px": 497,
       "lang": "pl",
       "answerChars": 19,
       "stepChars": 54,
@@ -1095,7 +1095,7 @@
       "steps": 1
     },
     "ocr_council_tax|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 86,
       "stepChars": 55,
@@ -1137,7 +1137,7 @@
       "steps": 2
     },
     "ocr_energy_bill|4": {
-      "px": 533,
+      "px": 501,
       "lang": "pl",
       "answerChars": 129,
       "stepChars": 0,
@@ -1179,7 +1179,7 @@
       "steps": 1
     },
     "ocr_enforcement|4": {
-      "px": 533,
+      "px": 501,
       "lang": "pl",
       "answerChars": 129,
       "stepChars": 0,
@@ -1221,7 +1221,7 @@
       "steps": 1
     },
     "ocr_heavy_damage|4": {
-      "px": 533,
+      "px": 501,
       "lang": "pl",
       "answerChars": 129,
       "stepChars": 0,
@@ -1263,7 +1263,7 @@
       "steps": 1
     },
     "photo_snippet_short|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 85,
       "stepChars": 54,
@@ -1306,7 +1306,7 @@
     },
     "arrears_before_clause|4": {
       "px": 497,
-      "lang": "es",
+      "lang": "pl",
       "answerChars": 24,
       "stepChars": 59,
       "steps": 1,
@@ -1348,8 +1348,8 @@
       "steps": 2
     },
     "failed_direct_debit|4": {
-      "px": 495,
-      "lang": "pt",
+      "px": 440,
+      "lang": "en",
       "answerChars": 93,
       "stepChars": 0,
       "steps": 0
@@ -1391,7 +1391,7 @@
     },
     "arrears_past_and_future|4": {
       "px": 497,
-      "lang": "es",
+      "lang": "pl",
       "answerChars": 24,
       "stepChars": 59,
       "steps": 1,
@@ -1433,7 +1433,7 @@
       "steps": 2
     },
     "school_periodic|4": {
-      "px": 568,
+      "px": 590,
       "lang": "pl",
       "answerChars": 90,
       "stepChars": 59,
@@ -1475,8 +1475,8 @@
       "steps": 2
     },
     "ambiguous_numeric_date|4": {
-      "px": 465,
-      "lang": "pl",
+      "px": 461,
+      "lang": "ro",
       "answerChars": 18,
       "stepChars": 89,
       "steps": 1
@@ -1518,7 +1518,7 @@
     },
     "short_year_date|4": {
       "px": 461,
-      "lang": "fr",
+      "lang": "ro",
       "answerChars": 17,
       "stepChars": 72,
       "steps": 1
@@ -1559,7 +1559,7 @@
       "steps": 1
     },
     "polish_rent_arrears|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 89,
       "stepChars": 58,
@@ -1601,11 +1601,11 @@
       "steps": 1
     },
     "spanish_water_final_notice|4": {
-      "px": 479,
+      "px": 564,
       "lang": "pl",
       "answerChars": 125,
-      "stepChars": 0,
-      "steps": 0
+      "stepChars": 62,
+      "steps": 1
     },
     "spanish_water_final_notice|5": {
       "px": 563,
@@ -1643,7 +1643,7 @@
       "steps": 1
     },
     "french_hospital_appointment|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 88,
       "stepChars": 57,
@@ -1685,8 +1685,8 @@
       "steps": 1
     },
     "polish_phishing|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -1804,7 +1804,7 @@
       "steps": 1
     },
     "smish_parcel_link_only|4": {
-      "px": 440,
+      "px": 408,
       "lang": "pl",
       "answerChars": 53,
       "stepChars": 0,
@@ -1846,8 +1846,8 @@
       "steps": 1
     },
     "smish_parcel_link_only_pl|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -1888,8 +1888,8 @@
       "steps": 1
     },
     "scam_council_refund_link_only|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -1930,8 +1930,8 @@
       "steps": 3
     },
     "scam_dvla_vehicle_tax|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -1972,8 +1972,8 @@
       "steps": 1
     },
     "scam_hmrc_refund_es|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -2014,8 +2014,8 @@
       "steps": 3
     },
     "scam_bank_security_fr|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -2056,8 +2056,8 @@
       "steps": 1
     },
     "scam_crypto_investment_pl|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -2098,8 +2098,8 @@
       "steps": 1
     },
     "scam_energy_refund_pt|4": {
-      "px": 398,
-      "lang": "es",
+      "px": 380,
+      "lang": "en",
       "answerChars": 27,
       "stepChars": 0,
       "steps": 0
@@ -2140,9 +2140,9 @@
       "steps": 3
     },
     "genuine_bank_fraud_advice|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 408,
+      "lang": "pl",
+      "answerChars": 53,
       "stepChars": 0,
       "steps": 0
     },
@@ -2182,9 +2182,9 @@
       "steps": 3
     },
     "genuine_nhs_booking_link|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 440,
+      "lang": "en",
+      "answerChars": 93,
       "stepChars": 0,
       "steps": 0
     },
@@ -2224,11 +2224,11 @@
       "steps": 3
     },
     "genuine_school_final_warning|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
-      "stepChars": 0,
-      "steps": 0
+      "px": 590,
+      "lang": "pl",
+      "answerChars": 91,
+      "stepChars": 60,
+      "steps": 1
     },
     "genuine_school_final_warning|5": {
       "px": 525,
@@ -2266,9 +2266,9 @@
       "steps": 3
     },
     "genuine_dwp_identity_check|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 430,
+      "lang": "fr",
+      "answerChars": 71,
       "stepChars": 0,
       "steps": 0
     },
@@ -2308,9 +2308,9 @@
       "steps": 3
     },
     "genuine_court_account_freeze|4": {
-      "px": 398,
-      "lang": "es",
-      "answerChars": 27,
+      "px": 469,
+      "lang": "pl",
+      "answerChars": 99,
       "stepChars": 0,
       "steps": 0
     },
@@ -2352,9 +2352,9 @@
     "genuine_post_office_card_payment|4": {
       "px": 497,
       "lang": "pl",
-      "answerChars": 95,
-      "stepChars": 0,
-      "steps": 0,
+      "answerChars": 24,
+      "stepChars": 59,
+      "steps": 1,
       "includesPassedLine": true
     },
     "genuine_post_office_card_payment|5": {
@@ -2479,7 +2479,7 @@
       "steps": 1
     },
     "intl_polish_clinic_appointment|4": {
-      "px": 568,
+      "px": 558,
       "lang": "pl",
       "answerChars": 90,
       "stepChars": 59,
@@ -2521,7 +2521,7 @@
       "steps": 1
     },
     "intl_portuguese_energy_final_notice|4": {
-      "px": 568,
+      "px": 558,
       "lang": "ro",
       "answerChars": 94,
       "stepChars": 63,
@@ -2564,7 +2564,7 @@
     },
     "intl_sole_trader_invoice|4": {
       "px": 463,
-      "lang": "es",
+      "lang": "fr",
       "answerChars": 62,
       "stepChars": 0,
       "steps": 0
@@ -2647,11 +2647,11 @@
       "steps": 1
     },
     "bill_with_contacts_page|4": {
-      "px": 501,
-      "lang": "pl",
-      "answerChars": 118,
-      "stepChars": 0,
-      "steps": 0
+      "px": 434,
+      "lang": "ro",
+      "answerChars": 18,
+      "stepChars": 53,
+      "steps": 1
     },
     "bill_with_contacts_page|5": {
       "px": 587,
@@ -2689,7 +2689,7 @@
       "steps": 1
     },
     "letter_with_terms_on_back|4": {
-      "px": 590,
+      "px": 558,
       "lang": "pl",
       "answerChars": 86,
       "stepChars": 55,
@@ -2731,8 +2731,8 @@
       "steps": 1
     },
     "statement_with_transactions_page|4": {
-      "px": 495,
-      "lang": "pt",
+      "px": 473,
+      "lang": "pl",
       "answerChars": 90,
       "stepChars": 0,
       "steps": 0
@@ -2773,7 +2773,7 @@
       "steps": 1
     },
     "spec_bengali_nhs_screening|4": {
-      "px": 590,
+      "px": 531,
       "lang": "pl",
       "answerChars": 85,
       "stepChars": 54,
@@ -2815,8 +2815,8 @@
       "steps": 2
     },
     "spec_bilingual_en_pl_council|4": {
-      "px": 497,
-      "lang": "pl",
+      "px": 470,
+      "lang": "ro",
       "answerChars": 19,
       "stepChars": 54,
       "steps": 1,
@@ -2858,8 +2858,8 @@
       "steps": 4
     },
     "spec_council_tax_demand_full|4": {
-      "px": 497,
-      "lang": "pl",
+      "px": 470,
+      "lang": "ro",
       "answerChars": 20,
       "stepChars": 55,
       "steps": 1,
@@ -2944,7 +2944,7 @@
       "steps": 1
     },
     "spec_gujarati_nhs_appointment|4": {
-      "px": 590,
+      "px": 558,
       "lang": "pl",
       "answerChars": 86,
       "stepChars": 55,
@@ -2986,7 +2986,7 @@
       "steps": 1
     },
     "spec_hindi_dwp_universal_credit|4": {
-      "px": 483,
+      "px": 473,
       "lang": "pl",
       "answerChars": 89,
       "stepChars": 0,
@@ -3028,9 +3028,9 @@
       "steps": 1
     },
     "spec_panjabi_council_rent|4": {
-      "px": 501,
+      "px": 469,
       "lang": "pl",
-      "answerChars": 108,
+      "answerChars": 95,
       "stepChars": 0,
       "steps": 0
     },

@@ -921,3 +921,71 @@ read the interface text. If the answers above are good, the rest follows. If
 you have appetite for more afterwards, the file `translations-review/<your
 language>/SAMPLES.md` shows every card sentence filled with realistic values,
 and reading those aloud is the fastest way to hear what is wrong.
+
+## Card 4, the two date strings, added 3 August 2026
+
+
+**These two are not a wording preference. They are a correctness fix, and the
+question we need answered is about the CLAIM, not the style.**
+
+The old strings said the DOCUMENT contained no date:
+
+    journey.explainDueNoDate   "No clear date was found in the document."
+    journey.noDeadline         "No deadline clearly stated."
+
+That is false on 19 of 36 affected documents, because the card directly above
+the sub-line often names dates, for example "These dates appear in the
+document: 9 August 2026. Check what they refer to." The reader was shown dates
+and then told none were found.
+
+The new strings report what NORTHCUE knows, which is that it could not confirm
+which date, if any, is the due date:
+
+    journey.explainDueNoDate   "We could not confirm a due date."
+    journey.noDeadline         "We could not confirm a due date. A date in a
+                                document is not always a deadline. You can
+                                check the original document to see what any
+                                date refers to."
+
+**Q1. Does your translation say "we could not confirm", or has it drifted back
+to "no date was found in the document"?**
+
+The second is the defect being fixed. In several languages the natural
+phrasing pulls that way, so this is the one to check first.
+
+**Q2. Does it presuppose that a date exists?**
+
+It must also be true on the 17 documents that contain no date at all. Watch for
+articles, quantifiers, and anything that ranges over "the dates in this
+document" rather than over documents in general.
+
+**Q3. Is "due date" the right word, as against a plain "date"?**
+
+The distinction is load bearing. Northcue can often see the dates; what it
+cannot do is say which one is the deadline.
+
+**Second surface, longer on purpose.** `journey.noDeadline` replaces the card
+answer in the detail view, so it is the only text on that screen and the dates
+the card named are not there. That is why it explains rather than just states.
+
+### What is in the tree now, for you to correct
+
+
+| language | `journey.explainDueNoDate` |
+|---|---|
+| English | We could not confirm a due date. |
+| Polish | Nie możemy potwierdzić terminu. |
+| Romanian | Nu am putut confirma o dată scadentă. |
+| Spanish | No podemos confirmar una fecha de vencimiento. |
+| French | Nous n'avons pas pu confirmer de date d'échéance. |
+| Portuguese | Não conseguimos confirmar uma data limite. |
+| Hindi | हम किसी देय तारीख की पुष्टि नहीं कर सके. |
+| Bengali | আমরা কোনো শেষ তারিখ নিশ্চিত করতে পারিনি. |
+| Gujarati | અમે નિયત તારીખની ખાતરી કરી શક્યા નથી. |
+| Panjabi | ਅਸੀਂ ਕਿਸੇ ਆਖ਼ਰੀ ਤਾਰੀਖ਼ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕਰ ਸਕੇ. |
+
+Machine drafted, then independently back checked in the same language against
+the three questions above. Four of the nine were revised at that stage, so
+these are second drafts rather than first ones. **No native speaker has read
+any of them.**
+
