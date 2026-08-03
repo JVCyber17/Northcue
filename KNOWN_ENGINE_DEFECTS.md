@@ -2290,3 +2290,70 @@ exactly what card 5 is for, and both are the kind of clause a reader under
 stress skims past. The first has a deadline attached to it that the deadline
 vocabulary does not see, because "50 days" is a relative period rather than a
 date.
+
+### The height fixture only guards the cards that are already nearly full
+
+`tests/cardHeight.test.js` holds a card to its measured content only when that
+card is within `TIGHT_PX` of the 812px viewport, and `TIGHT_PX` is 120.
+**Measured: 30 of the fixture's 463 entries are inside that band. The other 433,
+94 percent of them, are guarded by nothing.** Any of those can gain an answer,
+gain a key point, or grow its wording without a test noticing. The recorded `px` for such a card is not
+a bound on anything; it is a note about what the card looked like on the day
+someone last measured it.
+
+**This is not hypothetical and the drift is not small.** Re-measuring card 4
+across the corpus on 3 August found six entries that had gone stale, some of
+them badly:
+
+    genuine_school_final_warning|4    398px -> 590px    (+192)
+    spanish_water_final_notice|4      479px -> 564px     (+85)
+    genuine_court_account_freeze|4    398px -> 469px     (+71)
+    genuine_nhs_booking_link|4        398px -> 440px     (+42)
+    genuine_dwp_identity_check|4      398px -> 430px     (+32)
+    genuine_bank_fraud_advice|4       398px -> 408px     (+10)
+
+The first is the clearest case. It was recorded with `answerChars: 27` and
+`steps: 0`, which is an empty card, and it now carries a real answer and a key
+point. None of that was caught, because at 398px it had 414px of headroom and
+the content budget never applied to it.
+
+**The gap is wider than a stale number.** The recorded `px` includes the
+client-rendered sub-line, but the content budget records only `answerChars` and
+`stepChars`, which are engine fields. So a change to a client string, which is
+what Item C was, invalidates every affected `px` and CANNOT fail any test. That
+is the same shape as the defects `tests/engineFieldAgreement.test.js` exists to
+catch: an engine-owned number and a client-owned string, with nothing
+reconciling them.
+
+**A cheap detection, and deliberately not a hard assertion.** Turning the whole
+fixture into an equality check is the wrong fix. It would fire on every
+intentional copy change, in ten languages, and the cost of re-measuring 463
+cards to land a one-word edit would get the check deleted or blanket-updated,
+which is worse than not having it.
+
+What is cheap is checking that the fixture still DESCRIBES the card it claims
+to, without claiming to know the pixels:
+
+  1. **A content fingerprint on every entry, not only the tight ones.** The
+     fixture already stores `answerChars`, `stepChars` and `steps`. Compare
+     them against the engine for all 463 entries rather than the 30 tight ones,
+     and fail with "re-measure this card" rather than "this card is too tall".
+     That alone catches all six above, since every one of them changed its
+     answer or gained a step. It costs one engine run over the corpus, which
+     the test already does.
+
+  2. **A version stamp for the client strings the height depends on.** Store a
+     hash of the small set of i18n keys that render inside the panel, currently
+     the six `journey.explain*` sub-lines and the passed-deadline lines. When
+     the hash moves, every `px` is stale by construction and the test says so
+     once, at the top, instead of 463 times. This is the part no test can
+     currently see at all.
+
+  3. **Keep `TIGHT_PX` doing what it does now.** It is the only thing here
+     making a claim about pixels, and it should stay narrow. The two checks
+     above are staleness detection, not overflow detection, and conflating them
+     is what would make the whole fixture brittle.
+
+Neither is built. Recorded because the fixture currently reads as a guard and
+is, for 94 percent of its entries, a comment.
+
