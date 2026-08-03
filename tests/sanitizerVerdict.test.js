@@ -14,6 +14,12 @@
 // stakes. bailiff_enforcement and eviction_possession on the command family,
 // legal_solicitor on a date it had calculated rather than read.
 //
+// TWO OF THOSE THREE NO LONGER REACH THIS PATH AT ALL. The command family that
+// discarded bailiff_enforcement and eviction_possession moved to the stripper on
+// 3 August 2026, so those documents now lose one sentence and keep their cards.
+// The machinery below is unchanged and still needed: legal_solicitor's invented
+// date still rejects, and so does every other pattern in the list.
+//
 // THE SHAPE OF THE FIX. Metadata only. The assignments to structured_result,
 // display_text and tts_script stay unconditional, so both paths serve what they
 // served before. That mattered more than it looks: the engine's own
@@ -41,8 +47,16 @@ const engineFor = (text, id) => runClearStepsEngine({
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
-// An obligation addressed to the reader, carrying no date, so exactly one guard
-// fires and the reported reason stays legible.
+// A phrase that still REJECTS the whole result, carrying no date, so exactly one
+// guard fires and the reported reason stays legible.
+//
+// THIS USED TO BE "You must contact the sender.", and the change is not cosmetic.
+// The command family moved to the stripper on 3 August 2026, so a command no
+// longer rejects anything: it is replaced in place and the other five cards are
+// served. This file is about the REJECTION machinery, which is unchanged, so it
+// needs a phrase that still triggers it. The command's new behaviour is asserted
+// at the bottom of this file instead.
+const REJECTED = "This document is genuine.";
 const COMMAND = "You must contact the sender.";
 const CLEAN = "A calm rewrite of this card, with nothing a guard could object to.";
 
@@ -72,7 +86,7 @@ async function runWithCandidate(text, id, mutate) {
 
 const rejectedCandidate = (candidate) => {
   candidate.cards[0].simple_explanation = CLEAN;
-  candidate.cards[2].key_points = [COMMAND];
+  candidate.cards[2].key_points = [REJECTED];
 };
 const acceptedCandidate = (candidate) => {
   candidate.cards[0].simple_explanation = CLEAN;
@@ -213,3 +227,32 @@ test("telling the truth changed nothing the reader receives", async (t) => {
       "expected the two display_text derivations to differ on most documents, got " + discriminating);
   });
 });
+
+// --------------------------------------------- the command family, after the move
+
+test("a command no longer discards the result, it loses its own sentence", async (t) => {
+  // The other half of the change this file's header describes. Same sentence
+  // that used to reject everything, now checked for what it does instead.
+  const entry = CORPUS.find((e) => e.id === "bailiff_enforcement");
+
+  await t.test("the run completes rather than falling back", async () => {
+    const { run } = await runWithCandidate(entry.text, entry.id, (candidate) => {
+      candidate.cards[2].key_points = [COMMAND];
+    });
+    const ai = run.api_output.debug.ai;
+    assert.equal(ai.ai_status, "completed", JSON.stringify(ai.validation_errors));
+    assert.equal(ai.ai_used, true);
+  });
+
+  await t.test("and the command is not on the card", async () => {
+    const { run } = await runWithCandidate(entry.text, entry.id, (candidate) => {
+      candidate.cards[2].key_points = [COMMAND];
+    });
+    const points = run.api_output.structured_result.cards[2].key_points;
+    assert.ok(!points.includes(COMMAND),
+      "the command reached the reader: " + JSON.stringify(points));
+    assert.ok(points.some((p) => /Check the original document/.test(p)),
+      "expected the reported replacement, got " + JSON.stringify(points));
+  });
+});
+

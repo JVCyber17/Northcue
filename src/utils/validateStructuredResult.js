@@ -48,32 +48,30 @@ const UNSAFE_ADVICE_PATTERNS = [
   // opposite of unsafe advice.
   /(?<!if i )(?<!if you )\bignore it\b/i,
 
-  // THE COMMAND FAMILY. An obligation addressed to the reader, in Northcue's own
-  // voice rather than attributed to the document.
+  // THE COMMAND FAMILY LIVED HERE AND HAS MOVED TO THE STRIPPER.
   //
-  // Added after a live capture on 1 August 2026, when the AI wrote "You must pay
-  // £726.00 by 30 September 2026 to avoid further action." on a court fine.
-  // Nothing above matched it: "you should pay", "pay now" and "make a payment"
-  // all miss "you must pay". Only the stripper's own pay patterns caught it, and
-  // the stripper is a different layer with different scope. One wall is not a
-  // defence.
+  // It is now _AI_COMMAND_RE in aiStructuredResultService.js, with the same
+  // pattern, the same attribution exception and the same provenance exemption.
+  // Nothing about what it CATCHES changed. What changed is what happens next.
   //
-  // The engine says these things too, quoted from the document ("You must
-  // contact us on 0333 320 122 by 3 September 2026."), and those are exempt
-  // because validateNoUnsafeAdvice skips a string byte-identical to the
-  // fallback at the same path. So this pattern and the provenance rule only
-  // work together: without provenance it would reject every enforcement letter,
-  // and without the pattern the AI may command whatever it likes.
+  // WHY IT MOVED. A pattern in this list rejects the entire result, so a reader
+  // loses all six cards over one sentence. Measured across two harness runs, the
+  // command family was the single largest cause of that: six documents in one
+  // run, three in another, more than every other pattern in this list combined.
+  // In the stripper the same sentence is replaced with a reported form and the
+  // other five cards survive.
   //
-  // ATTRIBUTION IS THE EXCEPTION, and it has to be, because attributing is
-  // exactly what the prompt asks for and what the engine itself does. "The
-  // document says you must contact them by 3 September 2026." is a report;
-  // "You must clear £2,480.00 by 12 September 2026." is a command. The first
-  // version of this pattern rejected both, which would have rejected a model
-  // doing the right thing. The lookbehind allows says/states/said/according to
-  // within twenty-four characters, so "the notice states that you must ..."
-  // passes and a bare imperative does not.
-  /(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to|are\s+obliged\s+to)\s+(?:pay|contact|clear|call|ring|phone|reply|respond|send|provide|confirm|settle|attend|complete|return|submit|act|vacate|remove|arrange|apply)\b/i,
+  // AND IT IS THE PATTERN LEAST LIKELY TO SURVIVE TRANSLATION. It assumes
+  // pronoun, then modal, then verb, adjacent and in that order. Polish carries
+  // the imperative in one fixed word with the verb second; Hindi, Bengali,
+  // Gujarati and Panjabi put the verb last with arbitrary material between. When
+  // the guards are built for those languages this pattern will over-fire more
+  // than any other, and an over-fire on this side of the line costs a reader
+  // everything on the screen. Moving it before translating it is the cheap half
+  // of that problem, and it is worth doing whether or not the gate ever opens.
+  //
+  // Recorded rather than deleted, because the reason this is not a weakening is
+  // the whole point: a guard that strips is still a guard.
 
   // A postal address the reader lives at. The AI put "Property involved:
   // 22 Alder House, Feltham." on card one of a possession notice; the engine

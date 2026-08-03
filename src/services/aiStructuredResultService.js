@@ -572,6 +572,34 @@ const _AI_DETAIL_PATTERNS = [
   /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i
 ];
 
+// THE COMMAND FAMILY. Moved here from UNSAFE_ADVICE_PATTERNS in
+// validateStructuredResult.js on 3 August 2026. Same pattern, same attribution
+// exception, same provenance exemption. Only the consequence changed: there it
+// rejected the whole result and a reader lost all six cards over one sentence,
+// here the sentence is replaced and the other five cards survive.
+//
+// An obligation addressed to the reader in Northcue's own voice rather than
+// attributed to the document. Added after a live capture on 1 August 2026, when
+// the AI wrote "You must pay £726.00 by 30 September 2026 to avoid further
+// action." on a court fine. The flat phrases all missed it: "you should pay",
+// "pay now" and "make a payment" do not match "you must pay".
+//
+// ATTRIBUTION IS THE EXCEPTION, and it has to be, because attributing is what
+// the prompt asks for and what the engine itself does. "The document says you
+// must contact them by 3 September 2026." is a report; "You must clear £2,480.00
+// by 12 September 2026." is a command. The lookbehind allows says, stating,
+// states, said and according to within twenty-four characters.
+//
+// ascii-boundary-ok: reads AI output, and the AI pass is English only. See the
+// note on _AI_SENSITIVE_TERM below, which applies here in full.
+const _AI_COMMAND_RE = /(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to|are\s+obliged\s+to)\s+(?:pay|contact|clear|call|ring|phone|reply|respond|send|provide|confirm|settle|attend|complete|return|submit|act|vacate|remove|arrange|apply)\b/i;
+
+// Already a bank sentence in all ten languages, so this move adds no new string
+// and no NATIVE_REVIEW entry. It reports rather than instructs, which is the
+// whole substitution being made.
+const _AI_COMMAND_REPLACEMENT =
+  "Check the original document to see whether a response or action is needed.";
+
 // Applies the AI-output stripper to the rules-engine structured_result in place,
 // and keeps display_text / tts_script consistent. Used on every non-AI path so
 // the rules cards get the same safety pass the AI cards do.
@@ -699,6 +727,20 @@ function sanitizeAiTextField(text, exemptSentences) {
       if (!keepNumbers && _AI_PHONE_RE.test(trimmed) && _AI_CALL_CONTEXT_RE.test(trimmed)) {
         return "Use contact details from the original document.";
       }
+      // EXEMPT-CHECKED, which is what makes this identical in effect to the
+      // validator rule it replaces. There, a string byte-identical to the
+      // engine's own output at the same path was skipped; here, a sentence
+      // byte-identical to an engine sentence is exempt. So the engine quoting a
+      // letter ("You must contact us on 0333 320 122 by 3 September 2026.")
+      // still passes, and a model-authored command still does not.
+      //
+      // LAST OF THE FOUR REPLACING RULES, on purpose. Every rule above is more
+      // specific about what the sentence was trying to do, and each has a
+      // better replacement for it: a command to pay gets the payment line, a
+      // command to ring a number gets the contact line. This one only handles a
+      // command those three do not already describe, which keeps the move to
+      // the stripper from changing any sentence that was already being handled.
+      if (!keepNumbers && _AI_COMMAND_RE.test(trimmed)) return _AI_COMMAND_REPLACEMENT;
       const withoutOrgNames = trimmed.replace(_AI_DEBT_ORG_RE, "a trusted advice service");
       return keepNumbers
         ? withoutOrgNames

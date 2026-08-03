@@ -20,6 +20,9 @@ const test = require("node:test");
 const { validateStructuredResult, sanitizeStructuredResult } =
   require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
+// The command family lives here now, so this file reaches for it here.
+const { sanitizeAiTextField } =
+  require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 const byId = (id) => CORPUS.find((entry) => entry.id === id).text;
@@ -175,25 +178,35 @@ test("the exemption cannot be widened by an empty or absent fallback", async (t)
 
 // ------------------------------------------------- the guards added with it
 
-test("an obligation addressed to the reader is rejected, unless attributed", async (t) => {
+// THE COMMAND FAMILY MOVED TO THE STRIPPER on 3 August 2026, so these cases now
+// assert at the SENTENCE level rather than the result level. The case list is
+// unchanged on purpose: the point of the move was that the guard keeps catching
+// exactly what it caught, and the only difference is that a reader loses one
+// sentence instead of all six cards.
+//
+// The validator half is asserted too, and asserted as PASSING, because that is
+// the change. If a command starts failing validation again the move has been
+// undone, and this file should say so loudly rather than quietly agreeing.
+test("an obligation addressed to the reader is neutralised, unless attributed", async (t) => {
   const fallback = rulesResult("court_fine");
+  const neutralised = (line) => sanitizeAiTextField(line) !== line;
 
   await t.test("the sentence a live capture actually produced", () => {
     // "You must pay £726.00 by 30 September 2026 to avoid further action." on a
-    // court fine. None of the older patterns matched it; only the stripper did,
-    // and the stripper is a different layer.
+    // court fine.
+    const line = "You must pay £726.00 by 30 September 2026 to avoid further action.";
+    assert.ok(neutralised(line), "the stripper must still catch it");
     const candidate = clone(fallback);
-    candidate.cards[1].simple_explanation = "You must pay £726.00 by 30 September 2026 to avoid further action.";
-    assert.equal(validateStructuredResult(candidate, fallback).valid, false);
+    candidate.cards[1].simple_explanation = line;
+    assert.equal(validateStructuredResult(candidate, fallback).valid, true,
+      "and the validator must no longer reject the whole result over it");
   });
 
   await t.test("the family, not just the one verb", () => {
     ["You must contact the council today.", "You must clear the arrears by Friday.",
      "You need to call the Fines Team.", "You are required to respond.",
      "You should contact them about this."].forEach((line) => {
-      const candidate = clone(fallback);
-      candidate.cards[1].simple_explanation = line;
-      assert.equal(validateStructuredResult(candidate, fallback).valid, false, line);
+      assert.ok(neutralised(line), line);
     });
   });
 
@@ -201,10 +214,15 @@ test("an obligation addressed to the reader is rejected, unless attributed", asy
     // Dates kept to ones court_fine actually prints, so this tests the command
     // rule rather than tripping the date rule. That distinction cost a test
     // failure to find, which is the rules being independent as intended.
+    //
+    // "The letter says you must pay by 30 September 2026." is absent from this
+    // list and belongs in the one below it: the PAY patterns have never carried
+    // an attribution exception, and moving the command family did not give them
+    // one. Recorded rather than quietly dropped.
     ["The document says you must contact them by 30 September 2026.",
-     "The letter says you must pay by 30 September 2026.",
      "According to the document, you must clear the balance.",
      "The notice states that you must respond about this."].forEach((line) => {
+      assert.equal(sanitizeAiTextField(line), line, "the stripper must leave it alone: " + line);
       const candidate = clone(fallback);
       candidate.cards[1].simple_explanation = line;
       const validation = validateStructuredResult(candidate, fallback, byId("court_fine"));
@@ -212,12 +230,23 @@ test("an obligation addressed to the reader is rejected, unless attributed", asy
     });
   });
 
+  await t.test("an attributed PAYMENT command is still stripped, and that predates this", () => {
+    // Not a regression from the move. _AI_PAY_PATTERNS has matched
+    // "you must pay" with no attribution exception since long before the
+    // command family arrived, and it still runs first.
+    const line = "The letter says you must pay by 30 September 2026.";
+    assert.ok(neutralised(line));
+  });
+
   await t.test("the engine's own quoted obligation still passes at its own path", () => {
-    // bailiff_enforcement's card 3 carries "You must contact us on 0333 320 122
-    // by 3 September 2026." This pattern and the provenance rule only work
-    // together: without provenance this would reject every enforcement letter.
+    // bailiff_enforcement's card 3 used to carry "You must contact us on
+    // 0333 320 122 by 3 September 2026." The exemption that protects a sentence
+    // like it is now the stripper's, keyed on the same provenance.
     const bailiff = rulesResult("bailiff_enforcement");
     assert.equal(validateStructuredResult(bailiff, bailiff).valid, true);
+    const quoted = "You must contact us on 0333 320 122 by 3 September 2026.";
+    assert.equal(sanitizeAiTextField(quoted, new Set([quoted])), quoted,
+      "exempt by provenance, exactly as the validator rule was");
   });
 });
 
