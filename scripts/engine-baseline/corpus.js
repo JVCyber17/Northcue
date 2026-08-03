@@ -31,6 +31,7 @@
 
 const { SPEC_ANCHORED, PAGE_BREAK } = require("./corpus-spec-anchored");
 const { SPEC_LANGUAGES } = require("./corpus-spec-languages");
+const { CONTACT_SHAPES } = require("./corpus-contact-shapes");
 
 const CORPUS = [
   // ---------------------------------------------------------------- supported
@@ -1476,5 +1477,9 @@ SPEC_ANCHORED.forEach((entry) => {
 });
 
 SPEC_LANGUAGES.forEach((entry) => CORPUS.push(entry));
+
+// Three shapes reported from the live product where the contact number never
+// reached the reader, each failing at a different one of the three gates.
+CONTACT_SHAPES.forEach((entry) => CORPUS.push(entry));
 
 module.exports = { CORPUS };

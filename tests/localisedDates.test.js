@@ -223,7 +223,11 @@ test("a date written as one end of a period is not the date that matters", async
       statement_with_transactions_page: ["1 April 2026", "30 April 2026"],
       spec_energy_bill_full: ["14 February 2026", "13 May 2026", "1 April 2025", "31 March 2026"],
       spec_council_tax_demand_full: ["1 April 2026", "31 March 2027"],
-      spec_bilingual_en_pl_council: ["1 July 2026", "31 March 2027"]
+      spec_bilingual_en_pl_council: ["1 July 2026", "31 March 2027"],
+      // NEW 3 August 2026 with the contact-shape documents. Both print a
+      // billing period, which is exactly the shape this rule identifies.
+      energy_bill_contacts_panel: ["14 February 2026", "13 May 2026"],
+      communal_bill_debt_help_block: ["1 March 2026", "31 May 2026"]
     };
     const seen = {};
     CORPUS.forEach((entry) => {

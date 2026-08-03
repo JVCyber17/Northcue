@@ -212,7 +212,33 @@ const MAX_LABEL_GAP = 44;
 // The spanning gap is where the letter names WHO, which is exactly the part
 // that varies, so it reuses the discontiguous-label machinery with "on" as the
 // tail instead of "by".
-const PHONE_GOVERNS = ["telephone", "call", "calling", "phone", "ring"];
+// A VERB IS ONLY HALF OF HOW A LETTER NAMES A NUMBER'S PURPOSE.
+//
+// These five are verbs, and they read a sentence: "telephone 020 8321 5000",
+// "by calling 0333 200 5100". A CONTACTS PANEL does not use a verb at all. It
+// uses a purpose noun and a colon:
+//
+//   Billing enquiries: 0330 808 3880
+//   Meter readings: 0330 054 5340
+//   Moving home: 0330 808 3881
+//
+// Measured on energy_bill_contacts_panel: the pattern finds all four numbers,
+// zero purpose phrases are found, nothing binds, and card 3 says "Contact
+// Brightpath Energy using trusted contact details" on a bill that prints the
+// billing number. The 17-of-60 figure the engine scores today is real and
+// measures only the shape that uses a verb.
+//
+// MULTI-WORD, OR A NOUN THAT CANNOT MEAN ANYTHING ELSE. "billing" alone would
+// match "billing period" and "billing address"; "payments" would match
+// "payments received". Each entry below is either two words or a word whose
+// only use beside a number is naming what that number is for.
+const PHONE_GOVERNS = [
+  "telephone", "call", "calling", "phone", "ring",
+  "billing enquiries", "billing enquiry", "account enquiries",
+  "general enquiries", "customer service", "customer services",
+  "customer enquiries", "meter readings", "meter reading",
+  "moving home", "helpline", "contact number", "telephone number"
+];
 const PHONE_GOVERNS_SPANNING = [
   "contact", "call", "telephone", "phone", "speak to", "talk to", "answer questions"
 ];
@@ -1110,9 +1136,60 @@ function findPhoneNumbers(text) {
 // line states two purposes and names neither as the one. Choosing between them
 // would be Northcue ranking the reader's options, which is the line this class
 // of work does not cross. One number or none.
+// A DEBT-HELP BLOCK IS NOT A LIST OF WAYS TO CONTACT THE SENDER.
+//
+// UK billing regulation pushes suppliers to print free independent advice
+// lines, so a bill that owes nothing to StepChange carries StepChange's number.
+// Those numbers are structurally different from the sender's: the block
+// introduces them, names charities rather than departments, and says in the
+// letter's own words that they are independent of the sender and do not charge.
+//
+// Treating them as contact candidates is what turns a document with ONE
+// supplier number into a document with four, and the two-candidate decline then
+// costs the reader the number they needed. It is a card 6 concept, not a card 3
+// one.
+//
+// FOUND AS A BLOCK, NOT AS A LIST OF CHARITIES. Naming StepChange, Citizens
+// Advice and National Debtline works until a bill prints a fourth. The heading
+// is what is stable: free, independent, debt advice, money worries. Everything
+// from that heading to the end of the document is out of the contest, which is
+// where these blocks always sit.
+const DEBT_HELP_HEADING =
+  /^\s*(?:free\b[^\n]{0,40}\b(?:advice|help)|[^\n]{0,30}\bdebt advice|[^\n]{0,30}\bmoney worries|independent\b[^\n]{0,30}\badvice)/i;
+
+function debtHelpBlockStart(source) {
+  const lines = String(source || "").split("\n");
+  let offset = 0;
+  for (const line of lines) {
+    if (DEBT_HELP_HEADING.test(line)) return offset;
+    offset += line.length + 1;
+  }
+  return -1;
+}
+
+// The one number the document says to ring, or null.
+//
+// PREFERS, RATHER THAN DECLINING, WHEN SEVERAL BIND. The old rule returned null
+// on two candidates, and its reason was that choosing would be Northcue ranking
+// the reader's options. That reason holds for two numbers with equal claim; it
+// does not hold for the shape real post actually has.
+//
+// official_letter_caseworker_number is the case. "Phone 03000 511899" sits at
+// the top with the caseworker's hours; "call the VAT helpline on 0300 200 3700"
+// sits in the body as a general fallback. Both bind, so the reader got neither,
+// on a letter whose own instruction is "please phone me on the above number".
+//
+// FIRST BOUND WINS, and that is a claim about how letters are laid out rather
+// than about which number is better: the number for the reader's own next step
+// is printed at the top or beside the ask, and the general lines come after it.
+// True of all three reported shapes. If a document is ever found where the
+// general line comes first, this rule names the wrong number and the honest fix
+// is to bind the obligation, not to go back to declining and naming none.
 function selectPhoneNumber(text) {
   const source = String(text || "");
-  const values = findPhoneNumbers(source);
+  const blockStart = debtHelpBlockStart(source);
+  const values = findPhoneNumbers(source)
+    .filter((value) => blockStart === -1 || value.index < blockStart);
   if (!values.length) return null;
 
   const governs = locateLabels(source, PHONE_GOVERNS)
@@ -1127,7 +1204,7 @@ function selectPhoneNumber(text) {
     const label = governingLabel(value, governs, competes, { forwardOnly: true, source });
     if (label) bound.push({ value: value.value, label: label.phrase, index: value.index });
   }
-  return bound.length === 1 ? bound[0] : null;
+  return bound.length ? bound[0] : null;
 }
 
 // The letter's own date: a date in the header zone, above the greeting. The

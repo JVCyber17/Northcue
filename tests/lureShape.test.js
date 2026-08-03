@@ -74,7 +74,7 @@ test("the rule fires where it was measured to fire", async (t) => {
     // still has a link, a total and no reference code, so if this ever returns
     // to one the fix has been undone rather than the corpus changed.
     const genuine = CORPUS.filter((e) => !SCAMS.includes(e.id));
-    assert.equal(genuine.length, 60, "the genuine/scam split has changed");
+    assert.equal(genuine.length, 63, "the genuine/scam split has changed");
     const firedOnGenuine = genuine
       .filter((e) => trustOf(e.text).lure_shape_signals.length > 0)
       .map((e) => e.id);

@@ -284,16 +284,36 @@ test("a number the document says NOT to use is refused", async (t) => {
   }
 });
 
-test("two candidates decline rather than choose", async (t) => {
-  await t.test("a payments line and a complaints line", () => {
-    // The letter states two purposes and names neither as the one. Choosing
-    // would be Northcue ranking the reader's options.
+test("two candidates prefer the first rather than declining", async (t) => {
+  // REPLACED A DECLINE RULE, on 3 August 2026, and the reason it went is worth
+  // keeping. It returned null on two bound candidates because "choosing would
+  // be Northcue ranking the reader's options". That holds for two numbers with
+  // equal claim. It does not hold for the shape real post has.
+  //
+  // official_letter_caseworker_number is the case: "Phone 03000 511899" at the
+  // top with the caseworker's hours, and "call the VAT helpline on
+  // 0300 200 3700" in the body as a general fallback. Both bind, so the reader
+  // got NEITHER, on a letter whose own instruction is "please phone me on the
+  // above number".
+  await t.test("a payments line and a complaints line now yields the first", () => {
+    // WHAT THE CHANGE COSTS, kept as the case that argued for declining. Two
+    // purposes, neither named as the one, and the first is now chosen. This is
+    // the weakest instance of the new rule and it is here so the cost is
+    // visible rather than implied.
     const both = letter([
       "If you think this bill is wrong, contact us on 020 8583 4242.",
       "To pay, call the payments line on 0333 200 5100."
     ]);
     assert.equal(co.findPhoneNumbers(both).length, 2, "premise: both are found");
-    assert.equal(selected(both), null);
+    assert.equal(selected(both), "020 8583 4242");
+  });
+
+  await t.test("the caseworker letter, which is why the rule changed", () => {
+    const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
+    const text = CORPUS.find((e) => e.id === "official_letter_caseworker_number").text;
+    assert.equal(co.findPhoneNumbers(text).length, 2, "premise: both are found");
+    assert.equal(selected(text), "03000 511899",
+      "the letter says to phone the number at the top, and that is the first bound one");
   });
 
   await t.test("one bound and one unbound still yields the bound one", () => {
@@ -349,6 +369,17 @@ test("the gates, through the engine", async (t) => {
       eviction_possession: "020 8890 4100", court_fine: "0300 790 9901",
       arrears_before_clause: "020 8583 4242", failed_direct_debit: "0800 980 8800",
       arrears_past_and_future: "0114 273 4567", school_periodic: "0114 273 8890",
+      // FOUR ADDED 3 August 2026 with the three contact-shape documents and
+      // the three gate fixes. Nothing already binding changed its number, which
+      // is what says the fixes are additive rather than a re-ranking.
+      //   energy_bill_contacts_panel   purpose-noun labels, gate 1
+      //   communal_bill_debt_help_block  the block excluded, gate 3
+      //   official_letter_caseworker_number  prefer over decline, gate 2
+      //   bill_with_contacts_page      the document that started this, gate 1
+      bill_with_contacts_page: '0333 202 9802',
+      communal_bill_debt_help_block: '0333 321 2010',
+      energy_bill_contacts_panel: '0330 808 3880',
+      official_letter_caseworker_number: '03000 511899',
       ambiguous_numeric_date: "0333 304 0191", short_year_date: "020 8583 4242",
       // Recovered by F3 on 1 August 2026. Each was refused as a scam, which
       // suppressed its contact number along with everything else.
@@ -428,7 +459,7 @@ test("only a phone number, never an address of any kind", async (t) => {
 });
 
 test("card 3 reports the number, and reports it rather than recommending it", async (t) => {
-  await t.test("the seventeen documents that bind show it as the last key point", () => {
+  await t.test("the twenty-one documents that bind show it as the last key point", () => {
     const shown = {};
     CORPUS.forEach((entry) => {
       const cards = analyse(entry.text).api_output.structured_result.cards;
@@ -440,7 +471,12 @@ test("card 3 reports the number, and reports it rather than recommending it", as
     // scams, which suppressed their contact number with everything else. The
     // seventeenth is intl_water_arrears_00_prefix, and it is on this card with
     // the WRONG number: see the pin in the block above.
-    assert.equal(Object.keys(shown).length, 17, Object.keys(shown).join(", "));
+    //
+    // TWENTY-ONE since the three gate fixes of 3 August 2026: three new
+    // contact-shape documents, and bill_with_contacts_page, whose billing
+    // number was invisible because a contacts panel labels by purpose noun and
+    // PHONE_GOVERNS knew only verbs.
+    assert.equal(Object.keys(shown).length, 21, Object.keys(shown).join(", "));
     Object.entries(shown).forEach(([id, s]) => {
       assert.ok(s.last, id + ": the number must come after the actions, not among them");
     });

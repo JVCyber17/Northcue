@@ -208,6 +208,10 @@ test("the corpus, end to end", async (t) => {
 
   await t.test("exactly the documents whose date has one reading carry one", () => {
     const EXPECTED = {
+      // NEW 3 August 2026 with the contact-shape documents. Only the energy
+      // bill resolves: the communal bill is on the reading aid, and the
+      // caseworker letter states visit dates rather than a deadline.
+      energy_bill_contacts_panel: "2026-06-04",
       // TEN READING-AID DOCUMENTS LEFT THIS MAP on 3 August 2026, deliberately.
       // deadlineIsoFor now refuses that path: it GUESSES its date, taking the
       // first no competing label has claimed, and deadline_iso exists to be

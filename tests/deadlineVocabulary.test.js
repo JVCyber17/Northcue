@@ -283,6 +283,9 @@ test("tier 3 stops where the other layers say stop", async (t) => {
 
   await t.test("exactly one corpus document gains a deadline, and none loses one", () => {
     const EXPECTED = {
+      // NEW 3 August 2026 with the contact-shape documents.
+      energy_bill_contacts_panel: "4 June 2026",
+      communal_bill_debt_help_block: "30 June 2026",
       council_tax: "1 April 2026", energy_bill: "28 May 2026", water_bill: "30 June 2026",
       gov_hmrc: "31 July 2026", appointment_nhs: "1 July 2026",
       bailiff_enforcement: "3 September 2026", eviction_possession: "12 September 2026",

@@ -355,6 +355,53 @@
     "consequence": null,
     "account_in_credit": false
   },
+  "communal_bill_debt_help_block": {
+    "document_language": "en",
+    "sender": "Switchpoint Energy Services",
+    "reference": "SW-4471028",
+    "amounts": [
+      {
+        "value": "£184.22",
+        "role": "other"
+      },
+      {
+        "value": "£61.40",
+        "role": "balance"
+      },
+      {
+        "value": "£245.62",
+        "role": "total_due"
+      }
+    ],
+    "dates": [
+      {
+        "value": "2 June 2026",
+        "role": "letter_date"
+      },
+      {
+        "value": "1 March 2026",
+        "role": "period_start"
+      },
+      {
+        "value": "31 May 2026",
+        "role": "period_end"
+      },
+      {
+        "value": "30 June 2026",
+        "role": "deadline"
+      }
+    ],
+    "obligation": {
+      "kind": "pay",
+      "sentence": "Please pay by 30 June 2026."
+    },
+    "consequence": {
+      "kind": "debt_collection",
+      "conditional": true,
+      "sentence": "If you do not pay, your account may be passed to a collection agency and further charges may be added."
+    },
+    "account_in_credit": false
+  },
   "council_tax": {
     "document_language": "en",
     "sender": "Hounslow Borough Council",
@@ -521,6 +568,45 @@
     "obligation": {
       "kind": "pay",
       "sentence": "Please pay by 28 May 2026."
+    },
+    "consequence": null,
+    "account_in_credit": false
+  },
+  "energy_bill_contacts_panel": {
+    "document_language": "en",
+    "sender": "Brightpath Energy Limited",
+    "reference": "[phone]",
+    "amounts": [
+      {
+        "value": "£298.53",
+        "role": "total_due"
+      },
+      {
+        "value": "£99.51",
+        "role": "instalment"
+      }
+    ],
+    "dates": [
+      {
+        "value": "14 May 2026",
+        "role": "letter_date"
+      },
+      {
+        "value": "14 February 2026",
+        "role": "period_start"
+      },
+      {
+        "value": "13 May 2026",
+        "role": "period_end"
+      },
+      {
+        "value": "4 June 2026",
+        "role": "deadline"
+      }
+    ],
+    "obligation": {
+      "kind": "pay",
+      "sentence": "Please pay by 4 June 2026."
     },
     "consequence": null,
     "account_in_credit": false
@@ -1337,6 +1423,32 @@
     },
     "account_in_credit": false
   },
+  "official_letter_caseworker_number": {
+    "document_language": "en",
+    "sender": "HM Revenue and Customs",
+    "reference": "VC/2026/44710",
+    "amounts": [],
+    "dates": [
+      {
+        "value": "3 June 2026",
+        "role": "letter_date"
+      },
+      {
+        "value": "12 June 2026",
+        "role": "appointment"
+      },
+      {
+        "value": "13 June 2026",
+        "role": "appointment"
+      }
+    ],
+    "obligation": {
+      "kind": "attend",
+      "sentence": "I have arranged to visit your business to check your VAT records. The visits are booked for 12 and 13 June 2026 at 09:30."
+    },
+    "consequence": null,
+    "account_in_credit": false
+  },
   "outgoing_letter": {
     "document_language": "en",
     "sender": "Priya Sharma, 14 Sutton Court Road, Hounslow, TW3 8SG",
@@ -1873,6 +1985,77 @@
       "sentence": "You must pay the first instalment of £157.90 by 1 April 2026."
     },
     "consequence": null,
+    "account_in_credit": false
+  },
+  "spec_energy_bill_full": {
+    "document_language": "en",
+    "sender": "Brightpath Energy Limited",
+    "reference": "[phone]",
+    "amounts": [
+      {
+        "value": "£142.60",
+        "role": "balance"
+      },
+      {
+        "value": "-£142.60",
+        "role": "credit"
+      },
+      {
+        "value": "£0.00",
+        "role": "balance"
+      },
+      {
+        "value": "£284.31",
+        "role": "other"
+      },
+      {
+        "value": "£14.22",
+        "role": "fee"
+      },
+      {
+        "value": "£298.53",
+        "role": "total_due"
+      },
+      {
+        "value": "£298.53",
+        "role": "total_due"
+      },
+      {
+        "value": "£99.51",
+        "role": "instalment"
+      }
+    ],
+    "dates": [
+      {
+        "value": "14 May 2026",
+        "role": "letter_date"
+      },
+      {
+        "value": "14 February 2026",
+        "role": "period_start"
+      },
+      {
+        "value": "13 May 2026",
+        "role": "period_end"
+      },
+      {
+        "value": "4 June 2026",
+        "role": "deadline"
+      },
+      {
+        "value": "4 June 2026",
+        "role": "other"
+      }
+    ],
+    "obligation": {
+      "kind": "pay",
+      "sentence": "Please pay £298.53 by 4 June 2026."
+    },
+    "consequence": {
+      "kind": "disconnection",
+      "conditional": true,
+      "sentence": "We will never disconnect a domestic supply for debt without first offering a payment plan based on your ability to pay, and offering a prepayment meter where it is safe and practical to install one."
+    },
     "account_in_credit": false
   },
   "spec_gujarati_nhs_appointment": {
