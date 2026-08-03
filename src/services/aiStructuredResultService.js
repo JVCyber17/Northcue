@@ -561,6 +561,26 @@ const _AI_PAY_PATTERNS = [
 // opened to another language, this list and both patterns below have to be
 // rewritten as Unicode-bounded BEFORE that happens, not after.
 const _AI_SENSITIVE_TERM = "(?:account\\s+details?|account\\s+information|bank\\s+(?:account|details?)|banking\\s+details?|card\\s+(?:details?|number)|national\\s+insurance(?:\\s+number)?|\\bni\\s+number\\b|sort\\s+code|pass(?:word|code)|\\bpin\\b|security\\s+(?:details?|code)|personal\\s+details?|your\\s+details?)";
+// The imperative verbs, shared by the sentence-initial pattern and the
+// position-free one below it, so the two cannot drift apart.
+const _AI_CREDENTIAL_VERB =
+  "(?:confirm|enter|provide|share|give|send|submit|supply|update|re-?enter|input)";
+
+// THE NEGATION EXCEPTION, and it is the mirror of the command family's
+// attribution exception. "Do not share your password, PIN, or full card number
+// with anyone." is the exact INVERSE of a credential ask, and it is a sentence a
+// bank actually prints. Measured: without this, the position-free pattern
+// stripped genuine anti-fraud advice on genuine_bank_fraud_advice, and it
+// stripped this guard's own replacement sentence, which would have been a loop.
+//
+// The window excludes commas on purpose. At [^.!?]{0,32} it also swallowed
+// "If you have not done so, share your bank details with them.", where the "not"
+// belongs to "have not done so" and not to "share". Barring the comma fixed
+// that without losing any of the negated cases.
+const _AI_CREDENTIAL_NOT_NEGATED =
+  // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
+  "(?<!\\b(?:do not|dont|don’t|never|not|avoid|warns you not to)\\b[^.!?,]{0,24})";
+
 const _AI_DETAIL_PATTERNS = [
   // Imperative instruction at the start of the sentence + a sensitive term anywhere in it.
   // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
@@ -569,7 +589,40 @@ const _AI_DETAIL_PATTERNS = [
   // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
   new RegExp("\\byou\\s+(?:will\\s+|may\\s+|would\\s+|must\\s+)?need\\s+your\\b[^.!?]*\\b" + _AI_SENSITIVE_TERM, "i"),
   // Bare "confirm your account / identity / card / bank / payment" phishing imperative.
-  /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i
+  /^(?:please\s+)?confirm\s+your\s+(?:account|identity|card|bank|payment)\b/i,
+
+  // POSITION-FREE, added 3 August 2026. The three patterns above anchor on
+  // where the verb SITS: two at the start of the sentence, one on the fixed
+  // English frame "you need your". Measured, that costs five of twelve
+  // credential asks a model can plausibly write, because an English sentence
+  // puts the imperative second whenever anything precedes it:
+  //
+  //     "To continue, please confirm your account details."
+  //     "Before 5 June, enter your sort code on the portal."
+  //     "The website asks you to provide your card details."
+  //     "Your account details must be confirmed within 7 days."
+  //     "If you have not done so, share your bank details with them."
+  //
+  // THIS ONE ANCHORS ON THE SENSITIVE TERM AND ASKS WHETHER AN IMPERATIVE
+  // GOVERNS IT, wherever in the clause it happens to be. That is what makes it
+  // the design that can survive nine more languages: Polish carries the
+  // imperative in one fixed word with the verb second, and Hindi, Bengali,
+  // Gujarati and Panjabi put the verb last. A sentence-initial anchor cannot
+  // be translated, only replaced.
+  //
+  // "your|the" IS LOAD BEARING. Without it, "The council will send your details
+  // to the tribunal." fires, and a third party moving a file between offices is
+  // not a credential ask. It was measured firing on that sentence before the
+  // constraint was added.
+  //
+  // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
+  new RegExp(_AI_CREDENTIAL_NOT_NEGATED + "(?:" +
+    _AI_CREDENTIAL_VERB + "\\s+(?:\\w+\\s+){0,3}?(?:your|the)\\s+[^.!?]{0,40}?" + _AI_SENSITIVE_TERM +
+    // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
+    "|" + _AI_SENSITIVE_TERM + "[^.!?]{0,40}?\\b(?:must|should|need\\s+to|have\\s+to)\\s+be\\s+" +
+    // ascii-boundary-ok: English-only AI output, per the note on _AI_SENSITIVE_TERM.
+    _AI_CREDENTIAL_VERB + "(?:e?d)\\b" +
+    ")", "i")
 ];
 
 // THE COMMAND FAMILY. Moved here from UNSAFE_ADVICE_PATTERNS in
