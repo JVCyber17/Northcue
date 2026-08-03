@@ -484,11 +484,61 @@ function sanitizeSummary(candidate, fallback) {
   };
 }
 
+// The card carries at most MAX_KEY_POINTS lines. Protected lines claim their
+// places first; the model fills what is left, in its own order.
+const MAX_KEY_POINTS = 4;
+
+function mergeProtected(modelKeyPoints, protectedKeyPoints) {
+  const model = Array.isArray(modelKeyPoints) ? modelKeyPoints : [];
+  const keep = (Array.isArray(protectedKeyPoints) ? protectedKeyPoints : [])
+    .map((point) => String(point == null ? "" : point).trim())
+    .filter(Boolean)
+    .slice(0, MAX_KEY_POINTS);
+
+  // A model line identical to a protected one is the same line, not a second
+  // copy of it. Compared on the normalised string, because that is the form
+  // both sides are stored in.
+  const kept = new Set(keep);
+  const room = Math.max(0, MAX_KEY_POINTS - keep.length);
+  const fromModel = model
+    .map((point) => String(point == null ? "" : point).trim())
+    .filter((point) => point && !kept.has(point))
+    .slice(0, room);
+
+  return fromModel.concat(keep);
+}
+
 function sanitizeCards(cards, fallbackCards) {
   return REQUIRED_CARD_IDS.map((cardId, index) => {
     const candidate = cards[index] || {};
     const fallback = fallbackCards[index] || {};
-    const keyPoints = Array.isArray(candidate.key_points) ? candidate.key_points : fallback.key_points;
+    // ONE ARRAY OR THE OTHER WAS THE DEFECT. Any model key point discarded
+    // every engine line on the card: 224 displaced against 10 kept across the
+    // corpus, the contact number lost 15 times out of 15, every severity signal
+    // and every not-fully-trained caution gone.
+    //
+    // The engine now marks which of its lines may not be displaced, and marks
+    // them by PROVENANCE: protected_key_points is built by calling the same
+    // functions that built the key points, not by matching how a line reads.
+    // Wording was tried and it misses bailiff_enforcement card 3, where the
+    // phone number arrives inside a sentence lifted from the document rather
+    // than in the composed "The document gives this phone number:" form.
+    //
+    // MODEL FIRST, PROTECTED APPENDED. That preserves the engine's own
+    // ordering, where the contact number deliberately sits after the actions
+    // because it is reported and not recommended.
+    //
+    // AND THE PROTECTED LINES ARE TAKEN OUT OF THE CAP FIRST, so a card at the
+    // four-point limit drops a model line rather than a protected one. The cap
+    // is not raised: 45 of 161 corpus cards would exceed it under a full merge,
+    // and card length is its own decision.
+    const modelKeyPoints = Array.isArray(candidate.key_points)
+      ? candidate.key_points
+      : fallback.key_points;
+    const protectedKeyPoints = Array.isArray(fallback.protected_key_points)
+      ? fallback.protected_key_points
+      : [];
+    const keyPoints = mergeProtected(modelKeyPoints, protectedKeyPoints);
     // Card five's title is the ENGINE's signal for which mode the card is in:
     // "What could happen if I ignore it?" when the document states a
     // consequence, "What should I check?" when it does not. The prompt tells

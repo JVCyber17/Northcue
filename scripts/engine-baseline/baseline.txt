@@ -137,6 +137,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -152,6 +153,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -171,6 +173,9 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
       "Contact the sender using trusted contact details.",
       "The document gives this phone number: 020 8583 4242."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8583 4242."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -188,6 +193,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "key_points": [
       "Check this date on the original document: 1 April 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 April 2026",
     "possible_payment": null,
@@ -206,6 +212,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
       "Date: 1 April 2026.",
       "Amount shown: £1,381.50."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,381.50",
@@ -223,6 +230,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -377,6 +385,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -392,6 +401,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -411,6 +421,9 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
       "Contact the sender using trusted contact details.",
       "The document gives this phone number: 0333 200 5100."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0333 200 5100."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -428,6 +441,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
     "key_points": [
       "Check this date on the original document: 28 May 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "28 May 2026",
     "possible_payment": null,
@@ -446,6 +460,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
       "Date: 28 May 2026.",
       "Amount shown: £214.63."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£214.63",
@@ -464,6 +479,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
       "Follow the action card step by step.",
       "Keep this reference ready: EB-4471028."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -612,6 +628,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -627,6 +644,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -644,6 +662,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -661,6 +680,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "key_points": [
       "Check this date on the original document: 30 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "30 June 2026",
     "possible_payment": null,
@@ -679,6 +699,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
       "Date: 30 June 2026.",
       "Amount shown: £142.60."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£142.60",
@@ -696,6 +717,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -842,6 +864,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -857,6 +880,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -874,6 +898,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -889,6 +914,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 2 May 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -906,6 +932,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "key_points": [
       "Amount shown: £45.19."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£45.19",
@@ -923,6 +950,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1080,6 +1108,9 @@ INTENT:   document_category government. Official notice with a reference and a r
       "This may ask for a response about tax or HMRC. Check the original document.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1095,6 +1126,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1112,6 +1144,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1129,6 +1162,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "key_points": [
       "Check this date on the original document: 31 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "31 July 2026",
     "possible_payment": null,
@@ -1147,6 +1181,7 @@ INTENT:   document_category government. Official notice with a reference and a r
       "Date: 31 July 2026.",
       "Amount shown: £486.20."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£486.20",
@@ -1164,6 +1199,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1314,6 +1350,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "key_points": [
       "Action is likely needed soon."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1329,6 +1366,9 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "title": "What matters most?",
     "simple_explanation": "Action is likely needed soon.",
     "key_points": [
+      "Mentions appointment."
+    ],
+    "protected_key_points": [
       "Mentions appointment."
     ],
     "action_needed": null,
@@ -1349,6 +1389,9 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
       "Attend the appointment or meeting.",
       "The document gives this phone number: 020 8321 5000."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8321 5000."
+    ],
     "action_needed": "Attend the appointment or meeting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1366,6 +1409,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "key_points": [
       "Check this date on the original document: 1 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 July 2026",
     "possible_payment": null,
@@ -1383,6 +1427,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
     "key_points": [
       "Date: 1 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1401,6 +1446,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
       "Follow the action card step by step.",
       "Keep this reference ready: WM-8842001."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1556,6 +1602,9 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1571,6 +1620,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1588,6 +1638,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1603,6 +1654,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 9 August 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1620,6 +1672,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1637,6 +1690,7 @@ INTENT:   isInCreditOrNoPayment path. The deadline is deliberately nulled by the
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1797,6 +1851,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "key_points": [
       "This is urgent. You may need to act today."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -1812,6 +1867,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
+    "protected_key_points": [
       "This mentions enforcement action or bailiffs."
     ],
     "action_needed": null,
@@ -1833,6 +1891,9 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
       "You must contact us on 0333 320 122 by 3 September 2026.",
       "The document gives this phone number: 0333 320 122."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0333 320 122."
+    ],
     "action_needed": "Contact the sender using trusted contact details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -1850,6 +1911,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "key_points": [
       "Check this date on the original document: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "3 September 2026",
     "possible_payment": null,
@@ -1868,6 +1930,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
       "Date: 3 September 2026.",
       "Amount shown: £1,247.00."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,247.00",
@@ -1886,6 +1949,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
       "Check the action card now and act using trusted details.",
       "Keep this reference ready: EN-77120934."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2042,6 +2106,9 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
       "This is urgent. You may need to act today.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2057,6 +2124,10 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "Mentions eviction risk.",
+      "This mentions court action."
+    ],
+    "protected_key_points": [
       "Mentions eviction risk.",
       "This mentions court action."
     ],
@@ -2079,6 +2150,9 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
       "You must clear the arrears by 12 September 2026.",
       "The document gives this phone number: 020 8890 4100."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8890 4100."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2096,6 +2170,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
     "key_points": [
       "Check this date on the original document: 12 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "12 September 2026",
     "possible_payment": null,
@@ -2114,6 +2189,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
       "Date: 12 September 2026.",
       "Amount shown: £2,480.00."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£2,480.00",
@@ -2132,6 +2208,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
       "Check the action card now and act using trusted details.",
       "Keep this reference ready: POS-2291."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2289,6 +2366,9 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
       "This is urgent. You may need to act today.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2304,6 +2384,9 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "Mentions bailiff action."
+    ],
+    "protected_key_points": [
       "Mentions bailiff action."
     ],
     "action_needed": null,
@@ -2324,6 +2407,9 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
       "Check the payment amount and due date.",
       "The document gives this phone number: 0300 790 9901."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0300 790 9901."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2341,6 +2427,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
     "key_points": [
       "Check this date on the original document: 30 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "30 September 2026",
     "possible_payment": null,
@@ -2359,6 +2446,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
       "Date: 30 September 2026.",
       "Amount shown: £726.00."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£726.00",
@@ -2377,6 +2465,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
       "Check the action card now and act using trusted details.",
       "Keep this reference ready: CF-8830012."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2532,6 +2621,9 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
       "This may include a deadline about housing or rent. Check the original before acting.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2547,6 +2639,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "title": "What matters most?",
     "simple_explanation": "This appears to be from London Borough of Hounslow. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2564,6 +2657,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2581,6 +2675,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "key_points": [
       "Check this date on the original document: within 14 days."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "within 14 days",
     "possible_payment": null,
@@ -2598,6 +2693,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "key_points": [
       "Date: within 14 days."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2615,6 +2711,7 @@ INTENT:   Readable unsupported aid path. Relative deadline of fourteen days.
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2760,6 +2857,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "key_points": [
       "This is important, but not an emergency."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2775,6 +2873,9 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "title": "What matters most?",
     "simple_explanation": "This is important, but not an emergency.",
     "key_points": [
+      "This mentions court action."
+    ],
+    "protected_key_points": [
       "This mentions court action."
     ],
     "action_needed": null,
@@ -2794,6 +2895,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2809,6 +2911,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "title": "When is it due?",
     "simple_explanation": "No clear due date was found. The letter is dated 11 July 2026.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -2826,6 +2929,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
     "key_points": [
       "Amount shown: £3,410.00."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£3,410.00",
@@ -2844,6 +2948,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
       "Check key details on the original document before acting.",
       "Keep this reference ready: HG/DR/22981."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -2997,6 +3102,9 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
       "This may ask for a response about healthcare services. Check the original document.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3012,6 +3120,9 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Chelsea and Westminster Hospital. Check the original document to confirm.",
     "key_points": [
+      "Mentions appointment."
+    ],
+    "protected_key_points": [
       "Mentions appointment."
     ],
     "action_needed": null,
@@ -3031,6 +3142,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3046,6 +3158,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "title": "When is it due?",
     "simple_explanation": "No clear due date was found. The letter is dated 27 May 2026.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3063,6 +3176,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3080,6 +3194,7 @@ INTENT:   medical category through the aid path. No amount, soft follow up reque
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3233,6 +3348,9 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3248,6 +3366,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Ravenscourt Logistics Limited. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3265,6 +3384,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3282,6 +3402,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "key_points": [
       "Check this date on the original document: 17 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "17 June 2026",
     "possible_payment": null,
@@ -3299,6 +3420,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "key_points": [
       "Date: 17 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3316,6 +3438,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3472,6 +3595,9 @@ INTENT:   education category through the aid path. Consent deadline.
       "This may ask for a response about school or education. Check the original document.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3487,6 +3613,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Springwell Primary School. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3504,6 +3631,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3521,6 +3649,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "key_points": [
       "Check this date on the original document: 5 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "5 June 2026",
     "possible_payment": null,
@@ -3539,6 +3668,7 @@ INTENT:   education category through the aid path. Consent deadline.
       "Date: 5 June 2026.",
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3556,6 +3686,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3710,6 +3841,9 @@ INTENT:   insurance category through the aid path. Auto renewal date.
       "This may include a deadline about insurance. Check the original before acting.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3725,6 +3859,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3742,6 +3877,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3759,6 +3895,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "key_points": [
       "Check this date on the original document: 1 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 July 2026",
     "possible_payment": null,
@@ -3777,6 +3914,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
       "Date: 1 July 2026.",
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3794,6 +3932,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3940,6 +4079,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3955,6 +4095,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -3973,6 +4114,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
       "Check the payment amount and due date.",
       "Contact the sender using trusted contact details."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -3988,6 +4130,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 7 July 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4005,6 +4148,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "key_points": [
       "Amount shown: £418.60."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£418.60",
@@ -4022,6 +4166,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4178,6 +4323,9 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
       "This may ask you to do something. Check the original document carefully.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4193,6 +4341,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Department for Work and Pensions. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4211,6 +4360,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
       "Check the payment amount and due date.",
       "You must report any change in your circumstances within one month."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4226,6 +4376,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "title": "When is it due?",
     "simple_explanation": "These may be important dates: 1 August 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4243,6 +4394,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4260,6 +4412,7 @@ INTENT:   Welfare benefits reading aid path. The engine deliberately nulls the d
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4410,6 +4563,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "key_points": [
       "Check authenticity before taking any action."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4425,6 +4579,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "title": "What matters most?",
     "simple_explanation": "Check authenticity before taking any action.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4444,6 +4599,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
       "Use contact details from an official source.",
       "Keep your money and personal details protected."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify the organisation on its official website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4459,6 +4615,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4476,6 +4633,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "key_points": [
       "Use official contact details before acting."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4493,6 +4651,7 @@ INTENT:   verification_only path. The AI is skipped here by design, in English t
     "key_points": [
       "Verify using official contact details from the organisation website."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify using official contact details from the organisation website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4630,6 +4789,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "key_points": [
       "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4645,6 +4805,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "title": "What matters most?",
     "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4662,6 +4823,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "key_points": [
       "Upload a clearer photo or a different page if this is a letter or bill."
     ],
+    "protected_key_points": [],
     "action_needed": "Upload a clearer photo or a different page if this is a letter or bill.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4677,6 +4839,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4694,6 +4857,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4711,6 +4875,7 @@ INTENT:   is_probable_non_document path. Must never be given a confident summary
     "key_points": [
       "If this is a letter or bill, try a clearer photo or a different page."
     ],
+    "protected_key_points": [],
     "action_needed": "If this is a letter or bill, try a clearer photo or a different page.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4859,6 +5024,9 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
       "This may need a response. Check the original document, or with the sender, to be sure.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4874,6 +5042,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4891,6 +5060,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "key_points": [
       "Check the original document, or with the sender, whether you need to respond or send anything."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document, or with the sender, whether you need to respond or send anything.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -4906,6 +5076,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "title": "When is it due?",
     "simple_explanation": "No clear date was found. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4923,6 +5094,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -4940,6 +5112,7 @@ INTENT:   looksTemplate path. Empty fields must not be read as real values.
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5079,6 +5252,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5094,6 +5268,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5111,6 +5286,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5126,6 +5302,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "title": "When is it due?",
     "simple_explanation": "No clear due date was found. The letter is dated 4 June 2026.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5143,6 +5320,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5160,6 +5338,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5306,6 +5485,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "key_points": [
       "The details have not been matched to a single letter."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5321,6 +5501,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "title": "What matters most?",
     "simple_explanation": "The details have not been matched to a single letter.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5338,6 +5519,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "key_points": [
       "Check each letter on the original documents."
     ],
+    "protected_key_points": [],
     "action_needed": "Check each letter on the original documents.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5353,6 +5535,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "title": "When is it due?",
     "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5370,6 +5553,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5387,6 +5571,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5534,6 +5719,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "key_points": [
       "The details have not been matched to a single letter."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5549,6 +5735,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "title": "What matters most?",
     "simple_explanation": "The details have not been matched to a single letter.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5566,6 +5753,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "key_points": [
       "Check each letter on the original documents."
     ],
+    "protected_key_points": [],
     "action_needed": "Check each letter on the original documents.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5581,6 +5769,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "title": "When is it due?",
     "simple_explanation": "Dates cannot be matched to one letter in this upload. Check the original documents.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5598,6 +5787,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5615,6 +5805,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5764,6 +5955,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
       "This document appears to require an action from you. See what you need to do.",
       "Only the first letter in this upload has been read."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5779,6 +5971,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -5796,6 +5989,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -5813,6 +6007,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "key_points": [
       "Check this date on the original document: 28 May 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "28 May 2026",
     "possible_payment": null,
@@ -5832,6 +6027,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
       "Amount shown: £214.63.",
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£214.63",
@@ -5849,6 +6045,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6007,6 +6204,9 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
       "This may include a deadline about tax or HMRC. Check the original before acting.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6022,6 +6222,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6039,6 +6240,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6056,6 +6258,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "key_points": [
       "Check this date on the original document: 1 April 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 April 2026",
     "possible_payment": null,
@@ -6074,6 +6277,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
       "Date: 1 April 2026.",
       "Amount shown: £1,381.50."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,381.50",
@@ -6091,6 +6295,7 @@ INTENT:   garbled_by_ocr true, input_quality borderline. Amounts and dates must 
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6236,6 +6441,9 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
       "This document appears to require an action from you. See what you need to do.",
       "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
     ],
+    "protected_key_points": [
+      "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6251,6 +6459,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6269,6 +6478,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
       "Check the payment amount and due date.",
       "Contact the sender using trusted contact details."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6284,6 +6494,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "title": "When is it due?",
     "simple_explanation": "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6301,6 +6512,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "key_points": [
       "Amount shown: £214.63."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£214.63",
@@ -6318,6 +6530,7 @@ INTENT:   garbled_by_ocr true on a supported type. Deadline is nulled by the gar
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6465,6 +6678,9 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
       "This is urgent. You may need to act today.",
       "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
     ],
+    "protected_key_points": [
+      "The text quality is too low to read the sender's name, amounts or dates reliably. Check the original document for these details."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6480,6 +6696,9 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
+    "protected_key_points": [
       "This mentions enforcement action or bailiffs."
     ],
     "action_needed": null,
@@ -6499,6 +6718,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6514,6 +6734,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "title": "When is it due?",
     "simple_explanation": "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6531,6 +6752,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "key_points": [
       "Amount shown: £1,247.00."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,247.00",
@@ -6548,6 +6770,7 @@ INTENT:   garbled_by_ocr true on an urgent document. The most dangerous combinat
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6681,6 +6904,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "key_points": [
       "Not clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6696,6 +6920,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "title": "What matters most?",
     "simple_explanation": "Not clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6713,6 +6938,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "key_points": [
       "Upload a clearer copy if possible."
     ],
+    "protected_key_points": [],
     "action_needed": "Upload a clearer copy if possible.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6728,6 +6954,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "title": "When is it due?",
     "simple_explanation": "A date or deadline may appear in this document, but the text quality is too low to read it reliably. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6745,6 +6972,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6762,6 +6990,7 @@ INTENT:   input_quality poor, processing_mode unsupported. The fixed string extr
     "key_points": [
       "Upload a clearer copy before taking action."
     ],
+    "protected_key_points": [],
     "action_needed": "Upload a clearer copy before taking action.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6909,6 +7138,9 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6924,6 +7156,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -6941,6 +7174,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -6958,6 +7192,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "key_points": [
       "Check this date on the original document: 28 May 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "28 May 2026",
     "possible_payment": null,
@@ -6976,6 +7211,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
       "Date: 28 May 2026.",
       "Amount shown: £214.63."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£214.63",
@@ -6993,6 +7229,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7149,6 +7386,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "key_points": [
       "This is urgent. You may need to act today."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7164,6 +7402,9 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
+    "protected_key_points": [
       "This mentions enforcement action or bailiffs."
     ],
     "action_needed": null,
@@ -7184,6 +7425,9 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
       "Check the payment amount and due date.",
       "The document gives this phone number: 020 8583 4242."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8583 4242."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7201,6 +7445,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
     "key_points": [
       "Check this date on the original document: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "3 September 2026",
     "possible_payment": null,
@@ -7219,6 +7464,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
       "Date: 3 September 2026.",
       "Amount shown: £486.20."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£486.20",
@@ -7237,6 +7483,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
       "Check the action card now and act using trusted details.",
       "Keep this reference ready: CT-90114."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7389,6 +7636,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7404,6 +7652,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7422,6 +7671,9 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
       "Check the payment amount and due date.",
       "The document gives this phone number: 0800 980 8800."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0800 980 8800."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7437,6 +7689,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 3 July 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7454,6 +7707,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
     "key_points": [
       "Amount shown: £164.90."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£164.90",
@@ -7472,6 +7726,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
       "Check key details on the original document before acting.",
       "Keep this reference ready: TW-33827."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7627,6 +7882,9 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
       "This is important, but not an emergency.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7642,6 +7900,9 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
     "title": "What matters most?",
     "simple_explanation": "This is important, but not an emergency.",
     "key_points": [
+      "This mentions court action."
+    ],
+    "protected_key_points": [
       "This mentions court action."
     ],
     "action_needed": null,
@@ -7662,6 +7923,9 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
       "Check the payment amount and due date.",
       "The document gives this phone number: 0114 273 4567."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0114 273 4567."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7679,6 +7943,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
     "key_points": [
       "Check this date on the original document: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "3 September 2026",
     "possible_payment": null,
@@ -7697,6 +7962,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
       "Date: 3 September 2026.",
       "Amount shown: £312.40."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£312.40",
@@ -7715,6 +7981,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
       "Follow the action card step by step.",
       "Keep this reference ready: HR-77420."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -7871,6 +8138,9 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
       "This may ask for a response about school or education. Check the original document.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7886,6 +8156,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Fairfield Community School. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7902,6 +8173,9 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
       "Check the original document to see whether a response or action is needed.",
+      "The document gives this phone number: 0114 273 8890."
+    ],
+    "protected_key_points": [
       "The document gives this phone number: 0114 273 8890."
     ],
     "action_needed": "Check the original document to see whether a response or action is needed.",
@@ -7921,6 +8195,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "key_points": [
       "Check this date on the original document: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "3 September 2026",
     "possible_payment": null,
@@ -7938,6 +8213,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "key_points": [
       "Date: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -7955,6 +8231,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8105,6 +8382,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8120,6 +8398,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8136,6 +8415,9 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
       "Check the payment amount and due date.",
+      "The document gives this phone number: 0333 304 0191."
+    ],
+    "protected_key_points": [
       "The document gives this phone number: 0333 304 0191."
     ],
     "action_needed": "Check the payment amount and due date.",
@@ -8155,6 +8437,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "key_points": [
       "The day and the month could be either way round. Check the original document: 03/06/2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "03/06/2026",
     "possible_payment": null,
@@ -8173,6 +8456,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
       "Date: 03/06/2026.",
       "Amount shown: £41.99."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£41.99",
@@ -8190,6 +8474,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8338,6 +8623,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8353,6 +8639,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8372,6 +8659,9 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
       "Contact the sender using trusted contact details.",
       "The document gives this phone number: 020 8583 4242."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8583 4242."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8389,6 +8679,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "key_points": [
       "The year is not written in full. Check the original document: 28 May 26."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "28 May 26",
     "possible_payment": null,
@@ -8407,6 +8698,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
       "Date: 28 May 26.",
       "Amount shown: £1,381.50."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,381.50",
@@ -8424,6 +8716,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8587,6 +8880,9 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8602,6 +8898,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8619,6 +8916,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8636,6 +8934,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "key_points": [
       "Check this date on the original document: 4 września 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "4 września 2026",
     "possible_payment": null,
@@ -8654,6 +8953,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
       "Date: 4 września 2026.",
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8671,6 +8971,7 @@ INTENT:   D3 tier 1. Carries a deadline, a stated consequence (court, then evict
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8834,6 +9135,9 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8849,6 +9153,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8866,6 +9171,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -8881,6 +9187,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 1 de febrero de 2026, 30 de abril de 2026, 15 de junio de 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8898,6 +9205,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -8915,6 +9223,7 @@ INTENT:   D3 tier 1. A final notice with a payment deadline and a stated consequ
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9074,6 +9383,9 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9089,6 +9401,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "title": "What matters most?",
     "simple_explanation": "This appears to be from West Middlesex University Hospital. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9106,6 +9419,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9123,6 +9437,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "key_points": [
       "Check this date on the original document: 7 juillet 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "7 juillet 2026",
     "possible_payment": null,
@@ -9140,6 +9455,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "key_points": [
       "Date: 7 juillet 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9157,6 +9473,7 @@ INTENT:   D3 tier 1. An appointment date, a time, a department and a number to r
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9303,6 +9620,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9318,6 +9636,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9335,6 +9654,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9350,6 +9670,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9367,6 +9688,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9384,6 +9706,7 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9537,6 +9860,9 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
       "The clearest topic appears to be royal mail. Check the original for details.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9552,6 +9878,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9569,6 +9896,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9584,6 +9912,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "title": "When is it due?",
     "simple_explanation": "No clear date was found. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9601,6 +9930,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9618,6 +9948,7 @@ INTENT:   THE GAP F3 OPENS. A link, a tiny fee and a deadline, and nothing that 
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9754,6 +10085,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "key_points": [
       "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9769,6 +10101,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "title": "What matters most?",
     "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9786,6 +10119,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "key_points": [
       "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
+    "protected_key_points": [],
     "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9801,6 +10135,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9818,6 +10153,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9835,6 +10171,7 @@ INTENT:   The same shape in Polish, so the gap can be measured with the language
     "key_points": [
       "Check using contact details you already have, not the link in this message."
     ],
+    "protected_key_points": [],
     "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -9981,6 +10318,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -9996,6 +10334,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10013,6 +10352,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10028,6 +10368,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10045,6 +10386,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10062,6 +10404,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10207,6 +10550,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "key_points": [
       "Check authenticity before taking any action."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10222,6 +10566,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "title": "What matters most?",
     "simple_explanation": "Check authenticity before taking any action.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10241,6 +10586,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
       "Use contact details from an official source.",
       "Keep your money and personal details protected."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify the organisation on its official website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10256,6 +10602,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10274,6 +10621,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
       "An amount is shown without a label.",
       "Use official contact details before acting."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10291,6 +10639,7 @@ INTENT:   The commonest UK phishing shape after parcels. Carries a card ask but 
     "key_points": [
       "Verify using official contact details from the organisation website."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify using official contact details from the organisation website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10436,6 +10785,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10451,6 +10801,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10468,6 +10819,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10483,6 +10835,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10500,6 +10853,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10517,6 +10871,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10660,6 +11015,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "key_points": [
       "Check authenticity before taking any action."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10675,6 +11031,9 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "title": "What matters most?",
     "simple_explanation": "Check authenticity before taking any action.",
     "key_points": [
+      "Looks like confirmation content."
+    ],
+    "protected_key_points": [
       "Looks like confirmation content."
     ],
     "action_needed": null,
@@ -10696,6 +11055,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
       "Use contact details from an official source.",
       "Keep your money and personal details protected."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify the organisation on its official website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10711,6 +11071,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10728,6 +11089,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "key_points": [
       "Use official contact details before acting."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10745,6 +11107,7 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
     "key_points": [
       "Verify using official contact details from the organisation website."
     ],
+    "protected_key_points": [],
     "action_needed": "Verify using official contact details from the organisation website.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10879,6 +11242,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "key_points": [
       "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10894,6 +11258,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "title": "What matters most?",
     "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10911,6 +11276,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "key_points": [
       "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
+    "protected_key_points": [],
     "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -10926,6 +11292,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10943,6 +11310,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -10960,6 +11328,7 @@ INTENT:   The one needle that already works in every language: crypto and bitcoi
     "key_points": [
       "Check using contact details you already have, not the link in this message."
     ],
+    "protected_key_points": [],
     "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11098,6 +11467,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "key_points": [
       "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11113,6 +11483,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "title": "What matters most?",
     "simple_explanation": "Northcue could not find the things an official letter usually has, like a sender, a reference, or a date.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11130,6 +11501,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "key_points": [
       "Check with the organisation it appears to be from, using contact details you already have, rather than the link."
     ],
+    "protected_key_points": [],
     "action_needed": "Check with the organisation it appears to be from, using contact details you already have, rather than the link.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11145,6 +11517,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "title": "When is it due?",
     "simple_explanation": "No deadline clearly stated.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11162,6 +11535,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "key_points": [
       "Check unclear details on the original."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11179,6 +11553,7 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "key_points": [
       "Check using contact details you already have, not the link in this message."
     ],
+    "protected_key_points": [],
     "action_needed": "Check using contact details you already have, not the link in this message.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11335,6 +11710,9 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
       "The clearest topic appears to be barclays. Check the original for details.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11350,6 +11728,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11367,6 +11746,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11382,6 +11762,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "title": "When is it due?",
     "simple_explanation": "No clear date was found. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11399,6 +11780,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11416,6 +11798,7 @@ INTENT:   THE SHARPEST FALSE POSITIVE. A genuine bank letter whose entire purpos
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11566,6 +11949,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "key_points": [
       "Action is likely needed soon."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11581,6 +11965,9 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "title": "What matters most?",
     "simple_explanation": "Action is likely needed soon.",
     "key_points": [
+      "Mentions appointment."
+    ],
+    "protected_key_points": [
       "Mentions appointment."
     ],
     "action_needed": null,
@@ -11601,6 +11988,9 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
       "Attend the appointment or meeting.",
       "The document gives this phone number: 020 8321 5000."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8321 5000."
+    ],
     "action_needed": "Attend the appointment or meeting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11616,6 +12006,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 7 July 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11633,6 +12024,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11651,6 +12043,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
       "Follow the action card step by step.",
       "Keep this reference ready: WM-8842177."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -11808,6 +12201,9 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
       "This is a final warning before a penalty notice is issued for unauthorised absence.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11823,6 +12219,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Fairfield Community School. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11839,6 +12236,9 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "simple_explanation": "Check the original document to see whether a response or action is needed.",
     "key_points": [
       "Check the original document to see whether a response or action is needed.",
+      "The document gives this phone number: 020 8583 1188."
+    ],
+    "protected_key_points": [
       "The document gives this phone number: 020 8583 1188."
     ],
     "action_needed": "Check the original document to see whether a response or action is needed.",
@@ -11858,6 +12258,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "key_points": [
       "Check this date on the original document: 18 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "18 September 2026",
     "possible_payment": null,
@@ -11875,6 +12276,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "key_points": [
       "Date: 18 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -11892,6 +12294,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12049,6 +12452,9 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
       "This may ask you to do something. Check the original document carefully.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12064,6 +12470,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Department for Work and Pensions. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12083,6 +12490,9 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
       "You must verify your identity within 30 days or we cannot process your claim.",
       "The document gives this phone number: 0800 328 5644."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 0800 328 5644."
+    ],
     "action_needed": "Contact the sender using trusted contact details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12098,6 +12508,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "title": "When is it due?",
     "simple_explanation": "These may be important dates: within 30 days. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12115,6 +12526,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "key_points": [
       "No extra checks clearly stated."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12132,6 +12544,7 @@ INTENT:   Trips 'verify your identity within'. A genuine DWP letter asking the r
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12283,6 +12696,9 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
       "This is important, but not an emergency.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12298,6 +12714,9 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "title": "What matters most?",
     "simple_explanation": "This is important, but not an emergency.",
     "key_points": [
+      "This mentions court action."
+    ],
+    "protected_key_points": [
       "This mentions court action."
     ],
     "action_needed": null,
@@ -12317,6 +12736,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12332,6 +12752,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 22 September 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12349,6 +12770,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12366,6 +12788,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12516,6 +12939,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12531,6 +12955,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12550,6 +12975,9 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
       "Contact the sender using trusted contact details.",
       "The document gives this phone number: 020 8583 4242."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: 020 8583 4242."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12567,6 +12995,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "key_points": [
       "Check this date on the original document: 3 September 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "3 September 2026",
     "possible_payment": null,
@@ -12585,6 +13014,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
       "Date: 3 September 2026.",
       "Amount shown: £486.20."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£486.20",
@@ -12602,6 +13032,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12763,6 +13194,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12778,6 +13210,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -12797,6 +13230,9 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
       "Contact the sender using trusted contact details.",
       "The document gives this phone number: +44 113 496 2200."
     ],
+    "protected_key_points": [
+      "The document gives this phone number: +44 113 496 2200."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -12814,6 +13250,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
     "key_points": [
       "Check this date on the original document: 6 August 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "6 August 2026",
     "possible_payment": null,
@@ -12832,6 +13269,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
       "Date: 6 August 2026.",
       "Amount shown: £246.85."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£246.85",
@@ -12849,6 +13287,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13001,6 +13440,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13016,6 +13456,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13033,6 +13474,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13050,6 +13492,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "key_points": [
       "Check this date on the original document: 28 August 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "28 August 2026",
     "possible_payment": null,
@@ -13068,6 +13511,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
       "Date: 28 August 2026.",
       "Amount shown: £312.44."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£312.44",
@@ -13085,6 +13529,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13243,6 +13688,9 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13258,6 +13706,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13275,6 +13724,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13292,6 +13742,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "key_points": [
       "Check this date on the original document: 11 sierpnia 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "11 sierpnia 2026",
     "possible_payment": null,
@@ -13309,6 +13760,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "key_points": [
       "Date: 11 sierpnia 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13326,6 +13778,7 @@ INTENT:   THE REFUSAL. A real appointment reminder carries a date, a room, a tim
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13487,6 +13940,9 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13502,6 +13958,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13519,6 +13976,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13536,6 +13994,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "key_points": [
       "Check this date on the original document: 21 de agosto de 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "21 de agosto de 2026",
     "possible_payment": null,
@@ -13554,6 +14013,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
       "Date: 21 de agosto de 2026.",
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13571,6 +14031,7 @@ INTENT:   Not refused, because it carries a client number, so it records the mil
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13717,6 +14178,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13732,6 +14194,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13749,6 +14212,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13764,6 +14228,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "title": "When is it due?",
     "simple_explanation": "No clear due date was found. The letter is dated 22 July 2026.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13781,6 +14246,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13798,6 +14264,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -13951,6 +14418,9 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13966,6 +14436,7 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -13983,6 +14454,7 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14000,6 +14472,7 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
     "key_points": [
       "Check this date on the original document: 15 septembrie 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "15 septembrie 2026",
     "possible_payment": null,
@@ -14017,6 +14490,7 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
     "key_points": [
       "Date: 15 septembrie 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14034,6 +14508,7 @@ INTENT:   The counterexample to the Polish one, and the reason that entry says P
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14221,6 +14696,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14236,6 +14712,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14253,6 +14730,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "key_points": [
       "Check the payment amount and due date."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14268,6 +14746,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 22 Jan 2026, 04 Feb 2026, 6 May 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14285,6 +14764,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "key_points": [
       "Amount shown: £187.82."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£187.82",
@@ -14302,6 +14782,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14484,6 +14965,9 @@ INTENT:   The same failure by a different route, and the one where the reader is
       "This may include a deadline about insurance. Check the original before acting.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14499,6 +14983,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "title": "What matters most?",
     "simple_explanation": "The sender is not clearly stated. Check the original document.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14516,6 +15001,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14533,6 +15019,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "key_points": [
       "Check this date on the original document: 30 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "30 June 2026",
     "possible_payment": null,
@@ -14551,6 +15038,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
       "Date: 30 June 2026.",
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14568,6 +15056,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14752,6 +15241,9 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14767,6 +15259,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Council. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14784,6 +15277,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -14799,6 +15293,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 1 April 2026, 30 April 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14816,6 +15311,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -14833,6 +15329,7 @@ INTENT:   The third shape, and the one carrying the most numbers to get wrong: s
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -15236,6 +15733,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "key_points": [
       "This is urgent. You may need to act today."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -15251,6 +15749,10 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "Mentions disconnection risk.",
+      "Mentions appointment."
+    ],
+    "protected_key_points": [
       "Mentions disconnection risk.",
       "Mentions appointment."
     ],
@@ -15272,6 +15774,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
       "Check the payment amount and due date.",
       "Contact the sender using trusted contact details."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -15289,6 +15792,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "key_points": [
       "Check this date on the original document: 4 June 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "4 June 2026",
     "possible_payment": null,
@@ -15307,6 +15811,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
       "Date: 4 June 2026.",
       "Amount shown: £298.53."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£298.53",
@@ -15324,6 +15829,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
     "key_points": [
       "Check the action card now and act using trusted details."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -15760,6 +16266,9 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
       "This is urgent. You may need to act today.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -15775,6 +16284,9 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
     "title": "What matters most?",
     "simple_explanation": "This is urgent. You may need to act today.",
     "key_points": [
+      "This mentions enforcement action or bailiffs."
+    ],
+    "protected_key_points": [
       "This mentions enforcement action or bailiffs."
     ],
     "action_needed": null,
@@ -15797,6 +16309,7 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
       "You must tell us within 21 days if you move, if someone moves in or out, if the property becomes empty, or if you stop being entitled to a discount or exemption.",
       "If you are receiving a discount and your circumstances change so that you are no longer entitled, you must tell us within 21 days."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -15814,6 +16327,7 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
     "key_points": [
       "Check this date on the original document: 1 April 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 April 2026",
     "possible_payment": null,
@@ -15832,6 +16346,7 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
       "Date: 1 April 2026.",
       "Amount shown: £1,578.64."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£1,578.64",
@@ -15850,6 +16365,7 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
       "Check the action card now and act using trusted details.",
       "Keep this reference ready: MB-4471028866."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the action card now and act using trusted details.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16027,6 +16543,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
     "key_points": [
       "This document appears to require an action from you. See what you need to do."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16042,6 +16559,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
     "title": "What matters most?",
     "simple_explanation": "This document appears to require an action from you. See what you need to do.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16060,6 +16578,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
       "Check the payment amount and due date.",
       "You must tell us within 21 days if your income, savings or household change."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16077,6 +16596,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
     "key_points": [
       "Check this date on the original document: 1 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "1 July 2026",
     "possible_payment": null,
@@ -16095,6 +16615,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
       "Date: 1 July 2026.",
       "Amount shown: £742.19."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": "£742.19",
@@ -16112,6 +16633,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
     "key_points": [
       "Follow the action card step by step."
     ],
+    "protected_key_points": [],
     "action_needed": "Follow the action card step by step.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16279,6 +16801,9 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16294,6 +16819,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Northbridge Hospital NHS Foundation Trust. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16311,6 +16837,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16328,6 +16855,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "key_points": [
       "Check this date on the original document: 14 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "14 July 2026",
     "possible_payment": null,
@@ -16345,6 +16873,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "key_points": [
       "Date: 14 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16362,6 +16891,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16533,6 +17063,9 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
       "This may need a response. Check the original document, or with the sender, to be sure.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16548,6 +17081,7 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Department for Work and Pensions. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16565,6 +17099,7 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "key_points": [
       "Check the original document, or with the sender, whether you need to respond or send anything."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document, or with the sender, whether you need to respond or send anything.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16580,6 +17115,7 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "title": "When is it due?",
     "simple_explanation": "These dates appear in the document: 18 June 2026, 24 June 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16597,6 +17133,7 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16614,6 +17151,7 @@ INTENT:   TRACK 5, and the first Hindi document. Structure from a DWP decision l
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16780,6 +17318,9 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
       "Important dates are visible. Check what each date refers to.",
       "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
     ],
+    "protected_key_points": [
+      "Northcue is not fully trained for this type yet, so use it as a reading aid and check the original document."
+    ],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16795,6 +17336,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "title": "What matters most?",
     "simple_explanation": "This appears to be from Northbridge Hospital NHS Foundation Trust. Check the original document to confirm.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16812,6 +17354,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "key_points": [
       "Check the original document to see whether a response or action is needed."
     ],
+    "protected_key_points": [],
     "action_needed": "Check the original document to see whether a response or action is needed.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -16829,6 +17372,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "key_points": [
       "Check this date on the original document: 9 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": "9 July 2026",
     "possible_payment": null,
@@ -16846,6 +17390,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "key_points": [
       "Date: 9 July 2026."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -16863,6 +17408,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -17021,6 +17567,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "key_points": [
       "This looks like information only."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -17036,6 +17583,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "title": "What matters most?",
     "simple_explanation": "This looks like information only.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -17053,6 +17601,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "key_points": [
       "No action needed right now."
     ],
+    "protected_key_points": [],
     "action_needed": "No action needed right now.",
     "possible_deadline": null,
     "possible_payment": null,
@@ -17068,6 +17617,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "title": "When is it due?",
     "simple_explanation": "No clear due date. These dates appear in the document: 1 August 2026. Check what they refer to.",
     "key_points": [],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -17085,6 +17635,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "key_points": [
       "An amount is shown without a label."
     ],
+    "protected_key_points": [],
     "action_needed": null,
     "possible_deadline": null,
     "possible_payment": null,
@@ -17102,6 +17653,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
     "key_points": [
       "Check key details on the original document before acting."
     ],
+    "protected_key_points": [],
     "action_needed": "Check key details on the original document before acting.",
     "possible_deadline": null,
     "possible_payment": null,

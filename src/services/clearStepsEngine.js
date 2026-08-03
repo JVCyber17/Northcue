@@ -1249,10 +1249,80 @@ function buildDeadlineCardKeyPoints(extraction) {
 // The number inserts verbatim so it matches the paper, exactly as an amount or
 // a reference does. Everything about WHICH number, and whether there is one at
 // all, was decided in extractContactNumber, behind four gates.
+function contactNumberKeyPoint(extraction) {
+  if (!extraction.contact_number) return null;
+  return `The document gives this phone number: ${extraction.contact_number}.`;
+}
+
 function buildActionCardKeyPoints(extraction) {
   const actions = Array.isArray(extraction.actions) ? extraction.actions : [];
-  if (!extraction.contact_number) return actions;
-  return actions.concat(`The document gives this phone number: ${extraction.contact_number}.`);
+  const contact = contactNumberKeyPoint(extraction);
+  return contact ? actions.concat(contact) : actions;
+}
+
+// PROVENANCE, NOT WORDING.
+//
+// sanitizeCards used to choose one key-point array or the other, so any model
+// key point discarded every engine line on that card. Measured over the corpus:
+// 224 engine key points displaced against 10 kept, the contact number lost 15
+// times out of 15, every severity signal and every not-fully-trained caution
+// gone.
+//
+// The lines below are the ones the model may not displace. They are collected
+// by CALLING THE SAME FUNCTIONS the key-point builders call, so a protected
+// line and the line it protects cannot drift apart.
+//
+// MATCHING ON WORDING WAS TRIED AND REJECTED, and the evidence is in the tree:
+// a pattern for "The document gives this phone number:" misses
+// bailiff_enforcement card 3, whose number arrives inside a sentence lifted
+// from the document, "You must contact us on 0333 320 122 by 3 September 2026."
+// Same family, same value, different words. A protected set keyed on how a line
+// reads protects the lines someone remembered to write a pattern for.
+//
+// WHAT IS PROTECTED, and why each one:
+//
+//   the contact number      the engine chose it behind four gates and the model
+//                           cannot re-derive which of several numbers was meant
+//   severity signals        they say WHY a document is serious, and card 2's
+//                           answer says only that it is
+//   the not-fully-trained   an advice boundary. It is the sentence that keeps
+//   caution                 a serious letter honest about what Northcue is
+//   the input-quality       the same boundary for a document that could not be
+//   caution                 read reliably
+//
+// Deliberately NOT protected: composed actions, reading-aid checks and the
+// reference line. A model that has written its own actions has said what those
+// say, and 51 of the corpus lines in that group carry a value the model repeats
+// anyway.
+function protectedKeyPointsFor(legacyId, { extraction, trust }) {
+  const points = [];
+  if (legacyId === "what_is_this") {
+    if (extraction.garbled_caution) points.push(extraction.garbled_caution);
+    if (extraction.readable_unsupported_signals ||
+      NOT_FULLY_TRAINED.has(trust && trust.document_category)) {
+      points.push(TRAINING_CAVEAT);
+    }
+  }
+  if (legacyId === "what_matters_most") {
+    // THE WHOLE CARD, by calling the builder rather than re-deriving from
+    // severity_signals. Every line card 2 carries is Northcue's own severity
+    // vocabulary, selected by a phrase match, with nothing quoted from the
+    // document, so all of it is engine-owned.
+    //
+    // Re-deriving from trust.severity_signals was tried and it misses the
+    // documents that matter most. buildSecondCardKeyPoints says why in its own
+    // comment: severity_signals is EMPTY on the documents the stakes floor
+    // raised. bailiff_enforcement is one of them, and its card 2 line, "This
+    // mentions enforcement action or bailiffs.", comes from the theme path
+    // instead. Protecting the field rather than the builder would have left the
+    // enforcement notice unprotected while protecting a routine energy bill.
+    buildSecondCardKeyPoints(trust).forEach((line) => points.push(line));
+  }
+  if (legacyId === "what_do_i_need_to_do") {
+    const contact = contactNumberKeyPoint(extraction);
+    if (contact) points.push(contact);
+  }
+  return points.filter(Boolean);
 }
 
 function buildStructuredCards({ trust, extraction, displayCards }) {
@@ -1336,6 +1406,12 @@ function buildStructuredCards({ trust, extraction, displayCards }) {
       title: definition.title,
       simple_explanation: simpleExplanation,
       key_points: keyPoints,
+      // The subset of key_points the model may not displace, carried as its own
+      // field so sanitizeCards protects by PROVENANCE rather than by matching
+      // how a line reads. Always a subset of key_points above, and normalised
+      // through the same function, so the two cannot disagree about wording.
+      protected_key_points: normaliseKeyPoints(
+        protectedKeyPointsFor(definition.legacyId, { extraction, trust })),
       action_needed: definition.actionNeeded ? cleanLine(definition.actionNeeded) : null,
       possible_deadline: definition.possibleDeadline || null,
       possible_payment: definition.possiblePayment || null,
