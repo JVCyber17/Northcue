@@ -183,7 +183,23 @@ test("the exemption set is built in the units it is compared in", async (t) => {
   const set = rulesSentenceSet(result);
 
   await t.test("a key point is in it", () => {
-    assert.ok(set.has(GENUINE));
+    // THE WITNESS CHANGED, and the reason is worth having here rather than in
+    // a commit message. bailiff_enforcement card 3 used to carry the number
+    // TWICE, in the lifted GENUINE sentence and in the composed line beside
+    // it, and the engine now drops the lift. So the corpus no longer produces
+    // a rules-written sentence in the document's own imperative voice
+    // carrying a number, and this end-to-end check has to name the composed
+    // line instead.
+    //
+    // The hard case did NOT go with it. Every adversarial test above feeds
+    // GENUINE to the stripper directly rather than asking the corpus to
+    // produce it, so the exemption is still proved against the awkward
+    // wording, the substituted number and the appended sentence.
+    assert.equal(set.has(GENUINE), false,
+      "the corpus no longer emits the lifted sentence; if it does again, the " +
+      "duplicate on card 3 is back and buildActionCardKeyPoints has regressed");
+    assert.ok(set.has("The document gives this phone number: 0333 320 122."),
+      "the sentence that now carries the number is exempt");
   });
 
   await t.test("read_aloud_text is tokenised, not stored whole", () => {
@@ -210,7 +226,7 @@ test("the exemption set is built in the units it is compared in", async (t) => {
 // ------------------------------------------------------------- end to end
 
 test("through the whole pipeline", async (t) => {
-  await t.test("bailiff_enforcement keeps its own sentence, number and all", async () => {
+  await t.test("bailiff_enforcement keeps the number through the whole pipeline", async () => {
     const text = byId("bailiff_enforcement");
     const fileMeta = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "e2e", anonymousSessionId: null };
     const applied = await applySafetyPassAndRecordAiStatus({
@@ -219,12 +235,17 @@ test("through the whole pipeline", async (t) => {
       language: "pl"
     });
     const card = applied.api_output.structured_result.cards[2];
+    // Two points, not three. The lifted GENUINE sentence used to sit between
+    // these two carrying the same number a second time, and the engine now
+    // drops it in favour of the composed line, which is the protected one and
+    // the one the template bank translates.
     assert.deepEqual(card.key_points, [
       "Contact the sender using trusted contact details.",
-      GENUINE,
       "The document gives this phone number: 0333 320 122."
     ]);
     assert.match(card.read_aloud_text, /0333 320 122/);
+    // The number survives exactly once, which is the point of the change.
+    assert.equal(card.key_points.filter((p) => p.includes("0333 320 122")).length, 1);
   });
 
   await t.test("the reader-visible cards now equal the engine cards on every document", async () => {

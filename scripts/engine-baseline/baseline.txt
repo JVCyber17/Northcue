@@ -1888,7 +1888,6 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "simple_explanation": "Contact the sender using trusted contact details.",
     "key_points": [
       "Contact the sender using trusted contact details.",
-      "You must contact us on 0333 320 122 by 3 September 2026.",
       "The document gives this phone number: 0333 320 122."
     ],
     "protected_key_points": [
@@ -1899,7 +1898,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
     "possible_payment": null,
     "confidence_level": "high",
     "warning": "This looks important. Do not ignore it.",
-    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. You must contact us on 0333 320 122 by 3 September 2026. The document gives this phone number: 0333 320 122.",
+    "read_aloud_text": "What do I need to do?. Contact the sender using trusted contact details.. Contact the sender using trusted contact details. The document gives this phone number: 0333 320 122.",
     "status": "urgent"
   },
   {

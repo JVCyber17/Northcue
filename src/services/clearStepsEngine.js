@@ -1257,10 +1257,47 @@ function contactNumberKeyPoint(extraction) {
   return `The document gives this phone number: ${extraction.contact_number}.`;
 }
 
+// Does this line already carry the number? Compared with the separators made
+// optional, so a line writing "0333320122" counts as naming "0333 320 122",
+// and the digits still have to appear in order rather than being pooled.
+function lineNamesNumber(line, number) {
+  if (!line || !number) return false;
+  if (String(line).indexOf(String(number)) >= 0) return true;
+  const digits = String(number).replace(/\D/g, "");
+  if (digits.length < 6) return false;
+  return new RegExp(digits.split("").join("[\\s.()-]*")).test(String(line));
+}
+
+// THE SAME NUMBER TWICE ON ONE CARD, and it was the engine doing it to itself.
+//
+// bailiff_enforcement card 3 carried the number in both of its own lines, with
+// no model involved:
+//     "You must contact us on 0333 320 122 by 3 September 2026."   lifted
+//     "The document gives this phone number: 0333 320 122."        composed
+//
+// WHICH ONE GOES, and this is the whole decision. The obvious reading is to
+// stop composing when a line already names the number. Measured across eight
+// prose runs, that is the wrong way round: on one run in eight the model
+// rewrote card 3, replaced the lifted sentence with calmer wording of its own,
+// and the number survived ONLY because the composed line is protected. Drop the
+// composed line and that run loses the number entirely, and which run a reader
+// gets is a coin toss.
+//
+// So the LIFT goes and the composed line stays. It is also the better survivor
+// on its own terms: the lift carries the letter's imperative voice, "You must
+// contact us", into a card whose contact line is deliberately reported rather
+// than recommended, and the composed form is the one the template bank
+// translates into all ten languages.
+//
+// One corpus document today. The rule is written on the value, not on the
+// wording, so a second document shaped like this is covered without an edit.
 function buildActionCardKeyPoints(extraction) {
   const actions = Array.isArray(extraction.actions) ? extraction.actions : [];
   const contact = contactNumberKeyPoint(extraction);
-  return contact ? actions.concat(contact) : actions;
+  if (!contact) return actions;
+  return actions
+    .filter((action) => !lineNamesNumber(action, extraction.contact_number))
+    .concat(contact);
 }
 
 // PROVENANCE, NOT WORDING.
