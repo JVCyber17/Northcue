@@ -1090,7 +1090,7 @@ INTENT:   document_category government. Official notice with a reference and a r
     "one_line_summary": "This appears to be a formal letter about tax or HMRC.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "31 July 2026",
-    "deadline_iso": "2026-07-31",
+    "deadline_iso": null,
     "main_amount": "£486.20"
   },
   "warnings": []
@@ -3330,7 +3330,7 @@ INTENT:   employment category through the aid path. A meeting with a fixed date.
     "one_line_summary": "This appears to be a formal letter from Ravenscourt Logistics Limited.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "17 June 2026",
-    "deadline_iso": "2026-06-17",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -3577,7 +3577,7 @@ INTENT:   education category through the aid path. Consent deadline.
     "one_line_summary": "This appears to be a school or education letter from Springwell Primary School.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "5 June 2026",
-    "deadline_iso": "2026-06-05",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -3823,7 +3823,7 @@ INTENT:   insurance category through the aid path. Auto renewal date.
     "one_line_summary": "This appears to be an insurance letter about insurance.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "1 July 2026",
-    "deadline_iso": "2026-07-01",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -7120,7 +7120,7 @@ INTENT:   Very short input. input_quality poor by length, unsupported branch.
     "one_line_summary": "This appears to be a formal letter.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "28 May 2026",
-    "deadline_iso": "2026-05-28",
+    "deadline_iso": null,
     "main_amount": "£214.63"
   },
   "warnings": []
@@ -8120,7 +8120,7 @@ INTENT:   The competes half of the word-boundary rule. 'period' matched inside '
     "one_line_summary": "This appears to be a school or education letter from Fairfield Community School.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "3 September 2026",
-    "deadline_iso": "2026-09-03",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -12183,7 +12183,7 @@ INTENT:   Trips 'final warning'. A genuine school letter before a penalty notice
     "one_line_summary": "This appears to be a school or education letter from Fairfield Community School.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "18 September 2026",
-    "deadline_iso": "2026-09-18",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -14947,7 +14947,7 @@ INTENT:   The same failure by a different route, and the one where the reader is
     "one_line_summary": "This appears to be an insurance letter about insurance.",
     "main_action": "No action needed right now.",
     "main_date": "30 June 2026",
-    "deadline_iso": "2026-06-30",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -16783,7 +16783,7 @@ INTENT:   TRACK 5, and the first Gujarati document the engine has ever seen. Str
     "one_line_summary": "This appears to be a health letter from Northbridge Hospital NHS Foundation Trust.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "14 July 2026",
-    "deadline_iso": "2026-07-14",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []
@@ -17300,7 +17300,7 @@ INTENT:   TRACK 5, and the first Bengali document. Structure from an NHS screeni
     "one_line_summary": "This appears to be a health letter from Northbridge Hospital NHS Foundation Trust.",
     "main_action": "Check the original document to see whether a response or action is needed.",
     "main_date": "9 July 2026",
-    "deadline_iso": "2026-07-09",
+    "deadline_iso": null,
     "main_amount": null
   },
   "warnings": []

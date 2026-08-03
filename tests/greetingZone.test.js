@@ -185,14 +185,21 @@ test("the two NHS letters name the appointment, not the letter date", async (t) 
 
   await t.test("Gujarati: 14 July, not 12 June", () => {
     const r = run("spec_gujarati_nhs_appointment");
-    assert.equal(r.api_output.structured_result.summary.deadline_iso, "2026-07-14");
+    // deadline_iso is null here and that is not a regression. Both NHS letters
+    // reach card 4 through the READING AID, which guesses its date rather than
+    // adjudicating one, and a guessed date stopped being machine-comparable
+    // when the aid path was gated out of deadlineIsoFor. The date the reader
+    // SEES is the assertion that matters and it is unchanged.
+    assert.equal(r.api_output.structured_result.summary.deadline_iso, null);
+    assert.equal(r.api_output.structured_result.summary.main_date, "14 July 2026");
     assert.match(r.api_output.structured_result.cards[3].simple_explanation, /14 July 2026/);
     assert.doesNotMatch(r.api_output.structured_result.cards[3].simple_explanation, /12 June/);
   });
 
   await t.test("Bengali: 9 July, not 5 June", () => {
     const r = run("spec_bengali_nhs_screening");
-    assert.equal(r.api_output.structured_result.summary.deadline_iso, "2026-07-09");
+    assert.equal(r.api_output.structured_result.summary.deadline_iso, null, "aid path, see above");
+    assert.equal(r.api_output.structured_result.summary.main_date, "9 July 2026");
     assert.match(r.api_output.structured_result.cards[3].simple_explanation, /9 July 2026/);
     assert.doesNotMatch(r.api_output.structured_result.cards[3].simple_explanation, /5 June/);
   });

@@ -201,10 +201,36 @@ function shortYearOf(monthWord, year) {
 // the page and attributes wrongly, and no amount of parsing fixes those. A
 // consumer of this field inherits those defects; that is an argument for fixing
 // them, not for this field pretending they are not there.
-function deadlineIsoFor({ garbledByOcr, processingMode, multiLetterState, deadline }) {
+// A GUESSED DATE IS NOT MACHINE-COMPARABLE.
+//
+// The reading-aid path does not adjudicate a deadline. It takes the first date
+// no competing label has claimed, which is the "first in document order" guess
+// co-location exists to remove, and D-5 shows it choosing the notice date over
+// the renewal date on insurance_letter. That date is honest to SHOW, because
+// card 4 words it as a date the document states. It is not a date to REASON
+// about, and deadline_iso exists to be reasoned about.
+//
+// UNTIL NOW THE GATE WAS AN ACCIDENT. app.js said the passed-deadline line was
+// "gated ONLY on deadline_iso being present, so every rule that decides whether
+// a date may be reasoned about is inherited from the engine". That was false:
+// ten aid-path documents carried an iso date, and what actually kept the line
+// off them was a template lookup on the rendered sentence, which happened to
+// fail because the aid path words card 4 differently. A gate nobody chose,
+// holding by coincidence, in a file that claimed a different gate entirely.
+//
+// This makes the claim true. The engine decides, the client inherits.
+//
+// WHAT IT COSTS, and it is not small: nine of those ten documents promote the
+// RIGHT date, so nine lose a passed-deadline warning they were entitled to and
+// one, insurance_letter, loses a warning about the wrong date. That trade is
+// deliberate. The alternative is a client that reasons about a date the engine
+// has not vouched for, and the fix for the nine is to make the aid path
+// adjudicate rather than to let a guess through a gate labelled certainty.
+function deadlineIsoFor({ garbledByOcr, processingMode, multiLetterState, deadline, readingAid }) {
   if (garbledByOcr) return null;
   if (processingMode === "verification_only") return null;
   if (multiLetterState === "fused") return null;
+  if (readingAid) return null;
   if (isRelativeTimeframe(deadline)) return null;
   return toIsoDate(deadline);
 }

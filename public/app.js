@@ -2466,8 +2466,17 @@ const DEADLINE_PASSED_KEYS = {
 //
 // Gated ONLY on deadline_iso being present, so every rule that decides whether
 // a date may be reasoned about is inherited from the engine rather than
-// restated here. Garbled, verification_only, fused, a relative period and a
-// date with no single reading are all already null by the time this runs.
+// restated here. Garbled, verification_only, fused, a relative period, a date
+// with no single reading and the READING-AID PATH are all already null by the
+// time this runs.
+//
+// THAT SENTENCE WAS FALSE UNTIL 3 AUGUST 2026, and the correction belongs here
+// rather than in a quiet edit. Ten reading-aid documents carried a
+// deadline_iso. What actually kept this line off them was the template lookup
+// below failing on the aid path's different wording: a gate nobody chose,
+// holding by coincidence, under a comment claiming a different gate entirely.
+// deadlineIsoFor now refuses that path, so the claim is true and this function
+// inherits it instead of a lookup accidentally standing in for it.
 function passedDeadlineLine(card) {
   if (typeof NorthcueDeadlineStatus === "undefined" || typeof NorthcueTemplateBank === "undefined") {
     return null;

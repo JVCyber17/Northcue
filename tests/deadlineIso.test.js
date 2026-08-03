@@ -208,17 +208,23 @@ test("the corpus, end to end", async (t) => {
 
   await t.test("exactly the documents whose date has one reading carry one", () => {
     const EXPECTED = {
-      council_tax: "2026-04-01", energy_bill: "2026-05-28", water_bill: "2026-06-30",
-      gov_hmrc: "2026-07-31", appointment_nhs: "2026-07-01",
+      // TEN READING-AID DOCUMENTS LEFT THIS MAP on 3 August 2026, deliberately.
+      // deadlineIsoFor now refuses that path: it GUESSES its date, taking the
+      // first no competing label has claimed, and deadline_iso exists to be
+      // reasoned about. They still state their date to the reader.
+      //
+      // Nine of the ten had the RIGHT date and lose a passed-deadline warning
+      // with this. tests/deadlinePassed.test.js names all nine and asserts both
+      // halves: the date is still stated, and it is no longer offered for
+      // reasoning. The fix for them is to make the aid path adjudicate, not to
+      // let a guess back through a gate labelled certainty.
+      council_tax: "2026-04-01", energy_bill: "2026-05-28", water_bill: "2026-06-30", appointment_nhs: "2026-07-01",
       bailiff_enforcement: "2026-09-03", eviction_possession: "2026-09-12",
-      court_fine: "2026-09-30", employment_letter: "2026-06-17",
-      education_letter: "2026-06-05", insurance_letter: "2026-07-01",
-      multi_document_split: "2026-05-28", photo_snippet_short: "2026-05-28",
+      court_fine: "2026-09-30",
+      multi_document_split: "2026-05-28",
       arrears_before_clause: "2026-09-03", arrears_past_and_future: "2026-09-03",
-      school_periodic: "2026-09-03",
       // Recovered by F3: refused as scams, so their dates were nulled with the
       // rest of the reading.
-      genuine_school_final_warning: "2026-09-18",
       genuine_post_office_card_payment: "2026-09-03",
       // The two international-number letters that carry an English deadline
       // sentence. Both read correctly: the phone defect costs them their
@@ -230,7 +236,6 @@ test("the corpus, end to end", async (t) => {
       // yields its renewal date. Card 4 hedges it as "the date that matters"
       // rather than "Due by", which is right: the letter says "You do not need
       // to do anything", and card 3 says exactly that.
-      letter_with_terms_on_back: "2026-06-30",
       // Spec-anchored, Track 2.
       spec_energy_bill_full: "2026-06-04",
       spec_council_tax_demand_full: "2026-04-01",
@@ -240,8 +245,6 @@ test("the corpus, end to end", async (t) => {
       // both English and the first date in the document won. They now name the
       // APPOINTMENT, which is a month later and is the only date that matters
       // to a patient.
-      spec_gujarati_nhs_appointment: "2026-07-14",
-      spec_bengali_nhs_screening: "2026-07-09"
     };
     const found = {};
     Object.entries(iso).forEach(([id, value]) => { if (value) found[id] = value; });

@@ -1194,6 +1194,9 @@ function buildStructuredResult({ jobId, anonymousSessionId, text, trust, extract
         garbledByOcr: trust.garbled_by_ocr,
         processingMode: trust.processing_mode,
         multiLetterState: extraction.multi_letter_state,
+        // The reading aid guesses its date rather than adjudicating one, so it
+        // may be shown and not reasoned about. See deadlineIsoFor.
+        readingAid: Boolean(extraction.readable_unsupported_signals),
         deadline: extraction.deadline
       }),
       main_amount: moneyAmount

@@ -196,23 +196,58 @@ test("the line never reaches the reading-aid path", async (t) => {
   // unclaimedDates[0], the first-date-in-document-order guess D-8 records, and
   // D-5 shows it picking the wrong date on insurance_letter. A line saying a
   // date has passed is worth no more than the date under it.
-  await t.test("every aid-path document with a deadline_iso still shows nothing", () => {
-    const onAid = CORPUS.filter((entry) => {
-      const run = analyse(entry.text);
-      return Boolean(run.structured_output.extractor_internal.readable_unsupported_signals) &&
-        Boolean(run.api_output.structured_result.summary.deadline_iso);
-    });
-    assert.ok(onAid.length >= 5, "premise: only " + onAid.length + " aid documents carry an iso date");
+  // REWRITTEN, AND THE OLD VERSION IS WHY. It asserted that aid-path documents
+  // CARRYING an iso date show no line, and its own premise was "onAid.length
+  // >= 5". Ten did carry one. What kept the line off them was a template lookup
+  // on the rendered sentence, an accident nobody chose, in a file whose comment
+  // claimed the gate was deadline_iso alone.
+  //
+  // The engine now refuses the iso date on that path, so the claim the comment
+  // made is true and this asserts the stronger thing: no aid-path document
+  // carries one at all, so there is nothing for any client rule to reason about.
+  await t.test("no aid-path document carries a deadline_iso at all", () => {
+    const onAid = CORPUS.filter((entry) =>
+      Boolean(analyse(entry.text).structured_output.extractor_internal.readable_unsupported_signals));
+    assert.ok(onAid.length >= 10,
+      "premise: the aid path still covers documents, found " + onAid.length);
+    const carrying = onAid
+      .filter((entry) => analyse(entry.text).api_output.structured_result.summary.deadline_iso)
+      .map((entry) => entry.id);
+    assert.deepEqual(carrying, [],
+      "a guessed date became machine-comparable again: " + JSON.stringify(carrying));
     onAid.forEach((entry) => {
       assert.equal(lineKeyFor(entry.id, day("2030-01-01")), null, entry.id);
     });
   });
 
   await t.test("insurance_letter specifically, the document D-5 names", () => {
+    // It still SHOWS its date, and D-5 still says that date is the wrong one.
+    // What it no longer does is let a client reason about it.
     const run = analyse(byId("insurance_letter"));
-    assert.equal(run.api_output.structured_result.summary.deadline_iso, "2026-07-01",
-      "premise: it has a resolvable date, and D-5 says it is the wrong one");
+    assert.equal(run.api_output.structured_result.summary.deadline_iso, null);
+    assert.equal(run.api_output.structured_result.summary.main_date, "1 July 2026",
+      "the date is still stated to the reader, which is the honest half");
     assert.equal(lineKeyFor("insurance_letter", day("2030-01-01")), null);
+  });
+
+  await t.test("NINE OF THE TEN LOSE A LINE THEY WERE ENTITLED TO", () => {
+    // The cost, asserted rather than described, so nobody reads this change as
+    // free. Only insurance_letter promoted the wrong date; the other nine
+    // promote the right one and lose a passed-deadline warning with it.
+    // The fix for them is to make the aid path adjudicate, not to let a guess
+    // back through a gate labelled certainty.
+    const AID_WITH_A_CORRECT_DATE = [
+      "gov_hmrc", "employment_letter", "education_letter", "photo_snippet_short",
+      "school_periodic", "genuine_school_final_warning", "letter_with_terms_on_back",
+      "spec_gujarati_nhs_appointment", "spec_bengali_nhs_screening"
+    ];
+    AID_WITH_A_CORRECT_DATE.forEach((id) => {
+      const run = analyse(byId(id));
+      assert.ok(run.api_output.structured_result.summary.main_date,
+        id + ": it must still STATE its date");
+      assert.equal(run.api_output.structured_result.summary.deadline_iso, null,
+        id + ": and must not offer it for reasoning");
+    });
   });
 
   await t.test("the gate is the bank id, not the card number", () => {
