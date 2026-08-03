@@ -2241,3 +2241,52 @@ that is the engine working. The problem is not length. It is mandated content.
 
 Do not combine any two of these in one commit. The baseline harness diffs the
 whole render, so a combined change produces a diff nobody can read.
+
+
+## Recorded 3 August 2026, not fixed
+
+### The answer that is not protected, on five documents
+
+`most_important_point` is the extractor field that decides card 1's lead key
+point and card 2's whole answer. At the engine floor it is present on a card on
+72 of 73 corpus documents, so nothing is wrong deterministically. What is
+recorded here is the ceiling: after the phrasing pass, the reader does not
+reliably see it.
+
+Named, on the five documents where it matters most:
+
+  bailiff_enforcement
+  court_fine
+  arrears_before_clause
+  spec_energy_bill_full
+  spec_council_tax_demand_full
+
+Every one of these is high-stakes: enforcement, a court fine, rent arrears, a
+disconnection risk, a council tax demand. The point is the single sentence the
+engine judged most important, and it is the one thing on the card a reader
+skimming under stress is most likely to be relying on.
+
+WHY IT IS NOT FIXED HERE. The provenance protection committed on 3 August
+(item 1) protects key POINTS: card 1's garbled caution and training caveat, and
+the whole of card 2's key-point builder. `most_important_point` reaches the
+reader as card 2's ANSWER, and no answer on any card is protected today.
+Protecting an answer is a different decision from protecting a key point, with a
+different cost, and it has not been made. Recorded so it is made deliberately
+rather than discovered.
+
+### Two consequences of inaction the engine does not read
+
+Both on the HMRC compliance-visit shape, now in the corpus as
+`official_letter_caseworker_number`:
+
+  "Any documents you give me may be securely destroyed after 50 days unless you
+  ask for them to be returned."
+
+  "Please note our address has changed. Post sent to the old address may not
+  reach us."
+
+Neither reaches any card. Both are consequences of doing nothing, which is
+exactly what card 5 is for, and both are the kind of clause a reader under
+stress skims past. The first has a deadline attached to it that the deadline
+vocabulary does not see, because "50 days" is a relative period rather than a
+date.
