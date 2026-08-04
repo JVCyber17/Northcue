@@ -85,30 +85,41 @@ function guardParity() {
 // They are deliberately loose: a marker that over-counts gives a conservative
 // (higher) target, which is the safe direction for scoping. Nothing here is a
 // guard and nothing here is wired to anything.
+// UNICODE BOUNDARIES, NOT \b, and this cost a wrong number before it was
+// caught. \b is [A-Za-z0-9_], so "\bé necessário" can NEVER match: é is not an
+// ASCII word character, so a boundary exists there only if the PRECEDING
+// character is one, which after a space it is not. Portuguese was undercounted
+// on every "é necessário" and "é obrigatório" until this was fixed.
+// tests/wordBoundarySafety.test.js is what found it, in the file whose whole
+// job is reading translated text.
+const OPEN = "(?<![\\p{L}\\p{M}\\p{N}])";
+const CLOSE = "(?![\\p{L}\\p{M}\\p{N}])";
+const marker = (body) => new RegExp(OPEN + "(?:" + body + ")" + CLOSE, "iu");
+
 const OBLIGATION_MARKERS = {
-  pl: /\b(?:musi|musisz|muszą|trzeba|należy|konieczne\s+jest|wymagane\s+jest|powinien|powinna|powinno|powinni)\b/i,
-  ro: /\b(?:trebuie|este\s+necesar|se\s+impune|ar\s+trebui)\b/i,
-  es: /\b(?:debe|debes|deben|deberá|tiene\s+que|es\s+necesario|hay\s+que|es\s+obligatorio)\b/i,
-  fr: /\b(?:doit|devez|doivent|il\s+faut|est\s+nécessaire|est\s+obligatoire)\b/i,
-  pt: /\b(?:deve|deverá|devem|tem\s+de|é\s+necessário|é\s+obrigatório|terá\s+de)\b/i,
-  hi: /(?:होगा|होगी|होंगे|पड़ेगा|पड़ेगी|चाहिए|आवश्यक\s*है|ज़रूरी\s*है|जरूरी\s*है)/,
-  bn: /(?:হবে|করতে\s*হবে|প্রয়োজন|আবশ্যক|উচিত)/,
-  gu: /(?:પડશે|જરૂરી\s*છે|આવશ્યક\s*છે|જોઈએ|કરવું\s*પડશે)/,
-  pa: /(?:ਪਵੇਗਾ|ਪਵੇਗੀ|ਜ਼ਰੂਰੀ\s*ਹੈ|ਲਾਜ਼ਮੀ|ਚਾਹੀਦਾ)/
+  pl: marker("musi|musisz|muszą|trzeba|należy|konieczne\\s+jest|wymagane\\s+jest|powinien|powinna|powinno|powinni"),
+  ro: marker("trebuie|este\\s+necesar|se\\s+impune|ar\\s+trebui"),
+  es: marker("debe|debes|deben|deberá|tiene\\s+que|es\\s+necesario|hay\\s+que|es\\s+obligatorio"),
+  fr: marker("doit|devez|doivent|il\\s+faut|est\\s+nécessaire|est\\s+obligatoire"),
+  pt: marker("deve|deverá|devem|tem\\s+de|é\\s+necessário|é\\s+obrigatório|terá\\s+de"),
+  hi: /(?:होगा|होगी|होंगे|पड़ेगा|पड़ेगी|चाहिए|आवश्यक\s*है|ज़रूरी\s*है|जरूरी\s*है)/u,
+  bn: /(?:হবে|করতে\s*হবে|প্রয়োজন|আবশ্যক|উচিত)/u,
+  gu: /(?:પડશે|જરૂરી\s*છે|આવશ્યક\s*છે|જોઈએ|કરવું\s*પડશે)/u,
+  pa: /(?:ਪਵੇਗਾ|ਪਵੇਗੀ|ਜ਼ਰੂਰੀ\s*ਹੈ|ਲਾਜ਼ਮੀ|ਚਾਹੀਦਾ)/u
 };
 
 // A bare imperative. Northcue's own advice uses these, so a high rate here is
 // EXPECTED and is not a target: the English command family does not catch them.
 const IMPERATIVE_MARKERS = {
-  pl: /\b(?:sprawdź|skontaktuj|zadzwoń|wyślij|zapłać|przeczytaj|zachowaj|potwierdź)\b/i,
-  ro: /\b(?:verificați|contactați|sunați|trimiteți|plătiți|citiți|păstrați|confirmați)\b/i,
-  es: /\b(?:compruebe|revise|contacte|llame|envíe|pague|lea|guarde|confirme)\b/i,
-  fr: /\b(?:vérifiez|consultez|contactez|appelez|envoyez|payez|lisez|conservez|confirmez)\b/i,
-  pt: /\b(?:verifique|consulte|contacte|ligue|envie|pague|leia|guarde|confirme)\b/i,
-  hi: /(?:जांचें|जाँचें|करें|भेजें|देखें|पढ़ें|रखें|बताएं|लाओ|लाएं)(?:\s|।|$)/,
-  bn: /(?:দেখুন|করুন|পাঠান|পড়ুন|রাখুন|জানান)(?:\s|।|$)/,
-  gu: /(?:તપાસો|કરો|મોકલો|વાંચો|રાખો|જણાવો|લાવો)(?:\s|।|$)/,
-  pa: /(?:ਜਾਂਚੋ|ਕਰੋ|ਭੇਜੋ|ਪੜ੍ਹੋ|ਰੱਖੋ|ਦੱਸੋ)(?:\s|।|$)/
+  pl: marker("sprawdź|skontaktuj|zadzwoń|wyślij|zapłać|przeczytaj|zachowaj|potwierdź"),
+  ro: marker("verificați|contactați|sunați|trimiteți|plătiți|citiți|păstrați|confirmați"),
+  es: marker("compruebe|revise|contacte|llame|envíe|pague|lea|guarde|confirme"),
+  fr: marker("vérifiez|consultez|contactez|appelez|envoyez|payez|lisez|conservez|confirmez"),
+  pt: marker("verifique|consulte|contacte|ligue|envie|pague|leia|guarde|confirme"),
+  hi: /(?:जांचें|जाँचें|करें|भेजें|देखें|पढ़ें|रखें|बताएं|लाओ|लाएं)(?:\s|।|$)/u,
+  bn: /(?:দেখুন|করুন|পাঠান|পড়ুন|রাখুন|জানান)(?:\s|।|$)/u,
+  gu: /(?:તપાસો|કરો|મોકલો|વાંચો|રાખો|જણાવો|લાવો)(?:\s|।|$)/u,
+  pa: /(?:ਜਾਂਚੋ|ਕਰੋ|ਭੇਜੋ|ਪੜ੍ਹੋ|ਰੱਖੋ|ਦੱਸੋ)(?:\s|।|$)/u
 };
 
 const SCRIPT_OF = {
