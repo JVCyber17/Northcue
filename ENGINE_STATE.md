@@ -299,6 +299,65 @@ Answer all three from real model output before a single phrase is listed. The
 override makes that a half-hour per language; discovering it afterwards cost
 two rebuilds here.
 
+## Spanish, French and Portuguese: word order answered, vocabulary NOT built
+
+The three word-order questions are answered, from the 504-sample sweep, and
+they are the durable part of this. The vocabulary is not built, and the reason
+is a measurement error worth keeping.
+
+### The answers, measured over 1,251 es, 958 fr and 1,312 pt sentences
+
+**Q1, where does the modal sit? NOT reliably sentence-initial**, which is the
+part of "these three share English word order" that was wrong:
+
+    es   30 of 62 first word,  32 elsewhere
+    fr   25 of 41 first word,  16 elsewhere
+    pt   31 of 64 first word,  33 elsewhere
+
+A `^` anchor would miss roughly half in all three. Position-free is required
+here exactly as it was for the credential guard in step 2.
+
+**Q2, can the verb be split from the modal? Yes, and by more than English.** The
+modal takes an infinitive or a participle with an optional passive auxiliary
+between: "Le montant de £214.63 doit être payé avant le 28 mai 2026." Measured
+gap from modal to verb: es median 1, p90 26, max 36; fr median 2, max 6; pt
+median 1, max 1. The same defect as the Hindi compound verb, milder.
+
+**Q3, is the obligation marker ambiguous? No, and this is the real difference
+from Hindi.** Zero sentences in any of the three carry both a modal and a future
+marker. debe/será, doit/sera, deve/será are distinct words, where Hindi होगा is
+both. No correction is needed to these three rates.
+
+### Why the vocabulary is not built: a circular measurement
+
+A first pass reported 100% recall for all three with zero over-fires. **That
+number was wrong and the error is instructive.** The truth set was built with a
+loose version of the SAME pattern, so any sentence whose verb the stem list
+lacked was never in the denominator and could not count as a miss.
+
+"Le paiement doit être effectué avant le 31 juillet 2026." was invisible,
+because the French stem list has no `effectu`. Measured against a
+pattern-INDEPENDENT truth set, a modal plus any verb-shaped word, the Spanish
+denominator is **54 sentences, not the 21 the circular version reported.**
+
+**THE RULE THAT FOLLOWS, and it belongs beside the word-order rule below: a
+recall denominator must never be derived from the pattern under test.** Build
+the truth set from a property the pattern does not use, print it, and let it
+be audited. The Hindi figures do not have this defect, because their truth set
+is "infinitive plus obligation auxiliary", which is independent of the stem
+list.
+
+Also found and not yet resolved: a subordinate-clause exception is needed in
+all three, because the four bank over-fires were all an obligation inside a
+"whether / that" clause. That is the SAME false positive the English guard
+already has, reproduced faithfully rather than introduced. Adding it fixed the
+over-fires and simultaneously shrank the circular denominator, which is how the
+circularity was noticed.
+
+**What remains: build the three stem lists against the independent denominator,
+which is roughly 54 + 30 + 35 sentences to satisfy, and re-measure. The word
+order work above does not need repeating.**
+
 ## Standing rules a future session must not break
 
 **Prove it, do not assume it.** Every claim in the docs above was measured

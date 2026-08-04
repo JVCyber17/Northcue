@@ -2357,3 +2357,43 @@ to, without claiming to know the pixels:
 Neither is built. Recorded because the fixture currently reads as a guard and
 is, for 94 percent of its entries, a comment.
 
+### Does "notify" belong in the command family? An ENGLISH question
+
+The command family names 21 verbs: pay, contact, clear, call, ring, phone,
+reply, respond, send, provide, confirm, settle, attend, complete, return,
+submit, act, vacate, remove, arrange, apply. **It does not name notify or
+inform.**
+
+This surfaced from the wrong direction. The Hindi guard prototype included
+सूचित and सूचना, notify and give notice, and dropping them to match the English
+list cost 7 of 42 measured obligations, taking recall from 67% to 52%. That is
+a large number and it is the wrong reason to decide anything: a Hindi recall
+figure cannot settle what the English verb list should contain.
+
+**IT MUST BE DECIDED ON THE ENGLISH CORPUS, WHERE IT CAN BE MEASURED, AND
+APPLIED TO ALL TEN LANGUAGES OR NONE.** A guard that catches "you must notify
+us" in Hindi and not in English means a Hindi reader loses a sentence an
+English reader keeps, for no safety reason. The reverse is equally wrong.
+
+The question to answer, and it is answerable with the instruments that already
+exist:
+
+  1. How often does the model write "you must notify / inform / tell us" on the
+     English corpus? scripts/reader-output/run.js already captures every
+     reader-received sentence, so this is a grep over data on disk.
+  2. Is it a harm? The command family exists because Northcue must not issue an
+     obligation in its own voice. "You must pay by Friday" is a financial
+     instruction. "You must tell us if your circumstances change" is a
+     reporting duty the letter itself imposes, and the reader's risk from
+     obeying it is close to zero.
+  3. If it is added, every one of the ten vocabularies gains it at once, and
+     the Hindi test that currently asserts सूचित does NOT fire has to be
+     inverted rather than deleted.
+
+**Recorded as OPEN with an instinct, not a decision:** notification is probably
+not the harm the guard exists for, so the answer is probably no. That is the
+product owner's call and it has not been made. Until it is, the Hindi
+prototype stays faithful to the English list and
+tests/hindiGuardVocabulary.test.js asserts the absence, so closing this has to
+be deliberate.
+
