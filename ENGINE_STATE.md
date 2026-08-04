@@ -257,6 +257,48 @@ two-digit-year dates being missed, and the headline moved by about one percent.
 The 61 percent figure does not depend on any of that, because it is the same
 instrument applied to both runs.
 
+## THE WORD-ORDER RULE: check it before writing vocabulary, not after
+
+**Two guards have now failed the same way, and both were found by measurement
+after the vocabulary was written rather than before.**
+
+    step 2, the credential guard
+        anchored on `^(?:please\s+)?(?:confirm|enter|...)`, a SENTENCE-INITIAL
+        imperative. Polish carries the imperative in one fixed word with the
+        verb second. Hindi, Bengali, Gujarati and Panjabi put the verb last.
+        The anchor was in the wrong place, and translating the word list would
+        have bought nothing.
+
+    the Hindi command family
+        required a stem and its infinitive ADJACENT, because English "you must
+        pay" is adjacent. A Hindi compound verb is a noun plus a light verb and
+        the two separate: "भुगतान 3 सितंबर 2026 तक करना होगा". Twelve of
+        fourteen misses across 1,399 sentences were that one assumption.
+
+Neither was a vocabulary gap. Both were an English SENTENCE STRUCTURE ported
+into a language that does not share it, hidden inside a pattern that looked
+like it only carried words. A reader checking a word list would not have caught
+either, because neither is visible in the list.
+
+**SO, FOR EVERY REMAINING LANGUAGE, THIS IS ANSWERED IN WRITING BEFORE ANY
+VOCABULARY IS WRITTEN.** Three questions, and they are cheap because the
+measurement override supplies the evidence:
+
+  1. **Where does the imperative sit?** Initial, second, final, or a fixed
+     particle. If it is not where English puts it, no anchor may assume a
+     position at all.
+  2. **Can the verb be split from its object or its auxiliary?** Compound
+     verbs, separable prefixes, clitics. If yes, every pattern needs a bounded
+     gap and the bound has to be measured, not guessed.
+  3. **Is the obligation marker ambiguous with something else?** Hindi होगा is
+     both the obligation auxiliary and the plain future, which inflated the
+     first Hindi measurement from 6.9% to 8.8% until an infinitive was
+     required. German werden and Dutch zullen have the same shape.
+
+Answer all three from real model output before a single phrase is listed. The
+override makes that a half-hour per language; discovering it afterwards cost
+two rebuilds here.
+
 ## Standing rules a future session must not break
 
 **Prove it, do not assume it.** Every claim in the docs above was measured
