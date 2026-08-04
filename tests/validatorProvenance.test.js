@@ -238,6 +238,32 @@ test("an obligation addressed to the reader is neutralised, unless attributed", 
     assert.ok(neutralised(line));
   });
 
+  await t.test("an obligation inside a whether clause reports rather than commands", () => {
+    // AN ENGLISH DEFECT FOUND IN TRANSLATION. Spanish, French and Portuguese
+    // each over-fired on their bank's rendering of the FIRST sentence below,
+    // which is Northcue's own advice and which this guard was already flagging
+    // in English. Fixed here so every language inherits it.
+    [
+      "Check the original document, or with the sender, whether you need to respond or send anything.",
+      "Check the original document to see whether you must reply.",
+      "The letter asks whether you should contact them."
+    ].forEach((line) => {
+      assert.equal(sanitizeAiTextField(line), line, "stripped a reported obligation: " + line);
+    });
+  });
+
+  await t.test("but a subordinator does not shield a command that follows it", () => {
+    // The adversarial case, and the corpus does not contain it. At a 24
+    // character window with commas allowed, the "whether" here swallowed the
+    // command two clauses later.
+    [
+      "Whether or not you agree, you must pay by 30 September 2026.",
+      "If your circumstances change, you must contact the council immediately."
+    ].forEach((line) => {
+      assert.notEqual(sanitizeAiTextField(line), line, "a command escaped: " + line);
+    });
+  });
+
   await t.test("the engine's own quoted obligation still passes at its own path", () => {
     // bailiff_enforcement's card 3 used to carry "You must contact us on
     // 0333 320 122 by 3 September 2026." The exemption that protects a sentence

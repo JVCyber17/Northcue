@@ -2397,3 +2397,35 @@ prototype stays faithful to the English list and
 tests/hindiGuardVocabulary.test.js asserts the absence, so closing this has to
 be deliberate.
 
+### _AI_PAY_PATTERNS strips an attributed report of a payment demand
+
+    "The letter says you must pay by 30 September 2026."
+
+is stripped, and it should not be. `_AI_PAY_PATTERNS` matches `you\s+(?:must|
+should|need\s+to|have\s+to|are\s+required\s+to)\s+pay` with **no
+attribution exception of its own**, and it runs BEFORE the command family in
+`sanitizeAiTextField`, so the command family's exception never gets a chance.
+
+**THE DISTINCTION EVERY RULE SHOULD DRAW AND THIS ONE DOES NOT.** Northcue
+reporting what the letter demands is the product working: a reader needs to
+know the letter says they must pay by 30 September. Northcue demanding payment
+in its own voice is the harm the guard exists for. The command family tests
+which of the two it is looking at, through the attribution lookbehind added on
+1 August. The pay patterns do not test it at all.
+
+Confirmed as pre-existing rather than introduced by the command family's move
+to the stripper on 3 August: verified against the tree before that change.
+Recorded in tests/validatorProvenance.test.js as a case that IS stripped, so
+the behaviour is visible rather than assumed.
+
+**NOT FIXED HERE**, because the pay patterns are the oldest and most-relied-on
+rule in the stripper, they fire on the highest-stakes documents, and giving
+them an attribution exception is a change that deserves its own measurement
+against the corpus rather than a paragraph in a commit about something else.
+
+The same question applies to `_AI_DETAIL_PATTERNS`: does it strip "The website
+asks you to provide your card details", which is a report of a phishing ask
+rather than one? That is worth measuring at the same time, and the answer may
+differ, because relaying a credential ask is closer to a harm than relaying a
+payment deadline is.
+

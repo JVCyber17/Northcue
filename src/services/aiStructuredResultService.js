@@ -708,7 +708,37 @@ const _AI_DETAIL_PATTERNS = [
 //
 // ascii-boundary-ok: reads AI output, and the AI pass is English only. See the
 // note on _AI_SENSITIVE_TERM below, which applies here in full.
-const _AI_COMMAND_RE = /(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to|are\s+obliged\s+to)\s+(?:pay|contact|clear|call|ring|phone|reply|respond|send|provide|confirm|settle|attend|complete|return|submit|act|vacate|remove|arrange|apply)\b/i;
+// THE SUBORDINATE-CLAUSE EXCEPTION, added 4 August 2026, and it is an ENGLISH
+// defect found in translation rather than a translation defect.
+//
+// Building the Spanish, French and Portuguese vocabularies produced four
+// over-fires on those reviewed banks, and all four were the same shape:
+//
+//     es  "Menciona un formulario que hay que rellenar."
+//     fr  "... si vous devez répondre ou envoyer quelque chose."
+//     pt  "Verifique no documento original se é necessário responder ou agir."
+//
+// Each is the translation of an English bank sentence that ALREADY over-fires
+// here: "Check the original document, or with the sender, whether you need to
+// respond or send anything." An obligation inside a whether clause REPORTS an
+// obligation; it does not issue one, which is the same distinction attribution
+// draws. Fixing it in English means every language inherits it instead of each
+// one rediscovering it.
+//
+// IN PRODUCTION TODAY THIS CHANGES NOTHING VISIBLE, because that sentence is
+// engine-written and the provenance exemption already spares it. It matters
+// because THE PROVENANCE EXEMPTION DOES NOT SURVIVE TRANSLATION: the exemption
+// set is built from the English engine output, so a model's Spanish rendering
+// of an engine sentence is byte-identical to nothing in it and is not spared.
+//
+// "and" and "or" are deliberately NOT subordinators here: "Contact us and you
+// must pay by Friday" is still a command.
+//
+// The window bars the comma for the reason the credential negation does. At
+// [^.!?]{0,24} it also swallowed "Whether or not you agree, you must pay by
+// 30 September 2026.", where the whether governs the concession and not the
+// command. Found by an adversarial case, not by the corpus.
+const _AI_COMMAND_RE = /(?<!\b(?:says|stating|states|said|according to)\b[^.!?]{0,24})(?<!\b(?:whether|if)\b[^.!?,]{0,24})\byou\s+(?:must|should|need\s+to|have\s+to|are\s+required\s+to|are\s+obliged\s+to)\s+(?:pay|contact|clear|call|ring|phone|reply|respond|send|provide|confirm|settle|attend|complete|return|submit|act|vacate|remove|arrange|apply)\b/i;
 
 // Already a bank sentence in all ten languages, so this move adds no new string
 // and no NATIVE_REVIEW entry. It reports rather than instructs, which is the

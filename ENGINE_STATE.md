@@ -257,6 +257,81 @@ two-digit-year dates being missed, and the headline moved by about one percent.
 The 61 percent figure does not depend on any of that, because it is the same
 instrument applied to both runs.
 
+## The word-order questionnaire, answered for all five remaining languages
+
+Answered from the 504-sample sweep before any vocabulary is written for any of
+them, per the rule below. Cheap, and the discoveries are not.
+
+### Romanian, 807 sentences, 29 distinct with a modal
+
+  **Q1  modal position**  18 of 29 first word, 11 elsewhere. Position-free
+  required, same as the other Romance three.
+  **Q2  split**  median 1, max 1. Romanian uses `trebuie sa` plus a SUBJUNCTIVE,
+  not an infinitive: "trebuie sa sunati", "trebuie sa raspundeti". The verb list
+  must carry subjunctive forms, which is a different ending set from Spanish or
+  French, and the passive "trebuie platita" carries a participle instead.
+  **Q3  ambiguity**  none. 58 modal sentences, 4 future, zero overlap.
+
+### Polish, 1,137 sentences, 30 distinct with a modal
+
+  **Q1  modal position**  23 of 30 first word, 7 elsewhere.
+  **Q2  split**  THE PROBE FOUND NO INFINITIVE AFTER THE MODAL AT ALL, and that
+  is a finding rather than a failure. Polish uses several constructions that are
+  not modal-plus-infinitive: `nalezy` and `trzeba` are impersonal and take an
+  infinitive that the probe's `\w+c` pattern missed on diacritics, and
+  `musi/powinna byc` plus a PASSIVE PARTICIPLE is common: "musi byc zaplacona",
+  "powinna byc zwrocona", "musi zostac uregulowana". So Polish needs participle
+  agreement, four forms per verb, and `zostac` as a passive auxiliary alongside
+  `byc`. This is the most different of the nine and it was called a middle case
+  earlier, which was wrong.
+  **Q3  ambiguity**  none. 30 modal, 2 future, zero overlap.
+
+### Bengali, Gujarati and Panjabi
+
+  **Q1  modal position**  verb-final, like Hindi. The auxiliary is at the end of
+  the clause by grammar, so position-free is required and a sentence-initial
+  anchor is meaningless.
+  **Q2  split**  compound verbs, like Hindi. The Hindi fix, a bounded gap
+  between noun and light verb, transfers directly.
+  **Q3  ambiguity, and THIS IS WHERE THEY DIFFER FROM EACH OTHER:**
+
+      bn   151 auxiliary,  143 with an infinitive,   8 without   (5% ambiguous)
+      gu    61 auxiliary,   46 with an infinitive,  15 without  (25% ambiguous)
+      pa    49 auxiliary,   49 with an infinitive,   0 without   (0% ambiguous)
+
+  Gujarati carries the Hindi problem worst: a quarter of its auxiliary
+  occurrences are plain future. Panjabi does not carry it at all. Assuming the
+  three behave alike, which the "repeat the Hindi work almost exactly" plan
+  did, would have produced a Gujarati rate inflated by a quarter.
+
+**Nothing above required a model call. The sweep data already on disk answered
+all five, which is the argument for doing this first every time.**
+
+## THE DENOMINATOR RULE: never derive a recall figure from the pattern under test
+
+A first pass at the Spanish, French and Portuguese vocabularies reported **100%
+recall, zero over-fires, all three.** The number was worthless. The truth set
+was built with a loose version of the SAME pattern, so any sentence whose verb
+the stem list lacked was never in the denominator and could not be counted as a
+miss.
+
+    "Le paiement doit être effectué avant le 31 juillet 2026."
+
+was invisible, because the French stem list has no `effectu`. Against a
+pattern-INDEPENDENT truth set, a modal plus any verb-shaped word, the Spanish
+denominator is **54 sentences and not the 21 the circular version reported.**
+
+**SO: build the truth set from a property the pattern does not use, print every
+member, and let it be audited.** The Hindi figures do not carry this defect,
+because their truth set is "infinitive plus obligation auxiliary", which is
+independent of the stem list. That is why the Hindi numbers stand and the
+Romance ones were withdrawn.
+
+The tell is cheap to check: if tightening the pattern makes the denominator
+shrink, the denominator is derived from the pattern. That is exactly what
+happened when the subordinate-clause exception was added, and it is how the
+circularity was noticed at all.
+
 ## THE WORD-ORDER RULE: check it before writing vocabulary, not after
 
 **Two guards have now failed the same way, and both were found by measurement
