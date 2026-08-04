@@ -100,13 +100,63 @@ const AI_OUTBOUND_TEXT_MAX_CHARS = positiveNumberSetting("CLEARSTEPS_AI_TEXT_MAX
 // Returns null when the provider may be called, or the skip code otherwise.
 // Every branch reads a decision the ENGINE has already made. Nothing here
 // classifies, scores or judges anything itself.
-function providerSkipReason({ rulesRun, language }) {
+// THE MEASUREMENT-ONLY LANGUAGE OVERRIDE.
+//
+// WHAT IT IS FOR, and it is a narrow thing. The language gate below means there
+// is no way to obtain a single sentence of model output in any language but
+// English, which makes it impossible to measure what a translated reader would
+// receive, or to test a guard written for their language against real output.
+// That is the prerequisite for every remaining piece of the multilingual guard
+// work, and it is the only piece that needs no new corpus.
+//
+// IT IS NOT THE GATE. The gate below is untouched: a request that reaches this
+// function through the route still returns "non_english_language" for every
+// language but English, because the route does not pass measurementLanguage and
+// physically cannot. simplifyRoute.js calls this with exactly
+// { rulesRun, extractedText, language }, and tests/measurementLanguageGate.test.js
+// reads the source to hold that.
+//
+// FOUR LOCKS, and all four must be open:
+//
+//   1. the caller passes measurementLanguage explicitly. No request field maps
+//      to it, so only in-process code can.
+//   2. NODE_ENV is not "production".
+//   3. CLEARSTEPS_MEASUREMENT_LANGUAGE is set to "1" in the environment.
+//   4. server.js refuses to START if 2 and 3 disagree, so a production deploy
+//      carrying the flag hard-fails at boot rather than serving with it on.
+//      That mirrors CLEARSTEPS_ENABLE_FILE_RETENTION, which is the existing
+//      precedent for a local-debugging escape hatch that must never ship.
+//
+// AND IT PERSISTS NOTHING. Everything on this path is in-memory: the callers are
+// scripts that hold the result and print it. The route is the only thing that
+// writes a document_session, and the route cannot reach this.
+// Named rather than coded, because "write in pa" is not an instruction a model
+// follows reliably and "write in Panjabi, in Gurmukhi script" is.
+const LANGUAGE_NAMES = {
+  pl: "Polish", ro: "Romanian", es: "Spanish", fr: "French", pt: "European Portuguese",
+  hi: "Hindi", bn: "Bengali", gu: "Gujarati", pa: "Panjabi (Gurmukhi script)"
+};
+
+function measurementLanguage(requested) {
+  if (!requested || requested === "en") return null;
+  if (process.env.NODE_ENV === "production") return null;
+  if (process.env.CLEARSTEPS_MEASUREMENT_LANGUAGE !== "1") return null;
+  return String(requested);
+}
+
+function providerSkipReason({ rulesRun, language, measurementLanguage: requested }) {
   const trust = rulesRun.api_output.trust || {};
 
   // AI phrasing is English only in the multilingual MVP. Non-English interface
   // languages serve the deterministic rules cards, which the frontend
   // translates through the reviewed template bank.
-  if (language && language !== "en") return "non_english_language";
+  //
+  // The override skips ONLY this branch. Every gate below it, low-quality input,
+  // suspected scam and the lure shape, still applies unchanged, because those
+  // decisions have nothing to do with which language the answer is written in.
+  if (language && language !== "en" && !measurementLanguage(requested)) {
+    return "non_english_language";
+  }
 
   // Low-quality input. Prompt-based suppression was tested and confirmed
   // unreliable with gpt-4.1-mini: the model restated suppressed values and
@@ -163,7 +213,13 @@ function providerSkipReason({ rulesRun, language }) {
   return null;
 }
 
-async function applySafetyPassAndRecordAiStatus({ rulesRun, extractedText, language }) {
+// measurementLanguage is NOT part of the request path. simplifyRoute.js passes
+// exactly { rulesRun, extractedText, language }; this fourth option exists so a
+// measurement script can ask for output in another language behind the four
+// locks described on measurementLanguage() above.
+async function applySafetyPassAndRecordAiStatus({
+  rulesRun, extractedText, language, measurementLanguage: requestedLanguage
+}) {
   const output = rulesRun.api_output;
 
   // Backstop: run the proven pay/credential stripper over the rules-engine cards
@@ -179,7 +235,7 @@ async function applySafetyPassAndRecordAiStatus({ rulesRun, extractedText, langu
   // Every gate is now one call. The five inline blocks this replaces read the
   // same fields in the same order and produced the same codes; the difference
   // is that the fact extractor asks the same question, so the two cannot drift.
-  const skipReason = providerSkipReason({ rulesRun, language });
+  const skipReason = providerSkipReason({ rulesRun, language, measurementLanguage: requestedLanguage });
   if (skipReason) {
     attachAiMetadata(output, {
       ai_used: false,
@@ -205,7 +261,8 @@ async function applySafetyPassAndRecordAiStatus({ rulesRun, extractedText, langu
       fallbackStructuredResult,
       model,
       inputQuality,
-      garbledByOcr
+      garbledByOcr,
+      writeInLanguage: measurementLanguage(requestedLanguage)
     });
 
     // The verdict, not just the object. When the sanitiser rejects the
@@ -316,7 +373,7 @@ async function applySafetyPassAndRecordAiStatus({ rulesRun, extractedText, langu
   }
 }
 
-async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr }) {
+async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr, writeInLanguage }) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
 
@@ -332,7 +389,7 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
         input: [
           {
             role: "system",
-            content: buildSystemPrompt()
+            content: buildSystemPrompt(writeInLanguage)
           },
           {
             role: "user",
@@ -383,11 +440,17 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
   }
 }
 
-function buildSystemPrompt() {
+function buildSystemPrompt(writeInLanguage) {
   return [
     "You are the backend structured-output layer for Northcue.",
     "Return strict JSON only. No Markdown. No commentary.",
-    "Use UK English, plain language, calm wording, and short lines.",
+    // MEASUREMENT ONLY. Without this the model answers in English whatever
+    // language it is asked for, because the line below tells it to, and the
+    // measurement would show nothing. It is reached only behind the four locks
+    // on measurementLanguage(), and is null on every production path.
+    writeInLanguage
+      ? `Write every string value in ${LANGUAGE_NAMES[writeInLanguage] || writeInLanguage}, in that language's own script. Keep amounts, dates, reference numbers and phone numbers exactly as they appear in the document, unchanged and untranslated. Plain language, calm wording, short lines.`
+      : "Use UK English, plain language, calm wording, and short lines.",
     "Do not give legal, medical, financial, or authenticity advice.",
     "Do not tell the user to pay, click links, call document numbers, or reply to a sender.",
     "Do not guess missing facts. If unclear, say Not clearly stated.",

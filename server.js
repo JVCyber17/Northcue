@@ -21,6 +21,7 @@ const { cleanupOldTemporaryFiles } = require("./src/utils/temporaryStorageCleanu
 loadEnvFile(__dirname);
 warnIfSupabaseConfigMissing();
 assertSafeFileRetentionConfig();
+assertSafeMeasurementLanguageConfig();
 
 const PORT = Number(process.env.PORT || 3000);
 const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
@@ -147,6 +148,22 @@ function assertSafeFileRetentionConfig() {
   if (process.env.NODE_ENV === "production" && process.env.CLEARSTEPS_ENABLE_FILE_RETENTION) {
     throw new Error(
       "CLEARSTEPS_ENABLE_FILE_RETENTION must not be set in production: it disables deletion of raw uploaded documents."
+    );
+  }
+}
+
+// The same shape, for the measurement-only language override. That flag lets an
+// in-process caller ask the model for output in a language whose safety guards
+// do not exist yet, which is exactly what must never be served to a reader.
+//
+// The service refuses it under NODE_ENV=production on its own, so this is the
+// second of two locks rather than the only one. It is here because a deploy
+// carrying the flag should fail loudly at boot rather than run with a dead
+// setting nobody notices, which is the same argument as the line above.
+function assertSafeMeasurementLanguageConfig() {
+  if (process.env.NODE_ENV === "production" && process.env.CLEARSTEPS_MEASUREMENT_LANGUAGE) {
+    throw new Error(
+      "CLEARSTEPS_MEASUREMENT_LANGUAGE must not be set in production: it asks the model for output in languages whose safety guards are not built."
     );
   }
 }
