@@ -2746,6 +2746,17 @@ const DECISIVE_SCAM_CHECKS_I18N = {
     ["গিফট কার্ড", "Mentions gift card payment."],
     ["অ্যাকাউন্ট স্থগিত", "Threatens to suspend your account within a short time."],
     ["অ্যাকাউন্ট ব্লক", "Threatens to suspend your account within a short time."]
+  ],
+  gu: [
+    ["સંપૂર્ણ પાસવર્ડ", "Asks for a full password, which real organisations never request."],
+    ["આખો પાસવર્ડ", "Asks for a full password, which real organisations never request."],
+    ["પાસવર્ડની પુષ્ટિ", "Asks you to confirm a password."],
+    ["પાસવર્ડ દાખલ", "Asks you to enter a password."],
+    ["પિનની પુષ્ટિ", "Asks you to confirm a PIN."],
+    ["કાર્ડ નંબર અને પિન", "Asks for card number and PIN together."],
+    ["ગિફ્ટ કાર્ડ", "Mentions gift card payment."],
+    ["ખાતું સસ્પેન્ડ", "Threatens to suspend your account within a short time."],
+    ["ખાતું બ્લોક", "Threatens to suspend your account within a short time."]
   ]
 };
 

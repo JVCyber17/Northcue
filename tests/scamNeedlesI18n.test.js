@@ -112,6 +112,20 @@ const PINS = {
         "নিশ্চিত না করলে আপনার অ্যাকাউন্ট ব্লক করা হবে.",
         "Threatens to suspend your account within a short time."]
     ]
+  },
+  gu: {
+    needleCount: 9,
+    measured: [],
+    constructed: [
+      ["a password ask; gu has no scam corpus document",
+        "આવકવેરા વિભાગ\nસંદર્ભ: GU-8834\nતારીખ: 14 જુલાઈ 2026\n\n" +
+        "રિફંડ મેળવવા પોર્ટલ પર સંપૂર્ણ પાસવર્ડ દાખલ કરો.",
+        "Asks for a full password, which real organisations never request."],
+      ["the card and PIN ask",
+        "બેંક સુરક્ષા\nસંદર્ભ: GU-5121\nતારીખ: 3 ઓગસ્ટ 2026\n\n" +
+        "પુષ્ટિ માટે કાર્ડ નંબર અને પિન મોકલો, નહીંતર ખાતું બ્લોક થશે.",
+        "Asks for card number and PIN together."]
+    ]
   }
 };
 
