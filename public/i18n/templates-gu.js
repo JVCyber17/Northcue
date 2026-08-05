@@ -220,6 +220,7 @@
       "tpl.label.signal.scam.account_verification": "ખાતાની ખાતરી માટેની વિગતો માગે છે.",
       "tpl.label.signal.scam.secret_details": "ગુપ્ત વિગતો માગે છે.",
       "tpl.label.signal.scam.full_password": "આખો પાસવર્ડ માગે છે, જે સાચી સંસ્થાઓ ક્યારેય માગતી નથી.",
+      "tpl.label.signal.scam.card_security_code": "કાર્ડનો સિક્યુરિટી કોડ (CVV) માગે છે, જે સાચી સંસ્થાઓ ક્યારેય માગતી નથી.",
       "tpl.label.signal.scam.confirm_password": "તમને પાસવર્ડની ખાતરી કરવાનું કહે છે.",
       "tpl.label.signal.scam.enter_password": "તમને પાસવર્ડ દાખલ કરવાનું કહે છે.",
       "tpl.label.signal.scam.confirm_pin": "તમને PIN ની ખાતરી કરવાનું કહે છે.",

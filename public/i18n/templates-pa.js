@@ -218,6 +218,7 @@
       "tpl.label.signal.scam.account_verification": "ਅਕਾਊਂਟ ਦੀ ਪੁਸ਼ਟੀ ਵਾਲੇ ਵੇਰਵੇ ਮੰਗੇ ਗਏ ਹਨ.",
       "tpl.label.signal.scam.secret_details": "ਗੁਪਤ ਵੇਰਵੇ ਮੰਗੇ ਗਏ ਹਨ.",
       "tpl.label.signal.scam.full_password": "ਪੂਰਾ ਪਾਸਵਰਡ ਮੰਗਿਆ ਗਿਆ ਹੈ, ਜੋ ਅਸਲੀ ਸੰਸਥਾਵਾਂ ਕਦੇ ਨਹੀਂ ਮੰਗਦੀਆਂ.",
+      "tpl.label.signal.scam.card_security_code": "ਕਾਰਡ ਦਾ ਸੁਰੱਖਿਆ ਕੋਡ (CVV) ਮੰਗਿਆ ਗਿਆ ਹੈ, ਜੋ ਅਸਲੀ ਸੰਸਥਾਵਾਂ ਕਦੇ ਨਹੀਂ ਮੰਗਦੀਆਂ.",
       "tpl.label.signal.scam.confirm_password": "ਤੁਹਾਨੂੰ ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਕਿਹਾ ਗਿਆ ਹੈ.",
       "tpl.label.signal.scam.enter_password": "ਤੁਹਾਨੂੰ ਪਾਸਵਰਡ ਭਰਨ ਲਈ ਕਿਹਾ ਗਿਆ ਹੈ.",
       "tpl.label.signal.scam.confirm_pin": "ਤੁਹਾਨੂੰ PIN ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਕਿਹਾ ਗਿਆ ਹੈ.",

@@ -221,6 +221,7 @@
       "tpl.label.signal.scam.account_verification": "Pide datos para verificar la cuenta.",
       "tpl.label.signal.scam.secret_details": "Pide datos secretos.",
       "tpl.label.signal.scam.full_password": "Pide una contraseña completa, algo que las organizaciones reales nunca piden.",
+      "tpl.label.signal.scam.card_security_code": "Pide el código de seguridad de la tarjeta (CVV), algo que las organizaciones reales nunca piden.",
       "tpl.label.signal.scam.confirm_password": "Le pide confirmar una contraseña.",
       "tpl.label.signal.scam.enter_password": "Le pide introducir una contraseña.",
       "tpl.label.signal.scam.confirm_pin": "Le pide confirmar un PIN.",

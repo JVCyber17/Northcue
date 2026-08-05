@@ -989,3 +989,20 @@ the three questions above. Four of the nine were revised at that stage, so
 these are second drafts rather than first ones. **No native speaker has read
 any of them.**
 
+
+## New since your list was written: the card security code warning (5 August 2026)
+
+One new line on the Document check panel, shown when a letter asks for a
+card security code. It sat in English in every language until today, and it
+is the one warning that fires on letters written in your language, so it
+matters more than its size suggests.
+
+English: "Asks for a card security code, which real organisations never
+request."
+
+Find it in your language file as `tpl.label.signal.scam.card_security_code`,
+next to the full password line you have already been asked about. The same
+three questions apply: does it warn YOU rather than describe the world, does
+it sound serious without shouting, and does it read like a person wrote it?
+CVV is kept as letters print it; say if your community's letters use a
+different word.

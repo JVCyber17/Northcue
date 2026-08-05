@@ -231,6 +231,7 @@
       "tpl.label.signal.scam.account_verification": "Requests account verification details.",
       "tpl.label.signal.scam.secret_details": "Requests secret details.",
       "tpl.label.signal.scam.full_password": "Asks for a full password, which real organisations never request.",
+      "tpl.label.signal.scam.card_security_code": "Asks for a card security code, which real organisations never request.",
       "tpl.label.signal.scam.confirm_password": "Asks you to confirm a password.",
       "tpl.label.signal.scam.enter_password": "Asks you to enter a password.",
       "tpl.label.signal.scam.confirm_pin": "Asks you to confirm a PIN.",

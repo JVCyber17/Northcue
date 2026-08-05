@@ -219,6 +219,7 @@
       "tpl.label.signal.scam.account_verification": "Cere detalii de verificare a contului.",
       "tpl.label.signal.scam.secret_details": "Cere detalii secrete.",
       "tpl.label.signal.scam.full_password": "Cere o parolă completă, ceea ce organizațiile reale nu cer niciodată.",
+      "tpl.label.signal.scam.card_security_code": "Cere codul de securitate al cardului (CVV), ceea ce organizațiile reale nu cer niciodată.",
       "tpl.label.signal.scam.confirm_password": "Vă cere să confirmați o parolă.",
       "tpl.label.signal.scam.enter_password": "Vă cere să introduceți o parolă.",
       "tpl.label.signal.scam.confirm_pin": "Vă cere să confirmați un PIN.",

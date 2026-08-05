@@ -218,6 +218,7 @@
       "tpl.label.signal.scam.account_verification": "अकाउंट की पुष्टि की जानकारी माँगी गई है.",
       "tpl.label.signal.scam.secret_details": "गुप्त जानकारी माँगी गई है.",
       "tpl.label.signal.scam.full_password": "पूरा पासवर्ड माँगा गया है, जो असली संस्थाएँ कभी नहीं माँगतीं.",
+      "tpl.label.signal.scam.card_security_code": "कार्ड का सुरक्षा कोड (CVV) माँगा गया है, जो असली संस्थाएँ कभी नहीं माँगतीं.",
       "tpl.label.signal.scam.confirm_password": "आपसे पासवर्ड की पुष्टि करने के लिए कहा गया है.",
       "tpl.label.signal.scam.enter_password": "आपसे पासवर्ड डालने के लिए कहा गया है.",
       "tpl.label.signal.scam.confirm_pin": "आपसे PIN की पुष्टि करने के लिए कहा गया है.",

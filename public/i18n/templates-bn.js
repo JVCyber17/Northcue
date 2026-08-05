@@ -218,6 +218,7 @@
       "tpl.label.signal.scam.account_verification": "অ্যাকাউন্ট যাচাইয়ের তথ্য চাওয়া হয়েছে.",
       "tpl.label.signal.scam.secret_details": "গোপন তথ্য চাওয়া হয়েছে.",
       "tpl.label.signal.scam.full_password": "পুরো পাসওয়ার্ড চাওয়া হয়েছে, যা আসল প্রতিষ্ঠান কখনও চায় না.",
+      "tpl.label.signal.scam.card_security_code": "কার্ডের নিরাপত্তা কোড (CVV) চাওয়া হয়েছে, যা আসল প্রতিষ্ঠান কখনও চায় না.",
       "tpl.label.signal.scam.confirm_password": "পাসওয়ার্ড নিশ্চিত করতে বলা হয়েছে.",
       "tpl.label.signal.scam.enter_password": "পাসওয়ার্ড লিখতে বলা হয়েছে.",
       "tpl.label.signal.scam.confirm_pin": "PIN নিশ্চিত করতে বলা হয়েছে.",
