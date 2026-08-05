@@ -144,6 +144,20 @@
       var key = element.getAttribute("data-i18n");
       if (key) element.textContent = t(key);
     });
+    // THE LAUNCH COPY SWAP, driven by the same flag that opens the gates
+    // (config.launch.open), so the privacy wording and the language launch
+    // ship as one change or not at all.
+    var launched = root.NORTHCUE_I18N_CONFIG &&
+      root.NORTHCUE_I18N_CONFIG.launch && root.NORTHCUE_I18N_CONFIG.launch.open;
+    if (launched) {
+      scope.querySelectorAll("[data-i18n-launch]").forEach(function (element) {
+        var key = element.getAttribute("data-i18n-launch");
+        if (key) element.textContent = t(key);
+      });
+      scope.querySelectorAll("[data-launch-reveal]").forEach(function (element) {
+        element.hidden = false;
+      });
+    }
     ATTRIBUTE_MAP.forEach(function (pair) {
       scope.querySelectorAll("[" + pair[0] + "]").forEach(function (element) {
         var key = element.getAttribute(pair[0]);

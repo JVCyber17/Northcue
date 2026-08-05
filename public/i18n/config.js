@@ -17,6 +17,17 @@
 (function (root) {
   var config = {
     defaultLanguage: "en",
+
+    // THE SINGLE LAUNCH SWITCH. Flipping open to true, in one commit the
+    // founder approves, does two things AT ONCE and nothing before it:
+    // the server opens the AI phrasing pass to every enabled language
+    // (providerSkipReason reads this file), and the client swaps in the
+    // launch privacy wording (i18n.js reads data-i18n-launch and
+    // data-launch-reveal). Gates and copy cannot ship apart because they
+    // are the same flag in the same file. False today, deliberately:
+    // nothing opens until the founder says open.
+    launch: { open: false },
+
     languages: [
       {
         code: "en",

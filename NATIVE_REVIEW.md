@@ -1027,3 +1027,21 @@ Also for you to check, matching only, never shown: the app now recognises
 "hours" words (godzin, ore, horas, heures, ghante and so on) and "per day"
 words in your language, the way it already recognises month names. If your
 language's everyday forms are missing or wrong, say so.
+
+## New since your list was written: the launch privacy wording (5 August 2026)
+
+Three new lines that appear only when the languages launch, staged now so
+they can be checked before anyone sees them. They carry Northcue's core
+privacy promise, so they matter more than their size.
+
+English: "Details are masked, then AI phrases it in your language" (the
+privacy page step), "Only used to make your cards. Personal details are
+masked first." (under the upload box), and the full claim: "Northcue masks
+personal details like phone numbers, emails and account numbers before any
+AI processing, never stores your document, and reads documents in any of
+its ten languages."
+
+Find them in your language file as `privacy.step.ai.launch`,
+`journey.privacy.line.launch` and `privacy.launch.claim`. The claim must
+sound factual and calm, never like marketing. If "masked" reads oddly in
+your language, suggest the word an official privacy notice would use.

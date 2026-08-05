@@ -170,17 +170,35 @@ function measurementLanguage(requested) {
   return String(requested);
 }
 
+// THE LAUNCH SWITCH, server side. True only when config.launch.open is
+// flipped in the founder-approved launch commit AND the language is one the
+// interface actually offers. The same config file drives the client's
+// privacy copy swap, so this cannot open before the wording that describes
+// it, or after it.
+const I18N_CONFIG = require("../../public/i18n/config.js");
+
+function launchedLanguage(language) {
+  if (!I18N_CONFIG || !I18N_CONFIG.launch || I18N_CONFIG.launch.open !== true) return false;
+  return I18N_CONFIG.languages.some(
+    (entry) => entry.code === language && entry.enabled === true);
+}
+
 function providerSkipReason({ rulesRun, language, measurementLanguage: requested }) {
   const trust = rulesRun.api_output.trust || {};
 
-  // AI phrasing is English only in the multilingual MVP. Non-English interface
-  // languages serve the deterministic rules cards, which the frontend
-  // translates through the reviewed template bank.
+  // AI phrasing is English only until THE LAUNCH SWITCH opens: one flag in
+  // public/i18n/config.js, flipped in one founder-approved commit, which
+  // simultaneously swaps the client's privacy wording (i18n.js reads the
+  // same file), so gates and copy cannot ship apart. Until then non-English
+  // interface languages serve the deterministic rules cards, which the
+  // frontend translates through the reviewed template bank.
   //
-  // The override skips ONLY this branch. Every gate below it, low-quality input,
-  // suspected scam and the lure shape, still applies unchanged, because those
-  // decisions have nothing to do with which language the answer is written in.
-  if (language && language !== "en" && !measurementLanguage(requested)) {
+  // The launch switch and the measurement override skip ONLY this branch.
+  // Every gate below it, low-quality input, suspected scam and the lure
+  // shape, still applies unchanged, because those decisions have nothing to
+  // do with which language the answer is written in.
+  if (language && language !== "en" &&
+      !launchedLanguage(language) && !measurementLanguage(requested)) {
     return "non_english_language";
   }
 
