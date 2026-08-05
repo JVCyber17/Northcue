@@ -307,6 +307,39 @@ them, per the rule below. Cheap, and the discoveries are not.
 **Nothing above required a model call. The sweep data already on disk answered
 all five, which is the argument for doing this first every time.**
 
+## THE PRODUCTION RULE: a local run proves nothing about what production serves
+
+Recorded 4 August 2026, after a reported English degradation was investigated
+against `document_sessions` and the production data contradicted the premise.
+
+**WHAT A LOCAL MEASUREMENT CAN PROVE.** That a guard fires or does not on a
+given sentence. That the engine floor is what it is. That a change moves the
+corpus. All of that is deterministic and local runs settle it completely.
+
+**WHAT IT CANNOT PROVE, AND THIS LIST IS THE POINT.**
+
+  - **That production is reaching the provider at all.** The key, the network,
+    the timeout and the deploy all live somewhere a local run never touches.
+    Every measurement in this programme since the prose restore has run against
+    a local key.
+  - **What production's traffic actually looks like.** Measured: 794 of 1,000
+    sessions in fourteen days arrived in same-second batches of three or more,
+    which is script traffic, not readers. Any rate computed over the raw table
+    is dominated by it.
+  - **What real readers upload.** Of the 206 non-batched sessions, 172 were
+    `unreadable_document` at `input_quality: poor`, with a median PDF size of
+    **58 bytes**. That is scanner and bot traffic hitting the endpoint. The
+    corpus contains nothing like it and cannot.
+  - **Which guard rejected a result.** `validation_errors` is captured in
+    `debug.ai` and is NOT a column in `document_sessions`, so a production
+    rejection is recorded as `sanitizer_rejected` and nothing more. The guard
+    cannot be named after the fact. This is the single largest instrumentation
+    gap and it is why the 4 August investigation could not finish.
+
+**SO: any claim of the form "production is doing X" must be answered from
+`document_sessions`, not from a corpus run.** The reader-output harness measures
+the ceiling a document COULD reach; it does not measure what any reader got.
+
 ## THE DENOMINATOR RULE: never derive a recall figure from the pattern under test
 
 A first pass at the Spanish, French and Portuguese vocabularies reported **100%

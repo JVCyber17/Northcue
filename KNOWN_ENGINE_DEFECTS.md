@@ -2429,3 +2429,28 @@ rather than one? That is worth measuring at the same time, and the answer may
 differ, because relaying a credential ask is closer to a harm than relaying a
 payment deadline is.
 
+### guessSender returns a field label where a sender belongs
+
+Reproduced exactly, 4 August 2026:
+
+    input   "Property Reference No. 4471028"  as the first line of a bill
+    card 1  "Property Reference No. 4471028 appears to be asking you to pay
+             £486.20 by 31 August 2026."
+
+The same defect as "Supply address:" on the British Gas bill. `guessSender`
+takes the top line of the document and does not test whether it is a SENDER or
+a FIELD LABEL. A label followed by a value is one of the commonest shapes at the
+top of a UK bill, so this is not a rare input.
+
+**IT IS INVISIBLE WHENEVER PROSE IS WORKING**, because the model rewrites card 1
+and never repeats the label. It surfaces only on the floor, which means it
+appears exactly when everything else has already failed and the reader is
+already getting the least help the product can give. That is the worst possible
+correlation for a defect to have.
+
+A field label is structurally recognisable: it ends in a colon, or it ends in a
+noun like "No." or "Number" or "Reference" followed by a value on the same line.
+That is the same shape the greeting rule uses, and it needs no vocabulary.
+
+Recorded, not fixed.
+
