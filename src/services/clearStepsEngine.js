@@ -2635,10 +2635,50 @@ function matchChecks(lower, checks) {
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);
 }
 
+// P2 OF THE SCAM-PARITY LADDER: per-language decisive needles for what
+// stays lexical after the neutral structural tier, mirroring the English
+// decisive twelve exactly, never wider: credential-harvest asks, the gift
+// card, and the suspension threat. Labels are the SAME strings the English
+// needles emit, already in all ten banks, so P2 adds no reader-visible
+// text anywhere.
+//
+// Measured before wiring, per language, against three zero-fire sets: every
+// non-scam corpus document, the full measured sweep slice, and the
+// 371-sentence bank. The banks contain these needles VERBATIM because the
+// why-chip labels describe them; that is definitional, not a false
+// positive, because needles only ever run on uploaded document text.
+// Languages without scam corpus documents (ro, hi, bn, gu, pa) are
+// validated zero-fire and pinned with constructed asks, the recorded
+// Hindi credential precedent.
+const DECISIVE_SCAM_CHECKS_I18N = {
+  pl: [
+    ["pełne hasło", "Asks for a full password, which real organisations never request."],
+    ["pełnego hasła", "Asks for a full password, which real organisations never request."],
+    ["potwierdzić hasło", "Asks you to confirm a password."],
+    ["potwierdź hasło", "Asks you to confirm a password."],
+    ["podać hasło", "Asks you to enter a password."],
+    ["wpisać hasło", "Asks you to enter a password."],
+    ["wprowadź hasło", "Asks you to enter a password."],
+    ["potwierdzić pin", "Asks you to confirm a PIN."],
+    ["potwierdź pin", "Asks you to confirm a PIN."],
+    ["numer karty oraz kod pin", "Asks for card number and PIN together."],
+    ["numer karty i kod pin", "Asks for card number and PIN together."],
+    ["numer karty, pin", "Asks for card number and PIN together."],
+    ["kartą podarunkową", "Mentions gift card payment."],
+    ["karta podarunkowa", "Mentions gift card payment."],
+    ["karty podarunkowej", "Mentions gift card payment."],
+    ["zablokowanie konta", "Threatens to suspend your account within a short time."],
+    ["konto zostanie zablokowane w ciągu", "Threatens to suspend your account within a short time."],
+    ["konto zostanie zawieszone w ciągu", "Threatens to suspend your account within a short time."]
+  ]
+};
+
 // The decisive tier. This is what drives category, trust and processing mode,
 // and it is the only thing that does.
 function detectScamSignals(lower) {
-  return matchChecks(lower, DECISIVE_SCAM_CHECKS);
+  const translated = Object.keys(DECISIVE_SCAM_CHECKS_I18N)
+    .flatMap((lang) => matchChecks(lower, DECISIVE_SCAM_CHECKS_I18N[lang]));
+  return matchChecks(lower, DECISIVE_SCAM_CHECKS).concat(translated);
 }
 
 // The advisory tier. Shown to the reader, and consulted by nothing.

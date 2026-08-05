@@ -63,7 +63,10 @@ test("the neutral structural tier fires where it was measured to fire", async (t
   await t.test("the letter the tier was built for is refused as a suspected scam", () => {
     const trust = trustOf("polish_phishing");
     assert.equal(trust.processing_mode, "verification_only");
-    assert.equal((trust.scam_signals || []).length, 3);
+    // Three neutral structural facts, and since P2 the three Polish decisive
+    // needles on top: full password, card and PIN together, the suspension
+    // threat. Six ways to be caught where on 4 August there were zero.
+    assert.equal((trust.scam_signals || []).length, 6);
   });
 
   await t.test("structure never refuses alone: two facts stay advisory", () => {

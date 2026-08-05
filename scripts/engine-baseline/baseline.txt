@@ -9538,6 +9538,9 @@ INTENT:   D3 tier 1, and the sharpest of the four. Carries the same shapes detec
     "Asks for money through a link, with no reference or contact number."
   ],
   "scam_signals": [
+    "Asks for a full password, which real organisations never request.",
+    "Asks for card number and PIN together.",
+    "Threatens to suspend your account within a short time.",
     "Sets a very short deadline measured in hours.",
     "Combines a link with a very short deadline.",
     "Asks for a payment through a link under a very short deadline."

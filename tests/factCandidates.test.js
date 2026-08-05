@@ -167,13 +167,21 @@ test("a scam's own threat is never quoted back", async (t) => {
     // own threat, because the scam detector was blind to Polish and
     // RISK_PHRASES is English. Both walls were past; this is the third.
     //
-    // Since 5 August 2026 the neutral structural tier refuses the full letter
-    // before facts exist, so the link is removed here to simulate the scam
-    // the tiers still cannot see. The third wall must hold on its own even
-    // when the first two are missing, which is its whole reason to exist.
-    const text = byId("polish_phishing")
-      .replace("https://hmrc-zwrot-podatku.example.com/potwierdz", "");
-    const sentence = "Brak potwierdzenia danych w podanym terminie spowoduje zablokowanie konta.";
+    // Since 5 August 2026 the earlier walls have learned to read Polish: the
+    // neutral structural tier refuses the full letter, and the P2 needles
+    // catch the original threat sentence VERBATIM ("zablokowanie konta" is
+    // now a decisive needle), so the letter can no longer reach facts in any
+    // trimmed form. The third wall exists for the phrasings the needles
+    // miss, so it is exercised with one: account CLOSURE, same kind, no
+    // needle, inside a minimal letter the detectors read as ordinary.
+    const sentence = "Brak potwierdzenia danych w podanym terminie spowoduje zamknięcie konta.";
+    // Enough real document structure (date, reference, address) that the
+    // non-document gate accepts it; no needle, no window, no link, so no
+    // detector refuses it and facts are genuinely consulted.
+    const text = "Urząd Skarbowy\n1 Main Street, Manchester M1 2AB\n\n" +
+      "Data: 14 lipca 2026\nNumer referencyjny: WA-2231\n\nSzanowny Kliencie,\n\n" +
+      "Prosimy o aktualizację danych w naszym rejestrze.\n\n" +
+      sentence + "\n\nZ poważaniem\nUrząd Skarbowy";
     assert.ok(text.includes(sentence), "the fixture must contain the threat");
     assert.equal(candidates.consequenceCandidate({
       facts: { consequence: { kind: "account_suspension", conditional: false, sentence } },
