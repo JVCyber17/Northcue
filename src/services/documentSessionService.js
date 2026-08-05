@@ -116,6 +116,18 @@ function buildSafeSessionRow(metadata) {
     ai_model: cleanAiModel(metadata.aiModel),
     ai_duration_ms: normaliseDuration(metadata.aiDurationMs),
     ai_error_code: metadata.aiErrorCode === null ? null : cleanErrorCode(metadata.aiErrorCode),
+    // WHY THIS IS STORED AND ai_error_code IS NOT ENOUGH. A rejection records
+    // "sanitizer_rejected" and nothing else, so a production failure can never
+    // be traced to the guard that caused it. On 4 August 2026 the same 702KB
+    // bill was rejected twice and the guard could not be named from the table.
+    //
+    // GUARD NAMES ONLY, NEVER DOCUMENT TEXT. Every validator message is of the
+    // form "unsafe advice matched /pattern/" or "date 12 june 2026 appears in
+    // neither the document nor the engine output", so a date or an amount CAN
+    // appear inside one. cleanValidationErrors truncates and strips anything
+    // that looks like a value, because this table holds safe metadata only.
+    ai_validation_errors: metadata.aiValidationErrors === null
+      ? null : cleanValidationErrors(metadata.aiValidationErrors),
     error_code: metadata.errorCode === null ? null : cleanErrorCode(metadata.errorCode),
     expires_at: cleanIsoDate(metadata.expiresAt),
     processed_at: cleanIsoDate(metadata.processedAt)
@@ -147,7 +159,8 @@ function metadataFromAnalysisOutput(output = {}) {
     aiProvider: ai.ai_provider,
     aiModel: ai.ai_model,
     aiDurationMs: ai.ai_duration_ms,
-    aiErrorCode: ai.ai_error_code
+    aiErrorCode: ai.ai_error_code,
+    aiValidationErrors: ai.validation_errors
   };
 }
 
@@ -216,6 +229,39 @@ function cleanErrorCode(value) {
   if (value === null) return null;
   const cleaned = cleanText(value, 80).toLowerCase().replace(/[^a-z0-9_-]/g, "_");
   return cleaned || undefined;
+}
+
+// Validator messages, reduced to the GUARD and nothing else.
+//
+// This table holds safe metadata only, and a raw validator message can carry a
+// value out of the reader's document: "date 12 june 2026 appears in neither the
+// document nor the engine output" contains a date, and the money and reference
+// checks quote what they found. So every digit run is replaced before storage
+// and the result is capped.
+//
+// What survives is the part that answers the question this column exists for:
+// which guard fired. "unsafe advice matched /(?<!\b(?:says|...)/" stays legible
+// as a pattern; "date {n} appears in neither..." names the date rule without
+// naming the date.
+function cleanValidationErrors(value) {
+  if (value === null) return null;
+  const list = Array.isArray(value) ? value : [value];
+  const safe = list
+    .map((entry) => String(entry === null || entry === undefined ? "" : entry))
+    .map((entry) => entry
+      .replace(/[£$€]\s?[\d,]+(?:\.\d{2})?/g, "{amount}")
+      // Digit runs, and dates written as words. Whitespace is NOT in the class:
+      // including it swallowed the following space and produced "date {n}june".
+      .replace(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi, "{date}")
+      .replace(/\b[\d][\d,\/.-]{1,}\b/g, "{n}")
+      .replace(/\b\d\b/g, "{n}")
+      .replace(/\b[A-Z]{2,}[-\/]?[A-Z0-9\/-]{4,}\b/g, "{ref}")
+      .replace(/\s+/g, " ")
+      .trim())
+    .filter(Boolean)
+    .slice(0, 6);
+  if (!safe.length) return undefined;
+  return cleanText(safe.join(" | "), 500) || undefined;
 }
 
 function normaliseEnum(value, allowedValues) {
