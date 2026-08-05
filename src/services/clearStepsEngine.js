@@ -2734,6 +2734,18 @@ const DECISIVE_SCAM_CHECKS_I18N = {
     ["उपहार कार्ड", "Mentions gift card payment."],
     ["खाता निलंबित", "Threatens to suspend your account within a short time."],
     ["खाता ब्लॉक", "Threatens to suspend your account within a short time."]
+  ],
+  bn: [
+    ["সম্পূর্ণ পাসওয়ার্ড", "Asks for a full password, which real organisations never request."],
+    ["পুরো পাসওয়ার্ড", "Asks for a full password, which real organisations never request."],
+    ["পাসওয়ার্ড নিশ্চিত", "Asks you to confirm a password."],
+    ["পাসওয়ার্ড লিখুন", "Asks you to enter a password."],
+    ["পাসওয়ার্ড দিন", "Asks you to enter a password."],
+    ["পিন নিশ্চিত", "Asks you to confirm a PIN."],
+    ["কার্ড নম্বর এবং পিন", "Asks for card number and PIN together."],
+    ["গিফট কার্ড", "Mentions gift card payment."],
+    ["অ্যাকাউন্ট স্থগিত", "Threatens to suspend your account within a short time."],
+    ["অ্যাকাউন্ট ব্লক", "Threatens to suspend your account within a short time."]
   ]
 };
 

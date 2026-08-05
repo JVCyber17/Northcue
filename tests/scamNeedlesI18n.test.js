@@ -98,6 +98,20 @@ const PINS = {
         "पुष्टि के लिए कार्ड नंबर और पिन भेजें, अन्यथा खाता ब्लॉक कर दिया जाएगा.",
         "Asks for card number and PIN together."]
     ]
+  },
+  bn: {
+    needleCount: 10,
+    measured: [],
+    constructed: [
+      ["a password ask; bn has no scam corpus document",
+        "আয়কর বিভাগ\nরেফারেন্স: BN-7714\nতারিখ: 14 জুলাই 2026\n\n" +
+        "রিফান্ড পেতে পোর্টালে সম্পূর্ণ পাসওয়ার্ড লিখুন.",
+        "Asks for a full password, which real organisations never request."],
+      ["the suspension threat",
+        "ব্যাংক নিরাপত্তা\nরেফারেন্স: BN-2290\nতারিখ: 3 আগস্ট 2026\n\n" +
+        "নিশ্চিত না করলে আপনার অ্যাকাউন্ট ব্লক করা হবে.",
+        "Threatens to suspend your account within a short time."]
+    ]
   }
 };
 
