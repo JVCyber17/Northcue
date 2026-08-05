@@ -176,6 +176,7 @@ function measurementLanguage(requested) {
 // privacy copy swap, so this cannot open before the wording that describes
 // it, or after it.
 const I18N_CONFIG = require("../../public/i18n/config.js");
+const guardVocabularies = require("../utils/guardVocabularies");
 
 function launchedLanguage(language) {
   if (!I18N_CONFIG || !I18N_CONFIG.launch || I18N_CONFIG.launch.open !== true) return false;
@@ -323,7 +324,11 @@ async function applySafetyPassAndRecordAiStatus({
     // The exemption is built from the FALLBACK, which is the rules output for
     // this document. A model sentence that is byte-identical to one of those is
     // that sentence; anything else carrying a number is stripped.
-    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult));
+    // language, not the measurement override: with launch.open false the
+    // vocabularies resolve for nobody, so measurement output stays raw and
+    // today's behaviour is byte-identical. When launched, the reader's
+    // language selects the verified vocabulary.
+    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult), language);
     const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
@@ -826,23 +831,40 @@ function sanitiseRulesStructuredResult(output, rulesRun) {
 
 // exemptSentences is optional and defaults to exempting nothing, so a caller
 // that omits it gets the strictest behaviour rather than the loosest.
-function stripAiViolations(result, exemptSentences) {
+//
+// language is optional and matters only when the LAUNCH SWITCH is open: a
+// launched language resolves its verified guard vocabulary and the stripper
+// applies it beside the English rules. Callers that omit it, including the
+// English benchmark and the rules-floor pass, get English behaviour
+// unchanged, and with launch.open false the vocabularies resolve for
+// nobody, so nothing observable changes before launch.
+function stripAiViolations(result, exemptSentences, language) {
   if (!result || !Array.isArray(result.cards)) return result;
+  const vocab = launchedLanguage(language)
+    ? {
+      obligation: guardVocabularies.obligationPatternFor(language),
+      credential: guardVocabularies.credentialPatternFor(language)
+    }
+    : null;
   const out = JSON.parse(JSON.stringify(result));
   for (const card of out.cards) {
     for (const field of ["simple_explanation", "action_needed", "read_aloud_text"]) {
-      if (typeof card[field] === "string") card[field] = sanitizeAiTextField(card[field], exemptSentences);
+      if (typeof card[field] === "string") card[field] = sanitizeAiTextField(card[field], exemptSentences, vocab);
     }
     if (Array.isArray(card.key_points)) {
-      card.key_points = card.key_points.map(s => typeof s === "string" ? sanitizeAiTextField(s, exemptSentences) : s);
+      card.key_points = card.key_points.map(s => typeof s === "string" ? sanitizeAiTextField(s, exemptSentences, vocab) : s);
     }
   }
   return out;
 }
 
 // The splitter the stripper works in. Shared with rulesSentenceSet so the
-// exemption is built in exactly the units it will be compared in.
-const _AI_SENTENCE_SPLIT = /(?<=[.!?])\s+/;
+// exemption is built in exactly the units it will be compared in. The danda
+// joined on 6 August 2026 with the guard wiring: Hindi, Bengali and Panjabi
+// end sentences with it, and without it a multi-sentence Indic field is one
+// unit, so a single command would cost the whole field. English text never
+// contains it, so English tokenisation is byte-identical.
+const _AI_SENTENCE_SPLIT = /(?<=[.!?।])\s+/;
 
 // Nothing is exempt unless a caller says so. A caller that forgets the argument
 // gets the old behaviour, which strips everything, and that is the safe way
@@ -906,7 +928,7 @@ function rulesSentenceSet(result) {
 // rules are the reason the stripper runs on rules output at all, and the debt
 // charity substitution is about naming a service rather than about a value read
 // off the page.
-function sanitizeAiTextField(text, exemptSentences) {
+function sanitizeAiTextField(text, exemptSentences, vocab) {
   if (typeof text !== "string") return text;
   const exempt = exemptSentences instanceof Set ? exemptSentences : _AI_EXEMPT_NOTHING;
   return text
@@ -919,6 +941,18 @@ function sanitizeAiTextField(text, exemptSentences) {
       }
       if (_AI_DETAIL_PATTERNS.some(re => re.test(trimmed))) {
         return "Check the original document. Do not share personal or banking details.";
+      }
+      // THE WIRED GUARD VOCABULARIES, launched languages only. Same
+      // replacements as the English rules they mirror, and both are bank
+      // sentences in all ten languages, so the client renders them in the
+      // reader's language. The credential rule sits with its English
+      // sibling above in spirit: a credential ask is dangerous with or
+      // without an auxiliary, so it is not exemption-gated either.
+      if (vocab && vocab.credential && vocab.credential.test(trimmed)) {
+        return "Check the original document. Do not share personal or banking details.";
+      }
+      if (vocab && vocab.obligation && vocab.obligation.test(trimmed)) {
+        return _AI_COMMAND_REPLACEMENT;
       }
       // Short-circuits rule 3 below AND the in-place rule 5 in the fallthrough,
       // which is why it is read once here rather than tested twice.
