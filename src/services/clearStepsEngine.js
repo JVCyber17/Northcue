@@ -189,7 +189,10 @@ function evaluateTrustAndSeverityLayer({ text, fileMeta, split, factConsequence 
   // this must never be able to cause either. See src/utils/lureShape.js.
   const lureShapeSignals = detectLureShapeSignals(normalizedText);
   const decisiveScamSignals = detectScamSignals(lower);
-  const advisoryScamSignals = detectAdvisoryScamSignals(lower);
+  // The neutral structural tier joins the advisory list so the counterweight
+  // below is its only route to decisive: structure never refuses alone.
+  const advisoryScamSignals = detectAdvisoryScamSignals(lower)
+    .concat(detectNeutralStructuralSignals(normalizedText));
 
   // THE COUNTERWEIGHT. Three or more advisory phrasings together are decisive.
   //
@@ -2564,6 +2567,69 @@ const ADVISORY_SCAM_CHECKS = [
 // See the counterweight comment in evaluateTrustAndSeverityLayer for the
 // distribution this comes from.
 const ADVISORY_DECISIVE_THRESHOLD = 3;
+
+// THE LANGUAGE-NEUTRAL STRUCTURAL TIER, added 5 August 2026. Every needle
+// above is an English substring, which is why polish_phishing raised zero
+// signals against six for its English twin: a Polish letter demanding card
+// details inside 24 hours read as ordinary post. These three detectors read
+// structure instead of vocabulary, so they read every language at once.
+//
+// THE SHORT-WINDOW SHAPE: a pressure deadline measured in hours, one of the
+// pressure values beside an hours-word. The word list is a closed
+// function-word set in the ten languages, the monthNames precedent, not a
+// scam vocabulary; it is matching-only and never shown to a reader.
+// Flagged in NATIVE_REVIEW.md like the month names.
+const NEUTRAL_HOUR_WORDS = [
+  "hours?", "hrs?",                     // en
+  "godzin(?:y|ach)?",                   // pl
+  "ore(?:le)?",                         // ro
+  "horas?",                             // es, pt
+  "heures?",                            // fr
+  "घंटे", "घंटों", "घण्टे",                 // hi
+  "ঘণ্টা", "ঘন্টা",                       // bn
+  "કલાક(?:માં|ની)?",                     // gu
+  "ਘੰਟੇ", "ਘੰਟਿਆਂ"                        // pa
+];
+// THE AVAILABILITY EXCEPTION, found by constructing the false positive
+// before production could: "our lines are open 24 hours a day" beside an
+// account link and a balance carries all three structural facts and is a
+// genuine utility-letter shape. A window immediately followed by a
+// day-continuation is availability, not pressure, in every language the
+// same way: a day, na dobę, pe zi, al día, por dia, par jour, sur 24, /7,
+// and the Indic day-words.
+const NEUTRAL_DAY_CONTINUATION =
+  "(?!\\s*(?:a\\s+day|na\\s+dob|pe\\s+zi|al\\s+d[íi]a|por\\s+dia|par\\s+jour|" +
+  "sur\\s+24|/\\s*7|प्रतिदिन|प्रति\\s*दिन|प्रत्येक\\s*दिन|প্রতিদিন|প্রতি\\s*দিন|" +
+  "દરરોજ|દિવસ|ਹਰ\\s*ਦਿਨ|ਰੋਜ਼))";
+// The boundary before the day-check matters: without it "hours?" can match
+// bare "hour" and sidestep the lookahead over the leftover "s".
+const NEUTRAL_SHORT_WINDOW = new RegExp(
+  "(?<![\\d.,])(?:12|24|36|48|72)\\s*(?:" + NEUTRAL_HOUR_WORDS.join("|") + ")" +
+  "(?![\\p{L}\\p{M}])" + NEUTRAL_DAY_CONTINUATION, "iu");
+
+// ADVISORY, EACH OF THEM, deliberately: no single structural fact refuses
+// anyone. Three independent pressure facts together cross the existing
+// threshold and become decisive through the counterweight, which is how
+// polish_phishing reaches verification_only carrying exactly three.
+// Measured across all 73 corpus documents before wiring: eight of the ten
+// scams fire, every one of the six non-English scams among them, and ZERO
+// genuine documents fire any of the three.
+//
+// Sender mismatch is deliberately NOT here. It is the lookalike-domain rule
+// by another name, and that rule is recorded in KNOWN_ENGINE_DEFECTS.md as
+// not to ship until someone other than its author has tried to break it.
+function detectNeutralStructuralSignals(text) {
+  const signals = [];
+  const shortWindow = NEUTRAL_SHORT_WINDOW.test(text);
+  if (!shortWindow) return signals;
+  signals.push("Sets a very short deadline measured in hours.");
+  if (!hasLink(text)) return signals;
+  signals.push("Combines a link with a very short deadline.");
+  if (coLocation.findAmounts(text).length > 0) {
+    signals.push("Asks for a payment through a link under a very short deadline.");
+  }
+  return signals;
+}
 
 function matchChecks(lower, checks) {
   return checks.filter(([needle]) => lower.includes(needle)).map(([, label]) => label);

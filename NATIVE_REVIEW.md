@@ -1006,3 +1006,24 @@ three questions apply: does it warn YOU rather than describe the world, does
 it sound serious without shouting, and does it read like a person wrote it?
 CVV is kept as letters print it; say if your community's letters use a
 different word.
+
+## New since your list was written: three pressure warnings (5 August 2026)
+
+Three new lines on the Document check panel. They appear when a letter sets
+a deadline counted in hours, combines it with a link, or asks for a payment
+that way. These are the warnings that now fire on letters written in YOUR
+language, so their tone matters as much as their accuracy.
+
+English: "Sets a very short deadline measured in hours." / "Combines a link
+with a very short deadline." / "Asks for a payment through a link under a
+very short deadline."
+
+Find them in your language file as `tpl.label.signal.scam.short_window`,
+`tpl.label.signal.scam.link_short_window` and
+`tpl.label.signal.scam.payment_link_pressure`, next to the other warnings
+you have been asked about. Same three questions as always.
+
+Also for you to check, matching only, never shown: the app now recognises
+"hours" words (godzin, ore, horas, heures, ghante and so on) and "per day"
+words in your language, the way it already recognises month names. If your
+language's everyday forms are missing or wrong, say so.

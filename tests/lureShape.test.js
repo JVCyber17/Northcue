@@ -264,14 +264,22 @@ test("a lure is never handed to the model", async (t) => {
       "a lure-shaped document reached the model: " + JSON.stringify(reaching));
   });
 
-  await t.test("the two that used to reach it are refused for THIS reason", () => {
-    // Named, because they were refused by nothing before and their more
-    // specific siblings are refused by an earlier branch. If these two start
-    // returning verification_only_state the scam detector has learned to read
-    // them and this branch is no longer what protects them.
-    ["scam_council_refund_link_only", "smish_parcel_link_only"].forEach((id) => {
+  await t.test("the one that still reaches this branch is refused for THIS reason", () => {
+    // Named, because it is refused by nothing earlier. smish_parcel_link_only
+    // sat here too until 5 August 2026, when the comment below this line came
+    // true: the neutral structural tier (a short deadline in hours, plus a
+    // link, plus a payment) learned to read it, so it is now refused by the
+    // earlier verification_only branch and pinned as such underneath. The
+    // council refund carries no hour-window, so this branch is still the only
+    // thing between it and the model.
+    ["scam_council_refund_link_only"].forEach((id) => {
       const entry = CORPUS.find((e) => e.id === id);
       assert.equal(skipFor(entry.text), "lure_shape", id);
+    });
+    ["smish_parcel_link_only"].forEach((id) => {
+      const entry = CORPUS.find((e) => e.id === id);
+      assert.equal(skipFor(entry.text), "verification_only_state",
+        id + " should now be refused by the scam branch, not the lure branch");
     });
   });
 

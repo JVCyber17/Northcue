@@ -29,11 +29,15 @@ const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baselin
 const META = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "nondoc-link-test" };
 
 // The exact set, named rather than derived, so a document arriving or leaving
-// this state is a test change someone has to make on purpose.
+// this state is a test change someone has to make on purpose. This is that
+// change, 5 August 2026: smish_parcel_link_only_pl and scam_energy_refund_pt
+// left when the neutral structural tier learned to read them, so they are now
+// refused as suspected scams BEFORE the non-document gate sees them, which is
+// the honest refusal instead of the wrong-reason one. The crypto lure stays:
+// it carries no pound amount and only two structural facts, below the
+// threshold, so the non-document gate still catches it first.
 const LINK_CARRYING_REFUSALS = [
-  "smish_parcel_link_only_pl",
-  "scam_crypto_investment_pl",
-  "scam_energy_refund_pt"
+  "scam_crypto_investment_pl"
 ];
 // Refused, no link. The control: its wording must not have moved at all.
 const REFUSED_WITHOUT_LINK = ["non_document_recipe"];

@@ -164,9 +164,15 @@ test("facts never override the engine", async (t) => {
 test("a scam's own threat is never quoted back", async (t) => {
   await t.test("account_suspension is refused even when it is verbatim", () => {
     // Measured: polish_phishing gained a card 5 quoting the phishing message's
-    // own threat, because the scam detector is blind to Polish and RISK_PHRASES
-    // is English. Both walls were past; this is the third.
-    const text = byId("polish_phishing");
+    // own threat, because the scam detector was blind to Polish and
+    // RISK_PHRASES is English. Both walls were past; this is the third.
+    //
+    // Since 5 August 2026 the neutral structural tier refuses the full letter
+    // before facts exist, so the link is removed here to simulate the scam
+    // the tiers still cannot see. The third wall must hold on its own even
+    // when the first two are missing, which is its whole reason to exist.
+    const text = byId("polish_phishing")
+      .replace("https://hmrc-zwrot-podatku.example.com/potwierdz", "");
     const sentence = "Brak potwierdzenia danych w podanym terminie spowoduje zablokowanie konta.";
     assert.ok(text.includes(sentence), "the fixture must contain the threat");
     assert.equal(candidates.consequenceCandidate({
