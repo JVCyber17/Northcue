@@ -126,6 +126,20 @@ const PINS = {
         "પુષ્ટિ માટે કાર્ડ નંબર અને પિન મોકલો, નહીંતર ખાતું બ્લોક થશે.",
         "Asks for card number and PIN together."]
     ]
+  },
+  pa: {
+    needleCount: 8,
+    measured: [],
+    constructed: [
+      ["a password ask; pa has no scam corpus document",
+        "ਆਮਦਨ ਕਰ ਵਿਭਾਗ\nਹਵਾਲਾ: PA-6650\nਤਾਰੀਖ: 14 ਜੁਲਾਈ 2026\n\n" +
+        "ਰਿਫੰਡ ਲੈਣ ਲਈ ਪੋਰਟਲ ਉੱਤੇ ਪੂਰਾ ਪਾਸਵਰਡ ਦਰਜ ਕਰੋ.",
+        "Asks for a full password, which real organisations never request."],
+      ["the card and PIN ask",
+        "ਬੈਂਕ ਸੁਰੱਖਿਆ\nਹਵਾਲਾ: PA-3378\nਤਾਰੀਖ: 3 ਅਗਸਤ 2026\n\n" +
+        "ਪੁਸ਼ਟੀ ਲਈ ਕਾਰਡ ਨੰਬਰ ਅਤੇ ਪਿੰਨ ਭੇਜੋ, ਨਹੀਂ ਤਾਂ ਖਾਤਾ ਬਲਾਕ ਹੋ ਜਾਵੇਗਾ.",
+        "Asks for card number and PIN together."]
+    ]
   }
 };
 
