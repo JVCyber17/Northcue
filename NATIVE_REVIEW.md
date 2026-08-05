@@ -1045,3 +1045,17 @@ Find them in your language file as `privacy.step.ai.launch`,
 `journey.privacy.line.launch` and `privacy.launch.claim`. The claim must
 sound factual and calm, never like marketing. If "masked" reads oddly in
 your language, suggest the word an official privacy notice would use.
+
+## New since your list was written: the two waiting messages (5 August 2026)
+
+Two lines readers see while their document is being read, at about 18 and
+32 seconds. The reader waiting longest is the most anxious, so these two
+must be the calmest strings in the product.
+
+English: "Still reading your document. Most are ready in about 20 seconds."
+and "Nearly there. If this takes much longer, your cards will still appear
+from Northcue's built-in reading."
+
+Find them as `status.stillWorking` and `status.nearlyDone`. The second
+makes a promise: cards appear even if the polish step fails. That promise
+is true. Check it still sounds like reassurance and not like an apology.

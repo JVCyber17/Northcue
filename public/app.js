@@ -904,6 +904,7 @@ function wireUpload() {
     const _uploadTypeName = typeNameForReading(selectedType);
     setStatus(_uploadTypeName ? t("status.readingTyped", { typeName: _uploadTypeName }) : t("status.readingGeneric"));
     setReadingHint(_uploadTypeName ? t("status.readingHintTyped", { typeName: _uploadTypeName }) : t("status.readingHintGeneric"));
+    startProgressAnnouncements();
     setJourneyStep("upload");
     document.querySelector("#achievement").classList.add("hidden");
     cardFeedbackPanel.classList.add("hidden");
@@ -1004,6 +1005,7 @@ function wireUpload() {
       setReadingHint(null);
       setStatus(error.message ? translatedEngineText(error.message).text : t("status.tryAgain"), true);
     } finally {
+      clearProgressAnnouncements();
       setLoading(false);
     }
   });
@@ -1032,12 +1034,36 @@ function updateTypeConfirmLabel() {
   el.textContent = t(labelKeys[selectedType] || "status.typeConfirmFallback");
 }
 
+// The three-announcement progress pattern, per the approved scope: honest,
+// no fake bars, no invented stages, because the client genuinely cannot see
+// server stages and must not pretend to. Announcement one is the reading
+// status both analysis paths already set. These two follow at measured
+// moments: 18 seconds sits just past the measured p90 prose call (18.4s),
+// and 32 seconds warns before the 40 second ceiling with the truthful
+// promise that cards still appear from Northcue's built-in reading if the
+// phrasing step runs out of time, which is the proven fallback path. The
+// #status element is role=status aria-live=polite, so each setStatus is one
+// screen-reader announcement, three in total, never a re-render loop.
+let progressAnnouncementTimers = [];
+function startProgressAnnouncements() {
+  clearProgressAnnouncements();
+  progressAnnouncementTimers = [
+    setTimeout(() => setStatus(t("status.stillWorking")), 18000),
+    setTimeout(() => setStatus(t("status.nearlyDone")), 32000)
+  ];
+}
+function clearProgressAnnouncements() {
+  progressAnnouncementTimers.forEach((id) => clearTimeout(id));
+  progressAnnouncementTimers = [];
+}
+
 async function analyseReadyDocument() {
   const analysisJobId = pendingDocumentJobId;
   setLoading(true);
   const _analysisTypeName = typeNameForReading(selectedType);
   setStatus(_analysisTypeName ? t("status.readingTyped", { typeName: _analysisTypeName }) : t("status.readingGeneric"));
   setReadingHint(_analysisTypeName ? t("status.readingHintTyped", { typeName: _analysisTypeName }) : t("status.readingHintGeneric"));
+  startProgressAnnouncements();
   trackAnalyticsEvent("analysis_started", {
     page: "journey",
     section: "analysis",
@@ -1110,6 +1136,7 @@ async function analyseReadyDocument() {
     setReadingHint(null);
     setStatus(error.message ? translatedEngineText(error.message).text : t("status.tryAgain"), true);
   } finally {
+    clearProgressAnnouncements();
     setLoading(false);
   }
 }

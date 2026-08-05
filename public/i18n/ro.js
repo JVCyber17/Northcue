@@ -254,6 +254,8 @@
     "privacy.step.ai.launch": "Detaliile sunt mascate, apoi AI scrie cardurile în limba dvs.",
     "journey.privacy.line.launch": "Folosit doar pentru a face cardurile. Datele personale sunt mascate mai întâi.",
     "privacy.launch.claim": "Northcue maschează datele personale precum numerele de telefon, adresele de email și numerele de cont înainte de orice procesare AI, nu stochează niciodată documentul și citește documente în oricare dintre cele zece limbi ale sale.",
+    "status.stillWorking": "Încă citim documentul. Cele mai multe sunt gata în circa 20 de secunde.",
+    "status.nearlyDone": "Aproape gata. Dacă durează mult mai mult, cardurile vor apărea oricum din citirea integrată Northcue.",
     "privacy.step.deleted": "Este șters",
     "privacy.journeyCaption": "Documentul dumneavoastră este șters după ce îl citim. Păstrăm doar informații anonime, niciodată conținutul lui.",
     "privacy.thinking.heading": "Gândirea ne aparține",

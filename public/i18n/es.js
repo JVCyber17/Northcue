@@ -255,6 +255,8 @@
     "privacy.step.ai.launch": "Los datos se enmascaran y la IA escribe sus tarjetas en su idioma",
     "journey.privacy.line.launch": "Solo se usa para crear sus tarjetas. Los datos personales se enmascaran primero.",
     "privacy.launch.claim": "Northcue enmascara datos personales como números de teléfono, correos y números de cuenta antes de cualquier procesamiento con IA, nunca guarda su documento y lee documentos en cualquiera de sus diez idiomas.",
+    "status.stillWorking": "Seguimos leyendo su documento. La mayoría está lista en unos 20 segundos.",
+    "status.nearlyDone": "Casi listo. Si tarda mucho más, sus tarjetas aparecerán igualmente con la lectura integrada de Northcue.",
     "privacy.step.deleted": "Se elimina",
     "privacy.journeyCaption": "Su documento se elimina después de leerlo. Solo guardamos información anónima, nunca su contenido.",
     "privacy.thinking.heading": "El criterio es nuestro",
