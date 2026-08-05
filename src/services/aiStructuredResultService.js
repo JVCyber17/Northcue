@@ -83,7 +83,33 @@ function positiveNumberSetting(name, defaultValue, minimum) {
 //
 // The fact extractor is unaffected: it takes Math.min(AI_TIMEOUT_MS,
 // FACT_EXTRACTION_BUDGET_MS) and its own budget is 8,000ms.
-const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 30000);
+// RAISED TO 40 SECONDS, 5 AUGUST 2026. The condition this comment set has been
+// met by evidence rather than by the frontend, and the reason is above.
+//
+// The table above says 40 is the better number on latency alone and always did.
+// It was refused for a frontend reason: a 31 second silent wait on a screen
+// with no spinner, no elapsed time and two aria-live regions that announce once
+// and go quiet. That argument has not gone away. What changed is the cost of
+// the other side of the trade, measured on real production uploads of one
+// 702KB communal bill:
+//
+//     18,438ms  served      24,940ms  served
+//     19,252ms  served      26,095ms  REJECTED
+//     24,104ms  served      28,593ms  REJECTED
+//     27,850ms  served      30,034ms  TIMED OUT at the ceiling
+//
+// Good runs are completing at 28 to 29 seconds against a 30 second ceiling.
+// A reader is losing rich cards over one second of headroom, on the document
+// type this product exists for, and the corpus distribution that chose 30 had
+// no document of this size in it.
+//
+// THE PROGRESS INDICATION SHIPS SEPARATELY AND NEXT, per the scope already
+// approved in principle: honest state, no fabricated percentage, elapsed time
+// rather than a fake bar, and the two aria-live regions made to keep speaking.
+// Until it lands a reader can wait up to 40 seconds with nothing on screen,
+// which is worse than it was yesterday. That is a deliberate trade taken with
+// the numbers above in view, and it is not finished until the screen changes.
+const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 40000);
 // Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
 // privacy; env-configurable so it can be raised if a genuinely long document is
 // ever cut off mid-content.
