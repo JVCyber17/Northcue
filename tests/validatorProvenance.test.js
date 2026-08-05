@@ -23,6 +23,7 @@ const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "servi
 // The command family lives here now, so this file reaches for it here.
 const { sanitizeAiTextField } =
   require(path.join(__dirname, "..", "src", "services", "aiStructuredResultService"));
+const deadlineIso = require(path.join(__dirname, "..", "src", "utils", "deadlineIso"));
 const { CORPUS } = require(path.join(__dirname, "..", "scripts", "engine-baseline", "corpus"));
 
 const byId = (id) => CORPUS.find((entry) => entry.id === id).text;
@@ -273,6 +274,66 @@ test("an obligation addressed to the reader is neutralised, unless attributed", 
     const quoted = "You must contact us on 0333 320 122 by 3 September 2026.";
     assert.equal(sanitizeAiTextField(quoted, new Set([quoted])), quoted,
       "exempt by provenance, exactly as the validator rule was");
+  });
+});
+
+// THE PRODUCTION FAILURE OF 5 AUGUST 2026, AND THE LINE THAT MUST NOT MOVE.
+//
+// A communal bill printing "01/05/26" was rejected twice, because the model
+// wrote "1 May 2026" and the allowed-date set held only the literal slash form.
+// Widening canonicalise to read a slash date is the fix. What it must NOT do is
+// let through the case the guard exists for, which is a date the model
+// CALCULATED and that appears nowhere.
+test("a numeric date and its spelled form are one day, an invented one is not", async (t) => {
+  const source = [
+    "Switchpoint Energy Services",
+    "Customer reference: SW-4471028",
+    "Billing period: 01/05/26 to 31/05/26",
+    "Amount now due: £240.22",
+    "Please pay by 30/06/26."
+  ].join("\n");
+  const fallback = rulesResult("communal_bill_debt_help_block");
+
+  const served = (line) => {
+    const candidate = clone(fallback);
+    candidate.cards[1].simple_explanation = line;
+    return validateStructuredResult(candidate, fallback, source);
+  };
+
+  await t.test("the model may spell out a date the paper prints numerically", () => {
+    // Exactly what production rejected, twice, on 5 August.
+    ["The billing period runs from 1 May 2026 to 31 May 2026.",
+     "Payment is due by 30 June 2026.",
+     "The period ends 31 May 2026."].forEach((line) => {
+      const v = served(line);
+      assert.equal(v.valid, true, line + "  ->  " + JSON.stringify(v.errors));
+    });
+  });
+
+  await t.test("and may keep the numeric form it was given", () => {
+    assert.equal(served("The billing period runs from 01/05/26 to 31/05/26.").valid, true);
+  });
+
+  await t.test("BUT A CALCULATED DATE STILL FAILS, which is the whole point", () => {
+    // On neither the paper nor the engine output. 14 June is not in the source
+    // in any form, so no canonicalisation can reach it.
+    const v = served("Payment is due by 14 June 2026.");
+    assert.equal(v.valid, false, "an invented date was accepted");
+    assert.ok(v.errors.some((e) => /date .*appears in neither/.test(e)),
+      JSON.stringify(v.errors));
+  });
+
+  await t.test("and so does its numeric spelling, so the widening is symmetric", () => {
+    const v = served("Payment is due by 14/06/26.");
+    assert.equal(v.valid, false, "an invented date in slash form was accepted");
+  });
+
+  await t.test("ISO stays literal, deliberately", () => {
+    // A model reformatting the engine's own date into ISO is still rejected.
+    // The distinction is not arbitrary: a slash date is printed on the letter
+    // and an ISO string is printed nowhere.
+    assert.equal(deadlineIso.canonicalNamedDate("2026-09-03"), null,
+      "ISO now canonicalises, and the deliberate rejection is gone");
   });
 });
 

@@ -535,12 +535,31 @@ test("canonicalNamedDate collapses a month spelling and nothing else", async (t)
     assert.equal(canonicalNamedDate("Sept 3, 2026"), canonicalNamedDate("3 September 2026"));
   });
 
-  await t.test("an ISO or numeric form returns null, so it is still compared literally", () => {
-    // This is what keeps the deliberate ISO rejection alive. If these ever
-    // return a value, "2026-09-03" starts matching "3 September 2026" and a
+  await t.test("ISO returns null, so it is still compared literally", () => {
+    // This is what keeps the deliberate ISO rejection alive. If this ever
+    // returns a value, "2026-09-03" starts matching "3 September 2026" and a
     // guard is lost silently.
     assert.equal(canonicalNamedDate("2026-09-03"), null);
-    assert.equal(canonicalNamedDate("03/06/2026"), null);
+  });
+
+  await t.test("a SLASH date now canonicalises, and ISO still does not", () => {
+    // CHANGED 5 AUGUST 2026, after a communal bill printing "01/05/26" was
+    // rejected twice in production because the model wrote "1 May 2026".
+    //
+    // The two are not the same case and the asymmetry is the point: a slash
+    // date is PRINTED ON THE LETTER, so expanding it is reading. An ISO string
+    // is printed nowhere, so producing one is inventing.
+    assert.equal(canonicalNamedDate("01/05/26"), "1 may 2026");
+    assert.equal(canonicalNamedDate("31/05/26"), "31 may 2026");
+    assert.equal(canonicalNamedDate("1/5/2026"), "1 may 2026");
+    assert.equal(canonicalNamedDate("03/06/2026"), "3 june 2026");
+    assert.equal(canonicalNamedDate("01/05/26"), canonicalNamedDate("1 May 2026"),
+      "the exact pair production rejected");
+  });
+
+  await t.test("an impossible slash date returns null rather than guessing", () => {
+    assert.equal(canonicalNamedDate("32/05/26"), null, "no such day");
+    assert.equal(canonicalNamedDate("01/13/26"), null, "no such month");
   });
 
   await t.test("a two digit year returns null, and a non-month returns null", () => {

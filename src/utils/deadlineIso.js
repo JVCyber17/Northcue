@@ -254,8 +254,55 @@ const MONTH_NAMES_IN_ORDER = [
   "july", "august", "september", "october", "november", "december"
 ];
 
+// A SLASH DATE IS WHAT THE PAPER SAYS, AND AN ISO STRING IS NOT.
+//
+// That distinction is the whole of this rule, and getting it wrong cost every
+// reader of one document all six cards, twice, on 5 August 2026. The Switch2
+// communal bill prints its billing period as "01/05/26" and "31/05/26". The
+// model wrote "1 May 2026" and "31 May 2026", which is the same two days
+// spelled the way a person reads them, and validateDatesComeFromTheEngine
+// called both invented and threw the whole response away:
+//
+//     "date {date} appears in neither the document nor the engine output"
+//     recorded twice per run, on a 702KB PDF, at 25.2s and 28.9s
+//
+// This is the abbreviation defect one step further out. That fix taught this
+// function that "22 Apr 2026" and "22 April 2026" are one day. It did not teach
+// it that "01/05/26" is the same day as "1 May 2026", because a numeric form
+// returned null here and fell back to a literal string comparison.
+//
+// DAY FIRST, matching isPlausibleNumericDate in the engine, because UK post
+// writes 01/05/26 as the first of May. A two-digit year is 2000-based, which is
+// the only reading that makes sense on a bill.
+//
+// ISO STAYS LITERAL, DELIBERATELY. "2026-09-03" still returns null and is still
+// compared as a string, so the rejection of a model that reformats the engine's
+// own date into ISO is unchanged. deadlineIso.test.js holds that. The
+// difference is not arbitrary: a slash date is printed on the letter and an ISO
+// string is printed nowhere, so expanding one is reading and inventing the
+// other is not.
+const NUMERIC_DAY_FIRST = /^(\d{1,2})[/-](\d{1,2})[/-](\d{2}|\d{4})$/;
+
+function canonicalNumericDate(raw) {
+  const m = NUMERIC_DAY_FIRST.exec(raw);
+  if (!m) return null;
+  const day = +m[1];
+  const monthIndex = +m[2] - 1;
+  if (!(day >= 1 && day <= 31)) return null;
+  if (!(monthIndex >= 0 && monthIndex <= 11)) return null;
+  const year = m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3]);
+  return day + " " + MONTH_NAMES_IN_ORDER[monthIndex] + " " + year;
+}
+
 function canonicalNamedDate(value) {
-  const parts = toParts(String(value == null ? "" : value).trim());
+  const raw = String(value == null ? "" : value).trim();
+
+  // Numeric first, because toParts does not read a slash date and returning
+  // null here is what sent it to the literal comparison.
+  const numeric = canonicalNumericDate(raw);
+  if (numeric) return numeric;
+
+  const parts = toParts(raw);
   if (!parts) return null;
   const monthIndex = MONTHS[String(parts.month).toLowerCase()];
   // "1 Mayor 2026" parses shape-wise and is not a month.

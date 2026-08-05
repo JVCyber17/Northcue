@@ -307,6 +307,43 @@ them, per the rule below. Cheap, and the discoveries are not.
 **Nothing above required a model call. The sweep data already on disk answered
 all five, which is the argument for doing this first every time.**
 
+## THE BUCKET RULE: harness failure buckets are READ, not counted
+
+Recorded 5 August 2026, after a production failure sat in the harness output
+for three consecutive runs and was reported as a number.
+
+The reader-output harness groups rejections into buckets and prints a count.
+Asked whether the guard work had made things worse, I reported this:
+
+    before the guard work   13 guard-rejected
+    after step 1            12
+    after step 2            10
+    after step 3            11
+
+and concluded the rate had fallen, so the guard work was not implicated. **The
+rate was never the question.** Inside the "something else" bucket, in every one
+of those runs, were these lines:
+
+    ambiguous_numeric_date   date 3 june 2026 appears in neither the document
+                             nor the engine output
+    ambiguous_numeric_date   date 6 may 2026  appears in neither ...
+    short_year_date          the same shape
+
+Two corpus documents NAMED FOR EXACTLY THIS FAILURE were reproducing the
+production defect on every run, and I printed the size of the set they were in
+rather than the set. The production diagnosis then took two wrong hypotheses,
+a database column and three days, to reach a fact that was already on disk.
+
+**SO: an aggregate that moved is not an answer. Open the bucket and read the
+lines.** A falling count can hide a constant defect, and a defect that appears
+in every run is the easiest kind to find and the easiest kind to skim past.
+
+Concretely, for any harness run used to answer a question:
+  - print every distinct reason, not the count per bucket
+  - read the document IDs, because a corpus document named for a shape that is
+    failing on that shape is the whole answer
+  - never report movement in a total as evidence about a cause
+
 ## THE PRODUCTION RULE: a local run proves nothing about what production serves
 
 Recorded 4 August 2026, after a reported English degradation was investigated
