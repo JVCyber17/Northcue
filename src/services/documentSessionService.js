@@ -91,6 +91,12 @@ function buildSafeSessionRow(metadata) {
     client_job_id: cleanText(metadata.clientJobId, 120),
     anonymous_session_id: cleanAnonymousSessionId(metadata.anonymousSessionId),
     status: normaliseEnum(metadata.status, VALID_STATUSES),
+    // The interface language of the session, safe metadata: only a code the
+    // i18n config actually lists can be stored, anything else is dropped.
+    // This is what lets the daily production check watch completion per
+    // language from launch minute one, so a language-specific regression is
+    // an alert rather than a discovery.
+    language: cleanLanguageCode(metadata.language),
     input_quality: normaliseEnum(metadata.inputQuality, VALID_INPUT_QUALITIES),
     document_category: cleanCategory(metadata.documentCategory),
     document_type: cleanCategory(metadata.documentType),
@@ -191,6 +197,15 @@ async function writeDocumentSession(mode, clientJobId, row) {
 
     const { data, error } = await query;
     if (error) {
+      // PRE-MIGRATION TOLERANCE for the language column: if this deploy is
+      // running against a database that has not applied phase7 yet, the
+      // insert must not cost the session. Retry once without the field and
+      // keep the warning so the missing migration is visible in the logs.
+      if (/language/i.test(String(error.message)) && row && "language" in row) {
+        console.warn("Document session language column missing, retrying without it:", error.message);
+        const { language, ...withoutLanguage } = row;
+        return writeDocumentSession(mode, clientJobId, withoutLanguage);
+      }
       console.warn("Document session tracking failed:", error.message);
       return null;
     }
@@ -200,6 +215,15 @@ async function writeDocumentSession(mode, clientJobId, row) {
     console.warn("Document session tracking failed:", error.message);
     return null;
   }
+}
+
+// Only codes the i18n config lists, so the column can never carry free text.
+const KNOWN_LANGUAGE_CODES = new Set(
+  require("../../public/i18n/config.js").languages.map((entry) => entry.code));
+
+function cleanLanguageCode(value) {
+  const code = String(value || "").trim().toLowerCase();
+  return KNOWN_LANGUAGE_CODES.has(code) ? code : undefined;
 }
 
 function cleanText(value, maxLength = 120) {
@@ -339,5 +363,6 @@ module.exports = {
   markOcrStarted,
   markOcrCompleted,
   markOcrFailed,
-  metadataFromAnalysisOutput
+  metadataFromAnalysisOutput,
+  buildSafeSessionRow
 };

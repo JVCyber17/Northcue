@@ -51,7 +51,7 @@ async function q(pathAndQuery) {
 
   const since = new Date(Date.now() - DAYS * 864e5).toISOString();
   const rows = await q("document_sessions?select=created_at,ai_status,ai_error_code," +
-    "ai_validation_errors,input_quality,error_code,cards_count&created_at=gte." + since +
+    "ai_validation_errors,input_quality,error_code,cards_count,language&created_at=gte." + since +
     "&order=created_at.desc&limit=2000");
 
   // Exclude same-second batches of three or more: script traffic, not readers.
@@ -68,7 +68,7 @@ async function q(pathAndQuery) {
   const byDay = {};
   readers.forEach((r) => {
     const day = r.created_at.slice(0, 10);
-    const d = (byDay[day] = byDay[day] || { good: 0, completed: 0, statuses: {}, shapes: {} });
+    const d = (byDay[day] = byDay[day] || { good: 0, completed: 0, statuses: {}, shapes: {}, langs: {} });
     if (r.input_quality === "good") d.good++;
     if (r.ai_status === "completed") d.completed++;
     const k = (r.ai_status || "null") + (r.ai_error_code ? "/" + r.ai_error_code : "");
@@ -76,6 +76,13 @@ async function q(pathAndQuery) {
     if (r.ai_validation_errors) {
       d.shapes[r.ai_validation_errors] = (d.shapes[r.ai_validation_errors] || 0) + 1;
     }
+    // PER-LANGUAGE, from launch minute one. Sessions written before the
+    // phase7 column exists have no language and land under "unknown",
+    // which is never alerted on: it is history, not a community.
+    const lang = r.language || "unknown";
+    const l = (d.langs[lang] = d.langs[lang] || { good: 0, completed: 0 });
+    if (r.input_quality === "good") l.good++;
+    if (r.ai_status === "completed") l.completed++;
   });
 
   console.log("\n  READER TRAFFIC BY DAY, batches and bots excluded\n");
@@ -89,6 +96,19 @@ async function q(pathAndQuery) {
       .map(([k, v]) => k + " x" + v).join("   "));
     Object.entries(d.shapes).forEach(([shape, n]) =>
       console.log("      guard: x" + n + "  " + shape.slice(0, 110)));
+    // The per-language line, and the per-language alert. Two good sessions
+    // with zero completions is the alert floor so one unlucky reader is a
+    // watch line, not a page; a broken language shows up as 2+ within
+    // hours of launch. "unknown" is pre-column history and never alerts.
+    Object.entries(d.langs).sort().forEach(([lang, l]) => {
+      const langBad = lang !== "unknown" && l.good >= 2 && l.completed === 0;
+      const langWatch = lang !== "unknown" && l.good === 1 && l.completed === 0;
+      if (langBad) alert = true;
+      console.log("      lang " + lang.padEnd(8) + " good " + l.good +
+        "  completed " + l.completed +
+        (langBad ? "   *** ALERT: this language completes NOTHING ***" :
+          langWatch ? "   watch: one good session, zero completed" : ""));
+    });
   });
 
   if (alert) {

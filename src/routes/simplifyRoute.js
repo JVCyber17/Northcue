@@ -78,6 +78,7 @@ async function simplifyRoute({ file, fields, directories }) {
         sourceMimeType: mimeType,
         sourceSizeBytes: file.sizeBytes,
         documentCategory: selectedCategory,
+        language: interfaceLanguage,
         expiresAt: new Date(Date.now() + OCR_SESSION_TTL_MS).toISOString()
       });
 
@@ -145,6 +146,7 @@ async function simplifyRoute({ file, fields, directories }) {
     anonymousSessionId,
     sourceMimeType: mimeType,
     sourceSizeBytes: Buffer.byteLength(extractedText, "utf8"),
+    language: interfaceLanguage,
     inputQuality: pastedInputQuality,
     documentCategory: selectedCategory
   });
@@ -181,7 +183,8 @@ async function simplifyRoute({ file, fields, directories }) {
     inputQuality: pastedInputQuality,
     anonymousSessionId,
     sourceMimeType: mimeType,
-    documentCategory: selectedCategory
+    documentCategory: selectedCategory,
+    language: interfaceLanguage
   });
 
   // Keep file retention short in production.
@@ -345,7 +348,8 @@ async function analyseStoredDocument({ jobId, selectedCategory, anonymousSession
     inputQuality: storedDocument.inputQuality,
     anonymousSessionId,
     sourceMimeType: storedDocument.mimeType,
-    documentCategory: selectedCategory
+    documentCategory: selectedCategory,
+    language: interfaceLanguage
   });
 
   // Remove the temporary raw text after it has been used.
