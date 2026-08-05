@@ -267,6 +267,29 @@ function validateEngineOwnedFacts(candidate, fallback, errors) {
   });
 }
 
+// THE FOURTH INSTANCE OF THE ASYMMETRY, found by the sweep of 5 August 2026
+// rather than by a reader.
+//
+// Every ALLOWED_* set below is written in lower case. The candidate value was
+// tested against it RAW, so a model returning "High" instead of "high", or
+// " high " with padding, failed the membership test and the WHOLE RESULT was
+// discarded. Six fields carried it: document_type, document_type_confidence,
+// overall_confidence, risk_level, processing_mode, and per card card_type,
+// confidence_level and status.
+//
+// A canonical set tested against a raw value is exactly the shape that produced
+// the abbreviation defect, the numeric-date defect and the engine-owned-facts
+// defect. Here it costs a reader all six cards over a capital letter.
+//
+// NOT APPLIED TO card_id OR schema_version. Those are structural identifiers
+// rather than vocabulary: an exact match is the point, and loosening them would
+// let a mislabelled card through. The rule is that both sides share a
+// normalisation, not that every comparison must be lenient.
+function inAllowedSet(allowed, value) {
+  if (typeof value !== "string") return allowed.has(value);
+  return allowed.has(value.trim().toLowerCase());
+}
+
 function validateStructuredResult(candidate, fallback, sourceText) {
   const errors = [];
 
@@ -279,12 +302,12 @@ function validateStructuredResult(candidate, fallback, sourceText) {
   }
 
   if (!isNonEmptyString(candidate.session_id)) errors.push("session_id is required");
-  if (!ALLOWED_DOCUMENT_TYPES.has(candidate.document_type)) errors.push("document_type is not allowed");
+  if (!inAllowedSet(ALLOWED_DOCUMENT_TYPES, candidate.document_type)) errors.push("document_type is not allowed");
   if (!isNonEmptyString(candidate.document_type_label)) errors.push("document_type_label is required");
-  if (!ALLOWED_CONFIDENCE.has(candidate.document_type_confidence)) errors.push("document_type_confidence is not allowed");
-  if (!ALLOWED_CONFIDENCE.has(candidate.overall_confidence)) errors.push("overall_confidence is not allowed");
-  if (!ALLOWED_RISK_LEVELS.has(candidate.risk_level)) errors.push("risk_level is not allowed");
-  if (!ALLOWED_PROCESSING_MODES.has(candidate.processing_mode)) errors.push("processing_mode is not allowed");
+  if (!inAllowedSet(ALLOWED_CONFIDENCE, candidate.document_type_confidence)) errors.push("document_type_confidence is not allowed");
+  if (!inAllowedSet(ALLOWED_CONFIDENCE, candidate.overall_confidence)) errors.push("overall_confidence is not allowed");
+  if (!inAllowedSet(ALLOWED_RISK_LEVELS, candidate.risk_level)) errors.push("risk_level is not allowed");
+  if (!inAllowedSet(ALLOWED_PROCESSING_MODES, candidate.processing_mode)) errors.push("processing_mode is not allowed");
   if (typeof candidate.needs_user_check !== "boolean") errors.push("needs_user_check must be boolean");
 
   validateSummary(candidate.summary, errors);
@@ -389,17 +412,17 @@ function validateCards(cards, errors) {
 
     if (card.card_id !== REQUIRED_CARD_IDS[index]) errors.push(`card ${index + 1} has the wrong card_id`);
     if (card.card_number !== index + 1) errors.push(`card ${index + 1} has the wrong card_number`);
-    if (!ALLOWED_CARD_TYPES.has(card.card_type)) errors.push(`card ${index + 1} has an invalid card_type`);
+    if (!inAllowedSet(ALLOWED_CARD_TYPES, card.card_type)) errors.push(`card ${index + 1} has an invalid card_type`);
     if (!isNonEmptyString(card.title)) errors.push(`card ${index + 1} title is required`);
     if (!isNonEmptyString(card.simple_explanation)) errors.push(`card ${index + 1} simple_explanation is required`);
     if (!Array.isArray(card.key_points)) errors.push(`card ${index + 1} key_points must be an array`);
     if (!Object.prototype.hasOwnProperty.call(card, "action_needed")) errors.push(`card ${index + 1} action_needed is required`);
     if (!Object.prototype.hasOwnProperty.call(card, "possible_deadline")) errors.push(`card ${index + 1} possible_deadline is required`);
     if (!Object.prototype.hasOwnProperty.call(card, "possible_payment")) errors.push(`card ${index + 1} possible_payment is required`);
-    if (!ALLOWED_CONFIDENCE.has(card.confidence_level)) errors.push(`card ${index + 1} confidence_level is invalid`);
+    if (!inAllowedSet(ALLOWED_CONFIDENCE, card.confidence_level)) errors.push(`card ${index + 1} confidence_level is invalid`);
     if (!Object.prototype.hasOwnProperty.call(card, "warning")) errors.push(`card ${index + 1} warning is required`);
     if (!isNonEmptyString(card.read_aloud_text)) errors.push(`card ${index + 1} read_aloud_text is required`);
-    if (!ALLOWED_STATUSES.has(card.status)) errors.push(`card ${index + 1} status is invalid`);
+    if (!inAllowedSet(ALLOWED_STATUSES, card.status)) errors.push(`card ${index + 1} status is invalid`);
   });
 }
 
