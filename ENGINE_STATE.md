@@ -307,6 +307,48 @@ them, per the rule below. Cheap, and the discoveries are not.
 **Nothing above required a model call. The sweep data already on disk answered
 all five, which is the argument for doing this first every time.**
 
+## THE CANONICALISATION RULE: both sides of every test, through the same normalisation
+
+A guard must never compare a canonicalised value against a raw one. Written
+from the completed sweep of every membership and equality test in
+validateStructuredResult.js and sanitizeAiTextField, 5 August 2026.
+
+**FOUR DEFECTIVE INSTANCES, all one shape, three found by a reader hitting
+them and one by the sweep:**
+
+  1. **The abbreviation defect.** "22 Apr 2026" vs "22 April 2026": the model's
+     expansion compared raw against the paper's abbreviation. Fixed by
+     canonicalNamedDate collapsing month spelling, both sides.
+  2. **The numeric-date defect.** "01/05/26" vs "1 May 2026": a slash date
+     returned null from the canonicaliser and fell through to a literal string
+     comparison. Cost every reader of one real 702KB bill all six cards, twice.
+  3. **Engine-owned facts.** main_date and the payment fields compared raw to
+     raw, so the engine's "19 June 2026" and a model's "19/06/2026" were
+     different facts, and "£240.22" and "240.22" different amounts.
+  4. **The enum sets.** Every ALLOWED_* set is lower-case; the candidate was
+     tested raw, so "High", " high " and "Urgent" each discarded a whole
+     result. The sweep's find, and the first not paid for by a reader.
+
+**ONE CLEAN-BY-SYMMETRY CASE, which is the other half of the rule:** the
+provenance exemption compares the candidate string raw against the fallback
+string raw at the same path. Neither side is normalised, so byte-identity is
+the deliberate semantics and it is correct. The rule is SAME normalisation on
+both sides, which includes none on both sides. It is not "normalise
+everything": card_id, schema_version and the provenance comparison are exact
+on purpose, and loosening them would let a mislabelled card or a relocated
+engine string through.
+
+**THE TELLS, from how these four were actually found:**
+  - a membership test whose set is built by one function and probed by another
+  - a comparison that lower-cases, trims or canonicalises exactly one operand
+  - a fix applied to one layer and not searched for in the others: instances
+    2, 3 and 4 were all reachable from instance 1 by grep on the day it was
+    fixed, and instead each cost its own round
+
+When one instance of this shape is found, sweep every comparison in the file
+the same day. The fourth instance was found that way in minutes; the second
+and third each cost a production incident.
+
 ## THE BUCKET RULE: harness failure buckets are READ, not counted
 
 Recorded 5 August 2026, after a production failure sat in the harness output
