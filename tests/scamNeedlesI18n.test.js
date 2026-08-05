@@ -38,6 +38,18 @@ const PINS = {
         "Threatens to suspend your account within a short time."]]
     ],
     constructed: []
+  },
+  es: {
+    needleCount: 12,
+    measured: [
+      ["scam_hmrc_refund_es", ["Threatens to suspend your account within a short time."]]
+    ],
+    constructed: [
+      ["a password ask, the class the es scam corpus does not yet contain",
+        "Agencia Tributaria\nReferencia: ES-4471\nFecha: 14 de julio de 2026\n\n" +
+        "Para recibir su reembolso, introduzca su contraseña completa en el portal.",
+        "Asks for a full password, which real organisations never request."]
+    ]
   }
 };
 
@@ -93,9 +105,9 @@ test("the needle counts a reviewer is asked to check", async (t) => {
       path.join(__dirname, "..", "src", "services", "clearStepsEngine.js"), "utf8");
     const block = source.split("DECISIVE_SCAM_CHECKS_I18N = {")[1].split("\n};")[0];
     Object.keys(PINS).forEach((lang) => {
-      const langBlock = block.split(new RegExp("\\b" + lang + ": \\["))[1];
-      assert.ok(langBlock, lang + " has a needle block");
-      const count = (langBlock.split("]\n  ]")[0].match(/\[\s*"/g) || []).length;
+      const match = new RegExp("  " + lang + ": \\[([\\s\\S]*?)\\n  \\]").exec(block);
+      assert.ok(match, lang + " has a needle block");
+      const count = (match[1].match(/\[\s*"/g) || []).length;
       assert.equal(count, PINS[lang].needleCount,
         lang + " needle count drifted from the pinned report");
     });

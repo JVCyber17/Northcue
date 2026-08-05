@@ -10731,6 +10731,7 @@ INTENT:   The Spanish twin of scam_phishing's shape. Credential needles are Engl
     "Asks for money through a link, with no reference or contact number."
   ],
   "scam_signals": [
+    "Threatens to suspend your account within a short time.",
     "Sets a very short deadline measured in hours.",
     "Combines a link with a very short deadline.",
     "Asks for a payment through a link under a very short deadline."
