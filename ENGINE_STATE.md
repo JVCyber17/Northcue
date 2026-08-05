@@ -635,6 +635,38 @@ mirror rule is therefore verb-scope and exceptions, not surface shape. If
 the English guard ever gains a passive branch, the asymmetry closes from
 the English side, never by loosening the translated guards.
 
+## THE VERIFICATION FREEZE, 5 August 2026, in force until the ninth pack verifies
+
+The founder's decision, recorded: **no language launches unverified. All
+nine verify first, Gujarati and Hindi by the founder, seven by native
+readers, then all nine launch together as one release.**
+
+**The waiting-period rule: no new features, no refactors, no improvements
+while packs are out.** Pack-driven guard fixes and production incidents
+only. Every pack fix runs the English benchmark and the fallback parity
+pin. The product that was verified is the product that launches.
+
+**The ingest path** is `scripts/verification/ingest.js`, dry-run proven
+with a deliberate disagreement on 6 August 2026: marks become fixtures
+(`tests/fixtures/native-review-<lang>.json`), disagreements become named
+defect reports with proposed fixes (`docs/i18n/verification/reports/`),
+and a language flips to verified only with zero blocking defects and the
+founder's approval on every resolution. A B or an unresolved C on a
+sentence the guard strips blocks that language. The readiness table is
+`node scripts/verification/ingest.js --table`, reported after every
+ingest.
+
+**The launch release, staged and frozen**: apply `supabase/phase7_language.sql`,
+flip `launch.open` in `public/i18n/config.js` in one founder-approved
+commit, deploy. Gates, privacy copy in ten languages, per-language
+monitoring and the progress indication are already on main behind that
+flag. **One open definition question, flagged and not decided here: the
+guard vocabularies are verified by the packs but are prototypes, not
+wired into the stripper. If the release ships unwired, the verified
+guards protect nobody; wiring behind the same launch flag would make the
+verified guards the launched guards with zero behaviour change before
+launch. Founder's call, before the ninth pack returns.**
+
 ## Standing rules a future session must not break
 
 **Prove it, do not assume it.** Every claim in the docs above was measured
