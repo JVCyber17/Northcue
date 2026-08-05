@@ -62,6 +62,14 @@ const PINS = {
         "Pour recevoir votre remboursement, saisissez votre mot de passe complet.",
         "Asks for a full password, which real organisations never request."]
     ]
+  },
+  pt: {
+    needleCount: 13,
+    measured: [
+      ["scam_energy_refund_pt", ["Asks for a full password, which real organisations never request.",
+        "Asks you to enter a password."]]
+    ],
+    constructed: []
   }
 };
 

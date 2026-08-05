@@ -11438,6 +11438,8 @@ INTENT:   A refund lure asking for a full account password. The English needle '
     "Asks for money through a link, with no reference or contact number."
   ],
   "scam_signals": [
+    "Asks for a full password, which real organisations never request.",
+    "Asks you to enter a password.",
     "Sets a very short deadline measured in hours.",
     "Combines a link with a very short deadline.",
     "Asks for a payment through a link under a very short deadline."
