@@ -2723,6 +2723,17 @@ const DECISIVE_SCAM_CHECKS_I18N = {
     ["card cadou", "Mentions gift card payment."],
     ["contul va fi suspendat", "Threatens to suspend your account within a short time."],
     ["contul va fi blocat", "Threatens to suspend your account within a short time."]
+  ],
+  hi: [
+    ["पूरा पासवर्ड", "Asks for a full password, which real organisations never request."],
+    ["पासवर्ड की पुष्टि", "Asks you to confirm a password."],
+    ["पासवर्ड दर्ज", "Asks you to enter a password."],
+    ["पिन की पुष्टि", "Asks you to confirm a PIN."],
+    ["कार्ड नंबर और पिन", "Asks for card number and PIN together."],
+    ["गिफ्ट कार्ड", "Mentions gift card payment."],
+    ["उपहार कार्ड", "Mentions gift card payment."],
+    ["खाता निलंबित", "Threatens to suspend your account within a short time."],
+    ["खाता ब्लॉक", "Threatens to suspend your account within a short time."]
   ]
 };
 

@@ -84,6 +84,20 @@ const PINS = {
         "Fără confirmare, contul va fi blocat în 24 de ore.",
         "Threatens to suspend your account within a short time."]
     ]
+  },
+  hi: {
+    needleCount: 9,
+    measured: [],
+    constructed: [
+      ["a password ask; the one hi corpus document never asks for a credential",
+        "आयकर विभाग\nसंदर्भ: HI-3312\nदिनांक: 14 जुलाई 2026\n\n" +
+        "रिफंड पाने के लिए पोर्टल पर पूरा पासवर्ड दर्ज करें.",
+        "Asks for a full password, which real organisations never request."],
+      ["the card and PIN ask",
+        "बैंक सुरक्षा\nसंदर्भ: HI-9921\nदिनांक: 3 अगस्त 2026\n\n" +
+        "पुष्टि के लिए कार्ड नंबर और पिन भेजें, अन्यथा खाता ब्लॉक कर दिया जाएगा.",
+        "Asks for card number and PIN together."]
+    ]
   }
 };
 
