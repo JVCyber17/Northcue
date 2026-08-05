@@ -10972,7 +10972,8 @@ INTENT:   Uses CVV rather than PIN. CVV is borrowed unchanged into every languag
   "distrust_signals": [],
   "lure_shape_signals": [],
   "scam_signals": [
-    "Asks for a card security code, which real organisations never request."
+    "Asks for a card security code, which real organisations never request.",
+    "Threatens to suspend your account within a short time."
   ],
   "advisory_scam_signals": [
     "Sets a very short deadline measured in hours.",

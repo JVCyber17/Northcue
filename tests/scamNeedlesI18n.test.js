@@ -50,6 +50,18 @@ const PINS = {
         "Para recibir su reembolso, introduzca su contraseña completa en el portal.",
         "Asks for a full password, which real organisations never request."]
     ]
+  },
+  fr: {
+    needleCount: 11,
+    measured: [
+      ["scam_bank_security_fr", ["Threatens to suspend your account within a short time."]]
+    ],
+    constructed: [
+      ["a password ask, the class the fr scam corpus does not yet contain",
+        "Service des Impôts\nRéférence : FR-2210\nDate : 14 juillet 2026\n\n" +
+        "Pour recevoir votre remboursement, saisissez votre mot de passe complet.",
+        "Asks for a full password, which real organisations never request."]
+    ]
   }
 };
 

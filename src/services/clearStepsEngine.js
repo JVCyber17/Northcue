@@ -2684,6 +2684,19 @@ const DECISIVE_SCAM_CHECKS_I18N = {
     ["tarjeta de regalo", "Mentions gift card payment."],
     ["cuenta será suspendida", "Threatens to suspend your account within a short time."],
     ["cuenta será bloqueada", "Threatens to suspend your account within a short time."]
+  ],
+  fr: [
+    ["mot de passe complet", "Asks for a full password, which real organisations never request."],
+    ["confirmer votre mot de passe", "Asks you to confirm a password."],
+    ["confirmez votre mot de passe", "Asks you to confirm a password."],
+    ["saisir votre mot de passe", "Asks you to enter a password."],
+    ["saisissez votre mot de passe", "Asks you to enter a password."],
+    ["confirmer votre code pin", "Asks you to confirm a PIN."],
+    ["confirmez votre code pin", "Asks you to confirm a PIN."],
+    ["numéro de carte et code pin", "Asks for card number and PIN together."],
+    ["carte cadeau", "Mentions gift card payment."],
+    ["compte sera suspendu", "Threatens to suspend your account within a short time."],
+    ["compte sera bloqué", "Threatens to suspend your account within a short time."]
   ]
 };
 
