@@ -192,13 +192,63 @@ function validateDatesComeFromTheEngine(candidate, fallback, errors, sourceText)
   });
 }
 
+// BOTH SIDES THROUGH THE SAME NORMALISATION, WHICH IS THE RULE THREE GUARDS
+// HAVE NOW BROKEN.
+//
+// This compared raw string to raw string, so the engine's "19 June 2026" and a
+// model's "19/06/2026" were different facts. That is the same defect as the
+// abbreviation case and the numeric-date case one layer up, in a third place:
+// a canonical value tested against a raw one.
+//
+// Dates go through canonicalise, exactly as datesIn does. An amount goes
+// through sameAmount, because "£240.22" and "240.22" are one figure written two
+// ways and a raw comparison calls them two.
+//
+// WHAT IS DELIBERATELY NOT NORMALISED AWAY: the currency symbol is required on
+// at least one side and the digits must match exactly. A bare number is only
+// accepted as equal to a currency-marked one when the DIGITS ARE IDENTICAL, so
+// "17454" cannot become "£17,454.00" from a different figure, and a meter
+// reading of 17454 litres is not equal to any amount the engine did not already
+// hold. Separators and trailing pence zeros are the only formatting collapsed.
+function sameDate(a, b) {
+  if ((a ?? null) === (b ?? null)) return true;
+  if (a === null || a === undefined || b === null || b === undefined) return false;
+  return canonicalise(String(a)) === canonicalise(String(b));
+}
+
+function sameAmount(a, b) {
+  if ((a ?? null) === (b ?? null)) return true;
+  if (a === null || a === undefined || b === null || b === undefined) return false;
+  const digits = (value) => {
+    const raw = String(value).trim();
+    // A UNIT MAKES IT A MEASUREMENT, NOT AN AMOUNT. "17454 litres" and "1,492
+    // kWh" must never equal "£17,454.00", so anything carrying a unit declines
+    // rather than reducing to its digits.
+    if (/\d\s*(?:k?wh|litres?|units?|m3|kg|miles?|days?|months?|%)\b/i.test(raw)) return null;
+    const m = raw.match(/-?\d[\d,]*(?:\.\d+)?/);
+    if (!m) return null;
+    const n = Number(m[0].replace(/,/g, ""));
+    return Number.isFinite(n) ? n.toFixed(2) : null;
+  };
+  const left = digits(a);
+  const right = digits(b);
+  return left !== null && left === right;
+}
+
+const FACT_COMPARISON = {
+  "summary.main_date": sameDate,
+  "cards.possible_deadline": sameDate,
+  "summary.main_amount": sameAmount,
+  "cards.possible_payment": sameAmount
+};
+
 function validateEngineOwnedFacts(candidate, fallback, errors) {
   if (!fallback) return;
 
   ENGINE_OWNED_FACTS.forEach(([label, read]) => {
-    const mine = read(candidate);
-    const theirs = read(fallback);
-    if ((mine ?? null) !== (theirs ?? null)) {
+    const same = FACT_COMPARISON[label] ||
+      ((a, b) => (a ?? null) === (b ?? null));
+    if (!same(read(candidate), read(fallback))) {
       errors.push(`${label} must match the engine value`);
     }
   });
@@ -209,7 +259,8 @@ function validateEngineOwnedFacts(candidate, fallback, errors) {
     const source = fallbackCards[index];
     if (!source) return;
     ["possible_deadline", "possible_payment"].forEach((field) => {
-      if ((card[field] ?? null) !== (source[field] ?? null)) {
+      const same = FACT_COMPARISON["cards." + field];
+      if (!same(card[field], source[field])) {
         errors.push(`cards[${index}].${field} must match the engine value`);
       }
     });
