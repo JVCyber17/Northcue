@@ -584,9 +584,56 @@ already has, reproduced faithfully rather than introduced. Adding it fixed the
 over-fires and simultaneously shrank the circular denominator, which is how the
 circularity was noticed.
 
-**What remains: build the three stem lists against the independent denominator,
-which is roughly 54 + 30 + 35 sentences to satisfy, and re-measure. The word
-order work above does not need repeating.**
+**DONE, 5 August 2026.** All nine vocabularies now exist as prototype test
+files against independent denominators, one commit per language after Hindi
+and the Romance three: `tests/hindiGuardVocabulary.test.js`,
+`tests/romanceGuardVocabulary.test.js` (es, fr, pt),
+`tests/romanianGuardVocabulary.test.js`, `tests/polishGuardVocabulary.test.js`,
+`tests/bengaliGuardVocabulary.test.js`, `tests/gujaratiGuardVocabulary.test.js`,
+`tests/panjabiGuardVocabulary.test.js`. Each file header carries its
+questionnaire answers, its measured table, and its denominator derivation.
+None is wired into the stripper; the gate stays closed.
+
+### Two structural findings from the last five languages, recorded for the rest
+
+**The after-aux grammar.** Polish, Bengali, Gujarati and Panjabi all put at
+least one of negation, hedge, whether-marker or past-marker where English
+puts nothing the guard can trip on: `nie musisz` before the modal in Polish
+but হবে **না** / জরুরি **কি না** / জরুরত **হতে পারে** / উচিত **ছিল** AFTER
+the auxiliary in Bengali, and likewise in Gujarati and Panjabi. English
+keeps every one of these shapes (may/have separate you from the modal, so
+the English pattern never fires), which makes them never-stricter
+obligations on every translated guard. The Polish bank CAUGHT a real one:
+the reviewed rendering of "This is urgent. You may need to act today" fired
+until the hedge lookbehind existed. The Romance three and Romanian carry NO
+hedge or negation protection today; their banks measured zero fires, so
+nothing is currently lost, but the protection is structural in pl/bn/gu/pa
+and absent in es/fr/pt/ro. If a Romance bank sentence or model output ever
+hedges with the modal intact (es "quizá deba pagar"), it will fire. Carry
+the lookbehinds over rather than rediscovering this.
+
+**The tempered gap, a latent hole in the committed Hindi guard.** Panjabi
+found it: with a plain compound gap, `ਜਾਣਕਾਰੀ ਦੇ ਅਨੁਸਾਰ ... ਜਵਾਬ ਦੇਣਾ ਲਾਜ਼ਮੀ ਹੈ`
+matched STARTING AT the noun before "ਦੇ ਅਨੁਸਾਰ", so the attribution
+lookbehind, which looks behind the match start, never saw the marker
+sitting inside the match. The Panjabi gap now refuses to cross an
+attribution marker, pushing the match past it into the lookbehind's view.
+The Hindi guard has the same structure and the same hole; the 1,399-sentence
+Hindi sweep simply contained no sentence with attribution between noun and
+light verb. Fix it in Hindi the same way when the Hindi file is next open.
+
+### One recorded asymmetry, deliberate and inherited
+
+Every translated guard fires on passive and impersonal obligations ("El
+pago debe hacerse", "Kwota musi być zapłacona", "Suma trebuie plătită",
+"ਭੁਗਤਾਨ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ") while the English `_AI_COMMAND_RE` is anchored on
+"you" and keeps the English passive ("The payment must be made by..."). That
+is the Hindi decision, "हो matters as much as कर", applied consistently: in
+these languages the passive IS how the model renders a second-person
+obligation, so the translated guards would be useless without it. The
+mirror rule is therefore verb-scope and exceptions, not surface shape. If
+the English guard ever gains a passive branch, the asymmetry closes from
+the English side, never by loosening the translated guards.
 
 ## Standing rules a future session must not break
 
