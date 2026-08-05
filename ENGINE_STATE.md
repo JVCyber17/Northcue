@@ -307,6 +307,49 @@ them, per the rule below. Cheap, and the discoveries are not.
 **Nothing above required a model call. The sweep data already on disk answered
 all five, which is the argument for doing this first every time.**
 
+## ENGLISH CARD QUALITY IS THE FROZEN BENCHMARK
+
+Confirmed in production on 5 August 2026: ten consecutive real uploads, ten
+rich card sets, after the week's four canonicalisation fixes, the reject-to-
+repair demotion and the 40-second ceiling. **This is the baseline every future
+change is measured against, and it is frozen by machinery, not by intention:**
+
+  **tests/englishBenchmark.test.js** replays a known-good English model
+  candidate for every reachable corpus document, including the production-scale
+  Switch2 shapes, through the LIVE guard stack on every `npm test`. A guard
+  change, in any language, that rejects or degrades what an English reader
+  received on the day quality was confirmed is a RED BUILD. The fixture
+  refreshes only via scripts/engine-baseline/capture-english-benchmark.js, in
+  its own commit, after a deliberate change, never to make a red build green.
+
+  **scripts/production/daily-check.js** is the standing daily read of what
+  production actually served, batches and bots excluded, alerting on completed
+  dropping to zero on a day with good-quality sessions. Verified against
+  history: it fires on 4 August, the day of the incident. One REST read, no
+  writes, no tokens: it costs nothing when healthy.
+
+**WHY BOTH EXIST, stated plainly.** Both incidents that looked like language
+work breaking English were PRE-EXISTING validator defects, the numeric-date
+comparison and the raw-versus-canonical class behind it, surfacing under
+observation, and both were found only because a reader uploaded a real bill.
+The freeze plus the production check exist so a third incident is a failing
+test or an alert, never a founder's anxiety.
+
+**LANGUAGE WORK TOUCHES SHARED GUARDS.** The command family, the credential
+patterns, the date rules and the enum sets are one stack serving all ten
+languages, which is exactly how a "language" change reaches an English reader.
+So every language commit runs the English benchmark and the harness comparison,
+not only its own tests. npm test enforces the first mechanically.
+
+**Small documents hid every failure this week.** The 1KB synthetic served 8/10
+while the real 702KB bill failed 2 in 5, and scale was the variable nobody
+tested. The production-scale shapes live permanently in
+scripts/engine-baseline/corpus-benchmark.js and are pinned in the benchmark
+fixture. They are not yet in the display corpus, which feeds the card-height
+fixture and would need a browser measurement session: flagged as follow-up,
+not silently skipped. The timeout boundary itself is probed by the annex
+variant, whose generations run past the old 30-second ceiling.
+
 ## THE CANONICALISATION RULE: both sides of every test, through the same normalisation
 
 A guard must never compare a canonicalised value against a raw one. Written
