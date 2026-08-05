@@ -370,7 +370,16 @@ async function applySafetyPassAndRecordAiStatus({
       ai_provider: "openai",
       ai_model: model,
       ai_duration_ms: Date.now() - startedAt,
-      ai_error_code: null
+      ai_error_code: null,
+      // REPAIRS LOG THE SAME WAY REJECTIONS DO. A completed result that had an
+      // invented-date sentence repaired out records what was repaired, so the
+      // session column shows WHICH DATE SHAPE failed to canonicalise and the
+      // remaining gap names itself on the next real upload instead of costing
+      // another diagnosis round. Values are redacted to shapes before storage
+      // by cleanValidationErrors, exactly as rejection messages are.
+      validation_errors: Array.isArray(sanitizeVerdict.repairs) && sanitizeVerdict.repairs.length
+        ? sanitizeVerdict.repairs
+        : undefined
     });
     logAiDebug("completed", {
       ai_status: "completed",

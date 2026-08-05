@@ -250,12 +250,34 @@ function cleanValidationErrors(value) {
     .map((entry) => String(entry === null || entry === undefined ? "" : entry))
     .map((entry) => entry
       .replace(/[£$€]\s?[\d,]+(?:\.\d{2})?/g, "{amount}")
-      // Digit runs, and dates written as words. Whitespace is NOT in the class:
-      // including it swallowed the following space and produced "date {n}june".
-      .replace(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{2,4}\b/gi, "{date}")
-      .replace(/\b[\d][\d,\/.-]{1,}\b/g, "{n}")
-      .replace(/\b\d\b/g, "{n}")
+      // The reference sweep runs BEFORE the date shapes on purpose. It matches
+      // uppercase-led runs, so left until after it would eat the shape tokens
+      // themselves: "DD/MM/YY" is [A-Z]{2,} followed by /[A-Z0-9/-]{4,}. It
+      // cannot match a raw slash date, which is digits-led.
       .replace(/\b[A-Z]{2,}[-\/]?[A-Z0-9\/-]{4,}\b/g, "{ref}")
+      // DATES BECOME THEIR SHAPE, NOT {date}. "{date}" told us a date failed
+      // and nothing else, which on 5 August 2026 left a production defect
+      // undiagnosable for a day: the column could not say whether the failing
+      // form was DD/MM/YY, ISO, or something new. The SHAPE is diagnostic and
+      // carries no value: "DD/MM/YY" names the notation the canonicaliser
+      // missed without naming the reader's date. Most specific first, full
+      // month names before abbreviations because "June" is jun + one letter
+      // and an [a-z]{2,} tail cannot see it. The generic digit sweeps below
+      // catch whatever these miss, so no digit survives by falling between
+      // shapes.
+      .replace(/\b\d{4}-\d{2}-\d{2}\b/g, "YYYY-MM-DD")
+      .replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{4}\b/g, "DD/MM/YYYY")
+      .replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2}\b/g, "DD/MM/YY")
+      .replace(/\b\d{1,2}(?:st|nd|rd|th)?\s+(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}\b/gi, "D Month YYYY")
+      .replace(/\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)\.?\s+\d{4}\b/gi, "D Mon YYYY")
+      .replace(/\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{2}\b/gi, "D Month YY")
+      .replace(/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{1,2}(?:st|nd|rd|th)?,?\s+\d{2,4}\b/gi, "Month D YYYY")
+      .replace(/\b[\d][\d,\/.-]{1,}\b/g, "{n}")
+      // The absolute backstop: ANY digit still standing becomes {n}, including
+      // one glued to letters ("5th", "3pm") that both boundary-based sweeps
+      // miss. This is the line that makes "no digit reaches the column" an
+      // invariant rather than a property of the patterns above.
+      .replace(/\d+/g, "{n}")
       .replace(/\s+/g, " ")
       .trim())
     .filter(Boolean)
