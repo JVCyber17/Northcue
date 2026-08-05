@@ -316,7 +316,11 @@ function validateStructuredResult(candidate, fallback, sourceText) {
   validatePrivacy(candidate.privacy, errors);
   validateNoUnsafeAdvice(candidate, errors, fallback);
   validateEngineOwnedFacts(candidate, fallback, errors);
-  validateDatesComeFromTheEngine(candidate, fallback, errors, sourceText);
+  // validateDatesComeFromTheEngine no longer runs here. The invented-date
+  // protection is a REPAIR in repairInventedDates, applied before this
+  // validation inside sanitizeStructuredResultWithVerdict, so one date can
+  // no longer cost a reader all six cards. The function is kept and exported
+  // for tests that probe the detection itself.
   validateKeepsSession(candidate, fallback, errors);
 
   return {
@@ -342,6 +346,98 @@ function validateStructuredResult(candidate, fallback, sourceText) {
 // The verdict is the only thing added. `result` is byte for byte what this
 // function returned before on both paths, INCLUDING the fallback by reference
 // on the rejection path, because callers compare it by identity.
+// REPAIR, NOT REJECTION, and the production measurement that forced it.
+//
+// validateDatesComeFromTheEngine used to push errors, and one error discarded
+// the ENTIRE result. On 5 August 2026 a real 702KB communal bill lost all six
+// cards, twice in five uploads, over a single date the canonicaliser could not
+// yet match, while every clean sentence the model wrote was thrown away with
+// it. The invented-date protection was right; the blast radius was not.
+//
+// WHAT THIS DOES INSTEAD, per sentence rather than per result:
+//   an offending SENTENCE is removed. If it was the card's answer, the
+//     engine's own answer stands in. A key point carrying one is dropped whole.
+//   date FIELDS need nothing here: sanitizeSummary and sanitizeCards already
+//     force possible_deadline, possible_payment, main_date and deadline_iso
+//     from the fallback, so a model cannot author one.
+//   a card whose repair throws is replaced by the ENGINE'S WHOLE CARD, never
+//     by a guess. Fail closed, at card granularity.
+//
+// THE PROTECTION IS INTACT: an invented date reaches no reader in any field or
+// sentence, asserted on served output in tests/inventedDateRepair.test.js. What
+// changed is that the other five cards survive.
+//
+// Every repair is returned for logging, message starting "date <raw>", so the
+// session column can record WHICH SHAPE failed to canonicalise and the gap can
+// name itself on the next real upload instead of costing a diagnosis round.
+function disallowedDateIn(text, allowed) {
+  for (const pattern of DATE_SHAPES) {
+    pattern.lastIndex = 0;
+    let match;
+    while ((match = pattern.exec(String(text))) !== null) {
+      if (!allowed.has(canonicalise(match[0]))) return match[0];
+    }
+  }
+  return null;
+}
+
+function repairInventedDates(output, fallback, sourceText) {
+  const repairs = [];
+  const allowed = datesIn(JSON.stringify(fallback));
+  if (typeof sourceText === "string") datesIn(sourceText).forEach((d) => allowed.add(d));
+
+  const cards = Array.isArray(output.cards) ? output.cards : [];
+  const fallbackCards = Array.isArray(fallback.cards) ? fallback.cards : [];
+
+  cards.forEach((card, index) => {
+    const engineCard = fallbackCards[index];
+    if (!engineCard) return;
+    try {
+      ["simple_explanation", "action_needed", "read_aloud_text"].forEach((field) => {
+        if (typeof card[field] !== "string") return;
+        const kept = card[field].split(/(?<=[.!?])\s+/).filter((sentence) => {
+          const bad = disallowedDateIn(sentence, allowed);
+          if (bad) repairs.push("date " + bad + " removed from cards[" + index + "]." + field);
+          return !bad;
+        }).join(" ").trim();
+        if (kept !== card[field]) {
+          // The engine's own words stand in for an emptied answer; a shortened
+          // one stands as shortened rather than being padded with anything.
+          card[field] = kept || engineCard[field];
+        }
+      });
+      if (Array.isArray(card.key_points)) {
+        card.key_points = card.key_points.filter((point) => {
+          if (typeof point !== "string") return true;
+          const bad = disallowedDateIn(point, allowed);
+          if (bad) repairs.push("date " + bad + " removed a key point on cards[" + index + "]");
+          return !bad;
+        });
+      }
+    } catch (error) {
+      // Fail closed at card granularity: the engine's whole card, never a guess.
+      cards[index] = JSON.parse(JSON.stringify(engineCard));
+      repairs.push("date repair failed on cards[" + index + "], engine card restored");
+    }
+  });
+
+  // The summary's free-text fields get the same treatment; its date fields are
+  // already forced from the fallback in sanitizeSummary.
+  if (output.summary) {
+    ["one_line_summary", "main_action"].forEach((field) => {
+      const value = output.summary[field];
+      if (typeof value !== "string") return;
+      const bad = disallowedDateIn(value, allowed);
+      if (bad) {
+        output.summary[field] = (fallback.summary || {})[field] ?? null;
+        repairs.push("date " + bad + " replaced summary." + field + " with the engine value");
+      }
+    });
+  }
+
+  return repairs;
+}
+
 function sanitizeStructuredResultWithVerdict(candidate, fallback, sourceText) {
   const output = {
     schema_version: "clearsteps_structured_v1",
@@ -367,12 +463,14 @@ function sanitizeStructuredResultWithVerdict(candidate, fallback, sourceText) {
     }
   };
 
+  const repairs = repairInventedDates(output, fallback, sourceText);
+
   const validation = validateStructuredResult(output, fallback, sourceText);
   if (!validation.valid) {
-    return { result: fallback, rejected: true, errors: validation.errors };
+    return { result: fallback, rejected: true, errors: validation.errors, repairs };
   }
 
-  return { result: output, rejected: false, errors: [] };
+  return { result: output, rejected: false, errors: [], repairs };
 }
 
 // The original contract, unchanged, for every caller that wants the object and

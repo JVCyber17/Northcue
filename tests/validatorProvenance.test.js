@@ -17,7 +17,7 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 const test = require("node:test");
 
-const { validateStructuredResult, sanitizeStructuredResult } =
+const { validateStructuredResult, sanitizeStructuredResult, sanitizeStructuredResultWithVerdict } =
   require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
 const { runClearStepsEngine } = require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
 // The command family lives here now, so this file reaches for it here.
@@ -294,10 +294,17 @@ test("a numeric date and its spelled form are one day, an invented one is not", 
   ].join("\n");
   const fallback = rulesResult("communal_bill_debt_help_block");
 
+  // Verdict-based since the reject-to-repair demotion of 5 August 2026: what
+  // matters is the sentence a reader receives, not a validity flag.
   const served = (line) => {
     const candidate = clone(fallback);
     candidate.cards[1].simple_explanation = line;
-    return validateStructuredResult(candidate, fallback, source);
+    const verdict = sanitizeStructuredResultWithVerdict(candidate, fallback, source);
+    return {
+      valid: !verdict.rejected,
+      answer: verdict.result.cards[1].simple_explanation,
+      repairs: verdict.repairs
+    };
   };
 
   await t.test("the model may spell out a date the paper prints numerically", () => {
@@ -316,16 +323,18 @@ test("a numeric date and its spelled form are one day, an invented one is not", 
 
   await t.test("BUT A CALCULATED DATE STILL FAILS, which is the whole point", () => {
     // On neither the paper nor the engine output. 14 June is not in the source
-    // in any form, so no canonicalisation can reach it.
+    // in any form, so no canonicalisation can reach it. Since the demotion,
+    // "fails" means the sentence is repaired out, at sentence cost not
+    // six-card cost.
     const v = served("Payment is due by 14 June 2026.");
-    assert.equal(v.valid, false, "an invented date was accepted");
-    assert.ok(v.errors.some((e) => /date .*appears in neither/.test(e)),
-      JSON.stringify(v.errors));
+    assert.equal(v.valid, true, "one date must not cost six cards");
+    assert.ok(!v.answer.includes("14 June 2026"), "an invented date was served");
+    assert.ok(v.repairs.some((r) => /14 June 2026/.test(r)), "the repair is logged");
   });
 
   await t.test("and so does its numeric spelling, so the widening is symmetric", () => {
     const v = served("Payment is due by 14/06/26.");
-    assert.equal(v.valid, false, "an invented date in slash form was accepted");
+    assert.ok(!v.answer.includes("14/06/26"), "an invented slash date was served");
   });
 
   await t.test("ISO stays literal, deliberately", () => {
@@ -368,13 +377,17 @@ test("a date the model calculated is rejected; one printed on the page is not", 
 
   await t.test("the calculated date a live capture produced", () => {
     // The letter says only "within 14 days". 25 July is 11 July plus fourteen,
-    // and appears nowhere on the page.
+    // and appears nowhere on the page. REPAIRED since 5 August 2026: the
+    // sentence is removed and the engine's answer stands in, so the date
+    // reaches no reader and the other five cards survive.
     const candidate = clone(fallback);
     candidate.cards[3].simple_explanation = "Payment is due by 25 July 2026.";
-    const validation = validateStructuredResult(candidate, fallback, source);
-    assert.equal(validation.valid, false);
-    assert.ok(validation.errors.some((e) => /25 july 2026 appears in neither/.test(e)),
-      JSON.stringify(validation.errors));
+    const verdict = sanitizeStructuredResultWithVerdict(candidate, fallback, source);
+    assert.equal(verdict.rejected, false, "one date must not cost six cards");
+    assert.ok(!verdict.result.cards[3].simple_explanation.includes("25 July 2026"));
+    assert.equal(verdict.result.cards[3].simple_explanation,
+      fallback.cards[3].simple_explanation);
+    assert.ok(verdict.repairs.some((r) => /25 July 2026/.test(r)), "logged for shape learning");
   });
 
   await t.test("a date printed on the letter but absent from the cards is allowed", () => {
@@ -387,10 +400,14 @@ test("a date the model calculated is rejected; one printed on the page is not", 
   });
 
   await t.test("without the source text the rule falls back to the stricter comparison", () => {
+    // Fail closed still: with no source, only the engine's own dates are
+    // allowed, and the repair removes the citation rather than serving it.
     const fine = rulesResult("court_fine");
     const candidate = clone(fine);
     candidate.cards[0].key_points = ["It is dated 2 September 2026."];
-    assert.equal(validateStructuredResult(candidate, fine).valid, false,
+    const verdict = sanitizeStructuredResultWithVerdict(candidate, fine);
+    assert.equal(verdict.rejected, false);
+    assert.ok(!verdict.result.cards[0].key_points.some((p) => p.includes("2 September 2026")),
       "a caller that omits the source must fail closed, not open");
   });
 });

@@ -569,7 +569,11 @@ test("canonicalNamedDate collapses a month spelling and nothing else", async (t)
 });
 
 test("the invented-date guard, after the abbreviation fix", async (t) => {
-  const { validateStructuredResult } =
+  // REWRITTEN 5 AUGUST 2026, when the guard was demoted from reject to repair.
+  // "Refused" now means the SENTENCE is removed from served output, not that
+  // the whole result is discarded. The protection is the same, asserted on
+  // what a reader receives; the blast radius is one sentence, not six cards.
+  const { sanitizeStructuredResultWithVerdict } =
     require(path.join(__dirname, "..", "src", "utils", "validateStructuredResult"));
   const { runClearStepsEngine } =
     require(path.join(__dirname, "..", "src", "services", "clearStepsEngine"));
@@ -584,26 +588,35 @@ test("the invented-date guard, after the abbreviation fix", async (t) => {
   const withSentence = (sentence) => {
     const candidate = JSON.parse(JSON.stringify(fallback));
     candidate.cards[0].simple_explanation = sentence;
-    return validateStructuredResult(candidate, fallback, source);
+    return sanitizeStructuredResultWithVerdict(candidate, fallback, source);
   };
+  const servedAnswer = (verdict) => verdict.result.cards[0].simple_explanation;
 
   await t.test("expanding the document's own abbreviation is not an invention", () => {
-    assert.equal(withSentence("This is an electricity bill dated 22 April 2026.").valid, true);
-    assert.equal(
-      withSentence("The bill covers usage from 22 January 2026 to 22 April 2026.").valid, true,
+    const spelled = "This is an electricity bill dated 22 April 2026.";
+    const verdict = withSentence(spelled);
+    assert.equal(verdict.rejected, false);
+    assert.equal(servedAnswer(verdict), spelled, "the expansion was repaired away");
+    const range = "The bill covers usage from 22 January 2026 to 22 April 2026.";
+    assert.equal(servedAnswer(withSentence(range)), range,
       "both dates are printed on the letter in abbreviated form");
   });
 
-  await t.test("an ISO reformat is still refused", () => {
-    const result = withSentence("The bill is dated 2026-04-22.");
-    assert.equal(result.valid, false, "these fields quote the paper, and the paper says 22 Apr 2026");
+  await t.test("an ISO reformat is still refused, per sentence", () => {
+    const verdict = withSentence("The bill is dated 2026-04-22.");
+    assert.equal(verdict.rejected, false, "one sentence must not cost six cards");
+    assert.ok(!servedAnswer(verdict).includes("2026-04-22"),
+      "the paper says 22 Apr 2026 and an ISO string is not what the paper says");
+    assert.ok(verdict.repairs.some((r) => /2026-04-22/.test(r)), "the repair is logged");
   });
 
-  await t.test("a calculated date is still refused", () => {
+  await t.test("a calculated date is still refused, per sentence", () => {
     // The case the guard exists for: a date on neither the paper nor the
     // engine's output, arrived at by adding days to something.
-    const result = withSentence("Payment is due by 25 July 2026.");
-    assert.equal(result.valid, false);
-    assert.match(String((result.errors || [])[0]), /25 july 2026 appears in neither/);
+    const verdict = withSentence("Payment is due by 25 July 2026.");
+    assert.equal(verdict.rejected, false);
+    assert.ok(!servedAnswer(verdict).includes("25 July 2026"));
+    assert.equal(servedAnswer(verdict), fallback.cards[0].simple_explanation,
+      "an emptied answer takes the engine's own answer, never a guess");
   });
 });
