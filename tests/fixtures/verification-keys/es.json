@@ -1,0 +1,486 @@
+{
+ "note": "Answer key for docs/i18n/verification/spanish.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "es",
+ "entries": [
+  {
+   "id": "es-01",
+   "text": "El formulario debe completarse con información precisa y firmarse.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-02",
+   "text": "Debe informar cualquier cambio en sus circunstancias dentro de un mes.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-03",
+   "text": "El primer pago de £157.90 debe hacerse antes del 1 de abril de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-04",
+   "text": "La verificación debe hacerse dentro de 30 días.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-05",
+   "text": "La respuesta debe darse dentro de 14 días desde el 9 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-06",
+   "text": "Considere contactar a Thames Water para un plan de pago si es necesario.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-07",
+   "text": "Hay un saldo pendiente de £486.20 que debe pagarse antes del 31 de julio de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-08",
+   "text": "Si recibe ayuda de vivienda, debe informar a la oficina correspondiente.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-09",
+   "text": "Si sus síntomas cambian antes, debe contactar a su médico de cabecera.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-10",
+   "text": "Debe completarse con tinta negra y enviarse a la dirección indicada en el formulario.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-11",
+   "text": "Si no puede asistir, debe llamar al hospital al número proporcionado.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-12",
+   "text": "La primera cuota debe pagarse antes del 1 April 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-13",
+   "text": "¿Qué debería revisar?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "es-14",
+   "text": "Debe informar cambios en sus circunstancias dentro de un mes.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-15",
+   "text": "Debe llegar 10 minutos antes de la cita.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-16",
+   "text": "El evento de analítica debe ser un objeto JSON.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "es-17",
+   "text": "Debe pagar £1,381.50 antes del 28 May 26 para mantener el derecho a pagar a plazos.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-18",
+   "text": "La deuda debe ser saldada antes del 4 września 2026 para evitar acciones legales.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-19",
+   "text": "El pago debe realizarse antes del 15 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-20",
+   "text": "La deuda debe ser saldada antes del 4 września 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-21",
+   "text": "Debe informar cualquier cambio en su situación inmediatamente.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-22",
+   "text": "Debe verificar su identidad en 30 días para que su reclamación continúe.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-23",
+   "text": "La factura de electricidad debe pagarse antes del 28 May 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-24",
+   "text": "La seguridad debe mantenerse en todo momento.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-25",
+   "text": "El pago debe recibirse dentro de 14 días a partir de esa fecha.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-26",
+   "text": "El documento indica que debe pagarse £41.99.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-27",
+   "text": "El formulario de consentimiento debe devolverse antes del 3 de septiembre de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-28",
+   "text": "El formulario de consentimiento debe ser firmado y devuelto.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-29",
+   "text": "Debe contactar a Marston Holdings Enforcement Agents antes del 3 de septiembre de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-30",
+   "text": "Debe detener la comunicación si recibe tales solicitudes.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-31",
+   "text": "El formulario de consentimiento debe devolverse antes del 5 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-32",
+   "text": "La respuesta debe darse dentro de 14 días desde el 4 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-33",
+   "text": "El documento indica que debe verificar el mandato con su banco.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-34",
+   "text": "Contactar con la oficina de la escuela para discutir apoyo financiero si es necesario.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-35",
+   "text": "Si recibe ayuda de vivienda, debe informar a la oficina para ajustar pagos.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-36",
+   "text": "Debe enviar esta información antes del 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-37",
+   "text": "La carta indica que deben recibir una respuesta con información dentro de 14 días.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-38",
+   "text": "Si no puede asistir, debe informar al hospital.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-39",
+   "text": "La respuesta debe darse dentro de 14 días a partir de esa fecha.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-40",
+   "text": "La carta indica que la identidad debe verificarse dentro de 30 días para continuar con la reclamación.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-41",
+   "text": "El pago de £312.44 debe hacerse antes del 15 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-42",
+   "text": "Debe llegar quince minutos antes.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-43",
+   "text": "Este formulario es para solicitar ayuda de vivienda y debe completarse con cuidado.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-44",
+   "text": "Debe pagar £298.53 antes del 4 de junio de 2026 o usar débito directo.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-45",
+   "text": "Tiene una deuda de alquiler de £1,245.60 que debe atender antes del 4 de septiembre de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-46",
+   "text": "Debe reportar cambios en sus circunstancias dentro de un mes desde la fecha de la carta.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-47",
+   "text": "Debe llevar la carta y la lista de medicamentos.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-48",
+   "text": "La información debe enviarse antes del 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-49",
+   "text": "El saldo atrasado debe ser regularizado para evitar reportes negativos.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-50",
+   "text": "Debe enviar información sobre sus ingresos antes del 24 June 2026 para evitar que se detenga el pago.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-51",
+   "text": "El formulario de consentimiento firmado debe devolverse antes del 5 de junio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-52",
+   "text": "El primer pago debe hacerse antes del 1 de abril de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-53",
+   "text": "La cuenta debe estar actualizada para el 7 de julio de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "es-54",
+   "text": "La carta indica que el pago debe hacerse antes del 31 July 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "es-55",
+   "text": "La cuenta está en mora y el pago debe hacerse antes del 28 de agosto de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-56",
+   "text": "La reunión debe organizarse antes del 18 September 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-57",
+   "text": "Debe contactar antes del 3 de septiembre de 2026 para evitar acciones de ejecución.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-58",
+   "text": "El importe a pagar es £486.20 y debe pagarse antes del 3 de septiembre de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-59",
+   "text": "Debe pagar £74.22 antes del 1 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "es-60",
+   "text": "Si no puede asistir, debe llamar para reprogramar.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  }
+ ]
+}

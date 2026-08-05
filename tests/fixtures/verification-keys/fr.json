@@ -1,0 +1,382 @@
+{
+ "note": "Answer key for docs/i18n/verification/french.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "fr",
+ "entries": [
+  {
+   "id": "fr-01",
+   "text": "Que devez-vous faire ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-02",
+   "text": "Le paiement doit être effectué dans les 14 jours suivant la date de la facture.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-03",
+   "text": "Vous devez informer le conseil en cas de changement de revenu, d'économies ou de foyer dans les 21 jours.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-04",
+   "text": "Le formulaire de consentement signé doit être retourné avant le 5 juin 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-05",
+   "text": "Le montant de £298.53 doit être payé avant le 4 juin 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-06",
+   "text": "Ce formulaire doit être rempli avec soin et retourné à l'adresse indiquée.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-07",
+   "text": "Les informations doivent être envoyées avant le 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-08",
+   "text": "Votre compte British Gas est en crédit de £83.86, aucun paiement n'est nécessaire.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-09",
+   "text": "L'événement de statistiques doit être un objet JSON.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "fr-10",
+   "text": "Le paiement doit être effectué avant le 21 de agosto de 2026 pour éviter la coupure.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-11",
+   "text": "Vous devez vérifier votre identité dans les 30 jours pour que la demande continue.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-12",
+   "text": "Le formulaire de consentement signé est requis pour le voyage.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-13",
+   "text": "Vous devez avoir prêts vos factures de ventes, d'achats et relevés bancaires.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-14",
+   "text": "Barclays avertit que personne ne doit demander vos informations confidentielles.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-15",
+   "text": "Il faut examiner les paiements fournis depuis janvier.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-16",
+   "text": "Le formulaire doit être rempli en encre noire et retourné à l'adresse indiquée.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-17",
+   "text": "Indique qu'aucune action n'est nécessaire.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "fr-18",
+   "text": "Aucune action n'est nécessaire, le renouvellement est automatique.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-19",
+   "text": "Le paiement doit être effectué avant le 31 juillet 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-20",
+   "text": "Le paiement doit être effectué dans les 14 jours, soit avant le 5 août 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-21",
+   "text": "Un solde de £486.20 doit être payé avant le 31 juillet 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-22",
+   "text": "Le paiement doit être effectué avant le 15 juin 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-23",
+   "text": "Le formulaire de consentement doit être retourné avant le 5 juin 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-24",
+   "text": "Il faut arrêter la communication dans ce cas.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-25",
+   "text": "Aucune action n'est nécessaire si vous payez par prélèvement automatique.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-26",
+   "text": "Il faut arriver quinze minutes avant l'heure du rendez-vous.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-27",
+   "text": "Le formulaire doit être complété entièrement et retourné.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-28",
+   "text": "Le montant de £214.63 doit être payé avant le 28 mai 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-29",
+   "text": "Il faut informer immédiatement en cas de changement de situation.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-30",
+   "text": "Une note est nécessaire pour l'avis.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "fr-31",
+   "text": "Il faut arriver dix minutes avant l'heure indiquée.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-32",
+   "text": "Si vous recevez une aide au logement, vous devez en informer le bureau.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-33",
+   "text": "Vérifiez sur le document original, ou auprès de l'expéditeur, si vous devez répondre ou envoyer quelque chose.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "fr-34",
+   "text": "Le paiement doit être effectué avant le 4 juin 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-35",
+   "text": "Toutes les sections doivent être remplies en encre noire.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-36",
+   "text": "La vérification doit être faite dans les 30 jours.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-37",
+   "text": "Vous devez payer £74.22 avant le 1 juillet 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-38",
+   "text": "Le formulaire doit être signé et daté.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-39",
+   "text": "Vérifiez sur le document original si une réponse ou une action est nécessaire.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "fr-40",
+   "text": "Appelez le numéro fourni si les dates, heures ou lieu doivent changer.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-41",
+   "text": "Le paiement de £312.44 doit être reçu avant le 15 juin 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-42",
+   "text": "Le montant de £41.99 doit être payé avant le 03/06/2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-43",
+   "text": "Vous devez envoyer des informations sur vos revenus avant le 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-44",
+   "text": "La vérification d'identité doit être faite dans les 30 jours.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-45",
+   "text": "Le paiement doit être reçu avant le 15 juin 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-46",
+   "text": "Le paiement de £3,410.00 doit être reçu sous 14 jours pour éviter une action judiciaire.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "fr-47",
+   "text": "Il doit être renvoyé à l'adresse indiquée sur le document.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  }
+ ]
+}

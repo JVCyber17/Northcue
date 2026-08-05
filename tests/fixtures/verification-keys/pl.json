@@ -1,0 +1,358 @@
+{
+ "note": "Answer key for docs/i18n/verification/polish.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "pl",
+ "entries": [
+  {
+   "id": "pl-01",
+   "text": "Data i godzina badania: 9 July 2026, 14:15.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-02",
+   "text": "Pismo prosi o przesłanie informacji o dochodach do 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-03",
+   "text": "Data pobrania przez Direct Debit: 2 maja 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-04",
+   "text": "Data faktury: 22 lipca 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-05",
+   "text": "Wizyta zaplanowana na 11 sierpnia 2026 o godzinie 14:30.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-06",
+   "text": "Termin zapłaty to 3 września 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-07",
+   "text": "Informuje, że nie trzeba nic robić.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-08",
+   "text": "Nie musisz nic robić, polisa odnowi się automatycznie.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-09",
+   "text": "Należy wypełnić wszystkie pola czarnym atramentem.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-10",
+   "text": "Zdarzenie analityczne musi być obiektem JSON.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-11",
+   "text": "Należy przerwać kontakt w takim przypadku.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-12",
+   "text": "Musisz zgłosić zmiany w ciągu miesiąca od daty listu (8 lipca 2026).",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-13",
+   "text": "Musisz potwierdzić swoją tożsamość w ciągu 30 dni, aby kontynuować wniosek.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-14",
+   "text": "Jeśli płacisz przez Direct Debit, nie musisz nic robić.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-15",
+   "text": "Należy przyjść 15 minut wcześniej.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-16",
+   "text": "Kwota £1,381.50 musi być zapłacona do 1 kwietnia 2026, aby zachować prawo do płatności w ratach.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-17",
+   "text": "Zaległość musi zostać uregulowana do 7 lipca 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-18",
+   "text": "Trzeba odesłać podpisaną zgodę do 5 czerwca 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-19",
+   "text": "Podpisana zgoda powinna być zwrócona do 5 czerwca 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-20",
+   "text": "Kwota £41.99 musi być zapłacona do 03/06/2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-21",
+   "text": "Kwota £1,381.50 musi być zapłacona do 28 maja 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-22",
+   "text": "W razie potrzeby zmiany terminu należy skontaktować się pod numerem +[phone].",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-23",
+   "text": "Odpowiedź powinna nastąpić w ciągu 14 dni od 4 czerwca 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-24",
+   "text": "Jeśli sytuacja się zmieni, należy o tym poinformować nadawcę.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-25",
+   "text": "Sprawdź, czy musisz odpowiedzieć lub skontaktować się z zespołem mieszkaniowym.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-26",
+   "text": "Na razie nie trzeba nic robić.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-27",
+   "text": "Do 24 June 2026 trzeba przesłać informacje o dochodach.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-28",
+   "text": "Ten dokument wydaje się wymagać od Państwa działania. Prosimy zobaczyć, co trzeba zrobić.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-29",
+   "text": "Jeśli pobierasz zasiłek mieszkaniowy, urząd musi zostać poinformowany o nowej kwocie czynszu.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-30",
+   "text": "Co trzeba zrobić?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-31",
+   "text": "Na koncie jest zaległość czynszowa £1,245.60, która musi być uregulowana.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-32",
+   "text": "Kwota £312.40 musi być zapłacona do 3 września 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-33",
+   "text": "Jeśli objawy się zmienią, należy skontaktować się z lekarzem rodzinnym.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-34",
+   "text": "Należy przynieść ten list i listę leków.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-35",
+   "text": "Potwierdzenie obecności należy przekazać swojemu przełożonemu.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-36",
+   "text": "Potwierdzenie tożsamości musi nastąpić w ciągu 30 dni.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-37",
+   "text": "Prosimy sprawdzić w oryginalnym dokumencie lub u nadawcy, czy trzeba odpowiedzieć lub coś wysłać.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-38",
+   "text": "Płatność powinna nastąpić w ciągu 14 dni od daty faktury.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-39",
+   "text": "Musisz zgłosić każdą zmianę okoliczności w ciągu jednego miesiąca.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-40",
+   "text": "Jeśli trzeba zmienić termin lub miejsce wizyty, zadzwoń pod podany numer.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-41",
+   "text": "Sprawdź, czy trzeba odesłać podpisaną zgodę do 5 czerwca 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pl-42",
+   "text": "Wspomina o spotkaniu, w którym trzeba wziąć udział.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-43",
+   "text": "To jest pilne. Być może trzeba działać jeszcze dziś.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pl-44",
+   "text": "Sprawdź, czy musisz przesłać informacje o dochodach do 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  }
+ ]
+}

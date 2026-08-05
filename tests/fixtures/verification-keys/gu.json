@@ -1,0 +1,486 @@
+{
+ "note": "Answer key for docs/i18n/verification/gujarati.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "gu",
+ "entries": [
+  {
+   "id": "gu-01",
+   "text": "તમારું કાઉન્સિલ ટેક્સ બાકી છે અને સમયસર ચૂકવણી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-02",
+   "text": "માહિતી 24 જૂન 2026 સુધી મોકલવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-03",
+   "text": "ચુકવણી 3 સપ્ટેમ્બર 2026 પહેલા કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-04",
+   "text": "કોઈ તાત્કાલિક કાર્યવાહી જરૂરી નથી.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-05",
+   "text": "ચુકવણી 4 જૂન 2026 સુધી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-06",
+   "text": "કોઈ પગલાની જરૂર નથી એમ કહે છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-07",
+   "text": "સહી કરેલ સંમતિ ફોર્મ 3 સપ્ટેમ્બર 2026 સુધીમાં જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-08",
+   "text": "તમારી આવક વિશે માહિતી મોકલવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-09",
+   "text": "3 સપ્ટેમ્બર 2026 સુધી સંપર્ક કરવો જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-10",
+   "text": "તમારા વેટ રેકોર્ડ તૈયાર રાખો અને જો જરૂર હોય તો ફોન કરો.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-11",
+   "text": "ચુકવણી 28 ઓગસ્ટ 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-12",
+   "text": "ક્યારે જરૂરી છે?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-13",
+   "text": "ફોર્મમાં તમામ જરૂરી માહિતી ભરાઈ છે તે ખાતરી કરો.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-14",
+   "text": "તમારી માહિતી 24 જૂન 2026 સુધી મોકલવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-15",
+   "text": "આ દસ્તાવેજ થોડોઘણો સમજાવી શકાય છે, પણ વિગતો તપાસવાની જરૂર છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-16",
+   "text": "તમારી દવાઓની યાદી લાવવી પણ જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-17",
+   "text": "તમારે કોઈ કાર્યવાહી કરવાની જરૂર નથી.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-18",
+   "text": "1 જુલાઈ 2026 સુધી £74.22 ચૂકવવાની જરૂર છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-19",
+   "text": "ચુકવણી 15 de junio de 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-20",
+   "text": "તમારા માટે બેલેન્સ £187.82 ચૂકવવાની જરૂર છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-21",
+   "text": "પછીથી જરૂર પડે તો કામ આવે તે માટે આને તમારા રેકોર્ડ સાથે સાચવી રાખો.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-22",
+   "text": "ફોર્મમાં નામ, સરનામું, જન્મ તારીખ, નેશનલ ઇન્શ્યોરન્સ નંબર અને આવકની વિગતો ભરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-23",
+   "text": "સહી કરેલ સંમતિ ફોર્મ 5 જૂન 2026 સુધીમાં પાછું મોકલવું જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-24",
+   "text": "શાળા સંબંધી પગલાની જરૂરનો ઉલ્લેખ કરે છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-25",
+   "text": "સહી અને તારીખ ભરેલી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-26",
+   "text": "3 સપ્ટેમ્બર 2026 સુધી બાકી રકમ ચૂકવવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-27",
+   "text": "ચુકવણી 3 સપ્ટેમ્બર 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-28",
+   "text": "તમારી ઓળખ 30 દિવસની અંદર પુષ્ટિ કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-29",
+   "text": "સહી અને તારીખ પણ જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-30",
+   "text": "પત્રમાં જણાવાયું છે કે 24 જૂન 2026 સુધી માહિતી મોકલવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-31",
+   "text": "ચૂકવણીની રકમ અને તારીખ તપાસો અને જરૂર પડે તો સંપર્ક કરો.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-32",
+   "text": "ફોર્મમાં તમામ માહિતી કાળી શાહીથી ભરીને મોકલવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-33",
+   "text": "અત્યારે કોઈ પગલાની જરૂર નથી.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-34",
+   "text": "આ સમયમર્યાદા દાવાની પ્રક્રિયા માટે જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-35",
+   "text": "તાત્કાલિક ધ્યાન આપવું જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-36",
+   "text": "જો તારીખ બદલવાની જરૂર હોય તો +[phone] પર સંપર્ક કરો.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-37",
+   "text": "પત્ર સાથે લાવવું જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-38",
+   "text": "10 મિનિટ પહેલા પહોંચવું જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-39",
+   "text": "ડાયરેક્ટ ડેબિટથી ચુકવણી થાય તો કોઈ કાર્યવાહી કરવાની જરૂર નથી.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-40",
+   "text": "સહી કરેલ સંમતિ ફોર્મ 3 સપ્ટેમ્બર 2026 સુધીમાં પાછું મોકલવું જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-41",
+   "text": "ફીડબેક રેટિંગ જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-42",
+   "text": "મારે શું તપાસવું જોઈએ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "gu-43",
+   "text": "મને શું કરવું જોઈએ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-44",
+   "text": "પત્રમાં ચુકવણી રકમ અને તારીખ બદલાવ દર્શાવવામાં આવ્યા છે, અને પરિસ્થિતિ બદલાવની જાણ કરવાની જરૂર છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-45",
+   "text": "આ ફોર્મ હાઉસિંગ લાભ માટે અરજી માટે છે, સંપૂર્ણ અને સાચી માહિતી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-46",
+   "text": "મુલાકાત માટે જરૂરી દસ્તાવેજો તૈયાર રાખવા.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-47",
+   "text": "આ સ્થિતિમાં વર્ષભરનો બાકી રકમ એકસાથે ચૂકવવી પડશે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-48",
+   "text": "વીજળી બિલની ચુકવણી 28 મે 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-49",
+   "text": "જો નવિનીકરણ રોકવું હોય તો 1 August 2026 પહેલા સૂચના આપવી પડશે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-50",
+   "text": "પ્રથમ હપ્તો 1 એપ્રિલ 2026 સુધી ચૂકવવો જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-51",
+   "text": "ફોર્મમાં તમામ માહિતી કાળી શાહીથી ભરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-52",
+   "text": "મૂળ દસ્તાવેજમાં તમામ વિગતો તપાસવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-53",
+   "text": "તમારું પાણી ખાતું બાકી છે અને ચુકવણી 28 ઓગસ્ટ 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-54",
+   "text": "ચુકવણી 25 જુલાઈ 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-55",
+   "text": "તમારા પરિસ્થિતિમાં કોઈ ફેરફાર હોય તો એક મહિના અંદર જાણ કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-56",
+   "text": "આરિયર્સ 12 સપ્ટેમ્બર 2026 સુધી સાફ કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-57",
+   "text": "તમારા ભાડા માટે £312.40 બાકી છે અને ચુકવણી 3 સપ્ટેમ્બર 2026 સુધી હોવી જોઈએ.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-58",
+   "text": "ચુકવણી 3 સપ્ટેમ્બર 2026 સુધી કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-59",
+   "text": "તાત્કાલિક સુરક્ષા જાળવવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "gu-60",
+   "text": "બાકી રકમ 12 સપ્ટેમ્બર 2026 સુધી સાફ કરવી જરૂરી છે.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  }
+ ]
+}

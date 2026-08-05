@@ -1,0 +1,486 @@
+{
+ "note": "Answer key for docs/i18n/verification/bengali.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "bn",
+ "entries": [
+  {
+   "id": "bn-01",
+   "text": "এতে একটি উত্তর দরকার হতে পারে. নিশ্চিত হতে মূল ডকুমেন্টে বা প্রেরকের কাছে যাচাই করুন.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "bn-02",
+   "text": "আমার কী যাচাই করা উচিত?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "bn-03",
+   "text": "সই করা সম্মতি ফর্ম ৩ সেপ্টেম্বর ২০২৬ এর মধ্যে ফেরত দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-04",
+   "text": "পেমেন্ট ১৪ দিনের মধ্যে প্রাপ্ত হতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-05",
+   "text": "নাম, ঠিকানা, জন্মতারিখ, জাতীয় বীমা নম্বর এবং আয়ের তথ্য পূরণ করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-06",
+   "text": "ব্যালেন্স £187.82, যা ৬ মে ২০২৬ তারিখে বা তার পরে আদায় করা হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-07",
+   "text": "নবায়ন শর্তাবলী যাচাই করুন এবং প্রয়োজনে 1 August 2026 এর আগে যোগাযোগ করুন।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-08",
+   "text": "৩০ দিনের মধ্যে পরিচয় নিশ্চিত করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-09",
+   "text": "২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন জানানো আবশ্যক।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-10",
+   "text": "এই নথিটি আপনাকে £246.85 পরিশোধের জন্য বলছে, যা ৬ আগস্ট ২০২৬ তারিখের মধ্যে দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-11",
+   "text": "আপনার পরিচয় ৩০ দিনের মধ্যে নিশ্চিত করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-12",
+   "text": "সভাটি 17 June 2026 তারিখে অনুষ্ঠিত হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-13",
+   "text": "আপনার পেমেন্ট ৩ জুলাই ২০২৬ তারিখে হওয়া উচিত ছিল।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-14",
+   "text": "যা করতে হবে তা দেখুন।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-15",
+   "text": "বিল বলছে আদায় হবে ৬ মে ২০২৬ তারিখে বা তার পরে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-16",
+   "text": "আপনার আয়ের তথ্য ২৪ জুন ২০২৬ এর মধ্যে জমা দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-17",
+   "text": "সব তথ্য কালো কালি দিয়ে পূরণ করে নির্দিষ্ট ঠিকানায় ফেরত পাঠাতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-18",
+   "text": "ডকুমেন্টে বলা হয়েছে সম্মতি ফর্ম ৩ সেপ্টেম্বর ২০২৬ এর মধ্যে ফেরত দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-19",
+   "text": "আপনাকে ১ জুলাই ২০২৬ তারিখের মধ্যে £74.22 পরিশোধ করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-20",
+   "text": "আজই কিছু পদক্ষেপ নেওয়া প্রয়োজন হতে পারে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-21",
+   "text": "যদি আপনার ছাড় পাওয়ার পরিস্থিতি পরিবর্তিত হয়, ২১ দিনের মধ্যে জানাতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-22",
+   "text": "আবেদন যত দ্রুত সম্ভব পাঠানো উচিত।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-23",
+   "text": "যদি আপনি স্থানান্তরিত হন, কেউ আসেন বা যান, সম্পত্তি খালি হয়, অথবা ছাড় বা অব্যাহতি বন্ধ হয়, ২১ দিনের মধ্যে জানাতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-24",
+   "text": "সঠিকভাবে পূরণ করে নির্দিষ্ট ঠিকানায় পাঠাতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-25",
+   "text": "কোনো পদক্ষেপের প্রয়োজন নেই, পলিসি স্বয়ংক্রিয়ভাবে নবায়ন হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-26",
+   "text": "পরিস্থিতির পরিবর্তন এক মাসের মধ্যে রিপোর্ট করতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-27",
+   "text": "বিজ্ঞপ্তি বলছে পেমেন্ট ১৫ জুন ২০২৬ এর আগে করতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-28",
+   "text": "আপনি কিছু করার প্রয়োজন নেই।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-29",
+   "text": "অ্যাপয়েন্টমেন্টে ১৫ মিনিট আগে পৌঁছানো উচিত।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-30",
+   "text": "আমার কী করতে হবে?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-31",
+   "text": "আবেদনপত্রে নাম, ঠিকানা, জন্মতারিখ, জাতীয় বীমা নম্বর এবং আয়ের তথ্য দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-32",
+   "text": "সই করা সম্মতি ফর্ম ফেরত দেওয়ার প্রয়োজন।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-33",
+   "text": "পনেরো মিনিট আগে পৌঁছানো উচিত।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-34",
+   "text": "৭ জুলাই ২০২৬ তারিখের মধ্যে বকেয়া পরিশোধ করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-35",
+   "text": "১৪ দিনের মধ্যে তথ্য প্রদান করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-36",
+   "text": "পরিচয় নিশ্চিত করা আবশ্যক না হলে দাবি প্রক্রিয়া বন্ধ হতে পারে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-37",
+   "text": "একক ব্যক্তি ছাড় ২৫% (£460.50) বাদ দিয়ে দিতে হবে £1,381.50।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-38",
+   "text": "আপনার পরিচয় ৩০ দিনের মধ্যে নিশ্চিত করতে হবে না হলে দাবি প্রক্রিয়া করা যাবে না।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-39",
+   "text": "আপনার দাবির প্রক্রিয়া চালিয়ে যাওয়ার জন্য পরিচয় নিশ্চিত করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-40",
+   "text": "আমাকে কী করতে হবে?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-41",
+   "text": "চিঠির তারিখ থেকে ১৪ দিনের মধ্যে তথ্য প্রদান করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-42",
+   "text": "যদি মাসিক ডাইরেক্ট ডেবিট থাকে তবে আলাদা কিছু করার দরকার নেই",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-43",
+   "text": "আবেদনপত্রটি পূরণ করে নির্দিষ্ট ঠিকানায় ফেরত পাঠাতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-44",
+   "text": "আপনার পরিস্থিতিতে কোনো পরিবর্তন হলে এক মাসের মধ্যে রিপোর্ট করতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-45",
+   "text": "মোট দিতে হবে £1,381.50।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-46",
+   "text": "আপনার কিছু করার দরকার নেই যদি আপনি ডাইরেক্ট ডেবিটে ভাড়া দেন।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-47",
+   "text": "আপনাকে কী করতে হবে?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-48",
+   "text": "২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন হলে জানাতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-49",
+   "text": "যদি হাউজিং বেনিফিট নেন, অফিসকে জানাতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-50",
+   "text": "পরিস্থিতি পরিবর্তন হলে তা দ্রুত জানাতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-51",
+   "text": "সব তথ্য কালো কালি দিয়ে পূরণ করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-52",
+   "text": "বকেয়া 12 সেপ্টেম্বর 2026 তারিখের মধ্যে মেটাতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-53",
+   "text": "নবায়ন স্বয়ংক্রিয়, কোনো পদক্ষেপের প্রয়োজন নেই।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-54",
+   "text": "সব অংশ কালো কালি দিয়ে পূরণ করতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-55",
+   "text": "৩ সেপ্টেম্বর ২০২৬ তারিখের মধ্যে যোগাযোগ করা উচিত।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-56",
+   "text": "পেমেন্ট ৩ জুলাই ২০২৬ তারিখে হওয়া উচিত ছিল।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-57",
+   "text": "যদি আপনি মাসিক ডাইরেক্ট ডেবিটে থাকেন, তাহলে আপনাকে কিছু করতে হবে না।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-58",
+   "text": "অ্যাকাউন্ট ৭ জুলাই ২০২৬ তারিখের মধ্যে আপ টু ডেট করতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-59",
+   "text": "চিঠিতে বলা হয়েছে, ১৪ দিনের মধ্যে তথ্য প্রদান করতে হবে।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "bn-60",
+   "text": "কাউন্সিল ট্যাক্স বিলের প্রথম কিস্তি 1 April 2026 তারিখে দিতে হবে।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  }
+ ]
+}

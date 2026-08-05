@@ -1,0 +1,486 @@
+{
+ "note": "Answer key for docs/i18n/verification/portuguese.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "pt",
+ "entries": [
+  {
+   "id": "pt-01",
+   "text": "Não é necessário efetuar qualquer pagamento neste momento.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-02",
+   "text": "Se receber apoio de habitação, deve informar o escritório.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-03",
+   "text": "Se os sintomas mudarem antes, deve contactar o seu médico de família (GP).",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-04",
+   "text": "A conta de água está em atraso e o pagamento deve ser feito até 28 de agosto de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-05",
+   "text": "Existe uma dívida de £1,245.60 que deve ser regularizada.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-06",
+   "text": "A sua conta está em atraso e deve ser regularizada até 7 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-07",
+   "text": "O pagamento deve ser feito até 31 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-08",
+   "text": "O valor total de £142.60 deve ser pago até 30 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-09",
+   "text": "O pagamento deve ser feito até 30 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-10",
+   "text": "O pagamento deve ser feito até 30 setembro 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-11",
+   "text": "O documento indica que o pagamento deve ser feito dentro de 14 dias da data da fatura.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-12",
+   "text": "O documento indica que o saldo em atraso deve ser regularizado até 7 July 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-13",
+   "text": "A identidade deve ser verificada dentro de 30 dias para processar o pedido.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-14",
+   "text": "Verificar o formulário de consentimento que deve ser devolvido até 5 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-15",
+   "text": "A conta deve ser regularizada até 7 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-16",
+   "text": "Deve chegar 10 minutos antes e levar esta carta.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-17",
+   "text": "O saldo deve ser pago antes de 3 de setembro de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-18",
+   "text": "Se os sintomas mudarem antes da consulta, deve contactar o seu médico de família.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-19",
+   "text": "O pagamento de £486.00 deve ser feito dentro de 14 dias após 22 de julho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-20",
+   "text": "Verifique que o pagamento deve ser feito dentro de 14 dias a contar de 22 de julho de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-21",
+   "text": "É necessário enviar informações sobre a sua renda até 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-22",
+   "text": "O primeiro pagamento de £157.90 deve ser feito até 1 abril 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-23",
+   "text": "O pagamento deve ser feito até 5 de agosto de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-24",
+   "text": "Mudanças nas circunstâncias devem ser reportadas dentro de um mês.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-25",
+   "text": "Se recebe apoio de habitação, deve informar o escritório do conselho.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-26",
+   "text": "A dívida deve ser paga até 4 setembro 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-27",
+   "text": "O formulário de consentimento deve ser devolvido até 5 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-28",
+   "text": "O formulário de consentimento deve ser devolvido até 3 September 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-29",
+   "text": "Deve informar o conselho dentro de 21 dias se a sua renda, poupanças ou composição do agregado familiar mudarem.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-30",
+   "text": "Se não puder comparecer, deve informar o hospital.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-31",
+   "text": "A Thames Water indica que o mandato bancário deve ser confirmado.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-32",
+   "text": "O pagamento deve ser feito até 3 de setembro de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-33",
+   "text": "A carta diz que a identidade deve ser confirmada dentro de 30 dias.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-34",
+   "text": "Este formulário deve ser preenchido com cuidado e enviado para o endereço indicado.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-35",
+   "text": "Este valor deve ser pago até 31 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-36",
+   "text": "Tem de pagar £74.22 até 1 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-37",
+   "text": "Verifique os detalhes da visita e os registos de IVA que deve preparar.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-38",
+   "text": "O valor devido é £246.85 e deve ser pago até 6 de agosto de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-39",
+   "text": "O formulário deve ser preenchido corretamente e devolvido ao endereço indicado.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-40",
+   "text": "O formulário de consentimento assinado deve ser devolvido até 5 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-41",
+   "text": "Deve ser enviado para o endereço indicado no documento.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-42",
+   "text": "É necessário assinar e datar o formulário.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-43",
+   "text": "Deve chegar quinze minutos antes.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-44",
+   "text": "O documento indica que o pagamento deve ser feito até 30 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-45",
+   "text": "O valor de £74.22 deve ser pago até 1 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-46",
+   "text": "Deve reportar qualquer mudança nas suas circunstâncias dentro de um mês.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-47",
+   "text": "O formulário deve ser preenchido em tinta preta.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-48",
+   "text": "A verificação de identidade deve ser feita dentro de 30 dias.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-49",
+   "text": "A multa total de £726.00 deve ser paga até 30 setembro 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-50",
+   "text": "O pagamento deve ser feito até 03/06/2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-51",
+   "text": "O pagamento deve ser feito até 28 de maio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-52",
+   "text": "O pagamento de £1,381.50 deve ser feito até 28 de maio de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-53",
+   "text": "Deve ser preenchido com tinta preta e assinado.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-54",
+   "text": "O valor de £298.53 deve ser pago até 4 de junho de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-55",
+   "text": "Deve chegar quinze minutos antes da hora marcada.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-56",
+   "text": "O pagamento deve ser recebido dentro de 14 dias dessa data.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-57",
+   "text": "Deve parar a comunicação imediatamente.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-58",
+   "text": "O pagamento de £486.20 deve ser feito até 3 de setembro de 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-59",
+   "text": "A segurança da conta deve ser mantida sempre.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pt-60",
+   "text": "A dívida deve ser regularizada até 4 setembro 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  }
+ ]
+}

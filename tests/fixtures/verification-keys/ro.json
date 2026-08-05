@@ -1,0 +1,358 @@
+{
+ "note": "Answer key for docs/i18n/verification/romanian.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "ro",
+ "entries": [
+  {
+   "id": "ro-01",
+   "text": "Aceasta este o scrisoare de la Department for Work and Pensions despre plata Universal Credit de £412.66.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-02",
+   "text": "Plata lunară este de £412.66.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-03",
+   "text": "Data limită de referință este 28 august 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-04",
+   "text": "Data programării este 9 July 2026, ora 14:15.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-05",
+   "text": "British Gas solicită plata a £187.82 pentru factura de energie electrică.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-06",
+   "text": "O vizită pentru verificarea evidențelor VAT este programată pentru 12 și 13 iunie 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-07",
+   "text": "Dacă primești ajutor pentru locuință, trebuie să informezi biroul relevant.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-08",
+   "text": "Extras de cont British Gas cu un credit de £83.86.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-09",
+   "text": "Verificați suma de plată: £41.99.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-10",
+   "text": "Termenul limită pentru informații este 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-11",
+   "text": "Data scadentă menționată este 3 iulie 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-12",
+   "text": "Suma datorată este £187.82.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "plain_statement",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-13",
+   "text": "Securitatea contului trebuie menținută continuu.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-14",
+   "text": "Suma de £1,381.50 trebuie plătită până la 28 mai 26.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-15",
+   "text": "Ce trebuie să fac?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-16",
+   "text": "Ce trebuie să fac?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "ro-17",
+   "text": "Contactați Department for Work and Pensions pentru clarificări dacă este necesar.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-18",
+   "text": "Ce ar trebui să verific?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "ro-19",
+   "text": "Suma de £41.99 trebuie plătită până la 03/06/2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-20",
+   "text": "Trebuie să ajungeți cu 15 minute mai devreme.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-21",
+   "text": "Verificarea identității trebuie făcută în 30 de zile.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-22",
+   "text": "Plata trebuie primită în 14 zile de la 11 iulie 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-23",
+   "text": "Verificați dacă trebuie să răspundeți în termen de 14 zile.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-24",
+   "text": "Datele personale și venitul săptămânal trebuie completate.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-25",
+   "text": "Formularul trebuie returnat la adresa indicată în document.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-26",
+   "text": "Cererea de reexaminare obligatorie trebuie făcută în termen de o lună de la data scrisorii.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-27",
+   "text": "Verificați pe documentul original, sau cu expeditorul, dacă trebuie să răspundeți sau să trimiteți ceva.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "ro-28",
+   "text": "Trebuie raportate schimbările în circumstanțe în termen de o lună.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-29",
+   "text": "Dacă primești ajutor pentru locuință, trebuie să anunți biroul.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-30",
+   "text": "Restanțele trebuie aduse la zi până la 7 July 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-31",
+   "text": "Trebuie să aveți pregătite facturile de vânzare, facturile de cumpărare și extrasele bancare.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-32",
+   "text": "Este necesar să furnizați informații suplimentare pentru actualizarea dosarului chiriei.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-33",
+   "text": "Evenimentul de analiză trebuie să fie un obiect JSON.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "ro-34",
+   "text": "Verificarea identității trebuie făcută în termen de 30 de zile.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-35",
+   "text": "Trebuie să vă verificați identitatea în 30 de zile pentru a continua cererea.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-36",
+   "text": "Trebuie să fiți atent la astfel de solicitări.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-37",
+   "text": "Suma de £246.85 trebuie plătită până la 6 august 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-38",
+   "text": "Informațiile despre venit trebuie trimise până la 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-39",
+   "text": "Dacă nu puteți participa, trebuie să sunați pentru a reprograma.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-40",
+   "text": "Verificați dacă trebuie să trimiteți informații despre venit până la 24 June 2026.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-41",
+   "text": "Trebuie să vă prezentați cu 15 minute înainte de ora programată.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-42",
+   "text": "Formularul trebuie completat corect și returnat la adresa indicată.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-43",
+   "text": "Trebuie să aduceți această scrisoare și lista medicamentelor.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "ro-44",
+   "text": "Suma de £486.20 trebuie plătită până la 31 July 2026.",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  }
+ ]
+}

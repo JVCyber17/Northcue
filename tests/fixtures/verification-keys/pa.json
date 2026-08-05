@@ -1,0 +1,486 @@
+{
+ "note": "Answer key for docs/i18n/verification/panjabi.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "language": "pa",
+ "entries": [
+  {
+   "id": "pa-01",
+   "text": "ਸਾਰੇ ਹਿੱਸੇ ਸਹੀ ਤਰੀਕੇ ਨਾਲ ਭਰਨਾ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-02",
+   "text": "£312.44 ਦੀ ਬਕਾਇਆ ਰਕਮ 15 ਜੂਨ 2026 ਤੱਕ ਭੁਗਤਾਨ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-03",
+   "text": "ਕਹਿੰਦਾ ਹੈ ਕਿ ਕੋਈ ਕਦਮ ਚੁੱਕਣ ਦੀ ਲੋੜ ਨਹੀਂ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-04",
+   "text": "ਨਵਾਂ ਕਿਰਾਇਆ 1 August 2026 ਤੋਂ ਲਾਗੂ ਹੋਵੇਗਾ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-05",
+   "text": "7 ਜੁਲਾਈ 2026 ਤੱਕ ਬਕਾਇਆ ਸਾਫ਼ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-06",
+   "text": "ਹੁਣੇ ਕੋਈ ਕਦਮ ਚੁੱਕਣ ਦੀ ਲੋੜ ਨਹੀਂ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-07",
+   "text": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਇਗੀ ਨਾ ਹੋਣ ਉੱਤੇ ਇਹ ਹੋਵੇਗਾ: {consequence}. ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-08",
+   "text": "ਭੁਗਤਾਨ 2 ਮਈ 2026 ਤੱਕ ਹੋਵੇਗਾ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-09",
+   "text": "ਤੁਹਾਨੂੰ 1 ਜੁਲਾਈ 2026 ਤੱਕ £74.22 ਭੁਗਤਾਨ ਕਰਨਾ ਹੋਵੇਗਾ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-10",
+   "text": "ਇਸ ਵੱਲ ਤੁਰੰਤ ਧਿਆਨ ਦੇਣ ਦੀ ਲੋੜ ਹੈ. ਤੁਹਾਨੂੰ ਸ਼ਾਇਦ ਅੱਜ ਹੀ ਕਦਮ ਚੁੱਕਣਾ ਪਵੇ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-11",
+   "text": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਲਤੀ ਕਾਰਵਾਈ ਹੋਵੇਗੀ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-12",
+   "text": "ਸਹਿਮਤੀ ਫਾਰਮ 5 ਜੂਨ 2026 ਤੱਕ ਵਾਪਸ ਭੇਜਣਾ ਲਾਜ਼ਮੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-13",
+   "text": "ਮੈਨੂੰ ਕੀ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-14",
+   "text": "analytics ਇਵੈਂਟ ਇੱਕ JSON ਆਬਜੈਕਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-15",
+   "text": "ਇਹ ਕਦੋਂ ਲਾਗੂ ਹੋਵੇਗਾ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-16",
+   "text": "ਇਸਦਾ ਜਵਾਬ ਦੇਣ ਦੀ ਲੋੜ ਹੋ ਸਕਦੀ ਹੈ. ਪੱਕਾ ਕਰਨ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਜਾਂ ਭੇਜਣ ਵਾਲੇ ਤੋਂ ਜਾਂਚੋ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-17",
+   "text": "ਕਿਸੇ ਵੀ ਤਬਦੀਲੀ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-18",
+   "text": "ਇਸਨੂੰ ਆਪਣੇ ਰਿਕਾਰਡ ਨਾਲ ਸੰਭਾਲ ਕੇ ਰੱਖੋ, ਬਾਅਦ ਵਿੱਚ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-19",
+   "text": "ਭੁਗਤਾਨ 25 ਜੁਲਾਈ 2026 ਤੱਕ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-20",
+   "text": "ਸਹਿਮਤੀ ਫਾਰਮ 'ਤੇ ਦਸਤਖਤ ਕਰਕੇ ਵਾਪਸ ਭੇਜਣਾ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-21",
+   "text": "ਫੀਡਬੈਕ ਰੇਟਿੰਗ ਜ਼ਰੂਰੀ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-22",
+   "text": "ਇਹ ਦਸਤਾਵੇਜ਼ ਕੁਝ ਹੱਦ ਤੱਕ ਸਮਝਾਇਆ ਜਾ ਸਕਦਾ ਹੈ, ਪਰ ਵੇਰਵੇ ਜਾਂਚਣ ਦੀ ਲੋੜ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-23",
+   "text": "ਤੁਹਾਨੂੰ 14 ਦਿਨਾਂ ਦੇ ਅੰਦਰ ਜਵਾਬ ਦੇਣਾ ਚਾਹੀਦਾ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-24",
+   "text": "ਅਸੀਂ ਇਸ ਦਸਤਾਵੇਜ਼ ਵਿੱਚੋਂ ਲੋੜੀਂਦਾ ਟੈਕਸਟ ਨਹੀਂ ਪੜ੍ਹ ਸਕੇ. ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਸਾਫ਼ ਤਸਵੀਰ ਜਾਂ PDF ਅਪਲੋਡ ਕਰੋ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-25",
+   "text": "ਤੁਹਾਡੇ ਲਈ £41.99 ਦਾ ਭੁਗਤਾਨ 03/06/2026 ਤੱਕ ਕਰਨਾ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-26",
+   "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-27",
+   "text": "ਇਸ ਸਮੇਂ ਹਾਜ਼ਰੀ 82% ਹੈ, ਜਦਕਿ ਲੋੜੀਂਦੀ ਹਾਜ਼ਰੀ 95% ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-28",
+   "text": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਆਪਣੀਆਂ ਹਾਲਤਾਂ ਵਿੱਚ ਕੋਈ ਵੀ ਤਬਦੀਲੀ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦਰਜ ਕਰਵਾਉਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-29",
+   "text": "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਨੂੰ ਚੈੱਕ ਕਰਨਾ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-30",
+   "text": "ਨਿਯੁਕਤੀ 'ਤੇ 15 ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਚਾਹੀਦਾ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-31",
+   "text": "ਪਾਲਿਸੀ ਆਪਣੇ ਆਪ ਨਵੀਨੀਕਰਨ ਹੋਵੇਗੀ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-32",
+   "text": "ਪੰਦਰਾਂ ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-33",
+   "text": "ਸਹਿਮਤੀ ਫਾਰਮ 'ਤੇ ਦਸਤਖਤ ਕਰਕੇ ਵਾਪਸ ਭੇਜਣਾ ਲਾਜ਼ਮੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-34",
+   "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਦੇਣੀ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-35",
+   "text": "ਮੁੜ ਵਿਚਾਰ ਲਈ ਅਰਜ਼ੀ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-36",
+   "text": "ਨਵੀਂ ਮਹੀਨਾਵਾਰ ਰਕਮ £742.19 ਹੋਵੇਗੀ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-37",
+   "text": "ਰਕਮ 1 ਅਗਸਤ 2026 ਤੋਂ ਲਾਗੂ ਹੋਵੇਗੀ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-38",
+   "text": "ਕੋਈ ਤੁਰੰਤ ਕਾਰਵਾਈ ਲੋੜੀਂਦੀ ਨਹੀਂ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-39",
+   "text": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ ਕਿ ਕੋਈ ਜਵਾਬ ਜਾਂ ਕਦਮ ਲੋੜੀਂਦਾ ਹੈ ਜਾਂ ਨਹੀਂ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-40",
+   "text": "ਮੈਨੂੰ ਕੀ ਜਾਂਚਣਾ ਚਾਹੀਦਾ ਹੈ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-41",
+   "text": "ਕੁਝ ਵੇਰਵੇ ਪੜ੍ਹੇ ਜਾ ਸਕਦੇ ਹਨ ਪਰ ਜਾਂਚਣ ਦੀ ਲੋੜ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-42",
+   "text": "ਹਾਜ਼ਰੀ 82% ਹੈ, ਜੋ ਲੋੜੀਂਦੇ 95% ਤੋਂ ਘੱਟ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-43",
+   "text": "ਬਕਾਇਆ 4 ਸਤੰਬਰ 2026 ਤੱਕ ਭਰਨਾ ਲਾਜ਼ਮੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-44",
+   "text": "ਜੇ ਵਿੱਤੀ ਸਹਾਇਤਾ ਦੀ ਲੋੜ ਹੈ ਤਾਂ ਸਕੂਲ ਦਫਤਰ ਨਾਲ ਗੱਲ ਕਰੋ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-45",
+   "text": "ਇਹ ਕਦੋਂ ਜਰੂਰੀ ਹੈ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-46",
+   "text": "ਇਹ ਕਦੋਂ ਜ਼ਰੂਰੀ ਹੈ?",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-47",
+   "text": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਇਸ ਨਾਲ ਫ਼ੌਜਦਾਰੀ ਮੁਕੱਦਮਾ ਹੋਵੇਗਾ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-48",
+   "text": "ਪੱਤਰ ਕਹਿੰਦਾ ਹੈ ਕਿ ਤੁਹਾਡੇ ਕਿਰਾਏਦਾਰੀ ਰਿਕਾਰਡ ਨੂੰ ਅਪਡੇਟ ਕਰਨ ਲਈ ਵਾਧੂ ਜਾਣਕਾਰੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-49",
+   "text": "ਪੱਤਰ ਵਿੱਚ ਦਿੱਤੀ ਜਾਣਕਾਰੀ ਦੇ ਅਨੁਸਾਰ 14 ਦਿਨਾਂ ਵਿੱਚ ਜਵਾਬ ਦੇਣਾ ਲਾਜ਼ਮੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "exempt_attributed_subordinate",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-50",
+   "text": "ਜੇ ਤੁਸੀਂ ਮਾਸਿਕ ਡਾਇਰੈਕਟ ਡੈਬਿਟ ਨਾਲ ਭੁਗਤਾਨ ਕਰਦੇ ਹੋ ਤਾਂ ਕੋਈ ਕਾਰਵਾਈ ਲੋੜੀਂਦੀ ਨਹੀਂ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-51",
+   "text": "ਕਾਨੂੰਨੀ ਜਵਾਬ ਦੀ ਲੋੜ ਦਾ ਜ਼ਿਕਰ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-52",
+   "text": "ਤੁਹਾਨੂੰ ਕੁਝ ਕਰਨ ਦੀ ਲੋੜ ਨਹੀਂ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-53",
+   "text": "ਦਸਤਖਤ ਅਤੇ ਤਾਰੀਖ ਭਰਨਾ ਵੀ ਜਰੂਰੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-54",
+   "text": "ਖਾਤਾ ਕ੍ਰੈਡਿਟ ਵਿੱਚ ਹੈ, ਇਸ ਲਈ ਕੋਈ ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਲੋੜ ਨਹੀਂ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-55",
+   "text": "ਬਕਾਇਆ ਰਕਮ 7 ਜੁਲਾਈ 2026 ਤੱਕ ਸਾਫ਼ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-56",
+   "text": "ਕਦਮ ਚੁੱਕਣ ਤੋਂ ਪਹਿਲਾਂ ਕੁਝ ਵੇਰਵੇ ਜਾਂਚਣ ਦੀ ਲੋੜ ਹੈ.",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "bank",
+   "source": "bank"
+  },
+  {
+   "id": "pa-57",
+   "text": "ਕੋਈ ਕਾਰਵਾਈ ਇਸ ਸਮੇਂ ਲੋੜੀਂਦੀ ਨਹੀਂ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-58",
+   "text": "ਨਵੀਂ ਰਕਮ 1 ਅਗਸਤ 2026 ਤੋਂ ਲਾਗੂ ਹੋਵੇਗੀ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "outside_keep",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-59",
+   "text": "ਨਾਂ, ਪਤਾ, ਜਨਮ ਤਾਰੀਖ, ਨੈਸ਼ਨਲ ਇੰਸ਼ੋਰੈਂਸ ਨੰਬਰ ਅਤੇ ਆਮਦਨ ਸਹੀ ਭਰੇ ਹੋਣ ਚਾਹੀਦੇ ਹਨ।",
+   "pattern": "command",
+   "guard_fires": true,
+   "category": "in_scope_caught",
+   "source": "sweep"
+  },
+  {
+   "id": "pa-60",
+   "text": "ਨਵਾਂ ਕਿਰਾਇਆ £149.80 ਹਰ ਹਫ਼ਤੇ ਲਾਗੂ ਹੋਵੇਗਾ।",
+   "pattern": "command",
+   "guard_fires": false,
+   "category": "miss_or_keep",
+   "source": "sweep"
+  }
+ ]
+}
