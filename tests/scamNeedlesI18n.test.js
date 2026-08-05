@@ -70,6 +70,20 @@ const PINS = {
         "Asks you to enter a password."]]
     ],
     constructed: []
+  },
+  ro: {
+    needleCount: 9,
+    measured: [],
+    constructed: [
+      ["a password ask; ro has no scam corpus document at all",
+        "Administrația Fiscală\nReferință: RO-1180\nData: 14 iulie 2026\n\n" +
+        "Pentru a primi rambursarea, introduceți parola completă pe portal.",
+        "Asks you to enter a password."],
+      ["the suspension threat",
+        "Banca Națională\nReferință: RO-2245\nData: 3 august 2026\n\n" +
+        "Fără confirmare, contul va fi blocat în 24 de ore.",
+        "Threatens to suspend your account within a short time."]
+    ]
   }
 };
 

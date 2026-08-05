@@ -2712,6 +2712,17 @@ const DECISIVE_SCAM_CHECKS_I18N = {
     ["cartão de oferta", "Mentions gift card payment."],
     ["conta será suspensa", "Threatens to suspend your account within a short time."],
     ["conta será bloqueada", "Threatens to suspend your account within a short time."]
+  ],
+  ro: [
+    ["parola completă", "Asks for a full password, which real organisations never request."],
+    ["confirmați parola", "Asks you to confirm a password."],
+    ["confirmați-vă parola", "Asks you to confirm a password."],
+    ["introduceți parola", "Asks you to enter a password."],
+    ["confirmați codul pin", "Asks you to confirm a PIN."],
+    ["numărul cardului și codul pin", "Asks for card number and PIN together."],
+    ["card cadou", "Mentions gift card payment."],
+    ["contul va fi suspendat", "Threatens to suspend your account within a short time."],
+    ["contul va fi blocat", "Threatens to suspend your account within a short time."]
   ]
 };
 
