@@ -178,10 +178,18 @@ const CONTACT_SHAPES = [
       "number, an independent advice line and a payment help web address. " +
       "Six numbers, one of which the reader needs, none behind a verb. The " +
       "body prose is figure-free by design so the earlier pins hold: no new " +
-      "dates, no new amounts, no hour words, no links beyond the original " +
-      "two. Long enough that the redacted outbound text saturates the " +
-      "8,000-character provider cap, which is what any large real document " +
-      "sends. Invented names, addresses, references and numbers throughout.",
+      "dates, no new amounts, no links beyond the original two. Long enough " +
+      "that the redacted outbound text saturates the 8,000-character " +
+      "provider cap, which is what any large real document sends. THE WHALE " +
+      "SENTENCE, added 6 August 2026 with the clustering window: the " +
+      "around-the-clock emergency line, 'open 24 hours, 7 days a week', " +
+      "sits with the emergency numbers exactly as the founder's real bill " +
+      "prints it. It once refused this document outright (the comma defeats " +
+      "the availability lookahead, and the old document-wide co-occurrence " +
+      "made three signals of it); under the clustering window the nearest " +
+      "amount is over five thousand characters away and the document stays " +
+      "normal, so this twin now tests the length-scaling class forever. " +
+      "Invented names, addresses, references and numbers throughout.",
     text: [
       "Supply address:",
       "14 Elmswood Drive",
@@ -319,6 +327,7 @@ const CONTACT_SHAPES = [
       "Power cut: 0800 909 8081",
       "Gas emergency: 0800 909 8082",
       "Electricity emergency: 0800 909 8083",
+      "Our gas emergency line is open 24 hours, 7 days a week.",
       "",
       "Energy Ombudsman: 0330 908 1462",
       "Independent advice line: 0808 909 1133",

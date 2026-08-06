@@ -2538,3 +2538,36 @@ guessSender's field-label defect above stays open and stays recorded: it
 still mislabels the FLOOR's summary sentence on fact-less sessions. What
 is resolved is the sender's presence on card 1, which no longer depends
 on it or on the model.
+
+## The clustering window's boundary, recorded 6 August 2026, value-free
+
+The neutral structural tier now reads its three facts within a proximity
+window (a printed page, 2,500 characters) of each short-deadline match,
+the founder's co-occurrence decision after his genuine long bill was
+refused four times in one evening. The window is measured on both sides:
+every refused scam letter is 258 to 437 characters end to end, so no
+scam's facts can sit outside it, and the genuine long bill's nearest
+amount sits over five thousand characters from its around-the-clock line.
+The best-clustered deadline match governs, so a long document whose dense
+section carries all three facts within a page still refuses, however much
+padding surrounds it; that shape is pinned in the suite.
+
+**Residual exposure one, the spread lure.** A multi-page lure that
+deliberately places its deadline on one page, its payment link pages
+later, and its amount pages after that no longer accumulates the three
+structural facts. It remains refusable by every lexical tier (the
+decisive needles in ten languages, the advisory counterweight, the lure
+shape), which are position-blind; what it evades is structure alone. A
+scammer who spreads the pressure apart is also diluting the pressure,
+which is the lure's own working mechanism, so the shape is judged
+unlikely, but it is a real hole and this is its record.
+
+**Residual exposure two, the dense genuine page.** A genuine document
+that prints an amount within a page of an uncovered around-the-clock
+line and a web address still collects three clustered facts and still
+refuses. The founder's bill escapes because its charges and its contacts
+live pages apart, which the whale twin now tests forever; a compact
+one-page genuine bill with the same furniture would not escape. The
+availability-exception gap (the comma in "24 hours, 7 days a week",
+measured and held earlier today) remains the unfixed classifier behind
+this shape; fixing it would close exposure two at its root.

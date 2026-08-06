@@ -38,7 +38,15 @@ const NEUTRAL_LABELS = [
 const FIRES = {
   scam_phishing: 2, polish_phishing: 3, smish_parcel_link_only: 3,
   smish_parcel_link_only_pl: 3, scam_hmrc_refund_es: 3,
-  scam_bank_security_fr: 2, scam_crypto_investment_pl: 2, scam_energy_refund_pt: 3
+  scam_bank_security_fr: 2, scam_crypto_investment_pl: 2, scam_energy_refund_pt: 3,
+  // JOINED 6 August 2026 with the clustering window and the whale sentence:
+  // the production-scale twin now prints the real bill's around-the-clock
+  // emergency line, whose comma defeats the availability lookahead, and its
+  // payment web address clusters 120 characters away. TWO facts, advisory,
+  // never decisive: the nearest amount sits over five thousand characters
+  // off, outside the window. If this entry ever reads 3 the clustering
+  // window has regressed and a genuine long bill is being refused again.
+  energy_quarterly_footer_sender: 2
 };
 
 function trustOf(id) {

@@ -18729,6 +18729,7 @@ INTENT:   undefined
   | Power cut: 0800 909 8081
   | Gas emergency: 0800 909 8082
   | Electricity emergency: 0800 909 8083
+  | Our gas emergency line is open 24 hours, 7 days a week.
   | 
   | Energy Ombudsman: 0330 908 1462
   | Independent advice line: 0808 909 1133
@@ -18800,7 +18801,10 @@ INTENT:   undefined
   "distrust_signals": [],
   "lure_shape_signals": [],
   "scam_signals": [],
-  "advisory_scam_signals": [],
+  "advisory_scam_signals": [
+    "Sets a very short deadline measured in hours.",
+    "Combines a link with a very short deadline."
+  ],
   "severity_signals": [],
   "is_high_stakes": false,
   "high_stakes_tier": null,

@@ -9,7 +9,7 @@ const { cardSchema, allowedCardIds } = require("../schemas/cardSchema");
 const { validateBySchema, validateCards } = require("../utils/validateOutput");
 const { splitDocuments } = require("../utils/splitDocuments");
 const coLocation = require("../utils/coLocation");
-const { countDocumentSignals, hasLink } = require("../utils/documentSignals");
+const { countDocumentSignals, hasLink, LINK } = require("../utils/documentSignals");
 const { detectLureShapeSignals } = require("../utils/lureShape");
 const factCandidates = require("../utils/factCandidates");
 
@@ -2676,17 +2676,56 @@ const NEUTRAL_SHORT_WINDOW = new RegExp(
 // Sender mismatch is deliberately NOT here. It is the lookalike-domain rule
 // by another name, and that rule is recorded in KNOWN_ENGINE_DEFECTS.md as
 // not to ship until someone other than its author has tried to break it.
+// THE CLUSTERING WINDOW, the founder's decision of 6 August 2026 after his
+// genuine 702KB bill was refused: structural signals contribute toward the
+// threshold only when they cluster in proximity, the way they do on a real
+// one-page lure, not when they scatter across a long genuine document.
+//
+// The number is from measurement, bounded on both sides. Below: every
+// refused scam in the corpus, all nine languages, is 258 to 437 characters
+// LONG IN TOTAL, so no scam's deadline-to-link or deadline-to-amount
+// distance can exceed 437, and 2,500 covers a full printed page of lure
+// with the threat at the top and the payment ask at the bottom, five and a
+// half times the largest corpus scam. Above: the production-scale genuine
+// bill's around-the-clock line sits 5,234 characters from its nearest
+// amount (the charges live on page one, the contacts on page two), more
+// than double the window. A link CLUSTERS on the genuine bill too, 120
+// characters, because contacts panels print payment addresses; it is the
+// AMOUNT that separates a lure from a bill, which is why the window is what
+// makes the third signal honest.
+//
+// EACH DEADLINE MATCH GETS ITS OWN WINDOW and the best-clustered match
+// governs, so a multi-page lure whose dense section carries all three
+// within a page still refuses, however long the padding around it. That is
+// the boundary this design defends; the shape it gives up, a lure that
+// deliberately spreads its deadline, link and amount pages apart, is
+// recorded in KNOWN_ENGINE_DEFECTS.md with the rest of the boundary.
+const NEUTRAL_CLUSTER_WINDOW = 2500;
+
 function detectNeutralStructuralSignals(text) {
-  const signals = [];
-  const shortWindow = NEUTRAL_SHORT_WINDOW.test(text);
-  if (!shortWindow) return signals;
-  signals.push("Sets a very short deadline measured in hours.");
-  if (!hasLink(text)) return signals;
-  signals.push("Combines a link with a very short deadline.");
-  if (coLocation.findAmounts(text).length > 0) {
-    signals.push("Asks for a payment through a link under a very short deadline.");
+  const source = String(text || "");
+  const shortWindowMatches = [...source.matchAll(
+    new RegExp(NEUTRAL_SHORT_WINDOW.source, NEUTRAL_SHORT_WINDOW.flags + "g"))];
+  if (!shortWindowMatches.length) return [];
+
+  const linkIndexes = [...source.matchAll(
+    new RegExp(LINK.source, LINK.flags + "g"))].map((m) => m.index);
+  const amountIndexes = coLocation.findAmounts(source).map((a) => a.index);
+  const near = (indexes, at) =>
+    indexes.some((index) => Math.abs(index - at) <= NEUTRAL_CLUSTER_WINDOW);
+
+  let best = ["Sets a very short deadline measured in hours."];
+  for (const match of shortWindowMatches) {
+    const signals = ["Sets a very short deadline measured in hours."];
+    if (near(linkIndexes, match.index)) {
+      signals.push("Combines a link with a very short deadline.");
+      if (near(amountIndexes, match.index)) {
+        signals.push("Asks for a payment through a link under a very short deadline.");
+      }
+    }
+    if (signals.length > best.length) best = signals;
   }
-  return signals;
+  return best;
 }
 
 function matchChecks(lower, checks) {

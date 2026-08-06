@@ -148,6 +148,10 @@ function countDocumentSignals(text) {
 module.exports = {
   DOCUMENT_SIGNALS,
   hasLink,
+  // Exported for the neutral tier's clustering window, which needs link
+  // POSITIONS rather than link presence. The one copy, as with the phone
+  // pattern above: a second link regex in the engine would drift.
+  LINK,
   LOOKS_LIKE_A_DATE,
   REFERENCE_CODE,
   MIN_LABEL_LINES,
