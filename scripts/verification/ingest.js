@@ -92,6 +92,15 @@ function ingest(lang, outDir) {
   const unsureKeeps = rows.filter((r) => r.outcome === "unsure_keep");
   const starred = rows.filter((r) => r.starred);
 
+  // FOUNDER-APPROVED RESOLUTIONS, per defect, recorded in the fixture as
+  // resolutions[id] = { resolution, approvedBy }. A defect with a recorded
+  // resolution is closed; a language verifies only when every defect has
+  // one. The resolution text is the record of WHAT was decided; approvedBy
+  // is the record of the founder's word that decided it.
+  const resolutions = pack.resolutions || {};
+  const unresolved = defects.filter((r) => !resolutions[r.id]);
+  const unresolvedBlocking = blocking.filter((r) => !resolutions[r.id]);
+
   // Elicitations are listed for the guard check that happens in defect
   // resolution; the guards live in the vocabulary test files and are
   // deliberately not duplicated here.
@@ -102,13 +111,16 @@ function ingest(lang, outDir) {
     rows: rows.length,
     agreements: rows.filter((r) => !OUTCOME_META[r.outcome].defect && r.outcome !== "unsure_keep").length,
     unsure_keeps: unsureKeeps.length,
-    defects: defects.map((r) => ({ id: r.id, outcome: r.outcome, text: r.text })),
+    defects: defects.map((r) => ({ id: r.id, outcome: r.outcome, text: r.text,
+      resolution: resolutions[r.id] || null })),
     blocking_defects: blocking.length,
+    unresolved_blocking: unresolvedBlocking.length,
+    resolved_defects: defects.length - unresolved.length,
     elicited_pending_guard_check: (pack.elicited || []).length,
     wordlist: pack.wordlist || { removed: [], added: [] },
-    // Verified means: no blocking defects outstanding AND every defect
-    // resolution is founder-approved in the resolutions file.
-    verified: blocking.length === 0 && defects.length === 0
+    // Verified means: every defect, blocking or not, carries a
+    // founder-approved resolution in the fixture.
+    verified: unresolved.length === 0
   };
 
   fs.mkdirSync(outDir.verdicts, { recursive: true });
@@ -134,9 +146,15 @@ function ingest(lang, outDir) {
       md.push("");
       md.push("> " + r.text);
       md.push("");
-      md.push("Proposed: " + meta.proposal);
-      md.push("");
-      md.push("- [ ] Founder approves the resolution");
+      const done = resolutions[r.id];
+      if (done) {
+        md.push("- [x] RESOLVED: " + done.resolution);
+        md.push("  Approved: " + done.approvedBy);
+      } else {
+        md.push("Proposed: " + meta.proposal);
+        md.push("");
+        md.push("- [ ] Founder approves the resolution");
+      }
     });
   }
   if (unsureKeeps.length) {
@@ -172,11 +190,14 @@ function readinessTable() {
       return;
     }
     const v = JSON.parse(fs.readFileSync(p, "utf8"));
+    const unresolvedBlocking = typeof v.unresolved_blocking === "number"
+      ? v.unresolved_blocking : v.blocking_defects;
     lines.push(lang.padEnd(6) +
       (v.verified ? " VERIFIED    " : " ingested    ") +
       v.reviewer + " " + v.date + ", agreements " + v.agreements + "/" + v.rows +
-      (v.blocking_defects ? ", BLOCKING DEFECTS " + v.blocking_defects : "") +
-      (v.defects.length && !v.blocking_defects ? ", defects " + v.defects.length : ""));
+      (v.verified && v.resolved_defects
+        ? ", " + v.resolved_defects + " defects resolved by founder" : "") +
+      (unresolvedBlocking ? ", BLOCKING DEFECTS " + unresolvedBlocking : ""));
   });
   return lines.join("\n");
 }

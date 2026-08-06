@@ -67,7 +67,7 @@ function strippedText(sentence, language) {
 }
 
 test("with the launch switch open, every wired guard fires and keeps as measured", async (t) => {
-  config.launch.open = true;
+  config.launch.open = Object.keys(SENTENCES);
   try {
     for (const lang of Object.keys(SENTENCES)) {
       await t.test(lang + ": the measured command is replaced with the bank sentence", () => {
@@ -104,13 +104,14 @@ test("with the launch switch open, every wired guard fires and keeps as measured
         "Payment is due by 1 July 2026.");
     });
   } finally {
-    config.launch.open = false;
+    config.launch.open = [];
   }
 });
 
 test("with the launch switch closed, the wiring is inert in every language", async (t) => {
   await t.test("the same command sentences pass untouched today", () => {
-    assert.equal(config.launch.open, false, "premise: the switch is off in the repo");
+    assert.ok(Array.isArray(config.launch.open) && config.launch.open.length === 0,
+      "premise: the list is empty in the repo before the flag commit");
     Object.keys(SENTENCES).forEach((lang) => {
       assert.equal(strippedText(SENTENCES[lang].fire, lang), SENTENCES[lang].fire,
         lang + " stripped before launch; the flag is not gating the wiring");

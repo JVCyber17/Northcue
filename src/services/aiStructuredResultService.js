@@ -179,7 +179,8 @@ const I18N_CONFIG = require("../../public/i18n/config.js");
 const guardVocabularies = require("../utils/guardVocabularies");
 
 function launchedLanguage(language) {
-  if (!I18N_CONFIG || !I18N_CONFIG.launch || I18N_CONFIG.launch.open !== true) return false;
+  const open = I18N_CONFIG && I18N_CONFIG.launch && I18N_CONFIG.launch.open;
+  if (!Array.isArray(open) || !open.includes(language)) return false;
   return I18N_CONFIG.languages.some(
     (entry) => entry.code === language && entry.enabled === true);
 }

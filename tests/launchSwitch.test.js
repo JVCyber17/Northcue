@@ -16,6 +16,8 @@ const { CORPUS } = require(path.join(ROOT, "scripts", "engine-baseline", "corpus
 
 const META = { mimeType: "application/pdf", selectedCategory: "auto", jobId: "launch-switch-test" };
 const LANGS = config.languages.map((e) => e.code).filter((c) => c !== "en");
+// The founder's wave-one pair, 6 August 2026. Wave two is everything else.
+const WAVE_ONE = ["gu", "hi"];
 
 function runOf(id) {
   const doc = CORPUS.find((d) => d.id === id);
@@ -23,11 +25,15 @@ function runOf(id) {
 }
 
 test("the switch is off, and off means byte-identical to today", async (t) => {
-  await t.test("config.launch.open is false in the repo", () => {
-    // The founder's launch commit flips exactly this. If this assertion is
-    // failing on main before that commit, someone opened the gate by
-    // accident and this is the alarm.
-    assert.equal(config.launch.open, false);
+  await t.test("config.launch.open lists no wave-two code in the repo", () => {
+    // Wave one opens gu and hi in the founder-approved flag commit; the
+    // wave-two languages, everything else the config lists, must never
+    // appear here without a verified pack and his word. If a wave-two
+    // code shows up, someone opened a gate by accident and this is the
+    // alarm.
+    assert.ok(Array.isArray(config.launch.open));
+    const waveTwo = LANGS.filter((c) => !WAVE_ONE.includes(c));
+    assert.deepEqual(config.launch.open.filter((c) => waveTwo.includes(c)), []);
   });
 
   await t.test("every non-English language is still refused the model", () => {
@@ -46,11 +52,44 @@ test("the switch is off, and off means byte-identical to today", async (t) => {
   });
 });
 
-test("when the switch opens, only the language branch opens", async (t) => {
+test("the wave-one shape: gu and hi open, the seven observably unchanged", async (t) => {
+  const saved = process.env.OPENAI_API_KEY;
+  process.env.OPENAI_API_KEY = "sk-test-not-a-real-key";
+  const before = config.launch.open;
+  config.launch.open = WAVE_ONE.slice();
+  try {
+    await t.test("gu and hi pass the language gate", () => {
+      const run = runOf("council_tax");
+      WAVE_ONE.forEach((lang) => {
+        assert.equal(ai.providerSkipReason({ rulesRun: run, language: lang }), null, lang);
+      });
+    });
+    await t.test("every wave-two language is still refused, byte-identical", () => {
+      const run = runOf("council_tax");
+      LANGS.filter((c) => !WAVE_ONE.includes(c)).forEach((lang) => {
+        assert.equal(ai.providerSkipReason({ rulesRun: run, language: lang }),
+          "non_english_language", lang);
+      });
+    });
+    await t.test("the scam refusal holds through the open gu and hi gates", () => {
+      const scam = runOf("polish_phishing");
+      WAVE_ONE.forEach((lang) => {
+        assert.equal(ai.providerSkipReason({ rulesRun: scam, language: lang }),
+          "verification_only_state", lang);
+      });
+    });
+  } finally {
+    config.launch.open = before;
+    if (saved === undefined) delete process.env.OPENAI_API_KEY;
+    else process.env.OPENAI_API_KEY = saved;
+  }
+});
+
+test("when the switch opens fully, only the language branch opens", async (t) => {
   // Flipped in-process and restored; the repo state never changes here.
   const saved = process.env.OPENAI_API_KEY;
   process.env.OPENAI_API_KEY = "sk-test-not-a-real-key";
-  config.launch.open = true;
+  config.launch.open = LANGS.slice();
   try {
     await t.test("an enabled language passes the language gate", () => {
       const run = runOf("council_tax");
@@ -75,7 +114,7 @@ test("when the switch opens, only the language branch opens", async (t) => {
       });
     });
   } finally {
-    config.launch.open = false;
+    config.launch.open = [];
     if (saved === undefined) delete process.env.OPENAI_API_KEY;
     else process.env.OPENAI_API_KEY = saved;
   }

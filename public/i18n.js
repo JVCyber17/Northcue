@@ -144,11 +144,18 @@
       var key = element.getAttribute("data-i18n");
       if (key) element.textContent = t(key);
     });
-    // THE LAUNCH COPY SWAP, driven by the same flag that opens the gates
-    // (config.launch.open), so the privacy wording and the language launch
-    // ship as one change or not at all.
-    var launched = root.NORTHCUE_I18N_CONFIG &&
-      root.NORTHCUE_I18N_CONFIG.launch && root.NORTHCUE_I18N_CONFIG.launch.open;
+    // THE LAUNCH COPY SWAP, driven by the same per-language list that opens
+    // the gates (config.launch.open), so the privacy wording and a
+    // language's launch ship as one change or not at all. The swap applies
+    // for the ACTIVE language only: a launched language's reader and the
+    // English reader see the launch wording, because for them it is true;
+    // a reader whose language has not launched keeps today's wording,
+    // because "AI phrases it in your language" is not yet true for them.
+    var openList = (root.NORTHCUE_I18N_CONFIG &&
+      root.NORTHCUE_I18N_CONFIG.launch && root.NORTHCUE_I18N_CONFIG.launch.open) || [];
+    var active = activeLanguage;
+    var launched = Array.isArray(openList) && openList.length > 0 &&
+      (openList.indexOf(active) !== -1 || active === "en");
     if (launched) {
       scope.querySelectorAll("[data-i18n-launch]").forEach(function (element) {
         var key = element.getAttribute("data-i18n-launch");

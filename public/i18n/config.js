@@ -18,15 +18,19 @@
   var config = {
     defaultLanguage: "en",
 
-    // THE SINGLE LAUNCH SWITCH. Flipping open to true, in one commit the
-    // founder approves, does two things AT ONCE and nothing before it:
-    // the server opens the AI phrasing pass to every enabled language
-    // (providerSkipReason reads this file), and the client swaps in the
-    // launch privacy wording (i18n.js reads data-i18n-launch and
-    // data-launch-reveal). Gates and copy cannot ship apart because they
-    // are the same flag in the same file. False today, deliberately:
-    // nothing opens until the founder says open.
-    launch: { open: false },
+    // THE LAUNCH SWITCH, per language since the founder's two-wave decision
+    // of 6 August 2026: open lists the language codes whose AI phrasing
+    // pass is live. Adding a code, in one commit the founder approves, does
+    // two things AT ONCE and nothing before it: the server opens the
+    // phrasing pass for that language (providerSkipReason reads this file),
+    // and the client swaps in the launch privacy wording FOR THAT LANGUAGE
+    // (i18n.js reads data-i18n-launch and data-launch-reveal for the active
+    // language only, so a reader whose language is not yet open never sees
+    // wording that is not yet true for them). Gates and copy cannot ship
+    // apart because they are the same list in the same file. Empty today:
+    // wave one adds gu and hi in the founder-approved flag commit; wave two
+    // adds each remaining language on its verified pack and his word.
+    launch: { open: [] },
 
     languages: [
       {
