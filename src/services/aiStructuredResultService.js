@@ -432,6 +432,17 @@ async function applySafetyPassAndRecordAiStatus({
           invalid.shapeErrors = shapeErrors;
           throw invalid;
         }
+        // Parity on the RAW translation: did the translation preserve every
+        // value? The vocabulary guard after it may replace a dangerous
+        // sentence with a digit-free bank line, which is a sanctioned guard
+        // action and must not be able to fail the session.
+        const parityErrors = translationValueParityErrors(translated, stripped);
+        if (parityErrors.length) {
+          const mismatch = new Error("translation_value_mismatch");
+          mismatch.code = "translation_value_mismatch";
+          mismatch.shapeErrors = parityErrors;
+          throw mismatch;
+        }
         served = stripTranslationViolations(translated, translateTo);
       } catch (error) {
         const translationErrorCode = normalizeTranslationErrorCode(error);
@@ -713,6 +724,71 @@ function translationShapeErrors(translated, source) {
       errors.push("translation added or removed a key point");
     }
   });
+  return errors;
+}
+
+// THE VALUE-PARITY GUARD, the founder's step 3: no value present in the
+// guarded English cards may be lost, altered or invented in translation.
+//
+// It compares VALUE SHAPES, not text: every digit run in every reader-facing
+// string, as a per-card multiset, after native digits are normalised to
+// ASCII (a model that disobeys the Western-digits instruction has changed a
+// value's script, not the value). Amounts, dates, phone numbers and
+// references all decompose into digit runs, so one comparison covers all
+// four families; the pound-mark count is compared separately so a currency
+// swap cannot hide behind identical digits. Month and day NAMES are allowed
+// to localise, which measurement showed both architectures doing
+// identically; their digits are not.
+//
+// IT RUNS ON THE RAW TRANSLATION, before the vocabulary guard, deliberately.
+// It asks one question: did the TRANSLATION preserve the values? The
+// vocabulary strip that follows may then replace a dangerous sentence with a
+// digit-free bank line, exactly as it does on today's launched path; that
+// removal is a sanctioned guard action, not a translation defect, and it
+// must not be able to fail the session.
+//
+// Messages are DIGIT-FREE by construction: they name the card in words and
+// never quote what changed, because they can reach the session's
+// validation_errors column.
+const { toAsciiDigits } = require("../utils/coLocation");
+
+function valueSkeleton(strings) {
+  const text = toAsciiDigits(strings.filter((value) => typeof value === "string").join(" "));
+  return {
+    digitRuns: (text.match(/\d+/g) || []).sort().join("|"),
+    poundMarks: (text.match(/£/g) || []).length
+  };
+}
+
+function cardStrings(card) {
+  const fields = ["title", "simple_explanation", "action_needed", "read_aloud_text"];
+  const collected = fields.map((field) => card && card[field]);
+  if (card && Array.isArray(card.key_points)) collected.push(...card.key_points);
+  return collected;
+}
+
+function translationValueParityErrors(translated, source) {
+  const errors = [];
+  const compare = (label, sourceStrings, translatedStrings) => {
+    const sourceShape = valueSkeleton(sourceStrings);
+    const translatedShape = valueSkeleton(translatedStrings);
+    if (sourceShape.digitRuns !== translatedShape.digitRuns) {
+      errors.push("a value was lost, altered or invented in translation on the " + label);
+    } else if (sourceShape.poundMarks !== translatedShape.poundMarks) {
+      errors.push("a currency mark changed in translation on the " + label);
+    }
+  };
+  source.cards.forEach((sourceCard, index) => {
+    const label = String(sourceCard.card_id || "card").replace(/_/g, " ") + " card";
+    compare(label, cardStrings(sourceCard), cardStrings(translated.cards[index]));
+  });
+  const summaryFields = (summary) => [
+    summary && summary.one_line_summary,
+    summary && summary.main_action,
+    summary && summary.main_date,
+    summary && summary.main_amount
+  ];
+  compare("summary", summaryFields(source.summary), summaryFields(translated.summary || {}));
   return errors;
 }
 
@@ -1274,6 +1350,7 @@ module.exports = {
   requestTranslatedResultFromOpenAi,
   translationArchitecture,
   translationShapeErrors,
+  translationValueParityErrors,
   stripTranslationViolations,
   AI_TRANSLATION_TIMEOUT_MS,
   extractResponseText,

@@ -25,9 +25,20 @@ const config = require(path.join(ROOT, "public", "i18n", "config.js"));
 // message and transforms every reader-facing string, which guarantees the
 // shape contract holds and marks the output as having been translated.
 const captured = [];
-let translationMode = "translate"; // translate | http_500 | abort | five_cards | inject_gu_command
+// translate | http_500 | abort | five_cards | alter_value | invent_value |
+// native_digits | { append: sentence } (appended to card 3's headline, so
+// shape and digit parity hold and the vocabulary guard is isolated)
+let translationMode = "translate";
 const MARKER = "અનુવાદ ";
-const GU_FIRE_SENTENCE = "પ્રથમ હપ્તો 1 એપ્રિલ 2026 સુધી ચૂકવવો જરૂરી છે.";
+
+// Digit-free proof sentences per open language, so a vocabulary proof can
+// ride through the value-parity guard without touching it. Each fire
+// sentence was checked against the real vocabulary pattern; the keep
+// sentences are the measured keeps from the wired-guard proofs.
+const PROOFS = {
+  gu: { fire: "ચુકવણી કરવી જરૂરી છે.", keep: "તમારે કોઈ કાર્યવાહી કરવાની જરૂર નથી." },
+  hi: { fire: "आपको भुगतान करना होगा।", keep: "मूल दस्तावेज में विवरण जांचें।" }
+};
 
 function translatedFrom(source) {
   const clone = JSON.parse(JSON.stringify(source));
@@ -61,8 +72,21 @@ global.fetch = async (url, options) => {
     const source = JSON.parse(body.input.find((m) => m.role === "user").content);
     const translated = translatedFrom(source);
     if (translationMode === "five_cards") translated.cards = translated.cards.slice(0, 5);
-    if (translationMode === "inject_gu_command") {
-      translated.cards[2].simple_explanation = GU_FIRE_SENTENCE;
+    if (translationMode === "alter_value") {
+      const card = translated.cards.find((c) => (c.key_points || []).some((p) => /\d/.test(p)));
+      card.key_points = card.key_points.map((p) =>
+        p.replace(/\d/, (d) => String((Number(d) + 1) % 10)));
+    }
+    if (translationMode === "invent_value") {
+      translated.cards[0].simple_explanation += " Ref 4499.";
+    }
+    if (translationMode === "native_digits") {
+      const card = translated.cards.find((c) => (c.key_points || []).some((p) => /\d/.test(p)));
+      card.key_points = card.key_points.map((p) =>
+        p.replace(/\d/g, (d) => "०१२३४५६७८९"[Number(d)]));
+    }
+    if (translationMode && translationMode.append) {
+      translated.cards[2].simple_explanation += " " + translationMode.append;
     }
     return {
       ok: true, status: 200,
@@ -210,13 +234,66 @@ test("the translate-after-English pipeline", async (t) => {
       });
     });
 
-    await t.test("the reader's vocabulary runs on the translation", async () => {
-      translationMode = "inject_gu_command";
+    await t.test("a translation that alters a value falls back, digit-free record", async () => {
+      translationMode = "alter_value";
       const output = await runFor("gu");
-      assert.equal(output.debug.ai.ai_status, "completed");
-      const card = output.structured_result.cards[2];
-      assert.ok(!card.simple_explanation.includes(GU_FIRE_SENTENCE.slice(0, 12)),
-        "a Gujarati command in the translation must be stripped by the wired guard");
+      assert.equal(output.debug.ai.ai_status, "fallback");
+      assert.equal(output.debug.ai.ai_error_code, "translation_value_mismatch");
+      (output.debug.ai.validation_errors || []).forEach((message) => {
+        assert.ok(!/\d/.test(message), "parity messages must be digit-free: " + message);
+      });
+    });
+
+    await t.test("a translation that invents a value falls back", async () => {
+      translationMode = "invent_value";
+      const output = await runFor("gu");
+      assert.equal(output.debug.ai.ai_status, "fallback");
+      assert.equal(output.debug.ai.ai_error_code, "translation_value_mismatch");
+    });
+
+    await t.test("native-script digits are the same value, not an alteration", async () => {
+      translationMode = "native_digits";
+      const output = await runFor("gu");
+      assert.equal(output.debug.ai.ai_status, "completed",
+        "a digit's script is presentation; parity must not fail the session over it");
+    });
+
+    // THE OPEN LANGUAGES' PROOF SENTENCES, re-run through the new path: the
+    // fire sentence is stripped from a served translation, the keep sentence
+    // survives one, per launched language, full pipeline.
+    for (const code of config.launch.open) {
+      await t.test(code + ": the vocabulary fires and keeps on the translation, full path", async () => {
+        const proofs = PROOFS[code];
+        assert.ok(proofs, "premise: proof sentences exist for " + code);
+
+        translationMode = { append: proofs.fire };
+        let output = await runFor(code);
+        assert.equal(output.debug.ai.ai_status, "completed");
+        assert.ok(!output.structured_result.cards[2].simple_explanation.includes(proofs.fire.slice(0, 10)),
+          code + ": a command planted in the translation must be stripped");
+
+        translationMode = { append: proofs.keep };
+        output = await runFor(code);
+        assert.equal(output.debug.ai.ai_status, "completed");
+        assert.ok(output.structured_result.cards[2].simple_explanation.includes(proofs.keep.slice(0, 10)),
+          code + ": a safe sentence must survive the translation guard");
+      });
+    }
+
+    await t.test("parity unit truths: lost, altered, invented, currency, native digits", () => {
+      const source = { cards: [{ card_id: "what_is_this", simple_explanation: "The bill is £129.16.", key_points: ["Due 5 August 2026."] }], summary: {} };
+      const clone = () => JSON.parse(JSON.stringify(source));
+      const lost = clone(); lost.cards[0].key_points = ["Due August."];
+      const altered = clone(); altered.cards[0].simple_explanation = "The bill is £129.17.";
+      const invented = clone(); invented.cards[0].key_points = ["Due 5 August 2026.", "Quote 999."];
+      const currency = clone(); currency.cards[0].simple_explanation = "The bill is $129.16.";
+      const native = clone(); native.cards[0].key_points = ["Due ५ August २०२६."];
+      assert.ok(ai.translationValueParityErrors(lost, source).length, "a lost value is caught");
+      assert.ok(ai.translationValueParityErrors(altered, source).length, "an altered value is caught");
+      assert.ok(ai.translationValueParityErrors(invented, source).length, "an invented value is caught");
+      assert.ok(ai.translationValueParityErrors(currency, source).length, "a currency swap is caught");
+      assert.equal(ai.translationValueParityErrors(native, source).length, 0, "native digits pass");
+      assert.equal(ai.translationValueParityErrors(clone(), source).length, 0, "identity passes");
     });
 
     await t.test("with the flag on generate, the old path is untouched", async () => {
