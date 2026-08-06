@@ -2454,3 +2454,32 @@ That is the same shape the greeting rule uses, and it needs no vocabulary.
 
 Recorded, not fixed.
 
+
+## Item B, recorded 6 August 2026: the Gujarati sender, and a card 1 omission
+
+The founder's live review of a production-scale quarterly energy bill asked
+whether Gujarati cards lose the sender. Traced with sentence-level evidence
+on the synthetic twin (energy_quarterly_footer_sender), value-free:
+
+**The sender reaches Gujarati output correctly.** Completed English runs
+named the sender in Latin script, three of three. Completed Gujarati runs
+named it transliterated into Gujarati script, three of three. No guard
+strips it: the provenance-exemption hypothesis was tested directly and
+excluded. A transliterated sender is the model writing the name in the
+reader's script, not a loss.
+
+**The card 1 answer omission is non-deterministic model variation.** On some
+completed runs the model's card 1 headline names the sender and on some it
+does not, run to run, same document, same prompt, temperature 0 relied on
+for stability but the provider does not guarantee it. Judged minor: the
+sender still appears in the footer quote and the engine floor, and no
+verified guard or gate is involved.
+
+**The floored sessions are a different defect**, already in this ledger:
+guessSender returns "Supply address:" on this shape (field label where a
+sender belongs, above). Any session that fell to the floor showed that in
+every language, which is what made the omission look language-shaped when it
+was not.
+
+Founder's decision: record, do not fix. Revisit only if screenshots show the
+omission recurring.
