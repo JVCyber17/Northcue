@@ -819,3 +819,27 @@ reader's cost and behaviour are unchanged, asserted.
 translated card 1 in 0 of 30 measurement runs against 2 of 2 on the sample
 page; the four-key-point cap meets model variation and the translation
 faithfully mirrors its source either way. See KNOWN_ENGINE_DEFECTS.md.
+
+## The saved state: release-20260806-whale-three-language
+
+**The founder's live confirmation, 6 August 2026, evening.** The real
+702KB utility bill, the document this day's work kept returning to,
+serves rich cards in English, Gujarati and Hindi on production, verified
+by the founder himself on his phone. The refusals that opened the
+evening (skipped, verification_only_state, 0ms, eight rows across three
+languages) ended at the 20:51 deploy of the clustering window, commit
+cb05260, which that tag names.
+
+Provably restorable: at tag time the full suite ran 2249/2249 green on
+the tagged commit, including the English benchmark, the fallback parity
+pin, the scam-corpus refusal set (eight of eight at full strength) and
+the whale pin (the production-scale twin carrying the real bill's
+once-fatal around-the-clock sentence, normal, reaching the prose path in
+English and Gujarati). The daily check read healthy with post-deploy
+completions in all three live languages. Restore with
+git checkout release-20260806-whale-three-language.
+
+One open item travelled past this release deliberately: the real bill's
+contacts panel defeats the item A binding in a way the twin's does not
+(rich cards, no contact line, all three languages), under inspection as
+this record is written, ledgered when named.
