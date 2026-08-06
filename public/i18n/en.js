@@ -8,7 +8,6 @@
     "language.title": "Choose your language",
     "language.aria.open": "Choose language",
     "language.aria.banner": "Language suggestion",
-    "i18n.shownInEnglish": "One line here is copied word for word from your letter, so it stays in English. These are the sender's own words, not ours.",
     "i18n.moneyFormat": "Amounts are shown exactly as printed on your letter. In the UK a comma separates thousands and a full stop separates pence.",
     "meta.title": "Northcue",
     "meta.description": "Northcue turns confusing documents into calm, clear next steps.",

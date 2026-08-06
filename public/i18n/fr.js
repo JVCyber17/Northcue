@@ -10,7 +10,6 @@
     "language.title": "Choisissez votre langue",
     "language.aria.open": "Choisir la langue",
     "language.aria.banner": "Suggestion de langue",
-    "i18n.shownInEnglish": "Une ligne est reprise mot pour mot de votre courrier, elle reste donc en anglais. Ce sont les mots de l'expéditeur, pas les nôtres.",
     "i18n.moneyFormat": "Les montants sont affichés exactement comme sur votre courrier. Dans le format britannique, la virgule sépare les milliers et le point sépare les pence.",
     "meta.title": "Northcue",
     "meta.description": "Northcue transforme les documents confus en étapes claires et apaisantes.",

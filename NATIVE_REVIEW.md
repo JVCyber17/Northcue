@@ -1059,3 +1059,13 @@ from Northcue's built-in reading."
 Find them as `status.stillWorking` and `status.nearlyDone`. The second
 makes a promise: cards appear even if the polish step fails. That promise
 is true. Check it still sounds like reassurance and not like an apology.
+
+## Retired by founder decision (6 August 2026): the shown-in-English line
+
+The line you may have as `i18n.shownInEnglish` ("One line here is copied
+word for word from your letter, so it stays in English...") has been
+removed from the product in every language and needs no review. After the
+language launch it printed on every card of every session, under text that
+was not English at all. The quote design itself is unchanged: card 5 still
+quotes the letter in the letter's own language, as the earlier section
+explains.

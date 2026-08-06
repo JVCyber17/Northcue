@@ -8,7 +8,6 @@
     "language.title": "Escolha o seu idioma",
     "language.aria.open": "Escolher idioma",
     "language.aria.banner": "Sugestão de idioma",
-    "i18n.shownInEnglish": "Uma linha aqui está copiada tal e qual da sua carta, por isso fica em inglês. São as palavras de quem a enviou, não as nossas.",
     "i18n.moneyFormat": "Os valores são mostrados tal como aparecem na sua carta. Na escrita britânica a vírgula separa os milhares e o ponto separa os pence.",
     "meta.title": "Northcue",
     "meta.description": "O Northcue transforma documentos confusos em passos calmos e claros.",

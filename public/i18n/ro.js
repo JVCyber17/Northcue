@@ -7,7 +7,6 @@
     "language.title": "Alegeți limba",
     "language.aria.open": "Alegeți limba",
     "language.aria.banner": "Sugestie de limbă",
-    "i18n.shownInEnglish": "Un rând de aici este copiat cuvânt cu cuvânt din scrisoare, de aceea rămâne în engleză. Sunt cuvintele expeditorului, nu ale noastre.",
     "i18n.moneyFormat": "Sumele sunt afișate exact cum apar pe scrisoare. În scrierea britanică virgula separă miile, iar punctul separă penny.",
     "meta.title": "Northcue",
     "meta.description": "Northcue transformă documentele confuze în pași calmi și clari.",

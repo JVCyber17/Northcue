@@ -2574,7 +2574,12 @@ function renderCard() {
   document.querySelector("#card-feedback").classList.remove("hidden");
   document.querySelector(".journey-main").classList.remove("is-complete");
 
-  let anyUntranslated = !translatedTitle.translated || !translatedAnswer.translated;
+  // REMOVED 6 August 2026, founder decision: the shown-in-English disclaimer
+  // (#card-i18n-note) is gone entirely. It toggled on anyUntranslated, and
+  // after the language launch every model-written sentence is bank-unmatched
+  // by definition, so it printed on all six cards of every completed session,
+  // under text that is not English at all. The quote design itself stays;
+  // only the explanatory line is retired.
 
   // Each step is translated once and the results reused below for the money
   // format check, so an untranslated step costs one pattern scan, not two.
@@ -2582,14 +2587,11 @@ function renderCard() {
     ? card.steps.map((step) => translatedEngineText(step))
     : [];
 
-  const stepItems = translatedSteps.map((translatedStep) => {
-    if (!translatedStep.translated) anyUntranslated = true;
-    return `<li>${escapeHtml(translatedStep.text)}</li>`;
-  });
+  const stepItems = translatedSteps.map((translatedStep) =>
+    `<li>${escapeHtml(translatedStep.text)}</li>`);
 
   // Appended last, under the engine's own key points. It comes from the Tier 1
-  // dictionary rather than the sentence bank, so it is always translated and
-  // never sets anyUntranslated.
+  // dictionary rather than the sentence bank, so it is always translated.
   const passedLine = passedDeadlineLine(card);
   if (passedLine) stepItems.push(`<li>${escapeHtml(passedLine)}</li>`);
 
@@ -2599,13 +2601,6 @@ function renderCard() {
   } else {
     cardSteps.classList.add("hidden");
     cardSteps.innerHTML = "";
-  }
-
-  // The pre translated notice appears only when the active language is not
-  // English and some of this card's text had no bank match.
-  const englishNote = document.querySelector("#card-i18n-note");
-  if (englishNote) {
-    englishNote.classList.toggle("hidden", !anyUntranslated);
   }
 
   const cardText = [translatedTitle.text, translatedAnswer.text]
