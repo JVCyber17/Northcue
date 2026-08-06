@@ -1,0 +1,107 @@
+{
+ "language": "hi",
+ "reviewer": "Founder",
+ "date": "2026-08-06",
+ "rows": 60,
+ "agreements": 42,
+ "unsure_keeps": 0,
+ "defects": [
+  {
+   "id": "hi-06",
+   "outcome": "overfire_defect",
+   "text": "सभी अनुभागों को काले स्याही में भरना आवश्यक है।"
+  },
+  {
+   "id": "hi-08",
+   "outcome": "overfire_defect",
+   "text": "सहमति फॉर्म 5 जून 2026 तक लौटाना जरूरी है।"
+  },
+  {
+   "id": "hi-10",
+   "outcome": "overfire_defect",
+   "text": "कृपया अपना खाता विवरण भेजें।"
+  },
+  {
+   "id": "hi-11",
+   "outcome": "overfire_defect",
+   "text": "पहली किस्त का भुगतान 1 अप्रैल 2026 तक करना आवश्यक है।"
+  },
+  {
+   "id": "hi-26",
+   "outcome": "overfire_defect",
+   "text": "सहमति फॉर्म 3 सितंबर 2026 तक लौटाना आवश्यक है।"
+  },
+  {
+   "id": "hi-30",
+   "outcome": "overfire_defect",
+   "text": "सभी आवश्यक विवरण सही और पूरी तरह भरना जरूरी है।"
+  },
+  {
+   "id": "hi-31",
+   "outcome": "overfire_defect",
+   "text": "अपना पिन बताएं।"
+  },
+  {
+   "id": "hi-36",
+   "outcome": "overfire_defect",
+   "text": "भुगतान 14 दिनों के भीतर होना चाहिए।"
+  },
+  {
+   "id": "hi-41",
+   "outcome": "overfire_defect",
+   "text": "जारी रखने के लिए अपना पासवर्ड दर्ज करें।"
+  },
+  {
+   "id": "hi-43",
+   "outcome": "overfire_defect",
+   "text": "सहमति फॉर्म पर हस्ताक्षर कर 5 जून 2026 तक स्कूल को लौटाना होगा।"
+  },
+  {
+   "id": "hi-45",
+   "outcome": "overfire_defect",
+   "text": "बकाया राशि 12 सितंबर 2026 तक साफ करनी होगी।"
+  },
+  {
+   "id": "hi-46",
+   "outcome": "overfire_defect",
+   "text": "भुगतान £298.53 4 जून 2026 तक करना जरूरी है।"
+  },
+  {
+   "id": "hi-47",
+   "outcome": "overfire_defect",
+   "text": "भुगतान 15 जून 2026 तक होना चाहिए।"
+  },
+  {
+   "id": "hi-49",
+   "outcome": "overfire_defect",
+   "text": "आपका किराया £312.40 बकाया है और भुगतान 3 सितंबर 2026 तक होना चाहिए।"
+  },
+  {
+   "id": "hi-50",
+   "outcome": "overfire_defect",
+   "text": "भुगतान 3 सितंबर 2026 से पहले करना होगा।"
+  },
+  {
+   "id": "hi-52",
+   "outcome": "overfire_defect",
+   "text": "अपने बैंक विवरण की पुष्टि करें।"
+  },
+  {
+   "id": "hi-56",
+   "outcome": "overfire_defect",
+   "text": "यह एक आवेदन फॉर्म है; विवरण सही भरना जरूरी है।"
+  },
+  {
+   "id": "hi-60",
+   "outcome": "overfire_defect",
+   "text": "फॉर्म 3 सितंबर 2026 तक लौटाना आवश्यक है।"
+  }
+ ],
+ "blocking_defects": 18,
+ "elicited_pending_guard_check": 0,
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "verified": false
+}
