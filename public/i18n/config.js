@@ -30,7 +30,21 @@
     // apart because they are the same list in the same file. Empty today:
     // wave one adds gu and hi in the founder-approved flag commit; wave two
     // adds each remaining language on its verified pack and his word.
-    launch: { open: ["gu", "hi"] },
+    // proseArchitecture decides HOW a launched reader's prose is produced,
+    // uniformly for every launched non-English language, Latin and Indic
+    // script alike:
+    //   "generate"   the model writes the cards in the reader's language
+    //                directly (wave one's original path)
+    //   "translate"  the model writes the cards in English, the full English
+    //                guard stack runs on them, then a second call translates
+    //                the guarded cards into the reader's language and that
+    //                language's guard vocabulary runs on the translation
+    // Approved by the founder on 6 August 2026 after reading Gujarati and
+    // Hindi side-by-side samples; the value flips to "translate" in one
+    // founder-approved commit, exactly as launch.open entries do, and wave
+    // two languages open onto whatever this says, which after that commit
+    // is the only non-English path.
+    launch: { open: ["gu", "hi"], proseArchitecture: "generate" },
 
     languages: [
       {

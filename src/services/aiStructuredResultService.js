@@ -204,6 +204,22 @@ function launchedLanguage(language) {
     (entry) => entry.code === language && entry.enabled === true);
 }
 
+// THE TRANSLATE-AFTER-ENGLISH ARCHITECTURE, approved by the founder on
+// 6 August 2026 after reading Gujarati and Hindi side-by-side samples.
+// True when the reader's language is launched AND config.launch says the
+// prose architecture is "translate": generation happens in English, the
+// full English guard stack runs on it exactly as for an English reader,
+// then one further call translates the guarded cards and the reader's
+// guard vocabulary runs on the translation. Read live from the same config
+// file as the gates, so the founder's flip commit changes reader behaviour
+// and nothing else. Uniform for Latin and Indic scripts by construction:
+// nothing here reads the script.
+function translationArchitecture(language) {
+  if (!launchedLanguage(language)) return false;
+  return Boolean(I18N_CONFIG && I18N_CONFIG.launch &&
+    I18N_CONFIG.launch.proseArchitecture === "translate");
+}
+
 function providerSkipReason({ rulesRun, language, measurementLanguage: requested }) {
   const trust = rulesRun.api_output.trust || {};
 
@@ -320,6 +336,14 @@ async function applySafetyPassAndRecordAiStatus({
   const inputQuality = output.trust?.input_quality || "unknown";
   const garbledByOcr = Boolean(rulesRun.structured_output?.trust_internal?.garbled_by_ocr);
 
+  // Under the translate architecture a launched reader's cards are GENERATED
+  // IN ENGLISH and translated after the English guard stack has run, so
+  // writeInLanguage stays null for them. The measurement override keeps its
+  // direct write-in behaviour: it exists to probe raw model output per
+  // language and is not a reader path.
+  const translateTo = !measurementLanguage(requestedLanguage) &&
+    translationArchitecture(language) ? language : null;
+
   try {
     const candidate = await requestStructuredResultFromOpenAi({
       extractedText,
@@ -332,9 +356,10 @@ async function applySafetyPassAndRecordAiStatus({
       // every vocabulary was measured against. Found by the wave-one live
       // confirmation: the gate opened but nothing asked the model to WRITE
       // in Gujarati, so a launched reader got English prose their bank
-      // cannot translate.
+      // cannot translate. Null under the translate architecture: the
+      // reader's language is applied by the translation stage below.
       writeInLanguage: measurementLanguage(requestedLanguage) ||
-        (launchedLanguage(language) ? language : null)
+        (translateTo ? null : (launchedLanguage(language) ? language : null))
     });
 
     // The verdict, not just the object. When the sanitiser rejects the
@@ -355,7 +380,10 @@ async function applySafetyPassAndRecordAiStatus({
     // vocabularies resolve for nobody, so measurement output stays raw and
     // today's behaviour is byte-identical. When launched, the reader's
     // language selects the verified vocabulary.
-    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult), language);
+    // Under the translate architecture the source is English, so the strip
+    // runs exactly as it does for an English reader; the reader's verified
+    // vocabulary runs on the translation in the stage below instead.
+    const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult), translateTo ? "en" : language);
     const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
@@ -378,10 +406,61 @@ async function applySafetyPassAndRecordAiStatus({
       return rulesRun;
     }
 
-    output.structured_result = stripped;
-    output.display_text = stripped.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
-    output.tts_script = stripped.cards.map((card) => card.read_aloud_text).join("\n");
-    rulesRun.structured_output.structured_result = stripped;
+    // THE TRANSLATION STAGE, translate-after-English architecture only.
+    // The guarded, validated ENGLISH cards go out; the same cards in the
+    // reader's language come back, the shape contract is checked, and the
+    // reader's verified guard vocabulary runs on what came back. Skipped
+    // when the sanitiser rejected: the engine's own result is what is about
+    // to be served and the rejected branch below returns the rules run.
+    //
+    // ANY failure in this stage falls back to the bank cards: the metadata
+    // records a translation_* code and the reader gets the deterministic
+    // rules cards their template bank translates, never a lost session and
+    // never English prose their bank cannot handle.
+    let served = stripped;
+    if (translateTo && !sanitizeVerdict.rejected) {
+      try {
+        const translated = await requestTranslatedResultFromOpenAi({
+          structuredResult: stripped,
+          language: translateTo,
+          model
+        });
+        const shapeErrors = translationShapeErrors(translated, stripped);
+        if (shapeErrors.length) {
+          const invalid = new Error("translation_invalid");
+          invalid.code = "translation_invalid";
+          invalid.shapeErrors = shapeErrors;
+          throw invalid;
+        }
+        served = stripAiViolations(translated, rulesSentenceSet(fallbackStructuredResult), translateTo);
+      } catch (error) {
+        const translationErrorCode = normalizeTranslationErrorCode(error);
+        attachAiMetadata(output, {
+          ai_used: false,
+          ai_status: "fallback",
+          ai_provider: "openai",
+          ai_model: model,
+          ai_duration_ms: Date.now() - startedAt,
+          ai_error_code: translationErrorCode,
+          validation_errors: Array.isArray(error.shapeErrors)
+            ? summarizeValidationErrors(error.shapeErrors)
+            : undefined
+        });
+        logAiDebug("translation_failed", {
+          ai_status: "fallback",
+          ai_error_code: translationErrorCode,
+          ai_model: model,
+          ai_duration_ms: output.debug.ai.ai_duration_ms,
+          http_status: error.httpStatus || null
+        });
+        return rulesRun;
+      }
+    }
+
+    output.structured_result = served;
+    output.display_text = served.cards.map((card) => `${card.title} ${card.simple_explanation}`).join("\n");
+    output.tts_script = served.cards.map((card) => card.read_aloud_text).join("\n");
+    rulesRun.structured_output.structured_result = served;
     rulesRun.structured_output.display_text = output.display_text;
     rulesRun.structured_output.tts_script = output.tts_script;
 
@@ -523,6 +602,124 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
   } finally {
     clearTimeout(timeout);
   }
+}
+
+// The translation step's own ceiling. Provisional at the English ceiling's
+// value while the pipeline lands; step 4 of the founder's build order sets
+// the default from measured evidence and records the maths.
+const AI_TRANSLATION_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TRANSLATION_TIMEOUT_MS", 40000);
+
+// The second call of the translate-after-English architecture: the guarded
+// English structured_result in, the same JSON in the reader's language out.
+// Same model, same determinism lever (temperature 0), same privacy posture
+// (store: false); the input is the guarded CARDS, which is strictly less
+// than the first call already sent. Every failure is thrown with a
+// translation_* code and the caller falls back to the bank cards, so a
+// translation death can never cost the session.
+async function requestTranslatedResultFromOpenAi({ structuredResult, language, model }) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), AI_TRANSLATION_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(OPENAI_RESPONSES_URL, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model,
+        input: [
+          { role: "system", content: buildTranslationSystemPrompt(language) },
+          { role: "user", content: JSON.stringify(structuredResult) }
+        ],
+        temperature: 0,
+        max_output_tokens: 2600,
+        store: false
+      }),
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      const error = new Error(`translation_http_${response.status}`);
+      error.code = `translation_http_${response.status}`;
+      error.httpStatus = response.status;
+      throw error;
+    }
+
+    const data = await response.json();
+    console.log(`[northcue-ai] translation model=${data.model || "unknown"} id=${data.id || "unknown"}`);
+    const text = extractResponseText(data);
+    if (!text) {
+      const error = new Error("empty_translation");
+      error.code = "empty_translation";
+      throw error;
+    }
+
+    return parseJsonObject(text);
+  } catch (error) {
+    if (error.name === "AbortError") {
+      const timeoutError = new Error("translation_timeout");
+      timeoutError.code = "translation_timeout";
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function buildTranslationSystemPrompt(language) {
+  return [
+    "You translate Northcue cue cards for a reader.",
+    `Translate every string value in the JSON into ${LANGUAGE_NAMES[language] || language}, in that language's own script.`,
+    "Keep amounts, dates, reference numbers and phone numbers exactly as they appear, unchanged and untranslated, in the same Western digits.",
+    "Keep the JSON shape, every field name, the card order and every card_id value exactly the same.",
+    "Do not add, remove, merge or reorder cards or key points.",
+    "Plain language, calm wording, short lines.",
+    "Return strict JSON only. No Markdown. No commentary."
+  ].join("\n");
+}
+
+// The structural contract a translation must keep before it may be served:
+// the same cards, in the same order, with the same card_id values, none of
+// the reader-facing strings emptied, and no key point added or removed.
+// Messages are digit-free by construction because they can reach the
+// session's validation_errors column.
+function translationShapeErrors(translated, source) {
+  const errors = [];
+  if (!translated || typeof translated !== "object" || !Array.isArray(translated.cards)) {
+    return ["translation is not a structured result"];
+  }
+  if (translated.cards.length !== source.cards.length) {
+    errors.push("translation changed the number of cards");
+    return errors;
+  }
+  source.cards.forEach((sourceCard, index) => {
+    const card = translated.cards[index];
+    if (!card || card.card_id !== sourceCard.card_id) {
+      errors.push("translation changed the card order or a card_id");
+      return;
+    }
+    ["title", "simple_explanation", "read_aloud_text"].forEach((field) => {
+      if (typeof sourceCard[field] === "string" && sourceCard[field].trim() &&
+          !(typeof card[field] === "string" && card[field].trim())) {
+        errors.push("translation emptied a card " + field.replace(/_/g, " "));
+      }
+    });
+    const sourcePoints = Array.isArray(sourceCard.key_points) ? sourceCard.key_points : [];
+    const translatedPoints = Array.isArray(card.key_points) ? card.key_points : [];
+    if (sourcePoints.length !== translatedPoints.length) {
+      errors.push("translation added or removed a key point");
+    }
+  });
+  return errors;
+}
+
+function normalizeTranslationErrorCode(error) {
+  if (!error) return "translation_failed";
+  if (error.name === "AbortError") return "translation_timeout";
+  return cleanAiErrorCode(error.code || error.message || "translation_failed");
 }
 
 function buildSystemPrompt(writeInLanguage) {
@@ -1012,6 +1209,10 @@ function sanitizeAiTextField(text, exemptSentences, vocab) {
 module.exports = {
   applySafetyPassAndRecordAiStatus,
   requestStructuredResultFromOpenAi,
+  requestTranslatedResultFromOpenAi,
+  translationArchitecture,
+  translationShapeErrors,
+  AI_TRANSLATION_TIMEOUT_MS,
   extractResponseText,
   normalizeAiErrorCode,
   summarizeValidationErrors,
