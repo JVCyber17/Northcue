@@ -140,6 +140,11 @@ test("the translate-after-English pipeline", async (t) => {
         "the first call must carry no write-in instruction");
       const translationSystem = captured[1].input.find((m) => m.role === "system").content;
       assert.ok(translationSystem.includes("Gujarati"), "the second call names the reader's language");
+      // Founder's decision, 6 August 2026: the name on the card must match
+      // the name on the paper letter exactly, so names ride in Latin script.
+      assert.ok(translationSystem.includes("organisation and sender names") &&
+        translationSystem.includes("Never transliterate"),
+        "the translation prompt must hold names in Latin script, letter for letter");
       assert.equal(output.debug.ai.ai_status, "completed");
       assert.equal(output.debug.ai.ai_used, true);
       output.structured_result.cards.forEach((card) => {

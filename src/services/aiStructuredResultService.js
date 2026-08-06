@@ -680,6 +680,11 @@ function buildTranslationSystemPrompt(language) {
     "You translate Northcue cue cards for a reader.",
     `Translate every string value in the JSON into ${LANGUAGE_NAMES[language] || language}, in that language's own script.`,
     "Keep amounts, dates, reference numbers and phone numbers exactly as they appear, unchanged and untranslated, in the same Western digits.",
+    // Founder's decision, 6 August 2026, closing the transliteration wobble
+    // the ten-run sender proof surfaced (two runs of ten carried the name
+    // one consonant off): the name on the card must match the name on the
+    // paper letter exactly, so the reader can compare them.
+    "Keep organisation and sender names exactly as they appear, in Latin script, letter for letter. Never transliterate or translate a name.",
     "Keep the JSON shape, every field name, the card order and every card_id value exactly the same.",
     "Do not add, remove, merge or reorder cards or key points.",
     "Plain language, calm wording, short lines.",
