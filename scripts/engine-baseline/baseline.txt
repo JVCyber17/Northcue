@@ -18569,6 +18569,7 @@ INTENT:   undefined
   | Customer reference: SVE-88413320
   | Billing period: 1 April 2026 to 30 June 2026
   | Bill date: 8 July 2026
+  | Page 1 of 2
   | 
   | Your quarterly electricity bill
   | 
@@ -18594,15 +18595,105 @@ INTENT:   undefined
   | If you pay by monthly Direct Debit no action is needed and your next
   | collection date will be shown on your statement.
   | 
+  | About your tariff
+  | You are on our Fixed Saver tariff. The prices that make up this bill
+  | are the unit rate and the daily standing charge shown above. Your unit
+  | rate pays for the electricity you have used. The standing charge is a
+  | fixed daily cost of supplying your home, and it applies even on days
+  | when no electricity is used. These prices are fixed for the length of
+  | your tariff, so they will not rise or fall with the wholesale market
+  | while the tariff lasts. When your tariff comes to an end we will write
+  | to you before anything changes, and you will be free to choose again
+  | at that point.
+  | 
+  | How we worked out this bill
+  | This bill is based on the meter reading you gave us at the end of the
+  | billing period shown above. We multiplied the electricity you used by
+  | your unit rate, added the standing charge for each day of the period,
+  | and then added VAT at the reduced domestic rate. The section called
+  | Your charges for this period shows each of those parts on its own
+  | line, so you can see exactly what makes up the total. If a previous
+  | bill was based on an estimate, any difference is corrected
+  | automatically the next time an actual reading reaches us.
+  | 
+  | Your meter readings
+  | Your reading this quarter was an actual reading, taken from the meter
+  | itself rather than estimated. Regular readings keep your bills
+  | accurate. If we ever have to estimate, the letter E appears beside the
+  | figure, and the amount is corrected once a real reading arrives. You
+  | can send a reading at any time through your online account, and it
+  | takes about a minute.
+  | 
   | How your usage compares
   | Your usage this quarter was 6% lower than the same quarter last year.
+  | Comparing like for like helps you see whether changes at home are
+  | making a difference. A milder spring, new appliances, or more people
+  | at home can each move the figure, so treat the comparison as a guide
+  | rather than a judgement.
+  | 
+  | Smart meters
+  | A smart meter sends readings automatically, so estimated bills become
+  | a thing of the past. It also lets you see what you are spending as you
+  | go, in pounds rather than in units, on a small display you can keep
+  | anywhere at home. Installation is free and usually takes under an
+  | hour. If you would like one, you can arrange an installation through
+  | your online account and choose a time that suits you.
+  | 
+  | Page 2 of 2
+  | 
+  | What the words on your bill mean
+  | kWh is a kilowatt hour, the unit electricity is measured in. A
+  | kilowatt hour is roughly one wash cycle, or a few evenings of
+  | television. Unit rate is the price of each kilowatt hour you use.
+  | Standing charge is the fixed daily cost of your connection, which
+  | covers the network of cables and the meter itself. Rota letter is the
+  | letter that tells you which group your home belongs to if planned
+  | power interruptions are ever needed. You only need it in that rare
+  | situation, and you can find yours in the block at the top of page one.
+  | 
+  | Moving home
+  | Letting us know before you move means we can close your account on
+  | the day you leave and send a final bill to your new address. It helps
+  | to take a meter reading on moving day and to keep a note of it,
+  | because a forgotten reading leaves the final bill estimated, and an
+  | estimate is harder to challenge later. Whoever lives there next is
+  | responsible for electricity used after you have left.
+  | 
+  | The Priority Services Register
+  | The Priority Services Register is a free support service for
+  | households that need extra help, for example because of age, illness,
+  | disability, or a young family. Joining it means we can tell you in
+  | advance about planned interruptions, arrange readings if nobody in the
+  | home can reach the meter, and send bills in large print or braille.
+  | Joining is free and does not affect your prices. You can join through
+  | your online account.
+  | 
+  | If something goes wrong
+  | If you think this bill is wrong, or something about your account
+  | worries you, we want to put it right. Most problems are sorted out in
+  | one conversation. If you are not happy with our answer, you can ask
+  | for it to be looked at again by a senior member of the team. If eight
+  | weeks pass without a resolution, or we tell you we cannot take it
+  | further, you can take your complaint to the Energy Ombudsman. The
+  | ombudsman service is free to use and independent of us, and its
+  | decisions are binding on us but not on you.
+  | 
+  | Help with paying
+  | If paying this bill is difficult, the sooner we know the more we can
+  | do. There is more we can do early than late. We can spread what you owe over
+  | instalments that fit your budget, move your payment date, or check
+  | whether you qualify for support schemes. Details of every option are
+  | on the payment help page shown under Helpful contacts below. Nobody's
+  | supply is switched off without every other route being tried first,
+  | and never where a household is on the Priority Services Register
+  | during the colder months.
   | 
   | Helpful contacts
   | 
-  | Customer services: 0345 201 8812
+  | Questions about your bill? 0345 201 8812
   | (Monday to Friday, 8am to 6pm)
   | 
-  | Power cut? Call: 0800 909 8081
+  | Power cut: 0800 909 8081
   | Gas emergency: 0800 909 8082
   | Electricity emergency: 0800 909 8083
   | 
@@ -18611,6 +18702,46 @@ INTENT:   undefined
   | Help paying your bill: www.severnvale-energy.co.uk/payment-help
   | 
   | Ways to save energy: www.severnvale-energy.co.uk/save
+  | 
+  | Saving energy at home
+  | Small changes add up. Washing at a lower temperature, letting dishes
+  | drain rather than using the hot tap, and turning appliances off at the
+  | wall rather than leaving them on standby each shave a little from the
+  | next bill. Draught proofing doors and windows keeps warmth in without
+  | any running cost. The energy saving page shown above collects the tips
+  | our customers say made the biggest difference, along with the support
+  | schemes open this year.
+  | 
+  | About this document
+  | This bill is worth keeping somewhere safe. Some support schemes and
+  | local services accept a recent energy bill as proof of address, and
+  | comparing bills from the same quarter of different years is the
+  | fairest way to watch your usage over time. If you manage someone
+  | else's affairs and need us to write to you instead, we can arrange
+  | that with the right authority in place.
+  | 
+  | Switching supplier
+  | You are free to move to another supplier whenever you choose, and
+  | switching does not interrupt your supply for a moment. If you are in
+  | credit when you leave, the balance is returned to you after your
+  | final bill. We would rather keep you, but a market that lets people
+  | leave easily keeps every supplier honest, including us.
+  | 
+  | How we protect your information
+  | We use your details to run your account, work out your bills, and
+  | meet our obligations as an energy supplier. We do not sell your
+  | information. Where we share it, for example with the network operator
+  | that maintains the cables in your area, it is because the supply
+  | itself depends on it. You can ask us at any time for a copy of the
+  | information we hold about you.
+  | 
+  | Our fuel mix
+  | The electricity we supply comes from a blend of sources that changes
+  | across the year: renewables such as wind and solar, together with
+  | gas-fired generation and a share of nuclear. The exact blend for the
+  | most recent reporting year is published on our website, alongside the
+  | average blend for the country as a whole, so you can compare the two
+  | before choosing a tariff.
   | 
   | Severn Vale Energy Limited, registered in England and Wales.
   | Registered office: 4 Brindley Court, Gloucester GL1 2FF.
@@ -18684,7 +18815,7 @@ INTENT:   undefined
     "SVE-88413320"
   ],
   "contact_details": [],
-  "contact_number": "0345 201 8812",
+  "contact_number": null,
   "appeal_rights": [],
   "support_options": [],
   "confidence": "high",
@@ -18765,18 +18896,15 @@ INTENT:   undefined
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date.",
-      "The document gives this phone number: 0345 201 8812."
+      "Check the payment amount and due date."
     ],
-    "protected_key_points": [
-      "The document gives this phone number: 0345 201 8812."
-    ],
+    "protected_key_points": [],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0345 201 8812.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
     "status": "good"
   },
   {

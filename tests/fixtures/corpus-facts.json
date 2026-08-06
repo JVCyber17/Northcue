@@ -617,6 +617,18 @@
     "reference": "SVE-88413320",
     "amounts": [
       {
+        "value": "£251.16",
+        "role": "other"
+      },
+      {
+        "value": "£54.69",
+        "role": "other"
+      },
+      {
+        "value": "£15.29",
+        "role": "other"
+      },
+      {
         "value": "£321.14",
         "role": "total_due"
       },
@@ -625,15 +637,15 @@
         "role": "credit"
       },
       {
+        "value": "£240.00",
+        "role": "other"
+      },
+      {
         "value": "£129.16",
         "role": "balance"
       }
     ],
     "dates": [
-      {
-        "value": "8 July 2026",
-        "role": "letter_date"
-      },
       {
         "value": "1 April 2026",
         "role": "period_start"
@@ -641,6 +653,10 @@
       {
         "value": "30 June 2026",
         "role": "period_end"
+      },
+      {
+        "value": "8 July 2026",
+        "role": "letter_date"
       },
       {
         "value": "5 August 2026",
