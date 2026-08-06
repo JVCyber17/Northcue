@@ -24,6 +24,16 @@ const { CORPUS } = require(path.join(ROOT, "scripts", "engine-baseline", "corpus
 const ROUTE_SOURCE = fs.readFileSync(path.join(ROOT, "src", "routes", "simplifyRoute.js"), "utf8");
 const SERVER_SOURCE = fs.readFileSync(path.join(ROOT, "server.js"), "utf8");
 
+// The locks are probed with a language the LAUNCH LIST does not carry,
+// because a launched language passes the gate legitimately without any
+// lock; that is the launch switch working, not a lock failing. Derived
+// from config so this file stays true as waves open. If every language
+// ever launches, the measurement override is obsolete and this file
+// should be retired with it, which is what the premise assertion says.
+const I18N = require(path.join(ROOT, "public", "i18n", "config.js"));
+const UNLAUNCHED = I18N.languages.map((e) => e.code)
+  .find((c) => c !== "en" && !I18N.launch.open.includes(c));
+
 const rulesRun = () => runClearStepsEngine({
   extractedText: CORPUS.find((e) => e.id === "council_tax").text,
   fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "measure-gate" }
@@ -51,10 +61,16 @@ const skip = (opts) => providerSkipReason(Object.assign({ rulesRun: rulesRun() }
 test("every lock alone is enough to keep the gate shut", async (t) => {
   const run = rulesRun();
 
+  await t.test("premise: an unlaunched language exists to probe with", () => {
+    assert.ok(UNLAUNCHED,
+      "every configured language has launched; the measurement override is " +
+      "obsolete and this file should be retired with it");
+  });
+
   await t.test("no override passed: the gate is shut, flag or no flag", () => {
     [undefined, "1"].forEach((flag) => {
       withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: flag }, () => {
-        assert.equal(providerSkipReason({ rulesRun: run, language: "hi" }), "non_english_language",
+        assert.equal(providerSkipReason({ rulesRun: run, language: UNLAUNCHED }), "non_english_language",
           "flag=" + flag);
       });
     });
@@ -62,7 +78,7 @@ test("every lock alone is enough to keep the gate shut", async (t) => {
 
   await t.test("override passed but the flag is not set: shut", () => {
     withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: undefined }, () => {
-      assert.equal(skip({ language: "hi", measurementLanguage: "hi" }), "non_english_language");
+      assert.equal(skip({ language: UNLAUNCHED, measurementLanguage: UNLAUNCHED }), "non_english_language");
     });
   });
 
@@ -70,14 +86,14 @@ test("every lock alone is enough to keep the gate shut", async (t) => {
     // THE ONE THAT MATTERS MOST. A deploy that somehow carries the flag still
     // refuses at the point of use, not only at boot.
     withEnv({ NODE_ENV: "production", CLEARSTEPS_MEASUREMENT_LANGUAGE: "1" }, () => {
-      assert.equal(skip({ language: "hi", measurementLanguage: "hi" }), "non_english_language");
+      assert.equal(skip({ language: UNLAUNCHED, measurementLanguage: UNLAUNCHED }), "non_english_language");
     });
   });
 
   await t.test("the flag must be exactly \"1\", not merely present", () => {
-    ["true", "yes", "0", "", "hi"].forEach((flag) => {
+    ["true", "yes", "0", "", UNLAUNCHED].forEach((flag) => {
       withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: flag }, () => {
-        assert.equal(skip({ language: "hi", measurementLanguage: "hi" }), "non_english_language",
+        assert.equal(skip({ language: UNLAUNCHED, measurementLanguage: UNLAUNCHED }), "non_english_language",
           JSON.stringify(flag));
       });
     });
@@ -85,7 +101,7 @@ test("every lock alone is enough to keep the gate shut", async (t) => {
 
   await t.test("all four open: the language branch no longer skips", () => {
     withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: "1" }, () => {
-      const reason = skip({ language: "hi", measurementLanguage: "hi" });
+      const reason = skip({ language: UNLAUNCHED, measurementLanguage: UNLAUNCHED });
       assert.notEqual(reason, "non_english_language",
         "the override did not open the language branch");
     });
@@ -102,7 +118,7 @@ test("the gates that are not about language still apply under the override", asy
       fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "m2" }
     });
     withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: "1" }, () => {
-      assert.equal(providerSkipReason({ rulesRun: run, language: "hi", measurementLanguage: "hi" }),
+      assert.equal(providerSkipReason({ rulesRun: run, language: UNLAUNCHED, measurementLanguage: UNLAUNCHED }),
         "low_quality_input");
     });
   });
@@ -113,7 +129,7 @@ test("the gates that are not about language still apply under the override", asy
       fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "m3" }
     });
     withEnv({ NODE_ENV: "development", CLEARSTEPS_MEASUREMENT_LANGUAGE: "1" }, () => {
-      const reason = providerSkipReason({ rulesRun: run, language: "hi", measurementLanguage: "hi" });
+      const reason = providerSkipReason({ rulesRun: run, language: UNLAUNCHED, measurementLanguage: UNLAUNCHED });
       assert.ok(reason && reason !== "non_english_language", "got " + JSON.stringify(reason));
     });
   });
