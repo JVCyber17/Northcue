@@ -110,6 +110,25 @@ function positiveNumberSetting(name, defaultValue, minimum) {
 // which is worse than it was yesterday. That is a deliberate trade taken with
 // the numbers above in view, and it is not finished until the screen changes.
 const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 40000);
+// TEMPORARY, recorded as such on 6 August 2026: the ceiling for a prose call
+// asked to WRITE IN A LAUNCHED READER'S LANGUAGE, not for English. The
+// founder's live review found a production-scale bill timing out on the
+// Gujarati path: writing Gujarati prose on a document that saturates the
+// outbound cap runs past 40 seconds, so long documents never completed for
+// exactly the readers wave one opened the gates for. 90 seconds lets them
+// complete while the founder decides the translate-after-English
+// architecture (D-FIX-2); if that proposal is adopted, generation returns
+// to English for everyone and this constant and its branch are removed.
+// The client's progress announcements carry the longer wait honestly for
+// launched non-English readers (startProgressAnnouncements in app.js).
+const AI_LANGUAGE_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_LANGUAGE_TIMEOUT_MS", 90000);
+
+// The ceiling for one prose call: the language ceiling when the model is
+// asked to write in a reader's language, the standard ceiling otherwise.
+// Exported so the pin test can hold the pair without racing a real timer.
+function aiCeilingMs(writeInLanguage) {
+  return writeInLanguage ? AI_LANGUAGE_TIMEOUT_MS : AI_TIMEOUT_MS;
+}
 // Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
 // privacy; env-configurable so it can be raised if a genuinely long document is
 // ever cut off mid-content.
@@ -441,7 +460,7 @@ async function applySafetyPassAndRecordAiStatus({
 
 async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr, writeInLanguage }) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
+  const timeout = setTimeout(() => controller.abort(), aiCeilingMs(writeInLanguage));
 
   try {
     const response = await fetch(OPENAI_RESPONSES_URL, {
@@ -1003,6 +1022,8 @@ module.exports = {
   positiveNumberSetting,
   providerSkipReason,
   AI_TIMEOUT_MS,
+  AI_LANGUAGE_TIMEOUT_MS,
+  aiCeilingMs,
   AI_OUTBOUND_TEXT_MAX_CHARS,
   DEFAULT_MODEL
 };

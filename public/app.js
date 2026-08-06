@@ -1047,10 +1047,27 @@ function updateTypeConfirmLabel() {
 let progressAnnouncementTimers = [];
 function startProgressAnnouncements() {
   clearProgressAnnouncements();
-  progressAnnouncementTimers = [
-    setTimeout(() => setStatus(t("status.stillWorking")), 18000),
-    setTimeout(() => setStatus(t("status.nearlyDone")), 32000)
-  ];
+  // TEMPORARY BRANCH, 6 August 2026, tied to the 90 second language ceiling
+  // (AI_LANGUAGE_TIMEOUT_MS server-side): a launched non-English reader's
+  // prose is written in their language and can honestly take up to 90
+  // seconds on a long document, so their announcements say so and the
+  // pre-ceiling warning moves to 75 seconds. English keeps the measured
+  // 18s/32s schedule against its unchanged 40 second ceiling. The branch
+  // reads the same launch.open list that opens the gates, so it and the
+  // ceiling ship and retire together. Removed when the founder's
+  // translate-after-English decision lands (D-FIX-2).
+  const launchOpen = (window.NORTHCUE_I18N_CONFIG?.launch?.open) || [];
+  const activeLanguage = NorthcueI18n.getLanguage();
+  const writesInReaderLanguage = activeLanguage !== "en" && launchOpen.includes(activeLanguage);
+  progressAnnouncementTimers = writesInReaderLanguage
+    ? [
+        setTimeout(() => setStatus(t("status.stillWorkingLanguage")), 18000),
+        setTimeout(() => setStatus(t("status.nearlyDone")), 75000)
+      ]
+    : [
+        setTimeout(() => setStatus(t("status.stillWorking")), 18000),
+        setTimeout(() => setStatus(t("status.nearlyDone")), 32000)
+      ];
 }
 function clearProgressAnnouncements() {
   progressAnnouncementTimers.forEach((id) => clearTimeout(id));

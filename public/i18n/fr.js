@@ -257,6 +257,7 @@
     "journey.privacy.line.launch": "Utilisé uniquement pour créer vos cartes. Les détails personnels sont d'abord masqués.",
     "privacy.launch.claim": "Northcue masque les détails personnels comme les numéros de téléphone, les emails et les numéros de compte avant tout traitement par IA, ne conserve jamais votre document et lit les documents dans chacune de ses dix langues.",
     "status.stillWorking": "Nous lisons encore votre document. La plupart sont prêts en 20 secondes environ.",
+    "status.stillWorkingLanguage": "Nous lisons encore votre document. L'écrire dans votre langue peut prendre jusqu'à deux minutes.",
     "status.nearlyDone": "Presque fini. Si cela dure bien plus longtemps, vos cartes apparaîtront quand même grâce à la lecture intégrée de Northcue.",
     "privacy.step.deleted": "Il est supprimé",
     "privacy.journeyCaption": "Votre document est supprimé après sa lecture. Nous ne gardons que des informations anonymes, jamais son contenu.",

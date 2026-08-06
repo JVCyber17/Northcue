@@ -1069,3 +1069,15 @@ language launch it printed on every card of every session, under text that
 was not English at all. The quote design itself is unchanged: card 5 still
 quotes the letter in the letter's own language, as the earlier section
 explains.
+
+## New since the packs (6 August 2026): the long-wait progress line
+
+`status.stillWorkingLanguage` was added with the temporary 90 second
+ceiling for launched-language prose. A reader whose cards are being
+written in their own language sees it once, around eighteen seconds
+into a long wait: "Still reading your document. Writing it in your
+language can take up to two minutes." All ten entries are machine
+drafts following the founder's stopgap order; the Gujarati and Hindi
+lines shipped with the stopgap and should be checked at the next
+review. The line is temporary and leaves with the ceiling when the
+translate-after-English decision lands.

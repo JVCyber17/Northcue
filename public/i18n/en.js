@@ -255,6 +255,7 @@
     "journey.privacy.line.launch": "Only used to make your cards. Personal details are masked first.",
     "privacy.launch.claim": "Northcue masks personal details like phone numbers, emails and account numbers before any AI processing, never stores your document, and reads documents in any of its ten languages.",
     "status.stillWorking": "Still reading your document. Most are ready in about 20 seconds.",
+    "status.stillWorkingLanguage": "Still reading your document. Writing it in your language can take up to two minutes.",
     "status.nearlyDone": "Nearly there. If this takes much longer, your cards will still appear from Northcue's built-in reading.",
     "privacy.step.deleted": "It is deleted",
     "privacy.journeyCaption": "Your document is deleted after we read it. We keep only anonymous information, never its contents.",
