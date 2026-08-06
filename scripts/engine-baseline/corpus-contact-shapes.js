@@ -164,6 +164,74 @@ const CONTACT_SHAPES = [
       "J Whelan",
       "VAT Compliance Officer"
     ].join("\n")
+  },
+  {
+    id: "energy_quarterly_footer_sender",
+    note: "The founder's live review shape, 6 August 2026, built synthetic: a " +
+      "quarterly energy bill whose first page opens with field label blocks " +
+      "before any prose, whose sender name appears ONLY in the page footer " +
+      "and inside web addresses, and whose contacts all sit on page two " +
+      "under a Helpful contacts heading: one customer service number, three " +
+      "emergency numbers, an ombudsman number, an independent advice line " +
+      "and a payment help web address. Six numbers, one of which the reader " +
+      "needs. Invented names, addresses, references and numbers throughout.",
+    text: [
+      "Supply address:",
+      "14 Elmswood Drive",
+      "Reading RG2 8QT",
+      "",
+      "Rota letter: C",
+      "Supply number: S 01 801 100 22 0142 5566 778",
+      "Customer reference: SVE-88413320",
+      "Billing period: 1 April 2026 to 30 June 2026",
+      "Bill date: 8 July 2026",
+      "",
+      "Your quarterly electricity bill",
+      "",
+      "Your charges for this period",
+      "",
+      "Electricity used: 912 kWh",
+      "Unit rate: 27.54p per kWh",
+      "Standing charge: 91 days at 60.10p per day",
+      "Energy charges: £251.16",
+      "Standing charges: £54.69",
+      "VAT at 5%: £15.29",
+      "Total charges this quarter: £321.14",
+      "",
+      "Your account balance",
+      "",
+      "Previous balance: £48.02 in credit",
+      "Payments received: £240.00 thank you",
+      "Total now due: £129.16",
+      "Please pay by 5 August 2026.",
+      "",
+      "Paying your bill",
+      "You can pay by Direct Debit, online, or using the payment slip below.",
+      "If you pay by monthly Direct Debit no action is needed and your next",
+      "collection date will be shown on your statement.",
+      "",
+      "How your usage compares",
+      "Your usage this quarter was 6% lower than the same quarter last year.",
+      "",
+      "Helpful contacts",
+      "",
+      "Customer services: 0345 201 8812",
+      "(Monday to Friday, 8am to 6pm)",
+      "",
+      "Power cut? Call: 0800 909 8081",
+      "Gas emergency: 0800 909 8082",
+      "Electricity emergency: 0800 909 8083",
+      "",
+      "Energy Ombudsman: 0330 908 1462",
+      "Independent advice line: 0808 909 1133",
+      "Help paying your bill: www.severnvale-energy.co.uk/payment-help",
+      "",
+      "Ways to save energy: www.severnvale-energy.co.uk/save",
+      "",
+      "Severn Vale Energy Limited, registered in England and Wales.",
+      "Registered office: 4 Brindley Court, Gloucester GL1 2FF.",
+      "severnvale-energy.co.uk"
+    ].join("\n")
   }
 ];
 

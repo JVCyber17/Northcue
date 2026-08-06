@@ -611,6 +611,49 @@
     "consequence": null,
     "account_in_credit": false
   },
+  "energy_quarterly_footer_sender": {
+    "document_language": "en",
+    "sender": "Severn Vale Energy Limited",
+    "reference": "SVE-88413320",
+    "amounts": [
+      {
+        "value": "£321.14",
+        "role": "total_due"
+      },
+      {
+        "value": "£48.02",
+        "role": "credit"
+      },
+      {
+        "value": "£129.16",
+        "role": "balance"
+      }
+    ],
+    "dates": [
+      {
+        "value": "8 July 2026",
+        "role": "letter_date"
+      },
+      {
+        "value": "1 April 2026",
+        "role": "period_start"
+      },
+      {
+        "value": "30 June 2026",
+        "role": "period_end"
+      },
+      {
+        "value": "5 August 2026",
+        "role": "deadline"
+      }
+    ],
+    "obligation": {
+      "kind": "pay",
+      "sentence": "Please pay by 5 August 2026."
+    },
+    "consequence": null,
+    "account_in_credit": false
+  },
   "eviction_possession": {
     "document_language": "en",
     "sender": "Brightside Housing Association",

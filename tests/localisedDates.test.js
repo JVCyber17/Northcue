@@ -220,6 +220,7 @@ test("a date written as one end of a period is not the date that matters", async
       ocr_energy_bill: ["1 February 2026", "30 April 2026"],
       spanish_water_final_notice: ["1 de febrero de 2026", "30 de abril de 2026"],
       bill_with_contacts_page: ["22 Jan 2026", "22 Apr 2026"],
+      energy_quarterly_footer_sender: ["1 April 2026", "30 June 2026"],
       statement_with_transactions_page: ["1 April 2026", "30 April 2026"],
       spec_energy_bill_full: ["14 February 2026", "13 May 2026", "1 April 2025", "31 March 2026"],
       spec_council_tax_demand_full: ["1 April 2026", "31 March 2027"],

@@ -3272,6 +3272,62 @@
       "answerChars": 102,
       "stepChars": 41,
       "steps": 2
+    },
+    "energy_quarterly_footer_sender|1": {
+      "px": 661,
+      "lang": "pl",
+      "answerChars": 164,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender|2": {
+      "px": 463,
+      "lang": "pl",
+      "answerChars": 77,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender|3": {
+      "px": 529,
+      "lang": "pl",
+      "answerChars": 38,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender|4": {
+      "px": 501,
+      "lang": "pl",
+      "answerChars": 123,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender|5": {
+      "px": 568,
+      "lang": "pl",
+      "answerChars": 66,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender|6": {
+      "px": 529,
+      "lang": "ro",
+      "answerChars": 39,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender+facts|4": {
+      "px": 497,
+      "lang": "pl",
+      "answerChars": 21,
+      "stepChars": 0,
+      "steps": 0
+    },
+    "energy_quarterly_footer_sender+facts|5": {
+      "px": 604,
+      "lang": "pl",
+      "answerChars": 81,
+      "stepChars": 0,
+      "steps": 0
     }
   }
 }

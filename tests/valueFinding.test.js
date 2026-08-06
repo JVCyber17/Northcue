@@ -363,7 +363,10 @@ test("money: every amount in the corpus is still found in full", async (t) => {
     "£2.14", "£2.85", "£253.14", "£265.60", "£268.40", "£280", "£284.31",
     "£184.22", "£245.62", "£61.40",   // communal_bill_debt_help_block
     "£298.53", "£3,040.35", "£3,508.10", "£3.86", "£31.17", "£4,209.72",
-    "£41.20", "£526.22", "£70", "£74.22", "£96.30", "£99.51"
+    "£41.20", "£526.22", "£70", "£74.22", "£96.30", "£99.51",
+    // energy_quarterly_footer_sender, 6 August 2026, the founder's
+    // live-review twin: charges, VAT, total, credit, payment and balance due.
+    "£129.16", "£15.29", "£240.00", "£251.16", "£321.14", "£48.02", "£54.69"
   ];
 
   await t.test("the corpus yields exactly the expected set", () => {
