@@ -30,7 +30,7 @@
     // apart because they are the same list in the same file. Empty today:
     // wave one adds gu and hi in the founder-approved flag commit; wave two
     // adds each remaining language on its verified pack and his word.
-    launch: { open: [] },
+    launch: { open: ["gu", "hi"] },
 
     languages: [
       {
