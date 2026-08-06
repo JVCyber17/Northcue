@@ -308,7 +308,14 @@ async function applySafetyPassAndRecordAiStatus({
       model,
       inputQuality,
       garbledByOcr,
-      writeInLanguage: measurementLanguage(requestedLanguage)
+      // The reader's language when their gate is open, exactly as the
+      // measurement override always did it, because that is the mechanism
+      // every vocabulary was measured against. Found by the wave-one live
+      // confirmation: the gate opened but nothing asked the model to WRITE
+      // in Gujarati, so a launched reader got English prose their bank
+      // cannot translate.
+      writeInLanguage: measurementLanguage(requestedLanguage) ||
+        (launchedLanguage(language) ? language : null)
     });
 
     // The verdict, not just the object. When the sanitiser rejects the
