@@ -18723,8 +18723,10 @@ INTENT:   undefined
   | 
   | Helpful contacts
   | 
-  | Questions about your bill? 0345 201 8812
+  | Questions and help
+  | Need help with your bill?
   | (Monday to Friday, 8am to 6pm)
+  | 0345 201 8812
   | 
   | Power cut: 0800 909 8081
   | Gas emergency: 0800 909 8082

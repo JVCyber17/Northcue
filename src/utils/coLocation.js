@@ -255,8 +255,22 @@ const PHONE_GOVERNS = [
   // passesAdjacency, which lets punctuation sit in the gap.
   "questions about your bill", "question about your bill",
   "questions about your account", "question about your account",
-  "questions about this bill", "question about this bill"
+  "questions about this bill", "question about this bill",
+  // THE PLAIN PURPOSE HEADINGS, approved 6 August 2026 with the line reach,
+  // exactly these and no wider: the founder's real bill heads its customer
+  // services number with a plain heading rather than a question, and the
+  // panelCandidates reproduction named the gap. "Customer services" was
+  // already above; these are its heading siblings. Emergency, ombudsman and
+  // advice labels stay out, exactly as before, so the customer-service line
+  // stays the only number that can bind on a panel.
+  "contact us", "questions and help", "need help"
 ];
+
+// How far above its number a PHONE label may sit: the label line itself,
+// plus up to two intervening lines, the opening hours and a web address,
+// which is the real panel's measured shape. Three is a hard bound, never
+// unbounded, and the same-block rule still applies on top.
+const PHONE_LABEL_LINE_REACH = 3;
 const PHONE_GOVERNS_SPANNING = [
   "contact", "call", "telephone", "phone", "speak to", "talk to", "answer questions"
 ];
@@ -930,11 +944,17 @@ function locateSpanningLabels(text, heads, tail) {
 // one that matters is almost always the one a label points forward at. Across
 // lines only the label above ever counts, for both kinds: a label on the NEXT
 // line belongs to whatever follows it, not to what came before.
-function passesProximity(label, value, forwardOnly) {
+function passesProximity(label, value, forwardOnly, labelLineReach) {
   if (label.lineIndex === value.lineIndex) {
     return forwardOnly ? label.end <= value.index : true;
   }
-  return label.lineIndex === value.lineIndex - 1 && label.end <= value.index;
+  // The default reach is ONE line above, unchanged for dates and money. A
+  // caller may widen it (phones pass PHONE_LABEL_LINE_REACH) and the reach
+  // is always a hard bound: a label can never claim a number further down
+  // the page than its own panel prints it.
+  const reach = labelLineReach || 1;
+  return label.lineIndex >= value.lineIndex - reach &&
+    label.lineIndex < value.lineIndex && label.end <= value.index;
 }
 
 // TEST 1b. Nothing but punctuation and whitespace between a date label and its
@@ -1019,10 +1039,24 @@ function distanceTo(label, value) {
 function governingLabel(value, governHits, competeHits, options) {
   const forwardOnly = Boolean(options && options.forwardOnly);
   const source = options && options.source;
-  const adjacent = (label) =>
-    !source || !forwardOnly || passesAdjacency(label, value, source);
+  const labelLineReach = options && options.labelLineReach;
+  // The adjacency (empty-gap) test is a SAME-LINE concept: it stops "by
+  // telephone on 0800 121 4433 about" instrumental captures. When a caller
+  // widens the line reach (phones only, 6 August 2026), a label above its
+  // number is EXPECTED to have content between them, the opening hours or a
+  // web address the panel prints, and the bounded reach plus the same-block
+  // rule are the guard instead. Callers that do not widen the reach keep
+  // today's behaviour byte for byte, which is what holds the date rules
+  // still.
+  const adjacent = (label) => {
+    if (!source || !forwardOnly) return true;
+    if (label.lineIndex === value.lineIndex || !labelLineReach) {
+      return passesAdjacency(label, value, source);
+    }
+    return true;
+  };
   const binds = (label) =>
-    passesProximity(label, value, forwardOnly) &&
+    passesProximity(label, value, forwardOnly, labelLineReach) &&
     passesSameBlock(label, value) &&
     adjacent(label);
 
@@ -1217,9 +1251,15 @@ function selectPhoneNumber(text) {
 
   const bound = [];
   for (const value of values) {
-    // Forward only and adjacent, as dates are: a purpose phrase points at the
-    // number that follows it, and words in between mean it points elsewhere.
-    const label = governingLabel(value, governs, competes, { forwardOnly: true, source });
+    // Forward only, as dates are: a purpose phrase points at the number that
+    // follows it. Phones alone carry the widened line reach: a real panel
+    // prints its label, then the opening hours or a web address, THEN the
+    // number, and the founder's real bill lost card 3's number to exactly
+    // that shape on 6 August 2026. The reach is bounded at
+    // PHONE_LABEL_LINE_REACH and the same-block rule still applies, so a
+    // label can never cross a blank line to claim a stranger's number.
+    const label = governingLabel(value, governs, competes,
+      { forwardOnly: true, source, labelLineReach: PHONE_LABEL_LINE_REACH });
     if (label) bound.push({ value: value.value, label: label.phrase, index: value.index });
   }
   return bound.length ? bound[0] : null;

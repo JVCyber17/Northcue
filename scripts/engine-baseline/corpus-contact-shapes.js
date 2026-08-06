@@ -172,10 +172,14 @@ const CONTACT_SHAPES = [
       "whose first page opens with field label blocks before any prose, " +
       "whose sender name appears ONLY in the page footer and inside web " +
       "addresses, and whose contacts all sit on page two under a Helpful " +
-      "contacts heading: one customer service number behind a QUESTION-FORM " +
-      "label (the real letter's shape, which the verb-and-purpose-noun " +
-      "vocabulary did not bind), three emergency numbers, an ombudsman " +
-      "number, an independent advice line and a payment help web address. " +
+      "contacts heading: one customer service number behind the REAL " +
+      "PANEL'S B-AND-D SHAPE (corrected 6 August 2026 from the founder's " +
+      "live report): a plain purpose heading and a need-help line, then the " +
+      "opening hours, THEN the number two lines below its label, which is " +
+      "the layout that defeated both the question-form-only vocabulary and " +
+      "the one-line label reach until both were extended. Three emergency " +
+      "numbers, an ombudsman number, an independent advice line and a " +
+      "payment help web address follow. " +
       "Six numbers, one of which the reader needs, none behind a verb. The " +
       "body prose is figure-free by design so the earlier pins hold: no new " +
       "dates, no new amounts, no links beyond the original two. Long enough " +
@@ -321,8 +325,10 @@ const CONTACT_SHAPES = [
       "",
       "Helpful contacts",
       "",
-      "Questions about your bill? 0345 201 8812",
+      "Questions and help",
+      "Need help with your bill?",
       "(Monday to Friday, 8am to 6pm)",
+      "0345 201 8812",
       "",
       "Power cut: 0800 909 8081",
       "Gas emergency: 0800 909 8082",

@@ -531,3 +531,64 @@ test("card 3 reports the number, and reports it rather than recommending it", as
     });
   });
 });
+
+// ---------------------------------------------------------------- 6 August
+// THE PLAIN HEADINGS AND THE LINE REACH, the founder's approved extension
+// after his real bill served rich cards with no contact line: the real
+// panel heads its customer services number with a plain purpose heading,
+// not a question, and prints the opening hours between the label and the
+// number. Two gates declined it (the label vocabulary and the one-line
+// reach); both are extended exactly as approved and no wider, and these
+// pins hold the bound so the reach can never quietly become unbounded.
+const co6aug = require("../src/utils/coLocation");
+
+test("the plain purpose headings bind for the customer-service preference", async (t) => {
+  await t.test("each approved heading binds its number", () => {
+    ["Contact us", "Questions and help", "Need help with your bill?"].forEach((heading) => {
+      const text = heading + "\n(Monday to Friday, 8am to 6pm)\n0345 201 8812";
+      const found = co6aug.selectPhoneNumber(text);
+      assert.ok(found && found.value === "0345 201 8812", heading + " must bind");
+    });
+  });
+
+  await t.test("the question form still binds: the earlier family kept its pin", () => {
+    const found = co6aug.selectPhoneNumber("Questions about your bill? 0345 201 8812");
+    assert.equal(found && found.value, "0345 201 8812");
+  });
+
+  await t.test("the corrected twin binds its customer services number among six", () => {
+    const twin = CORPUS.find((e) => e.id === "energy_quarterly_footer_sender");
+    const found = co6aug.selectPhoneNumber(twin.text);
+    assert.equal(found && found.value, "0345 201 8812",
+      "the preference must pick the customer-service line, never emergency, ombudsman or advice");
+  });
+});
+
+test("the line reach is a hard bound, never a page", async (t) => {
+  await t.test("one and two intervening lines bind", () => {
+    const one = "Need help with your bill?\n(Monday to Friday, 8am to 6pm)\n0345 201 8812";
+    const two = "Need help with your bill?\n(Monday to Friday, 8am to 6pm)\nwww.severnvale-energy.co.uk/help\n0345 201 8812";
+    assert.equal(co6aug.selectPhoneNumber(one)?.value, "0345 201 8812", "one line between");
+    assert.equal(co6aug.selectPhoneNumber(two)?.value, "0345 201 8812", "two lines between");
+  });
+
+  await t.test("three intervening lines decline: beyond the measured shape", () => {
+    const three = "Need help with your bill?\nLine one here.\nLine two here.\nLine three here.\n0345 201 8812";
+    assert.equal(co6aug.selectPhoneNumber(three), null);
+  });
+
+  await t.test("a blank line still breaks the claim: no stranger's number", () => {
+    assert.equal(co6aug.selectPhoneNumber("Contact us\n\n0800 909 8081"), null);
+  });
+
+  await t.test("a reference under a heading is not a phone number", () => {
+    assert.equal(co6aug.selectPhoneNumber("Contact us\nCustomer reference: SVE-88413320"), null);
+  });
+
+  await t.test("dates kept their strict one-line rule byte for byte", () => {
+    // The reach is a phone option; a date label two lines above its date
+    // must still decline, exactly as before this extension.
+    const spread = "Pay by:\n(a note between)\n3 September 2026";
+    assert.equal(co6aug.selectDeadline(spread, () => true), null);
+  });
+});
