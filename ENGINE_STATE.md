@@ -775,3 +775,47 @@ did before.
 Several sections of `KNOWN_ENGINE_DEFECTS.md` exist because a rule passed its
 author's own review and was wrong anyway. Those entries are the most valuable
 ones in the file.
+
+## The non-English architecture: translate-after-English (6 August 2026)
+
+**The decision, and its basis.** The founder approved translate-after-English
+as the architecture for every non-English language, replacing
+generate-in-language, after reading the same production-scale bill's six
+cards both ways in Gujarati and Hindi, side by side, verbatim, and judging
+the translated versions natural and good. His one hard condition: the switch
+does not ship until the contact number provably survives the full path. That
+condition caught a real defect on the pipeline's first full run (the English
+stripper's language-blind value rule eating the number out of translated
+cards) and was met only after the translation guard became vocabulary-only,
+with value safety moved to the shape contract and the value-parity
+comparison.
+
+**The path, which is now the only non-English path.** For every launched
+non-English reader: the prose call generates the six cards in ENGLISH; the
+full English guard stack runs on them exactly as for an English reader; a
+second call translates the guarded cards into the reader's language; the
+reader's verified guard vocabulary runs on the translation; the value-parity
+guard confirms no value was lost, altered or invented; any failure at any
+stage falls back to the bank cards, never a lost session. Latin and Indic
+scripts ride the identical path. Wave two languages open onto it by adding
+their code to launch.open; launch.proseArchitecture in
+public/i18n/config.js is the switch, flipped in the founder-approved commit.
+
+**The measured numbers** (production-scale twin, real pipeline, sequential
+loopback runs, 6 August 2026): completed chains 39.2 to 71.3 seconds,
+typical 45 to 57. English generation stays under its 40 second ceiling for
+everyone; the translation step's ceiling is 60 seconds, set from evidence:
+completed translations ran 18.2 to 39.4 seconds (they write as many output
+tokens as generation, about 1,500, so the premise that translation is short
+did not survive production scale), and 60 seconds lifted Gujarati completion
+from 4/10 to 7/10 on the day, with the residual provider stalls landing on
+the bank fallback by design. Completion by pass: gu at 40s translation
+ceiling 4/10, hi 9/10, gu at 60s 7/10. The contact number reached card 3 in
+30 of 30 runs, completed and fallback alike. Cost per non-English session
+roughly +67% against generate-in-language (a second call); the English
+reader's cost and behaviour are unchanged, asserted.
+
+**What did not close.** Item B stayed recorded: the sender appeared on
+translated card 1 in 0 of 30 measurement runs against 2 of 2 on the sample
+page; the four-key-point cap meets model variation and the translation
+faithfully mirrors its source either way. See KNOWN_ENGINE_DEFECTS.md.
