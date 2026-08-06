@@ -36,14 +36,17 @@ test("the switch is off, and off means byte-identical to today", async (t) => {
     assert.deepEqual(config.launch.open.filter((c) => waveTwo.includes(c)), []);
   });
 
-  await t.test("every non-English language is still refused the model", () => {
+  await t.test("exactly the listed languages pass; every other language is refused", () => {
+    // Derived from the repo's own launch list, so this pin is the truth
+    // before the flag commit (nobody passes) and after it (gu and hi pass,
+    // wave two refused) without an edit.
     const saved = process.env.OPENAI_API_KEY;
     process.env.OPENAI_API_KEY = "sk-test-not-a-real-key";
     try {
       const run = runOf("council_tax");
       LANGS.forEach((lang) => {
-        assert.equal(ai.providerSkipReason({ rulesRun: run, language: lang }),
-          "non_english_language", lang);
+        const expected = config.launch.open.includes(lang) ? null : "non_english_language";
+        assert.equal(ai.providerSkipReason({ rulesRun: run, language: lang }), expected, lang);
       });
     } finally {
       if (saved === undefined) delete process.env.OPENAI_API_KEY;

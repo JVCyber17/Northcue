@@ -108,13 +108,21 @@ test("with the launch switch open, every wired guard fires and keeps as measured
   }
 });
 
-test("with the launch switch closed, the wiring is inert in every language", async (t) => {
-  await t.test("the same command sentences pass untouched today", () => {
-    assert.ok(Array.isArray(config.launch.open) && config.launch.open.length === 0,
-      "premise: the list is empty in the repo before the flag commit");
+test("the repo's launch list is exactly what is live, nothing more", async (t) => {
+  await t.test("unlaunched languages pass untouched; launched languages strip", () => {
+    // Derived from the repo's own launch list, so this pin is the truth
+    // before the flag commit and after it without an edit: a language not
+    // in the list must never strip, and a language in the list must.
+    const open = config.launch.open;
+    assert.ok(Array.isArray(open));
     Object.keys(SENTENCES).forEach((lang) => {
-      assert.equal(strippedText(SENTENCES[lang].fire, lang), SENTENCES[lang].fire,
-        lang + " stripped before launch; the flag is not gating the wiring");
+      if (open.includes(lang)) {
+        assert.equal(strippedText(SENTENCES[lang].fire, lang), REPLACEMENT,
+          lang + " is launched but its wired guard is not stripping");
+      } else {
+        assert.equal(strippedText(SENTENCES[lang].fire, lang), SENTENCES[lang].fire,
+          lang + " stripped while not launched; the flag is not gating the wiring");
+      }
     });
   });
 });
