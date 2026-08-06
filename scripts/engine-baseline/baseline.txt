@@ -18815,7 +18815,7 @@ INTENT:   undefined
     "SVE-88413320"
   ],
   "contact_details": [],
-  "contact_number": null,
+  "contact_number": "0345 201 8812",
   "appeal_rights": [],
   "support_options": [],
   "confidence": "high",
@@ -18896,15 +18896,18 @@ INTENT:   undefined
     "title": "What do I need to do?",
     "simple_explanation": "Check the payment amount and due date.",
     "key_points": [
-      "Check the payment amount and due date."
+      "Check the payment amount and due date.",
+      "The document gives this phone number: 0345 201 8812."
     ],
-    "protected_key_points": [],
+    "protected_key_points": [
+      "The document gives this phone number: 0345 201 8812."
+    ],
     "action_needed": "Check the payment amount and due date.",
     "possible_deadline": null,
     "possible_payment": null,
     "confidence_level": "high",
     "warning": null,
-    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date.",
+    "read_aloud_text": "What do I need to do?. Check the payment amount and due date.. Check the payment amount and due date. The document gives this phone number: 0345 201 8812.",
     "status": "good"
   },
   {

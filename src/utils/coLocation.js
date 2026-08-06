@@ -237,7 +237,25 @@ const PHONE_GOVERNS = [
   "billing enquiries", "billing enquiry", "account enquiries",
   "general enquiries", "customer service", "customer services",
   "customer enquiries", "meter readings", "meter reading",
-  "moving home", "helpline", "contact number", "telephone number"
+  "moving home", "helpline", "contact number", "telephone number",
+  // A QUESTION IS THE THIRD WAY A PANEL NAMES A NUMBER'S PURPOSE, added
+  // 6 August 2026 from the founder's live review. A real quarterly energy
+  // bill headed its customer services number "Questions about your bill?",
+  // its emergency lines with bare nouns, and used no verb anywhere on the
+  // panel, so none of its six numbers bound and card 3 lost the one number
+  // the reader needed, in every language, because the floor is shared.
+  //
+  // ONLY THE CUSTOMER-SERVICE QUESTION JOINS. The question names the
+  // purpose, and the purpose these phrases name is the reader's own bill or
+  // account, which is what card 3's contact line is for. "Power cut?" is
+  // also a question, and it stays out on purpose: emergency, ombudsman and
+  // advice numbers remain unpreferred exactly as before, so the
+  // customer-service number stays the only one that binds on this shape.
+  // The "?" between the phrase and the number is already handled by
+  // passesAdjacency, which lets punctuation sit in the gap.
+  "questions about your bill", "question about your bill",
+  "questions about your account", "question about your account",
+  "questions about this bill", "question about this bill"
 ];
 const PHONE_GOVERNS_SPANNING = [
   "contact", "call", "telephone", "phone", "speak to", "talk to", "answer questions"

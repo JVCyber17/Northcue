@@ -380,14 +380,15 @@ test("the gates, through the engine", async (t) => {
       communal_bill_debt_help_block: '0333 321 2010',
       energy_bill_contacts_panel: '0330 808 3880',
       official_letter_caseworker_number: '03000 511899',
-      // ABSENT 6 August 2026, deliberately: energy_quarterly_footer_sender,
-      // the founder's live-review twin, extended to production scale the same
-      // day and given the real letter's label shape. Its customer services
-      // number sits behind a QUESTION-FORM label, "Questions about your
-      // bill?", its emergency lines behind bare purpose nouns, and none of
-      // the six carries a verb or a listed purpose noun, so nothing binds.
-      // This is the zero-bind defect item A's approved fix removes; when
-      // that fix lands this entry returns as "0345 201 8812".
+      // RETURNED 6 August 2026, by item A's approved fix. The twin's
+      // customer services number sits behind a QUESTION-FORM label,
+      // "Questions about your bill?", the real letter's shape, which the
+      // verb-and-purpose-noun vocabulary did not bind: six numbers, zero
+      // bound, card 3 lost the number in every language. The question-form
+      // customer-purpose entries in PHONE_GOVERNS now bind it, and only it:
+      // the emergency, ombudsman and advice numbers stay unbound exactly as
+      // before, so this is the only number that can be chosen on the shape.
+      energy_quarterly_footer_sender: "0345 201 8812",
       ambiguous_numeric_date: "0333 304 0191", short_year_date: "020 8583 4242",
       // Recovered by F3 on 1 August 2026. Each was refused as a scam, which
       // suppressed its contact number along with everything else.
@@ -485,12 +486,11 @@ test("card 3 reports the number, and reports it rather than recommending it", as
     // number was invisible because a contacts panel labels by purpose noun and
     // PHONE_GOVERNS knew only verbs.
     //
-    // BACK TO TWENTY-ONE on 6 August 2026: energy_quarterly_footer_sender
-    // was extended to production scale and given the real letter's
-    // question-form contact labels, which today's vocabulary does not bind.
-    // Item A's approved fix binds them; when it lands this count returns
-    // to twenty-two.
-    assert.equal(Object.keys(shown).length, 21, Object.keys(shown).join(", "));
+    // TWENTY-TWO again on 6 August 2026: energy_quarterly_footer_sender
+    // dropped to twenty-one when it took the real letter's question-form
+    // contact labels, and item A's approved fix, the question-form
+    // customer-purpose entries in PHONE_GOVERNS, brought it back.
+    assert.equal(Object.keys(shown).length, 22, Object.keys(shown).join(", "));
     Object.entries(shown).forEach(([id, s]) => {
       assert.ok(s.last, id + ": the number must come after the actions, not among them");
     });
