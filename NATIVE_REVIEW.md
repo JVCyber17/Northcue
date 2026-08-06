@@ -1073,11 +1073,11 @@ explains.
 ## New since the packs (6 August 2026): the long-wait progress line
 
 `status.stillWorkingLanguage` was added with the temporary 90 second
-ceiling for launched-language prose. A reader whose cards are being
-written in their own language sees it once, around eighteen seconds
-into a long wait: "Still reading your document. Writing it in your
-language can take up to two minutes." All ten entries are machine
-drafts following the founder's stopgap order; the Gujarati and Hindi
-lines shipped with the stopgap and should be checked at the next
-review. The line is temporary and leaves with the ceiling when the
-translate-after-English decision lands.
+ceiling for launched-language prose, and it OUTLIVED that stopgap: under
+the approved translate-after-English architecture a launched reader's
+cards are generated in English and then translated, the honest worst
+wait is 100 seconds, and this line, "Still reading your document.
+Writing it in your language can take up to two minutes.", remains true
+and remains in use at eighteen seconds into the wait. All ten entries
+are machine drafts; the Gujarati and Hindi lines shipped on the
+founder's order and should be checked at the next review.

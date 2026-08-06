@@ -110,25 +110,11 @@ function positiveNumberSetting(name, defaultValue, minimum) {
 // which is worse than it was yesterday. That is a deliberate trade taken with
 // the numbers above in view, and it is not finished until the screen changes.
 const AI_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TIMEOUT_MS", 40000);
-// TEMPORARY, recorded as such on 6 August 2026: the ceiling for a prose call
-// asked to WRITE IN A LAUNCHED READER'S LANGUAGE, not for English. The
-// founder's live review found a production-scale bill timing out on the
-// Gujarati path: writing Gujarati prose on a document that saturates the
-// outbound cap runs past 40 seconds, so long documents never completed for
-// exactly the readers wave one opened the gates for. 90 seconds lets them
-// complete while the founder decides the translate-after-English
-// architecture (D-FIX-2); if that proposal is adopted, generation returns
-// to English for everyone and this constant and its branch are removed.
-// The client's progress announcements carry the longer wait honestly for
-// launched non-English readers (startProgressAnnouncements in app.js).
-const AI_LANGUAGE_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_LANGUAGE_TIMEOUT_MS", 90000);
-
-// The ceiling for one prose call: the language ceiling when the model is
-// asked to write in a reader's language, the standard ceiling otherwise.
-// Exported so the pin test can hold the pair without racing a real timer.
-function aiCeilingMs(writeInLanguage) {
-  return writeInLanguage ? AI_LANGUAGE_TIMEOUT_MS : AI_TIMEOUT_MS;
-}
+// THE 90 SECOND STOPGAP IS GONE, removed the same day it landed. It existed
+// only while the founder decided the translate-after-English architecture;
+// with that architecture approved, generation is English for everyone and
+// runs under the one 40 second ceiling above. The translation step's own
+// ceiling is AI_TRANSLATION_TIMEOUT_MS below, set from measurement.
 // Max characters of document text sent to OpenAI. Lowered from 12000 to 8000 for
 // privacy; env-configurable so it can be raised if a genuinely long document is
 // ever cut off mid-content.
@@ -550,7 +536,7 @@ async function applySafetyPassAndRecordAiStatus({
 
 async function requestStructuredResultFromOpenAi({ extractedText, fallbackStructuredResult, model, inputQuality, garbledByOcr, writeInLanguage }) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), aiCeilingMs(writeInLanguage));
+  const timeout = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
 
   try {
     const response = await fetch(OPENAI_RESPONSES_URL, {
@@ -615,10 +601,19 @@ async function requestStructuredResultFromOpenAi({ extractedText, fallbackStruct
   }
 }
 
-// The translation step's own ceiling. Provisional at the English ceiling's
-// value while the pipeline lands; step 4 of the founder's build order sets
-// the default from measured evidence and records the maths.
-const AI_TRANSLATION_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TRANSLATION_TIMEOUT_MS", 40000);
+// The translation step's ceiling, SET FROM MEASUREMENT, 6 August 2026, and
+// the premise it corrects: the translation call was expected to be short,
+// and at production scale it is not. Translating six cards writes as many
+// output tokens as generating them (about 1,500), so on a document that
+// saturates the outbound cap the translation runs 18 to 34 seconds when
+// calm and past 40 under load. Measured on the production-scale twin
+// through the real pipeline: at a 40 second translation ceiling, four
+// Gujarati runs of ten lost the translation to the ceiling; every
+// completed translation across every measurement pass finished by 33.7
+// seconds. 60 seconds covers the slowest completed observation with
+// headroom while keeping the chain's worst honest wait at 100 seconds,
+// which the client's progress announcements carry.
+const AI_TRANSLATION_TIMEOUT_MS = positiveNumberSetting("CLEARSTEPS_AI_TRANSLATION_TIMEOUT_MS", 60000);
 
 // The second call of the translate-after-English architecture: the guarded
 // English structured_result in, the same JSON in the reader's language out.
@@ -1363,8 +1358,6 @@ module.exports = {
   positiveNumberSetting,
   providerSkipReason,
   AI_TIMEOUT_MS,
-  AI_LANGUAGE_TIMEOUT_MS,
-  aiCeilingMs,
   AI_OUTBOUND_TEXT_MAX_CHARS,
   DEFAULT_MODEL
 };
