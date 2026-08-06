@@ -44,7 +44,7 @@
     // founder-approved commit, exactly as launch.open entries do, and wave
     // two languages open onto whatever this says, which after that commit
     // is the only non-English path.
-    launch: { open: ["gu", "hi"], proseArchitecture: "generate" },
+    launch: { open: ["gu", "hi"], proseArchitecture: "translate" },
 
     languages: [
       {
