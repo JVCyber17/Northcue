@@ -3328,6 +3328,174 @@
       "answerChars": 81,
       "stepChars": 0,
       "steps": 0
+    },
+    "council_tax+facts|1": {
+      "px": 731,
+      "lang": "fr",
+      "answerChars": 83,
+      "stepChars": 134,
+      "steps": 2
+    },
+    "energy_bill+facts|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 66,
+      "stepChars": 120,
+      "steps": 2
+    },
+    "water_bill+facts|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 69,
+      "stepChars": 122,
+      "steps": 2
+    },
+    "broadband_bill+facts|1": {
+      "px": 645,
+      "lang": "fr",
+      "answerChars": 57,
+      "stepChars": 68,
+      "steps": 2
+    },
+    "appointment_nhs+facts|1": {
+      "px": 626,
+      "lang": "pl",
+      "answerChars": 89,
+      "stepChars": 96,
+      "steps": 2
+    },
+    "bailiff_enforcement+facts|1": {
+      "px": 737,
+      "lang": "fr",
+      "answerChars": 97,
+      "stepChars": 110,
+      "steps": 2
+    },
+    "legal_solicitor+facts|1": {
+      "px": 672,
+      "lang": "fr",
+      "answerChars": 72,
+      "stepChars": 102,
+      "steps": 2
+    },
+    "bank_loan_letter+facts|1": {
+      "px": 639,
+      "lang": "pl",
+      "answerChars": 48,
+      "stepChars": 117,
+      "steps": 2
+    },
+    "arrears_before_clause+facts|1": {
+      "px": 718,
+      "lang": "es",
+      "answerChars": 85,
+      "stepChars": 99,
+      "steps": 2
+    },
+    "failed_direct_debit+facts|1": {
+      "px": 672,
+      "lang": "fr",
+      "answerChars": 53,
+      "stepChars": 122,
+      "steps": 2
+    },
+    "ambiguous_numeric_date+facts|1": {
+      "px": 672,
+      "lang": "pl",
+      "answerChars": 65,
+      "stepChars": 121,
+      "steps": 2
+    },
+    "short_year_date+facts|1": {
+      "px": 731,
+      "lang": "fr",
+      "answerChars": 80,
+      "stepChars": 134,
+      "steps": 2
+    },
+    "genuine_nhs_booking_link+facts|1": {
+      "px": 621,
+      "lang": "pl",
+      "answerChars": 74,
+      "stepChars": 119,
+      "steps": 2
+    },
+    "genuine_post_office_card_payment+facts|1": {
+      "px": 745,
+      "lang": "es",
+      "answerChars": 85,
+      "stepChars": 134,
+      "steps": 2
+    },
+    "intl_energy_bill_plus44+facts|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 79,
+      "stepChars": 131,
+      "steps": 2
+    },
+    "intl_water_arrears_00_prefix+facts|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 78,
+      "stepChars": 129,
+      "steps": 2
+    },
+    "intl_sole_trader_invoice+facts|1": {
+      "px": 648,
+      "lang": "bn",
+      "answerChars": 62,
+      "stepChars": 140,
+      "steps": 2
+    },
+    "bill_with_contacts_page+facts|1": {
+      "px": 639,
+      "lang": "pl",
+      "answerChars": 52,
+      "stepChars": 121,
+      "steps": 2
+    },
+    "spec_energy_bill_full+facts|1": {
+      "px": 704,
+      "lang": "fr",
+      "answerChars": 81,
+      "stepChars": 100,
+      "steps": 2
+    },
+    "spec_bilingual_en_pl_council+facts|1": {
+      "px": 745,
+      "lang": "ro",
+      "answerChars": 86,
+      "stepChars": 136,
+      "steps": 2
+    },
+    "spec_panjabi_council_rent+facts|1": {
+      "px": 621,
+      "lang": "bn",
+      "answerChars": 70,
+      "stepChars": 92,
+      "steps": 2
+    },
+    "energy_bill_contacts_panel+facts|1": {
+      "px": 731,
+      "lang": "fr",
+      "answerChars": 81,
+      "stepChars": 135,
+      "steps": 2
+    },
+    "official_letter_caseworker_number+facts|1": {
+      "px": 588,
+      "lang": "fr",
+      "answerChars": 54,
+      "stepChars": 88,
+      "steps": 2
+    },
+    "energy_quarterly_footer_sender+facts|1": {
+      "px": 751,
+      "lang": "ro",
+      "answerChars": 164,
+      "stepChars": 136,
+      "steps": 2
     }
   }
 }

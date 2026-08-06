@@ -381,15 +381,32 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
     assert.ok(sent.includes("[phone]"));
   });
 
-  await t.test("a failing extractor changes nothing the reader sees", async () => {
+  await t.test("a failing extractor serves the fact-less floor, nothing else", async () => {
+    // REWRITTEN 6 August 2026 with the composed sender line. Facts now
+    // change what is served BY DESIGN: the fact-fed floor carries card 1's
+    // protected sender line and the fact-less floor does not. So the
+    // failure path's comparison target is the fact-less run, and the
+    // difference between fact-fed and fact-less is pinned to be exactly
+    // that one line, so any second divergence still fails here.
     const good = await runPath(BAILIFF);
     const bad = await runPath(BAILIFF, { factImpl: async () => { throw new Error("network down"); } });
+    const factless = await runPath(BAILIFF, {
+      factImpl: async () => new Response(JSON.stringify({ output_text: "{}" }), { status: 200 })
+    });
 
     assert.equal(bad.api_output.debug.ai_facts.facts_status, "failed");
     ["structured_result", "display_text", "tts_script", "cards", "banner", "trust"].forEach((field) => {
-      assert.deepEqual(bad.api_output[field], good.api_output[field], field + " moved when the extractor failed");
+      assert.deepEqual(bad.api_output[field], factless.api_output[field],
+        field + " moved between the failed and the fact-less run");
     });
-    assert.equal(bad.api_output.debug.ai.ai_status, good.api_output.debug.ai.ai_status);
+
+    const SENDER_PREFIX = "The document names this sender: ";
+    const goodPoints = good.api_output.structured_result.cards[0].key_points;
+    const badPoints = bad.api_output.structured_result.cards[0].key_points;
+    assert.ok(goodPoints.some((point) => point.startsWith(SENDER_PREFIX)),
+      "premise: the fact-fed floor composes the sender line");
+    assert.deepEqual(badPoints, goodPoints.filter((point) => !point.startsWith(SENDER_PREFIX)),
+      "the fact-fed and fact-less floors must differ by the sender line alone");
   });
 
   await t.test("a sentence quoting a redacted value must come back redacted", async () => {

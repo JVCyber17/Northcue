@@ -1081,3 +1081,14 @@ Writing it in your language can take up to two minutes.", remains true
 and remains in use at eighteen seconds into the wait. All ten entries
 are machine drafts; the Gujarati and Hindi lines shipped on the
 founder's order and should be checked at the next review.
+
+## New since the packs (6 August 2026): the composed sender line
+
+`tpl.contact.sender_name`, "The document names this sender: {sender}.",
+joined all ten template banks beside the phone line it mirrors, when the
+sender was promoted to a composed, protected engine line on card 1. The
+{sender} slot carries the name exactly as the letter prints it. The nine
+non-English entries are machine drafts following the founder's order and
+should be checked at the next review; on the translated AI path the model
+translates the English line itself, so this template is what floor and
+fallback readers see.

@@ -1,4 +1,6 @@
 const deadlineIso = require("./deadlineIso");
+const { SENDER_KEY_POINT_PREFIX } = require("./factCandidates");
+const { UK_POSTCODE, STREET_LINE } = require("./documentSignals");
 
 const ALLOWED_DOCUMENT_TYPES = new Set([
   "council_tax_notice",
@@ -78,9 +80,11 @@ const UNSAFE_ADVICE_PATTERNS = [
   // never surfaces an address on any card. This is the minimum durable form of
   // "do not introduce document text the engine did not surface": the general
   // rule is not expressible as a pattern, but this shape is, and it is the one
-  // that carries the reader's home into the output.
-  /\b[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}\b/,
-  /\b\d+[A-Za-z]?\s+(?:[A-Z][A-Za-z]*\s+){0,3}(?:Road|Street|Lane|Avenue|Close|Drive|Court|House|Way|Place|Gardens|Terrace|Crescent|Grove|Hill|Park|Square)\b/
+  // that carries the reader's home into the output. THE PATTERNS THEMSELVES
+  // live in documentSignals since 6 August 2026, because the sender candidate
+  // gates on the same two shapes and a copy in each file would drift.
+  UK_POSTCODE,
+  STREET_LINE
 ];
 
 // Facts the ENGINE owns. The AI may rephrase around them; it may not author one.
@@ -708,7 +712,27 @@ function sanitizeCards(cards, fallbackCards) {
     const protectedKeyPoints = Array.isArray(fallback.protected_key_points)
       ? fallback.protected_key_points
       : [];
-    const keyPoints = mergeProtected(modelKeyPoints, protectedKeyPoints);
+    // THE SENDER DEDUPE, the model side of the phone line's rule: when the
+    // engine composed and protected a sender line, a model key point naming
+    // the same sender in its own words is the same fact and gives up its
+    // seat, so the reader meets the sender once, in the protected form that
+    // survives translation. The prefix comes from the same module that
+    // composes the line, so the two cannot drift. The model's HEADLINE may
+    // still name the sender, exactly as it may restate the phone number:
+    // headline duplication was measured and accepted when the phone line
+    // shipped.
+    const protectedSenderLine = protectedKeyPoints
+      .map((point) => String(point == null ? "" : point))
+      .find((point) => point.startsWith(SENDER_KEY_POINT_PREFIX));
+    const protectedSender = protectedSenderLine
+      ? protectedSenderLine.slice(SENDER_KEY_POINT_PREFIX.length).replace(/\.\s*$/, "")
+      : null;
+    const squash = (value) => String(value == null ? "" : value).replace(/\s+/g, " ").trim().toLowerCase();
+    const dedupedModelKeyPoints = protectedSender
+      ? (Array.isArray(modelKeyPoints) ? modelKeyPoints : []).filter(
+        (point) => !squash(point).includes(squash(protectedSender)))
+      : modelKeyPoints;
+    const keyPoints = mergeProtected(dedupedModelKeyPoints, protectedKeyPoints);
     // Card five's title is the ENGINE's signal for which mode the card is in:
     // "What could happen if I ignore it?" when the document states a
     // consequence, "What should I check?" when it does not. The prompt tells

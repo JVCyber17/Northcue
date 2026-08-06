@@ -511,6 +511,9 @@ function applyMultiLetterAttribution(extraction, trust, split) {
     // Same rule for the phone number. "Contact us on" on a fused upload does
     // not say WHICH sender, so the number cannot be attributed to a letter.
     contact_number: null,
+    // And the sender itself, for the same reason: a fused upload cannot say
+    // which letter the name belongs to.
+    sender_name: null,
     // AND THE REFERENCE, which is the most attribution-like value of all: its
     // entire purpose is to say which letter this is. It was the one field the
     // fusion missed, so card 6 read "Keep this reference ready: MB-44712." on
@@ -723,6 +726,13 @@ function buildExtraction({ text, trust, facts, factConsequence }) {
     // Recorded so a card built from a candidate is distinguishable downstream
     // from one the engine read for itself, without changing what is shown.
     deadline_from_facts: Boolean(!engineDeadline && deadline),
+    // The sender the letter itself names, through the same candidate
+    // discipline as the deadline: verbatim in the source, refused when it
+    // arrives shaped like a field label (guessSender's recorded defect).
+    // Feeds the composed, protected card 1 line, founder's order of
+    // 6 August 2026, so the sender stops depending on the model's
+    // key-point lottery.
+    sender_name: factCandidates.senderCandidate({ facts, sourceText: text }),
     visible_dates: extractVisibleDates(text).filter((d) => d !== headerDate),
     header_date: headerDate,
     risk,
@@ -1345,6 +1355,13 @@ function protectedKeyPointsFor(legacyId, { extraction, trust }) {
       NOT_FULLY_TRAINED.has(trust && trust.document_category)) {
       points.push(TRAINING_CAVEAT);
     }
+    // The composed sender line, protected by the same provenance mechanism
+    // that carries the contact number 30 of 30 through the translated path.
+    // The same function call the key-point builder makes, including the
+    // yield-to-a-boundary rule, so the protected line and the line it
+    // protects cannot drift apart.
+    const sender = senderKeyPointIfRoom(extraction, trust);
+    if (sender) points.push(sender);
   }
   if (legacyId === "what_matters_most") {
     // THE WHOLE CARD, by calling the builder rather than re-deriving from
@@ -1500,6 +1517,40 @@ function buildHelpfulNoteKeyPoints(trust, extraction) {
   return points.filter(Boolean);
 }
 
+// Does this line already name the sender? Whitespace squashed and case
+// folded, because a letterhead in capitals is the same sender, exactly the
+// normalisation the candidate itself was admitted under. The sender analogue
+// of lineNamesNumber, and used the same way: the composed line stays, a line
+// that says the same thing in other words goes.
+function lineNamesSender(line, sender) {
+  if (!line || !sender) return false;
+  const squash = (value) => String(value).replace(/\s+/g, " ").trim().toLowerCase();
+  return squash(line).includes(squash(sender));
+}
+
+// Card 1's composed sender line: the name the letter itself gives, reported
+// and attributed, never asserted. REPORTED, NOT RECOMMENDED, exactly as the
+// phone number is: the sentence says what the document names and nothing
+// about trusting it. It sits last, after the summary point, because it is a
+// reported detail rather than the answer.
+//
+// AND IT YIELDS ITS SEAT TO AN ADVICE BOUNDARY. Measured at 375x812 across
+// all ten languages on the day it was written: every card 1 carrying just
+// its summary point and this line fits the viewport with headroom (worst
+// 751px of 812), and every card that also carries the not-fully-trained
+// caveat runs 732 to 886px, four of the five past the viewport. The caution
+// lines are what keeps a serious letter honest about what Northcue is; a
+// reported detail does not compete with them for space. Same yielding for
+// the garbled caution and the multi-letter notice, which are the same class
+// of line and arrive on cards with the same problem.
+function senderKeyPointIfRoom(extraction, trust) {
+  if (extraction.garbled_caution) return null;
+  if (extraction.readable_unsupported_signals ||
+    NOT_FULLY_TRAINED.has(trust && trust.document_category)) return null;
+  if (extraction.multi_letter_state === "first_only") return null;
+  return factCandidates.composeSenderKeyPoint(extraction.sender_name);
+}
+
 function buildFirstCardKeyPoints(extraction, trust) {
   const points = [extraction.most_important_point];
   // The quality caution rides under the headline rather than inside it. As part
@@ -1518,7 +1569,14 @@ function buildFirstCardKeyPoints(extraction, trust) {
   if (extraction.multi_letter_state === "first_only") {
     points.push(MULTI_LETTER.firstOnlyNotice);
   }
-  return points;
+  // The composed sender line, deduped the way the phone line dedupes: a
+  // point already naming the sender in other words is the same fact and
+  // gives up its place to the composed, protected form.
+  const sender = senderKeyPointIfRoom(extraction, trust);
+  if (!sender) return points;
+  return points
+    .filter((point) => !lineNamesSender(point, extraction.sender_name))
+    .concat(sender);
 }
 
 // Card "What should I check?" headline. Uses the amount/date the engine already

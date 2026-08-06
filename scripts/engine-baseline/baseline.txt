@@ -70,6 +70,7 @@ INTENT:   Fully supported type. bill_or_payment, instalments, discount, stated c
   ],
   "deadline": "1 April 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 April 2026"
   ],
@@ -316,6 +317,7 @@ INTENT:   Fully supported type. Previous balance of zero appears before the real
   ],
   "deadline": "28 May 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 February 2026",
     "30 April 2026",
@@ -560,6 +562,7 @@ INTENT:   Fully supported utility. Different supplier vocabulary from the energy
   ],
   "deadline": "30 June 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 March 2026",
     "31 May 2026",
@@ -797,6 +800,7 @@ INTENT:   Fully supported utility, telecoms vocabulary, includes an in-contract 
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "2 May 2026"
   ],
@@ -1287,6 +1291,7 @@ INTENT:   Appointment path. Letter date and appointment date both present and di
   ],
   "deadline": "1 July 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 July 2026"
   ],
@@ -1778,6 +1783,7 @@ INTENT:   severity urgent, high stakes tier urgent. Deadline phrased as contact 
   ],
   "deadline": "3 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "20 August 2026",
     "3 July 2026",
@@ -2036,6 +2042,7 @@ INTENT:   severity urgent via eviction and possession signals. Housing category.
   ],
   "deadline": "12 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "12 September 2026"
   ],
@@ -2294,6 +2301,7 @@ INTENT:   severity urgent via prosecution and legal action signals. legal_or_cou
   ],
   "deadline": "30 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "30 September 2026"
   ],
@@ -2792,6 +2800,7 @@ INTENT:   legal_or_court category through the aid path. Contains a legal action 
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": "11 July 2026",
   "risk": "Unless payment is received within 14 days, legal action may be commenced without further notice to you.",
@@ -4014,6 +4023,7 @@ INTENT:   bank_or_loan category through the aid path. Mentions credit rating.
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "7 July 2026"
   ],
@@ -5196,6 +5206,7 @@ INTENT:   looksOutgoing path. Must be recognised as sent by the user, not receiv
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": "4 June 2026",
   "risk": "No risk clearly stated.",
@@ -5425,6 +5436,7 @@ INTENT:   Multi letter that splitDocuments does NOT detect at all: the separator
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
@@ -5659,6 +5671,7 @@ INTENT:   Multi letter, fused shape. isMultiLetterInput is true while documents.
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
@@ -5890,6 +5903,7 @@ INTENT:   Multi letter, first_only shape. The letters were separated, so the fir
   ],
   "deadline": "28 May 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "28 May 2026"
   ],
@@ -7320,6 +7334,7 @@ INTENT:   D-1. Both readings of 'before' in one letter. The mention on line 10 m
   ],
   "deadline": "3 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "3 July 2026",
     "3 September 2026"
@@ -7573,6 +7588,7 @@ INTENT:   D-2. The shape the deleted second keyword pass existed to serve. Co-lo
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "3 July 2026"
   ],
@@ -7817,6 +7833,7 @@ INTENT:   D-2 through co-location. The shape an arrears letter is actually writt
   ],
   "deadline": "3 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "3 July 2026",
     "3 September 2026"
@@ -8321,6 +8338,7 @@ INTENT:   D-9. isPlausibleNumericDate accepts both readings of 03/06/2026 and ch
   ],
   "deadline": "03/06/2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "03/06/2026"
   ],
@@ -8562,6 +8580,7 @@ INTENT:   D-10. LONG_DATE ends in \d{2,4}, so '28 May 26' is accepted with no ce
   ],
   "deadline": "28 May 26",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "28 May 26"
   ],
@@ -10287,6 +10306,7 @@ INTENT:   A refund lure rather than a threat, so nothing in the pressure tier fi
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": null,
   "risk": "No risk clearly stated.",
@@ -11954,6 +11974,7 @@ INTENT:   Trips 'click this link' today. A genuine NHS letter carrying a link on
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "7 July 2026"
   ],
@@ -12699,6 +12720,7 @@ INTENT:   Trips 'account will be frozen'. A genuine county court letter explaini
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "22 September 2026"
   ],
@@ -12943,6 +12965,7 @@ INTENT:   Trips 'enter your pin'. An ordinary payment instruction, and the case 
   ],
   "deadline": "3 September 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "3 September 2026"
   ],
@@ -13194,6 +13217,7 @@ INTENT:   Fully supported type, nothing else unusual. Records that a bill Northc
   ],
   "deadline": "6 August 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "30 June 2026",
     "6 August 2026"
@@ -13444,6 +13468,7 @@ INTENT:   THE WORST OF THE SIX, and the only one where the reader is actively mi
   ],
   "deadline": "28 August 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "28 August 2026"
   ],
@@ -14184,6 +14209,7 @@ INTENT:   THE Q3 FALSE POSITIVE, named in KNOWN_ENGINE_DEFECTS.md before it exis
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [],
   "header_date": "22 July 2026",
   "risk": "No risk clearly stated.",
@@ -14694,6 +14720,7 @@ INTENT:   THE LIVE FAILURE, reproduced. Page one is an ordinary bill: sender, ad
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "22 Jan 2026",
     "04 Feb 2026",
@@ -15717,6 +15744,7 @@ INTENT:   TRACK 2, and the first corpus document at real length: three pages, ov
   ],
   "deadline": "4 June 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "14 May 2026",
     "14 February 2026",
@@ -16225,6 +16253,7 @@ INTENT:   TRACK 2. Three pages built from the Council Tax (Demand Notices) (Engl
   ],
   "deadline": "1 April 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "8 March 2026",
     "1 April 2026",
@@ -16545,6 +16574,7 @@ INTENT:   TRACK 2. The corpus had no bilingual document of any kind, and English
   ],
   "deadline": "1 July 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 July 2026",
     "31 March 2027",
@@ -17573,6 +17603,7 @@ INTENT:   TRACK 5, and the first Panjabi document. Structure from a social landl
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 August 2026"
   ],
@@ -17829,6 +17860,7 @@ INTENT:   undefined
   ],
   "deadline": "4 June 2026",
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "14 February 2026",
     "13 May 2026",
@@ -18379,6 +18411,7 @@ INTENT:   undefined
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "13 June 2026"
   ],
@@ -18790,6 +18823,7 @@ INTENT:   undefined
   ],
   "deadline": null,
   "deadline_from_facts": false,
+  "sender_name": null,
   "visible_dates": [
     "1 April 2026",
     "30 June 2026",

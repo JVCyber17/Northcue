@@ -124,6 +124,19 @@ const DOCUMENT_SIGNALS = [
   ["labelled_fields", hasLabelledFields]
 ];
 
+// A POSTAL ADDRESS, in the two shapes that carry one: a UK postcode, and a
+// numbered street line. THE ONE COPY, moved here on 6 August 2026 from
+// validateStructuredResult's unsafe-advice list when the sender candidate
+// needed the same gate: the engine never surfaces an address on any card,
+// and a sender fact that arrives as "Name, 14 Sutton Court Road, TW3 8SG"
+// (outgoing_letter's real shape, the reader's own name and home) must be
+// refused at the candidate exactly as the validator would reject the card.
+// Both readers import these; a copy in each drifted the moment one was
+// edited, which is the same lesson the date patterns taught coLocation.
+const UK_POSTCODE = /\b[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}\b/;
+const STREET_LINE =
+  /\b\d+[A-Za-z]?\s+(?:[A-Z][A-Za-z]*\s+){0,3}(?:Road|Street|Lane|Avenue|Close|Drive|Court|House|Way|Place|Gardens|Terrace|Crescent|Grove|Hill|Park|Square)\b/;
+
 function documentSignalsIn(text) {
   return DOCUMENT_SIGNALS.filter(([, test]) => test(text)).map(([name]) => name);
 }
@@ -138,6 +151,8 @@ module.exports = {
   LOOKS_LIKE_A_DATE,
   REFERENCE_CODE,
   MIN_LABEL_LINES,
+  UK_POSTCODE,
+  STREET_LINE,
   hasCurrencyAmount,
   hasTelephoneNumber,
   hasDateInAnyScript,

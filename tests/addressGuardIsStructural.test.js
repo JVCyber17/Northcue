@@ -89,9 +89,11 @@ test("the postcode rule is shape only, so it has nothing to translate", async (t
 
   await t.test("the pattern itself contains no word at all", () => {
     // If a word ever appears in it, the claim in this file's header is no
-    // longer true and someone has to budget for translating it.
+    // longer true and someone has to budget for translating it. THE ONE COPY
+    // moved to documentSignals.js on 6 August 2026, when the sender
+    // candidate began gating on the same shape; this pin follows it there.
     const source = require("node:fs")
-      .readFileSync(path.join(__dirname, "..", "src", "utils", "validateStructuredResult.js"), "utf8");
+      .readFileSync(path.join(__dirname, "..", "src", "utils", "documentSignals.js"), "utf8");
     const postcode = source.match(/\/\\b\[A-Z\]\{1,2\}\\d\{1,2\}\[A-Z\]\?\\s\?\\d\[A-Z\]\{2\}\\b\//);
     assert.ok(postcode, "the postcode pattern has changed shape; re-read this file's claim");
   });

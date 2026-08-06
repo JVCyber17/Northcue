@@ -406,6 +406,7 @@
       "tpl.check.kp_date": "Data: {date}.",
       "tpl.check.kp_amount": "Widoczna kwota: {amount}.",
       "tpl.contact.phone_number": "W dokumencie podany jest ten numer telefonu: {number}.",
+      "tpl.contact.sender_name": "Dokument podaje tego nadawcę: {sender}.",
       "tpl.consequence.avoid": "Dokument informuje, że jeśli płatność nie zostanie dokonana, nastąpi: {consequence}. Prosimy sprawdzić oryginalny dokument.",
       "tpl.consequence.reported": "W dokumencie napisano: {sentence_body}.",
       "tpl.consequence.may_follow": "może nastąpić {consequence_clause}",

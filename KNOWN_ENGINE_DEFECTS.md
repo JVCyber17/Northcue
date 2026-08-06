@@ -2507,3 +2507,34 @@ source in every observed run. If the founder wants the sender GUARANTEED
 on card 1 for this shape, that is a new decision, most naturally a
 protected sender line at the engine floor once guessSender's field-label
 defect (above) is fixed, and it belongs to him, not to this record.
+
+### Item B RESOLVED, 6 August 2026: the sender is a protected engine line
+
+The founder's order, after the 0-of-30 measurement above: promote the
+sender to a composed, protected line on card 1, the same mechanism that
+carries the phone number 30 of 30, so it stops depending on the model's
+key-point lottery.
+
+Built as ordered: the fact extractor's sender becomes a candidate
+(verbatim in the source, refused when shaped like a field label, which is
+guessSender's recorded defect above, and refused whole when it carries an
+address, which is outgoing_letter's real shape); the engine composes "The
+document names this sender: X." as card 1's last key point and protects
+it by provenance; the sanitiser dedupes a model point naming the sender
+in its own words, exactly as the phone line dedupes; and the line yields
+its seat to an advice boundary, because measured at 375x812 the
+caveat-bearing cards ran 732 to 886px with it and the boundary outranks
+a reported detail.
+
+Proven through the full translated path on the production-scale twin,
+ten completed runs, sender present on translated card 1 in TEN OF TEN:
+five carried the name in Latin script, three as exact transliteration,
+two with one consonant off in the transliteration (a translation quality
+wobble on the NAME, recorded here; digits are guarded by value parity,
+letters are not, and if the founder wants organisation names held in
+Latin script that is one line in the translation prompt, his call).
+
+guessSender's field-label defect above stays open and stays recorded: it
+still mislabels the FLOOR's summary sentence on fact-less sessions. What
+is resolved is the sender's presence on card 1, which no longer depends
+on it or on the model.

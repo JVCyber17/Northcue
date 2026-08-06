@@ -36,7 +36,7 @@
 // Here the offending field is dropped and the rest stands.
 
 const { isClaimedByCompetingDateLabel, BACKWARD_LOOKING } = require("./coLocation");
-const { LOOKS_LIKE_A_DATE } = require("./documentSignals");
+const { LOOKS_LIKE_A_DATE, UK_POSTCODE, STREET_LINE } = require("./documentSignals");
 const { AMOUNT_ROLES, DATE_ROLES, OBLIGATION_KINDS, CONSEQUENCE_KINDS } = require("./factSchema");
 
 // Whitespace normalised on both sides, because a sentence quoted out of the
@@ -282,11 +282,59 @@ function validateFactFields(facts, sourceText) {
   return { rejected };
 }
 
+// The sender the letter itself names, or null. Promoted to a composed,
+// protected card 1 line on the founder's order of 6 August 2026, after the
+// translate-after-English measurement showed the sender surviving the whole
+// pipeline whenever the model happened to write it and appearing 0 of 30
+// runs because the model usually did not: the four-key-point lottery. The
+// same mechanism that carries the phone number 30 of 30 now carries this.
+//
+// V1 verbatim applies as everywhere: the value must appear in the source.
+// The additional gate is the FIELD LABEL shape from KNOWN_ENGINE_DEFECTS:
+// guessSender's recorded defect is returning "Supply address:" where a
+// sender belongs, because the top line of a UK bill is routinely a label
+// over a value. A label is structurally recognisable, it ends in a colon or
+// a labelling noun, and a candidate shaped like one is refused rather than
+// composed into a card a reader will trust.
+const SENDER_FIELD_LABEL_SHAPE = /(?::\s*$|\b(?:no\.?|number|reference|ref\.?|address)\s*:?\s*$)/i;
+
+function senderCandidate({ facts, sourceText }) {
+  if (!facts || typeof facts.sender !== "string") return null;
+  const value = facts.sender.replace(/\s+/g, " ").trim();
+  if (!value || value.length > 80) return null;
+  if (!/\p{L}/u.test(value)) return null;
+  if (SENDER_FIELD_LABEL_SHAPE.test(value)) return null;
+  // A sender that arrives carrying an address is refused whole. Found by the
+  // English benchmark the day this candidate was written: outgoing_letter's
+  // fact sender is "Priya Sharma, 14 Sutton Court Road, Hounslow, TW3 8SG",
+  // the reader's own name and home, and the validator would rightly reject
+  // any card composed from it. The engine never surfaces an address; a
+  // candidate is held to the same rule at the door, with the same two
+  // patterns the validator uses.
+  if (UK_POSTCODE.test(value) || STREET_LINE.test(value)) return null;
+  if (!appearsVerbatim(normalise(String(sourceText || "")), value)) return null;
+  return value;
+}
+
+// The composed card 1 line and its prefix live in ONE place, on purpose: the
+// engine calls the composer, and the sanitiser reads the prefix to recognise
+// the protected line it must dedupe the model's own sender wording against.
+// Defined apart they would drift, and the dedupe would silently stop
+// matching the line it exists for.
+const SENDER_KEY_POINT_PREFIX = "The document names this sender: ";
+
+function composeSenderKeyPoint(sender) {
+  return sender ? SENDER_KEY_POINT_PREFIX + sender + "." : null;
+}
+
 module.exports = {
   SCAM_SHAPED_KINDS,
   deadlineCandidate,
   amountCandidate,
   consequenceCandidate,
+  senderCandidate,
+  composeSenderKeyPoint,
+  SENDER_KEY_POINT_PREFIX,
   validateFactFields,
   survivesEngineDeadlineGuards,
   appearsVerbatim,

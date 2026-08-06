@@ -404,6 +404,7 @@
       "tpl.check.kp_date": "तारीख: {date}.",
       "tpl.check.kp_amount": "दिखाई गई रकम: {amount}.",
       "tpl.contact.phone_number": "दस्तावेज़ में यह फ़ोन नंबर दिया गया है: {number}.",
+      "tpl.contact.sender_name": "दस्तावेज़ में यह प्रेषक बताया गया है: {sender}.",
       "tpl.consequence.avoid": "दस्तावेज़ कहता है कि भुगतान न होने पर ऐसा होगा: {consequence}. मूल दस्तावेज़ जाँचें.",
       "tpl.consequence.reported": "दस्तावेज़ में लिखा है: {sentence_body}.",
       "tpl.consequence.may_follow": "इसके बाद ऐसा हो सकता है: {consequence_clause}",
