@@ -432,7 +432,7 @@ async function applySafetyPassAndRecordAiStatus({
           invalid.shapeErrors = shapeErrors;
           throw invalid;
         }
-        served = stripAiViolations(translated, rulesSentenceSet(fallbackStructuredResult), translateTo);
+        served = stripTranslationViolations(translated, translateTo);
       } catch (error) {
         const translationErrorCode = normalizeTranslationErrorCode(error);
         attachAiMetadata(output, {
@@ -1082,6 +1082,68 @@ function stripAiViolations(result, exemptSentences, language) {
   return out;
 }
 
+// THE GUARD A TRANSLATION GETS, and deliberately NOT the English stripper.
+//
+// Found by step 2's phone number gate, 6 August 2026, on the first full run
+// of the translate-after-English pipeline: the full stripper's value rules
+// are language-blind (digits are digits in every script) while its
+// exemption is byte-identical ENGLISH sentences, so the translated form of
+// the engine's protected contact line can never be exempt and rule 5
+// substituted the number out of the Hindi cards: "the number in the
+// original document" where 0345 201 8812 belonged. Today's
+// generate-in-language path never hits this because the protected line
+// rides through IN ENGLISH and the reader's template bank translates it
+// client-side; under the new architecture the translation call translates
+// it, so the byte exemption cannot follow it.
+//
+// The division of labour, per the approved architecture: the ENGLISH value
+// and command rules run in full on the ENGLISH source, where their
+// exemptions work; the translation then gets the reader's verified
+// vocabulary (obligation and credential needles), whose replacements are
+// the same bank sentences the wired guards already use, so the client
+// renders them in the reader's language. Value safety on the translation is
+// the shape contract plus the value-parity comparison against the guarded
+// source, which is stronger than a substitution rule because it compares
+// against what was verified rather than pattern-matching in the dark.
+function sanitizeTranslatedTextField(text, vocab) {
+  if (typeof text !== "string" || !vocab) return text;
+  return text
+    .split(_AI_SENTENCE_SPLIT)
+    .map((sentence) => {
+      const trimmed = sentence.trim();
+      if (!trimmed) return trimmed;
+      if (vocab.credential && vocab.credential.test(trimmed)) {
+        return "Check the original document. Do not share personal or banking details.";
+      }
+      if (vocab.obligation && vocab.obligation.test(trimmed)) {
+        return _AI_COMMAND_REPLACEMENT;
+      }
+      return trimmed;
+    })
+    .join(" ");
+}
+
+function stripTranslationViolations(result, language) {
+  if (!result || !Array.isArray(result.cards)) return result;
+  const vocab = launchedLanguage(language)
+    ? {
+      obligation: guardVocabularies.obligationPatternFor(language),
+      credential: guardVocabularies.credentialPatternFor(language)
+    }
+    : null;
+  const out = JSON.parse(JSON.stringify(result));
+  for (const card of out.cards) {
+    for (const field of ["simple_explanation", "action_needed", "read_aloud_text"]) {
+      if (typeof card[field] === "string") card[field] = sanitizeTranslatedTextField(card[field], vocab);
+    }
+    if (Array.isArray(card.key_points)) {
+      card.key_points = card.key_points.map((point) =>
+        typeof point === "string" ? sanitizeTranslatedTextField(point, vocab) : point);
+    }
+  }
+  return out;
+}
+
 // The splitter the stripper works in. Shared with rulesSentenceSet so the
 // exemption is built in exactly the units it will be compared in. The danda
 // joined on 6 August 2026 with the guard wiring: Hindi, Bengali and Panjabi
@@ -1212,6 +1274,7 @@ module.exports = {
   requestTranslatedResultFromOpenAi,
   translationArchitecture,
   translationShapeErrors,
+  stripTranslationViolations,
   AI_TRANSLATION_TIMEOUT_MS,
   extractResponseText,
   normalizeAiErrorCode,

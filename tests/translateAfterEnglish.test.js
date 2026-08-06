@@ -124,6 +124,17 @@ test("the translate-after-English pipeline", async (t) => {
       });
       assert.ok(output.display_text.includes(MARKER), "display text follows the served cards");
       assert.ok(output.tts_script.includes(MARKER), "tts follows the served cards");
+      // THE PHONE NUMBER GATE, the founder's hard condition, at unit level.
+      // The engine's protected contact line rides through English guarding,
+      // is translated, and the post-translation guard must NOT eat the
+      // number. The first pipeline run did exactly that: the full English
+      // stripper ran on the translation, its byte-identical exemption can
+      // never match a translated sentence, and its language-blind rule 5
+      // substituted the number away. The translation guard is vocabulary
+      // only, so this stays.
+      const contactCard = output.structured_result.cards[2];
+      assert.ok(JSON.stringify(contactCard).includes("020 8583 4242"),
+        "the contact number must survive translation and the translation guard");
     });
 
     await t.test("the translation call sends the guarded cards, not the document", async () => {
