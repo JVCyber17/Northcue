@@ -2483,3 +2483,27 @@ was not.
 
 Founder's decision: record, do not fix. Revisit only if screenshots show the
 omission recurring.
+
+### Item B under the translate-after-English pipeline, measured 6 August 2026
+
+The founder's build order expected B to close here: the approved-samples
+page showed the sender on card 1 in both translated languages, and step 5
+was to confirm it and mark B resolved. The measurement says otherwise, so
+B stays RECORDED, not resolved, and the numbers are the record:
+
+    step 2 sample page:  sender on translated card 1, gu and hi, 2 of 2
+    step 4 measurement:  sender on translated card 1, 0 of 30 runs
+                         (10 gu at 40s, 10 hi, 10 gu at 60s)
+
+The mechanism is the four-key-point cap meeting model variation: card 1
+has room for four points, and on most runs the English generation spends
+all four on the amounts breakdown, so the sender line never wins a seat
+and the translation faithfully mirrors its absence. When the generation
+does write the sender line, it survives the whole pipeline intact, which
+is what the sample page happened to catch.
+
+Nothing here is a translation defect: the translation preserved its
+source in every observed run. If the founder wants the sender GUARANTEED
+on card 1 for this shape, that is a new decision, most naturally a
+protected sender line at the engine floor once guessSender's field-label
+defect (above) is fixed, and it belongs to him, not to this record.
