@@ -14,7 +14,7 @@
 // offline fallback cache is rebuilt clean: the new worker installs because the
 // file bytes changed, takes over immediately (skipWaiting + clients.claim),
 // and the activate step deletes every old northcue-* cache.
-const CACHE_VERSION = "northcue-v1-20260730c";
+const CACHE_VERSION = "northcue-v1-20260806a";
 
 self.addEventListener("install", () => {
   self.skipWaiting();

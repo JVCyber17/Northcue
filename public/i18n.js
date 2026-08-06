@@ -228,12 +228,39 @@
   // markup, updates html lang, and remembers the choice. Falls back to
   // English if the file cannot be loaded. The previously active language is
   // unloaded, so only English plus the active language stay in memory.
+  //
+  // TWO RULES, added 6 August 2026 after a live defect (a session recorded
+  // Gujarati after the reader had switched the picker to English):
+  //
+  //   1. The picked language becomes the ACTIVE IDENTITY synchronously.
+  //      getLanguage() feeds the language field of every analyse request,
+  //      which becomes the prose call's language and the session record, so
+  //      it must equal the picker's value at the moment of upload, never
+  //      "whatever finished loading last". Until the files land, t() falls
+  //      back to English values, which is the existing missing-entry
+  //      behaviour and lasts only as long as the load.
+  //
+  //   2. A completion only applies if it is still the LATEST pick. Before
+  //      this guard, the page-load application of the stored choice raced
+  //      the picker: initialise() starts an async load of the remembered
+  //      language, and if the reader picked English before that load
+  //      landed, the late callback silently overwrote the choice. A stale
+  //      completion now applies nothing, and unloads its own files unless
+  //      they belong to the language that is genuinely active.
+  var latestLanguagePick = 0;
+
   function setLanguage(code, options) {
     var settings = options || {};
     var target = isSupported(code) ? code : "en";
     var previous = activeLanguage;
+    activeLanguage = target;
+    var pick = ++latestLanguagePick;
     loadLanguageFile(target, function (ok) {
-      activeLanguage = ok ? target : "en";
+      if (pick !== latestLanguagePick) {
+        if (target !== activeLanguage) unloadLanguage(target);
+        return;
+      }
+      if (!ok) activeLanguage = "en";
       if (previous !== activeLanguage) unloadLanguage(previous);
       markDocumentLanguage(activeLanguage);
       applyTranslations();
