@@ -843,3 +843,39 @@ One open item travelled past this release deliberately: the real bill's
 contacts panel defeats the item A binding in a way the twin's does not
 (rich cards, no contact line, all three languages), under inspection as
 this record is written, ledgered when named.
+
+## THE PLAN, LOCKED (founder, 6 August 2026, end of day)
+
+**Wave two proceeds language by language as verified packs return**, in
+priority order: **pl** first (a live Polish reader already appears in the
+daily check, one good session, zero completed, the demand signal), then
+**bn**, **pa**, then **es, pt, fr, ro** as readers reply. Each language
+opens onto the translate-after-English path, which is the only
+non-English path, on the founder's word per language, as a small deploy
+or batched at his choice. The mechanics of opening are one config entry
+(launch.open) plus the verified pack's ingest; gates, copy and the
+announcement schedule all key off the same list.
+
+**The freeze holds until the seventh opens**: pack-driven fixes and
+production incidents only. The product that was verified is the product
+that launches, per language, every time.
+
+**The post-freeze ledger** starts with one founder-flagged item:
+1. Prose latency reduction, streaming or per-card delivery, so a
+   launched reader's wait stops being a single silent chain. Measured
+   baseline to beat: typical completed chains 37 to 67 seconds on
+   production-scale documents, worst honest wait 100 seconds.
+
+Founder-held decisions carried open in KNOWN_ENGINE_DEFECTS.md, none of
+them blocking wave two: the extractor's sender truncation (live evidence
+from the deploy night), the spread-lure structural residual, the dense
+genuine one-pager residual with its availability-exception comma, and
+guessSender's floor field-label defect.
+
+**Machine-side state at the lock**: ingest ready for all seven remaining
+languages (keys fixtures for nine, seven reader handoffs delivered,
+same-day ingest path proven twice on gu and hi); readiness table current
+(gu and hi VERIFIED, seven pending pack return); working tree clean at
+the deployed and tagged build; suite 2259/2259 green at that commit;
+nothing pending on the machine side. **The next work is the first
+returned pack.**
