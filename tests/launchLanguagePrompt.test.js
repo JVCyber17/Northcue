@@ -54,7 +54,10 @@ const { runClearStepsEngine } = require(path.join(ROOT, "src", "services", "clea
 const { CORPUS } = require(path.join(ROOT, "scripts", "engine-baseline", "corpus"));
 const CORPUS_FACTS = require(path.join(ROOT, "tests", "fixtures", "corpus-facts.json"));
 
-const LANGUAGE_NAMES = { gu: "Gujarati", hi: "Hindi" };
+const LANGUAGE_NAMES = {
+  gu: "Gujarati", hi: "Hindi", pl: "Polish", ro: "Romanian", es: "Spanish",
+  fr: "French", pt: "Portuguese", bn: "Bengali", pa: "Panjabi"
+};
 
 async function promptsFor(language) {
   captured.length = 0;

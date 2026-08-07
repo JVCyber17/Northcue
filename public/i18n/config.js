@@ -44,7 +44,12 @@
     // founder-approved commit, exactly as launch.open entries do, and wave
     // two languages open onto whatever this says, which after that commit
     // is the only non-English path.
-    launch: { open: ["gu", "hi"], proseArchitecture: "translate" },
+    // WAVE TWO OPENED 7 August 2026 on the founder's batched word: fr, ro,
+    // es, pt, bn and pa, each on its ingested pack (Claude-reviewed at his
+    // decision, native review owed post-launch, recorded in
+    // ENGINE_STATE.md). pl is HELD on one unresolved row (pl-33, the
+    // conditional-clause design divergence) and joins on his word alone.
+    launch: { open: ["gu", "hi", "fr", "ro", "es", "pt", "bn", "pa"], proseArchitecture: "translate" },
 
     languages: [
       {

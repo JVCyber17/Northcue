@@ -37,7 +37,15 @@ const MARKER = "અનુવાદ ";
 // sentences are the measured keeps from the wired-guard proofs.
 const PROOFS = {
   gu: { fire: "ચુકવણી કરવી જરૂરી છે.", keep: "તમારે કોઈ કાર્યવાહી કરવાની જરૂર નથી." },
-  hi: { fire: "आपको भुगतान करना होगा।", keep: "मूल दस्तावेज में विवरण जांचें।" }
+  hi: { fire: "आपको भुगतान करना होगा।", keep: "मूल दस्तावेज में विवरण जांचें।" },
+  // The wave-two six, verified against the live patterns on 7 August 2026
+  // before the flags opened, digit-free like the first pair.
+  fr: { fire: "Vous devez payer immédiatement.", keep: "Vous pouvez vérifier le document original." },
+  ro: { fire: "Trebuie să achitați suma restantă.", keep: "Puteți verifica documentul original." },
+  es: { fire: "Debe pagar la cantidad indicada.", keep: "Puede comprobar el documento original." },
+  pt: { fire: "Tem de pagar o valor em dívida.", keep: "Pode verificar o documento original." },
+  bn: { fire: "টাকা পরিশোধ করতে হবে।", keep: "মূল নথি যাচাই করা যেতে পারে।" },
+  pa: { fire: "ਭੁਗਤਾਨ ਕਰਨਾ ਹੋਵੇਗਾ।", keep: "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।" }
 };
 
 function translatedFrom(source) {

@@ -25,15 +25,27 @@ function runOf(id) {
 }
 
 test("the switch is off, and off means byte-identical to today", async (t) => {
-  await t.test("config.launch.open lists no wave-two code in the repo", () => {
-    // Wave one opens gu and hi in the founder-approved flag commit; the
-    // wave-two languages, everything else the config lists, must never
-    // appear here without a verified pack and his word. If a wave-two
-    // code shows up, someone opened a gate by accident and this is the
-    // alarm.
+  await t.test("config.launch.open equals the verified set, exactly", () => {
+    // THE ALARM, both directions, and now the law itself is executable:
+    // a language is open if and only if its verification verdict says
+    // VERIFIED. Wave one (gu, hi) verified 6 August 2026 on the founder's
+    // marks; wave two (fr, ro, es, pt, bn, pa) verified 7 August 2026 on
+    // his batched word. pl's verdict reads verified:false, held on pl-33,
+    // and this pin is what keeps it closed until his word resolves the
+    // row and the re-ingested verdict flips. A code appearing here
+    // without its verdict, or vanishing while verified, is an accident
+    // and this is the alarm. Both sides derive from repo state: config on
+    // one side, the verdict fixtures on the other, no copied list.
     assert.ok(Array.isArray(config.launch.open));
-    const waveTwo = LANGS.filter((c) => !WAVE_ONE.includes(c));
-    assert.deepEqual(config.launch.open.filter((c) => waveTwo.includes(c)), []);
+    const verifiedSet = LANGS.filter((lang) => {
+      const verdictPath = path.join(ROOT, "tests", "fixtures",
+        "verification-verdicts", lang + ".json");
+      return fs.existsSync(verdictPath) &&
+        JSON.parse(fs.readFileSync(verdictPath, "utf8")).verified === true;
+    });
+    assert.ok(verifiedSet.length > 0, "premise: verified languages exist");
+    assert.deepEqual(config.launch.open.slice().sort(), verifiedSet.slice().sort(),
+      "open must equal verified: a gate without a verdict, or a verdict without a gate");
   });
 
   await t.test("exactly the listed languages pass; every other language is refused", () => {

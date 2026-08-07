@@ -904,3 +904,44 @@ The compensating controls, named plainly:
 The freeze discipline is unchanged: each language still opens only on
 the founder's word, on its ingested pack, onto the translate-after
 path.
+
+## Wave two opened (founder's batched word, 7 August 2026)
+
+Six languages opened onto the translate-after-English path, one release,
+each on its ingested pack, each recorded here per the founder's order:
+
+- **fr**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 32/47 agreements; fr-10's mixed-language date
+  recorded as model-drift evidence from the retired sweep.
+- **ro**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 28/44 agreements; tu-form tone stars recorded.
+- **es**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 38/60 agreements; es-18/20 contamination
+  recorded as model drift; the medical rows resolved at the measured
+  mirror exactly as the founder routed them.
+- **pt**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 44/60 agreements after the negation guard:
+  pt-01, the calming negated line, fired through its negation and now
+  keeps, the narrowest exception mirroring the Polish (?<!nie\s) family,
+  keep-pinned, the key re-measured with exactly one flip.
+- **bn**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 44/60 agreements; five tone stars recorded,
+  all captured model output, none a repo string.
+- **pa**: Claude-reviewed basis, native review owed post-launch, verified
+  and opened 7 August 2026. 47/60 agreements; the raw-slot rule shipped
+  (no unfilled slot reaches a reader in any language, runtime guard plus
+  the all-language template audit), the error-namespace leak recorded and
+  excluded from future packs.
+
+**pl is HELD**, the priority language, on exactly one row: pl-33, where
+the Polish conditional-clause guard keeps a contact-your-GP sentence the
+English stack strips. The stem exists; the divergence is design, not
+vocabulary, so it stays outside every approved category and waits for
+the founder's word. Everything else in pl's pack is resolved.
+
+The launch law is now executable: tests/launchSwitch.test.js pins
+config.launch.open equal to the set of languages whose verification
+verdicts read VERIFIED, both sides derived from repo state. The residual
+recorded with the contamination class: value parity catches any digit
+alteration in translation; a wrong-language month WORD with digits
+intact passes, because month names localise by design.
