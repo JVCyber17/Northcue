@@ -37,7 +37,10 @@ async function runWithLanguage(language, fetchImpl) {
 }
 
 test("non English language skips the AI pass entirely (no egress)", async () => {
-  const result = await runWithLanguage("pl", async () => ({ ok: true, json: async () => ({}) }));
+  // Probe updated 7 August 2026: pl launched with the founder's pl-33
+  // resolution, so the refused language is now an unknown code; the gate's
+  // no-egress meaning is unchanged.
+  const result = await runWithLanguage("xx", async () => ({ ok: true, json: async () => ({}) }));
   assert.equal(result.fetchCalls, 0);
   assert.equal(result.ai.ai_used, false);
   assert.equal(result.ai.ai_status, "skipped");

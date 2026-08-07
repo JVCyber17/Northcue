@@ -31,8 +31,15 @@ const SERVER_SOURCE = fs.readFileSync(path.join(ROOT, "server.js"), "utf8");
 // ever launches, the measurement override is obsolete and this file
 // should be retired with it, which is what the premise assertion says.
 const I18N = require(path.join(ROOT, "public", "i18n", "config.js"));
+// ALL NINE LANGUAGES LAUNCHED, 7 August 2026, so no configured language is
+// unlaunched any more. The four locks still need probing: the probe language
+// is now a code the config does not list, which launchedLanguage refuses
+// forever, so every lock test below keeps its meaning unchanged. The
+// measurement override itself remains in the service, measurement-only
+// behind the same four locks; retiring it is a founder decision, not a
+// side effect of the last launch.
 const UNLAUNCHED = I18N.languages.map((e) => e.code)
-  .find((c) => c !== "en" && !I18N.launch.open.includes(c));
+  .find((c) => c !== "en" && !I18N.launch.open.includes(c)) || "xx";
 
 const rulesRun = () => runClearStepsEngine({
   extractedText: CORPUS.find((e) => e.id === "council_tax").text,
@@ -61,10 +68,10 @@ const skip = (opts) => providerSkipReason(Object.assign({ rulesRun: rulesRun() }
 test("every lock alone is enough to keep the gate shut", async (t) => {
   const run = rulesRun();
 
-  await t.test("premise: an unlaunched language exists to probe with", () => {
-    assert.ok(UNLAUNCHED,
-      "every configured language has launched; the measurement override is " +
-      "obsolete and this file should be retired with it");
+  await t.test("premise: a refused probe language exists", () => {
+    // Since wave two completed, the probe is a non-config code rather than
+    // an unlaunched configured language; the gate refuses both identically.
+    assert.ok(UNLAUNCHED);
   });
 
   await t.test("no override passed: the gate is shut, flag or no flag", () => {

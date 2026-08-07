@@ -1,7 +1,7 @@
 {
  "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
  "date": "2026-08-07",
- "note": "Founder's marks, 7 August 2026, transcribed verbatim: commands 9, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 44; all others information; no unsures. Tone star: row 40 informal 'zadzwoń' against the Polish formal-register decision, recorded for the post-launch native review. BATCHED WORD APPLIED 7 August 2026: remaining recall classes confirmed keep at the measured English mirror (category 3); tone stars are records, every starred wording verified to be captured model output rather than a repo string (category 2). pl-33 alone stays HELD per the not-covered rule: its stem exists and the miss is the conditional-clause design divergence, reported with its checkbox.",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: commands 9, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 44; all others information; no unsures. Tone star: row 40 informal 'zadzwoń' against the Polish formal-register decision, recorded for the post-launch native review. BATCHED WORD APPLIED 7 August 2026: remaining recall classes confirmed keep at the measured English mirror (category 3); tone stars are records, every starred wording verified to be captured model output rather than a repo string (category 2). pl-33 alone stays HELD per the not-covered rule: its stem exists and the miss is the conditional-clause design divergence, reported with its checkbox. pl-33 RESOLVED by the founder on 7 August 2026: keep, guard unchanged, mirror-boundary record, flagged for the owed native review; the English-mirror measurement (stripped) is recorded accurately beside the decision.",
  "marks": {
   "pl-01": "B",
   "pl-02": "B",
@@ -49,7 +49,8 @@
   "pl-44": "A"
  },
  "starred": [
-  "pl-40"
+  "pl-40",
+  "pl-33"
  ],
  "elicited": [],
  "wordlist": {
@@ -112,6 +113,10 @@
   "pl-40": {
    "resolution": "Keep at the English mirror, category 3 confirmed: the reschedule-call family. The mirror was measured KEPT by the English stack during this ingest.",
    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "pl-33": {
+   "resolution": "KEEP, guard unchanged, recorded at the mirror boundary beside the notify decision, per the founder: protective medical advice in the hi-42 and ro-36 family, and stripping it in Polish would remove a safety-protective sentence. MEASUREMENT RECORDED ACCURATELY BESIDE THE DECISION: the English mirror sentence was measured STRIPPED by the English stack during this ingest (contact sits inside the English 21), so this keep is an accepted divergence in the protective direction: the Polish conditional-clause guard preserves what the blunter English rule removes. The reviewer mark is preserved and the row is flagged for the owed Polish native reader to revisit.",
+   "approvedBy": "Founder, 7 August 2026, pl-33 resolution: keep at the mirror boundary, guard unchanged, native-review flag preserved, Polish ordered open."
   }
  }
 }

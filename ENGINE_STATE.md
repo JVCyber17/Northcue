@@ -945,3 +945,27 @@ verdicts read VERIFIED, both sides derived from repo state. The residual
 recorded with the contamination class: value parity catches any digit
 alteration in translation; a wrong-language month WORD with digits
 intact passes, because month names localise by design.
+
+## WAVE TWO COMPLETE: all nine languages open (7 August 2026)
+
+**pl opened last**, on the founder's pl-33 resolution: keep at the mirror
+boundary, guard unchanged, the row flagged in the fixture for the owed
+Polish native reader. Recorded accurately beside his decision: the
+English mirror of pl-33 was measured STRIPPED by the English stack
+(contact sits inside the English 21), so the keep is an accepted
+divergence in the protective direction, the Polish conditional-clause
+guard preserving protective medical advice.
+
+**The completion date: 7 August 2026.** Northcue serves readers in
+English, Gujarati, Hindi, Polish, French, Romanian, Spanish, Portuguese,
+Bengali and Panjabi, every non-English language on the
+translate-after-English path.
+
+**Native reviews owed, per language**: pl (including the pl-33 revisit),
+fr, ro, es, pt, bn, pa, all Claude-review verified on 7 August 2026 with
+the debt recorded; gu and hi verified by the founder's own marks on
+6 August 2026. The post-launch native review is the standing first
+follow-up alongside the post-freeze latency item.
+
+The freeze ends with the seventh opening, per the locked plan. The
+post-freeze ledger begins: prose latency reduction, founder-flagged.

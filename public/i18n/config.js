@@ -44,12 +44,15 @@
     // founder-approved commit, exactly as launch.open entries do, and wave
     // two languages open onto whatever this says, which after that commit
     // is the only non-English path.
-    // WAVE TWO OPENED 7 August 2026 on the founder's batched word: fr, ro,
-    // es, pt, bn and pa, each on its ingested pack (Claude-reviewed at his
-    // decision, native review owed post-launch, recorded in
-    // ENGINE_STATE.md). pl is HELD on one unresolved row (pl-33, the
-    // conditional-clause design divergence) and joins on his word alone.
-    launch: { open: ["gu", "hi", "fr", "ro", "es", "pt", "bn", "pa"], proseArchitecture: "translate" },
+    // ALL NINE LANGUAGES OPEN, 7 August 2026. Wave one (gu, hi) on the
+    // founder's own marks; wave two (fr, ro, es, pt, bn, pa) on his batched
+    // word; pl last, on his pl-33 resolution (keep at the mirror boundary,
+    // guard unchanged, flagged for the owed native review). Every language
+    // is Claude-review verified with native review owed post-launch except
+    // gu and hi, recorded per language in ENGINE_STATE.md. The launch law
+    // is executable: tests/launchSwitch.test.js pins this list equal to the
+    // set of VERIFIED verdicts, so a gate cannot open or close by accident.
+    launch: { open: ["gu", "hi", "pl", "fr", "ro", "es", "pt", "bn", "pa"], proseArchitecture: "translate" },
 
     languages: [
       {

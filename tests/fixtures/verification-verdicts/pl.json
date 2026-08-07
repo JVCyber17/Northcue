@@ -82,7 +82,10 @@
    "id": "pl-33",
    "outcome": "recall_candidate",
    "text": "Jeśli objawy się zmienią, należy skontaktować się z lekarzem rodzinnym.",
-   "resolution": null
+   "resolution": {
+    "resolution": "KEEP, guard unchanged, recorded at the mirror boundary beside the notify decision, per the founder: protective medical advice in the hi-42 and ro-36 family, and stripping it in Polish would remove a safety-protective sentence. MEASUREMENT RECORDED ACCURATELY BESIDE THE DECISION: the English mirror sentence was measured STRIPPED by the English stack during this ingest (contact sits inside the English 21), so this keep is an accepted divergence in the protective direction: the Polish conditional-clause guard preserves what the blunter English rule removes. The reviewer mark is preserved and the row is flagged for the owed Polish native reader to revisit.",
+    "approvedBy": "Founder, 7 August 2026, pl-33 resolution: keep at the mirror boundary, guard unchanged, native-review flag preserved, Polish ordered open."
+   }
   },
   {
    "id": "pl-34",
@@ -141,11 +144,11 @@
  ],
  "blocking_defects": 0,
  "unresolved_blocking": 0,
- "resolved_defects": 14,
+ "resolved_defects": 15,
  "elicited_pending_guard_check": 0,
  "wordlist": {
   "removed": [],
   "added": []
  },
- "verified": false
+ "verified": true
 }

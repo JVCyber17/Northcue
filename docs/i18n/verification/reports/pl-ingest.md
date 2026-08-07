@@ -1,6 +1,6 @@
 # Ingest report, pl (Claude review at the founder's decision (native review owed post-launch), 2026-08-07)
 
-Rows 44, agreements 29, defects 15 (0 blocking), unsure keeps 0, starred for tone 1.
+Rows 44, agreements 29, defects 15 (0 blocking), unsure keeps 0, starred for tone 2.
 
 ## Defects, each needing a founder-approved resolution
 
@@ -64,9 +64,8 @@ Rows 44, agreements 29, defects 15 (0 blocking), unsure keeps 0, starred for ton
 
 > Jeśli objawy się zmienią, należy skontaktować się z lekarzem rodzinnym.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: KEEP, guard unchanged, recorded at the mirror boundary beside the notify decision, per the founder: protective medical advice in the hi-42 and ro-36 family, and stripping it in Polish would remove a safety-protective sentence. MEASUREMENT RECORDED ACCURATELY BESIDE THE DECISION: the English mirror sentence was measured STRIPPED by the English stack during this ingest (contact sits inside the English 21), so this keep is an accepted divergence in the protective direction: the Polish conditional-clause guard preserves what the blunter English rule removes. The reviewer mark is preserved and the row is flagged for the owed Polish native reader to revisit.
+  Approved: Founder, 7 August 2026, pl-33 resolution: keep at the mirror boundary, guard unchanged, native-review flag preserved, Polish ordered open.
 
 ### pl-34: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -111,4 +110,5 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
   Approved: Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders.
 
 ## Starred for tone, routed to the bank review
+- pl-33: Jeśli objawy się zmienią, należy skontaktować się z lekarzem rodzinnym.
 - pl-40: Jeśli trzeba zmienić termin lub miejsce wizyty, zadzwoń pod podany numer.

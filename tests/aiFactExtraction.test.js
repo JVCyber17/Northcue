@@ -359,7 +359,7 @@ test("the extractor runs behind the same gates and changes nothing served", asyn
     process.env.OPENAI_API_KEY = "test-key";
     try {
       const run = await withStubbedFetch(async () => { requests += 1; return new Response("{}", { status: 200 }); },
-        () => analyseDocumentText(BAILIFF, { mimeType: "application/pdf", selectedCategory: "auto", jobId: "lang", interfaceLanguage: "pl" }));
+        () => analyseDocumentText(BAILIFF, { mimeType: "application/pdf", selectedCategory: "auto", jobId: "lang", interfaceLanguage: "xx" }));  // probe updated 7 August 2026: pl launched; unknown codes carry the refusal
       assert.equal(requests, 0, "a non English interface must send nothing");
       assert.equal(run.api_output.debug.ai_facts.facts_error_code, "non_english_language");
     } finally {

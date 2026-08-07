@@ -45,7 +45,9 @@ const PROOFS = {
   es: { fire: "Debe pagar la cantidad indicada.", keep: "Puede comprobar el documento original." },
   pt: { fire: "Tem de pagar o valor em dívida.", keep: "Pode verificar o documento original." },
   bn: { fire: "টাকা পরিশোধ করতে হবে।", keep: "মূল নথি যাচাই করা যেতে পারে।" },
-  pa: { fire: "ਭੁਗਤਾਨ ਕਰਨਾ ਹੋਵੇਗਾ।", keep: "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।" }
+  pa: { fire: "ਭੁਗਤਾਨ ਕਰਨਾ ਹੋਵੇਗਾ।", keep: "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।" },
+  // pl joined 7 August 2026 with the founder's pl-33 resolution and the flag.
+  pl: { fire: "Kwota musi zostać zapłacona w całości.", keep: "Można sprawdzić oryginalny dokument." }
 };
 
 function translatedFrom(source) {

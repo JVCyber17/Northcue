@@ -98,13 +98,15 @@ test("the launched reader's language arrives through the translation call", asyn
         "English gained a write-in instruction it must not have");
     });
 
-    await t.test("an unlaunched language never reaches the provider at all", async () => {
+    await t.test("no configured language is unlaunched, and an unknown code never reaches the provider", async () => {
+      // Wave two completed on 7 August 2026: every configured language is
+      // open. The gate's remaining refusal job is unknown codes, which it
+      // must keep refusing forever.
       const unlaunched = config.languages.map((e) => e.code)
         .find((c) => c !== "en" && !config.launch.open.includes(c));
-      assert.ok(unlaunched, "premise: an unlaunched language exists");
-      const systems = await promptsFor(unlaunched);
-      assert.equal(systems.length, 0,
-        unlaunched + " reached the provider while unlaunched");
+      assert.equal(unlaunched, undefined, "a configured language closed without the founder's word");
+      const systems = await promptsFor("xx");
+      assert.equal(systems.length, 0, "an unknown code reached the provider");
     });
   } finally {
     if (saved === undefined) delete process.env.OPENAI_API_KEY;
