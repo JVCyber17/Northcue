@@ -879,3 +879,28 @@ same-day ingest path proven twice on gu and hi); readiness table current
 the deployed and tagged build; suite 2259/2259 green at that commit;
 nothing pending on the machine side. **The next work is the first
 returned pack.**
+
+## Wave-two verification basis, amended (founder's decision, 7 August 2026)
+
+Wave-two packs are **Claude-reviewed at the founder's decision**: the
+seven remaining languages' verification marks were produced by review
+rather than by native readers, to open the languages while native
+review is arranged. **Native review is owed post-launch and recorded as
+such per language** in the readiness table's detail: pl, fr, ro, es,
+pt, bn, pa each carry the debt until a native reader's pass lands.
+
+The compensating controls, named plainly:
+1. **Translate-after-English**: every card a wave-two reader sees was
+   generated in English and passed the full English guard stack, the
+   deepest verified layer, before translation. The language vocabulary
+   is a SECOND layer on the translation, not the only guard.
+2. **Per-language monitoring** stands from minute one: the daily check
+   watches completion per language, and a language completing nothing
+   pages on day one.
+3. **Reader feedback** stands behind both: the feedback path is live in
+   every language, and a tone or wording failure a guard cannot see is
+   a report away.
+
+The freeze discipline is unchanged: each language still opens only on
+the founder's word, on its ingested pack, onto the translate-after
+path.
