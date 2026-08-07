@@ -10,7 +10,10 @@
    "id": "fr-03",
    "outcome": "recall_candidate",
    "text": "Vous devez informer le conseil en cas de changement de revenu, d'économies ou de foyer dans les 21 jours.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-13",
@@ -25,37 +28,55 @@
    "id": "fr-15",
    "outcome": "recall_candidate",
    "text": "Il faut examiner les paiements fournis depuis janvier.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-24",
    "outcome": "recall_candidate",
    "text": "Il faut arrêter la communication dans ce cas.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-26",
    "outcome": "recall_candidate",
    "text": "Il faut arriver quinze minutes avant l'heure du rendez-vous.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-29",
    "outcome": "recall_candidate",
    "text": "Il faut informer immédiatement en cas de changement de situation.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-31",
    "outcome": "recall_candidate",
    "text": "Il faut arriver dix minutes avant l'heure indiquée.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-32",
    "outcome": "recall_candidate",
    "text": "Si vous recevez une aide au logement, vous devez en informer le bureau.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-33",
@@ -70,7 +91,10 @@
    "id": "fr-38",
    "outcome": "recall_candidate",
    "text": "Le formulaire doit être signé et daté.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-39",
@@ -94,28 +118,37 @@
    "id": "fr-41",
    "outcome": "recall_candidate",
    "text": "Le paiement de £312.44 doit être reçu avant le 15 juin 2026.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-45",
    "outcome": "recall_candidate",
    "text": "Le paiement doit être reçu avant le 15 juin 2026.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "fr-46",
    "outcome": "recall_candidate",
    "text": "Le paiement de £3,410.00 doit être reçu sous 14 jours pour éviter une action judiciaire.",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   }
  ],
  "blocking_defects": 0,
  "unresolved_blocking": 0,
- "resolved_defects": 4,
+ "resolved_defects": 15,
  "elicited_pending_guard_check": 0,
  "wordlist": {
   "removed": [],
   "added": []
  },
- "verified": false
+ "verified": true
 }

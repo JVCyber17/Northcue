@@ -8,9 +8,8 @@ Rows 44, agreements 28, defects 16 (0 blocking), unsure keeps 0, starred for ton
 
 > Dacă primești ajutor pentru locuință, trebuie să informezi biroul relevant.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-09: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -23,9 +22,8 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Securitatea contului trebuie menținută continuu.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-17: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -38,17 +36,15 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Trebuie să ajungeți cu 15 minute mai devreme.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-22: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Plata trebuie primită în 14 zile de la 11 iulie 2026.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-23: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -68,25 +64,22 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Trebuie raportate schimbările în circumstanțe în termen de o lună.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-29: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Dacă primești ajutor pentru locuință, trebuie să anunți biroul.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-30: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Restanțele trebuie aduse la zi până la 7 July 2026.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-31: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -106,9 +99,8 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Dacă nu puteți participa, trebuie să sunați pentru a reprograma.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the reschedule-call family. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### ro-40: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -121,9 +113,8 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Trebuie să aduceți această scrisoare și lista medicamentelor.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ## Starred for tone, routed to the bank review
 - ro-07: Dacă primești ajutor pentru locuință, trebuie să informezi biroul relevant.

@@ -1,7 +1,7 @@
 {
  "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
  "date": "2026-08-07",
- "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 15, 16, 18, 33; all others commands; no unsures. Tone stars: rows 7 and 29 informal tu-forms against the Romanian formal-register decision, recorded for the post-launch native review.",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 15, 16, 18, 33; all others commands; no unsures. Tone stars: rows 7 and 29 informal tu-forms against the Romanian formal-register decision, recorded for the post-launch native review. BATCHED WORD APPLIED 7 August 2026: remaining recall classes confirmed keep at the measured English mirror (category 3); tone stars are records, every starred wording verified to be captured model output rather than a repo string (category 2).",
  "marks": {
   "ro-01": "B",
   "ro-02": "B",
@@ -85,6 +85,42 @@
   "ro-40": {
    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-07": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-28": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-29": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-20": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-43": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-13": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-22": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-30": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "ro-39": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the reschedule-call family. The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
   }
  }
 }

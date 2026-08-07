@@ -63,6 +63,14 @@ const ROMANCE = {
     modals: ["deve", "deverá", "devem", "deverão", "deveria", "tem\\s+de", "têm\\s+de",
       "tem\\s+que", "têm\\s+que", "terá\\s+de", "é\\s+necessário", "é\\s+obrigatório",
       "é\\s+preciso", "há\\s+que"],
+    // THE NEGATION GUARD, the founder's batched word of 7 August 2026 on
+    // pt-01: "Não é necessário efetuar qualquer pagamento neste momento" is
+    // the CALMING line and fired through its negation. The narrowest
+    // exception, mirroring the Polish pattern's existing (?<!nie\s) family:
+    // a negated modal is reassurance, not obligation. Portuguese only,
+    // because pt-01 is the measured row; es and fr join if their packs ever
+    // show the shape.
+    negation: ["n[ãa]o"],
     stems: ["pag", "liquid", "sald", "regulariz", "contact", "contat", "lig", "telefon",
       "respond", "envi", "remet", "fornec", "confirm", "comparec", "preench",
       "complet", "devolv", "retorn", "submet", "entreg", "apresent", "agi",
@@ -83,7 +91,12 @@ function romancePattern(c) {
   const modal = "(?:" + c.modals.join("|") + ")";
   const notSub = "(?<!" + OPEN + "(?:" + c.subordinate.join("|") + ")" + CLOSE + "[^.!?]{0,24})";
   const notAttrib = "(?<!(?:" + c.attribution.join("|") + ")[\\s\\S]{0,40})";
-  return new RegExp(notAttrib + notSub + OPEN + modal + CLOSE + "\\s*" + c.passive +
+  // A negated modal is reassurance, not obligation: the Polish pattern's
+  // (?<!nie\s) rule, joined per language as its pack shows the shape.
+  const notNeg = c.negation
+    ? "(?<!" + OPEN + "(?:" + c.negation.join("|") + ")\\s{1,3})"
+    : "";
+  return new RegExp(notAttrib + notSub + notNeg + OPEN + modal + CLOSE + "\\s*" + c.passive +
     "[^.!?]{0," + GAP + "}?" + OPEN + verbs + CLOSE, "iu");
 }
 

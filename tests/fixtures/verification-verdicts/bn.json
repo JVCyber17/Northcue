@@ -28,7 +28,10 @@
    "id": "bn-09",
    "outcome": "recall_candidate",
    "text": "২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন জানানো আবশ্যক।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-14",
@@ -43,82 +46,118 @@
    "id": "bn-21",
    "outcome": "recall_candidate",
    "text": "যদি আপনার ছাড় পাওয়ার পরিস্থিতি পরিবর্তিত হয়, ২১ দিনের মধ্যে জানাতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-23",
    "outcome": "recall_candidate",
    "text": "যদি আপনি স্থানান্তরিত হন, কেউ আসেন বা যান, সম্পত্তি খালি হয়, অথবা ছাড় বা অব্যাহতি বন্ধ হয়, ২১ দিনের মধ্যে জানাতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-26",
    "outcome": "recall_candidate",
    "text": "পরিস্থিতির পরিবর্তন এক মাসের মধ্যে রিপোর্ট করতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-29",
    "outcome": "recall_candidate",
    "text": "অ্যাপয়েন্টমেন্টে ১৫ মিনিট আগে পৌঁছানো উচিত।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-33",
    "outcome": "recall_candidate",
    "text": "পনেরো মিনিট আগে পৌঁছানো উচিত।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-37",
    "outcome": "recall_candidate",
    "text": "একক ব্যক্তি ছাড় ২৫% (£460.50) বাদ দিয়ে দিতে হবে £1,381.50।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-44",
    "outcome": "recall_candidate",
    "text": "আপনার পরিস্থিতিতে কোনো পরিবর্তন হলে এক মাসের মধ্যে রিপোর্ট করতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-45",
    "outcome": "recall_candidate",
    "text": "মোট দিতে হবে £1,381.50।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-48",
    "outcome": "recall_candidate",
    "text": "২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন হলে জানাতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-49",
    "outcome": "recall_candidate",
    "text": "যদি হাউজিং বেনিফিট নেন, অফিসকে জানাতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-50",
    "outcome": "recall_candidate",
    "text": "পরিস্থিতি পরিবর্তন হলে তা দ্রুত জানাতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "bn-58",
    "outcome": "recall_candidate",
    "text": "অ্যাকাউন্ট ৭ জুলাই ২০২৬ তারিখের মধ্যে আপ টু ডেট করতে হবে।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   }
  ],
  "blocking_defects": 0,
  "unresolved_blocking": 0,
- "resolved_defects": 3,
+ "resolved_defects": 16,
  "elicited_pending_guard_check": 0,
  "wordlist": {
   "removed": [],
   "added": []
  },
- "verified": false
+ "verified": true
 }

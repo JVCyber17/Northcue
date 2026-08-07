@@ -249,3 +249,20 @@ test("the counts a reviewer is asked to check", async (t) => {
     assert.equal(CFG.pt.modals.length, 14);
   });
 });
+
+// ---------------------------------------------------------------- 7 August
+// THE NEGATION KEEP, the founder's batched word on pt-01: the calming line
+// must never fire through its own negation. The narrowest exception,
+// mirroring the Polish (?<!nie\s) family; Portuguese only until another
+// language's pack shows the shape.
+test("pt: a negated modal is reassurance and keeps", () => {
+  const pt = require(path.join(__dirname, "..", "src", "utils", "guardVocabularies")).obligationPatternFor("pt");
+  assert.equal(pt.test("Não é necessário efetuar qualquer pagamento neste momento."), false,
+    "the pt-01 calming line must keep");
+  assert.equal(pt.test("Não deve pagar nada agora."), false,
+    "the negated deve form keeps too");
+  assert.equal(pt.test("É necessário efetuar o pagamento até 1 July 2026."), true,
+    "the affirmative form still fires");
+  assert.equal(pt.test("Tem de pagar £74.22 até 1 July 2026."), true,
+    "pt-36, the strongest direct form, still fires");
+});

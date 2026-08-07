@@ -22,9 +22,8 @@ Rows 60, agreements 44, defects 16 (0 blocking), unsure keeps 0, starred for ton
 
 > ২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন জানানো আবশ্যক।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-14: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -37,97 +36,85 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > যদি আপনার ছাড় পাওয়ার পরিস্থিতি পরিবর্তিত হয়, ২১ দিনের মধ্যে জানাতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-23: RECALL: the reviewer says this is an order, the guard keeps it
 
 > যদি আপনি স্থানান্তরিত হন, কেউ আসেন বা যান, সম্পত্তি খালি হয়, অথবা ছাড় বা অব্যাহতি বন্ধ হয়, ২১ দিনের মধ্যে জানাতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-26: RECALL: the reviewer says this is an order, the guard keeps it
 
 > পরিস্থিতির পরিবর্তন এক মাসের মধ্যে রিপোর্ট করতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-29: RECALL: the reviewer says this is an order, the guard keeps it
 
 > অ্যাপয়েন্টমেন্টে ১৫ মিনিট আগে পৌঁছানো উচিত।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-33: RECALL: the reviewer says this is an order, the guard keeps it
 
 > পনেরো মিনিট আগে পৌঁছানো উচিত।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-37: RECALL: the reviewer says this is an order, the guard keeps it
 
 > একক ব্যক্তি ছাড় ২৫% (£460.50) বাদ দিয়ে দিতে হবে £1,381.50।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-44: RECALL: the reviewer says this is an order, the guard keeps it
 
 > আপনার পরিস্থিতিতে কোনো পরিবর্তন হলে এক মাসের মধ্যে রিপোর্ট করতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-45: RECALL: the reviewer says this is an order, the guard keeps it
 
 > মোট দিতে হবে £1,381.50।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-48: RECALL: the reviewer says this is an order, the guard keeps it
 
 > ২১ দিনের মধ্যে আয়, সঞ্চয় বা গৃহস্থালীর পরিবর্তন হলে জানাতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-49: RECALL: the reviewer says this is an order, the guard keeps it
 
 > যদি হাউজিং বেনিফিট নেন, অফিসকে জানাতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-50: RECALL: the reviewer says this is an order, the guard keeps it
 
 > পরিস্থিতি পরিবর্তন হলে তা দ্রুত জানাতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### bn-58: RECALL: the reviewer says this is an order, the guard keeps it
 
 > অ্যাকাউন্ট ৭ জুলাই ২০২৬ তারিখের মধ্যে আপ টু ডেট করতে হবে।
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ## Starred for tone, routed to the bank review
 - bn-28: আপনি কিছু করার প্রয়োজন নেই।

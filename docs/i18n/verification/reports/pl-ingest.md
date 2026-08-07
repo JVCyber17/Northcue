@@ -8,33 +8,29 @@ Rows 44, agreements 29, defects 15 (0 blocking), unsure keeps 0, starred for ton
 
 > Należy przerwać kontakt w takim przypadku.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-12: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Musisz zgłosić zmiany w ciągu miesiąca od daty listu (8 lipca 2026).
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-15: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Należy przyjść 15 minut wcześniej.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-24: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Jeśli sytuacja się zmieni, należy o tym poinformować nadawcę.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-25: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -54,17 +50,15 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Jeśli pobierasz zasiłek mieszkaniowy, urząd musi zostać poinformowany o nowej kwocie czynszu.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-31: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Na koncie jest zaległość czynszowa £1,245.60, która musi być uregulowana.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: a passive statement of the document's own requirement (payment must be received, the form must be signed), how English letters state deadlines. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-33: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -78,9 +72,8 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Należy przynieść ten list i listę leków.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-37: RECALL: the reviewer says this is an order, the guard keeps it
 
@@ -93,17 +86,15 @@ Proposed: If the verb is in the English 21 (translation equivalence): add the st
 
 > Musisz zgłosić każdą zmianę okoliczności w ciągu jednego miesiąca.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-40: RECALL: the reviewer says this is an order, the guard keeps it
 
 > Jeśli trzeba zmienić termin lub miejsce wizyty, zadzwoń pod podany numer.
 
-Proposed: If the verb is in the English 21 (translation equivalence): add the stem, pin MUST_FIRE. If not: record at the mirror boundary beside the notify decision; guard unchanged, because catching it would strip sentences an English reader keeps.
-
-- [ ] Founder approves the resolution
+- [x] RESOLVED: Keep at the English mirror, category 3 confirmed: the reschedule-call family. The mirror was measured KEPT by the English stack during this ingest.
+  Approved: Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2).
 
 ### pl-41: RECALL: the reviewer says this is an order, the guard keeps it
 

@@ -224,3 +224,56 @@ test("an unfilled slot renders as a miss, not a token", () => {
     bank.resetCaches();
   }
 });
+
+// THE ANY-LANGUAGE SLOT AUDIT, the founder's batched word: no unfilled slot
+// can ever reach a reader card in any language. The runtime miss-guard above
+// is the belt; this is the braces: a translated template may never use a
+// slot its English source pattern does not capture, because that is the only
+// way a slot can arrive unfilled from a real match. Audited across every
+// language bank in config, so a new language joins the contract on arrival.
+test("no language template uses a slot its English pattern cannot fill", () => {
+  const slotsIn = (template) => {
+    const found = new Set();
+    String(template).replace(/\{(\w+)\}/g, (m, name) => { found.add(name); return m; });
+    return found;
+  };
+  const english = enBank.patterns || [];
+  const englishSlots = new Map();
+  (Array.isArray(english) ? english : Object.entries(english).map(([id, template]) => ({ id, template })))
+    .forEach((entry) => englishSlots.set(entry.id, slotsIn(entry.template)));
+  LANGS.forEach((code) => {
+    const bankData = globalThis["NORTHCUE_TEMPLATES_" + code.toUpperCase()];
+    const patterns = (bankData && bankData.patterns) || {};
+    Object.entries(patterns).forEach(([id, template]) => {
+      const allowed = englishSlots.get(id);
+      slotsIn(template).forEach((slot) => {
+        assert.ok(allowed && allowed.has(slot),
+          code + " " + id + " uses {" + slot + "} which the English pattern does not capture");
+      });
+    });
+  });
+});
+
+// APP-INTERNAL STRINGS NEVER REACH CARDS, the founder's batched word on
+// pa-21: the error namespace exists for interface panels. The bank only
+// translates engine card sentences, and no engine card across the whole
+// corpus may ever carry an error-namespace English source string.
+test("no corpus card carries an error-namespace string", () => {
+  const { runClearStepsEngine } = require(path.join(REPO, "src", "services", "clearStepsEngine"));
+  const { CORPUS } = require(path.join(REPO, "scripts", "engine-baseline", "corpus"));
+  const errorStrings = Object.entries(enBank.exact || {})
+    .filter(([id]) => id.startsWith("tpl.error."))
+    .map(([, text]) => text)
+    .filter((text) => typeof text === "string" && text.length > 0);
+  assert.ok(errorStrings.length > 0, "premise: the error namespace exists");
+  CORPUS.forEach((entry) => {
+    const cards = runClearStepsEngine({
+      extractedText: entry.text,
+      fileMeta: { mimeType: "application/pdf", selectedCategory: "auto", jobId: "error-sweep" }
+    }).api_output.structured_result.cards;
+    const blob = JSON.stringify(cards);
+    errorStrings.forEach((text) => {
+      assert.ok(!blob.includes(text), entry.id + " carries an interface error string");
+    });
+  });
+});

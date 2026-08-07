@@ -1,7 +1,7 @@
 {
  "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
  "date": "2026-08-07",
- "note": "Founder's marks, 7 August 2026, transcribed verbatim: commands 1, 2, 5, 7, 9, 12, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 29, 30, 32, 33, 34, 35, 39, 43, 44, 53, 55, 59; all others information; no unsures. Row 49 is attributed ('ਦੇ ਅਨੁਸਾਰ') and marked information per the founder. Row 7's raw '{consequence}' slot: traced to tpl.consequence.avoid rendering an unfilled slot; FIXED this ingest in templateBank (an unfilled render is now a miss and serves the untranslated English sentence; pinned in the bank contract). Row 21 'ਫੀਡਬੈਕ ਰੇਟਿੰਗ ਜ਼ਰੂਰੀ ਹੈ' traced to tpl.error.feedback_rating_required, an interface validation string in the error namespace: it renders only in the feedback panel, never as card content (the bank translates engine card sentences; the error string is not one), and the leak was the pack generator sampling the error namespace, recorded in INGEST.md so future packs exclude it. Rows 45 and 46 duplicate spelling ਜਰੂਰੀ versus ਜ਼ਰੂਰੀ: the repo is verified already standard (ਜ਼ਰੂਰੀ everywhere, zero undotted occurrences in pa.js and templates-pa.js) and the vocabulary pattern accepts BOTH spellings, so the inconsistent variant is captured model drift; recorded, starred for the post-launch native review.",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: commands 1, 2, 5, 7, 9, 12, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 29, 30, 32, 33, 34, 35, 39, 43, 44, 53, 55, 59; all others information; no unsures. Row 49 is attributed ('ਦੇ ਅਨੁਸਾਰ') and marked information per the founder. Row 7's raw '{consequence}' slot: traced to tpl.consequence.avoid rendering an unfilled slot; FIXED this ingest in templateBank (an unfilled render is now a miss and serves the untranslated English sentence; pinned in the bank contract). Row 21 'ਫੀਡਬੈਕ ਰੇਟਿੰਗ ਜ਼ਰੂਰੀ ਹੈ' traced to tpl.error.feedback_rating_required, an interface validation string in the error namespace: it renders only in the feedback panel, never as card content (the bank translates engine card sentences; the error string is not one), and the leak was the pack generator sampling the error namespace, recorded in INGEST.md so future packs exclude it. Rows 45 and 46 duplicate spelling ਜਰੂਰੀ versus ਜ਼ਰੂਰੀ: the repo is verified already standard (ਜ਼ਰੂਰੀ everywhere, zero undotted occurrences in pa.js and templates-pa.js) and the vocabulary pattern accepts BOTH spellings, so the inconsistent variant is captured model drift; recorded, starred for the post-launch native review. BATCHED WORD APPLIED 7 August 2026: remaining recall classes confirmed keep at the measured English mirror (category 3); tone stars are records, every starred wording verified to be captured model output rather than a repo string (category 2).",
  "marks": {
   "pa-01": "A",
   "pa-02": "A",
@@ -105,6 +105,26 @@
   "pa-44": {
    "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-17": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "pa-26": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "pa-34": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "pa-30": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+  },
+  "pa-32": {
+   "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+   "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
   }
  }
 }

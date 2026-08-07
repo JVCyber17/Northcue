@@ -28,7 +28,10 @@
    "id": "pa-17",
    "outcome": "recall_candidate",
    "text": "ਕਿਸੇ ਵੀ ਤਬਦੀਲੀ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "pa-18",
@@ -61,7 +64,10 @@
    "id": "pa-26",
    "outcome": "recall_candidate",
    "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "pa-29",
@@ -76,19 +82,28 @@
    "id": "pa-30",
    "outcome": "recall_candidate",
    "text": "ਨਿਯੁਕਤੀ 'ਤੇ 15 ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਚਾਹੀਦਾ ਹੈ।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "pa-32",
    "outcome": "recall_candidate",
    "text": "ਪੰਦਰਾਂ ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਜਰੂਰੀ ਹੈ।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: protective advice and logistics, the hi-42 and ro-31 families (arrive early, bring the letter, stop contact). The mirror was measured KEPT by the English stack during this ingest.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "pa-34",
    "outcome": "recall_candidate",
    "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਦੇਣੀ ਜਰੂਰੀ ਹੈ।",
-   "resolution": null
+   "resolution": {
+    "resolution": "Keep at the English mirror, category 3 confirmed: the notify and report family. The mirror sentence was measured KEPT by the English stack during this ingest, per the standing notify-outside-the-21 decision; catching it would strip sentences an English reader keeps.",
+    "approvedBy": "Founder, 7 August 2026, batched word on the seven-language ingest: expected keeps confirmed at the English mirror per the hi-42 and ro-31 precedents (category 3); over-fires restored to English-mirror behaviour by the narrowest exception per the negation family (category 5); tone stars approved as source fixes where ours, records where captured model output (category 2)."
+   }
   },
   {
    "id": "pa-39",
@@ -111,11 +126,11 @@
  ],
  "blocking_defects": 0,
  "unresolved_blocking": 0,
- "resolved_defects": 8,
+ "resolved_defects": 13,
  "elicited_pending_guard_check": 0,
  "wordlist": {
   "removed": [],
   "added": []
  },
- "verified": false
+ "verified": true
 }

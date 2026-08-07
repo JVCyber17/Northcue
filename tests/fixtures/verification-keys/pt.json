@@ -1,12 +1,12 @@
 {
- "note": "Answer key for docs/i18n/verification/portuguese.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit.",
+ "note": "Answer key for docs/i18n/verification/portuguese.md. NEVER shown to the reviewer: Part 1 is blind. Generated from the committed guard configs; regenerate rather than edit. pt-01 guard_fires re-measured FALSE on 7 August 2026 after the founder-approved negation guard: a negated modal is reassurance, not obligation.",
  "language": "pt",
  "entries": [
   {
    "id": "pt-01",
    "text": "Não é necessário efetuar qualquer pagamento neste momento.",
    "pattern": "command",
-   "guard_fires": true,
+   "guard_fires": false,
    "category": "in_scope_caught",
    "source": "sweep"
   },
