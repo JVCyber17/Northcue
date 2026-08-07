@@ -158,8 +158,21 @@
       if (match) {
         var translatedTemplate = (target.patterns || {})[patterns[i].id];
         if (translatedTemplate) {
+          var filled = fillTemplate(translatedTemplate, match.groups || {}, target);
+          // A RAW SLOT NEVER REACHES A READER. Found by the Panjabi
+          // verification pack, 7 August 2026: a translated template whose
+          // slot the English pattern did not capture rendered with the
+          // literal token visible, "... ਇਹ ਹੋਵੇਗਾ: {consequence}." on a
+          // reader-facing line. fillTemplate deliberately leaves an
+          // unfilled slot in place rather than guessing; this is the
+          // matching rule that an unfilled render is a MISS, so the reader
+          // gets the untranslated English sentence, the bank's honest
+          // fallback, instead of a template artefact.
+          if (/\{\w+\}/.test(filled)) {
+            return { text: source, translated: false, templateId: patterns[i].id };
+          }
           return {
-            text: fillTemplate(translatedTemplate, match.groups || {}, target),
+            text: filled,
             translated: true,
             templateId: patterns[i].id
           };

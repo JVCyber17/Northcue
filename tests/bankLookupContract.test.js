@@ -196,3 +196,31 @@ test("template bank lookup contract", async (t) => {
     });
   });
 });
+
+// ---------------------------------------------------------------- 7 August
+// A RAW SLOT NEVER REACHES A READER. The Panjabi pack's row 7 showed a
+// translated template rendering with its literal {consequence} token
+// visible. An unfilled render is a MISS: the reader gets the untranslated
+// English sentence, never a template artefact.
+test("an unfilled slot renders as a miss, not a token", () => {
+  const savedTemplates = globalThis.NORTHCUE_TEMPLATES_XX;
+  globalThis.NORTHCUE_TEMPLATES_XX = {
+    exact: {},
+    patterns: {
+      // The target template carries a slot the English pattern does not
+      // capture, which is exactly the pa-07 shape.
+      "tpl.deadline.due": "XX due {date} extra {consequence} XX"
+    }
+  };
+  try {
+    bank.resetCaches();
+    const result = bank.translateEngineSentence("Due by 3 September 2026.", "xx");
+    assert.equal(result.translated, false,
+      "a render still carrying a slot token must fall back untranslated");
+    assert.ok(!/\{\w+\}/.test(result.text), "no token may reach the reader");
+    assert.equal(result.text, "Due by 3 September 2026.");
+  } finally {
+    globalThis.NORTHCUE_TEMPLATES_XX = savedTemplates;
+    bank.resetCaches();
+  }
+});
