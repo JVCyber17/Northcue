@@ -1,0 +1,110 @@
+{
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: commands 1, 2, 5, 7, 9, 12, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 29, 30, 32, 33, 34, 35, 39, 43, 44, 53, 55, 59; all others information; no unsures. Row 49 is attributed ('ਦੇ ਅਨੁਸਾਰ') and marked information per the founder. Row 7's raw '{consequence}' slot: traced to tpl.consequence.avoid rendering an unfilled slot; FIXED this ingest in templateBank (an unfilled render is now a miss and serves the untranslated English sentence; pinned in the bank contract). Row 21 'ਫੀਡਬੈਕ ਰੇਟਿੰਗ ਜ਼ਰੂਰੀ ਹੈ' traced to tpl.error.feedback_rating_required, an interface validation string in the error namespace: it renders only in the feedback panel, never as card content (the bank translates engine card sentences; the error string is not one), and the leak was the pack generator sampling the error namespace, recorded in INGEST.md so future packs exclude it. Rows 45 and 46 duplicate spelling ਜਰੂਰੀ versus ਜ਼ਰੂਰੀ: the repo is verified already standard (ਜ਼ਰੂਰੀ everywhere, zero undotted occurrences in pa.js and templates-pa.js) and the vocabulary pattern accepts BOTH spellings, so the inconsistent variant is captured model drift; recorded, starred for the post-launch native review.",
+ "marks": {
+  "pa-01": "A",
+  "pa-02": "A",
+  "pa-03": "B",
+  "pa-04": "B",
+  "pa-05": "A",
+  "pa-06": "B",
+  "pa-07": "A",
+  "pa-08": "B",
+  "pa-09": "A",
+  "pa-10": "B",
+  "pa-11": "B",
+  "pa-12": "A",
+  "pa-13": "B",
+  "pa-14": "B",
+  "pa-15": "B",
+  "pa-16": "A",
+  "pa-17": "A",
+  "pa-18": "A",
+  "pa-19": "A",
+  "pa-20": "A",
+  "pa-21": "A",
+  "pa-22": "B",
+  "pa-23": "A",
+  "pa-24": "A",
+  "pa-25": "A",
+  "pa-26": "A",
+  "pa-27": "B",
+  "pa-28": "B",
+  "pa-29": "A",
+  "pa-30": "A",
+  "pa-31": "B",
+  "pa-32": "A",
+  "pa-33": "A",
+  "pa-34": "A",
+  "pa-35": "A",
+  "pa-36": "B",
+  "pa-37": "B",
+  "pa-38": "B",
+  "pa-39": "A",
+  "pa-40": "B",
+  "pa-41": "B",
+  "pa-42": "B",
+  "pa-43": "A",
+  "pa-44": "A",
+  "pa-45": "B",
+  "pa-46": "B",
+  "pa-47": "B",
+  "pa-48": "B",
+  "pa-49": "B",
+  "pa-50": "B",
+  "pa-51": "B",
+  "pa-52": "B",
+  "pa-53": "A",
+  "pa-54": "B",
+  "pa-55": "A",
+  "pa-56": "B",
+  "pa-57": "B",
+  "pa-58": "B",
+  "pa-59": "A",
+  "pa-60": "B"
+ },
+ "starred": [
+  "pa-45",
+  "pa-46"
+ ],
+ "elicited": [],
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "resolutions": {
+  "pa-07": {
+   "resolution": "Keep at the English mirror: an attributed consequence report with a check tail, Northcue's own line; the raw-slot defect it exposed is fixed in the bank and pinned. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-16": {
+   "resolution": "Keep at the English mirror: Northcue's own check line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-18": {
+   "resolution": "Keep at the English mirror: Northcue's own keep-for-records line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-21": {
+   "resolution": "Recorded: an interface validation string (tpl.error.feedback_rating_required) that can render only in the feedback panel, never on a card; the pack-generation leak is recorded in INGEST.md and the error namespace is excluded from future packs. The vocabulary is unchanged: an interface requirement line is not a document command.",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-24": {
+   "resolution": "Keep at the English mirror: Northcue's own upload-again line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-29": {
+   "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-39": {
+   "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pa-44": {
+   "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  }
+ }
+}

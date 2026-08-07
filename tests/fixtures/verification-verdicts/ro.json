@@ -1,0 +1,136 @@
+{
+ "language": "ro",
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "rows": 44,
+ "agreements": 28,
+ "unsure_keeps": 0,
+ "defects": [
+  {
+   "id": "ro-07",
+   "outcome": "recall_candidate",
+   "text": "Dacă primești ajutor pentru locuință, trebuie să informezi biroul relevant.",
+   "resolution": null
+  },
+  {
+   "id": "ro-09",
+   "outcome": "recall_candidate",
+   "text": "Verificați suma de plată: £41.99.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-13",
+   "outcome": "recall_candidate",
+   "text": "Securitatea contului trebuie menținută continuu.",
+   "resolution": null
+  },
+  {
+   "id": "ro-17",
+   "outcome": "recall_candidate",
+   "text": "Contactați Department for Work and Pensions pentru clarificări dacă este necesar.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-20",
+   "outcome": "recall_candidate",
+   "text": "Trebuie să ajungeți cu 15 minute mai devreme.",
+   "resolution": null
+  },
+  {
+   "id": "ro-22",
+   "outcome": "recall_candidate",
+   "text": "Plata trebuie primită în 14 zile de la 11 iulie 2026.",
+   "resolution": null
+  },
+  {
+   "id": "ro-23",
+   "outcome": "recall_candidate",
+   "text": "Verificați dacă trebuie să răspundeți în termen de 14 zile.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-27",
+   "outcome": "recall_candidate",
+   "text": "Verificați pe documentul original, sau cu expeditorul, dacă trebuie să răspundeți sau să trimiteți ceva.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-28",
+   "outcome": "recall_candidate",
+   "text": "Trebuie raportate schimbările în circumstanțe în termen de o lună.",
+   "resolution": null
+  },
+  {
+   "id": "ro-29",
+   "outcome": "recall_candidate",
+   "text": "Dacă primești ajutor pentru locuință, trebuie să anunți biroul.",
+   "resolution": null
+  },
+  {
+   "id": "ro-30",
+   "outcome": "recall_candidate",
+   "text": "Restanțele trebuie aduse la zi până la 7 July 2026.",
+   "resolution": null
+  },
+  {
+   "id": "ro-31",
+   "outcome": "recall_candidate",
+   "text": "Trebuie să aveți pregătite facturile de vânzare, facturile de cumpărare și extrasele bancare.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: the measured ro-31 keep itself: the have-ready preparation line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-36",
+   "outcome": "recall_candidate",
+   "text": "Trebuie să fiți atent la astfel de solicitări.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: protective advice outside the mirror, confirmed by the founder as a protective-advice keep. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-39",
+   "outcome": "recall_candidate",
+   "text": "Dacă nu puteți participa, trebuie să sunați pentru a reprograma.",
+   "resolution": null
+  },
+  {
+   "id": "ro-40",
+   "outcome": "recall_candidate",
+   "text": "Verificați dacă trebuie să trimiteți informații despre venit până la 24 June 2026.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "ro-43",
+   "outcome": "recall_candidate",
+   "text": "Trebuie să aduceți această scrisoare și lista medicamentelor.",
+   "resolution": null
+  }
+ ],
+ "blocking_defects": 0,
+ "unresolved_blocking": 0,
+ "resolved_defects": 7,
+ "elicited_pending_guard_check": 0,
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "verified": false
+}

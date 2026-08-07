@@ -1,0 +1,91 @@
+{
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 1, 11, 12, 31, 33, 44, 59; all others commands; no unsures. pt-36 'Tem de pagar', the strongest direct form, FIRES in agreement with the command mark, the exact mirror of 'you must pay', as the founder noted it must. pt-01 is an OVER-FIRE defect discovered by this ingest: the calming negated line 'Não é necessário efetuar qualquer pagamento neste momento' fires the obligation pattern through its negation; blocking, unresolved, checkbox with the proposed negation guard.",
+ "marks": {
+  "pt-01": "B",
+  "pt-02": "A",
+  "pt-03": "A",
+  "pt-04": "A",
+  "pt-05": "A",
+  "pt-06": "A",
+  "pt-07": "A",
+  "pt-08": "A",
+  "pt-09": "A",
+  "pt-10": "A",
+  "pt-11": "B",
+  "pt-12": "B",
+  "pt-13": "A",
+  "pt-14": "A",
+  "pt-15": "A",
+  "pt-16": "A",
+  "pt-17": "A",
+  "pt-18": "A",
+  "pt-19": "A",
+  "pt-20": "A",
+  "pt-21": "A",
+  "pt-22": "A",
+  "pt-23": "A",
+  "pt-24": "A",
+  "pt-25": "A",
+  "pt-26": "A",
+  "pt-27": "A",
+  "pt-28": "A",
+  "pt-29": "A",
+  "pt-30": "A",
+  "pt-31": "B",
+  "pt-32": "A",
+  "pt-33": "B",
+  "pt-34": "A",
+  "pt-35": "A",
+  "pt-36": "A",
+  "pt-37": "A",
+  "pt-38": "A",
+  "pt-39": "A",
+  "pt-40": "A",
+  "pt-41": "A",
+  "pt-42": "A",
+  "pt-43": "A",
+  "pt-44": "B",
+  "pt-45": "A",
+  "pt-46": "A",
+  "pt-47": "A",
+  "pt-48": "A",
+  "pt-49": "A",
+  "pt-50": "A",
+  "pt-51": "A",
+  "pt-52": "A",
+  "pt-53": "A",
+  "pt-54": "A",
+  "pt-55": "A",
+  "pt-56": "A",
+  "pt-57": "A",
+  "pt-58": "A",
+  "pt-59": "B",
+  "pt-60": "A"
+ },
+ "starred": [],
+ "elicited": [],
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "resolutions": {
+  "pt-14": {
+   "resolution": "Keep at the English mirror: a check line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pt-20": {
+   "resolution": "Keep at the English mirror: a verify line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pt-37": {
+   "resolution": "Keep at the English mirror: a check line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "pt-57": {
+   "resolution": "Keep at the English mirror: Northcue's own scam-protection advice. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  }
+ }
+}

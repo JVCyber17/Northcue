@@ -1,0 +1,133 @@
+{
+ "language": "pt",
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "rows": 60,
+ "agreements": 43,
+ "unsure_keeps": 0,
+ "defects": [
+  {
+   "id": "pt-01",
+   "outcome": "overfire_defect",
+   "text": "Não é necessário efetuar qualquer pagamento neste momento.",
+   "resolution": null
+  },
+  {
+   "id": "pt-02",
+   "outcome": "recall_candidate",
+   "text": "Se receber apoio de habitação, deve informar o escritório.",
+   "resolution": null
+  },
+  {
+   "id": "pt-05",
+   "outcome": "recall_candidate",
+   "text": "Existe uma dívida de £1,245.60 que deve ser regularizada.",
+   "resolution": null
+  },
+  {
+   "id": "pt-14",
+   "outcome": "recall_candidate",
+   "text": "Verificar o formulário de consentimento que deve ser devolvido até 5 de junho de 2026.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: a check line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pt-16",
+   "outcome": "recall_candidate",
+   "text": "Deve chegar 10 minutos antes e levar esta carta.",
+   "resolution": null
+  },
+  {
+   "id": "pt-20",
+   "outcome": "recall_candidate",
+   "text": "Verifique que o pagamento deve ser feito dentro de 14 dias a contar de 22 de julho de 2026.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: a verify line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pt-24",
+   "outcome": "recall_candidate",
+   "text": "Mudanças nas circunstâncias devem ser reportadas dentro de um mês.",
+   "resolution": null
+  },
+  {
+   "id": "pt-25",
+   "outcome": "recall_candidate",
+   "text": "Se recebe apoio de habitação, deve informar o escritório do conselho.",
+   "resolution": null
+  },
+  {
+   "id": "pt-29",
+   "outcome": "recall_candidate",
+   "text": "Deve informar o conselho dentro de 21 dias se a sua renda, poupanças ou composição do agregado familiar mudarem.",
+   "resolution": null
+  },
+  {
+   "id": "pt-30",
+   "outcome": "recall_candidate",
+   "text": "Se não puder comparecer, deve informar o hospital.",
+   "resolution": null
+  },
+  {
+   "id": "pt-37",
+   "outcome": "recall_candidate",
+   "text": "Verifique os detalhes da visita e os registos de IVA que deve preparar.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: a check line, the hi-42 family. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pt-42",
+   "outcome": "recall_candidate",
+   "text": "É necessário assinar e datar o formulário.",
+   "resolution": null
+  },
+  {
+   "id": "pt-43",
+   "outcome": "recall_candidate",
+   "text": "Deve chegar quinze minutos antes.",
+   "resolution": null
+  },
+  {
+   "id": "pt-46",
+   "outcome": "recall_candidate",
+   "text": "Deve reportar qualquer mudança nas suas circunstâncias dentro de um mês.",
+   "resolution": null
+  },
+  {
+   "id": "pt-55",
+   "outcome": "recall_candidate",
+   "text": "Deve chegar quinze minutos antes da hora marcada.",
+   "resolution": null
+  },
+  {
+   "id": "pt-56",
+   "outcome": "recall_candidate",
+   "text": "O pagamento deve ser recebido dentro de 14 dias dessa data.",
+   "resolution": null
+  },
+  {
+   "id": "pt-57",
+   "outcome": "recall_candidate",
+   "text": "Deve parar a comunicação imediatamente.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own scam-protection advice. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  }
+ ],
+ "blocking_defects": 1,
+ "unresolved_blocking": 1,
+ "resolved_defects": 4,
+ "elicited_pending_guard_check": 0,
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "verified": false
+}

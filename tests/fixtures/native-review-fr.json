@@ -1,0 +1,80 @@
+{
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 1, 8, 9, 12, 14, 17, 18, 25, 30; all others commands; no unsures. Row 10 carries Spanish inside a French sentence ('avant le 21 de agosto de 2026'): source determined during this ingest as CAPTURED MODEL DRIFT from the retired generate-in-language sweep; no bank, template, dictionary or prompt string carries it, so there is nothing to fix in the repo, and the row itself FIRES in agreement with the command mark. Recorded per the fix-or-record order. Tone star: row 30 vague, recorded for the post-launch native review.",
+ "marks": {
+  "fr-01": "B",
+  "fr-02": "A",
+  "fr-03": "A",
+  "fr-04": "A",
+  "fr-05": "A",
+  "fr-06": "A",
+  "fr-07": "A",
+  "fr-08": "B",
+  "fr-09": "B",
+  "fr-10": "A",
+  "fr-11": "A",
+  "fr-12": "B",
+  "fr-13": "A",
+  "fr-14": "B",
+  "fr-15": "A",
+  "fr-16": "A",
+  "fr-17": "B",
+  "fr-18": "B",
+  "fr-19": "A",
+  "fr-20": "A",
+  "fr-21": "A",
+  "fr-22": "A",
+  "fr-23": "A",
+  "fr-24": "A",
+  "fr-25": "B",
+  "fr-26": "A",
+  "fr-27": "A",
+  "fr-28": "A",
+  "fr-29": "A",
+  "fr-30": "B",
+  "fr-31": "A",
+  "fr-32": "A",
+  "fr-33": "A",
+  "fr-34": "A",
+  "fr-35": "A",
+  "fr-36": "A",
+  "fr-37": "A",
+  "fr-38": "A",
+  "fr-39": "A",
+  "fr-40": "A",
+  "fr-41": "A",
+  "fr-42": "A",
+  "fr-43": "A",
+  "fr-44": "A",
+  "fr-45": "A",
+  "fr-46": "A",
+  "fr-47": "A"
+ },
+ "starred": [
+  "fr-30"
+ ],
+ "elicited": [],
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "resolutions": {
+  "fr-13": {
+   "resolution": "Keep at the English mirror: a have-ready preparation line, the ro-31 precedent exactly. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "fr-33": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "fr-39": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "fr-40": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  }
+ }
+}

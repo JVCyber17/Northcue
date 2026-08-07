@@ -79,3 +79,13 @@ That test is the machine meaning of "verified": the language gate does not
 open for a language whose test does not exist and pass. REVIEW_REQUIRED tags
 in the vocabulary files stop being comments at that point, because the
 fixture's existence is what discharges them.
+
+## Pack-generation note, 7 August 2026
+
+The Panjabi pack's row 21 was `tpl.error.feedback_rating_required`, an
+interface validation string from the bank's error namespace, sampled into
+a judgement pack alongside card sentences. Interface strings are not
+document commands and their presence skews a reviewer's picture of what
+readers see on cards. **Future pack generation excludes the `tpl.error.*`
+namespace.** The row itself was resolved as recorded: the string renders
+only in the feedback panel, never as card content.

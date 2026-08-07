@@ -1,0 +1,121 @@
+{
+ "language": "pa",
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "rows": 60,
+ "agreements": 47,
+ "unsure_keeps": 0,
+ "defects": [
+  {
+   "id": "pa-07",
+   "outcome": "recall_candidate",
+   "text": "ਦਸਤਾਵੇਜ਼ ਕਹਿੰਦਾ ਹੈ ਕਿ ਅਦਾਇਗੀ ਨਾ ਹੋਣ ਉੱਤੇ ਇਹ ਹੋਵੇਗਾ: {consequence}. ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: an attributed consequence report with a check tail, Northcue's own line; the raw-slot defect it exposed is fixed in the bank and pinned. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-16",
+   "outcome": "recall_candidate",
+   "text": "ਇਸਦਾ ਜਵਾਬ ਦੇਣ ਦੀ ਲੋੜ ਹੋ ਸਕਦੀ ਹੈ. ਪੱਕਾ ਕਰਨ ਲਈ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਜਾਂ ਭੇਜਣ ਵਾਲੇ ਤੋਂ ਜਾਂਚੋ.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own check line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-17",
+   "outcome": "recall_candidate",
+   "text": "ਕਿਸੇ ਵੀ ਤਬਦੀਲੀ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "resolution": null
+  },
+  {
+   "id": "pa-18",
+   "outcome": "recall_candidate",
+   "text": "ਇਸਨੂੰ ਆਪਣੇ ਰਿਕਾਰਡ ਨਾਲ ਸੰਭਾਲ ਕੇ ਰੱਖੋ, ਬਾਅਦ ਵਿੱਚ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own keep-for-records line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-21",
+   "outcome": "recall_candidate",
+   "text": "ਫੀਡਬੈਕ ਰੇਟਿੰਗ ਜ਼ਰੂਰੀ ਹੈ.",
+   "resolution": {
+    "resolution": "Recorded: an interface validation string (tpl.error.feedback_rating_required) that can render only in the feedback panel, never on a card; the pack-generation leak is recorded in INGEST.md and the error namespace is excluded from future packs. The vocabulary is unchanged: an interface requirement line is not a document command.",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-24",
+   "outcome": "recall_candidate",
+   "text": "ਅਸੀਂ ਇਸ ਦਸਤਾਵੇਜ਼ ਵਿੱਚੋਂ ਲੋੜੀਂਦਾ ਟੈਕਸਟ ਨਹੀਂ ਪੜ੍ਹ ਸਕੇ. ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਸਾਫ਼ ਤਸਵੀਰ ਜਾਂ PDF ਅਪਲੋਡ ਕਰੋ.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own upload-again line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-26",
+   "outcome": "recall_candidate",
+   "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਇੱਕ ਮਹੀਨੇ ਵਿੱਚ ਦੇਣੀ ਚਾਹੀਦੀ ਹੈ।",
+   "resolution": null
+  },
+  {
+   "id": "pa-29",
+   "outcome": "recall_candidate",
+   "text": "ਮੂਲ ਦਸਤਾਵੇਜ਼ ਨੂੰ ਚੈੱਕ ਕਰਨਾ ਜਰੂਰੀ ਹੈ।",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-30",
+   "outcome": "recall_candidate",
+   "text": "ਨਿਯੁਕਤੀ 'ਤੇ 15 ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਚਾਹੀਦਾ ਹੈ।",
+   "resolution": null
+  },
+  {
+   "id": "pa-32",
+   "outcome": "recall_candidate",
+   "text": "ਪੰਦਰਾਂ ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚਣਾ ਜਰੂਰੀ ਹੈ।",
+   "resolution": null
+  },
+  {
+   "id": "pa-34",
+   "outcome": "recall_candidate",
+   "text": "ਤਬਦੀਲੀਆਂ ਦੀ ਸੂਚਨਾ ਦੇਣੀ ਜਰੂਰੀ ਹੈ।",
+   "resolution": null
+  },
+  {
+   "id": "pa-39",
+   "outcome": "recall_candidate",
+   "text": "ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ ਕਿ ਕੋਈ ਜਵਾਬ ਜਾਂ ਕਦਮ ਲੋੜੀਂਦਾ ਹੈ ਜਾਂ ਨਹੀਂ.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "pa-44",
+   "outcome": "recall_candidate",
+   "text": "ਜੇ ਵਿੱਤੀ ਸਹਾਇਤਾ ਦੀ ਲੋੜ ਹੈ ਤਾਂ ਸਕੂਲ ਦਫਤਰ ਨਾਲ ਗੱਲ ਕਰੋ।",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own action line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  }
+ ],
+ "blocking_defects": 0,
+ "unresolved_blocking": 0,
+ "resolved_defects": 8,
+ "elicited_pending_guard_check": 0,
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "verified": false
+}

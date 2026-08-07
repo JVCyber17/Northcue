@@ -1,0 +1,93 @@
+{
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 2, 6, 10, 12, 13, 15, 18, 20, 25, 27, 28, 30, 40, 42, 46, 47, 53, 56, 57, 59; all others commands; no unsures. Attributed-information rows recorded as such per the founder: 10, 15, 18, 27, 59. Tone stars recorded for the post-launch native review: 28 (should read 'আপনার', machine-sounding), 36 (garbled construction 'আবশ্যক না হলে'), 37 and 45 (clunky word order), 52 (Latin numeral '12' amid Bengali numerals).",
+ "marks": {
+  "bn-01": "A",
+  "bn-02": "B",
+  "bn-03": "A",
+  "bn-04": "A",
+  "bn-05": "A",
+  "bn-06": "B",
+  "bn-07": "A",
+  "bn-08": "A",
+  "bn-09": "A",
+  "bn-10": "B",
+  "bn-11": "A",
+  "bn-12": "B",
+  "bn-13": "B",
+  "bn-14": "A",
+  "bn-15": "B",
+  "bn-16": "A",
+  "bn-17": "A",
+  "bn-18": "B",
+  "bn-19": "A",
+  "bn-20": "B",
+  "bn-21": "A",
+  "bn-22": "A",
+  "bn-23": "A",
+  "bn-24": "A",
+  "bn-25": "B",
+  "bn-26": "A",
+  "bn-27": "B",
+  "bn-28": "B",
+  "bn-29": "A",
+  "bn-30": "B",
+  "bn-31": "A",
+  "bn-32": "A",
+  "bn-33": "A",
+  "bn-34": "A",
+  "bn-35": "A",
+  "bn-36": "A",
+  "bn-37": "A",
+  "bn-38": "A",
+  "bn-39": "A",
+  "bn-40": "B",
+  "bn-41": "A",
+  "bn-42": "B",
+  "bn-43": "A",
+  "bn-44": "A",
+  "bn-45": "A",
+  "bn-46": "B",
+  "bn-47": "B",
+  "bn-48": "A",
+  "bn-49": "A",
+  "bn-50": "A",
+  "bn-51": "A",
+  "bn-52": "A",
+  "bn-53": "B",
+  "bn-54": "A",
+  "bn-55": "A",
+  "bn-56": "B",
+  "bn-57": "B",
+  "bn-58": "A",
+  "bn-59": "B",
+  "bn-60": "A"
+ },
+ "starred": [
+  "bn-28",
+  "bn-36",
+  "bn-37",
+  "bn-45",
+  "bn-52"
+ ],
+ "elicited": [],
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "resolutions": {
+  "bn-01": {
+   "resolution": "Keep at the English mirror: Northcue's own check line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "bn-07": {
+   "resolution": "Keep at the English mirror: Northcue's own check line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "bn-14": {
+   "resolution": "Keep at the English mirror: Northcue's own navigation line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  }
+ }
+}

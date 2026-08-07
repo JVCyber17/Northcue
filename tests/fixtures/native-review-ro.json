@@ -1,0 +1,90 @@
+{
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "note": "Founder's marks, 7 August 2026, transcribed verbatim: information 1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 15, 16, 18, 33; all others commands; no unsures. Tone stars: rows 7 and 29 informal tu-forms against the Romanian formal-register decision, recorded for the post-launch native review.",
+ "marks": {
+  "ro-01": "B",
+  "ro-02": "B",
+  "ro-03": "B",
+  "ro-04": "B",
+  "ro-05": "B",
+  "ro-06": "B",
+  "ro-07": "A",
+  "ro-08": "B",
+  "ro-09": "A",
+  "ro-10": "B",
+  "ro-11": "B",
+  "ro-12": "B",
+  "ro-13": "A",
+  "ro-14": "A",
+  "ro-15": "B",
+  "ro-16": "B",
+  "ro-17": "A",
+  "ro-18": "B",
+  "ro-19": "A",
+  "ro-20": "A",
+  "ro-21": "A",
+  "ro-22": "A",
+  "ro-23": "A",
+  "ro-24": "A",
+  "ro-25": "A",
+  "ro-26": "A",
+  "ro-27": "A",
+  "ro-28": "A",
+  "ro-29": "A",
+  "ro-30": "A",
+  "ro-31": "A",
+  "ro-32": "A",
+  "ro-33": "B",
+  "ro-34": "A",
+  "ro-35": "A",
+  "ro-36": "A",
+  "ro-37": "A",
+  "ro-38": "A",
+  "ro-39": "A",
+  "ro-40": "A",
+  "ro-41": "A",
+  "ro-42": "A",
+  "ro-43": "A",
+  "ro-44": "A"
+ },
+ "starred": [
+  "ro-07",
+  "ro-29"
+ ],
+ "elicited": [],
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "resolutions": {
+  "ro-09": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-17": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-23": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-27": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-31": {
+   "resolution": "Keep at the English mirror: the measured ro-31 keep itself: the have-ready preparation line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-36": {
+   "resolution": "Keep at the English mirror: protective advice outside the mirror, confirmed by the founder as a protective-advice keep. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  },
+  "ro-40": {
+   "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+   "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+  }
+ }
+}

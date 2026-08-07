@@ -1,0 +1,121 @@
+{
+ "language": "fr",
+ "reviewer": "Claude review at the founder's decision (native review owed post-launch)",
+ "date": "2026-08-07",
+ "rows": 47,
+ "agreements": 32,
+ "unsure_keeps": 0,
+ "defects": [
+  {
+   "id": "fr-03",
+   "outcome": "recall_candidate",
+   "text": "Vous devez informer le conseil en cas de changement de revenu, d'économies ou de foyer dans les 21 jours.",
+   "resolution": null
+  },
+  {
+   "id": "fr-13",
+   "outcome": "recall_candidate",
+   "text": "Vous devez avoir prêts vos factures de ventes, d'achats et relevés bancaires.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: a have-ready preparation line, the ro-31 precedent exactly. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "fr-15",
+   "outcome": "recall_candidate",
+   "text": "Il faut examiner les paiements fournis depuis janvier.",
+   "resolution": null
+  },
+  {
+   "id": "fr-24",
+   "outcome": "recall_candidate",
+   "text": "Il faut arrêter la communication dans ce cas.",
+   "resolution": null
+  },
+  {
+   "id": "fr-26",
+   "outcome": "recall_candidate",
+   "text": "Il faut arriver quinze minutes avant l'heure du rendez-vous.",
+   "resolution": null
+  },
+  {
+   "id": "fr-29",
+   "outcome": "recall_candidate",
+   "text": "Il faut informer immédiatement en cas de changement de situation.",
+   "resolution": null
+  },
+  {
+   "id": "fr-31",
+   "outcome": "recall_candidate",
+   "text": "Il faut arriver dix minutes avant l'heure indiquée.",
+   "resolution": null
+  },
+  {
+   "id": "fr-32",
+   "outcome": "recall_candidate",
+   "text": "Si vous recevez une aide au logement, vous devez en informer le bureau.",
+   "resolution": null
+  },
+  {
+   "id": "fr-33",
+   "outcome": "recall_candidate",
+   "text": "Vérifiez sur le document original, ou auprès de l'expéditeur, si vous devez répondre ou envoyer quelque chose.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "fr-38",
+   "outcome": "recall_candidate",
+   "text": "Le formulaire doit être signé et daté.",
+   "resolution": null
+  },
+  {
+   "id": "fr-39",
+   "outcome": "recall_candidate",
+   "text": "Vérifiez sur le document original si une réponse ou une action est nécessaire.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "fr-40",
+   "outcome": "recall_candidate",
+   "text": "Appelez le numéro fourni si les dates, heures ou lieu doivent changer.",
+   "resolution": {
+    "resolution": "Keep at the English mirror: Northcue's own line. The mirror sentence was run through the English stack during this ingest and is KEPT, so parity says the vocabulary is right to keep the translation; catching it would strip sentences an English reader keeps (hi-42 and ro-31 precedents).",
+    "approvedBy": "Founder, 7 August 2026, wave-two complete seven-language ingest instruction: packs Claude-reviewed at the founder's decision, expected keeps resolved at the English mirror per the hi-42 and ro-31 precedents, named defects traced with fix-or-record orders."
+   }
+  },
+  {
+   "id": "fr-41",
+   "outcome": "recall_candidate",
+   "text": "Le paiement de £312.44 doit être reçu avant le 15 juin 2026.",
+   "resolution": null
+  },
+  {
+   "id": "fr-45",
+   "outcome": "recall_candidate",
+   "text": "Le paiement doit être reçu avant le 15 juin 2026.",
+   "resolution": null
+  },
+  {
+   "id": "fr-46",
+   "outcome": "recall_candidate",
+   "text": "Le paiement de £3,410.00 doit être reçu sous 14 jours pour éviter une action judiciaire.",
+   "resolution": null
+  }
+ ],
+ "blocking_defects": 0,
+ "unresolved_blocking": 0,
+ "resolved_defects": 4,
+ "elicited_pending_guard_check": 0,
+ "wordlist": {
+  "removed": [],
+  "added": []
+ },
+ "verified": false
+}
