@@ -423,13 +423,6 @@ let journeyCompletedTracked = false;
 // file-strip logic in setStatus compares this key, never the display text, so
 // translation can never break it.
 let lastStatusTitleKey = "";
-// The two text scopes the money note is tested against, captured on each render.
-// The note explains how to read a UK figure, so it may only appear while that
-// figure is on screen: simple view hides .card-steps, so an amount living only
-// in the steps leaves the card while the note stays. "headline" is what a simple
-// view card still shows, "full" is the normal view. Declared here with the rest
-// of the module state so setSimpleView can never reach it before it exists.
-let moneyNoteScopes = { headline: "", full: "" };
 
 const backgroundStyles = ["plain", "dots", "shapes", "notebook", "animals"];
 const legacyBackgroundStyles = {
@@ -697,9 +690,6 @@ function setFocusMode(isActive, options = {}) {
 // duplicate can be removed when the card-style packs are revisited.
 function setSimpleView(isActive, options = {}) {
   document.body.classList.toggle("cards-simple", isActive);
-  // Simple view changes which card text is visible, so the money note has to be
-  // re-tested against the new scope. Nothing re-renders on this path.
-  updateMoneyNote();
 
   if (cardDetailToggle) {
     cardDetailToggle.classList.toggle("active", isActive);
@@ -2630,14 +2620,13 @@ function renderCard() {
     cardSteps.innerHTML = "";
   }
 
-  const headlineText = [translatedTitle.text, translatedAnswer.text].join(" ");
-  moneyNoteScopes = {
-    headline: headlineText,
-    full: [headlineText]
-      .concat(translatedSteps.map((translatedStep) => translatedStep.text))
-      .join(" ")
-  };
-  updateMoneyNote();
+  const cardText = [translatedTitle.text, translatedAnswer.text]
+    .concat(translatedSteps.map((translatedStep) => translatedStep.text))
+    .join(" ");
+  const moneyNote = document.querySelector("#card-money-note");
+  if (moneyNote) {
+    moneyNote.classList.toggle("hidden", !shouldExplainMoneyFormat(cardText));
+  }
 
   renderProgressDots();
   prepareThemeAwareArtMetadata();
@@ -2665,23 +2654,6 @@ function shouldExplainMoneyFormat(text) {
   const entry = NorthcueI18n.languageEntry();
   if (!entry || !entry.invertedNumberFormat) return false;
   return SEPARATED_AMOUNT.test(String(text || ""));
-}
-
-// Applies that test to whichever scope is actually on screen. Simple view hides
-// .card-explanation and .card-steps, leaving the headline, so a card whose only
-// amount sat in a step used to keep explaining punctuation for a figure the
-// reader could no longer see, and the note became the sole body text under the
-// headline. Testing the visible scope fixes both: the note appears only
-// alongside the figure it explains, and never on its own. The trigger itself is
-// untouched, only the text handed to it. Called on every render and on every
-// simple-view toggle, because setSimpleView flips a class without re-rendering.
-function updateMoneyNote() {
-  const moneyNote = document.querySelector("#card-money-note");
-  if (!moneyNote) return;
-  const visibleText = document.body.classList.contains("cards-simple")
-    ? moneyNoteScopes.headline
-    : moneyNoteScopes.full;
-  moneyNote.classList.toggle("hidden", !shouldExplainMoneyFormat(visibleText));
 }
 
 function showCompletionScreen() {

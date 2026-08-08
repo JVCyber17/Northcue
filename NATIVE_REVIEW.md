@@ -715,10 +715,8 @@ written in English, so that sentence stays in English even when the rest of the
 page is in your language. This is deliberate. Those are the sender's words, not
 Northcue's, and changing them would mean putting words in the sender's mouth. It
 is the same rule that keeps amounts and dates exactly as printed, so the reader
-can match what is on screen to what is in their hand. The app used to say so
-itself in the line you may have as `i18n.shownInEnglish`; that line was retired
-on 6 August 2026 (see the later section) and needs no review. The quote design
-described here is unchanged.
+can match what is on screen to what is in their hand. The app says so itself in
+the line you have as `i18n.shownInEnglish`.
 
 It used to happen only on the solicitor letter. It now also happens on the
 possession notice and the court fine, because those two were moved onto the
