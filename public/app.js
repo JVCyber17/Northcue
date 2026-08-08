@@ -3654,18 +3654,47 @@ function setStatus(message, isError = false, statusKey = "") {
 
   if (isError) {
     statusTitle.textContent = t("status.errorTitle");
-    statusDetail.textContent = message;
+    writeStatusDetail(null, message);
     return;
   }
 
   if (lastStatusTitleKey === "status.documentSelected" || lastStatusTitleKey === "status.documentReady") {
     statusTitle.textContent = t("status.readyTitle");
-    statusDetail.textContent = file ? t("status.fileMeta", { fileName: file.name, fileSize: formatFileSize(file.size) }) : message;
+    writeStatusDetail(file, message);
     return;
   }
 
   statusTitle.textContent = message;
-  statusDetail.textContent = file ? t("status.fileMeta", { fileName: file.name, fileSize: formatFileSize(file.size) }) : "";
+  writeStatusDetail(file, "");
+}
+
+// The name and the size are two boxes, not one text node, so the name can
+// ellipsise on a single line while the size stays whole beside it. One node
+// could not do both: text-overflow trims the end, and the end is the size, which
+// is the part a reader checks. A filename with no spaces has no break
+// opportunity, so before this the row grew to the width of the name and pushed
+// the Replace button off the side of a phone. The bullet separator lives in CSS
+// on .ready-file-size, so status.fileMeta and the ten language files are
+// untouched, and that same key still supplies the full untruncated name and size
+// to aria-label for anyone using a screen reader.
+function writeStatusDetail(file, fallbackText) {
+  statusDetail.textContent = "";
+
+  if (!file) {
+    statusDetail.removeAttribute("aria-label");
+    statusDetail.textContent = fallbackText;
+    return;
+  }
+
+  const fileSize = formatFileSize(file.size);
+  const nameEl = document.createElement("span");
+  nameEl.className = "ready-file-name";
+  nameEl.textContent = file.name;
+  const sizeEl = document.createElement("span");
+  sizeEl.className = "ready-file-size";
+  sizeEl.textContent = fileSize;
+  statusDetail.append(nameEl, sizeEl);
+  statusDetail.setAttribute("aria-label", t("status.fileMeta", { fileName: file.name, fileSize: fileSize }));
 }
 
 function setLoading(isLoading) {
