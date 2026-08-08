@@ -8006,6 +8006,66 @@ body.theme-dark .check-dot.badge-high {
     mask-image: linear-gradient(to bottom, #000 35%, transparent 90%);
   }
 
+  /* FIRST SCREEN FIT. The landing column is pinned to the usable viewport and
+     the document illustration is the only element allowed to give way, so the
+     headline, subtitle, button and example card keep their exact sizes at every
+     viewport height and in every language.
+
+     min-height, never height, and nothing clips: when the content genuinely
+     cannot fit (the smallest phones in the longest languages) the column grows
+     past the viewport and the page scrolls normally. A viewport-pinned height
+     with clipping is a WCAG 1.4.4 failure at 200% zoom, and this audience is
+     disproportionately likely to have Android page zoom raised.
+
+     svh, not dvh or lvh: svh is the small viewport, so it is the only unit that
+     can never be taller than what the reader can actually see at load. dvh
+     reflows while the address bar animates (open WebKit bug 266835) and lvh
+     overflows at load on iOS. The plain vh line above is the fallback for
+     Samsung Internet below v21, where the svh line is simply dropped.
+
+     --landing-reserve is everything on this screen that is NOT the illustration:
+     the page's own top and bottom padding plus the shell, the example card, the
+     grid gaps and the flow's negative margin, measured in English. English is
+     the priority language, so the reserve is set from it and the same single
+     rule then applies to all ten. A longer language simply has less room left
+     and scrolls sooner; there is no per-language tuning anywhere.
+
+     A bounded container was tried first and rejected: max-height on the column
+     did force the illustration down, but the example card then painted below
+     the document's scroll height and became unreachable, which is the clipping
+     failure this must not have. Sizing the illustration itself keeps the column
+     free to grow, so when even the floor will not fit the page just scrolls. */
+  .landing-story {
+    --landing-reserve: 537px;
+  }
+
+  .landing-doc-visual {
+    /* Overrides the 258px floor above so the clamp owns the range. */
+    min-height: 0;
+    height: clamp(150px, calc(100vh - var(--landing-reserve)), 341px);
+    height: clamp(150px, calc(100svh - var(--landing-reserve)), 341px);
+    max-height: 341px;
+    /* Back to the base flex centring rather than the desktop grid. Under
+       display:grid with place-items:center the image's height:100% does not
+       resolve against the track and the picture keeps its old width-driven
+       height, overflowing the box; under flex it resolves and the picture
+       follows the box. Same centring either way. */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .landing-document-stack-img {
+    /* Height driven rather than width driven, which is what lets it absorb the
+       leftover space. Width follows the aspect ratio and is still capped at the
+       old 260px, so at full size it renders exactly as it did before. */
+    height: 100%;
+    width: auto;
+    max-width: min(260px, calc(100% - 8px));
+    object-fit: contain;
+    margin-top: 0;
+  }
+
   .landing-example-card {
     width: 100%;
     text-align: left;
@@ -9974,4 +10034,40 @@ body[data-lang="pa"] {
   font-weight: 700;
   text-align: center;
   pointer-events: none;
+}
+
+/* SHORT PHONE VIEWPORTS: give surplus spacing back to the illustration.
+
+   Placed last in the file deliberately. The landing page's top padding is set
+   by #page-landing.active further up, which is an id plus class, so a rule
+   written earlier loses on both specificity and order however it is scoped.
+
+   Only empty vertical space moves here. No text is resized, no element is
+   restyled, and nothing is reordered. Tall phones, where the first screen
+   already fits, never reach this block and keep the original spacing exactly.
+   The 58px reclaimed is worth 58px of illustration through the clamp above,
+   which is the difference between fitting and not fitting on a mid-size
+   phone. */
+@media (max-width: 760px) {
+  /* The page box itself must be measured against the SMALL viewport. With
+     min-height:100vh it is sized to the large viewport, so on iOS the landing
+     page is taller than what the reader can actually see at load and scrolls by
+     the height of the address bar even when the content fits. The plain vh line
+     stays as the fallback for browsers without svh. */
+  #page-landing.active {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 700px) {
+  #page-landing.active {
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    padding-bottom: 16px;
+  }
+
+  .landing-story {
+    gap: 8px;
+    --landing-reserve: 477px;
+  }
 }
