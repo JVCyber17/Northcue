@@ -8,7 +8,7 @@
 //   2. pattern match that extracts slot values, which are re inserted into
 //      the translated template verbatim, never converted or localised, or
 //   3. no match: the English text is returned unchanged and flagged, so the
-//      caller shows it in English with a small translated notice.
+//      caller keeps it in English rather than guessing at a translation.
 // Safety judgement never passes through here; this is presentation only.
 (function (root) {
   var compiledPatterns = null;
@@ -31,8 +31,8 @@
   // reporting success. Those are the engine's internal assembly templates for
   // display_text and the speech script, not card sentences a reader sees, so
   // they are excluded from matching. Without this guard a sentence with no
-  // real translation would be silently passed off as translated and the shown
-  // in English notice would never appear. Four characters of literal text is
+  // real translation would be silently passed off as translated, so the
+  // translated flag would stop meaning anything. Four characters of literal text is
   // enough to keep every genuine template (the shortest real one is
   // "Check {action_sentence}") while excluding the pure assembly ones.
   var MIN_LITERAL_ANCHOR = 4;
@@ -135,8 +135,9 @@
   }
 
   // Translate one engine sentence into the target language. Returns
-  // { text, translated, templateId }. When translated is false the caller
-  // must keep the English text and may show the shown-in-English notice.
+  // { text, translated, templateId }. When translated is false the caller must
+  // keep the English text. Nothing consumes the flag for display today: the
+  // shown-in-English notice it once drove was retired on 6 August 2026.
   function translateEngineSentence(text, languageCode) {
     var source = String(text == null ? "" : text);
     if (!source || !languageCode || languageCode === "en") {
