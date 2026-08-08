@@ -20,7 +20,7 @@ Think of it as two phrasebooks.
 
 **Phrasebook two, the cue card sentences.** The engine builds cue cards from a fixed set of sentences. We catalogued every one of them: 273 complete sentences, plus 51 sentence patterns with gaps in them, like "The document says {amount} is due by {date}". Each language has translations of all 324. At the moment a card is shown, the app finds the matching sentence and swaps it, dropping the real values (names, dates, amounts) into the gaps **exactly as they appear on the document**. An amount is never converted, a date never reformatted, a company name never altered.
 
-**When something has no translation** (see section 6), the sentence stays in English and a small line appears under the card, in the person's own language, saying that part is shown in English. That is the deliberate safe outcome: never a guess, only an honest gap.
+**When something has no translation** (see section 6), the sentence stays in English. That is the deliberate safe outcome: never a guess, only an honest gap. A small line under the card used to say so explicitly, in the person's own language. It was retired on 6 August 2026: after the language launch every model written sentence was unmatched by definition, so the line printed on all six cards of every session, under text that was not English at all.
 
 **AI is switched off for non English users.** When the language is not English, the app skips the AI phrasing step completely on the server, so those users always get the deterministic rules cards translated by the phrasebook. AI phrasing stays English only in this version. This is a one line gate that sits next to the four safety gates the app already had, and it does not touch any judgement code.
 

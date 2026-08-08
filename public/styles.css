@@ -9746,9 +9746,12 @@ body.theme-dark .check-dot.badge-high {
   margin-top: 4px;
 }
 
-/* Shown in English notice for the multilingual MVP. Appears under a cue card
-   only when the active language is not English and part of the card's engine
-   text had no reviewed translation in the template bank. Quiet by design. */
+/* The quiet note under a cue card headline. The class is named for the
+   shown-in-English disclaimer it was authored for, which was retired on
+   6 August 2026; the money format note is now its only user. That note appears
+   only when the active language writes numbers the other way round from the UK
+   and the visible card text carries a UK amount with a separator, so the figure
+   on screen cannot be read at the wrong magnitude. Quiet by design. */
 .i18n-english-note {
   margin: 8px auto 0;
   color: var(--muted);
