@@ -8,7 +8,6 @@
     "language.title": "Elija su idioma",
     "language.aria.open": "Elegir idioma",
     "language.aria.banner": "Sugerencia de idioma",
-    "i18n.moneyFormat": "Los importes se muestran tal y como aparecen en su carta. En el formato británico la coma separa los miles y el punto separa los peniques.",
     "meta.title": "Northcue",
     "meta.description": "Northcue convierte documentos confusos en pasos claros y tranquilos.",
     "topbar.aria.goHome": "Ir a la página de inicio",

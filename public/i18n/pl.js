@@ -7,7 +7,6 @@
     "language.title": "Wybór języka",
     "language.aria.open": "Wybierz język",
     "language.aria.banner": "Sugestia języka",
-    "i18n.moneyFormat": "Kwoty pokazujemy dokładnie tak, jak są wydrukowane na piśmie. W zapisie brytyjskim przecinek oddziela tysiące, a kropka oddziela pensy.",
     "meta.title": "Northcue",
     "meta.description": "Northcue zamienia niezrozumiałe dokumenty w spokojne, jasne kolejne kroki.",
     "topbar.aria.goHome": "Przejdź do strony głównej",

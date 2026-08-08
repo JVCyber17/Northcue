@@ -7,7 +7,6 @@
     "language.title": "আপনার ভাষা বেছে নিন",
     "language.aria.open": "ভাষা বেছে নিন",
     "language.aria.banner": "ভাষার পরামর্শ",
-    "i18n.moneyFormat": "টাকার অঙ্ক আপনার চিঠিতে যেমন ছাপা আছে ঠিক তেমনই দেখানো হয়. ব্রিটিশ লেখায় কমা হাজার আলাদা করে এবং বিন্দু পেন্স আলাদা করে.",
     "meta.title": "Northcue",
     "meta.description": "Northcue জটিল ডকুমেন্টকে শান্ত, পরিষ্কার পরবর্তী ধাপে বদলে দেয়.",
     "topbar.aria.goHome": "হোমপেজে যান",

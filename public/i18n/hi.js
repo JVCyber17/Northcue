@@ -7,7 +7,6 @@
     "language.title": "अपनी भाषा चुनें",
     "language.aria.open": "भाषा चुनें",
     "language.aria.banner": "भाषा का सुझाव",
-    "i18n.moneyFormat": "रकम ठीक वैसी ही दिखाई जाती है जैसी आपके पत्र पर छपी है. ब्रिटिश लेखन में अल्पविराम हज़ार अलग करता है और बिंदु पेंस अलग करता है.",
     "meta.title": "Northcue",
     "meta.description": "Northcue उलझाने वाले दस्तावेज़ों को शांत, साफ अगले कदमों में बदल देता है.",
     "topbar.aria.goHome": "होमपेज पर जाएँ",

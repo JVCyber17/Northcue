@@ -163,22 +163,9 @@ test("cold load with a language already saved", async (t) => {
   });
 });
 
-test("the money note constants are reachable from init", async (t) => {
-  // A source-order guard, so the class of bug cannot return by a route this
-  // file's stub does not happen to exercise. Everything the init sequence can
-  // reach must be declared above the init sequence itself.
-  const fs = require("node:fs");
-  const source = fs.readFileSync(path.join(PUBLIC_DIR, "app.js"), "utf8");
-  const lines = source.split(/\r?\n/);
-  const lineOf = (pattern) => lines.findIndex((line) => pattern.test(line)) + 1;
-
-  await t.test("SEPARATED_AMOUNT is declared before the init calls that reach it", () => {
-    const declaration = lineOf(/^const SEPARATED_AMOUNT\s*=/);
-    const firstInitCall = lineOf(/^wireLanguageControls\(\);/);
-    assert.ok(declaration > 0, "SEPARATED_AMOUNT must be declared at module level");
-    assert.ok(firstInitCall > 0, "the init sequence must still call wireLanguageControls");
-    assert.ok(declaration < firstInitCall,
-      "SEPARATED_AMOUNT (line " + declaration + ") must be declared before the init sequence (line " +
-      firstInitCall + "), or a cold load in pl, ro, pt, es or fr throws a ReferenceError");
-  });
-});
+// A source-order guard on SEPARATED_AMOUNT sat here too, naming the exact const
+// the incident threw on. The money note was removed from every card and every
+// language on 8 August 2026 and that const went with it, so the guard had
+// nothing left to point at. The execution test above is the stronger of the two
+// anyway: it loads app.js for real, so it catches a dead zone reached by any
+// route, not only the one the incident happened to take.

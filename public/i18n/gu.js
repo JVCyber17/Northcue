@@ -7,7 +7,6 @@
     "language.title": "તમારી ભાષા પસંદ કરો",
     "language.aria.open": "ભાષા પસંદ કરો",
     "language.aria.banner": "ભાષા સૂચન",
-    "i18n.moneyFormat": "રકમ તમારા પત્રમાં જેમ છપાયેલી છે તેમ જ બતાવાય છે. બ્રિટિશ લેખનમાં અલ્પવિરામ હજાર અલગ કરે છે અને બિંદુ પેન્સ અલગ કરે છે.",
     "meta.title": "Northcue",
     "meta.description": "Northcue ગૂંચવણભર્યા દસ્તાવેજોને શાંત, સ્પષ્ટ આગલાં પગલાંમાં બદલે છે.",
     "topbar.aria.goHome": "હોમપેજ પર જાઓ",

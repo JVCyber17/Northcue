@@ -2,9 +2,13 @@
 //
 // Each check here exists because the failure it guards against was either
 // found in the July 2026 audit or is the obvious way the standard erodes:
-// a language list creeping back into application code, the money format
-// note losing its data driven gate, a switched-away language staying in
-// memory, or a non English file sneaking into the initial page bundle.
+// a language list creeping back into application code, a switched-away
+// language staying in memory, or a non English file sneaking into the initial
+// page bundle.
+//
+// The money format note had a guard here too, that its language list stayed
+// config data rather than a hardcoded constant. The note was removed from every
+// card and every language on 8 August 2026, so the guard went with it.
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -39,23 +43,6 @@ test("i18n engineering standards", async (t) => {
         assert.equal(languageListPattern().test(read(relPath)), false,
           relPath + " must not contain a hardcoded language list");
       });
-  });
-
-  await t.test("the money format note is gated by config data", () => {
-    const appSource = read("public/app.js");
-    assert.match(appSource, /invertedNumberFormat/,
-      "app.js must read the invertedNumberFormat flag from the language entry");
-    assert.doesNotMatch(appSource, /INVERTED_NUMBER_FORMAT_LANGUAGES/,
-      "the hardcoded language constant must not return");
-
-    const flagged = config.languages
-      .filter((entry) => entry.invertedNumberFormat)
-      .map((entry) => entry.code)
-      .sort();
-    // The five languages whose thousands and decimal separators are the
-    // reverse of the UK convention. The four Indic languages already use a
-    // full stop for the decimal and must never carry the flag.
-    assert.deepEqual(flagged, ["es", "fr", "pl", "pt", "ro"]);
   });
 
   await t.test("only the active language stays in memory", () => {

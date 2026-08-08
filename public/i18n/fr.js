@@ -10,7 +10,6 @@
     "language.title": "Choisissez votre langue",
     "language.aria.open": "Choisir la langue",
     "language.aria.banner": "Suggestion de langue",
-    "i18n.moneyFormat": "Les montants sont affichés exactement comme sur votre courrier. Dans le format britannique, la virgule sépare les milliers et le point sépare les pence.",
     "meta.title": "Northcue",
     "meta.description": "Northcue transforme les documents confus en étapes claires et apaisantes.",
     "topbar.aria.goHome": "Aller à la page d'accueil",

@@ -9789,20 +9789,6 @@ body.theme-dark .check-dot.badge-high {
   margin-top: 4px;
 }
 
-/* The quiet note under a cue card headline. The class is named for the
-   shown-in-English disclaimer it was authored for, which was retired on
-   6 August 2026; the money format note is now its only user. That note appears
-   only when the active language writes numbers the other way round from the UK
-   and the visible card text carries a UK amount with a separator, so the figure
-   on screen cannot be read at the wrong magnitude. Quiet by design. */
-.i18n-english-note {
-  margin: 8px auto 0;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
-  text-align: center;
-}
-
 /* Language switcher, detection banner, and script font stacks for the
    multilingual MVP. Everything uses the existing theme tokens. The switcher
    is a quiet text pill; the banner is a calm dismissible strip under the
