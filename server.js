@@ -401,8 +401,24 @@ function serveStaticFile(req, res) {
     return sendJson(res, 404, { error: "Not found." });
   }
 
-  const ext = path.extname(requestedPath);
-  const contentTypes = {
+  // THIS IS AN ALLOWLIST, NOT A LOOKUP, and the difference is the whole point.
+  //
+  // It used to fall back to application/octet-stream for anything it did not
+  // recognise, which meant every file inside public/ was on the public web
+  // whether or not the site needed it. public/CLAUDE.md is engineering notes
+  // that happen to live beside the frontend, and it was being served: it
+  // described internal decisions and a list of known defects to anyone who
+  // asked for /CLAUDE.md.
+  //
+  // Serving only the types a browser actually needs fixes the cause rather than
+  // that one file, so a note, a backup or an export dropped into public/ later
+  // is private by default instead of published by default. Nothing is moved or
+  // deleted to achieve it; the files stay exactly where they are.
+  //
+  // .txt is here deliberately for assets/fonts/OFL.txt. The bundled fonts are
+  // SIL Open Font Licence, and that licence travels with the font software, so
+  // it stays reachable rather than being cut for tidiness.
+  const SERVABLE_CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
     ".css": "text/css; charset=utf-8",
     ".js": "text/javascript; charset=utf-8",
@@ -410,11 +426,20 @@ function serveStaticFile(req, res) {
     ".woff2": "font/woff2",
     ".webmanifest": "application/manifest+json",
     ".png": "image/png",
-    ".ico": "image/x-icon"
+    ".ico": "image/x-icon",
+    ".txt": "text/plain; charset=utf-8"
   };
 
+  const ext = path.extname(requestedPath);
+  const contentType = SERVABLE_CONTENT_TYPES[ext.toLowerCase()];
+  if (!contentType) {
+    // Deliberately the same response as a file that is not there, so this
+    // cannot be used to work out which files exist.
+    return sendJson(res, 404, { error: "Not found." });
+  }
+
   res.writeHead(200, {
-    "Content-Type": contentTypes[ext] || "application/octet-stream",
+    "Content-Type": contentType,
     "Cache-Control": decodedPath.startsWith("/icons/") ? ICON_CACHE_CONTROL : "no-store"
   });
   fs.createReadStream(requestedPath).pipe(res);
