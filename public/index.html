@@ -1319,14 +1319,6 @@
     <script src="/i18n.js?v=i18n-20260806a"></script>
     <script src="/deadlineStatus.js?v=deadline-20260731a"></script>
     <script src="/app.js?v=aria-20260730a"></script>
-    <script>
-      // PWA install support. The app never depends on the worker; if
-      // registration fails, normal browsing is completely unaffected.
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("/sw.js").catch(() => {});
-        });
-      }
-    </script>
+    <script src="/sw-register.js?v=csp-20260809a"></script>
   </body>
 </html>

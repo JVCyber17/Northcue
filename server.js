@@ -72,9 +72,63 @@ function redirectToCanonicalHost(req, res) {
   return true;
 }
 
+// Sent on EVERY response, including redirects, 404s and static assets. Set with
+// setHeader rather than inside each writeHead so no response path can be added
+// later that quietly skips them.
+//
+// THE CSP IS BUILT FROM WHAT THE SITE ACTUALLY LOADS, which is unusually little:
+// zero third party origins, self hosted woff2 fonts, no third party scripts, no
+// analytics beacon, and no inline event handlers, so script-src needs no
+// 'unsafe-inline'. Two relaxations are real and deliberate:
+//
+//   style-src 'unsafe-inline'  index.html carries 39 style= attributes. CSP
+//     Level 3 covers those under style-src, so a strict policy would break the
+//     page. BACKLOG: move those 39 attributes into styles.css and drop this,
+//     which is the one change that would make this policy strict. The 52
+//     element.style assignments in app.js are CSSOM and are NOT affected by CSP,
+//     so they are not part of that work.
+//   img-src data:               the wallpaper art is built as
+//     url("data:image/svg+xml,...") in app.js. Without this the backgrounds go.
+//
+// frame-ancestors 'none' and X-Frame-Options DENY say the same thing to new and
+// old browsers respectively. HSTS is deliberately WITHOUT preload: preload is
+// hard to reverse and commits every subdomain.
+const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  "Content-Security-Policy": [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "manifest-src 'self'",
+    "worker-src 'self'"
+  ].join("; "),
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  // The photo button is <input type="file" capture>, which hands off to the OS
+  // camera app and is not governed by this feature, so locking camera down does
+  // not break it. getUserMedia is not used anywhere.
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+};
+
+function applySecurityHeaders(res) {
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    res.setHeader(name, value);
+  }
+}
+
 function createNorthcueServer() {
   return http.createServer(async (req, res) => {
     try {
+      applySecurityHeaders(res);
+
       if (redirectToCanonicalHost(req, res)) return;
 
       const pathOnly = req.url.split("?")[0] || "/";
