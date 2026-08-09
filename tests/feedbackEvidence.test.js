@@ -105,19 +105,51 @@ test("feedback evidence quality", async (t) => {
     assert.match(service, /delete reducedRow\[column\]/, "must retry without them");
   });
 
-  await t.test("the reply address is never written to local storage", () => {
+  await t.test("neither the reply address nor the reader's own words reach local storage", () => {
     // The reader agreed to Northcue receiving their address, not to it being
     // left on what may be a shared family device, and nothing reads this
     // store back to send it on.
+    //
+    // THE NOTE IS HELD TO THE SAME RULE, and it used to fail it. It was written
+    // verbatim, up to fifty entries deep, with no expiry and no clearing path,
+    // and sanitiseNote only ever ran on the server so this copy was never
+    // redacted. The write path is ordinary, not rare: it fires on any failed
+    // response, the rate limit included.
     const fallback = APP_SOURCE.slice(
       APP_SOURCE.indexOf("function saveFeedbackFallback"),
-      APP_SOURCE.indexOf("async function saveShortFeedback")
+      APP_SOURCE.indexOf("function purgeStoredFeedbackNotes")
     );
     assert.ok(fallback.length > 0, "expected to find the fallback writer");
     assert.doesNotMatch(
       fallback,
       /email: feedback\.email/,
       "the fallback must not persist the reply address"
+    );
+    assert.doesNotMatch(
+      fallback,
+      /note: feedback\.note/,
+      "the fallback must not persist the reader's free text note"
+    );
+  });
+
+  await t.test("notes already on a reader's device are cleared on the next load", () => {
+    // Stopping the write only protects new readers. Anyone who used Northcue
+    // before that change is still carrying their own words, so the cleanup has
+    // to run for them too, and it has to run on the init path to be sure of it.
+    assert.match(
+      APP_SOURCE,
+      /function purgeStoredFeedbackNotes\(\)/,
+      "the cleanup for already-stored notes must exist"
+    );
+
+    const initSequence = APP_SOURCE.slice(APP_SOURCE.indexOf("\npurgeStoredFeedbackNotes();"));
+    assert.ok(
+      initSequence.length > 0,
+      "purgeStoredFeedbackNotes must be called at the top level, not only defined"
+    );
+    assert.ok(
+      APP_SOURCE.indexOf("\npurgeStoredFeedbackNotes();") < APP_SOURCE.indexOf("\nloadSavedPreferences();"),
+      "the purge must run before the rest of init, so a later failure cannot skip it"
     );
   });
 

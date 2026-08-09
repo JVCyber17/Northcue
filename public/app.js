@@ -523,6 +523,7 @@ document.addEventListener("click", (event) => {
   openHelpModal(helpCard.dataset.help || helpCard.dataset.helpOpen, helpCard);
 });
 
+purgeStoredFeedbackNotes();
 loadSavedPreferences();
 wireNavigation();
 wireUpload();
@@ -3308,17 +3309,25 @@ function getFeedbackPayload(panel) {
   };
 }
 
-// Local safety net for when the feedback endpoint cannot be reached. The reply
-// address is deliberately NOT kept here: the reader agreed to Northcue
-// receiving it, not to it sitting in local storage on what may be a shared
-// family device, and nothing ever reads this store back to send it on.
+// Local safety net for when the feedback endpoint cannot be reached. Neither
+// the reply address nor the reader's own words are kept here: they agreed to
+// Northcue receiving them, not to them sitting in local storage on what may be
+// a shared family device, and nothing ever reads this store back to send it on.
+//
+// THE NOTE USED TO BE WRITTEN HERE, VERBATIM. It is the one field a reader
+// types freely, the one the form asks them to keep names and account numbers
+// out of, and the only redaction Northcue has for it (sanitiseNote) lives on
+// the server and never ran on this copy. It persisted up to fifty entries deep
+// with no expiry and no way to clear it, and this path is ordinary rather than
+// rare: it fires on ANY failed response, the rate limit included. The reply
+// address was already excluded for exactly this reason; the note now follows
+// it. Everything kept below is a chip value, an enum or an internal label.
 function saveFeedbackFallback(feedback) {
   const savedFeedback = JSON.parse(localStorage.getItem("clearsteps-feedback") || "[]");
   savedFeedback.unshift({
     rating: feedback.rating,
     reasons: feedback.reasons,
     confidence_after: feedback.confidence_after,
-    note: feedback.note,
     contact_permission: feedback.contact_permission,
     page: feedback.page,
     section: feedback.section,
@@ -3329,6 +3338,41 @@ function saveFeedbackFallback(feedback) {
     saved_locally: true
   });
   localStorage.setItem("clearsteps-feedback", JSON.stringify(savedFeedback.slice(0, 50)));
+}
+
+// Anyone who used Northcue before the change above is still carrying their own
+// words on their device, so stopping the write is only half the fix. This drops
+// the note from entries already stored, keeping the rest of each entry so this
+// removes data and nothing else. It runs once on load, and it tolerates any
+// shape it finds, including storage being unavailable or the value not being
+// the array this app wrote, because a cleanup on the init path must never be
+// what stops the page loading.
+function purgeStoredFeedbackNotes() {
+  try {
+    const raw = localStorage.getItem("clearsteps-feedback");
+    if (!raw) return;
+
+    const stored = JSON.parse(raw);
+    if (!Array.isArray(stored)) {
+      localStorage.removeItem("clearsteps-feedback");
+      return;
+    }
+
+    let removed = 0;
+    const cleaned = stored.map((entry) => {
+      if (!entry || typeof entry !== "object" || !("note" in entry)) return entry;
+      removed += 1;
+      const { note, ...rest } = entry;
+      return rest;
+    });
+
+    if (removed > 0) localStorage.setItem("clearsteps-feedback", JSON.stringify(cleaned));
+  } catch (error) {
+    // Unreadable or unwritable storage. Leaving the value alone is wrong when it
+    // may hold a note, so drop the key entirely rather than keep what cannot be
+    // cleaned. Nothing reads this store, so removing it costs a reader nothing.
+    try { localStorage.removeItem("clearsteps-feedback"); } catch (removalError) { /* storage is gone */ }
+  }
 }
 
 async function saveShortFeedback(panel) {
