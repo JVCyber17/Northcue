@@ -443,7 +443,22 @@ const ICON_CACHE_CONTROL = "public, max-age=604800";
 
 function serveStaticFile(req, res) {
   const pathOnly = req.url.split("?")[0] || "/";
-  const cleanUrl = pathOnly === "/" ? "/index.html" : pathOnly;
+  // Two literal rewrites, both to a real file that already exists.
+  //
+  // /privacy is the published privacy policy. It has to be a real URL: a council
+  // doing due diligence pastes it into a form, a funder saves it, and someone
+  // arriving from a search must get the policy rather than the app shell. It is
+  // static HTML sharing this stylesheet, so it survives a hard refresh, works
+  // opened cold, returns real content to a crawler, and still reads with
+  // JavaScript disabled.
+  //
+  // THE REWRITE HAPPENS BEFORE THE EXTENSION LOOKUP ON PURPOSE. The request
+  // becomes /privacy.html here, then flows through the SAME allowlist below with
+  // no exception carved for it. Nothing extensionless is ever served, and the
+  // guard added in ca6635f is untouched.
+  const cleanUrl = pathOnly === "/" ? "/index.html"
+    : pathOnly === "/privacy" ? "/privacy.html"
+    : pathOnly;
   const decodedPath = decodeURIComponent(cleanUrl);
   const requestedPath = path.normalize(path.join(PUBLIC_DIR, decodedPath));
 
@@ -481,7 +496,12 @@ function serveStaticFile(req, res) {
     ".webmanifest": "application/manifest+json",
     ".png": "image/png",
     ".ico": "image/x-icon",
-    ".txt": "text/plain; charset=utf-8"
+    ".txt": "text/plain; charset=utf-8",
+    // Added deliberately, for one file: assets/northcue-privacy-policy.pdf, the
+    // downloadable copy of the published policy that a funder or a council can
+    // save. The allowlist exists to serve only what the site needs, and the site
+    // now needs to serve this. It is the only .pdf in public/.
+    ".pdf": "application/pdf"
   };
 
   const ext = path.extname(requestedPath);

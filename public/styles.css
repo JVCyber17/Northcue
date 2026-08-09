@@ -583,10 +583,6 @@ body.text-small {
 #page-privacy .privacy-full-text small { font-size: calc(13px * var(--text-scale, 1)); }
 #page-privacy .privacy-closing { font-size: calc(13.5px * var(--text-scale, 1)); }
 
-/* ── Text-size scaling — Privacy (full details) ────────────────────────────── */
-#page-privacy-full .privacy-full-stub h1 { font-size: calc(clamp(24px, 2.2vw, 30px) * var(--text-scale, 1)); }
-#page-privacy-full .privacy-full-stub p { font-size: calc(16px * var(--text-scale, 1)); }
-
 /* ── Text-size scaling — modals (Help details + other nested flows) ────────── */
 #modal .modal-box h2 { font-size: calc(28px * var(--text-scale, 1)); }
 #modal .help-modal-text { font-size: calc(17px * var(--text-scale, 1)); }
@@ -8783,28 +8779,6 @@ body.theme-dark .check-dot.badge-high {
   opacity: 0.9;
 }
 
-.privacy-full-stub {
-  width: min(620px, 100%);
-  margin: 0 auto;
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: 14px;
-  padding: 32px 8px;
-}
-
-.privacy-full-stub h1 {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: clamp(24px, 2.2vw, 30px);
-}
-
-.privacy-full-stub p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 16px;
-}
-
 /* Clickable "Private and secure" shields */
 .is-privacy-link {
   cursor: pointer;
@@ -10107,4 +10081,247 @@ body[data-lang="pa"] {
     gap: 8px;
     --landing-reserve: 477px;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   THE STANDALONE PRIVACY POLICY PAGE, served at /privacy.
+
+   This is not an app screen. It is static HTML that shares this stylesheet, so
+   it inherits every token, the theme classes and the text comfort sizes without
+   redefining any of them. Nothing below introduces a colour, a type size or a
+   visual pattern that did not already exist.
+
+   MOBILE FIRST, and the tables are the reason. Both tables in the policy are
+   label and value pairs, and a two column table at 375px either overflows or
+   crushes the value column to three characters. They are marked up as
+   description lists instead, which stack natively: label above, value beneath.
+   The desktop grid below is the enhancement, not the baseline.
+   --------------------------------------------------------------------------- */
+
+.policy-page {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 20px 64px;
+}
+
+.policy-head {
+  margin-bottom: 20px;
+}
+
+.policy-head h1 {
+  font-family: var(--font-heading);
+  font-size: calc(28px * var(--text-scale, 1));
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.policy-org {
+  margin: 0 0 4px;
+  font-size: calc(16px * var(--text-scale, 1));
+}
+
+/* The date and the reading time, quiet by design. A reader deciding whether they
+   have time for this should be able to see the answer without it competing with
+   the title. */
+.policy-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: calc(14px * var(--text-scale, 1));
+}
+
+.policy-back {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--green);
+  font-size: calc(15px * var(--text-scale, 1));
+}
+
+/* The English only notice. One line, above everything, for a reader who chose
+   another language. */
+.policy-langnote {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  background: var(--surface-soft);
+}
+
+.policy-langnote p {
+  margin: 0 0 8px;
+  font-size: calc(15px * var(--text-scale, 1));
+  line-height: 1.5;
+}
+
+.policy-langnote p:last-child { margin-bottom: 0; }
+
+/* The short version, on the soft green already in the palette, so it reads as a
+   cue card: the calm answer before the detail. */
+.policy-short {
+  background: var(--sage);
+  border-color: color-mix(in srgb, var(--green) 22%, var(--line) 78%);
+  margin-bottom: 24px;
+}
+
+.policy-short h2 {
+  margin-top: 0;
+}
+
+/* Plain anchors, never an accordion. Content hidden by default can be argued was
+   not clearly presented, it breaks the browser's own find, and it would need
+   JavaScript, which this page deliberately does not depend on. */
+.policy-jump {
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.policy-jump-title {
+  margin: 0 0 10px;
+  font-family: var(--font-heading);
+  font-size: calc(16px * var(--text-scale, 1));
+}
+
+.policy-jump ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.policy-jump li { margin: 0 0 2px; }
+
+.policy-jump a {
+  display: block;
+  padding: 7px 0;
+  color: var(--green);
+  font-size: calc(15px * var(--text-scale, 1));
+}
+
+.policy-section {
+  margin: 0 0 32px;
+  /* So an anchor does not land with the heading jammed against the top edge, and
+     so the sticky-free layout still shows the reader where they arrived. */
+  scroll-margin-top: 16px;
+}
+
+.policy-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: calc(21px * var(--text-scale, 1));
+  line-height: 1.3;
+  margin: 0 0 12px;
+  scroll-margin-top: 16px;
+}
+
+.policy-section h3 {
+  font-family: var(--font-heading);
+  font-size: calc(17px * var(--text-scale, 1));
+  margin: 22px 0 8px;
+}
+
+.policy-section p {
+  margin: 0 0 12px;
+  font-size: calc(16px * var(--text-scale, 1));
+  line-height: 1.55;
+}
+
+.policy-list {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.policy-list li {
+  margin: 0 0 8px;
+  font-size: calc(16px * var(--text-scale, 1));
+  line-height: 1.55;
+}
+
+/* Four icons on the whole page, on the four sections a worried reader looks for
+   first. Icons on every heading become noise and stop meaning anything. */
+.policy-icon {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.policy-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* THE TABLES. Stacked at every width up to 760px: label above, value beneath.
+   This is the baseline, not a fallback. */
+.policy-pairs {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  overflow: hidden;
+}
+
+.policy-pairs > div {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.policy-pairs > div:last-child { border-bottom: 0; }
+
+.policy-pairs dt {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: calc(14px * var(--text-scale, 1));
+}
+
+.policy-pairs dd {
+  margin: 0;
+  font-size: calc(16px * var(--text-scale, 1));
+  line-height: 1.5;
+  /* A reference like clearsteps_anon_session has no spaces and would otherwise
+     push the page sideways on a 320px screen. */
+  overflow-wrap: anywhere;
+}
+
+.policy-pairs code {
+  font-size: calc(14px * var(--text-scale, 1));
+  overflow-wrap: anywhere;
+}
+
+.policy-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.policy-foot a {
+  color: var(--green);
+  font-size: calc(15px * var(--text-scale, 1));
+}
+
+/* Desktop only, and only because it genuinely reads better there: two columns
+   line the values up so the retention periods can be compared down the page.
+   Never below 761px, where stacking wins. */
+@media (min-width: 761px) {
+  .policy-page {
+    max-width: 40rem;
+    padding-top: 40px;
+  }
+
+  .policy-pairs > div {
+    display: grid;
+    grid-template-columns: minmax(11rem, 34%) 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .policy-pairs dt { margin-bottom: 0; }
 }

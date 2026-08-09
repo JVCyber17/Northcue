@@ -1,4 +1,7 @@
-const pages = ["landing", "home", "journey", "help", "comfort", "privacy", "privacy-full", "why-northcue"];
+// "privacy-full" was removed when the policy moved to its own URL at /privacy.
+// It has to leave this array with its section: pageSections maps every entry to
+// #page-<entry>, so an entry with no section would make setPage throw on null.
+const pages = ["landing", "home", "journey", "help", "comfort", "privacy", "why-northcue"];
 const northcueIconBase = "/icons/northcue/";
 const northcueForegroundIconBase = "/icons/northcue/foreground/";
 const northcueForegroundLightIconBase = "/icons/northcue/foreground-light/";

@@ -1132,8 +1132,11 @@
             <p data-i18n="privacy.questions.body">If you have any questions about your privacy, you will find how to reach us in the full privacy details.</p>
           </div>
 
-          <!-- TODO: page-privacy-full is a stub. Build the full privacy details page in a separate task; this link is already wired to it. -->
-          <button type="button" class="privacy-full-link" data-page-link="privacy-full">
+          <!-- A real anchor to a real URL, not a page-link button. The policy is
+               published at /privacy as static HTML so it can be pasted into a due
+               diligence form, saved by a funder, and reached from a search. A button
+               had no address and could be neither shared nor crawled. -->
+          <a class="privacy-full-link" href="/privacy">
             <span class="privacy-full-text">
               <strong data-i18n="privacy.fullLink.title">Read the full privacy details</strong>
               <small data-i18n="privacy.fullLink.line">The complete version, including the AI provider we use and how long anything is kept.</small>
@@ -1141,17 +1144,9 @@
             <span class="privacy-full-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h13"></path><path d="M12.5 6l6 6-6 6"></path></svg>
             </span>
-          </button>
+          </a>
 
           <p class="privacy-closing" data-i18n="privacy.closing">Northcue is a reading aid. It does not give legal, financial, or official advice. Always check your original document.</p>
-        </div>
-      </section>
-
-      <section id="page-privacy-full" class="page" aria-labelledby="privacy-full-title">
-        <div class="privacy-full-stub">
-          <h1 id="privacy-full-title"><span data-i18n="privacyFull.title">Full privacy details</span><span class="green-dot">.</span></h1>
-          <p data-i18n="privacyFull.comingSoon">The complete privacy details page is coming soon.</p>
-          <button type="button" class="outline-btn" data-page-link="privacy" data-i18n="privacyFull.back">Back to privacy</button>
         </div>
       </section>
 
