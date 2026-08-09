@@ -1945,6 +1945,105 @@ function setPage(page) {
   });
 
   window.scrollTo({ top: 0, behavior: "smooth" });
+  syncBrowserChromeColour();
+}
+
+// THE WHITE STRIPS IN THE SAFE AREAS.
+//
+// The page background already reaches the screen edges: index.html sets
+// viewport-fit=cover, html declares no background, and so the browser propagates
+// body's background onto the canvas. What sat on top of it was the browser's own
+// chrome, and the browser tints that from the theme-color meta tag. That tag was a
+// near-white #fffdfa, which is --surface, the reading card colour, not the page
+// background. Near-white chrome over a warm or dark page is what read as white
+// strips above the status bar and below the toolbar.
+//
+// A static tag cannot stay correct here. Northcue has seven colour themes, and two
+// pages override the background on top of that, so there are nine distinct top edge
+// colours. Rather than hardcode nine values that would drift the first time a theme
+// changed, these two functions read the colour the browser has already resolved.
+//
+// Paint order is the subtle part. The active page container can paint an opaque
+// background over body, and #page-landing does exactly that, so the container is
+// asked first and body is the fallback.
+//
+// Every read below is written to tolerate getting nothing back. This runs during
+// init, by way of loadSavedPreferences, and the one rule this file learned the hard
+// way is that a throw on the init path takes down everything wired after it. A
+// browser chrome tint is cosmetic, so it gives up quietly rather than ever costing a
+// reader the language switcher or the document journey.
+function readPageTopColour() {
+  // Let the browser resolve whatever colour syntax this is, including color-mix(),
+  // by round tripping it through a throwaway element.
+  const asRgb = (value) => {
+    if (typeof value !== "string" || value === "") return "";
+    const probe = document.createElement("span");
+    probe.style.color = value;
+    document.body.appendChild(probe);
+    const resolved = getComputedStyle(probe).color;
+    probe.remove();
+    return typeof resolved === "string" ? resolved : "";
+  };
+
+  // Computed colours arrive either as rgb()/rgba() in 0-255 or as color(srgb ...) in
+  // 0-1, depending on whether a color-mix() was involved. Normalise both.
+  const parse = (value) => {
+    if (typeof value !== "string") return null;
+    const parts = value.match(/[\d.]+/g);
+    if (!parts || parts.length < 3) return null;
+    const scale = value.startsWith("color(") ? 255 : 1;
+    return {
+      r: Math.round(parts[0] * scale),
+      g: Math.round(parts[1] * scale),
+      b: Math.round(parts[2] * scale),
+      alpha: parts.length > 3 ? Number(parts[3]) : 1
+    };
+  };
+
+  const toHex = ({ r, g, b }) =>
+    "#" + [r, g, b].map((n) => Math.max(0, Math.min(255, n)).toString(16).padStart(2, "0")).join("");
+
+  const painters = [document.querySelector(".page.active"), document.body].filter(Boolean);
+
+  for (const painter of painters) {
+    const styles = getComputedStyle(painter);
+    if (!styles) continue;
+
+    const fill = parse(asRgb(styles.backgroundColor));
+    if (fill && fill.alpha === 1) return toHex(fill);
+
+    // No opaque fill, so the colour lives in the base gradient. Background layers
+    // paint first listed on top, so the base layer is the last one, and its first
+    // colour stop is what shows at the top edge of the page.
+    const image = styles.backgroundImage;
+    if (typeof image !== "string") continue;
+
+    const baseLayer = image.lastIndexOf("linear-gradient(");
+    if (baseLayer === -1) continue;
+
+    const firstStop = image
+      .slice(baseLayer)
+      .match(/linear-gradient\((?:[^,]*deg,\s*)?(color\([^)]*\)|rgba?\([^)]*\)|#[0-9a-fA-F]+)/);
+    if (!firstStop) continue;
+
+    const stop = parse(asRgb(firstStop[1]));
+    if (stop && stop.alpha === 1) return toHex(stop);
+  }
+
+  return null;
+}
+
+function syncBrowserChromeColour() {
+  try {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) return;
+
+    const colour = readPageTopColour();
+    if (colour) meta.setAttribute("content", colour);
+  } catch (error) {
+    // Deliberately swallowed. The tag simply keeps its previous value, which is the
+    // correct first paint colour from index.html.
+  }
 }
 
 function setTheme(theme) {
@@ -1985,6 +2084,9 @@ function applyThemeTokens(themeClass) {
   target.setProperty("--theme-blob-c", theme.blobC);
   target.setProperty("--wallpaper-line", hexToRgba(theme.art, 0.1));
   updateBackgroundPreviews(themeClass);
+  // Every theme change funnels through here, so this is the one place the browser
+  // chrome needs to be re-matched to the page.
+  syncBrowserChromeColour();
 }
 
 function setTextSize(size) {

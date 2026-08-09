@@ -8,8 +8,17 @@
     <link rel="icon" href="/favicon.ico?v=logo-20260704a" sizes="any">
     <link rel="icon" type="image/svg+xml" href="/assets/northcue-mark.svg?v=logo-20260704a">
     <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#fffdfa">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c2529">
+    <!-- The browser paints the status bar and its toolbar from theme-color, not from
+         the page background, so those strips only read as part of the page when this
+         value matches what the page actually paints at its top edge. This is the first
+         paint value and it is deliberately the landing colour, because the document
+         ships as <body data-page="landing"> and the landing background is hardcoded and
+         theme independent, so it is correct in every theme before any script runs.
+         syncBrowserChromeColour() in app.js takes over from there and keeps it matching
+         the live page. Kept as a single unscoped tag on purpose: a prefers-color-scheme
+         variant would key on the operating system, which this app never consults, since
+         the theme is a body class the reader picks and localStorage remembers. -->
+    <meta name="theme-color" content="#f8f5ef">
     <link rel="apple-touch-icon" href="/assets/pwa/apple-touch-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
