@@ -1,4 +1,5 @@
 const { getSupabaseAdminClient } = require("./supabaseService");
+const { ANALYTICS_EVENT_RETENTION_MS, expiryFromNow } = require("../config/retentionPolicy");
 
 const ALLOWED_EVENT_NAMES = new Set([
   "upload_started",
@@ -69,6 +70,9 @@ function buildAnalyticsEventRow(payload, options = {}) {
   return {
     event_name: eventName,
     page: cleanText(payload.page, MAX_TEXT_LENGTH) || null,
+    // Thirty days, the same as a document session. Stated on the row; the purge
+    // measures created_at. See src/config/retentionPolicy.js.
+    expires_at: expiryFromNow(ANALYTICS_EVENT_RETENTION_MS),
     metadata: removeEmptyValues(metadata)
   };
 }
@@ -82,11 +86,7 @@ async function saveAnalyticsEvent(payload, options = {}) {
     throw error;
   }
 
-  const { data, error } = await supabase
-    .from("analytics_events")
-    .insert(row)
-    .select("id")
-    .single();
+  const { data, error } = await insertAnalyticsRow(supabase, row);
 
   if (error) {
     const saveError = new Error("Analytics event could not be saved.");
@@ -95,6 +95,30 @@ async function saveAnalyticsEvent(payload, options = {}) {
   }
 
   return data;
+}
+
+// PRE-MIGRATION TOLERANCE for expires_at, the same trade the other two tables
+// already make. If this deploy reaches a database that has not applied phase10
+// yet, naming the column fails the whole insert and the event is lost. Losing
+// the event because a column is late is never the right trade, so the retry
+// drops it and keeps the event. The row is still purged correctly either way,
+// because the purge measures created_at, not this column.
+async function insertAnalyticsRow(supabase, row) {
+  const first = await supabase.from("analytics_events").insert(row).select("id").single();
+  if (!isUnknownColumnError(first.error) || !("expires_at" in row)) return first;
+
+  const { expires_at, ...withoutExpiry } = row;
+  console.warn(
+    "Analytics expires_at column missing, retrying without it. Run the pending Supabase migration:",
+    first.error.message
+  );
+  return await supabase.from("analytics_events").insert(withoutExpiry).select("id").single();
+}
+
+function isUnknownColumnError(error) {
+  if (!error) return false;
+  // PostgREST schema cache miss, and the underlying Postgres undefined column.
+  return error.code === "PGRST204" || error.code === "42703";
 }
 
 function rejectUnknownFields(payload) {

@@ -2,6 +2,10 @@ const fs = require("node:fs");
 const crypto = require("node:crypto");
 const path = require("node:path");
 const { cleanupTemporaryFile } = require("../utils/temporaryStorageCleanup");
+const {
+  DOCUMENT_SESSION_RETENTION_MS,
+  expiryFromNow
+} = require("../config/retentionPolicy");
 
 const {
   extractTextFromInput,
@@ -79,7 +83,11 @@ async function simplifyRoute({ file, fields, directories }) {
         sourceSizeBytes: file.sizeBytes,
         documentCategory: selectedCategory,
         language: interfaceLanguage,
-        expiresAt: new Date(Date.now() + OCR_SESSION_TTL_MS).toISOString()
+        // The ROW's retention, thirty days. This used to be OCR_SESSION_TTL_MS,
+        // the fifteen minute TTL for extracted text held in memory, which is a
+        // different thing entirely: that TTL governs how long the text lives
+        // between the upload step and the analyse step, and it is untouched.
+        expiresAt: expiryFromNow(DOCUMENT_SESSION_RETENTION_MS)
       });
 
       const extractionResult = await extractUploadedFileText({
@@ -120,7 +128,8 @@ async function simplifyRoute({ file, fields, directories }) {
         sourceMimeType: mimeType,
         sourceSizeBytes: file.sizeBytes,
         documentCategory: selectedCategory,
-        expiresAt: new Date(Date.now() + OCR_SESSION_TTL_MS).toISOString()
+        // The row's retention, not the in-memory text TTL. See the note above.
+        expiresAt: expiryFromNow(DOCUMENT_SESSION_RETENTION_MS)
       });
 
       return {

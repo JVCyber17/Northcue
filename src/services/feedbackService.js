@@ -1,4 +1,5 @@
 const { getSupabaseAdminClient } = require("./supabaseService");
+const { FEEDBACK_EVENT_RETENTION_MS, expiryFromNow } = require("../config/retentionPolicy");
 
 const VALID_RATINGS = new Set(["yes", "little", "no"]);
 const VALID_TRUST_LEVELS = new Set(["high", "medium", "low", "unknown"]);
@@ -93,6 +94,10 @@ async function saveFeedbackEvent(payload, options = {}) {
 
   const note = sanitiseNote(payload.note || payload.comment || "");
   const row = {
+    // Six months, longer than the other two tables because feedback is read by a
+    // person rather than being operational. Stated on the row; the purge measures
+    // created_at. See src/config/retentionPolicy.js.
+    expires_at: expiryFromNow(FEEDBACK_EVENT_RETENTION_MS),
     rating,
     reasons: normaliseReasons(payload.reasons),
     note: note || null,
@@ -145,7 +150,7 @@ async function saveFeedbackEvent(payload, options = {}) {
 // the whole insert and the rating, the reasons and the note go down with it.
 // Losing a reader's answer because a column is late is never the right trade,
 // so the retry drops the optional fields and keeps the answer.
-const OPTIONAL_FEEDBACK_COLUMNS = ["confidence_after", "contact_email"];
+const OPTIONAL_FEEDBACK_COLUMNS = ["confidence_after", "contact_email", "expires_at"];
 
 function isUnknownColumnError(error) {
   if (!error) return false;
