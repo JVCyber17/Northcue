@@ -260,7 +260,7 @@
     "privacy.thinking.heading": "Myślenie należy do nas",
     "privacy.thinking.body": "Northcue nie jest chatbotem. Zbudowaliśmy własny system, który czyta Państwa dokument, ustala, czym on się wydaje być, i ostrożnie decyduje, co trafia na każdą kartę podpowiedzi i jak łagodnie to ująć. Ta struktura i stojące za nią zabezpieczenia to praca samego Northcue. Dostawca AI pomaga jedynie na końcu ubrać wszystko w jasny, przyjazny język.",
     "privacy.keep.heading": "Co zachowujemy",
-    "privacy.keep.body": "Tylko anonimowe informacje, na przykład typ dokumentu i to, czy dało się go wyraźnie odczytać. Nigdy niepowiązane z Państwem.",
+    "privacy.keep.body": "Tylko anonimowe informacje, na przykład typ dokumentu i to, czy dało się go wyraźnie odczytać. Nie są powiązane z Państwa imieniem i nazwiskiem ani z dokumentem.",
     "privacy.never.heading": "Czego nigdy nie zachowujemy",
     "privacy.never.body": "Państwa dokumentu, jego treści ani imienia i nazwiska, adresu czy numerów kont.",
     "privacy.cards.heading": "Jak powstają Państwa karty",

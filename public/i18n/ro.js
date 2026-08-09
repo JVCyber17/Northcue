@@ -260,7 +260,7 @@
     "privacy.thinking.heading": "Gândirea ne aparține",
     "privacy.thinking.body": "Northcue nu este un chatbot. Am construit propriul nostru sistem care vă citește documentul, își dă seama ce pare să fie și decide cu grijă ce apare pe fiecare card cu indicii și cât de blând să fie formulat. Această structură, și siguranța din spatele ei, este munca proprie a Northcue. Un furnizor de AI ajută doar la final, ca totul să fie exprimat într-un limbaj clar și prietenos.",
     "privacy.keep.heading": "Ce păstrăm",
-    "privacy.keep.body": "Doar informații anonime, cum ar fi tipul documentului și dacă s-a putut citi clar. Niciodată legate de dumneavoastră.",
+    "privacy.keep.body": "Doar informații anonime, cum ar fi tipul documentului și dacă s-a putut citi clar. Nu sunt legate de numele sau documentul dumneavoastră.",
     "privacy.never.heading": "Ce nu păstrăm niciodată",
     "privacy.never.body": "Documentul dumneavoastră, textul lui, sau numele, adresa și numerele dumneavoastră de cont.",
     "privacy.cards.heading": "Cum sunt create cardurile dumneavoastră",
