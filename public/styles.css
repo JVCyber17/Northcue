@@ -279,6 +279,21 @@ body {
       color-mix(in srgb, var(--surface) 82%, var(--theme-panel) 18%) 48%,
       color-mix(in srgb, var(--theme-bottom) 16%, var(--bg-tint) 84%) 100%
     );
+  /* THE WHITE STRIPS BEHIND THE STATUS BAR AND THE TOOLBAR, on iOS Safari.
+     Safari 26 stopped using the theme-color meta tag. It now takes its toolbar colour
+     from the background-COLOR of a fixed or sticky element at a viewport edge, and
+     failing that from the background-COLOR of body. If neither is set it defaults to
+     white in light mode. Northcue paints body with a gradient, and the background
+     shorthand above RESETS background-color to transparent, so Safari found nothing to
+     read and fell back to white. Chrome was unaffected because it does still read
+     theme-color, which is why this looked fixed everywhere except the place it was
+     reported.
+     This declaration exists to be read rather than seen. It sits directly underneath
+     the opaque linear-gradient above, so it paints no visible pixel, and it repeats
+     that gradient's own 0% stop so the two can never drift apart. Because html has no
+     background, body's background still propagates to the canvas, so this also gives
+     the safe areas a real colour instead of the canvas default. */
+  background-color: color-mix(in srgb, var(--theme-top) 12%, var(--bg) 88%);
 }
 
 body::before {
@@ -309,6 +324,12 @@ body[data-page="landing"] {
     radial-gradient(circle at 18% 88%, rgba(243, 232, 211, 0.52), transparent 30%),
     radial-gradient(circle at 84% 82%, rgba(221, 231, 216, 0.46), transparent 28%),
     linear-gradient(180deg, #f3f0e8 0%, #fbfaf4 50%, #f3e7d6 100%);
+  /* Read by Safari, never seen. See the note on the base body rule. The value is
+     #f8f5ef rather than this gradient's own #f3f0e8 because on the landing page
+     #page-landing.active paints its own opaque #f8f5ef across the whole viewport, so
+     that, not the gradient beneath it, is the colour a reader actually sees against the
+     browser chrome. */
+  background-color: #f8f5ef;
 }
 
 body[data-page="landing"]::before {
@@ -2478,6 +2499,10 @@ body[data-page="home"] {
       color-mix(in srgb, var(--surface) 82%, var(--theme-panel) 18%) 52%,
       color-mix(in srgb, var(--theme-bottom) 16%, var(--bg-tint) 84%) 100%
     );
+  /* Read by Safari, never seen. See the note on the base body rule. This page overrides
+     the background, so it has to repeat the declaration or it would inherit the
+     shorthand's transparent reset again. */
+  background-color: color-mix(in srgb, var(--theme-top) 12%, var(--bg) 88%);
 }
 
 body[data-page="home"]::before {
