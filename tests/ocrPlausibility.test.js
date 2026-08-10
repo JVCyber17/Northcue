@@ -98,12 +98,19 @@ test("OCR plausibility gate", async (t) => {
     }
   });
 
-  await t.test("an EXIF orientation flag changes nothing, which is why both must fail", () => {
-    // 03 is 02 with an EXIF Orientation=6 segment spliced in. Nothing in the
-    // extraction path reads that flag, so the OCR output is identical. Recorded
-    // here so a future EXIF fix has a fixture that shows what it changed.
+  await t.test("both rotated fixtures are the same captured text, from before EXIF was read", () => {
+    // HISTORY, kept deliberately. These two .txt files were captured when nothing
+    // in the extraction path read the EXIF orientation flag, which is why tagging
+    // one of them changed nothing about its OCR output. Orientation is handled now
+    // (src/services/imagePreprocessing.js), so a photo like this no longer reaches
+    // the gate in this state at all.
+    //
+    // They stay because their VALUE here was never "this is what a rotated photo
+    // produces today". It is "this is what garbled OCR looks like", and the gate
+    // must keep refusing that whatever produced it. Orientation handling is tested
+    // on pixels, in tests/imagePreprocessing.test.js, not through OCR output.
     assert.equal(read("02-rotated-pixels"), read("03-rotated-exif"),
-      "the two rotated fixtures must stay byte identical until EXIF is handled");
+      "these two captures must stay identical to each other");
   });
 
   await t.test("the margin between the worst passing and best failing sample", () => {

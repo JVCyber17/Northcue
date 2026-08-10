@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const { execFile } = require("node:child_process");
 const { promisify } = require("node:util");
+const { preprocessImageForOcr, discardPreprocessedImage } = require("./imagePreprocessing");
 
 const execFileAsync = promisify(execFile);
 const IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -42,12 +43,27 @@ async function extractTextFromImage({ filePath }) {
     };
   }
 
+  // Turn the page upright first. This returns the original path unchanged if
+  // anything at all goes wrong, so OCR still runs on something either way.
+  const preprocessed = await preprocessImageForOcr({ filePath });
+
   try {
     // Tesseract writes OCR text to stdout when the output target is "stdout".
     // Keep this developer-only step separate from the AI pipeline for now.
+    //
+    // --psm 6 STAYS, AND THE MEASUREMENT IS WHY. PSM 6 assumes a single uniform
+    // block, and a letter plainly is not one, so PSM 3 (auto page segmentation)
+    // reads like the obvious correction. Measured across the synthetic set, it is
+    // not: on a page photographed at a 7 degree angle, PSM 3 returns COMPLETELY
+    // EMPTY output, 0 of 17 keywords against PSM 6's 17 of 17, because its layout
+    // analysis rejects the whole page at that skew. Its one advantage was reading
+    // rotated pages, and the preprocessing step above now fixes those properly by
+    // turning the pixels rather than by asking OCR to cope. PSM 1 measured
+    // identically to PSM 3, including the same empty result on the angled page.
+    // Do not swap this on the flag's description; measure it again first.
     const { stdout } = await execFileAsync(
       "tesseract",
-      [filePath, "stdout", "-l", "eng", "--psm", "6"],
+      [preprocessed.path, "stdout", "-l", "eng", "--psm", "6"],
       {
         maxBuffer: 4 * 1024 * 1024,
         windowsHide: true
@@ -74,6 +90,10 @@ async function extractTextFromImage({ filePath }) {
       success: false,
       error: "This document is hard to read. Please upload a clearer image."
     };
+  } finally {
+    // Only ever removes a file this function created. The original upload is
+    // owned by the route and deleted there.
+    discardPreprocessedImage(preprocessed);
   }
 }
 
