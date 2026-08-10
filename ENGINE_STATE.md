@@ -969,3 +969,78 @@ follow-up alongside the post-freeze latency item.
 
 The freeze ends with the seventh opening, per the locked plan. The
 post-freeze ledger begins: prose latency reduction, founder-flagged.
+
+## THE SHAPE RULE: volume cannot tell a letter from a wall of fragments (10 August 2026)
+
+The OCR quality gate measured amount only: letters and word count. Garbled OCR is
+not short, so it walked straight through.
+
+A synthetic letter photographed sideways returned **313 letters in 235 tokens and
+rated "good"**, clearing every volume bar, while containing **none of the 17 words
+actually printed on the page**. The upright original scored 461 letters in 99
+tokens and 17 of 17. Rotation did not reduce the volume, it increased it: Tesseract
+reads the stems and bowls of rotated glyphs as separate marks, so the failure mode
+produces MORE tokens than the success case. No volume threshold can ever separate
+those two, in either direction.
+
+**SO: the gate now measures shape as well as amount.** Four signals, each a
+different view of the same failure, and a refusal needs TWO of them to agree:
+
+| signal | real prose | garbled | limit |
+|---|---|---|---|
+| mean token length | 4.13 to 6.52 | 1.42 | < 2.5 |
+| single character ratio | 0.00 to 0.12 | 0.65 | > 0.35 |
+| word shaped ratio | 0.67 to 0.87 | 0.27 | < 0.45 |
+| word character ratio | 0.95 to 0.97 | 0.73 | < 0.85 |
+
+Calibrated on 16 real samples across seven languages against the garbled sample.
+**Every real sample fails zero of four. The garbled sample fails four of four.**
+The decision margin is therefore 0 against 4 with a threshold of 2, not a knife
+edge between two thresholds.
+
+Two signals were measured and REJECTED, and both rejections matter more than the
+four that shipped. **"Longest run of clean tokens" scored 8 on the garbled sample
+and 6 on real Polish**, so it discriminated in the wrong direction and would have
+refused Polish to accept garbage. **"Recognisable dictionary-shaped words" was
+rejected by design**: it cannot be made script neutral without shipping wordlists
+for ten languages, and the language with the weakest list is the one that would
+then be quietly refused.
+
+Below 12 word-bearing tokens the check abstains and volume governs alone. The
+garbled sample still fails 2 of 4 at five tokens, but 2 is the bare minimum for a
+refusal and a decision should not rest on the minimum.
+
+## THE ASCII GATE: four of ten languages cannot submit a document in their own script (10 August 2026)
+
+Recorded as a defect, open, not fixed. It is the same shape as every other bug in
+this file that survived for months: **it breaks only for non-English readers, and
+no English test could ever have seen it.**
+
+Both quality gates count ASCII and nothing else. `rateInputQuality`
+(`src/services/textExtraction.js`) tokenises with `[A-Za-z0-9$]+` and counts
+letters with `[^A-Za-z0-9]` stripped. `hasEnoughText` (`src/routes/simplifyRoute.js`)
+counts words with `[A-Za-z0-9]+`. Measured, on roughly 780 characters of real
+prose in each script with Latin removed:
+
+| language | ASCII letters | ASCII words | rateInputQuality | hasEnoughText | outcome |
+|---|---|---|---|---|---|
+| Bengali | 0 | 0 | poor | false | **refused** |
+| Gujarati | 0 | 0 | poor | false | **refused** |
+| Hindi | 0 | 0 | poor | false | **refused** |
+| Panjabi | 0 | 0 | poor | false | **refused** |
+
+A Gujarati PDF with a perfect text layer is currently told it "appears to be a
+scanned document rather than a text document". The reader is told their document is
+the problem. It is not, and there is nothing they can do about it.
+
+**Why it hid.** The dictionary samples used in early checks all contain Latin
+fragments, "Northcue", "AI", "PDF", which is exactly enough to scrape a
+"borderline" rating and look like it works. Only stripping Latin entirely exposes
+it. Any test written in English, or against text with a brand name in it, passes.
+
+**Why it is not fixed here.** Fixing it lets documents through that are refused
+today, which is a loosening, and the change that found it was a hardening. Mixing
+the two in one commit would mean neither could be reviewed on its own terms. The
+fix is the same class as the shape signals above: the word class must be
+`[\p{L}\p{M}\p{N}]`, the one `tests/wordBoundarySafety.test.js` already enforces
+across `src/`, because `\p{L}` alone splits an Indic word through its vowel sign.

@@ -1,0 +1,17 @@
+NORTHCUE TEST COUNCIL
+
+PO Box 0000, Testville, TS1 1TS
+
+Account reference: TEST-0000-0000
+
+Date of notice: 14 March 2026
+
+Dear Test Resident,
+
+This is a synthetic notice created only to test text extraction.
+
+It contains no real personal data of any kind.
+
+The amount shown on this test notice is 123.45 pounds.
+
+the test office using the reference number printed above.
