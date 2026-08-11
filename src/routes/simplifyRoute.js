@@ -98,7 +98,9 @@ async function simplifyRoute({ file, fields, directories }) {
         jobId,
         anonymousSessionId,
         sourceSizeBytes: file.sizeBytes,
-        selectedCategory
+        selectedCategory,
+        // Chooses which Tesseract languages to load. Only the image path uses it.
+        interfaceLanguage
       });
 
       if (!extractionResult.success) {
@@ -211,7 +213,8 @@ async function extractUploadedFileText({
   jobId,
   anonymousSessionId,
   sourceSizeBytes,
-  selectedCategory
+  selectedCategory,
+  interfaceLanguage
 }) {
   if (isImageMimeType(mimeType)) {
     const ocrStartedAt = new Date().toISOString();
@@ -226,7 +229,7 @@ async function extractUploadedFileText({
       ocrEngine: "tesseract"
     });
 
-    const ocrResult = await extractTextFromImage({ filePath });
+    const ocrResult = await extractTextFromImage({ filePath, interfaceLanguage });
     const ocrDurationMs = Date.now() - ocrStartMs;
     const ocrCompletedAt = new Date().toISOString();
     const ocrInputQuality = normaliseOcrInputQuality(ocrResult.input_quality);

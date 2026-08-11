@@ -21,6 +21,49 @@ const IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 // on a half-finished read.
 const OCR_TIMEOUT_MS = 60000;
 
+// WHICH TESSERACT LANGUAGES TO LOAD, CHOSEN FROM THE READER'S INTERFACE LANGUAGE.
+//
+// The problem this solves: a photographed Gujarati notice read with -l eng comes
+// back as transliterated Latin nonsense, "oilelsy UzLALL SIGsUa", with zero
+// Gujarati characters recovered. It is word-shaped, so every plausibility signal
+// passes and it reaches the reader as six confident cards built on nothing. No
+// shape check can catch that, by construction.
+//
+// WHY THE READER'S LANGUAGE IS COMBINED WITH ENGLISH RATHER THAN REPLACING IT.
+// A Gujarati speaker in the UK mostly receives ENGLISH letters, so the interface
+// language does not predict the document's script. Measured on synthetic notices,
+// recall of content words:
+//
+//   reader   flag       english doc   own-script doc
+//   gu       eng             11/11          0/10
+//   gu       guj              0/11         10/10     <- would break the common case
+//   gu       eng+guj         11/11         10/10
+//
+// and the same shape for hin, ben and pan. Combining costs nothing on the English
+// document (0.0% drop) and is the only option that serves both, which is why the
+// reader's language alone is not used.
+//
+// Data, not branches, per docs/i18n/engineering-standards.md. A language absent
+// from this map gets English, which is the current behaviour for every language.
+const OCR_LANGUAGES_BY_INTERFACE_LANGUAGE = {
+  gu: "eng+guj",
+  hi: "eng+hin",
+  bn: "eng+ben",
+  pa: "eng+pan"
+};
+
+const DEFAULT_OCR_LANGUAGES = "eng";
+
+// English readers, and readers of the five Latin-script languages, are unchanged:
+// they get "eng" exactly as before, so their OCR output is byte identical. That is
+// deliberate. Polish and Romanian DO have a measured deficit under eng (every word
+// carrying ł, ą, ę, ś, ż or ă, ș, ț is misread), but adding those packs is a
+// separate decision on separate evidence and is not bundled in here.
+function ocrLanguagesFor(interfaceLanguage) {
+  const cleaned = String(interfaceLanguage || "").toLowerCase().trim();
+  return OCR_LANGUAGES_BY_INTERFACE_LANGUAGE[cleaned] || DEFAULT_OCR_LANGUAGES;
+}
+
 async function extractTextFromInput({ pastedText, filePath, mimeType, originalName }) {
   if (typeof pastedText === "string" && pastedText.trim()) {
     return pastedText.trim();
@@ -50,7 +93,7 @@ async function extractTextFromInput({ pastedText, filePath, mimeType, originalNa
   return "";
 }
 
-async function extractTextFromImage({ filePath }) {
+async function extractTextFromImage({ filePath, interfaceLanguage }) {
   if (!filePath || !fs.existsSync(filePath)) {
     return {
       success: false,
@@ -78,7 +121,7 @@ async function extractTextFromImage({ filePath }) {
     // Do not swap this on the flag's description; measure it again first.
     const { stdout } = await execFileAsync(
       "tesseract",
-      [preprocessed.path, "stdout", "-l", "eng", "--psm", "6"],
+      [preprocessed.path, "stdout", "-l", ocrLanguagesFor(interfaceLanguage), "--psm", "6"],
       {
         maxBuffer: 4 * 1024 * 1024,
         windowsHide: true,
@@ -323,5 +366,9 @@ module.exports = {
   // Shared with hasEnoughText in simplifyRoute.js so both gates count a word the
   // same way. A second copy is how one of them ends up ASCII-only again.
   countWordCharacters,
-  countWords
+  countWords,
+  // Exported so a test can pin the mapping without going through OCR, which is
+  // the only way to check it on a machine with no tesseract binary.
+  ocrLanguagesFor,
+  OCR_LANGUAGES_BY_INTERFACE_LANGUAGE
 };

@@ -36,16 +36,33 @@ FROM --platform=linux/amd64 node:22.23.2-trixie-slim
 # apt version is 1:4.1.0-2. Writing 4.1.0-2 fails the build for the wrong reason.
 # The version looks mismatched against the 5.5.0 engine because the data comes
 # from a different source package, tesseract-lang. That is correct, not a typo.
+#
+# THE FOUR INDIC PACKS, and why they are not optional. OCR ran -l eng for
+# everyone. A photographed Gujarati notice came back as transliterated Latin
+# nonsense, "oilelsy UzLALL SIGsUa", with zero Gujarati characters recovered, and
+# because that output is word-shaped every plausibility signal passed: the reader
+# got six confident cue cards built on nothing. That is the one place this product
+# guessed rather than refused. Measured recall on a synthetic notice went from
+# 0/10 to 10/10 with the pack present.
+#
+# They cost 3.8 MB installed, all four together, and 6.8 MB of peak process memory
+# when a second language is loaded alongside English.
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
         tesseract-ocr=5.5.0-1+b1 \
         tesseract-ocr-eng=1:4.1.0-2 \
-        tesseract-ocr-osd=1:4.1.0-2; \
+        tesseract-ocr-osd=1:4.1.0-2 \
+        tesseract-ocr-guj=1:4.1.0-2 \
+        tesseract-ocr-hin=1:4.1.0-2 \
+        tesseract-ocr-ben=1:4.1.0-2 \
+        tesseract-ocr-pan=1:4.1.0-2; \
     rm -rf /var/lib/apt/lists/*; \
     tesseract --version; \
-    tesseract --list-langs 2>&1 | grep -qx eng; \
-    tesseract --list-langs 2>&1 | grep -qx osd
+    for lang in eng osd guj hin ben pan; do \
+        tesseract --list-langs 2>&1 | grep -qx "$lang" \
+            || (echo "tesseract language data missing: $lang" && exit 1); \
+    done
 
 WORKDIR /app
 
