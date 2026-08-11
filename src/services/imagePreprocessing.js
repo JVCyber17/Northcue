@@ -31,6 +31,27 @@ const execFileAsync = promisify(execFile);
 // the common path never pays this.
 const OSD_TIMEOUT_MS = 15000;
 
+// THE LONGEST EDGE OCR IS ALLOWED TO SEE, AND WHY IT IS A CEILING NOT A TARGET.
+//
+// A4 at 300dpi is 2480 by 3508 pixels, and 300dpi is where Tesseract's accuracy
+// peaks: past it, accuracy does not improve and can degrade, while cost keeps
+// climbing. 3500 is that long edge, so a full page arrives at roughly the density
+// the engine wants.
+//
+// The reason this is not merely an optimisation. The instance has 512MB. Uploads
+// are capped at 15MB (server.js), and a 15MB JPEG is routinely 40 to 100
+// megapixels. Leptonica decodes the whole bitmap uncompressed, so 50MP is about
+// 200MB in the OCR child alone, on top of Node already holding the request body
+// and its multipart copy. When the cgroup limit trips, the kernel kills the
+// largest process, which is the OCR child. That rejection is indistinguishable
+// from any other, so textExtraction returns "This document is hard to read",
+// and a reader whose photo was perfectly good is told their photo was the
+// problem. Capping the pixels is what stops that.
+//
+// withoutEnlargement is set so a small image is never upscaled: interpolating a
+// low resolution photo invents detail and gives OCR more to be wrong about.
+const OCR_MAX_EDGE = 3500;
+
 // Every real page measured on the synthetic set read between 10.08 and 16.91.
 // The floor is set far below that range on purpose rather than tuned to it: with
 // eight samples, a threshold fitted to the observed minimum would be overfitting.
@@ -79,11 +100,19 @@ async function detectOrientationWithOsd(filePath) {
   }
 }
 
-function orientedPathFor(filePath) {
+function derivedPathFor(filePath, tag) {
   const parsed = path.parse(filePath);
   // Written beside the upload so the existing temporary-file sweeper covers it as
   // a backstop, in addition to the explicit delete the caller performs.
-  return path.join(parsed.dir, parsed.name + ".oriented" + (parsed.ext || ".jpg"));
+  return path.join(parsed.dir, parsed.name + "." + tag + (parsed.ext || ".jpg"));
+}
+
+function removeQuietly(target) {
+  try {
+    fs.unlinkSync(target);
+  } catch (error) {
+    // The sweeper collects it. Never worth failing a request over.
+  }
 }
 
 // A written file is only accepted if it exists and is not empty. An image library
@@ -110,39 +139,83 @@ async function preprocessImageForOcr({ filePath }) {
   const sharp = loadSharp();
   if (!sharp) return unchanged("sharp_unavailable");
 
-  let orientation;
+  let metadata;
   try {
-    orientation = (await sharp(filePath).metadata()).orientation;
+    metadata = await sharp(filePath).metadata();
   } catch (error) {
     return unchanged("unreadable_metadata");
   }
 
-  // A flag of 1 means the camera has already told us the pixels are upright.
-  // Nothing to do, and no reason to spend a second Tesseract call asking.
-  if (orientation === 1) return unchanged("already_upright");
+  const orientation = metadata.orientation;
+  const hasExifFlag = Number.isFinite(orientation);
+  const needsExifRotation = hasExifFlag && orientation > 1;
+  const longestEdge = Math.max(metadata.width || 0, metadata.height || 0);
+  const needsDownscale = longestEdge > OCR_MAX_EDGE;
 
-  const outputPath = orientedPathFor(filePath);
+  // A flag of 1 means the camera has already said the pixels are upright, and if
+  // the image is also within the size cap there is nothing to do. Returning here
+  // is what keeps the common path free of a second Tesseract process.
+  if (hasExifFlag && !needsExifRotation && !needsDownscale) return unchanged("already_upright");
+
+  const notes = [];
+  let workingPath = filePath;
 
   try {
-    if (Number.isFinite(orientation) && orientation > 1) {
-      // rotate() with no argument applies the EXIF orientation, and sharp drops the
-      // flag from the output, so the result cannot be double-corrected downstream.
-      await sharp(filePath).rotate().toFile(outputPath);
-      if (!wroteSomething(outputPath)) return unchanged("empty_output");
-      return { path: outputPath, applied: true, reason: "exif_orientation_" + orientation };
+    // ONE DECODE for the rotation and the size cap together. rotate() with no
+    // argument applies the EXIF orientation, and sharp drops the flag from the
+    // output so nothing downstream can double-correct it.
+    if (needsExifRotation || needsDownscale) {
+      const prepared = derivedPathFor(filePath, "prepared");
+      let pipeline = sharp(filePath);
+      if (needsExifRotation) {
+        pipeline = pipeline.rotate();
+        notes.push("exif_orientation_" + orientation);
+      }
+      if (needsDownscale) {
+        pipeline = pipeline.resize({
+          width: OCR_MAX_EDGE,
+          height: OCR_MAX_EDGE,
+          fit: "inside",
+          withoutEnlargement: true
+        });
+        notes.push("downscaled_" + longestEdge + "_to_" + OCR_MAX_EDGE);
+      }
+      await pipeline.toFile(prepared);
+      if (!wroteSomething(prepared)) return unchanged("empty_output");
+      workingPath = prepared;
     }
 
-    // No flag at all. Ask Tesseract what it thinks, and act only on a confident,
-    // non-zero answer.
-    const detected = await detectOrientationWithOsd(filePath);
-    if (!detected) return unchanged("no_exif_no_osd");
-    if (!ROTATIONS.has(detected.rotate)) return unchanged("osd_says_upright");
-    if (detected.confidence < MIN_ORIENTATION_CONFIDENCE) return unchanged("osd_low_confidence");
+    // Orientation detection, only when the file carried no flag to read. It runs
+    // against the working file, which is already inside the size cap, so a very
+    // large upload cannot make this pass expensive either.
+    if (!hasExifFlag) {
+      const detected = await detectOrientationWithOsd(workingPath);
+      const usable = detected
+        && ROTATIONS.has(detected.rotate)
+        && detected.confidence >= MIN_ORIENTATION_CONFIDENCE;
 
-    await sharp(filePath).rotate(detected.rotate).toFile(outputPath);
-    if (!wroteSomething(outputPath)) return unchanged("empty_output");
-    return { path: outputPath, applied: true, reason: "osd_rotate_" + detected.rotate };
+      if (usable) {
+        const rotated = derivedPathFor(filePath, "rotated");
+        await sharp(workingPath).rotate(detected.rotate).toFile(rotated);
+        if (!wroteSomething(rotated)) {
+          if (workingPath !== filePath) removeQuietly(workingPath);
+          return unchanged("empty_output");
+        }
+        if (workingPath !== filePath) removeQuietly(workingPath);
+        workingPath = rotated;
+        notes.push("osd_rotate_" + detected.rotate);
+      } else if (workingPath === filePath) {
+        // Nothing was written and there is nothing to correct.
+        if (!detected) return unchanged("no_exif_no_osd");
+        if (!ROTATIONS.has(detected.rotate)) return unchanged("osd_says_upright");
+        return unchanged("osd_low_confidence");
+      }
+    }
+
+    if (workingPath === filePath) return unchanged("no_change_needed");
+    return { path: workingPath, applied: true, reason: notes.join("+") };
   } catch (error) {
+    if (workingPath !== filePath) removeQuietly(workingPath);
     return unchanged("preprocessing_failed");
   }
 }
@@ -153,15 +226,12 @@ async function preprocessImageForOcr({ filePath }) {
 // a successful read into an error.
 function discardPreprocessedImage(preprocessed) {
   if (!preprocessed || !preprocessed.applied) return;
-  try {
-    fs.unlinkSync(preprocessed.path);
-  } catch (error) {
-    // Swept later. Nothing here is worth failing a request over.
-  }
+  removeQuietly(preprocessed.path);
 }
 
 module.exports = {
   preprocessImageForOcr,
   discardPreprocessedImage,
-  MIN_ORIENTATION_CONFIDENCE
+  MIN_ORIENTATION_CONFIDENCE,
+  OCR_MAX_EDGE
 };

@@ -1,0 +1,40 @@
+# Kept in the same commit as the Dockerfile, because `COPY . .` without it is a
+# secret leak, not merely wasted space.
+#
+# .env is gitignored, so Render's build context (which comes from git) never sees
+# it. A LOCAL `docker build .` does see it, and would bake SUPABASE_SERVICE_ROLE_KEY
+# and OPENAI_API_KEY into an image layer. Those keys have already been rotated once
+# after being exposed; putting them back into a layer would undo that.
+#
+# Render honours this file for its own build context too.
+.env
+.env.*
+
+# 99MB of Windows-built native binaries. npm ci installs the linux ones inside the
+# image; these would only be copied over the top by `COPY . .`, since COPY merges
+# into the existing tree rather than replacing it.
+node_modules
+
+.git
+.gitignore
+
+# Runtime scratch. Recreated at boot by ensurePrivateFolders(), and it can contain
+# uploaded documents.
+private_storage
+
+# Not needed to run the service.
+tests
+scripts
+docs
+*.md
+!README.md
+
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editor and tooling state.
+.vscode
+.idea
+.claude

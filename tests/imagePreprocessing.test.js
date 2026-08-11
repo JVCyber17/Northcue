@@ -229,6 +229,97 @@ test("image preprocessing, orientation", { skip: sharp ? false : "sharp not inst
   }
 });
 
+test("image preprocessing, the OCR size cap", { skip: sharp ? false : "sharp not installed" }, async (t) => {
+  // WHY THE CAP EXISTS, in numbers measured on this machine. Peak resident memory
+  // of the tesseract child alone, on a synthetic page:
+  //     36.0MP (a 14MB upload)  385.9 MB
+  //     12.2MP (a phone photo)  152.4 MB
+  //      9.2MP (after the cap)  122.6 MB
+  // The instance has 512MB total, shared with Node holding the request body and
+  // its multipart copy. 385.9MB in one child is how this OOMs, and an OOM kill is
+  // caught by the same handler as everything else, so the reader is told their
+  // photo was hard to read. Recall did not suffer: the 36MP case measured 16/17
+  // keywords at full size and 17/17 after the cap, which matches Tesseract's
+  // accuracy peaking around 300dpi.
+  const { OCR_MAX_EDGE } = require(path.join(REPO, "src", "services", "imagePreprocessing"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "northcue-cap-"));
+  sharp.cache(false);
+
+  const write = async (name, width, height, orientation) => {
+    const file = path.join(dir, name);
+    let pipeline = sharp({
+      create: { width, height, channels: 3, background: { r: 240, g: 240, b: 235 } }
+    }).jpeg({ quality: 80 });
+    if (orientation !== undefined) pipeline = pipeline.withMetadata({ orientation });
+    await pipeline.toFile(file);
+    return file;
+  };
+
+  try {
+    await t.test("an image wider than the cap is brought down to it", async () => {
+      const file = await write("wide.jpg", OCR_MAX_EDGE + 400, 900, 1);
+      const result = await preprocessImageForOcr({ filePath: file });
+      assert.equal(result.applied, true, "a too-large image must be rewritten");
+      const meta = await sharp(result.path).metadata();
+      assert.equal(meta.width, OCR_MAX_EDGE);
+      assert.equal(meta.height, Math.round(900 * (OCR_MAX_EDGE / (OCR_MAX_EDGE + 400))));
+      assert.match(result.reason, /^downscaled_/);
+      discardPreprocessedImage(result);
+    });
+
+    await t.test("aspect ratio is preserved when the tall edge is the long one", async () => {
+      const file = await write("tall.jpg", 900, OCR_MAX_EDGE + 400, 1);
+      const result = await preprocessImageForOcr({ filePath: file });
+      const meta = await sharp(result.path).metadata();
+      assert.equal(meta.height, OCR_MAX_EDGE);
+      assert.ok(meta.width < 900, "the short edge must shrink with the long one");
+      discardPreprocessedImage(result);
+    });
+
+    await t.test("an image inside the cap is never enlarged", async () => {
+      // withoutEnlargement. Upscaling a low resolution photo invents detail and
+      // gives OCR more to be wrong about.
+      const file = await write("small.jpg", 800, 600, 1);
+      const result = await preprocessImageForOcr({ filePath: file });
+      assert.equal(result.applied, false, "nothing to do, so nothing should be written");
+      assert.equal(result.reason, "already_upright");
+      const meta = await sharp(result.path).metadata();
+      assert.equal(meta.width, 800);
+      assert.equal(meta.height, 600);
+    });
+
+    await t.test("rotation and the cap are applied together, in one pass", async () => {
+      // Orientation 6 plus oversize. Both corrections must land, and the axes swap
+      // so the cap applies to the rotated result.
+      const file = await write("both.jpg", OCR_MAX_EDGE + 600, 1000, 6);
+      const result = await preprocessImageForOcr({ filePath: file });
+      assert.equal(result.applied, true);
+      assert.match(result.reason, /exif_orientation_6/);
+      assert.match(result.reason, /downscaled_/);
+      const meta = await sharp(result.path).metadata();
+      assert.ok(Math.max(meta.width, meta.height) <= OCR_MAX_EDGE,
+        "the long edge must be inside the cap after rotation, got " + meta.width + "x" + meta.height);
+      assert.ok(meta.height > meta.width, "orientation 6 turns a landscape image portrait");
+      discardPreprocessedImage(result);
+    });
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("the OCR call is bounded", async (t) => {
+  await t.test("the main tesseract call has a timeout, like the orientation call", () => {
+    // Without one, a single upload can hold an OCR process indefinitely. The route
+    // is rate limited but nothing caps concurrent OCR children, so stalled
+    // processes accumulate until a 512MB box is exhausted.
+    const source = fs.readFileSync(path.join(REPO, "src", "services", "textExtraction.js"), "utf8");
+    assert.match(source, /OCR_TIMEOUT_MS\s*=\s*\d+/, "a timeout constant must be defined");
+    const call = source.slice(source.indexOf('"tesseract"'), source.indexOf('"tesseract"') + 400);
+    assert.match(call, /timeout:\s*OCR_TIMEOUT_MS/,
+      "the tesseract execFile call must pass the timeout");
+  });
+});
+
 test("image preprocessing never fails a request", async (t) => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "northcue-defensive-"));
 

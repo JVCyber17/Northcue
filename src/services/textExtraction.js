@@ -6,6 +6,21 @@ const { preprocessImageForOcr, discardPreprocessedImage } = require("./imagePrep
 const execFileAsync = promisify(execFile);
 const IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
+// A CEILING ON THE OCR PROCESS, for the same reason the orientation pass has one.
+//
+// Without it a single upload can occupy an OCR process indefinitely. The route is
+// rate limited to 30 uploads a minute per client but nothing caps how many OCR
+// children run at once, so on a 512MB instance a handful of stalled processes is
+// enough to exhaust the box. Measured worst case on the synthetic set was 3.0s, on
+// pure noise at full resolution and before the size cap existed, so this is around
+// twenty times the slowest real observation: generous enough never to cut off a
+// genuine read, small enough to stop a pile-up.
+//
+// A timeout kill lands in the same catch as every other failure and produces the
+// honest refusal, which is the right outcome: no cards are better than cards built
+// on a half-finished read.
+const OCR_TIMEOUT_MS = 60000;
+
 async function extractTextFromInput({ pastedText, filePath, mimeType, originalName }) {
   if (typeof pastedText === "string" && pastedText.trim()) {
     return pastedText.trim();
@@ -66,7 +81,8 @@ async function extractTextFromImage({ filePath }) {
       [preprocessed.path, "stdout", "-l", "eng", "--psm", "6"],
       {
         maxBuffer: 4 * 1024 * 1024,
-        windowsHide: true
+        windowsHide: true,
+        timeout: OCR_TIMEOUT_MS
       }
     );
 
