@@ -217,17 +217,51 @@ function looksLikeGarbledText(text) {
   return countPlausibilityFailures(shape) > PLAUSIBILITY_FAILURES_ALLOWED;
 }
 
+// HOW MUCH TEXT IS THERE, COUNTED IN ANY SCRIPT.
+//
+// These replace [A-Za-z0-9], which counted nothing at all in four of the ten
+// languages this product ships in. Roughly 780 characters of real Bengali,
+// Gujarati, Hindi or Panjabi containing no Latin scored zero letters and zero
+// words, rated poor, and was refused: a Gujarati PDF with a perfect text layer
+// was told it "appears to be a scanned document rather than a text document".
+// The reader was told their document was the problem. It was not, and there was
+// nothing they could do about it. See ENGINE_STATE.md, THE ASCII GATE.
+//
+// The class is the one tests/wordBoundarySafety.test.js already enforces across
+// src/: \p{L} alone treats an Indic vowel sign (category M) as a non letter and
+// splits a word through the middle of it. \p{Cf} keeps a ZWNJ inside a word
+// rather than cutting it in two.
+//
+// Shared with hasEnoughText in simplifyRoute.js deliberately, so the two gates
+// cannot drift apart on what counts as a word.
+//
+// MEASURED, rather than assumed to transfer: on the same six dictionary entries
+// in every language, all ten now rate good, and every one of them reaches
+// borderline at one entry and good at two. The thresholds below mean the same
+// thing in Devanagari, Gujarati, Bengali and Gurmukhi as they do in Latin, so
+// they are unchanged.
+const WORD_CHARACTERS = /[\p{L}\p{M}\p{N}]/gu;
+const WORD_TOKENS = /[\p{L}\p{M}\p{N}\p{Cf}]+/gu;
+
+function countWordCharacters(text) {
+  return (String(text || "").match(WORD_CHARACTERS) || []).length;
+}
+
+function countWords(text) {
+  return (String(text || "").match(WORD_TOKENS) || []).length;
+}
+
 function rateInputQuality(text) {
   const cleaned = normaliseOcrText(text);
-  const words = cleaned.match(/[A-Za-z0-9$]+/g) || [];
-  const letters = cleaned.replace(/[^A-Za-z0-9]/g, "");
+  const words = countWords(cleaned);
+  const letters = countWordCharacters(cleaned);
 
   // Shape is checked before volume because a wall of fragments clears every bar
   // below. This can only ever move a rating down to "poor", never up.
   if (looksLikeGarbledText(cleaned)) return "poor";
 
-  if (letters.length >= 80 && words.length >= 12) return "good";
-  if (letters.length >= 25 && words.length >= 5) return "borderline";
+  if (letters >= 80 && words >= 12) return "good";
+  if (letters >= 25 && words >= 5) return "borderline";
   return "poor";
 }
 
@@ -285,5 +319,9 @@ module.exports = {
   // the worst passing sample and the best failing one, rather than reimplementing
   // the arithmetic and testing its own copy of it.
   measureTextShape,
-  PLAUSIBILITY_LIMITS
+  PLAUSIBILITY_LIMITS,
+  // Shared with hasEnoughText in simplifyRoute.js so both gates count a word the
+  // same way. A second copy is how one of them ends up ASCII-only again.
+  countWordCharacters,
+  countWords
 };

@@ -184,18 +184,56 @@ test("OCR plausibility gate", async (t) => {
       strippedCount + ": " + checked.join(", "));
   });
 
-  await t.test("the gate is never more permissive than it was", () => {
-    // The one direction this change was not allowed to move. Every sample, plus
-    // every language's prose, must rate no better than the volume-only gate did.
+  await t.test("the plausibility check never makes the gate more permissive", () => {
+    // ORIGINALLY this asserted the property across every sample. It was then
+    // narrowed, ON PURPOSE, when the volume counters were widened to count every
+    // script: prose in Bengali, Gujarati, Hindi or Panjabi now rates BETTER than
+    // the old ASCII counter did, because the old counter scored it zero. That is
+    // the entire point of that change and this test correctly caught it.
+    //
+    // What must still hold is the property this test was written for: the SHAPE
+    // check only ever moves a rating down. So the comparison is against the same
+    // Unicode-aware volume bands, isolating the plausibility check rather than
+    // conflating it with the counter widening.
     const order = { poor: 0, borderline: 1, good: 2 };
+    const { countWords, countWordCharacters } = require(path.join(REPO, "src", "services", "textExtraction"));
+    const volumeOnlyUnicode = (text) => {
+      const cleaned = String(text || "").replace(/\r/g, "\n").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+      const letters = countWordCharacters(cleaned);
+      const words = countWords(cleaned);
+      if (letters >= 80 && words >= 12) return "good";
+      if (letters >= 25 && words >= 5) return "borderline";
+      return "poor";
+    };
     const samples = [
       ...[...MUST_PASS, ...MUST_FAIL].map((n) => [n, read(n)]),
       ...ALL_CODES.map((c) => ["prose-" + c, prose(c, false)]),
       ...ALL_CODES.map((c) => ["stripped-" + c, prose(c, true)])
     ];
     for (const [label, text] of samples) {
+      assert.ok(order[rateInputQuality(text)] <= order[volumeOnlyUnicode(text)],
+        label + " rates BETTER with the shape check than without it, which is impossible unless it has been inverted");
+    }
+  });
+
+  await t.test("for Latin script the gate is exactly as strict as it always was", () => {
+    // The widening was for non-Latin scripts. English and the other Latin
+    // languages must be untouched by it, so for them the ASCII comparison this
+    // test originally made still applies in full.
+    const order = { poor: 0, borderline: 1, good: 2 };
+    const asciiShare = (text) => {
+      const wordChars = [...text].filter((c) => /[\p{L}\p{M}\p{N}]/u.test(c));
+      if (!wordChars.length) return 1;
+      return wordChars.filter((c) => c.charCodeAt(0) <= 127).length / wordChars.length;
+    };
+    const samples = [
+      ...[...MUST_PASS, ...MUST_FAIL].map((n) => [n, read(n)]),
+      ...ALL_CODES.map((c) => ["prose-" + c, prose(c, false)])
+    ].filter(([, text]) => asciiShare(text) >= 0.5);
+    assert.ok(samples.length >= 10, "expected a meaningful number of Latin-script samples");
+    for (const [label, text] of samples) {
       assert.ok(order[rateInputQuality(text)] <= order[volumeOnlyRating(text)],
-        label + " rates BETTER than the volume-only gate did, which is a loosening");
+        label + " is Latin script and rates BETTER than the original ASCII gate did");
     }
   });
 
@@ -218,5 +256,85 @@ test("OCR plausibility gate", async (t) => {
     for (const text of ["", "   ", "\n\n\n", null, undefined]) {
       assert.equal(rateInputQuality(text), "poor");
     }
+  });
+});
+
+test("the volume gate counts every script, not just ASCII", async (t) => {
+  // WHAT THIS PREVENTS COMING BACK. Both gates counted [A-Za-z0-9]. A document
+  // written in Bengali, Gujarati, Hindi or Panjabi therefore scored zero letters
+  // and zero words however clean it was, rated poor, and was refused: a Gujarati
+  // PDF with a perfect text layer was told it "appears to be a scanned document".
+  // Four of the ten languages this product ships in could not submit a document in
+  // their own script, and no English test could ever have seen it.
+  const { countWords, countWordCharacters } = require(path.join(REPO, "src", "services", "textExtraction"));
+
+  // Derived, never listed: a hardcoded set of "the Indic ones" goes stale the
+  // moment a language is added, which is the failure i18nStandards.test.js exists
+  // to prevent.
+  const nonAsciiShare = (text) => {
+    const wordChars = [...text].filter((c) => /[\p{L}\p{M}\p{N}]/u.test(c));
+    if (!wordChars.length) return 0;
+    return wordChars.filter((c) => c.charCodeAt(0) > 127).length / wordChars.length;
+  };
+
+  const nonLatin = ALL_CODES.filter((code) => nonAsciiShare(prose(code, false)) >= 0.5);
+
+  await t.test("the suite actually covers some non-Latin scripts", () => {
+    assert.ok(nonLatin.length >= 4,
+      "expected at least the four Indic languages to be detected as non-Latin, got: " + nonLatin.join(", "));
+  });
+
+  await t.test("prose in a non-Latin script rates good, with no Latin to lean on", () => {
+    for (const code of nonLatin) {
+      // Latin stripped, so "Northcue" and "PDF" cannot carry the sample past an
+      // ASCII counter. That is precisely how the original bug hid.
+      const stripped = prose(code, true);
+      assert.ok(stripped.length > 100, code + ": nothing left to test after stripping Latin");
+      assert.equal(rateInputQuality(stripped), "good",
+        code + " prose in its own script does not rate good, so the volume gate is still ASCII-only");
+    }
+  });
+
+  await t.test("and clears hasEnoughText, which is what actually refuses", () => {
+    // hasEnoughText is module-private in simplifyRoute. Its condition is mirrored
+    // here, and the assertion below pins that simplifyRoute really does use the
+    // shared counter, so this mirror cannot quietly drift from the original.
+    for (const code of nonLatin) {
+      const cleaned = prose(code, true).replace(/\s+/g, " ").trim();
+      assert.ok(cleaned.length >= 25 && countWords(cleaned) >= 5,
+        code + " would still be refused by hasEnoughText");
+    }
+    const route = fs.readFileSync(path.join(REPO, "src", "routes", "simplifyRoute.js"), "utf8");
+    const fn = route.slice(route.indexOf("function hasEnoughText"), route.indexOf("function hasEnoughText") + 300);
+    assert.match(fn, /countWords\(/, "hasEnoughText must use the shared counter");
+    assert.doesNotMatch(fn, /A-Za-z/, "hasEnoughText must not count ASCII only");
+  });
+
+  await t.test("an Indic vowel sign does not split a word", () => {
+    // The reason the class is [\p{L}\p{M}\p{N}] and not \p{L}. In વપરાતું the
+    // sequence તું carries a combining mark, category M. Counting letters only
+    // would treat that mark as a boundary and report two words where there is one.
+    assert.equal(countWords("વપરાતું"), 1, "a Gujarati word with a vowel sign is one word");
+    assert.equal(countWords("दस्तावेज़"), 1, "a Devanagari word with a nukta is one word");
+    assert.ok(countWordCharacters("વપરાતું") >= 5, "its marks count as content");
+  });
+
+  await t.test("English is unchanged by the widened counter", () => {
+    // The benchmark. Compared against the ASCII implementation this replaced,
+    // over every English string in the repo's own dictionary.
+    const asciiRate = (text) => {
+      const cleaned = String(text || "").replace(/\r/g, "\n").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+      const words = cleaned.match(/[A-Za-z0-9$]+/g) || [];
+      const letters = cleaned.replace(/[^A-Za-z0-9]/g, "");
+      if (letters.length >= 80 && words.length >= 12) return "good";
+      if (letters.length >= 25 && words.length >= 5) return "borderline";
+      return "poor";
+    };
+    const src = fs.readFileSync(path.join(REPO, "public", "i18n", "en.js"), "utf8");
+    const re = new RegExp('"[a-zA-Z0-9_.]+":\\s*"((?:[^"\\\\]|\\\\.)*)"', "g");
+    const values = [...src.matchAll(re)].map((m) => m[1]);
+    assert.ok(values.length > 100, "expected the English dictionary to be readable");
+    const moved = values.filter((v) => asciiRate(v) !== rateInputQuality(v));
+    assert.deepEqual(moved, [], "English ratings must not move");
   });
 });

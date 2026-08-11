@@ -12,7 +12,8 @@ const {
   extractTextFromImage,
   extractTextFromPdf,
   isImageMimeType,
-  rateInputQuality
+  rateInputQuality,
+  countWords
 } = require("../services/textExtraction");
 const { runClearStepsEngine } = require("../services/clearStepsEngine");
 const {
@@ -477,10 +478,18 @@ function buildSafeStoredResult(output = {}) {
   };
 }
 
+// The volume floor every path shares: pasted text, an image, a PDF and a stored
+// OCR session all pass through here, and five of the six call sites REFUSE on a
+// false. It counted [A-Za-z0-9], which is zero for a document written in
+// Bengali, Gujarati, Hindi or Panjabi, so a letter in any of those scripts was
+// refused outright no matter how clean it was. countWords is shared with
+// rateInputQuality rather than re-expressed, because a second copy is exactly how
+// one of the two gates ends up ASCII-only again.
+//
+// cleaned.length was already script neutral and is unchanged.
 function hasEnoughText(text) {
   const cleaned = String(text || "").replace(/\s+/g, " ").trim();
-  const wordCount = (cleaned.match(/[A-Za-z0-9]+/g) || []).length;
-  return cleaned.length >= 25 && wordCount >= 5;
+  return cleaned.length >= 25 && countWords(cleaned) >= 5;
 }
 
 function unreadableDocumentResponse() {
