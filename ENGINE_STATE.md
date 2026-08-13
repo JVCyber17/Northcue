@@ -910,24 +910,24 @@ path.
 Six languages opened onto the translate-after-English path, one release,
 each on its ingested pack, each recorded here per the founder's order:
 
-- **fr**: Claude-reviewed basis, native review owed post-launch, verified
+- **fr**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 32/47 agreements; fr-10's mixed-language date
   recorded as model-drift evidence from the retired sweep.
-- **ro**: Claude-reviewed basis, native review owed post-launch, verified
+- **ro**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 28/44 agreements; tu-form tone stars recorded.
-- **es**: Claude-reviewed basis, native review owed post-launch, verified
+- **es**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 38/60 agreements; es-18/20 contamination
   recorded as model drift; the medical rows resolved at the measured
   mirror exactly as the founder routed them.
-- **pt**: Claude-reviewed basis, native review owed post-launch, verified
+- **pt**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 44/60 agreements after the negation guard:
   pt-01, the calming negated line, fired through its negation and now
   keeps, the narrowest exception mirroring the Polish (?<!nie\s) family,
   keep-pinned, the key re-measured with exactly one flip.
-- **bn**: Claude-reviewed basis, native review owed post-launch, verified
+- **bn**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 44/60 agreements; five tone stars recorded,
   all captured model output, none a repo string.
-- **pa**: Claude-reviewed basis, native review owed post-launch, verified
+- **pa**: Claude-reviewed basis, informal native speaker review completed August 2026, formal pack review in progress, verified
   and opened 7 August 2026. 47/60 agreements; the raw-slot rule shipped
   (no unfilled slot reaches a reader in any language, runtime guard plus
   the all-language template audit), the error-namespace leak recorded and
@@ -961,11 +961,17 @@ English, Gujarati, Hindi, Polish, French, Romanian, Spanish, Portuguese,
 Bengali and Panjabi, every non-English language on the
 translate-after-English path.
 
-**Native reviews owed, per language**: pl (including the pl-33 revisit),
-fr, ro, es, pt, bn, pa, all Claude-review verified on 7 August 2026 with
-the debt recorded; gu and hi verified by the founder's own marks on
-6 August 2026. The post-launch native review is the standing first
-follow-up alongside the post-freeze latency item.
+**Native review status, per language** (updated August 2026, recorded
+from the founder's report): informal native speaker review of all nine
+languages completed, August 2026, post-launch, by native speakers known
+to the founder, in the live product. Formal pack review is in progress;
+the structured pack remains the instrument of formal recorded
+verification, and pl keeps the pl-33 revisit as part of it. The original
+record stands beneath this update: pl, fr, ro, es, pt, bn, pa
+Claude-review verified on 7 August 2026 with the native-review debt
+recorded; gu and hi verified by the founder's own marks on 6 August
+2026. Completing the formal packs is the standing first follow-up
+alongside the post-freeze latency item.
 
 The freeze ends with the seventh opening, per the locked plan. The
 post-freeze ledger begins: prose latency reduction, founder-flagged.

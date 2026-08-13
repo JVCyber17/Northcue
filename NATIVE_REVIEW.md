@@ -1,5 +1,18 @@
 # For a native speaker: twenty minutes, please
 
+## Update, August 2026: informal native review completed, all nine languages
+
+Recorded from the founder's report, after launch and after the 7 August
+records below were written. Native speakers known to the founder have
+informally reviewed each of the nine non-English languages in the live
+product. This was a review of the app as readers see it, not of the
+structured pack below.
+
+The pack below remains the instrument for formal, recorded verification,
+and is being completed. Statements further down that say no native
+speaker has read the drafts predate this update and describe the formal
+record, which this informal review does not replace.
+
 Thank you for helping. Northcue turns confusing official letters, bills and
 government post into short calm cards for people who find that post stressful.
 It is being translated into nine languages. Everything so far is a machine
