@@ -20,6 +20,36 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Northcue">
     <link rel="stylesheet" href="/styles.css?v=chipfix-20260728a">
+    <style>
+      /* Section-heading icons, matched to the app's privacy-page treatment
+         (.privacy-icon in styles.css: a soft colour-mixed circle with the glyph
+         at just over half the circle). Kept here, in the page's own style block,
+         so the policy page never leans on app component classes: the bundle's
+         .policy-icon base (30px, no circle) is overridden by this block because
+         it loads after the stylesheet. Tokens fall back to the light-theme
+         literals so the treatment stands even without the bundle's variables.
+
+         The glyph images are the foreground-only set, whose visible glyph sits
+         inset within its canvas, so the img is sized at 72% of the circle to
+         land the VISIBLE glyph at roughly the 56-60% the app's SVG icons show. */
+      .policy-icon {
+        flex: 0 0 auto;
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--theme-blob-a, #dfe8d8) 50%, var(--surface, #fffdfa) 50%);
+        border: 1px solid color-mix(in srgb, var(--theme-accent, #2f5b35) 18%, var(--line, #dedbd5) 82%);
+        overflow: hidden;
+      }
+      .policy-icon img {
+        width: 72%;
+        height: 72%;
+        object-fit: contain;
+      }
+    </style>
   </head>
   <body data-page="policy" class="theme-calm bg-plain">
     <main class="policy-page">
