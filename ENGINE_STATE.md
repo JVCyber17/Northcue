@@ -82,6 +82,12 @@ good, and item 1 below is why.
   number is a call to a stranger; a number not found costs nothing.
 - **No storage.** Raw uploads and extracted text are not kept. Only safe
   metadata. Service keys are server-side only.
+- **No OCR inside PDFs.** An image-only (scanned) PDF is refused by design,
+  code `pdf_no_text_layer`, with a message advising a photograph instead. The
+  message exists in all ten languages via the template bank, presence enforced
+  by the i18n parity tests, and was verified by reading in Polish. Rasterising
+  PDF pages into the OCR path is a possible future feature, not a defect.
+  Traced end-to-end on production, 15 August 2026.
 
 ## Open items, most worth doing first
 
