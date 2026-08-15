@@ -29,9 +29,16 @@
          it loads after the stylesheet. Tokens fall back to the light-theme
          literals so the treatment stands even without the bundle's variables.
 
-         The glyph images are the foreground-only set, whose visible glyph sits
-         inset within its canvas, so the img is sized at 72% of the circle to
-         land the VISIBLE glyph at roughly the 56-60% the app's SVG icons show. */
+         THE IMG BOX IS NOT THE GLYPH, and the number below is measured, not
+         assumed. The foreground PNGs carry a large transparent margin: the ink
+         bounding box is 26.6% of the 256px canvas in all four files (measured
+         from alpha > 16), centred to within 0.2%. Sizing the box at 72%
+         therefore rendered the VISIBLE glyph at 20.8% of the circle, measured
+         from the rendered pixels. The app's own check glyph measures 41.7% of
+         its circle by the same rendered-pixel method, so that is the match:
+         41.7 / 26.6 = 157% of the circle for the img box. It overflows the
+         wrapper and the wrapper's overflow: hidden clips the empty margin;
+         the visible glyph itself sits well inside the circular clip. */
       .policy-icon {
         flex: 0 0 auto;
         width: 48px;
@@ -45,8 +52,9 @@
         overflow: hidden;
       }
       .policy-icon img {
-        width: 72%;
-        height: 72%;
+        width: 157%;
+        height: 157%;
+        flex: 0 0 auto;
         object-fit: contain;
       }
     </style>
