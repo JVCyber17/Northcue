@@ -634,6 +634,9 @@ function wireNavigation() {
   });
 
   cardDetailToggle?.addEventListener("click", () => {
+    // A press is the reader's own choice: from here on the after-analysis
+    // default defers to it, on this device.
+    simpleViewChosen = true;
     setSimpleView(!document.body.classList.contains("cards-simple"), { save: true });
   });
 
@@ -692,6 +695,21 @@ function setFocusMode(isActive, options = {}) {
 // packs). That value is never read by renderCard(), so it changes nothing.
 // This `cards-simple` / setSimpleView feature is the live one; the dormant
 // duplicate can be removed when the card-style packs are revisited.
+// True once the reader has pressed the toggle themselves, on this device.
+// Loaded from preferences, saved with them, and consulted by
+// applyDefaultSimpleView below. Never sent anywhere.
+let simpleViewChosen = false;
+
+// SIMPLE IS THE DEFAULT AFTER ANALYSIS (founder's redesign, 7 August 2026,
+// Phase 2). Called on both cards-ready paths. The reader's own choice,
+// once made with the toggle, wins over the default forever on this
+// device; until then every fresh set of cards opens in simple view with
+// the full-details switch visible in the card toolbar.
+function applyDefaultSimpleView() {
+  if (simpleViewChosen) return;
+  setSimpleView(true, { save: false });
+}
+
 function setSimpleView(isActive, options = {}) {
   document.body.classList.toggle("cards-simple", isActive);
 
@@ -994,6 +1012,7 @@ function wireUpload() {
         ocr_status: latestOcrStatus
       });
       setReadingHint(null);
+      applyDefaultSimpleView();
       renderCard();
       setJourneyStep("understand");
       setStatusKey("status.cardsReady");
@@ -1141,6 +1160,7 @@ async function analyseReadyDocument() {
       ocr_status: latestOcrStatus
     });
     setReadingHint(null);
+    applyDefaultSimpleView();
     renderCard();
     setJourneyStep("understand");
     setStatusKey("status.cardsReady");
@@ -4086,6 +4106,12 @@ function savePreferences(showConfirmation = true) {
       cardStyle: standardCards ? "standard" : "soft",
       focusMode: document.body.classList.contains("focus-mode"),
       simpleView: document.body.classList.contains("cards-simple"),
+      // Whether the reader has ever pressed the simple/full toggle
+      // themselves. Until they have, simple view is the default after
+      // every analysis (founder's redesign, 7 August 2026); once they
+      // have chosen, their choice wins and the default never overrides
+      // it. Device-only, like every preference here.
+      simpleViewChosen,
       dyslexiaMode: document.body.classList.contains("dyslexia-mode")
     })
   );
@@ -4103,6 +4129,7 @@ function loadSavedPreferences() {
     setTextSize(saved.textSize || "medium");
     setCardStyle(saved.cardStyle || "soft");
     setFocusMode(Boolean(saved.focusMode), { save: false });
+    simpleViewChosen = Boolean(saved.simpleViewChosen);
     setSimpleView(Boolean(saved.simpleView), { save: false });
     document.body.classList.toggle("dyslexia-mode", Boolean(saved.dyslexiaMode));
 
