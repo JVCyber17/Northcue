@@ -374,6 +374,25 @@
     "journey.focusOnCard": "Focus on card",
     "journey.showFullDetails": "Show full details",
     "journey.simpleView": "Simple view",
+    // THE ESSENCE LINES, the founder-approved simple-view redesign of
+    // 7 August 2026, English first by his resequencing order: the nine
+    // other languages are authored only after real users validate these.
+    // The appearance-language law extends here: no unhedged negative
+    // assurances, obligation wording only where the engine's document
+    // type supports it, and every line stays inside the engine's own
+    // judgement. Serious letters never see these: severity high or
+    // urgent, and every caution or refused document, bypasses simple
+    // mode entirely and renders the full detailed view.
+    "journey.essence.whatIsThisWithSender": "{article} {typeLabel} from {sender}.",
+    "journey.essence.whatIsThis": "{article} {typeLabel}.",
+    "journey.essence.amountToPay": "{amount} to pay.",
+    "journey.essence.amountNeutral": "{amount} appears in this letter.",
+    "journey.essence.noUrgentAction": "No urgent action shown.",
+    "journey.essence.nothingNeeded": "Nothing needed right now.",
+    "journey.essence.dueBy": "By {date}.",
+    "journey.essence.check": "Looks routine. Check the original if unsure.",
+    "journey.essence.keepSafe": "Keep this letter safe.",
+    "journey.seriousFullView": "This letter looks serious, so we are showing you everything.",
     "journey.calendarTitle": "Add to calendar",
     "journey.calendarNoDateBody": "No clear date was found in this document, so there's nothing to add yet.<br>If you spotted a date yourself, you can add it to your calendar by hand.",
     "journey.calendarDownloaded": "Calendar file downloaded. Open it to add the date, and your calendar will remind you.",

@@ -5531,6 +5531,14 @@ body.theme-dark .micro-feedback {
   body.cards-simple .card-steps {
     display: none;
   }
+
+  /* The essence layer's safety exception (7 August 2026): the contact
+     number, the caveats and the first-letter-only notice stay visible in
+     simple view. renderCard adds .safety-only exactly when the visible
+     steps are those lines alone. */
+  body.cards-simple .card-steps.safety-only {
+    display: grid;
+  }
 }
 
 .card-nav {
@@ -8423,6 +8431,13 @@ body.theme-dark .check-dot.badge-high {
   body.cards-simple .card-explanation,
   body.cards-simple .card-steps {
     display: none;
+  }
+
+  /* The essence layer's safety exception (7 August 2026), mirrored from
+     the desktop block above per the duplicated-blocks rule in
+     public/CLAUDE.md. */
+  body.cards-simple .card-steps.safety-only {
+    display: grid;
   }
 
   .help-card {

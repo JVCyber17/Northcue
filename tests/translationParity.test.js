@@ -14,7 +14,17 @@ const config = require(path.join(i18nDir, "config"));
 const english = require(path.join(i18nDir, "en"));
 const englishBank = require(path.join(i18nDir, "templates-en"));
 
-const englishKeys = Object.keys(english);
+// DEFERRED BY THE FOUNDER, 7 August 2026, the simple-view resequencing
+// order: the essence lines and the serious-letter bypass line are English
+// only until real users validate the wording; the nine authorings follow
+// through the bank discipline afterwards. These keys are exempt from the
+// exact-parity rule until then, and tests/simpleViewEssence.test.js pins
+// the other half: no dictionary may carry them early. Remove BOTH pins
+// together when the authoring phase begins.
+const DEFERRED_BY_FOUNDER = (key) =>
+  key.startsWith("journey.essence.") || key === "journey.seriousFullView";
+
+const englishKeys = Object.keys(english).filter((key) => !DEFERRED_BY_FOUNDER(key));
 const englishExactIds = Object.keys(englishBank.exact);
 const englishPatterns = englishBank.patterns;
 

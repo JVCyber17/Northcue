@@ -700,14 +700,128 @@ function setFocusMode(isActive, options = {}) {
 // applyDefaultSimpleView below. Never sent anywhere.
 let simpleViewChosen = false;
 
-// SIMPLE IS THE DEFAULT AFTER ANALYSIS (founder's redesign, 7 August 2026,
-// Phase 2). Called on both cards-ready paths. The reader's own choice,
-// once made with the toggle, wins over the default forever on this
-// device; until then every fresh set of cards opens in simple view with
-// the full-details switch visible in the card toolbar.
+// THE TWO LAWS OF SIMPLE VIEW, founder-approved 7 August 2026 and recorded
+// in public/CLAUDE.md: compression is a privilege of routine post, and
+// serious letters bypass compression entirely. A document at severity high
+// or urgent, or in any processing mode other than normal (caution,
+// verification_only, unsupported, failed), never renders simple mode: the
+// full detailed view shows, preceded by one calm line saying why, and the
+// simple/full toggle is hidden because there is nothing to toggle to.
+function seriousDocument() {
+  const trust = (latestResult && latestResult.trust) || {};
+  if (trust.severity_level === "high" || trust.severity_level === "urgent") return true;
+  return Boolean(trust.processing_mode) && trust.processing_mode !== "normal";
+}
+
+// SIMPLE IS THE DEFAULT AFTER ANALYSIS (Phase 2). Called on both
+// cards-ready paths. Serious documents bypass simple mode regardless of
+// any preference, without saving over the reader's choice; otherwise the
+// reader's own choice, once made with the toggle, wins over the default
+// forever on this device.
 function applyDefaultSimpleView() {
+  if (seriousDocument()) {
+    setSimpleView(false, { save: false });
+    return;
+  }
   if (simpleViewChosen) return;
   setSimpleView(true, { save: false });
+}
+
+// THE ESSENCE LAYER, English first by the founder's resequencing order:
+// the nine other languages are authored only after real users validate
+// these lines, so essence rendering is gated to the English interface and
+// every other language keeps today's simple view (headline only)
+// unchanged. Everything below reads the engine's served judgement and
+// composes presentation from it; the engine is never consulted twice and
+// never contradicted. The appearance-language law applies: no unhedged
+// negative assurances, obligation wording only where the document type
+// supports it, and when the essence layer lacks the data for a card it
+// returns null and the engine's own line stands.
+const ESSENCE_SAFETY_PREFIXES = [
+  // The three safety exceptions the founder ordered visible in routine
+  // simple view, plus the two sibling notices in the same class.
+  "The document gives this phone number:",
+  "Northcue is not fully trained",
+  "The text quality is too low",
+  "Only the first letter in this upload has been read"
+];
+const ESSENCE_SENDER_PREFIX = "The document names this sender: ";
+const CONSEQUENCE_CARD_TITLE = "What could happen if I ignore it?";
+
+function essenceModeActive() {
+  return NorthcueI18n.getLanguage() === "en" &&
+    document.body.classList.contains("cards-simple") &&
+    hasUploadedResult() && !seriousDocument();
+}
+
+function englishArticleFor(label) {
+  return /^[aeiou]/i.test(String(label || "")) ? "An" : "A";
+}
+
+function essenceSenderName(card) {
+  const line = (Array.isArray(card.steps) ? card.steps : [])
+    .find((step) => typeof step === "string" && step.startsWith(ESSENCE_SENDER_PREFIX));
+  return line ? line.slice(ESSENCE_SENDER_PREFIX.length).replace(/\.\s*$/, "") : null;
+}
+
+function isEssenceSafetyLine(text) {
+  return typeof text === "string" &&
+    ESSENCE_SAFETY_PREFIXES.some((prefix) => text.startsWith(prefix));
+}
+
+// The essence line for one card, or null when the engine's own line should
+// stand. Anchors appear exactly once across the six: sender on card 1,
+// amount on card 2, date on card 4.
+function essenceLineFor(card) {
+  const structured = (latestResult && latestResult.structured_result) || {};
+  const summary = structured.summary || {};
+  const trust = (latestResult && latestResult.trust) || {};
+
+  if (card.id === "what_is_this") {
+    const typeLabel = structured.document_type_label;
+    if (!typeLabel || typeLabel === "Not an official document") return null;
+    const article = englishArticleFor(typeLabel);
+    const sender = essenceSenderName(card);
+    const label = typeLabel.toLowerCase();
+    return sender
+      ? t("journey.essence.whatIsThisWithSender", { article, typeLabel: label, sender })
+      : t("journey.essence.whatIsThis", { article, typeLabel: label });
+  }
+  if (card.id === "what_matters_most") {
+    const amount = summary.main_amount;
+    if (!amount) return null;
+    // "to pay" is obligation wording: it renders only when the engine's
+    // own category says this is a bill or payment demand. Any other
+    // document renders the amount neutrally, asserting nothing.
+    return trust.document_category === "bill_or_payment"
+      ? t("journey.essence.amountToPay", { amount })
+      : t("journey.essence.amountNeutral", { amount });
+  }
+  if (card.id === "what_do_i_need_to_do") {
+    // The engine-confirmed variant only when the engine states it; the
+    // hedged "shown" form otherwise, which asserts only what is visible.
+    return /^No action needed right now\./.test(String(card.short_answer || ""))
+      ? t("journey.essence.nothingNeeded")
+      : t("journey.essence.noUrgentAction");
+  }
+  if (card.id === "when_is_it_due") {
+    const date = summary.main_date;
+    // No date: the engine's "No deadline clearly stated." is already the
+    // shortest honest line, so it stands.
+    return date ? t("journey.essence.dueBy", { date }) : null;
+  }
+  if (card.id === "what_could_happen") {
+    // Only the check-mode card compresses. A stated consequence is the
+    // engine's judgement and is never summarised away, even at low
+    // severity; that card's own line stands.
+    return String(card.title) === CONSEQUENCE_CARD_TITLE
+      ? null
+      : t("journey.essence.check");
+  }
+  if (card.id === "helpful_note") {
+    return t("journey.essence.keepSafe");
+  }
+  return null;
 }
 
 function setSimpleView(isActive, options = {}) {
@@ -728,6 +842,13 @@ function setSimpleView(isActive, options = {}) {
       });
     }
     savePreferences(false);
+  }
+
+  // The answer text differs between modes since the essence layer, so a
+  // mode change re-renders the current card. Guarded: preferences load at
+  // startup before any result exists.
+  if (hasAnalysedDocument && latestResult && latestResult.cards) {
+    renderCard();
   }
 }
 
@@ -2694,8 +2815,22 @@ function renderCard() {
   showCueCardIcon(card.id);
   const translatedTitle = translatedEngineText(card.title);
   const translatedAnswer = translatedEngineText(card.short_answer);
+  // The essence layer: in routine English simple view the answer is the
+  // composed essence line; everywhere else it is the engine's or model's
+  // own headline exactly as today. Null essence means the engine's line
+  // stands even in simple view.
+  const essenceActive = essenceModeActive();
+  const essenceLine = essenceActive ? essenceLineFor(card) : null;
   document.querySelector("#card-title").textContent = translatedTitle.text;
-  document.querySelector("#card-answer").textContent = translatedAnswer.text;
+  document.querySelector("#card-answer").textContent = essenceLine || translatedAnswer.text;
+
+  // The serious-letter bypass line and the toggle's availability. The
+  // note is English-gated with the essence layer; the bypass itself
+  // applies in every language.
+  const serious = hasUploadedResult() && seriousDocument();
+  document.querySelector("#card-serious-note").classList.toggle("hidden",
+    !(serious && NorthcueI18n.getLanguage() === "en"));
+  cardDetailToggle?.classList.toggle("hidden", serious);
   // The sub-line is a generic hint, not content. On a card whose answer already
   // runs several lines it repeats advice the card has just given, and it costs
   // 59px of a 812px viewport at phone width, which is where six cards currently
@@ -2730,14 +2865,24 @@ function renderCard() {
     ? card.steps.map((step) => translatedEngineText(step))
     : [];
 
-  const stepItems = translatedSteps.map((translatedStep) =>
+  // In essence mode only the safety lines survive as steps: the contact
+  // number, the not-fully-trained caveat, the low-text-quality caution and
+  // the first-letter-only notice. Everything else waits in full view. The
+  // safety-only class is the CSS exception that keeps these visible while
+  // cards-simple hides ordinary steps.
+  const shownSteps = essenceActive
+    ? translatedSteps.filter((translatedStep) => isEssenceSafetyLine(translatedStep.text))
+    : translatedSteps;
+  const stepItems = shownSteps.map((translatedStep) =>
     `<li>${escapeHtml(translatedStep.text)}</li>`);
 
   // Appended last, under the engine's own key points. It comes from the Tier 1
-  // dictionary rather than the sentence bank, so it is always translated.
+  // dictionary rather than the sentence bank, so it is always translated. A
+  // passed deadline is date-safety information, so it stays in essence mode.
   const passedLine = passedDeadlineLine(card);
   if (passedLine) stepItems.push(`<li>${escapeHtml(passedLine)}</li>`);
 
+  cardSteps.classList.toggle("safety-only", essenceActive && stepItems.length > 0);
   if (stepItems.length > 0) {
     cardSteps.classList.remove("hidden");
     cardSteps.innerHTML = stepItems.join("");
