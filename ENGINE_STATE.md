@@ -1094,3 +1094,36 @@ future pipeline change.
 1. Add a corrupted-preferences fail-safe pin when convenient (the
    simpleViewChosen read in loadSavedPreferences against a malformed
    localStorage entry).
+
+## THE WEIGHT LAW RELEASE: deployed in all ten languages (23 August 2026)
+
+Three commits deployed as one release, marker northcue-v1-20260823b, tag
+release-20260823-weight-law: the bypass removed and the weight law built
+in English (5858006), the three weight-law lines authored in the nine
+languages with founder verification of Gujarati and Hindi and full
+parity restored (6679648), and the deploy marker (a104b10). Suite at the
+deployed commit: 2399/2399.
+
+The law, recorded in public/CLAUDE.md: simple view is the universal
+default for every document at every severity, the toggle always visible,
+severity carried by weight, never volume. Verbatim tier for caution and
+refused; weighted frames for high and urgent (the demanded amount, the
+engine's action line with protected lines beneath, the date with its
+weight sentence, the consequence verbatim, never shortened); routine
+frames unchanged.
+
+Live verification on production, real uploads, same day: a fresh session
+defaults to simple; the toggle works both ways in English and Gujarati;
+the bailiff PDF renders serious-simple with the note line, the
+"£1,247.00 demanded." frame, the verbatim action line with the protected
+phone number beneath, the date weight sentence, and the verbatim
+consequence; a refused document renders verbatim-simple with the note;
+an overdue routine bill stays routine with the passed-deadline line; and
+a Gujarati AI-path document shows the conservative residual as designed,
+essence answers with every translated step visible and the sender line
+intact in Latin script.
+
+The accepted limits carry two clauses in KNOWN_ENGINE_DEFECTS.md: the
+AI-path conservative branches (step compression, card 1 sender, and the
+demanded frame disabled in the nine languages pending the server-side
+protected-line marker), and the weight law recorded as design.

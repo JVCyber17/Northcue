@@ -30,12 +30,20 @@ corpus, not asserted:
 **The one-line summary: the engine can now FIND a value in every language and
 cannot ATTRIBUTE one in any language but English.**
 
-**Accepted limit, simple view (23 August 2026):** on the AI-translated path
-in the nine non-English languages, essence answers render but step
-compression and the card 1 sender are conservatively disabled, because
-protected lines cannot be detected in translated prose; closing this
-requires a server-side protected-line marker, deferred as a future
-pipeline change.
+**Accepted limits, simple view under the weight law (23 August 2026):**
+
+1. On the AI-translated path in the nine non-English languages, the
+   essence answers render but the conservative branches stand: step
+   compression, the card 1 sender, and the weighted "{amount} demanded."
+   frame are disabled, because protected lines cannot be detected in
+   translated prose; the shipped frames and full step visibility render
+   instead. Closing this requires a server-side protected-line marker,
+   deferred as a future pipeline change.
+2. The weight law itself is the recorded design, not a residual: simple
+   view is the universal default at every severity, the toggle to full
+   details is always visible, and severity is carried by weight, never
+   volume. The full statement lives in public/CLAUDE.md and its pins in
+   tests/simpleViewEssence.test.js.
 
 Every date that reaches a card on a non-English letter comes from the reading
 aid's guess ("the first date no competing label has claimed"), never from
