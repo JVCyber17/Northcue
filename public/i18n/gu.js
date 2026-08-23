@@ -373,6 +373,21 @@
     "journey.focusOnCard": "કાર્ડ પર ફોકસ કરો",
     "journey.showFullDetails": "સંપૂર્ણ વિગતો બતાવો",
     "journey.simpleView": "સરળ દૃશ્ય",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // the founder reviews these line by line.
+    "journey.essence.whatIsThisWithSender": "{sender} તરફથી {article}{typeLabel}.",
+    "journey.essence.whatIsThis": "{article}{typeLabel}.",
+    "journey.essence.amountToPay": "ચૂકવવાની રકમ: {amount}.",
+    "journey.essence.amountNeutral": "આ પત્રમાં {amount} દેખાય છે.",
+    "journey.essence.noUrgentAction": "કોઈ તાકીદનું પગલું દર્શાવેલ નથી.",
+    "journey.essence.nothingNeeded": "હમણાં કંઈ કરવાની જરૂર નથી.",
+    "journey.essence.dueBy": "છેલ્લી તારીખ: {date}.",
+    "journey.essence.check": "સામાન્ય લાગે છે. ખાતરી ન હોય તો અસલ દસ્તાવેજ તપાસો.",
+    "journey.essence.keepSafe": "આ પત્ર સાચવીને રાખો.",
+    "journey.seriousFullView": "આ ગંભીર પત્ર લાગે છે, તેથી અમે તમને સંપૂર્ણ વિગતો બતાવી રહ્યા છીએ.",
     "journey.calendarTitle": "કેલેન્ડરમાં ઉમેરો",
     "journey.calendarNoDateBody": "આ દસ્તાવેજમાં કોઈ સ્પષ્ટ તારીખ મળી નથી, તેથી હજી ઉમેરવા જેવું કંઈ નથી.<br>જો તમને પોતાને કોઈ તારીખ દેખાઈ હોય, તો તમે તેને જાતે તમારા કેલેન્ડરમાં ઉમેરી શકો છો.",
     "journey.calendarDownloaded": "કેલેન્ડર ફાઇલ ડાઉનલોડ થઈ. તારીખ ઉમેરવા તેને ખોલો, અને તમારું કેલેન્ડર તમને યાદ કરાવશે.",

@@ -373,6 +373,21 @@
     "journey.focusOnCard": "Concentrare pe card",
     "journey.showFullDetails": "Arătați toate detaliile",
     "journey.simpleView": "Vedere simplă",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{article} {typeLabel} de la {sender}.",
+    "journey.essence.whatIsThis": "{article} {typeLabel}.",
+    "journey.essence.amountToPay": "Sumă de plată: {amount}.",
+    "journey.essence.amountNeutral": "{amount} apare în această scrisoare.",
+    "journey.essence.noUrgentAction": "Nu apare nicio acțiune urgentă.",
+    "journey.essence.nothingNeeded": "Nimic de făcut deocamdată.",
+    "journey.essence.dueBy": "Până la {date}.",
+    "journey.essence.check": "Pare un document obișnuit. Verificați originalul dacă ceva este neclar.",
+    "journey.essence.keepSafe": "Păstrați această scrisoare într-un loc sigur.",
+    "journey.seriousFullView": "Această scrisoare pare serioasă, așa că vă arătăm toate detaliile.",
     "journey.calendarTitle": "Adăugați în calendar",
     "journey.calendarNoDateBody": "Nu a fost găsită o dată clară în acest document, deci nu este nimic de adăugat încă.<br>Dacă ați observat o dată, o puteți adăuga manual în calendarul dumneavoastră.",
     "journey.calendarDownloaded": "Fișierul de calendar a fost descărcat. Deschideți-l pentru a adăuga data, iar calendarul vă va aminti.",

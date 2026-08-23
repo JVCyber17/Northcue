@@ -373,6 +373,21 @@
     "journey.focusOnCard": "কার্ডে ফোকাস করুন",
     "journey.showFullDetails": "সম্পূর্ণ বিবরণ দেখুন",
     "journey.simpleView": "সহজ ভিউ",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{sender} এর কাছ থেকে {article}{typeLabel}.",
+    "journey.essence.whatIsThis": "{article}{typeLabel}.",
+    "journey.essence.amountToPay": "প্রদেয় অঙ্ক: {amount}.",
+    "journey.essence.amountNeutral": "এই চিঠিতে {amount} লেখা আছে.",
+    "journey.essence.noUrgentAction": "কোনো জরুরি পদক্ষেপ দেখা যাচ্ছে না.",
+    "journey.essence.nothingNeeded": "এই মুহূর্তে কিছু করার দরকার নেই.",
+    "journey.essence.dueBy": "{date} এর মধ্যে.",
+    "journey.essence.check": "সাধারণ বলে মনে হচ্ছে. কিছু অস্পষ্ট লাগলে মূলটি দেখে নিন.",
+    "journey.essence.keepSafe": "এই চিঠিটি যত্ন করে রাখুন.",
+    "journey.seriousFullView": "এই চিঠিটি গুরুতর বলে মনে হচ্ছে, তাই আমরা আপনাকে সবকিছু দেখাচ্ছি.",
     "journey.calendarTitle": "ক্যালেন্ডারে যোগ করুন",
     "journey.calendarNoDateBody": "এই ডকুমেন্টে কোনো পরিষ্কার তারিখ পাওয়া যায়নি, তাই এখনই যোগ করার কিছু নেই.<br>আপনি নিজে কোনো তারিখ দেখে থাকলে, হাতে করে ক্যালেন্ডারে যোগ করে নিতে পারেন.",
     "journey.calendarDownloaded": "ক্যালেন্ডার ফাইল ডাউনলোড হয়েছে. খুলে তারিখটি যোগ করুন, আপনার ক্যালেন্ডার মনে করিয়ে দেবে.",

@@ -374,6 +374,21 @@
     "journey.focusOnCard": "Focar no cartão",
     "journey.showFullDetails": "Mostrar todos os detalhes",
     "journey.simpleView": "Vista simples",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{article} {typeLabel} de {sender}.",
+    "journey.essence.whatIsThis": "{article} {typeLabel}.",
+    "journey.essence.amountToPay": "{amount} a pagar.",
+    "journey.essence.amountNeutral": "{amount} aparece nesta carta.",
+    "journey.essence.noUrgentAction": "Nenhuma ação urgente indicada.",
+    "journey.essence.nothingNeeded": "Não é preciso fazer nada por agora.",
+    "journey.essence.dueBy": "Prazo até {date}.",
+    "journey.essence.check": "Parece normal. Verifique o original se algo não estiver claro.",
+    "journey.essence.keepSafe": "Guarde bem esta carta.",
+    "journey.seriousFullView": "Esta carta parece séria, por isso mostramos tudo.",
     "journey.calendarTitle": "Adicionar ao calendário",
     "journey.calendarNoDateBody": "Não foi encontrada uma data clara neste documento, por isso ainda não há nada para adicionar.<br>Se encontrou uma data, pode adicioná-la ao calendário manualmente.",
     "journey.calendarDownloaded": "Arquivo de calendário transferido. Abra-o para adicionar a data, e o calendário fica com o lembrete.",

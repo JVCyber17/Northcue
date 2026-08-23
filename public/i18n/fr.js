@@ -376,6 +376,21 @@
     "journey.focusOnCard": "Se concentrer sur la fiche",
     "journey.showFullDetails": "Voir tous les détails",
     "journey.simpleView": "Vue simple",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{article} {typeLabel}, expéditeur : {sender}.",
+    "journey.essence.whatIsThis": "{article} {typeLabel}.",
+    "journey.essence.amountToPay": "Montant à payer : {amount}.",
+    "journey.essence.amountNeutral": "{amount} apparaît dans ce courrier.",
+    "journey.essence.noUrgentAction": "Aucune action urgente indiquée.",
+    "journey.essence.nothingNeeded": "Rien à faire pour le moment.",
+    "journey.essence.dueBy": "Échéance le {date}.",
+    "journey.essence.check": "Cela semble normal. Vérifiez l'original en cas de doute.",
+    "journey.essence.keepSafe": "Conservez bien ce courrier.",
+    "journey.seriousFullView": "Ce courrier semble important, nous vous montrons donc tous les détails.",
     "journey.calendarTitle": "Ajouter au calendrier",
     "journey.calendarNoDateBody": "Aucune date claire n'a été trouvée dans ce document, il n'y a donc rien à ajouter pour l'instant.<br>Si vous avez repéré une date vous-même, vous pouvez l'ajouter à votre calendrier à la main.",
     "journey.calendarDownloaded": "Fichier de calendrier téléchargé. Ouvrez-le pour ajouter la date, et votre calendrier vous le rappellera.",

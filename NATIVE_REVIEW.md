@@ -1097,6 +1097,45 @@ and remains in use at eighteen seconds into the wait. All ten entries
 are machine drafts; the Gujarati and Hindi lines shipped on the
 founder's order and should be checked at the next review.
 
+## New since the packs (23 August 2026): the essence lines of simple view
+
+Ten short lines per language, in `public/i18n/<your language>.js` as
+`journey.essence.*` and `journey.seriousFullView`. They exist because real
+users told us the cards said too much: simple view now shows one very short
+line per card ("An energy bill from EDF Energy." / "£214.63 to pay." /
+"By 28 September 2026."), and a serious letter skips the short view entirely
+and shows everything, introduced by one calm line: English "This letter looks
+serious, so we are showing you everything."
+
+These lines were composed FROM your language's own already-reviewed frames
+(the deadline frame, the amount-to-pay frame, the sender join, the check-the-
+original phrase), machine drafted and then adversarially machine-reviewed in
+three passes. **No native speaker has read them.** The Gujarati and Hindi
+sets are before the founder for line-by-line review; the other seven wait
+for you.
+
+Because they are so short, three things matter more than style:
+
+**Q1. Does any line claim more than it should?** The most load-bearing one:
+"No urgent action shown." claims only that the DOCUMENT shows no urgent
+action. If your language's line reads as "you need do nothing", that is the
+defect to catch. Same for the amount pair: one says an amount is to pay,
+the other only that an amount APPEARS in the letter; they must not collapse
+into each other.
+
+**Q2. Does the serious line read as care, not alarm?** It sits above the full
+detail view of a bailiff or enforcement letter. It must sound like Northcue
+being open with the reader, never like a warning siren, and the word chosen
+for "serious" should sit a shade graver than your file's word for
+"important" without frightening.
+
+**Q3. Do the slot joins survive real values?** {sender} is a Latin-script
+name, {amount} is like £214.63, {date} is an English date. Read each line
+aloud with real values in place. In the languages without articles the
+{article} slot sits flush against {typeLabel} on purpose: the app fills it
+with an empty string (or a classifier where your language uses one), so
+tell us if the empty fill leaves the sentence broken.
+
 ## New since the packs (6 August 2026): the composed sender line
 
 `tpl.contact.sender_name`, "The document names this sender: {sender}.",

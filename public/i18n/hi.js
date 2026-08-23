@@ -373,6 +373,21 @@
     "journey.focusOnCard": "कार्ड पर फ़ोकस करें",
     "journey.showFullDetails": "पूरा ब्यौरा दिखाएँ",
     "journey.simpleView": "सरल रूप",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // the founder reviews these line by line.
+    "journey.essence.whatIsThisWithSender": "{sender} की ओर से {article}{typeLabel}.",
+    "journey.essence.whatIsThis": "{article}{typeLabel}.",
+    "journey.essence.amountToPay": "देय राशि: {amount}.",
+    "journey.essence.amountNeutral": "इस पत्र में {amount} की राशि लिखी है.",
+    "journey.essence.noUrgentAction": "कोई अत्यावश्यक कदम नहीं दिखा.",
+    "journey.essence.nothingNeeded": "अभी कुछ करने की ज़रूरत नहीं.",
+    "journey.essence.dueBy": "{date} तक देय.",
+    "journey.essence.check": "सामान्य लगता है. कुछ अस्पष्ट लगे तो मूल दस्तावेज़ जाँचें.",
+    "journey.essence.keepSafe": "इस पत्र को संभालकर रखें.",
+    "journey.seriousFullView": "यह पत्र गंभीर लगता है, इसलिए हम आपको पूरा ब्यौरा दिखा रहे हैं.",
     "journey.calendarTitle": "कैलेंडर में जोड़ें",
     "journey.calendarNoDateBody": "इस दस्तावेज़ में कोई साफ तारीख नहीं मिली, इसलिए अभी जोड़ने के लिए कुछ नहीं है.<br>अगर आपने खुद कोई तारीख देखी है, तो उसे अपने कैलेंडर में खुद जोड़ सकते हैं.",
     "journey.calendarDownloaded": "कैलेंडर फ़ाइल डाउनलोड हो गई. उसे खोलकर तारीख जोड़ें, और आपका कैलेंडर आपको याद दिलाएगा.",

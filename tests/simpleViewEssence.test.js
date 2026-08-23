@@ -46,14 +46,17 @@ test("no em or en dash in any essence line", () => {
   });
 });
 
-test("the nine other languages deliberately do not carry essence keys yet", () => {
-  // The founder's resequencing order: authoring happens only after real
-  // users validate the English lines. This pin stops a machine translation
-  // slipping in early; it is REMOVED deliberately when that phase begins.
+test("every language carries every essence key", () => {
+  // Authored 23 August 2026 after the English lines passed real-user
+  // validation; the deferral pin that stood here was removed together
+  // with the DEFERRED_BY_FOUNDER carve-out in translationParity.test.js.
+  // Exact parity now enforces slots and dashes; this pin holds presence.
   LANGS.forEach((code) => {
-    const dictionary = fs.readFileSync(path.join(ROOT, "public", "i18n", code + ".js"), "utf8");
-    assert.ok(!dictionary.includes("journey.essence."),
-      code + " must not carry essence keys before the founder's validation");
+    const dictionary = require(path.join(ROOT, "public", "i18n", code + ".js"));
+    Object.keys(APPROVED).forEach((key) => {
+      assert.ok(typeof dictionary[key] === "string" && dictionary[key].trim() !== "",
+        code + " must carry " + key);
+    });
   });
 });
 
@@ -71,7 +74,7 @@ test("the serious-letter bypass is wired as the law states", () => {
   assert.ok(HTML.includes('id="card-serious-note"'), "the bypass line exists in the markup");
 });
 
-test("the essence layer is gated to English until the languages are authored", () => {
+test("the essence layer stays gated to English until the founder opens the authored languages", () => {
   assert.match(APP, /NorthcueI18n\.getLanguage\(\) === "en" &&\s*\n?\s*document\.body\.classList\.contains\("cards-simple"\)/);
 });
 

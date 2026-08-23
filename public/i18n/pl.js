@@ -373,6 +373,21 @@
     "journey.focusOnCard": "Skup się na karcie",
     "journey.showFullDetails": "Pokaż pełne szczegóły",
     "journey.simpleView": "Widok prosty",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{article}{typeLabel} od {sender}.",
+    "journey.essence.whatIsThis": "{article}{typeLabel}.",
+    "journey.essence.amountToPay": "Kwota do zapłaty: {amount}.",
+    "journey.essence.amountNeutral": "Kwota {amount} pojawia się w tym liście.",
+    "journey.essence.noUrgentAction": "Dokument nie wskazuje pilnych działań.",
+    "journey.essence.nothingNeeded": "W tej chwili nic nie trzeba robić.",
+    "journey.essence.dueBy": "Termin: do {date}.",
+    "journey.essence.check": "To wygląda na zwykły dokument. Prosimy sprawdzić oryginał, jeśli coś jest niejasne.",
+    "journey.essence.keepSafe": "Prosimy zachować ten list.",
+    "journey.seriousFullView": "To wygląda na poważny list, więc pokazujemy Państwu wszystko.",
     "journey.calendarTitle": "Dodaj do kalendarza",
     "journey.calendarNoDateBody": "W tym dokumencie nie znaleziono wyraźnej daty, więc nie ma jeszcze czego dodać.<br>Jeśli gdzieś widać datę, można dodać ją do kalendarza ręcznie.",
     "journey.calendarDownloaded": "Plik kalendarza został pobrany. Prosimy otworzyć go, aby dodać datę, a kalendarz przypomni.",

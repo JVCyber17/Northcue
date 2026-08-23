@@ -373,6 +373,21 @@
     "journey.focusOnCard": "ਕਾਰਡ ਉੱਤੇ ਫੋਕਸ ਕਰੋ",
     "journey.showFullDetails": "ਪੂਰਾ ਵੇਰਵਾ ਵਿਖਾਓ",
     "journey.simpleView": "ਸੌਖਾ ਰੂਪ",
+    // The simple view essence lines and the serious-letter bypass line,
+    // authored 23 August 2026 through the bank discipline after the
+    // English lines passed real-user validation. Machine drafted from
+    // this file's own validated frames, adversarially machine-reviewed;
+    // native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.whatIsThisWithSender": "{sender} ਵੱਲੋਂ {article}{typeLabel}.",
+    "journey.essence.whatIsThis": "{article}{typeLabel}.",
+    "journey.essence.amountToPay": "ਅਦਾ ਕਰਨ ਵਾਲੀ ਰਕਮ: {amount}.",
+    "journey.essence.amountNeutral": "ਇਸ ਚਿੱਠੀ ਵਿੱਚ {amount} ਦੀ ਰਕਮ ਦਿੱਤੀ ਗਈ ਹੈ.",
+    "journey.essence.noUrgentAction": "ਕੋਈ ਤੁਰੰਤ ਕਦਮ ਨਹੀਂ ਵਿਖਾਇਆ ਗਿਆ.",
+    "journey.essence.nothingNeeded": "ਇਸ ਵੇਲੇ ਕੁਝ ਕਰਨ ਦੀ ਲੋੜ ਨਹੀਂ.",
+    "journey.essence.dueBy": "{date} ਤੱਕ.",
+    "journey.essence.check": "ਇਹ ਆਮ ਲੱਗਦਾ ਹੈ. ਕੁਝ ਅਸਪਸ਼ਟ ਲੱਗੇ ਤਾਂ ਅਸਲ ਦਸਤਾਵੇਜ਼ ਜਾਂਚੋ.",
+    "journey.essence.keepSafe": "ਇਹ ਚਿੱਠੀ ਸੰਭਾਲ ਕੇ ਰੱਖੋ.",
+    "journey.seriousFullView": "ਇਹ ਚਿੱਠੀ ਗੰਭੀਰ ਲੱਗਦੀ ਹੈ, ਇਸ ਲਈ ਅਸੀਂ ਤੁਹਾਨੂੰ ਸਭ ਕੁਝ ਵਿਖਾ ਰਹੇ ਹਾਂ.",
     "journey.calendarTitle": "ਕੈਲੰਡਰ ਵਿੱਚ ਜੋੜੋ",
     "journey.calendarNoDateBody": "ਇਸ ਦਸਤਾਵੇਜ਼ ਵਿੱਚ ਕੋਈ ਸਾਫ਼ ਤਾਰੀਖ਼ ਨਹੀਂ ਮਿਲੀ, ਇਸ ਲਈ ਹੁਣੇ ਜੋੜਨ ਲਈ ਕੁਝ ਨਹੀਂ ਹੈ.<br>ਜੇ ਤੁਸੀਂ ਖ਼ੁਦ ਕੋਈ ਤਾਰੀਖ਼ ਵੇਖੀ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਉਸਨੂੰ ਆਪਣੇ ਕੈਲੰਡਰ ਵਿੱਚ ਆਪ ਜੋੜ ਸਕਦੇ ਹੋ.",
     "journey.calendarDownloaded": "ਕੈਲੰਡਰ ਫ਼ਾਈਲ ਡਾਊਨਲੋਡ ਹੋ ਗਈ. ਉਸਨੂੰ ਖੋਲ੍ਹ ਕੇ ਤਾਰੀਖ਼ ਜੋੜੋ, ਅਤੇ ਤੁਹਾਡਾ ਕੈਲੰਡਰ ਤੁਹਾਨੂੰ ਯਾਦ ਕਰਵਾਏਗਾ.",
