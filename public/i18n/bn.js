@@ -387,6 +387,15 @@
     "journey.essence.dueBy": "{date} এর মধ্যে.",
     "journey.essence.check": "সাধারণ বলে মনে হচ্ছে. কিছু অস্পষ্ট লাগলে মূলটি দেখে নিন.",
     "journey.essence.keepSafe": "এই চিঠিটি যত্ন করে রাখুন.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.amountDemanded": "দাবিকৃত অঙ্ক: {amount}.",
+    "journey.essence.deadlineMatters": "এই সময়সীমাটি গুরুত্বপূর্ণ.",
+    "journey.seriousSimpleNote": "এই চিঠিটি গুরুতর বলে মনে হচ্ছে. এক ট্যাপেই সম্পূর্ণ বিবরণ দেখা যাবে.",
     "journey.calendarTitle": "ক্যালেন্ডারে যোগ করুন",
     "journey.calendarNoDateBody": "এই ডকুমেন্টে কোনো পরিষ্কার তারিখ পাওয়া যায়নি, তাই এখনই যোগ করার কিছু নেই.<br>আপনি নিজে কোনো তারিখ দেখে থাকলে, হাতে করে ক্যালেন্ডারে যোগ করে নিতে পারেন.",
     "journey.calendarDownloaded": "ক্যালেন্ডার ফাইল ডাউনলোড হয়েছে. খুলে তারিখটি যোগ করুন, আপনার ক্যালেন্ডার মনে করিয়ে দেবে.",

@@ -387,6 +387,15 @@
     "journey.essence.dueBy": "Termin: do {date}.",
     "journey.essence.check": "To wygląda na zwykły dokument. Prosimy sprawdzić oryginał, jeśli coś jest niejasne.",
     "journey.essence.keepSafe": "Prosimy zachować ten list.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.amountDemanded": "Żądana kwota: {amount}.",
+    "journey.essence.deadlineMatters": "Ten termin ma znaczenie.",
+    "journey.seriousSimpleNote": "To wygląda na poważny list. Pełne szczegóły są dostępne jednym dotknięciem.",
     "journey.calendarTitle": "Dodaj do kalendarza",
     "journey.calendarNoDateBody": "W tym dokumencie nie znaleziono wyraźnej daty, więc nie ma jeszcze czego dodać.<br>Jeśli gdzieś widać datę, można dodać ją do kalendarza ręcznie.",
     "journey.calendarDownloaded": "Plik kalendarza został pobrany. Prosimy otworzyć go, aby dodać datę, a kalendarz przypomni.",

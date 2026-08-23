@@ -1141,6 +1141,38 @@ aloud with real values in place. In the languages without articles the
 with an empty string (or a classifier where your language uses one), so
 tell us if the empty fill leaves the sentence broken.
 
+## New since the packs (23 August 2026): the three weight-law lines
+
+The serious-letter bypass was removed the same day it is recorded above:
+simple view is now the universal default at every severity, and a serious
+letter carries its weight in three new lines per language, in
+`public/i18n/<your language>.js`:
+
+- `journey.essence.amountDemanded`, English "{amount} demanded.", the
+  amount card of an enforcement or formal-demand letter. It must read as
+  reporting a demand the LETTER makes, never Northcue demanding.
+- `journey.essence.deadlineMatters`, English "This deadline matters.",
+  rendered directly after the date line on a serious letter. Short and
+  grave without alarm.
+- `journey.seriousSimpleNote`, English "This letter looks serious. Full
+  details are one tap away.", one line under the card header on every
+  serious, caution or refused document in simple view. Its first clause
+  keeps your language's reviewed serious clause from the retired bypass
+  line; the second states the full details are available, an assurance,
+  never an instruction to tap.
+
+**Founder verification completed for Gujarati and Hindi, 23 August
+2026.** The founder reviewed both sets line by line. Gujarati: all three
+approved as authored, the ટૅપ spelling confirmed. Hindi: the demanded
+frame and the note approved as authored; the deadline line corrected to
+"यह आख़िरी तारीख़ ज़रूरी है." at the founder's decision. **The other seven
+languages are machine drafts from each language's own reviewed frames,
+adversarially machine-reviewed in three passes; no native speaker has
+read them and they wait for you** with the same three questions as the
+essence section above, plus one specific to these lines: does the
+demand word carry real weight without Northcue itself sounding like the
+one demanding?
+
 ## New since the packs (6 August 2026): the composed sender line
 
 `tpl.contact.sender_name`, "The document names this sender: {sender}.",

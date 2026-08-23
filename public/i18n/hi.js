@@ -387,6 +387,15 @@
     "journey.essence.dueBy": "{date} तक देय.",
     "journey.essence.check": "सामान्य लगता है. कुछ अस्पष्ट लगे तो मूल दस्तावेज़ जाँचें.",
     "journey.essence.keepSafe": "इस पत्र को संभालकर रखें.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; the founder reviews these line by line.
+    "journey.essence.amountDemanded": "माँगी गई राशि: {amount}.",
+    "journey.essence.deadlineMatters": "यह आख़िरी तारीख़ ज़रूरी है.",
+    "journey.seriousSimpleNote": "यह पत्र गंभीर लगता है. पूरा ब्यौरा बस एक टैप दूर है.",
     "journey.calendarTitle": "कैलेंडर में जोड़ें",
     "journey.calendarNoDateBody": "इस दस्तावेज़ में कोई साफ तारीख नहीं मिली, इसलिए अभी जोड़ने के लिए कुछ नहीं है.<br>अगर आपने खुद कोई तारीख देखी है, तो उसे अपने कैलेंडर में खुद जोड़ सकते हैं.",
     "journey.calendarDownloaded": "कैलेंडर फ़ाइल डाउनलोड हो गई. उसे खोलकर तारीख जोड़ें, और आपका कैलेंडर आपको याद दिलाएगा.",

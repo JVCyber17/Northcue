@@ -390,6 +390,15 @@
     "journey.essence.dueBy": "Échéance le {date}.",
     "journey.essence.check": "Cela semble normal. Vérifiez l'original en cas de doute.",
     "journey.essence.keepSafe": "Conservez bien ce courrier.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.amountDemanded": "Montant exigé : {amount}.",
+    "journey.essence.deadlineMatters": "Cette date compte.",
+    "journey.seriousSimpleNote": "Ce courrier semble important. Tous les détails restent accessibles en un geste.",
     "journey.calendarTitle": "Ajouter au calendrier",
     "journey.calendarNoDateBody": "Aucune date claire n'a été trouvée dans ce document, il n'y a donc rien à ajouter pour l'instant.<br>Si vous avez repéré une date vous-même, vous pouvez l'ajouter à votre calendrier à la main.",
     "journey.calendarDownloaded": "Fichier de calendrier téléchargé. Ouvrez-le pour ajouter la date, et votre calendrier vous le rappellera.",

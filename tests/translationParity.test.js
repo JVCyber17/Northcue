@@ -14,19 +14,7 @@ const config = require(path.join(i18nDir, "config"));
 const english = require(path.join(i18nDir, "en"));
 const englishBank = require(path.join(i18nDir, "templates-en"));
 
-// DEFERRED BY THE FOUNDER, 23 August 2026, the weight-law design change:
-// the serious bypass is removed and three new keys (the two weighted
-// essence frames and the serious-simple note) are English only until the
-// founder reviews the serious-simple renders; the nine authorings follow
-// through the bank discipline. tests/simpleViewEssence.test.js pins the
-// other half: no dictionary may carry them early. Remove BOTH pins
-// together when the authoring phase begins.
-const DEFERRED_BY_FOUNDER = (key) =>
-  key === "journey.essence.amountDemanded" ||
-  key === "journey.essence.deadlineMatters" ||
-  key === "journey.seriousSimpleNote";
-
-const englishKeys = Object.keys(english).filter((key) => !DEFERRED_BY_FOUNDER(key));
+const englishKeys = Object.keys(english);
 const englishExactIds = Object.keys(englishBank.exact);
 const englishPatterns = englishBank.patterns;
 

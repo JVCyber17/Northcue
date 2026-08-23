@@ -387,6 +387,15 @@
     "journey.essence.dueBy": "છેલ્લી તારીખ: {date}.",
     "journey.essence.check": "સામાન્ય લાગે છે. ખાતરી ન હોય તો અસલ દસ્તાવેજ તપાસો.",
     "journey.essence.keepSafe": "આ પત્ર સાચવીને રાખો.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; the founder reviews these line by line.
+    "journey.essence.amountDemanded": "માંગવામાં આવેલી રકમ: {amount}.",
+    "journey.essence.deadlineMatters": "આ તારીખ મહત્વની છે.",
+    "journey.seriousSimpleNote": "આ પત્ર ગંભીર લાગે છે. સંપૂર્ણ વિગતો એક ટૅપથી જોઈ શકાય છે.",
     "journey.calendarTitle": "કેલેન્ડરમાં ઉમેરો",
     "journey.calendarNoDateBody": "આ દસ્તાવેજમાં કોઈ સ્પષ્ટ તારીખ મળી નથી, તેથી હજી ઉમેરવા જેવું કંઈ નથી.<br>જો તમને પોતાને કોઈ તારીખ દેખાઈ હોય, તો તમે તેને જાતે તમારા કેલેન્ડરમાં ઉમેરી શકો છો.",
     "journey.calendarDownloaded": "કેલેન્ડર ફાઇલ ડાઉનલોડ થઈ. તારીખ ઉમેરવા તેને ખોલો, અને તમારું કેલેન્ડર તમને યાદ કરાવશે.",

@@ -72,16 +72,16 @@ test("every language carries every shipped essence key, and the bypass key is go
     "the retired bypass key must not survive in English either");
 });
 
-test("the weight-law keys deliberately do not exist in the nine other languages yet", () => {
-  // The founder's order: the serious-simple English renders are reviewed
-  // first; the nine authorings follow through the bank discipline. This
-  // pin stops a machine translation slipping in early; it is REMOVED
-  // together with the parity carve-out when that phase begins.
+test("every language carries every weight-law key", () => {
+  // Authored 23 August 2026 after the founder approved the serious-simple
+  // English; the deferral pin that stood here was removed together with
+  // the DEFERRED_BY_FOUNDER carve-out in translationParity.test.js.
+  // Exact parity now enforces slots and dashes; this pin holds presence.
   LANGS.forEach((code) => {
     const dictionary = require(path.join(ROOT, "public", "i18n", code + ".js"));
     Object.keys(APPROVED_NEW).forEach((key) => {
-      assert.ok(!(key in dictionary),
-        code + " must not carry " + key + " before the founder's review");
+      assert.ok(typeof dictionary[key] === "string" && dictionary[key].trim() !== "",
+        code + " must carry " + key);
     });
   });
 });

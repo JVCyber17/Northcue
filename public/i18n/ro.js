@@ -387,6 +387,15 @@
     "journey.essence.dueBy": "Până la {date}.",
     "journey.essence.check": "Pare un document obișnuit. Verificați originalul dacă ceva este neclar.",
     "journey.essence.keepSafe": "Păstrați această scrisoare într-un loc sigur.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.amountDemanded": "Sumă cerută: {amount}.",
+    "journey.essence.deadlineMatters": "Acest termen este important.",
+    "journey.seriousSimpleNote": "Această scrisoare pare serioasă. Toate detaliile sunt la o atingere distanță.",
     "journey.calendarTitle": "Adăugați în calendar",
     "journey.calendarNoDateBody": "Nu a fost găsită o dată clară în acest document, deci nu este nimic de adăugat încă.<br>Dacă ați observat o dată, o puteți adăuga manual în calendarul dumneavoastră.",
     "journey.calendarDownloaded": "Fișierul de calendar a fost descărcat. Deschideți-l pentru a adăuga data, iar calendarul vă va aminti.",

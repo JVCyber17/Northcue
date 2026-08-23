@@ -388,6 +388,15 @@
     "journey.essence.dueBy": "Prazo até {date}.",
     "journey.essence.check": "Parece normal. Verifique o original se algo não estiver claro.",
     "journey.essence.keepSafe": "Guarde bem esta carta.",
+    // The weight-law lines, authored 23 August 2026 after the founder
+    // approved the serious-simple English: the demanded frame, the
+    // deadline weight sentence, and the serious-simple note whose first
+    // clause keeps the reviewed serious clause of the retired bypass
+    // line. Machine drafted from this file's own reviewed set,
+    // adversarially machine-reviewed; native review recorded in NATIVE_REVIEW.md.
+    "journey.essence.amountDemanded": "Valor exigido: {amount}.",
+    "journey.essence.deadlineMatters": "Este prazo é importante.",
+    "journey.seriousSimpleNote": "Esta carta parece séria. Todos os detalhes estão a um toque de distância.",
     "journey.calendarTitle": "Adicionar ao calendário",
     "journey.calendarNoDateBody": "Não foi encontrada uma data clara neste documento, por isso ainda não há nada para adicionar.<br>Se encontrou uma data, pode adicioná-la ao calendário manualmente.",
     "journey.calendarDownloaded": "Arquivo de calendário transferido. Abra-o para adicionar a data, e o calendário fica com o lembrete.",
