@@ -1,10 +1,12 @@
 // THE TWO LAWS OF SIMPLE VIEW, pinned. Founder-approved 7 August 2026 and
 // recorded in public/CLAUDE.md: compression is a privilege of routine post,
-// and serious letters bypass compression entirely. The frontend cannot be
-// required under node (app.js touches the DOM at load), so these are source
-// and dictionary pins in the repo's established style; the behavioural half
-// is verified in the dev preview and screenshotted for the founder's user
-// validation.
+// and serious letters bypass compression entirely. Open in all ten
+// languages since 23 August 2026, after real-user validation of the
+// English lines and the founder's line-by-line verification of the
+// Gujarati and Hindi sets. The frontend cannot be required under node
+// (app.js touches the DOM at load), so these are source and dictionary
+// pins in the repo's established style; the behavioural half is verified
+// in the dev preview across languages, themes and widths.
 
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -114,4 +116,79 @@ test("the default and the re-render are wired on both cards-ready paths", () => 
   assert.ok(calls >= 2, "both cards-ready paths must apply the default");
   assert.match(APP, /if \(hasAnalysedDocument && latestResult && latestResult\.cards\) \{\s*\n?\s*renderCard\(\);/,
     "a mode change must re-render the current card");
+});
+
+// PHASE 4 BEHAVIOURAL PINS, the ten-language opening (23 August 2026).
+// The detection rule: English anchors are read on the RAW served text,
+// which is the engine's English on the floor path in every language; on
+// translated model prose every detection takes its conservative branch.
+
+test("translated model prose is detected by the served ai flag, non-English only", () => {
+  const body = APP.slice(APP.indexOf("function translatedProseServed"),
+    APP.indexOf("function translatedProseServed") + 400);
+  assert.match(body, /getLanguage\(\) !== "en"/,
+    "English sessions always keep full detection");
+  assert.match(body, /debug\.ai\.ai_used/,
+    "the AI path is identified by the served metadata, never guessed from text");
+});
+
+test("essence steps are classified on the raw step, never on the translated display text", () => {
+  assert.match(APP, /isEssenceSafetyLine\(String\(\(card\.steps \|\| \[\]\)\[stepIndex\]\)\)/,
+    "the filter must read card.steps, the raw engine English on the floor path");
+  assert.ok(!/isEssenceSafetyLine\(translatedStep\.text\)/.test(APP),
+    "filtering the translated display text hid bank-translated safety lines");
+});
+
+test("on translated model prose the step filter stands down and shows everything", () => {
+  // A safety line must never be hidden by failing to recognise it. The
+  // conservative branch shows every step rather than filtering blind.
+  const filter = APP.slice(APP.indexOf("const shownSteps"), APP.indexOf("const shownSteps") + 400);
+  assert.match(filter, /translatedProseServed\(\)\s*\n?\s*\?\s*translatedSteps/,
+    "translated prose must take the show-everything branch");
+});
+
+test("on translated model prose card 5 always keeps its served line", () => {
+  // The consequence title cannot be read on translated prose, and the
+  // failure mode of guessing is calling a stated consequence routine.
+  const card5 = APP.slice(APP.indexOf('card.id === "what_could_happen"'));
+  assert.ok(card5.indexOf("translatedProseServed()") < card5.indexOf("CONSEQUENCE_CARD_TITLE"),
+    "the conservative null must be decided before the title comparison");
+});
+
+test("card 1 sends the raw served label to the bank and fills the article for English only", () => {
+  const card1 = APP.slice(APP.indexOf('card.id === "what_is_this"'),
+    APP.indexOf('card.id === "what_matters_most"'));
+  assert.match(card1, /translatedEngineText\(typeLabel\)\.text/,
+    "the floor path translates the doctype label through the bank, raw value in");
+  assert.match(card1, /english \? englishArticleFor\(typeLabel\) : ""/,
+    "only English computes an article; every other language fills the slot empty");
+  assert.match(card1, /replace\(\/\\s\+\/g, " "\)\.trim\(\)/,
+    "the composed line is tidied so an empty article leaves no stray space");
+});
+
+test("the serious line renders in every language", () => {
+  assert.match(APP, /card-serious-note"\)\.classList\.toggle\("hidden", !serious\)/,
+    "the note's visibility must depend on seriousness alone, never the language");
+  assert.ok(!HTML.includes("i18n-english-note"),
+    "the stale English-note class is gone from the markup");
+});
+
+test("every label the engine can serve resolves in the English bank's doctype vocabulary", () => {
+  // The floor path's card 1 label translation is exact-lookup: if the
+  // engine rewords a served label, the lookup silently misses and the
+  // reader gets the English label inside a translated line. This pins
+  // the engine's two label maps to the bank, value for value.
+  const ENGINE = fs.readFileSync(path.join(ROOT, "src", "services", "clearStepsEngine.js"), "utf8");
+  const fn = ENGINE.slice(ENGINE.indexOf("function labelForStructuredDocumentType"),
+    ENGINE.indexOf("function pickStructuredDocumentTypeConfidence"));
+  const served = Array.from(fn.matchAll(/:\s*"([^"]+)"/g)).map((m) => m[1]);
+  assert.ok(served.length >= 14, "the engine's label maps should be visible to this pin");
+  const enBank = require(path.join(ROOT, "public", "i18n", "templates-en.js"));
+  const doctypeValues = new Set(Object.keys(enBank.exact)
+    .filter((id) => id.startsWith("tpl.label.doctype."))
+    .map((id) => enBank.exact[id]));
+  const missing = served.filter((label) => !doctypeValues.has(label));
+  assert.deepEqual(missing, [], "every served label must be an exact doctype bank sentence");
+  assert.ok(doctypeValues.has("Not an official document"),
+    "the non-document label guards the essence null path and must stay in the bank");
 });
