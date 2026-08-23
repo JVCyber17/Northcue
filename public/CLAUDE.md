@@ -143,8 +143,18 @@ Three safety exceptions render in routine simple view always: the
 composed contact number, the not-fully-trained caveat, the text-quality
 caution (plus the first-letter-only notice, same class). The reader's
 simple/full choice is remembered on the device only (simpleViewChosen in
-the preferences localStorage entry). The essence lines are English-only
-until real users validate them; the nine other languages are authored
-afterwards through the bank discipline, never machine-translated as an
-afterthought, and a pin in tests/simpleViewEssence.test.js holds that
-deferral so no essence key can slip into another dictionary early.
+the preferences localStorage entry).
+
+The essence layer is open in ALL TEN LANGUAGES (23 August 2026): real
+users validated the English lines, the nine other sets were authored
+through the bank discipline from each language's own validated frames,
+and the founder verified Gujarati and Hindi line by line (the other
+seven carry native-review entries in NATIVE_REVIEW.md). Detection rule:
+English anchors (safety prefixes, the sender prefix, the no-action
+sentence, the consequence title) are read on the RAW served text, which
+is the engine's English on the floor path in every language; on the
+AI translate-after-English path (debug.ai.ai_used, non-English) those
+anchors cannot be read and every detection takes its conservative
+branch — steps all stay visible rather than risk hiding a safety line,
+card 5 keeps its served line, card 1 drops the sender, card 3 keeps
+the hedged form. tests/simpleViewEssence.test.js pins all of this.

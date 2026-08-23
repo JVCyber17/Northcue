@@ -727,16 +727,27 @@ function applyDefaultSimpleView() {
   setSimpleView(true, { save: false });
 }
 
-// THE ESSENCE LAYER, English first by the founder's resequencing order:
-// the nine other languages are authored only after real users validate
-// these lines, so essence rendering is gated to the English interface and
-// every other language keeps today's simple view (headline only)
-// unchanged. Everything below reads the engine's served judgement and
-// composes presentation from it; the engine is never consulted twice and
-// never contradicted. The appearance-language law applies: no unhedged
+// THE ESSENCE LAYER, open in all ten languages since the founder's
+// line-by-line verification of the authored sets (23 August 2026).
+// Everything below reads the engine's served judgement and composes
+// presentation from it; the engine is never consulted twice and never
+// contradicted. The appearance-language law applies: no unhedged
 // negative assurances, obligation wording only where the document type
 // supports it, and when the essence layer lacks the data for a card it
 // returns null and the engine's own line stands.
+//
+// TWO KINDS OF SERVED TEXT, one detection rule. On the floor path the
+// cards carry the engine's raw ENGLISH sentences in every language and
+// the client translates them at render time through the bank, so every
+// English-anchored detection here (the safety prefixes, the sender
+// prefix, the no-action sentence, the consequence title) reads the RAW
+// text and works identically in all ten languages. On the AI path for a
+// launched language the served cards are already model prose in the
+// reader's language, those anchors cannot be read, and each detection
+// takes its conservative branch instead: steps are all shown rather
+// than filtered (a safety line must never be hidden by failing to
+// recognise it), card 5 keeps its own served line, card 1 renders
+// without the sender, and card 3 keeps the hedged form.
 const ESSENCE_SAFETY_PREFIXES = [
   // The three safety exceptions the founder ordered visible in routine
   // simple view, plus the two sibling notices in the same class.
@@ -749,9 +760,18 @@ const ESSENCE_SENDER_PREFIX = "The document names this sender: ";
 const CONSEQUENCE_CARD_TITLE = "What could happen if I ignore it?";
 
 function essenceModeActive() {
-  return NorthcueI18n.getLanguage() === "en" &&
-    document.body.classList.contains("cards-simple") &&
+  return document.body.classList.contains("cards-simple") &&
     hasUploadedResult() && !seriousDocument();
+}
+
+// Whether the served cards are model prose already written in the reader's
+// language (the translate-after-English path). The ai_used flag rides the
+// served debug metadata; anything without it is engine text and keeps full
+// English-anchored detection.
+function translatedProseServed() {
+  return NorthcueI18n.getLanguage() !== "en" &&
+    Boolean(latestResult && latestResult.debug && latestResult.debug.ai &&
+      latestResult.debug.ai.ai_used);
 }
 
 function englishArticleFor(label) {
@@ -780,12 +800,22 @@ function essenceLineFor(card) {
   if (card.id === "what_is_this") {
     const typeLabel = structured.document_type_label;
     if (!typeLabel || typeLabel === "Not an official document") return null;
-    const article = englishArticleFor(typeLabel);
+    // The served label is a bank sentence (tpl.label.doctype.*), so the
+    // floor path translates it here; a model-translated label passes
+    // through the bank unmatched, already in the reader's language.
+    // English keeps its article and lowercased label. Every other
+    // language fills the article slot empty and lets its capitalised
+    // doctype label carry the line (the authored templates place
+    // {article} flush where the language has no article), and the join
+    // is tidied after the fill so an empty article leaves no stray space.
+    const english = NorthcueI18n.getLanguage() === "en";
+    const article = english ? englishArticleFor(typeLabel) : "";
+    const label = english ? typeLabel.toLowerCase() : translatedEngineText(typeLabel).text;
     const sender = essenceSenderName(card);
-    const label = typeLabel.toLowerCase();
-    return sender
+    const line = sender
       ? t("journey.essence.whatIsThisWithSender", { article, typeLabel: label, sender })
       : t("journey.essence.whatIsThis", { article, typeLabel: label });
+    return line.replace(/\s+/g, " ").trim();
   }
   if (card.id === "what_matters_most") {
     const amount = summary.main_amount;
@@ -813,7 +843,12 @@ function essenceLineFor(card) {
   if (card.id === "what_could_happen") {
     // Only the check-mode card compresses. A stated consequence is the
     // engine's judgement and is never summarised away, even at low
-    // severity; that card's own line stands.
+    // severity; that card's own line stands. The title carries that
+    // distinction and is readable only while the raw text is the
+    // engine's English; on translated model prose the mode cannot be
+    // read, so the served line always stands rather than risk calling
+    // a consequence routine.
+    if (translatedProseServed()) return null;
     return String(card.title) === CONSEQUENCE_CARD_TITLE
       ? null
       : t("journey.essence.check");
@@ -2824,12 +2859,11 @@ function renderCard() {
   document.querySelector("#card-title").textContent = translatedTitle.text;
   document.querySelector("#card-answer").textContent = essenceLine || translatedAnswer.text;
 
-  // The serious-letter bypass line and the toggle's availability. The
-  // note is English-gated with the essence layer; the bypass itself
-  // applies in every language.
+  // The serious-letter bypass line and the toggle's availability. Both
+  // apply in every language; the line itself is a Tier 1 dictionary
+  // string, translated wherever the interface is.
   const serious = hasUploadedResult() && seriousDocument();
-  document.querySelector("#card-serious-note").classList.toggle("hidden",
-    !(serious && NorthcueI18n.getLanguage() === "en"));
+  document.querySelector("#card-serious-note").classList.toggle("hidden", !serious);
   cardDetailToggle?.classList.toggle("hidden", serious);
   // The sub-line is a generic hint, not content. On a card whose answer already
   // runs several lines it repeats advice the card has just given, and it costs
@@ -2870,8 +2904,17 @@ function renderCard() {
   // the first-letter-only notice. Everything else waits in full view. The
   // safety-only class is the CSS exception that keeps these visible while
   // cards-simple hides ordinary steps.
+  //
+  // Classified on the RAW step, which is the engine's English on the
+  // floor path in every language, never on the translated display text.
+  // On translated model prose the anchors cannot be read, and a safety
+  // line must never be hidden by failing to recognise it, so filtering
+  // stands down and every step stays visible.
   const shownSteps = essenceActive
-    ? translatedSteps.filter((translatedStep) => isEssenceSafetyLine(translatedStep.text))
+    ? (translatedProseServed()
+        ? translatedSteps
+        : translatedSteps.filter((translatedStep, stepIndex) =>
+            isEssenceSafetyLine(String((card.steps || [])[stepIndex]))))
     : translatedSteps;
   const stepItems = shownSteps.map((translatedStep) =>
     `<li>${escapeHtml(translatedStep.text)}</li>`);

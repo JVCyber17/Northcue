@@ -1110,9 +1110,14 @@ serious, so we are showing you everything."
 These lines were composed FROM your language's own already-reviewed frames
 (the deadline frame, the amount-to-pay frame, the sender join, the check-the-
 original phrase), machine drafted and then adversarially machine-reviewed in
-three passes. **No native speaker has read them.** The Gujarati and Hindi
-sets are before the founder for line-by-line review; the other seven wait
-for you.
+three passes.
+
+**Founder verification completed for Gujarati and Hindi, 23 August 2026.**
+The founder reviewed both sets line by line. One correction was made: the
+Gujarati serious line's word order, to "આ પત્ર ગંભીર લાગે છે, તેથી અમે તમને
+સંપૂર્ણ વિગતો બતાવી રહ્યા છીએ." All other Gujarati and Hindi lines were
+approved as authored. **The other seven languages have not been read by a
+native speaker and wait for you.**
 
 Because they are so short, three things matter more than style:
 

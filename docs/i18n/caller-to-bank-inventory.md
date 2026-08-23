@@ -44,6 +44,7 @@ so drift shows up even when line numbers move.
 | 12 | check next step, verification mode (~3234) | `trust.safe_next_step` | none | exact |
 | 13 | check next step, base (~3241) | `trust.safe_next_step` or `banner.text` | none; the no-rush prefix interpolates AFTER lookup | exact |
 | 14 | checkWhyChips (~3350) | each `signal` | `String(value).trim()` only (allowed). The dedup key is stripped and lowercased in a separate variable that never reaches the lookup; the stop strip happens on the translated result | exact. This is the fixed trust panel site |
+| 15 | essenceLineFor card 1 (added 23 August 2026, the ten-language essence opening) | `typeLabel` (`structured_result.document_type_label`) | none; the raw served value goes to the lookup. The English branch lowercases into a separate variable that never reaches the bank, and the post-fill tidy runs on the composed dictionary line, after and outside the lookup | exact `tpl.label.doctype.*` on the floor path; a model-translated label is bank-unmatched and passes through already in the reader's language, by design |
 
 Callers outside app.js: `scripts/render-language.js` and
 `scripts/render-exact.js` pass raw values (they exist to mirror the browser),

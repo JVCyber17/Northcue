@@ -74,8 +74,16 @@ test("the serious-letter bypass is wired as the law states", () => {
   assert.ok(HTML.includes('id="card-serious-note"'), "the bypass line exists in the markup");
 });
 
-test("the essence layer stays gated to English until the founder opens the authored languages", () => {
-  assert.match(APP, /NorthcueI18n\.getLanguage\(\) === "en" &&\s*\n?\s*document\.body\.classList\.contains\("cards-simple"\)/);
+test("the essence layer is open in every language, with no language gate", () => {
+  // Opened 23 August 2026 after the founder's line-by-line verification
+  // of the Gujarati and Hindi sets. essenceModeActive must consult the
+  // view state and the document's seriousness only, never the language.
+  const body = APP.slice(APP.indexOf("function essenceModeActive"),
+    APP.indexOf("function essenceModeActive") + 300);
+  assert.ok(!body.includes("getLanguage"),
+    "essenceModeActive must not gate on the interface language");
+  assert.match(body, /cards-simple/);
+  assert.match(body, /seriousDocument\(\)/);
 });
 
 test("obligation wording is gated on the engine's own category", () => {
