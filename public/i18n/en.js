@@ -392,7 +392,14 @@
     "journey.essence.dueBy": "By {date}.",
     "journey.essence.check": "Looks routine. Check the original if unsure.",
     "journey.essence.keepSafe": "Keep this letter safe.",
-    "journey.seriousFullView": "This letter looks serious, so we are showing you everything.",
+    // THE WEIGHT LAW KEYS, founder's design decision of 23 August 2026,
+    // English first: the serious bypass is removed, simple view is the
+    // universal default, and severity is carried by weight. These three
+    // are English only until the founder reviews the serious-simple
+    // renders; the nine authorings follow through the bank discipline.
+    "journey.essence.amountDemanded": "{amount} demanded.",
+    "journey.essence.deadlineMatters": "This deadline matters.",
+    "journey.seriousSimpleNote": "This letter looks serious. Full details are one tap away.",
     "journey.calendarTitle": "Add to calendar",
     "journey.calendarNoDateBody": "No clear date was found in this document, so there's nothing to add yet.<br>If you spotted a date yourself, you can add it to your calendar by hand.",
     "journey.calendarDownloaded": "Calendar file downloaded. Open it to add the date, and your calendar will remind you.",

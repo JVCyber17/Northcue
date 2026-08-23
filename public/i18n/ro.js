@@ -387,7 +387,6 @@
     "journey.essence.dueBy": "Până la {date}.",
     "journey.essence.check": "Pare un document obișnuit. Verificați originalul dacă ceva este neclar.",
     "journey.essence.keepSafe": "Păstrați această scrisoare într-un loc sigur.",
-    "journey.seriousFullView": "Această scrisoare pare serioasă, așa că vă arătăm toate detaliile.",
     "journey.calendarTitle": "Adăugați în calendar",
     "journey.calendarNoDateBody": "Nu a fost găsită o dată clară în acest document, deci nu este nimic de adăugat încă.<br>Dacă ați observat o dată, o puteți adăuga manual în calendarul dumneavoastră.",
     "journey.calendarDownloaded": "Fișierul de calendar a fost descărcat. Deschideți-l pentru a adăuga data, iar calendarul vă va aminti.",

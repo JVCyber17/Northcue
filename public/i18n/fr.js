@@ -390,7 +390,6 @@
     "journey.essence.dueBy": "Échéance le {date}.",
     "journey.essence.check": "Cela semble normal. Vérifiez l'original en cas de doute.",
     "journey.essence.keepSafe": "Conservez bien ce courrier.",
-    "journey.seriousFullView": "Ce courrier semble important, nous vous montrons donc tous les détails.",
     "journey.calendarTitle": "Ajouter au calendrier",
     "journey.calendarNoDateBody": "Aucune date claire n'a été trouvée dans ce document, il n'y a donc rien à ajouter pour l'instant.<br>Si vous avez repéré une date vous-même, vous pouvez l'ajouter à votre calendrier à la main.",
     "journey.calendarDownloaded": "Fichier de calendrier téléchargé. Ouvrez-le pour ajouter la date, et votre calendrier vous le rappellera.",

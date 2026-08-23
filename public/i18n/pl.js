@@ -387,7 +387,6 @@
     "journey.essence.dueBy": "Termin: do {date}.",
     "journey.essence.check": "To wygląda na zwykły dokument. Prosimy sprawdzić oryginał, jeśli coś jest niejasne.",
     "journey.essence.keepSafe": "Prosimy zachować ten list.",
-    "journey.seriousFullView": "To wygląda na poważny list, więc pokazujemy Państwu wszystko.",
     "journey.calendarTitle": "Dodaj do kalendarza",
     "journey.calendarNoDateBody": "W tym dokumencie nie znaleziono wyraźnej daty, więc nie ma jeszcze czego dodać.<br>Jeśli gdzieś widać datę, można dodać ją do kalendarza ręcznie.",
     "journey.calendarDownloaded": "Plik kalendarza został pobrany. Prosimy otworzyć go, aby dodać datę, a kalendarz przypomni.",

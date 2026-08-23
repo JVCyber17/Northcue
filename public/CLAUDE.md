@@ -120,28 +120,41 @@ you touched to confirm it still does what it did before — markup/CSS
 restructuring should never change what a data-theme or data-toggle
 attribute does.
 
-## The two laws of simple view (founder-approved, 7 August 2026)
+## The law of simple view: weight, not volume (founder's design decision, 23 August 2026)
 
-**Compression is a privilege of routine post.** Simple view is the default
-after analysis, and in the English interface it renders essence lines:
-three to five words composed from the engine's served judgement, anchors
-appearing exactly once (sender card 1, amount card 2, date card 4), with
-the appearance-language law extended to them: no unhedged negative
-assurances, obligation wording only where the engine's document type
-supports it, never asserting more than the engine's judgement. When the
-essence layer lacks the data for a card, the engine's own line stands.
+**Simple view is the universal default** for every document at every
+severity; the toggle to full details is always visible; the reader's
+choice, once made, wins on this device. The earlier serious-letter
+bypass is REMOVED. Severity is preserved through weight:
 
-**Serious letters bypass compression entirely.** At severity high or
-urgent, and in every processing mode other than normal (caution,
-verification_only, unsupported, failed), simple mode does not render: the
-full detailed view shows, preceded by one calm line
-(journey.seriousFullView), and the simple/full toggle is hidden. This
-supersedes any per-card treatment of serious content and overrides the
-reader's stored preference for that document without changing it.
+- The essence layer runs in three tiers (essenceSeverityTier in app.js).
+  VERBATIM: caution and refused modes keep the engine's line on every
+  card; only the layout is card-simple. SERIOUS: severity high or urgent
+  in normal mode. ROUTINE: everything else, the original frames.
+- A serious document carries one line under the card header while simple
+  view is active (journey.seriousSimpleNote, "This letter looks serious.
+  Full details are one tap away."), translated everywhere.
+- Serious-simple frames: card 1 composed as elsewhere; card 2
+  "{amount} demanded." when the served judgement indicates enforcement
+  or a formal demand (the protected enforcement key point, or the
+  legal-or-court category), otherwise the shipped obligation or neutral
+  frame; card 3 the engine's action line verbatim with protected lines
+  beneath, no compression; card 4 "By {date}. This deadline matters.";
+  card 5 the engine's stated consequence verbatim, never shortened,
+  this is law; card 6 as shipped.
+- THE BLUEPRINT at all severities: each anchor exactly once at its home
+  card, sender card 1, amount card 2, date card 4, and no essence line
+  restates another card's anchor. Verbatim engine lines are exempt.
+- The detailed view is byte-identical to the pre-change rendering.
 
-Three safety exceptions render in routine simple view always: the
-composed contact number, the not-fully-trained caveat, the text-quality
-caution (plus the first-letter-only notice, same class). The reader's
+The appearance-language law stands: no unhedged negative assurances,
+obligation wording only where the engine's judgement supports it, never
+asserting more than the engine. When the essence layer lacks the data
+for a card, the engine's own line stands.
+
+Three safety exceptions render in simple view always: the composed
+contact number, the not-fully-trained caveat, the text-quality caution
+(plus the first-letter-only notice, same class). The reader's
 simple/full choice is remembered on the device only (simpleViewChosen in
 the preferences localStorage entry).
 
@@ -149,12 +162,16 @@ The essence layer is open in ALL TEN LANGUAGES (23 August 2026): real
 users validated the English lines, the nine other sets were authored
 through the bank discipline from each language's own validated frames,
 and the founder verified Gujarati and Hindi line by line (the other
-seven carry native-review entries in NATIVE_REVIEW.md). Detection rule:
-English anchors (safety prefixes, the sender prefix, the no-action
-sentence, the consequence title) are read on the RAW served text, which
-is the engine's English on the floor path in every language; on the
-AI translate-after-English path (debug.ai.ai_used, non-English) those
-anchors cannot be read and every detection takes its conservative
-branch — steps all stay visible rather than risk hiding a safety line,
-card 5 keeps its served line, card 1 drops the sender, card 3 keeps
-the hedged form. tests/simpleViewEssence.test.js pins all of this.
+seven carry native-review entries in NATIVE_REVIEW.md). The three
+weight-law keys (amountDemanded, deadlineMatters, seriousSimpleNote)
+are English only until the founder reviews the serious-simple renders.
+Detection rule: English anchors (safety prefixes, the sender prefix,
+the no-action sentence, the consequence title, the enforcement key
+point) are read on the RAW served text, which is the engine's English
+on the floor path in every language; on the AI translate-after-English
+path (debug.ai.ai_used, non-English) those anchors cannot be read and
+every detection takes its conservative branch — steps all stay visible
+rather than risk hiding a safety line, card 5 keeps its served line,
+card 1 drops the sender, card 3 keeps the hedged form, and the
+weighted amount frame falls back to the shipped ones.
+tests/simpleViewEssence.test.js pins all of this.

@@ -388,7 +388,6 @@
     "journey.essence.dueBy": "Prazo até {date}.",
     "journey.essence.check": "Parece normal. Verifique o original se algo não estiver claro.",
     "journey.essence.keepSafe": "Guarde bem esta carta.",
-    "journey.seriousFullView": "Esta carta parece séria, por isso mostramos tudo.",
     "journey.calendarTitle": "Adicionar ao calendário",
     "journey.calendarNoDateBody": "Não foi encontrada uma data clara neste documento, por isso ainda não há nada para adicionar.<br>Se encontrou uma data, pode adicioná-la ao calendário manualmente.",
     "journey.calendarDownloaded": "Arquivo de calendário transferido. Abra-o para adicionar a data, e o calendário fica com o lembrete.",

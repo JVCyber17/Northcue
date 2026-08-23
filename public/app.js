@@ -700,41 +700,55 @@ function setFocusMode(isActive, options = {}) {
 // applyDefaultSimpleView below. Never sent anywhere.
 let simpleViewChosen = false;
 
-// THE TWO LAWS OF SIMPLE VIEW, founder-approved 7 August 2026 and recorded
-// in public/CLAUDE.md: compression is a privilege of routine post, and
-// serious letters bypass compression entirely. A document at severity high
-// or urgent, or in any processing mode other than normal (caution,
-// verification_only, unsupported, failed), never renders simple mode: the
-// full detailed view shows, preceded by one calm line saying why, and the
-// simple/full toggle is hidden because there is nothing to toggle to.
+// THE LAW OF SIMPLE VIEW, founder's design decision of 23 August 2026,
+// recorded in public/CLAUDE.md: simple view is the universal default for
+// every document at every severity, the toggle to full details is always
+// visible, and severity is preserved through WEIGHT, not volume. A serious
+// document (severity high or urgent, or any processing mode other than
+// normal) carries one line under the card header pointing at full details,
+// and its essence lines take the weighted or verbatim forms below.
 function seriousDocument() {
   const trust = (latestResult && latestResult.trust) || {};
   if (trust.severity_level === "high" || trust.severity_level === "urgent") return true;
   return Boolean(trust.processing_mode) && trust.processing_mode !== "normal";
 }
 
-// SIMPLE IS THE DEFAULT AFTER ANALYSIS (Phase 2). Called on both
-// cards-ready paths. Serious documents bypass simple mode regardless of
-// any preference, without saving over the reader's choice; otherwise the
-// reader's own choice, once made with the toggle, wins over the default
-// forever on this device.
+// The essence layer's severity tiers under the weight law:
+// - "verbatim": caution and refused modes. Every card keeps its engine
+//   line untouched; only the layout is card-simple.
+// - "serious": severity high or urgent in normal mode. Weighted frames,
+//   the verbatim consequence law, and the engine's own action line.
+// - "routine": everything else, the shipped frames.
+function essenceSeverityTier() {
+  const trust = (latestResult && latestResult.trust) || {};
+  if (Boolean(trust.processing_mode) && trust.processing_mode !== "normal") return "verbatim";
+  if (trust.severity_level === "high" || trust.severity_level === "urgent") return "serious";
+  return "routine";
+}
+
+// SIMPLE IS THE DEFAULT AFTER ANALYSIS (Phase 2), universal at every
+// severity since the bypass was removed. Called on both cards-ready
+// paths. The reader's own choice, once made with the toggle, wins over
+// the default forever on this device.
 function applyDefaultSimpleView() {
-  if (seriousDocument()) {
-    setSimpleView(false, { save: false });
-    return;
-  }
   if (simpleViewChosen) return;
   setSimpleView(true, { save: false });
 }
 
 // THE ESSENCE LAYER, open in all ten languages since the founder's
-// line-by-line verification of the authored sets (23 August 2026).
-// Everything below reads the engine's served judgement and composes
-// presentation from it; the engine is never consulted twice and never
-// contradicted. The appearance-language law applies: no unhedged
-// negative assurances, obligation wording only where the document type
-// supports it, and when the essence layer lacks the data for a card it
-// returns null and the engine's own line stands.
+// line-by-line verification of the authored sets (23 August 2026), and
+// active at every severity since the bypass was removed. Everything
+// below reads the engine's served judgement and composes presentation
+// from it; the engine is never consulted twice and never contradicted.
+// The appearance-language law applies: no unhedged negative assurances,
+// obligation wording only where the document type supports it, and when
+// the essence layer lacks the data for a card it returns null and the
+// engine's own line stands.
+//
+// THE BLUEPRINT: each anchor appears exactly once, at its home card,
+// sender on card 1, amount on card 2, date on card 4, and no essence
+// line restates another card's anchor. Verbatim engine lines are
+// exempt; verbatim means verbatim.
 //
 // TWO KINDS OF SERVED TEXT, one detection rule. On the floor path the
 // cards carry the engine's raw ENGLISH sentences in every language and
@@ -760,8 +774,21 @@ const ESSENCE_SENDER_PREFIX = "The document names this sender: ";
 const CONSEQUENCE_CARD_TITLE = "What could happen if I ignore it?";
 
 function essenceModeActive() {
-  return document.body.classList.contains("cards-simple") &&
-    hasUploadedResult() && !seriousDocument();
+  return document.body.classList.contains("cards-simple") && hasUploadedResult();
+}
+
+// The engine's own enforcement key point, protected and byte-stable, the
+// marker for the weighted "{amount} demanded." frame. Readable only while
+// the raw text is the engine's English; on translated model prose the
+// shipped frames stand instead.
+const ESSENCE_ENFORCEMENT_LINE = "This mentions enforcement action or bailiffs.";
+
+function enforcementDemandServed() {
+  const trust = (latestResult && latestResult.trust) || {};
+  if (trust.document_category === "legal_or_court") return true;
+  const cards = (latestResult && latestResult.cards) || [];
+  return cards.some((card) => Array.isArray(card.steps) &&
+    card.steps.some((step) => String(step).startsWith(ESSENCE_ENFORCEMENT_LINE)));
 }
 
 // Whether the served cards are model prose already written in the reader's
@@ -791,8 +818,15 @@ function isEssenceSafetyLine(text) {
 
 // The essence line for one card, or null when the engine's own line should
 // stand. Anchors appear exactly once across the six: sender on card 1,
-// amount on card 2, date on card 4.
+// amount on card 2, date on card 4. The severity tier decides the frame:
+// verbatim documents keep every engine line, serious documents take the
+// weighted forms, routine documents the shipped ones.
 function essenceLineFor(card) {
+  const tier = essenceSeverityTier();
+  // Caution and refused documents keep their engine lines verbatim on
+  // every card; only the layout is card-simple.
+  if (tier === "verbatim") return null;
+
   const structured = (latestResult && latestResult.structured_result) || {};
   const summary = structured.summary || {};
   const trust = (latestResult && latestResult.trust) || {};
@@ -820,14 +854,24 @@ function essenceLineFor(card) {
   if (card.id === "what_matters_most") {
     const amount = summary.main_amount;
     if (!amount) return null;
-    // "to pay" is obligation wording: it renders only when the engine's
-    // own category says this is a bill or payment demand. Any other
-    // document renders the amount neutrally, asserting nothing.
+    // The weighted frame: on a serious document whose engine judgement
+    // indicates enforcement or a formal demand (the protected
+    // enforcement key point, or the legal-or-court category), the
+    // amount is a demand and is named as one. Otherwise "to pay" is
+    // obligation wording, rendered only when the engine's own category
+    // says this is a bill or payment demand; any other document renders
+    // the amount neutrally, asserting nothing.
+    if (tier === "serious" && enforcementDemandServed()) {
+      return t("journey.essence.amountDemanded", { amount });
+    }
     return trust.document_category === "bill_or_payment"
       ? t("journey.essence.amountToPay", { amount })
       : t("journey.essence.amountNeutral", { amount });
   }
   if (card.id === "what_do_i_need_to_do") {
+    // On a serious document the engine's own action line renders
+    // verbatim, protected lines beneath it; no compression.
+    if (tier === "serious") return null;
     // The engine-confirmed variant only when the engine states it; the
     // hedged "shown" form otherwise, which asserts only what is visible.
     return /^No action needed right now\./.test(String(card.short_answer || ""))
@@ -838,9 +882,17 @@ function essenceLineFor(card) {
     const date = summary.main_date;
     // No date: the engine's "No deadline clearly stated." is already the
     // shortest honest line, so it stands.
-    return date ? t("journey.essence.dueBy", { date }) : null;
+    if (!date) return null;
+    // On a serious document the date carries its weight sentence.
+    return tier === "serious"
+      ? t("journey.essence.dueBy", { date }) + " " + t("journey.essence.deadlineMatters")
+      : t("journey.essence.dueBy", { date });
   }
   if (card.id === "what_could_happen") {
+    // THE VERBATIM CONSEQUENCE LAW: on a serious document card 5 renders
+    // the engine's stated consequence verbatim, never shortened, so the
+    // essence layer always stands down here at the serious tier.
+    if (tier === "serious") return null;
     // Only the check-mode card compresses. A stated consequence is the
     // engine's judgement and is never summarised away, even at low
     // severity; that card's own line stands. The title carries that
@@ -2859,12 +2911,14 @@ function renderCard() {
   document.querySelector("#card-title").textContent = translatedTitle.text;
   document.querySelector("#card-answer").textContent = essenceLine || translatedAnswer.text;
 
-  // The serious-letter bypass line and the toggle's availability. Both
-  // apply in every language; the line itself is a Tier 1 dictionary
-  // string, translated wherever the interface is.
-  const serious = hasUploadedResult() && seriousDocument();
-  document.querySelector("#card-serious-note").classList.toggle("hidden", !serious);
-  cardDetailToggle?.classList.toggle("hidden", serious);
+  // The serious-letter line under the card header: severity carried by
+  // weight, not volume. It renders on a serious document while simple
+  // view is active, pointing at the full details one tap away, in every
+  // language (a Tier 1 dictionary string). The toggle is always visible;
+  // there is no bypass.
+  const seriousNoteShown = hasUploadedResult() && seriousDocument() &&
+    document.body.classList.contains("cards-simple");
+  document.querySelector("#card-serious-note").classList.toggle("hidden", !seriousNoteShown);
   // The sub-line is a generic hint, not content. On a card whose answer already
   // runs several lines it repeats advice the card has just given, and it costs
   // 59px of a 812px viewport at phone width, which is where six cards currently
