@@ -30,6 +30,13 @@ corpus, not asserted:
 **The one-line summary: the engine can now FIND a value in every language and
 cannot ATTRIBUTE one in any language but English.**
 
+**Accepted limit, simple view (23 August 2026):** on the AI-translated path
+in the nine non-English languages, essence answers render but step
+compression and the card 1 sender are conservatively disabled, because
+protected lines cannot be detected in translated prose; closing this
+requires a server-side protected-line marker, deferred as a future
+pipeline change.
+
 Every date that reaches a card on a non-English letter comes from the reading
 aid's guess ("the first date no competing label has claimed"), never from
 co-location. On 2 August 2026, of the eleven genuine non-English or bilingual

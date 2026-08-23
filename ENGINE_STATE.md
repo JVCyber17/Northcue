@@ -1056,3 +1056,41 @@ the two in one commit would mean neither could be reviewed on its own terms. The
 fix is the same class as the shape signals above: the word class must be
 `[\p{L}\p{M}\p{N}]`, the one `tests/wordBoundarySafety.test.js` already enforces
 across `src/`, because `\p{L}` alone splits an Indic word through its vowel sign.
+
+## THE SIMPLE VIEW RELEASE: deployed in all ten languages (23 August 2026)
+
+Six commits deployed as one release, marker northcue-v1-20260823a, tag
+release-20260823-simple-view: simple view is the default after analysis
+(a9a573f), the English essence lines and the serious-letter full bypass
+validated by the real users who reported the problem (0419bd5), the nine
+authored essence sets through the bank discipline with full parity
+restored (80caed0), the founder's line-by-line Gujarati and Hindi
+verification applied and the layer opened to all ten languages (9ea0a13),
+the behavioural pins (a71b16c), and the deploy marker (6d2ae1d). Suite at
+the deployed commit: 2393/2393.
+
+The two laws, recorded in public/CLAUDE.md: compression is a privilege of
+routine post, and serious letters bypass compression entirely, at
+severity high or urgent and in every processing mode other than normal.
+
+Live verification on production, real uploads, same day: a fresh English
+session defaults to simple view with the composed essence line and the
+toggle works both ways; the bailiff corpus document bypasses to full view
+with the serious line and no toggle; a refused phishing document bypasses
+on the floor path; a caution-mode upload bypasses in English and in
+Gujarati (the founder's corrected serious line rendering live); and a
+routine PDF in a Gujarati session takes the AI translated path and shows
+the designed conservative residual, essence answers with every translated
+step visible including the protected sender line, Latin name intact.
+
+The accepted limit recorded in KNOWN_ENGINE_DEFECTS.md: on the
+AI-translated path in the nine non-English languages, essence answers
+render but step compression and the card 1 sender are conservatively
+disabled, because protected lines cannot be detected in translated prose;
+closing this requires a server-side protected-line marker, deferred as a
+future pipeline change.
+
+**Post-ship notes, no action now:**
+1. Add a corrupted-preferences fail-safe pin when convenient (the
+   simpleViewChosen read in loadSavedPreferences against a malformed
+   localStorage entry).
