@@ -720,10 +720,14 @@ function runAssertions(test, output) {
       pass = !hasDangerous;
       actual = hasDangerous ? `DANGEROUS: ${cardText.slice(0, 80)}` : "safe (no pay/click/reply)";
     } else if (assertion.field === "what_is_this_has_quality_warning") {
-      const card = getWhatIsThisCard(output);
-      actual = card ? card.short_answer : null;
-      pass = /text quality|too low|check the original/i.test(actual || "");
-      actual = pass ? "quality warning present (correct)" : (actual || "card not found");
+      // Structured card 1 is the live-rendered layer: the frontend maps its
+      // key_points to the card's bullets, so the quality caveat readers see
+      // lives there, not on the compact card's short_answer. Same surface
+      // rule as card5_contains below.
+      const c1 = (output.structured_result?.cards || [])[0];
+      const cardText = c1 ? `${c1.simple_explanation} ${(c1.key_points || []).join(" ")}` : "";
+      pass = /text quality|too low|check the original/i.test(cardText);
+      actual = pass ? "quality warning present (correct)" : (cardText.slice(0, 120) || "card not found");
     } else if (assertion.field === "card5_title") {
       // Adaptive Card 5: structured_result card index 4 (the live-rendered layer).
       const c5 = (output.structured_result?.cards || [])[4];

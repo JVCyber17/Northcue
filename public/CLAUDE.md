@@ -42,15 +42,15 @@ topbar bug. Always give a new topbar/card icon wrapper one of the
 modifier classes above, even if the intended look is subtle.
 
 ## Known issues — check current status before assuming these are fixed
-- app.js, classFromLevel(): the condition order means a document
-  classified as "low" severity gets the "badge-high" (red/urgent) CSS
-  class instead of "badge-low" (calm green), because the "low" check is
-  grouped with "urgent"/"high". One-line fix, status unconfirmed as of
-  this note — verify before assuming it's done.
-- styles.css, .help-cards / .help-simple-sections / .help-support-strip
-  / .help-head: no @media overrides exist anywhere in the file for
-  these selectors. At narrow widths the fixed side margins (44px) and
-  multi-column grids will overflow. Status unconfirmed as of this note.
+- app.js, classFromLevel(): VERIFIED FIXED 23 September 2026. "low" is
+  checked first and returns "badge-low"; the correcting comment in the
+  function references the old red-low bug. No action needed.
+- styles.css, .help-cards narrow-width overflow: DOES NOT REPRODUCE,
+  verified 23 September 2026. The grids use minmax(0, 1fr) columns, so
+  content shrinks instead of overflowing; measured scrollWidth equals
+  the 375px viewport on the help page. The selectors still have no
+  dedicated @media overrides, so re-measure if their margins or column
+  counts change.
 - Per-card severity status (urgent / caution / normal / good, already
   computed by the engine) is not visually shown anywhere on the main
   cue-card reading screen (#page-journey, renderCard() in app.js) — it
