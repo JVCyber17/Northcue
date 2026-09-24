@@ -58,7 +58,7 @@ function sanitiseNote(value) {
     .replace(/\b(?:\+?\d[\d\s().-]{7,}\d)\b/g, "[redacted-phone]")
     .replace(/\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b/gi, "[redacted-postcode]")
     .replace(/\b[A-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/gi, "[redacted-number]")
-    .replace(/\b\d{2}-\d{2}-\d{2}\b/g, "[redacted-number]")
+    .replace(/\b\d{2}[ -]\d{2}[ -]\d{2}\b/g, "[redacted-number]")
     .replace(/\b\d{8,}\b/g, "[redacted-number]")
     .replace(/£\s?\d+(?:[.,]\d{2})?/g, "[redacted-amount]")
     .slice(0, MAX_NOTE_LENGTH);

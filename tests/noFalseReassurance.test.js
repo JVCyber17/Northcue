@@ -276,16 +276,22 @@ test("the decline is in the template bank in all ten languages", () => {
 // panel reports what was checked, never authentication. English byte for
 // byte; the nine translations hold presence, non-emptiness and the dash law
 // until their native review (NATIVE_REVIEW.md).
-const TRUST_KEYS = ["check.genuineQuestion", "check.genuineHigh", "check.genuineHighReview"];
+const TRUST_KEYS = ["check.genuineQuestion", "check.genuineHigh", "check.genuineHighReview",
+  "check.genuineDefault", "check.genuineMeaning", "check.urgentMeaning", "check.scamDeadline"];
 const APPROVED_TRUST_EN = {
   "check.genuineQuestion": "Any warning signs?",
   "check.genuineHigh": "No warning signs found",
-  "check.genuineHighReview": "No warning signs found, worth a quick check"
+  "check.genuineHighReview": "No warning signs found, worth a quick check",
+  // The one-voice sweep of 24 September 2026: the panel reports what was
+  // checked and what it cannot prove, never authentication.
+  "check.genuineDefault": "No strong warning signs, worth a check",
+  "check.genuineMeaning": "Whether we spotted signs often seen in scams or fake letters. It cannot prove a letter is real.",
+  "check.urgentMeaning": "How soon it may need looking at, separate from the warning signs check.",
+  "check.scamDeadline": "Ignore any deadline on this until you have checked using contact details from an official source."
 };
 const KEPT_TRUST_EN = {
   "check.genuineLow": "We're not sure, please take care",
-  "check.genuineMediumClean": "Nothing unusual spotted",
-  "check.genuineDefault": "Probably genuine, worth a check"
+  "check.genuineMediumClean": "Nothing unusual spotted"
 };
 
 test("the trust panel never claims to authenticate, in any language", () => {
@@ -298,7 +304,9 @@ test("the trust panel never claims to authenticate, in any language", () => {
     assert.ok(EN.includes('"' + key + '": ' + JSON.stringify(value) + ","),
       key + " (a kept state) must remain byte-identical");
   });
-  assert.ok(!EN.includes('"Looks genuine"') && !EN.includes('"Is it genuine?"'),
+  assert.ok(!EN.includes('"Looks genuine"') && !EN.includes('"Is it genuine?"') &&
+    !EN.includes("Probably genuine") && !EN.includes("whether it's genuine") &&
+    !EN.includes("until you know it's real"),
     "the retired authentication wording must not survive in English");
 
   ALL_LANGS.forEach((code) => {

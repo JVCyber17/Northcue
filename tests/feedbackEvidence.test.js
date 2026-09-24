@@ -176,6 +176,16 @@ test("feedback evidence quality", async (t) => {
     assert.ok(!note.includes("07700"), "notes must redact phone numbers");
   });
 
+  await t.test("sort codes are redacted in both written forms", () => {
+    // The hyphenated form was always caught; the spaced form (12 34 56)
+    // survived until 24 September 2026. Both now redact.
+    const hyphenated = feedbackService.sanitiseNote("My sort code is 12-34-56 thanks");
+    assert.ok(!/\d{2}-\d{2}-\d{2}/.test(hyphenated), "hyphenated sort codes must redact");
+    const spaced = feedbackService.sanitiseNote("My sort code is 12 34 56 thanks");
+    assert.ok(!/\d{2}\s\d{2}\s\d{2}/.test(spaced), "spaced sort codes must redact");
+    assert.ok(spaced.includes("[redacted-number]"), "the redaction marker stands in");
+  });
+
   await t.test("the contact route is not offered while it has nowhere to send", () => {
     // It collected a contact detail and a note, discarded both, and told the
     // reader someone would be in touch. Until an endpoint exists the route

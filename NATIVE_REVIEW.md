@@ -1200,3 +1200,20 @@ each language's own reviewed frames; no native speaker has read them
 and they wait for review with the usual three questions, plus one
 specific to the decline: does it read as Northcue's own limit, never as
 a fault in the reader's letter?
+
+## One voice for the trust panel, 24 September 2026
+
+Five dictionary keys stopped sounding like authentication in all ten
+languages: check.genuineMeaning now explains that Northcue looks for
+signs often seen in scams or fake letters and cannot prove a letter is
+real; check.urgentMeaning separates urgency from the warning signs
+check; check.scamDeadline points at official contact details instead of
+"until you know it's real"; check.genuineDefault reads "No strong
+warning signs, worth a check"; why.blockD.body says "official letter"
+instead of "real letter". privacy.thinking.body also now says the AI
+provider suggests facts from the masked text, which our own system
+checks. The nine non-English versions reuse each language's shipped
+scam, warning-sign and official-source vocabulary; they are machine
+drafts awaiting native review with one question: does the "cannot prove
+a letter is real" sentence read as honest modesty, never as doubt about
+the reader's own letter?
