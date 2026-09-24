@@ -25,7 +25,7 @@
 // this path is excluded from that substitution.
 const POLICY_PATH = "/privacy";
 
-const CACHE_VERSION = "northcue-v1-20260823b";
+const CACHE_VERSION = "northcue-v1-20260924a";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
