@@ -767,6 +767,29 @@ function applyDefaultSimpleView() {
 // it (see the card 3 branch below), so it is never softened.
 const ESSENCE_DECLINE_LINE = "No clear next step found. Please check the full letter.";
 
+// True when this raw served line is the engine's honest decline, on either
+// prose path: the raw engine English on the floor path, or the bank's own
+// rendering of it, which the server enforces on the AI translation. The
+// single bank lookup here serves every consumer (the essence stand-down,
+// the full-view step filter, the Document check hero and urgency answer),
+// so the decline stays one call site in the caller-to-bank inventory.
+function isDeclineLine(rawLine) {
+  const raw = String(rawLine || "");
+  return /^No clear next step found\./.test(raw) ||
+    raw === translatedEngineText(ESSENCE_DECLINE_LINE).text;
+}
+
+// The served card 3 answer, raw, from the latest result.
+function servedActionAnswer() {
+  const cards = (latestResult && latestResult.cards) || [];
+  const card = cards.find((entry) => entry && entry.id === "what_do_i_need_to_do");
+  return card ? String(card.short_answer || "") : "";
+}
+
+function declineServed() {
+  return isDeclineLine(servedActionAnswer());
+}
+
 const ESSENCE_SAFETY_PREFIXES = [
   // The three safety exceptions the founder ordered visible in routine
   // simple view, plus the two sibling notices in the same class.
@@ -880,13 +903,11 @@ function essenceLineFor(card) {
     // THE DECLINE STANDS, in every language and on both prose paths.
     // "No clear next step found." exists precisely for the letter whose
     // instructions could not be read, and softening it to "No urgent
-    // action shown." would reassure on that exact case. The floor path
-    // is matched on the raw engine English; the AI path serves the
-    // bank's own rendering of the decline (enforced server side), which
-    // the bank comparison matches byte for byte.
+    // action shown." would reassure on that exact case. isDeclineLine
+    // matches the raw engine English on the floor path and the bank's
+    // own rendering (enforced server side) on the AI path.
     const rawAction = String(card.short_answer || "");
-    if (/^No clear next step found\./.test(rawAction) ||
-        rawAction === translatedEngineText(ESSENCE_DECLINE_LINE).text) {
+    if (isDeclineLine(rawAction)) {
       return null;
     }
     // The engine-confirmed variant only when the engine states it; the
@@ -2947,7 +2968,10 @@ function renderCard() {
   // six cards that overflow today are above it.
   const explanation = document.querySelector("#card-explanation");
   explanation.textContent = shortCardExplanation(card);
-  explanation.classList.toggle("hidden", translatedAnswer.text.length >= LONG_ANSWER_CHARS);
+  // Hidden when long answers speak for themselves, and when the hint is
+  // empty (the decline suppresses card 3's "small steps" hint entirely).
+  explanation.classList.toggle("hidden",
+    !explanation.textContent || translatedAnswer.text.length >= LONG_ANSWER_CHARS);
   document.querySelector("#card-feedback").textContent = t(cardEncouragementKeys[cardIndex] || "journey.encouragementFallback");
 
   const isLastCard = latestResult.cards.length > 0 && cardIndex >= latestResult.cards.length - 1;
@@ -2964,11 +2988,19 @@ function renderCard() {
   // under text that is not English at all. The quote design itself stays;
   // only the explanatory line is retired.
 
+  // THE DECLINE NEVER REPEATS AS A BULLET (founder, 24 September 2026):
+  // when card 3 is the decline, its single action entry IS the headline,
+  // and a bullet restating it under a "small steps" hint would present
+  // the absence of a step as a step. Filtered on the raw entry by the
+  // same dual match the essence stand-down uses; the card data itself is
+  // untouched, so copy summary and details keep the served line.
+  const rawSteps = Array.isArray(card.steps)
+    ? card.steps.filter((step) => !isDeclineLine(String(step)))
+    : [];
+
   // Each step is translated once and the results reused below for the money
   // format check, so an untranslated step costs one pattern scan, not two.
-  const translatedSteps = Array.isArray(card.steps)
-    ? card.steps.map((step) => translatedEngineText(step))
-    : [];
+  const translatedSteps = rawSteps.map((step) => translatedEngineText(step));
 
   // In essence mode only the safety lines survive as steps: the contact
   // number, the not-fully-trained caveat, the low-text-quality caution and
@@ -2985,7 +3017,7 @@ function renderCard() {
     ? (translatedProseServed()
         ? translatedSteps
         : translatedSteps.filter((translatedStep, stepIndex) =>
-            isEssenceSafetyLine(String((card.steps || [])[stepIndex]))))
+            isEssenceSafetyLine(String(rawSteps[stepIndex]))))
     : translatedSteps;
   const stepItems = shownSteps.map((translatedStep) =>
     `<li>${escapeHtml(translatedStep.text)}</li>`);
@@ -3090,7 +3122,9 @@ function shortCardExplanation(card) {
     return t("journey.explainWhatMattersMost");
   }
   if (card.id === "what_do_i_need_to_do") {
-    return t("journey.explainWhatToDo");
+    // The decline has no steps to take one at a time; the "small steps"
+    // hint would contradict the headline directly above it.
+    return isDeclineLine(String(card.short_answer || "")) ? "" : t("journey.explainWhatToDo");
   }
   if (card.id === "when_is_it_due") {
     return card.date ? t("journey.explainDueWithDate") : t("journey.explainDueNoDate");
@@ -3784,9 +3818,20 @@ function checkNextStepText(trust, banner, genuine) {
   if (trust.trust_assessment === "low") {
     return t("check.lowTrustStep");
   }
-  const engineBase = trust.safe_next_step || banner.text;
+  // THE DECLINE LEADS THE CHECK TOO (founder, 24 September 2026): when
+  // card 3 is the decline, the one thing to do next IS checking the full
+  // letter, so the decline line itself is the hero, through the same bank
+  // call the confident states use, and the no-rush softener never wraps
+  // it: "no rush" is a promise the engine cannot make about a letter
+  // whose next step it could not read.
+  const declineLeads = declineServed();
+  const engineBase = declineLeads
+    ? servedActionAnswer()
+    : (trust.safe_next_step || banner.text);
   const base = engineBase ? translatedEngineText(engineBase).text : safeActionFromTrust(trust);
-  return isRoutineCheck(trust, genuine) ? t("check.noRushPrefix", { base: base }) : base;
+  return !declineLeads && isRoutineCheck(trust, genuine)
+    ? t("check.noRushPrefix", { base: base })
+    : base;
 }
 
 // Routine = the genuine row reads green AND severity is low AND the engine
@@ -3811,6 +3856,12 @@ function checkUrgencyIndicator(severityLevel) {
   if (value === "urgent") return { text: t("check.urgencyUrgent"), dotClass: classFromLevel("high") };
   if (value === "high") return { text: t("check.urgencyHigh"), dotClass: classFromLevel("high") };
   if (value === "medium") return { text: t("check.urgencyMedium"), dotClass: classFromLevel("medium") };
+  // THE DECLINE NEVER READS AS "NO RUSH" (founder, 24 September 2026):
+  // with no readable next step, promising there is no rush asserts more
+  // than the engine knows. The existing hedged answer for documents that
+  // deserve a look, "Worth attention", stands in with its amber dot;
+  // urgent, high and medium are untouched above.
+  if (declineServed()) return { text: t("check.urgencyMedium"), dotClass: classFromLevel("medium") };
   return { text: t("check.urgencyLow"), dotClass: classFromLevel("low") };
 }
 

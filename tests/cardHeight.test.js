@@ -264,7 +264,10 @@ test("card height: the sub-line rule the layout depends on", async (t) => {
       path.join(__dirname, "..", "public", "app.js"), "utf8");
     assert.match(source, /const LONG_ANSWER_CHARS = 100;/,
       "the sub-line threshold changed; re-measure the fixture");
-    assert.match(source, /classList\.toggle\("hidden", translatedAnswer\.text\.length >= LONG_ANSWER_CHARS\)/,
+    // Since 24 September 2026 the toggle also hides an EMPTY sub-line (the
+    // decline suppresses card 3's hint); the long-answer rule is unchanged.
+    assert.match(source,
+      /classList\.toggle\("hidden",\s*\n?\s*!explanation\.textContent \|\| translatedAnswer\.text\.length >= LONG_ANSWER_CHARS\)/,
       "the sub-line is no longer hidden on long answers");
   });
 

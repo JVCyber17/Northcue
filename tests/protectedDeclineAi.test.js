@@ -34,6 +34,38 @@ function tamperCard3(structuredResult, line) {
   return structuredResult;
 }
 
+// The second hostile shape (founder, 24 September 2026): reassurance in
+// OTHER cards. The phrasing reply appends "You do not need to do anything."
+// to card 1's explanation and plants "There is nothing you need to do." as
+// a card 1 key point; the translation reply is then FAITHFUL (a marker
+// transform), so anything the English sweep missed would arrive marked in
+// the served Gujarati.
+const REASSURE_APPEND = "You do not need to do anything.";
+const REASSURE_POINT = "There is nothing you need to do.";
+const MARKER = "અનુવાદ "; // "translation " marker, as in translateAfterEnglish.test.js
+let tamperMode = "card3"; // card3 | otherCards
+
+function tamperOtherCards(structuredResult) {
+  const first = structuredResult.cards[0];
+  first.simple_explanation = String(first.simple_explanation || "") + " " + REASSURE_APPEND;
+  if (!Array.isArray(first.key_points)) first.key_points = [];
+  first.key_points.push(REASSURE_POINT);
+  return structuredResult;
+}
+
+function markerTranslate(source) {
+  const clone = JSON.parse(JSON.stringify(source));
+  clone.cards.forEach((card) => {
+    ["title", "simple_explanation", "read_aloud_text"].forEach((field) => {
+      if (typeof card[field] === "string" && card[field]) card[field] = MARKER + card[field];
+    });
+    if (Array.isArray(card.key_points)) {
+      card.key_points = card.key_points.map((point) => MARKER + point);
+    }
+  });
+  return clone;
+}
+
 const captured = [];
 const realFetch = global.fetch;
 global.fetch = async (url, options) => {
@@ -44,11 +76,19 @@ global.fetch = async (url, options) => {
   const user = body.input.find((m) => m.role === "user").content;
 
   if (system.startsWith("You translate Northcue cue cards")) {
+    const source = JSON.parse(user);
+    if (tamperMode === "otherCards") {
+      // Faithful marker translation: proves what reached this call.
+      return {
+        ok: true, status: 200,
+        json: async () => ({ output_text: JSON.stringify(markerTranslate(source)) }),
+        text: async () => ""
+      };
+    }
     // Hostile translation: everything faithful except card 3, which comes
     // back as Gujarati reassurance. Shape and digit parity hold, and the
     // sentence is of the measured KEEP class for the gu vocabulary guard,
     // so only the protected-decline enforcement can stop it.
-    const source = JSON.parse(user);
     const translated = tamperCard3(JSON.parse(JSON.stringify(source)), REASSURE_GU);
     return {
       ok: true, status: 200,
@@ -58,12 +98,15 @@ global.fetch = async (url, options) => {
   }
 
   // Hostile phrasing: return the fallback cards (parsed out of the prompt,
-  // so shape and values validate) with card 3 rewritten as reassurance.
+  // so shape and values validate) with the tamper for the current mode.
   const marker = "Fallback structured_result:\n";
   const start = user.indexOf(marker) + marker.length;
   const end = user.indexOf("\n\nDocument text");
   const fallback = JSON.parse(user.slice(start, end));
-  const candidate = tamperCard3(JSON.parse(JSON.stringify(fallback)), REASSURE_EN);
+  const copy = JSON.parse(JSON.stringify(fallback));
+  const candidate = tamperMode === "otherCards"
+    ? tamperOtherCards(copy)
+    : tamperCard3(copy, REASSURE_EN);
   return {
     ok: true, status: 200,
     json: async () => ({ output_text: JSON.stringify(candidate) }),
@@ -116,7 +159,37 @@ test("no provider reply can soften the decline", async (t) => {
   config.launch.proseArchitecture = "translate";
 
   try {
+    await t.test("English phrasing path: reassurance in other cards is removed", async () => {
+      tamperMode = "otherCards";
+      const output = await runFor("en");
+      const first = output.structured_result.cards[0];
+      assert.ok(!String(first.simple_explanation).includes(REASSURE_APPEND),
+        "the appended reassurance sentence must be swept from card 1, got: " + first.simple_explanation);
+      assert.ok(String(first.simple_explanation).trim() !== "",
+        "the swept explanation is never left blank");
+      assert.ok(!(first.key_points || []).some((point) => String(point).includes(REASSURE_POINT)),
+        "the planted reassurance key point must be swept");
+      assert.ok(!JSON.stringify(output.structured_result).includes(REASSURE_APPEND) &&
+        !JSON.stringify(output.structured_result).includes(REASSURE_POINT),
+        "no served field anywhere may carry the reassurance");
+    });
+
+    await t.test("Gujarati: the reassurance never reaches the translation call", async () => {
+      tamperMode = "otherCards";
+      const output = await runFor("gu");
+      assert.equal(captured.length, 2, "two provider calls");
+      const translationInput = captured[1].input.find((m) => m.role === "user").content;
+      assert.ok(!translationInput.includes(REASSURE_APPEND) && !translationInput.includes(REASSURE_POINT),
+        "the translation call must receive the swept English cards");
+      const served = JSON.stringify(output.structured_result);
+      assert.ok(!served.includes(REASSURE_APPEND) && !served.includes(REASSURE_POINT),
+        "no served Gujarati field may carry the reassurance, marked or not");
+      assert.equal(servedCard3(output).simple_explanation, DECLINE_GU,
+        "card 3 remains the bank's Gujarati decline");
+    });
+
     await t.test("English phrasing path: the rules decline card is served", async () => {
+      tamperMode = "card3";
       const output = await runFor("en");
       assert.equal(captured.length, 1, "an English reader makes one provider call");
       const card = servedCard3(output);
@@ -131,6 +204,7 @@ test("no provider reply can soften the decline", async (t) => {
     });
 
     await t.test("Gujarati translation path: the bank decline is served", async () => {
+      tamperMode = "card3";
       const output = await runFor("gu");
       assert.equal(captured.length, 2, "a launched reader makes two provider calls");
       const card = servedCard3(output);

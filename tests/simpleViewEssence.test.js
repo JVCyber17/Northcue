@@ -232,8 +232,13 @@ test("translated model prose is detected by the served ai flag, non-English only
 });
 
 test("essence steps are classified on the raw step, never on the translated display text", () => {
-  assert.match(APP, /isEssenceSafetyLine\(String\(\(card\.steps \|\| \[\]\)\[stepIndex\]\)\)/,
-    "the filter must read card.steps, the raw engine English on the floor path");
+  // Since 24 September 2026 the rendered list is rawSteps: card.steps with
+  // any decline-repeating entry removed, still the raw engine English on
+  // the floor path. The classification law is unchanged.
+  assert.match(APP, /isEssenceSafetyLine\(String\(rawSteps\[stepIndex\]\)\)/,
+    "the filter must read the raw step list, the engine English on the floor path");
+  assert.match(APP, /card\.steps\.filter\(\(step\) => !isDeclineLine\(String\(step\)\)\)/,
+    "rawSteps must derive from card.steps on the raw entries");
   assert.ok(!/isEssenceSafetyLine\(translatedStep\.text\)/.test(APP),
     "filtering the translated display text hid bank-translated safety lines");
 });

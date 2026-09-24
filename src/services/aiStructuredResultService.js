@@ -377,6 +377,7 @@ async function applySafetyPassAndRecordAiStatus({
     // vocabulary guard can enumerate every soft form, so the whole rules
     // card is served, byte for byte, whenever the fallback declines.
     enforceProtectedDeclineCard(stripped, fallbackStructuredResult);
+    stripNoActionReassurance(stripped, fallbackStructuredResult);
     const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
@@ -1248,6 +1249,52 @@ function bankDeclineLineFor(language) {
     if (typeof line === "string" && line.trim()) return line;
   } catch (error) { /* fall through to English */ }
   return NO_CLEAR_NEXT_STEP_LINE;
+}
+
+// English-stage sweep, decline documents only: any model sentence in ANY
+// card that tells the reader no action is needed contradicts the engine's
+// own judgement that no next step could be read, so the sentence is removed
+// before validation and before the translation stage can ever see it. A
+// field that would be left empty takes the rules card's field instead, so
+// nothing served is ever blank.
+// ascii-boundary-ok: the swept text is the guarded ENGLISH card set (the
+// sweep is gated on the English fallback and runs before translation), so
+// the ASCII boundary is correct for it.
+const NO_ACTION_REASSURANCE_SOURCE =  // ascii-boundary-ok: English card text, see above
+  "\\b(?:no(?:thing)?\\s+(?:further\\s+)?(?:action|steps?)(?:\\s+(?:is|are))?\\s+(?:needed|required)" +  // ascii-boundary-ok: English card text, see above
+  "|you\\s+(?:do\\s+not|don't)\\s+(?:need|have)\\s+to\\s+do\\s+anything" +
+  "|there\\s+is\\s+nothing\\s+(?:you\\s+need\\s+to\\s+do|for\\s+you\\s+to\\s+do)" +
+  "|nothing\\s+(?:needs?\\s+to\\s+be\\s+done|for\\s+you\\s+to\\s+do)" +
+  "|no\\s+need\\s+to\\s+(?:do|take)\\s+anything)\\b";  // ascii-boundary-ok: English card text, see above
+
+function removeReassuringSentences(value) {
+  if (typeof value !== "string" || !value) return value;
+  const reassurance = new RegExp(NO_ACTION_REASSURANCE_SOURCE, "i");
+  const sentences = value.match(/[^.!?]*[.!?]+["')\]]*\s*|[^.!?]+$/g) || [value];
+  const kept = sentences.filter((sentence) => !reassurance.test(sentence));
+  return kept.join("").replace(/\s{2,}/g, " ").trim();
+}
+
+function stripNoActionReassurance(candidate, fallbackStructuredResult) {
+  if (!fallbackDeclines(fallbackStructuredResult)) return;
+  const fallbackCards = (fallbackStructuredResult && fallbackStructuredResult.cards) || [];
+  ((candidate && candidate.cards) || []).forEach((card) => {
+    if (!card) return;
+    const fallbackCard = fallbackCards.find((entry) => entry && entry.card_id === card.card_id) || {};
+    ["simple_explanation", "action_needed", "read_aloud_text"].forEach((field) => {
+      if (typeof card[field] !== "string" || !card[field]) return;
+      const swept = removeReassuringSentences(card[field]);
+      card[field] = swept || (typeof fallbackCard[field] === "string" ? fallbackCard[field] : swept);
+    });
+    if (Array.isArray(card.key_points)) {
+      const sweptPoints = card.key_points
+        .map((point) => (typeof point === "string" ? removeReassuringSentences(point) : point))
+        .filter((point) => typeof point !== "string" || point.trim() !== "");
+      card.key_points = sweptPoints.length || !Array.isArray(fallbackCard.key_points)
+        ? sweptPoints
+        : JSON.parse(JSON.stringify(fallbackCard.key_points));
+    }
+  });
 }
 
 function enforceTranslatedDeclineCard(translated, englishSource, language) {

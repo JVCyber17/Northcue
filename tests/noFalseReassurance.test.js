@@ -64,18 +64,69 @@ test("the simple-view softening regex is pinned and cannot match the decline", (
 // before the softened/hedged selection, and covers both prose paths (raw
 // English regex, and the bank's own rendering for the served AI translation).
 test("simple view shows the decline itself, not the hedged line", () => {
+  // The shared detector: raw English regex for the floor path, bank
+  // equality for the served AI translation. Every consumer routes here.
+  const helperStart = APP.indexOf("function isDeclineLine(");
+  assert.ok(helperStart > -1, "the shared isDeclineLine helper exists");
+  const helper = APP.slice(helperStart, APP.indexOf("function servedActionAnswer("));
+  assert.ok(helper.includes("/^No clear next step found\\./.test(raw)"),
+    "the helper matches the raw engine English");
+  assert.ok(helper.includes("raw === translatedEngineText(ESSENCE_DECLINE_LINE).text"),
+    "the helper matches the bank's own rendering for the AI path");
+
   const branchStart = APP.indexOf('if (card.id === "what_do_i_need_to_do")');
   assert.ok(branchStart > -1, "the card 3 essence branch exists");
   const branch = APP.slice(branchStart, APP.indexOf('if (card.id === "when_is_it_due")', branchStart));
-  const standDown = branch.indexOf("/^No clear next step found\\./.test(rawAction)");
-  const bankMatch = branch.indexOf("rawAction === translatedEngineText(ESSENCE_DECLINE_LINE).text");
+  const standDown = branch.indexOf("if (isDeclineLine(rawAction))");
   const softenPick = branch.indexOf('t("journey.essence.nothingNeeded")');
   assert.ok(standDown > -1, "the decline stand-down must exist in the card 3 branch");
-  assert.ok(bankMatch > -1, "the AI-path bank comparison must exist in the card 3 branch");
-  assert.ok(standDown < softenPick && bankMatch < softenPick,
+  assert.ok(standDown < softenPick,
     "the stand-down must run before any softened or hedged line is chosen");
   assert.ok(APP.includes('const ESSENCE_DECLINE_LINE = ' + JSON.stringify(DECLINE_LINE) + ";"),
     "app.js must carry the decline constant verbatim");
+});
+
+// THE CHECK PANEL AND THE FULL VIEW FOLLOW THE DECLINE (founder, 24
+// September 2026): the Document check hero shows the decline itself and
+// never the no-rush softener; the urgency answer for a decline document
+// is the existing hedged "Worth attention", never "No rush" (urgent, high
+// and medium answers untouched); the full view drops the "small steps"
+// hint and any bullet that repeats the decline.
+test("the Document check hero leads with the decline and never softens it", () => {
+  const fnStart = APP.indexOf("function checkNextStepText(");
+  const fn = APP.slice(fnStart, APP.indexOf("function isRoutineCheck(", fnStart));
+  assert.ok(fn.includes("const declineLeads = declineServed();"),
+    "the hero must consult the decline state");
+  assert.ok(fn.includes("? servedActionAnswer()"),
+    "the hero base must be the served decline answer when it leads");
+  assert.ok(fn.includes("!declineLeads && isRoutineCheck(trust, genuine)"),
+    "the no-rush prefix must be unreachable when the decline leads");
+});
+
+test("the urgency answer for a decline document is the hedged one", () => {
+  const fnStart = APP.indexOf("function checkUrgencyIndicator(");
+  const fn = APP.slice(fnStart, APP.indexOf("function checkGenuineIndicator(", fnStart));
+  const urgent = fn.indexOf('"urgent"');
+  const high = fn.indexOf('"high"');
+  const medium = fn.indexOf('"medium"');
+  const declineSwap = fn.indexOf('if (declineServed()) return { text: t("check.urgencyMedium")');
+  const lowReturn = fn.indexOf('t("check.urgencyLow")');
+  assert.ok(urgent > -1 && high > -1 && medium > -1,
+    "the higher urgency answers remain in place");
+  assert.ok(declineSwap > -1, "the decline swap must exist");
+  assert.ok(medium < declineSwap && declineSwap < lowReturn,
+    "the swap must sit after the higher answers and before the no-rush answer");
+});
+
+test("the full view drops the small-steps hint and the decline bullet", () => {
+  assert.ok(APP.includes('return isDeclineLine(String(card.short_answer || "")) ? "" : t("journey.explainWhatToDo");'),
+    "the small-steps hint must be suppressed on the decline");
+  assert.ok(APP.includes("!explanation.textContent || translatedAnswer.text.length >= LONG_ANSWER_CHARS"),
+    "an empty hint must stay hidden");
+  assert.ok(APP.includes("card.steps.filter((step) => !isDeclineLine(String(step)))"),
+    "a step that repeats the decline must be filtered from the rendered list");
+  assert.ok(APP.includes("isEssenceSafetyLine(String(rawSteps[stepIndex]))"),
+    "the essence safety filter must classify the same filtered list it renders");
 });
 
 // CONDITIONAL WORDING NEVER REASSURES (founder, 24 September 2026): a
