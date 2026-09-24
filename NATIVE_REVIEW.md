@@ -1183,3 +1183,20 @@ non-English entries are machine drafts following the founder's order and
 should be checked at the next review; on the translated AI path the model
 translates the English line itself, so this template is what floor and
 fallback readers see.
+
+## New 24 September 2026: the honest decline and the trust panel
+
+`tpl.action.none_found`, "No clear next step found. Please check the
+full letter.", joined all ten template banks. It is card 3's line
+whenever no obligation was found and the letter does not itself say no
+action is needed; the reassuring "No action needed right now." now
+renders only on the letter's own clear statement. In the same change
+the Document check panel stopped sounding like authentication:
+`check.genuineQuestion` became "Any warning signs?", `check.genuineHigh`
+"No warning signs found", and `check.genuineHighReview` "No warning
+signs found, worth a quick check", in all ten languages. The nine
+non-English entries for all four strings are machine drafts built from
+each language's own reviewed frames; no native speaker has read them
+and they wait for review with the usual three questions, plus one
+specific to the decline: does it read as Northcue's own limit, never as
+a fault in the reader's letter?

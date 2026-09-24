@@ -154,6 +154,7 @@
       "tpl.note.missing": "Unele detalii lipsesc. Verificați originalul.",
 
       "tpl.action.none": "Nicio acțiune necesară chiar acum.",
+      "tpl.action.none_found": "Nu a fost găsit un pas următor clar. Vă rugăm să verificați scrisoarea în întregime.",
       "tpl.action.check_payment": "Verificați suma de plată și data scadenței.",
       "tpl.action.contact_sender": "Contactați expeditorul folosind date de contact de încredere.",
       "tpl.action.attend": "Mergeți la programare sau la întâlnire.",

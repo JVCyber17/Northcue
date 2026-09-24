@@ -1040,7 +1040,8 @@ function buildBenefitsReadingAidExtraction(text, trust) {
   // had already been built from it. See the note on extractReadableDocumentSignals.
   const signals = extractReadableDocumentSignals(text, trust, { namesASingleDate: false });
   const obligations = extractActions(text, trust).filter(
-    (action) => action && action !== "No action needed right now."
+    (action) => action && action !== "No action needed right now." &&
+      action !== NO_CLEAR_NEXT_STEP_LINE
   );
   const hasObligations = obligations.length > 0;
   const actions = hasObligations
@@ -2107,8 +2108,35 @@ function buildNoDeadlineMessage(extraction) {
   return "No deadline clearly stated.";
 }
 
+// The no-action statements the engine may treat as the document's own words.
+// Kept as a source string: the matcher below needs a fresh g-flagged copy per
+// call, because lastIndex on a shared global regex is state.
+// ascii-boundary-ok: every alternative is an English phrase from UK letters,
+// so the ASCII boundary is correct for them, exactly as in deadlineIso.js.
+const NO_ACTION_STATEMENT_SOURCE =
+  "\\b(?:no (?:further )?action (?:is )?(?:needed|required)|you do not need to do anything|for information only)\\b";  // ascii-boundary-ok: English vocabulary, see above
+
+// A conditional beside the statement makes it a promise about a world the
+// reader may not be in ("If you pay by 30 September, no further action is
+// required."). Such a sentence never opens the reassuring line.
+const CONDITIONAL_NO_ACTION_MARKER =
+  /\b(?:if|unless|once|until|when|whenever|provided|providing|as long as|subject to|should you|after you|upon)\b/i;
+
 function clearlySaysNoActionNeeded(text) {
-  return /\b(no action needed|no action is needed|you do not need to do anything|for information only)\b/i.test(String(text || ""));
+  // The only gate on the reassuring "No action needed right now." line: the
+  // document itself must say so, plainly and unconditionally. Absence of a
+  // matched obligation is not evidence of absence, and a conditional
+  // no-action sentence is a different statement from an unconditional one,
+  // so the whole sentence around each match is read before the match counts.
+  const source = String(text || "");
+  const statement = new RegExp(NO_ACTION_STATEMENT_SOURCE, "gi");
+  let match;
+  while ((match = statement.exec(source)) !== null) {
+    if (!CONDITIONAL_NO_ACTION_MARKER.test(extractSentenceAround(source, match.index))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // True when a bill clearly states there is nothing to pay (in credit / zero balance).
@@ -3676,11 +3704,14 @@ function inferMostImportantPoint(trust, actions) {
     return "Action is likely needed soon.";
   }
 
-  // Don't say "information only" if extractActions found a real obligation
+  // Don't say "information only" if extractActions found a real obligation.
+  // Both no-action defaults are declines, not actions: the honest "no clear
+  // next step" line must not read back as evidence an action exists.
   const hasRealAction =
     Array.isArray(actions) &&
     actions.length > 0 &&
-    actions[0] !== "No action needed right now.";
+    actions[0] !== "No action needed right now." &&
+    actions[0] !== NO_CLEAR_NEXT_STEP_LINE;
   if (hasRealAction) {
     return "This document appears to require an action from you. See what you need to do.";
   }
@@ -3919,6 +3950,11 @@ function extractAppointmentDate(text) {
   return null;
 }
 
+// The honest decline when no obligation was found AND the document does not
+// itself say no action is needed. It never implies safety: a letter cut off
+// before its instructions must not read as "nothing to do".
+const NO_CLEAR_NEXT_STEP_LINE = "No clear next step found. Please check the full letter.";
+
 // The action lines Northcue writes, as opposed to sentences lifted out of the
 // document. Kept as one list because two rules depend on telling them apart: a
 // composed line always outranks a raw one, and on a garbled document a raw one
@@ -3929,6 +3965,7 @@ const COMPOSED_ACTIONS = new Set([
   "Attend the appointment or meeting.",
   "Send the requested documents or form.",
   "No action needed right now.",
+  NO_CLEAR_NEXT_STEP_LINE,
   "Check the original document to see whether a response or action is needed.",
   "Check the original document, or with the sender, whether you need to respond or send anything.",
   "Upload a clearer copy if possible.",
@@ -4029,7 +4066,13 @@ function extractActions(text, trust) {
   }
 
   if (actions.length === 0) {
-    return ["No action needed right now."];
+    // The reassuring line only when the document itself clearly says so.
+    // "Nothing matched" is not "nothing to do": a serious letter cut off
+    // before its instructions lands here, and reassuring it is the one
+    // thing this card must never do.
+    return clearlySaysNoActionNeeded(text)
+      ? ["No action needed right now."]
+      : [NO_CLEAR_NEXT_STEP_LINE];
   }
 
   // A composed line always outranks a sentence lifted out of the document,
@@ -4149,9 +4192,14 @@ function guessSender(text) {
 }
 
 function normalizeActionLine(actions) {
-  if (!Array.isArray(actions) || actions.length === 0) return "No action needed right now.";
+  // An empty list means nothing was FOUND, which is not the same as the
+  // document saying nothing is NEEDED, so the empty default is the honest
+  // decline. The reassuring line renders only when extractActions placed it
+  // there, which it now does only on the document's own clear statement.
+  if (!Array.isArray(actions) || actions.length === 0) return NO_CLEAR_NEXT_STEP_LINE;
   const first = cleanLine(actions[0]);
   if (/^No action needed right now\./i.test(first)) return "No action needed right now.";
+  if (first === NO_CLEAR_NEXT_STEP_LINE) return NO_CLEAR_NEXT_STEP_LINE;
   if (/^(Check|Verify|Use|Contact|Attend|Send|Complete|Read|Keep|Upload|Please|Let|Confirm|Return|Submit|Provide|Bring|Call|Email|Visit|Reply|Respond|Update|Tell|Sign|Make|Pay|Arrange|Apply)\b/i.test(first)) return first;
   if (/\b(must|are required to|need to|tell us|notify|report any)\b/i.test(first)) return first;
   return `Check ${first}`;
@@ -4229,4 +4277,4 @@ const LOW_SEVERITY_KEYWORDS = [
   "general update"
 ];
 
-module.exports = { runClearStepsEngine };
+module.exports = { runClearStepsEngine, NO_CLEAR_NEXT_STEP_LINE };

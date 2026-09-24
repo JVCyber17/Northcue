@@ -762,6 +762,11 @@ function applyDefaultSimpleView() {
 // than filtered (a safety line must never be hidden by failing to
 // recognise it), card 5 keeps its own served line, card 1 renders
 // without the sender, and card 3 keeps the hedged form.
+// The engine's honest decline when no obligation was found and the letter
+// does not itself say no action is needed. The essence layer stands down on
+// it (see the card 3 branch below), so it is never softened.
+const ESSENCE_DECLINE_LINE = "No clear next step found. Please check the full letter.";
+
 const ESSENCE_SAFETY_PREFIXES = [
   // The three safety exceptions the founder ordered visible in routine
   // simple view, plus the two sibling notices in the same class.
@@ -872,9 +877,21 @@ function essenceLineFor(card) {
     // On a serious document the engine's own action line renders
     // verbatim, protected lines beneath it; no compression.
     if (tier === "serious") return null;
+    // THE DECLINE STANDS, in every language and on both prose paths.
+    // "No clear next step found." exists precisely for the letter whose
+    // instructions could not be read, and softening it to "No urgent
+    // action shown." would reassure on that exact case. The floor path
+    // is matched on the raw engine English; the AI path serves the
+    // bank's own rendering of the decline (enforced server side), which
+    // the bank comparison matches byte for byte.
+    const rawAction = String(card.short_answer || "");
+    if (/^No clear next step found\./.test(rawAction) ||
+        rawAction === translatedEngineText(ESSENCE_DECLINE_LINE).text) {
+      return null;
+    }
     // The engine-confirmed variant only when the engine states it; the
     // hedged "shown" form otherwise, which asserts only what is visible.
-    return /^No action needed right now\./.test(String(card.short_answer || ""))
+    return /^No action needed right now\./.test(rawAction)
       ? t("journey.essence.nothingNeeded")
       : t("journey.essence.noUrgentAction");
   }

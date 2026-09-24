@@ -78,9 +78,10 @@ function assertActionCardShape(output) {
   const actionLine = actionCard.short_answer;
   assert.equal(
     /^(Check|Verify|Use|Contact|Attend|Send|Complete|Read|Keep|Upload)\b/i.test(actionLine) ||
-      /^No action needed right now\./i.test(actionLine),
+      /^No action needed right now\./i.test(actionLine) ||
+      /^No clear next step found\./i.test(actionLine),
     true,
-    "action card starts with verb or no-action sentence"
+    "action card starts with verb, the no-action sentence, or the honest decline"
   );
 }
 

@@ -173,5 +173,11 @@ path (debug.ai.ai_used, non-English) those anchors cannot be read and
 every detection takes its conservative branch — steps all stay visible
 rather than risk hiding a safety line, card 5 keeps its served line,
 card 1 drops the sender, card 3 keeps the hedged form, and the
-weighted amount frame falls back to the shipped ones.
+weighted amount frame falls back to the shipped ones. One exception
+(founder, 24 September 2026): the honest decline "No clear next step
+found. Please check the full letter." stands as itself in every
+language and is never softened; the server enforces the bank's own
+rendering of it on the AI path, so the essence layer matches it by
+the raw English regex or by equality with the bank line
+(ESSENCE_DECLINE_LINE, inventory call site 16).
 tests/simpleViewEssence.test.js pins all of this.

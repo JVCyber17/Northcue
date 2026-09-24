@@ -156,6 +156,7 @@
       "tpl.note.missing": "Faltan algunos detalles. Revise el original.",
 
       "tpl.action.none": "No hace falta hacer nada ahora mismo.",
+      "tpl.action.none_found": "No se ha encontrado ningún paso siguiente claro. Por favor, revise la carta completa.",
       "tpl.action.check_payment": "Revise el importe del pago y la fecha de vencimiento.",
       "tpl.action.contact_sender": "Contacte con quien lo envía usando datos de contacto de confianza.",
       "tpl.action.attend": "Acuda a la cita o a la reunión.",

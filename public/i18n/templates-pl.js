@@ -155,6 +155,7 @@
       "tpl.note.missing": "Niektórych szczegółów brakuje. Prosimy sprawdzić oryginał.",
 
       "tpl.action.none": "Na razie nie trzeba nic robić.",
+      "tpl.action.none_found": "Nie znaleziono wyraźnego następnego kroku. Prosimy sprawdzić cały list.",
       "tpl.action.check_payment": "Prosimy sprawdzić kwotę płatności i termin.",
       "tpl.action.contact_sender": "Prosimy skontaktować się z nadawcą przez zaufane dane kontaktowe.",
       "tpl.action.attend": "Prosimy wziąć udział w wizycie lub spotkaniu.",

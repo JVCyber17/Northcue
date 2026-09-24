@@ -166,6 +166,7 @@
       "tpl.note.missing": "Some details are missing. Check the original.",
 
       "tpl.action.none": "No action needed right now.",
+      "tpl.action.none_found": "No clear next step found. Please check the full letter.",
       "tpl.action.check_payment": "Check the payment amount and due date.",
       "tpl.action.contact_sender": "Contact the sender using trusted contact details.",
       "tpl.action.attend": "Attend the appointment or meeting.",

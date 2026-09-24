@@ -173,8 +173,8 @@ test("template bank lookup contract", async (t) => {
     // the contract (raw value or String(x).trim() only), add it to the
     // inventory, then update this count.
     const calls = APP_SOURCE.match(/translatedEngineText\(/g) || [];
-    assert.equal(calls.length, 17,
-      "translatedEngineText call count changed (16 call sites + 1 definition). " +
+    assert.equal(calls.length, 18,
+      "translatedEngineText call count changed (17 call sites + 1 definition). " +
       "Verify the new or removed site against docs/i18n/caller-to-bank-inventory.md, " +
       "update the inventory, then update this census.");
   });

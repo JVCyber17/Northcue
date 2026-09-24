@@ -370,6 +370,13 @@ async function applySafetyPassAndRecordAiStatus({
     // runs exactly as it does for an English reader; the reader's verified
     // vocabulary runs on the translation in the stage below instead.
     const stripped = stripAiViolations(sanitized, rulesSentenceSet(fallbackStructuredResult), translateTo ? "en" : language);
+    // THE DECLINE IS A PROTECTED LINE. When the rules card 3 carries "No
+    // clear next step found." the engine has declined to name a step, and a
+    // model paraphrase that softens that back towards "no action is needed"
+    // is exactly the false reassurance the decline exists to prevent. No
+    // vocabulary guard can enumerate every soft form, so the whole rules
+    // card is served, byte for byte, whenever the fallback declines.
+    enforceProtectedDeclineCard(stripped, fallbackStructuredResult);
     const validation = validateStructuredResult(stripped, fallbackStructuredResult, extractedText);
     if (!validation.valid) {
       const validationSummary = summarizeValidationErrors(validation.errors);
@@ -429,7 +436,8 @@ async function applySafetyPassAndRecordAiStatus({
           mismatch.shapeErrors = parityErrors;
           throw mismatch;
         }
-        served = stripTranslationViolations(translated, translateTo);
+        served = enforceTranslatedDeclineCard(
+          stripTranslationViolations(translated, translateTo), stripped, translateTo);
       } catch (error) {
         const translationErrorCode = normalizeTranslationErrorCode(error);
         attachAiMetadata(output, {
@@ -1197,6 +1205,66 @@ function sanitizeTranslatedTextField(text, vocab) {
       return trimmed;
     })
     .join(" ");
+}
+
+// THE PROTECTED DECLINE, both stages. The engine's "No clear next step
+// found." line exists precisely for the letter whose instructions could not
+// be read; see NO_CLEAR_NEXT_STEP_LINE in clearStepsEngine.js. English
+// stage: the served card 3 IS the rules card whenever the rules declined.
+// Translation stage: the served card 3 text is the BANK's rendering of the
+// decline in the reader's language, the same line the floor path shows, so
+// no model reply on either path can soften the decline into reassurance.
+const { NO_CLEAR_NEXT_STEP_LINE } = require("./clearStepsEngine");
+const DECLINE_CARD_ID = "what_do_i_need_to_do";
+
+function declineCardOf(structuredResult) {
+  return ((structuredResult && structuredResult.cards) || []).find(
+    (card) => card && card.card_id === DECLINE_CARD_ID
+  );
+}
+
+function fallbackDeclines(structuredResult) {
+  const card = declineCardOf(structuredResult);
+  return Boolean(card && String(card.simple_explanation || "").startsWith(NO_CLEAR_NEXT_STEP_LINE));
+}
+
+function enforceProtectedDeclineCard(candidate, fallbackStructuredResult) {
+  if (!fallbackDeclines(fallbackStructuredResult)) return;
+  const card = declineCardOf(candidate);
+  if (!card) return;
+  const index = candidate.cards.indexOf(card);
+  candidate.cards[index] = JSON.parse(JSON.stringify(declineCardOf(fallbackStructuredResult)));
+}
+
+// The reader-language decline comes from the reviewed template bank, which is
+// plain data and requirable server side. English is the honest fallback for
+// anything unexpected; the language code here has already passed the launch
+// gate, so in practice every launched pack carries the line (pinned in
+// tests/noFalseReassurance.test.js).
+function bankDeclineLineFor(language) {
+  try {
+    const bank = require("../../public/i18n/templates-" + String(language) + ".js");
+    const line = bank && bank.exact && bank.exact["tpl.action.none_found"];
+    if (typeof line === "string" && line.trim()) return line;
+  } catch (error) { /* fall through to English */ }
+  return NO_CLEAR_NEXT_STEP_LINE;
+}
+
+function enforceTranslatedDeclineCard(translated, englishSource, language) {
+  if (!fallbackDeclines(englishSource)) return translated;
+  const card = declineCardOf(translated);
+  if (!card) return translated;
+  const source = declineCardOf(englishSource);
+  const line = bankDeclineLineFor(language);
+  card.simple_explanation = line;
+  if (typeof card.read_aloud_text === "string" && card.read_aloud_text) {
+    card.read_aloud_text = line;
+  }
+  if (Array.isArray(card.key_points) && Array.isArray(source.key_points)) {
+    card.key_points = card.key_points.map((point, i) =>
+      String(source.key_points[i] || "").startsWith(NO_CLEAR_NEXT_STEP_LINE) ? line : point);
+  }
+  return translated;
 }
 
 function stripTranslationViolations(result, language) {

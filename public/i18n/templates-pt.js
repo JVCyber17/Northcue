@@ -155,6 +155,7 @@
       "tpl.note.missing": "Alguns detalhes estão em falta. Verifique o original.",
 
       "tpl.action.none": "Nenhuma ação necessária por agora.",
+      "tpl.action.none_found": "Não foi encontrado um próximo passo claro. Por favor, verifique a carta completa.",
       "tpl.action.check_payment": "Verifique o valor do pagamento e a data limite.",
       "tpl.action.contact_sender": "Fale com o remetente usando contactos de confiança.",
       "tpl.action.attend": "Compareça à marcação ou reunião.",

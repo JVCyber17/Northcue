@@ -156,6 +156,7 @@
       "tpl.note.missing": "Certains détails manquent. Vérifiez l'original.",
 
       "tpl.action.none": "Aucune action nécessaire pour l'instant.",
+      "tpl.action.none_found": "Aucune prochaine étape claire n'a été trouvée. Veuillez vérifier la lettre en entier.",
       "tpl.action.check_payment": "Vérifiez le montant du paiement et la date d'échéance.",
       "tpl.action.contact_sender": "Contactez l'expéditeur avec des coordonnées de confiance.",
       "tpl.action.attend": "Présentez-vous au rendez-vous ou à la réunion.",
