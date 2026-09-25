@@ -329,6 +329,7 @@ function composeSenderKeyPoint(sender) {
 
 module.exports = {
   SCAM_SHAPED_KINDS,
+  SENDER_FIELD_LABEL_SHAPE,
   deadlineCandidate,
   amountCandidate,
   consequenceCandidate,

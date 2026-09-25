@@ -639,7 +639,7 @@ function buildExtraction({ text, trust, facts, factConsequence }) {
     return {
       summary: inferGarbledSummary(text, trust),
       garbled_caution: inferGarbledCaution(text, trust),
-      most_important_point: inferMostImportantPoint(trust, safeActions),
+      most_important_point: inferMostImportantPoint(trust, safeActions, text),
       actions: safeActions,
       deadline: null,
       // Card 5 quotes the document's own consequence sentence verbatim when
@@ -720,7 +720,7 @@ function buildExtraction({ text, trust, facts, factConsequence }) {
 
   return {
     summary,
-    most_important_point: inferMostImportantPoint(trust, actions),
+    most_important_point: inferMostImportantPoint(trust, actions, text),
     actions,
     deadline,
     // Recorded so a card built from a candidate is distinguishable downstream
@@ -2139,6 +2139,13 @@ function clearlySaysNoActionNeeded(text) {
   return false;
 }
 
+// The standard statement-not-a-bill sentence, in the exact forms UK bills
+// print it. The engine stands down from payment framing only when the letter
+// itself says so in one of these words, never on inference.
+function saysNotARequestForPayment(text) {
+  return /\bnot a (?:request for payment|payment request|bill|demand for payment)\b/i.test(String(text || ""));
+}
+
 // True when a bill clearly states there is nothing to pay (in credit / zero balance).
 // Kept payment-specific so it never matches a normal payable bill.
 function isInCreditOrNoPayment(text) {
@@ -2305,6 +2312,13 @@ function extractSummaryFirstLineSender(text) {
     if (!line || line.length < 4 || line.length > 60) continue;
     if (/^(ref|reference|date|dear|po box|\d|your account|account)/i.test(line)) continue;
     if (/\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b/.test(line)) continue;
+    // The same field-label shape the sender FACT candidate already refuses
+    // (factCandidates.SENDER_FIELD_LABEL_SHAPE, from the recorded defect):
+    // the top line of a UK bill is routinely a label over a value, such as
+    // "Property Reference No.", and a label must never be composed into the
+    // card 1 headline as a sender. One shared shape, so the two sender
+    // doors cannot drift apart.
+    if (factCandidates.SENDER_FIELD_LABEL_SHAPE.test(line)) continue;
     // "IN THE COUNTY COURT" is a claim heading, not a sender. Skip it so the
     // proper court office line (e.g. "County Court Business Centre") is used.
     if (/^in the\b.*\bcourt\b/i.test(line)) continue;
@@ -3577,11 +3591,18 @@ function inferSummary(text, trust) {
         ? `This appears to be a bill from ${sender}. It looks like your account may be in credit, so there may be nothing to pay. Check the original document to be sure.`
         : "This appears to be a bill. It looks like your account may be in credit, so there may be nothing to pay. Check the original document to be sure.";
     }
-    if (sender && amount && date) return `${sender} appears to be asking you to pay ${amount} by ${date}.`;
-    if (amount && date)           return `This appears to be a payment request for ${amount}, due by ${date}.`;
-    if (sender && amount)         return `${sender} appears to be asking you to pay ${amount}.`;
+    // The letter's own exact disclaimer ("This is not a request for
+    // payment.") suppresses the payment-ask frames; the neutral bill
+    // frames beneath carry the card instead. Normal mode and low severity
+    // only, so a scam or an overdue letter can never soften itself.
+    const paymentAsk = !(trust.processing_mode === "normal" &&
+      String(trust.severity_level || "").toLowerCase() === "low" &&
+      saysNotARequestForPayment(text));
+    if (sender && amount && date && paymentAsk) return `${sender} appears to be asking you to pay ${amount} by ${date}.`;
+    if (amount && date && paymentAsk) return `This appears to be a payment request for ${amount}, due by ${date}.`;
+    if (sender && amount && paymentAsk) return `${sender} appears to be asking you to pay ${amount}.`;
     if (sender && date)           return `This appears to be a bill from ${sender}, dated ${date}.`;
-    if (amount)                   return `This appears to be a payment request for ${amount}.`;
+    if (amount && paymentAsk)     return `This appears to be a payment request for ${amount}.`;
     if (sender)                   return `This appears to be a bill from ${sender}.`;
     return "This is about a bill or payment request.";
   }
@@ -3687,7 +3708,7 @@ function inferGarbledSummary(text, trust) {
     : `This document appears to be ${label}.`;
 }
 
-function inferMostImportantPoint(trust, actions) {
+function inferMostImportantPoint(trust, actions, text) {
   if (trust.trust_assessment === "low") {
     return "This may be suspicious. Check it first.";
   }
@@ -3702,6 +3723,17 @@ function inferMostImportantPoint(trust, actions) {
 
   if (trust.severity_level === "medium") {
     return "Action is likely needed soon.";
+  }
+
+  // The letter's own exact words outrank an inferred obligation: when a
+  // routine document states in a standard form that it is not a request
+  // for payment, the most important point must not assert that an action
+  // is required. Normal mode and low severity only (the branches above
+  // have already returned for anything higher), so a scam or an overdue
+  // letter can never soften itself with the sentence. Any composed action,
+  // such as the conditional contact line, still shows on card 3.
+  if (trust.processing_mode === "normal" && saysNotARequestForPayment(text)) {
+    return "This looks like information only.";
   }
 
   // Don't say "information only" if extractActions found a real obligation.
