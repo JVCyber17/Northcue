@@ -111,4 +111,42 @@ test("the neutral structural tier fires where it was measured to fire", async (t
     assert.notEqual(trust.processing_mode, "verification_only",
       "a genuine helpline letter was refused as a scam");
   });
+
+  await t.test("a payments-footer hours line is availability too", () => {
+    // Founder's approval of 25 September 2026, from the real Kestrelford
+    // reminder: "Automated payment line, 24 hours: 0306 999 0123" beside a
+    // pay link and an amount carried all three structural facts and refused
+    // a genuine council reminder as a possible scam. An hours phrase
+    // followed by an optional colon and a phone-number shape, or written as
+    // a service line, states when a line is open, never a pressure window.
+    const footerForms = [
+      "Automated payment line, 24 hours: 0306 999 0123.",
+      "You can pay 24 hours 0306 999 0123.",
+      "Use our 24 hour payment line to pay at any time.",
+      "Use our 24 hour automated payment line to pay at any time."
+    ];
+    footerForms.forEach((footer) => {
+      const text = "Kestrelford Borough Council\nCouncil Tax\n\nDear Ms Ellis,\n\n" +
+        "Please pay £140.00 by 8 October 2026.\n" +
+        "Pay online at www.example.gov.uk/paycounciltax\n" + footer;
+      const trust = runClearStepsEngine({ extractedText: text, fileMeta: META }).api_output.trust;
+      assert.deepEqual((trust.advisory_scam_signals || [])
+        .filter((s) => NEUTRAL_LABELS.includes(s)), [],
+        "an availability footer raised a pressure signal: " + footer);
+      assert.notEqual(trust.processing_mode, "verification_only",
+        "a genuine payments footer was refused as a scam: " + footer);
+    });
+  });
+
+  await t.test("a pressure window in hours still fires beside the new exception", () => {
+    // The founder's hard condition: "within the next 48 hours" carries
+    // neither continuation and must keep firing.
+    const text = "FINAL NOTICE\n\nDear Customer,\n\n" +
+      "You must pay £840.00 within the next 48 hours to avoid an enforcement visit.\n" +
+      "Pay now at pay-now.example.com/urgent";
+    const trust = runClearStepsEngine({ extractedText: text, fileMeta: META }).api_output.trust;
+    assert.ok((trust.advisory_scam_signals || [])
+      .includes("Sets a very short deadline measured in hours."),
+      "the short-window signal must survive the availability extension");
+  });
 });

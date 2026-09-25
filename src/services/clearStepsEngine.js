@@ -2697,10 +2697,22 @@ const NEUTRAL_HOUR_WORDS = [
 // day-continuation is availability, not pressure, in every language the
 // same way: a day, na dobę, pe zi, al día, por dia, par jour, sur 24, /7,
 // and the Indic day-words.
+//
+// EXTENDED 25 September 2026 (founder's approval, from the real Kestrelford
+// reminder): the equally standard payments-footer forms are availability
+// too. An hours phrase followed by an optional colon or comma and a
+// phone-number shape ("Automated payment line, 24 hours: 0306 999 0123"),
+// or written as a service line ("24 hour payment line", "24 hour automated
+// payment line"), states when a line is open, never a pressure deadline.
+// "within the next 48 hours" carries neither continuation and still fires.
 const NEUTRAL_DAY_CONTINUATION =
   "(?!\\s*(?:a\\s+day|na\\s+dob|pe\\s+zi|al\\s+d[íi]a|por\\s+dia|par\\s+jour|" +
   "sur\\s+24|/\\s*7|प्रतिदिन|प्रति\\s*दिन|प्रत्येक\\s*दिन|প্রতিদিন|প্রতি\\s*দিন|" +
-  "દરરોજ|દિવસ|ਹਰ\\s*ਦਿਨ|ਰੋਜ਼))";
+  "દરરોજ|દિવસ|ਹਰ\\s*ਦਿਨ|ਰੋਜ਼)" +
+  "|\\s*[:,]?\\s*0\\d(?:[\\s()-]?\\d){6,}" +
+  // ascii-boundary-ok: the service-line words are the founder-approved
+  // ENGLISH footer forms; a non-English footer keeps the phone-shape route.
+  "|\\s+(?:automated\\s+)?(?:payment|phone|help|service|advice)\\s+lines?\\b)";  // ascii-boundary-ok: English footer vocabulary, see above
 // The boundary before the day-check matters: without it "hours?" can match
 // bare "hour" and sidestep the lookahead over the leftover "s".
 const NEUTRAL_SHORT_WINDOW = new RegExp(
