@@ -3555,9 +3555,77 @@ function detectSeriousDocumentSignals(lower) {
   return { tier: null, signals: [] };
 }
 
+// FORMAL RECOVERY VOCABULARY (founder's Fix b, variant ii, 25 September
+// 2026): "liability order" and the Magistrates' Court, in straight, curly
+// or no apostrophe, count as HIGH only beside an UNCONDITIONAL
+// missed-payment signal, so annual-bill recovery small print ("If you miss
+// an instalment we will send you a reminder notice, and we may apply to
+// the magistrates' court...") stays calm while a real reminder escalates.
+// Bare "not paid" and "not received" are deliberately NOT signals. The
+// conditional rule is Fix a's: a head of if/unless/should/when, or a
+// future "will send" / "may send", before the signal in its own sentence
+// stands that occurrence down. "reminder notice" counts only as the
+// document's title or heading: an early short line, itself unconditional.
+// (The input `lower` is the full lowercased text with newlines intact.)
+const RECOVERY_COURT_PHRASE = /liability order|magistrates['’]? court/;
+const MISSED_PAYMENT_SIGNALS = [
+  /ha(?:s|ve) not been received/,
+  /ha(?:s|ve) not been paid/,
+  /missed payment/,
+  /overdue/,
+  /final notice/
+];
+const SIGNAL_CONDITIONAL_HEAD = /\b(?:if|unless|should|when)\b|\b(?:will|may)\s+send\b/;
+const REMINDER_NOTICE_HEADING = /reminder notice/;
+const HEADING_ZONE_LINES = 20;
+const HEADING_MAX_LENGTH = 60;
+const SIGNAL_SENTENCE_REACH = 200;
+
+function signalSentenceHead(lower, index) {
+  let start = Math.max(0, index - SIGNAL_SENTENCE_REACH);
+  for (let i = index - 1; i >= start; i--) {
+    const ch = lower[i];
+    if (ch === "." || ch === "!" || ch === "?" || ch === "\n") {
+      start = i + 1;
+      break;
+    }
+  }
+  return lower.slice(start, index);
+}
+
+function hasUnconditionalSignal(lower, pattern) {
+  const global = new RegExp(pattern.source, "g");
+  let match;
+  while ((match = global.exec(lower)) !== null) {
+    if (!SIGNAL_CONDITIONAL_HEAD.test(signalSentenceHead(lower, match.index))) return true;
+  }
+  return false;
+}
+
+function reminderNoticeIsHeading(lower) {
+  const global = new RegExp(REMINDER_NOTICE_HEADING.source, "g");
+  let match;
+  while ((match = global.exec(lower)) !== null) {
+    const lineStart = lower.lastIndexOf("\n", match.index - 1) + 1;
+    const nextBreak = lower.indexOf("\n", match.index);
+    const lineEnd = nextBreak === -1 ? lower.length : nextBreak;
+    const early = lower.slice(0, match.index).split("\n").length <= HEADING_ZONE_LINES;
+    const short = (lineEnd - lineStart) <= HEADING_MAX_LENGTH;
+    const unconditional = !SIGNAL_CONDITIONAL_HEAD.test(signalSentenceHead(lower, match.index));
+    if (early && short && unconditional) return true;
+  }
+  return false;
+}
+
+function missedPaymentSignalShown(lower) {
+  return MISSED_PAYMENT_SIGNALS.some((pattern) => hasUnconditionalSignal(lower, pattern)) ||
+    reminderNoticeIsHeading(lower);
+}
+
 function pickSeverityLevel({ lower, severitySignals, selectedCategory }) {
   if (matchesAny(lower, URGENT_SEVERITY_KEYWORDS)) return "urgent";
   if (matchesAny(lower, HIGH_SEVERITY_KEYWORDS)) return "high";
+  if (RECOVERY_COURT_PHRASE.test(lower) && missedPaymentSignalShown(lower)) return "high";
   if (matchesAny(lower, MEDIUM_SEVERITY_KEYWORDS)) return "medium";
   if (matchesAny(lower, LOW_SEVERITY_KEYWORDS)) return "low";
 
