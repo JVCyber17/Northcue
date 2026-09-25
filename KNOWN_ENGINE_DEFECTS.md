@@ -2586,3 +2586,40 @@ one-page genuine bill with the same furniture would not escape. The
 availability-exception gap (the comma in "24 hours, 7 days a week",
 measured and held earlier today) remains the unfixed classifier behind
 this shape; fixing it would close exposure two at its root.
+
+## Standing items recorded at release-20260925-honest-reading-fixes (25 September 2026)
+
+Recorded on the founder's instruction with the honest-reading fixes
+release (572e938, marker northcue-v1-20260925a). Live behaviour at this
+release; none is a regression, each is a bounded known gap.
+
+1. **energy_quarterly_footer_sender**: with the field-label skip in
+   place, this corpus fixture's card 1 sender moved from the recorded
+   "Supply address:" label to "Rota letter: C", a mid-line-colon label
+   outside the shared end-anchored shape. Founder's decision: keep as a
+   known remaining defect; no widening applied.
+2. **The "Civic Centre" OCR sender gap**: on a photographed letter whose
+   OCR interleaves the address column first, an address-block name line
+   ("Civic Centre") can head card 1 as the sender. The fact-candidate
+   door refuses street lines and postcodes; a building name is neither.
+3. **Two-line letterhead truncation**: a letterhead printing the sender
+   across two lines ("Kestrelford" / "Borough Council") yields the first
+   line alone as the rules sender. The AI phrasing pass masks it when it
+   runs; the floor path shows the truncated name.
+4. **Fix c parked** (founder, 25 September 2026): the scam tells "pay
+   today" and "the occupier" could reuse existing bank labels with no
+   new reader-visible text, and the isolation instruction ("do not
+   contact the council / your bank") would need one new ten-language
+   chip label. The real lookalike already refuses on the structural
+   trio, so this is deferred, not declined.
+5. **Card 3 lacks an explicit pay line on the council reminder**: a
+   government-category reminder composes the contact action but not
+   "Check the payment amount and due date.", because that composed line
+   is gated to the payment-like categories. The reader is pointed at
+   the sender, not at the payment itself.
+6. **Card 5 is generic where the letter states clear consequences**: on
+   the same reminder the floor card 5 shows a generic consequence line
+   even though the letter itself states losing instalment rights and a
+   liability order; the quoted-consequence path does not fire on this
+   shape. The AI phrasing pass reports the stated consequence when it
+   runs.
