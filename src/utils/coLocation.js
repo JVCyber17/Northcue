@@ -1131,6 +1131,53 @@ const BACKWARD_LOOKING = /\b(?:was\s+due|were\s+due|became\s+due|overdue\s+since
 const BACKWARD_LOOKING_REACH = 24;
 const SENTENCE_END = /[.!?\n]/g;
 
+// THE MISSED-RECEIPT FORM of the same arrears shape, 25 September 2026. The
+// past tense can follow the date instead of preceding the label: "instalment
+// of £140.00 due on 1 September 2026 has not been paid." binds "due on" in
+// the present tense and the backward window above sees nothing. A date whose
+// OWN SENTENCE says the payment was not received is a receipt statement, not
+// an obligation, so it is skipped exactly as the past-tense labels are,
+// letting the letter's later pay-by date bind instead.
+//
+// THE FOUNDER'S CONDITION: a marker inside a conditional sentence ("If your
+// payment due on 12 June is not received, ...") states a genuine FUTURE
+// deadline and never skips. The conditional head must come BEFORE the marker
+// in the sentence for the exemption to hold; "has not been paid; if you
+// disagree..." is still a receipt statement.
+// ascii-boundary-ok: English letter vocabulary, exactly as BACKWARD_LOOKING above.
+const MISSED_RECEIPT =
+  /\bnot\s+been\s+(?:received|paid)\b|\bnot\s+(?:received|paid)\b|\bremains?\s+unpaid\b|\bmissed\s+(?:payment|instalment)\b/i;  // ascii-boundary-ok: English letter vocabulary, see above
+const CONDITIONAL_HEAD = /\b(?:if|unless|should|when|where)\b/i;  // ascii-boundary-ok: English letter vocabulary, see above
+const MISSED_RECEIPT_REACH = 160;
+
+// The sentence around a bound date: backwards from the earlier of label and
+// value, forwards from the later, both cut at sentence boundaries and both
+// bounded, in the style of backwardLookingWindow above.
+function boundDateSentence(source, label, value) {
+  const anchorStart = Math.min(label.index, value.index);
+  const anchorEnd = Math.max(label.end, value.index + String(value.value).length);
+  const from = Math.max(0, anchorStart - MISSED_RECEIPT_REACH);
+  const before = source.slice(from, anchorStart);
+  let start = from;
+  SENTENCE_END.lastIndex = 0;
+  let match;
+  while ((match = SENTENCE_END.exec(before)) !== null) {
+    start = from + match.index + 1;
+  }
+  const tail = source.slice(anchorEnd, anchorEnd + MISSED_RECEIPT_REACH);
+  SENTENCE_END.lastIndex = 0;
+  const tailEnd = SENTENCE_END.exec(tail);
+  const end = tailEnd ? anchorEnd + tailEnd.index : anchorEnd + tail.length;
+  return source.slice(start, end);
+}
+
+function statesMissedReceipt(source, label, value) {
+  const sentence = boundDateSentence(source, label, value);
+  const markerAt = sentence.search(MISSED_RECEIPT);
+  if (markerAt === -1) return false;
+  return !CONDITIONAL_HEAD.test(sentence.slice(0, markerAt));
+}
+
 // The text a past-tense marker may be found in: the label itself, plus up to
 // BACKWARD_LOOKING_REACH characters before it, cut at the last sentence end.
 function backwardLookingWindow(source, label) {
@@ -1173,6 +1220,9 @@ function selectDeadline(text, isPlausibleNumericDate) {
     // same letter still be found, which is what an arrears letter needs: the
     // receipt is stated first and the obligation second.
     if (label && BACKWARD_LOOKING.test(backwardLookingWindow(source, label))) continue;
+    // The missed-receipt form of the same rule: skip-and-continue, so the
+    // letter's real pay-by date further down can still bind.
+    if (label && statesMissedReceipt(source, label, value)) continue;
     if (label) return { value: value.value, label: label.phrase, index: value.index };
   }
   return null;
